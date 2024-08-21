@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import TDataTable from '../../types/dataTableType';
+import TDataTable, { TMatchOfferInfo } from '../../types/dataTableType';
 import { groupAndCountByHour } from '../../helper/sumProviderHelper';
 import { ProviderSumType } from '../../types/providerSumType';
 
@@ -11,7 +11,7 @@ const sumProviderSlice = createSlice({
   reducers: {
     sumProvider: (
       state,
-      action: { payload: { data: TDataTable[]; date: string } }
+      action: { payload: { data: TMatchOfferInfo[]; date: string } }
     ) => {
       const { data, date } = action.payload;
       state.sumTable = groupAndCountByHour(data, date);

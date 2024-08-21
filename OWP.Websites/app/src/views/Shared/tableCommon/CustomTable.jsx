@@ -39,19 +39,16 @@ const CustomTable = ({
   const setDisplayPositions = useCallback(
     scroll => {
       const scrollWithOffset = Math.floor(scroll - rowsToRender - offset / 2);
-      const displayStartPosition = Math.round(
-        Math.max(0, Math.floor(scrollWithOffset / itemRowHeight))
-      );
+
+      const calculateStartPosition =
+        Math.round(Math.max(0, Math.floor(scrollWithOffset / itemRowHeight))) -
+        1;
+      const displayStartPosition = Math.max(calculateStartPosition, 0);
+
       const displayEndPosition = Math.round(
         Math.min(displayStartPosition + rowsToRender, data.length)
       );
-      if (displayStartPosition + rowsToRender - 1 <= displayEndPosition) {
-        setDisplayStart(displayStartPosition);
-      } else if (displayStartPosition > displayEndPosition) {
-        setDisplayStart(0);
-      } else {
-        setDisplayStart(previous => previous);
-      }
+      setDisplayStart(displayStartPosition);
       setDisplayEnd(displayEndPosition);
     },
     [data.length]
@@ -98,8 +95,7 @@ const CustomTable = ({
       setScrollPosition(0);
     }
 
-    containerRef.current?.scrollTo
-    && containerRef.current?.scrollTo(0, 0);
+    containerRef.current?.scrollTo && containerRef.current?.scrollTo(0, 0);
   }, [data.length]);
 
   return (

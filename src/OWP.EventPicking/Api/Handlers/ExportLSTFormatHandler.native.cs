@@ -7,17 +7,8 @@ namespace OWP.EventPicking.Api.Handlers;
 
 public class ExportLSTFormatRequest : EventPickingRequest, IRequest<FileResult>;
 
-public class ExportLSTFormatHandler : IRequestHandler<ExportLSTFormatRequest, FileResult>
+public class ExportLSTFormatHandler(Repository repository, ExportService exportService) : IRequestHandler<ExportLSTFormatRequest, FileResult>
 {
-    private readonly Repository repository;
-    private readonly ExportService exportService;
-
-    public ExportLSTFormatHandler(Repository repository, ExportService exportService)
-    {
-        this.repository = repository;
-        this.exportService = exportService;
-    }
-
     public async Task<FileResult> Handle(ExportLSTFormatRequest request, CancellationToken cancellationToken)
     {
         var matches = await GetMatches(request.Date);
@@ -26,6 +17,17 @@ public class ExportLSTFormatHandler : IRequestHandler<ExportLSTFormatRequest, Fi
 
     public async Task<IList<ExportLSTFormat>> GetMatches(DateTime date)
     {
+        var mainMatches =  GetMainMatches(date);
+        var childMatches = GetChildMatch(date);
+        await Task.WhenAll(mainMatches, childMatches);
+        var allMatchesRaw =
+            SpecialProductHelper.CombineMainAndChildMatchEvent(mainMatches.Result, childMatches.Result.ToList());
+        var allMatches = await BuildProviderAndNoInfo(allMatchesRaw);
+        return allMatches;
+    }
+
+    public async Task<IList<ExportLSTFormat>> GetMainMatches(DateTime date)
+    {
         var matchesRaw = await repository.QueryEventPickingESTFormat(date);
         var orderMatches = RemoveTestingMatches(matchesRaw)
             .Where(x => !CheckMatchHaveBeenExclude(x.HomeName))
@@ -33,8 +35,14 @@ public class ExportLSTFormatHandler : IRequestHandler<ExportLSTFormatRequest, Fi
             .ThenBy(x => x.EventDateTime)
             .ThenBy(x => x.InfoSiteMatchId)
             .ToList();
-        var matches = await BuildProviderAndNoInfo(orderMatches);
 
+        return orderMatches;
+    }
+
+    public async Task<IList<ExportLSTFormat>> GetChildMatch(DateTime date)
+    {
+        var matches = (await repository.QueryChildMatchESTFormat(date)).ToList();
+        SpecialProductHelper.BuildSpecialProduct(matches);
         return matches;
     }
 
@@ -50,6 +58,7 @@ public class ExportLSTFormatHandler : IRequestHandler<ExportLSTFormatRequest, Fi
 
         return matches;
     }
+
     private static bool CheckMatchHaveBeenExclude(string homeName)
         => homeName.IsContains("(ET)") || homeName.IsContains("(PEN)");
 

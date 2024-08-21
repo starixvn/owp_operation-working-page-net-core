@@ -8,6 +8,11 @@ import store from '../../app/store';
 import MultipleFilterHeader from './MultipleFilterHeader';
 import { TColumnKey } from '../../types/dataTableType';
 import { VIEW } from '../../mode/mode.json';
+import DropdownIcon from '../../../../assets/svg-element/DropdownIcon';
+import { useState } from 'react';
+import useClickOutside from '../../../Shared/customHook/useClickOutside';
+import DropdownActionHeader from './DropdownActionHeader';
+import CheckAllHeader from './CheckAllHeader';
 
 const TableHeader = () => {
   const {
@@ -16,6 +21,9 @@ const TableHeader = () => {
     },
     mode: { mode }
   } = store.getState();
+  const [isShowDropdownAction, setIsDropdownAction] = useState(false);
+
+  const ref = useClickOutside<HTMLDivElement>(() => setIsDropdownAction(false));
 
   return (
     <tr>
@@ -30,16 +38,40 @@ const TableHeader = () => {
             key={index}>
             <div className='header-table'>
               <span>{item.headerName}</span>
-              {item?.isFilter && mode === VIEW && <FilterHeader columnKey={item.columnKey} />}
-              {item?.isFilterMultiple && mode === VIEW && <MultipleFilterHeader columnKey={item.columnKey as TColumnKey} />}
-
+              {item?.isFilter && mode === VIEW && (
+                <FilterHeader columnKey={item.columnKey} />
+              )}
+              {item?.isFilterMultiple && mode === VIEW && (
+                <MultipleFilterHeader
+                  columnKey={item.columnKey as TColumnKey}
+                />
+              )}
             </div>
-            {item?.isCheckBox && (
-              <CheckboxHeader
-                classNameProps={item?.className}
-                columnKey={item.columnKey}
-              />
-            )}
+            <div className='group-multiple-select'>
+              {item?.isCheckBox && (
+                <CheckboxHeader
+                  classNameProps={item?.className}
+                  columnKey={item.columnKey}
+                />
+              )}
+              {item?.isCheckAll && (
+                <CheckAllHeader
+                  classNameProps={item?.className}
+                  columnKey={item.columnKey}
+                />
+              )}
+              {item?.isHaveDropdown && (
+                <div className='dropdown-wrap'>
+                  <DropdownIcon
+                    colorDropdown='black'
+                    handleOnClick={() => setIsDropdownAction(true)}
+                  />
+                  {isShowDropdownAction && (
+                    <DropdownActionHeader refValue={ref} />
+                  )}
+                </div>
+              )}
+            </div>
           </th>
         );
       })}

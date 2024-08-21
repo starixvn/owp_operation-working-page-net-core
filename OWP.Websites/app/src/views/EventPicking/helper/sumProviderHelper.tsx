@@ -1,7 +1,7 @@
-import TDataTable from "../types/dataTableType";
+import { TMatchOfferInfo } from "../types/dataTableType";
 import { ProviderSumType } from "../types/providerSumType";
 
-export const groupAndCountByHour = (data: TDataTable[], date: string) => {
+export const groupAndCountByHour = (data: TMatchOfferInfo[], date: string) => {
   const offerMatches = data.filter(x => !x.isNoOffer).map(x => new Date(x.eventDateTime));
   return sumProvider(offerMatches, date);
 };

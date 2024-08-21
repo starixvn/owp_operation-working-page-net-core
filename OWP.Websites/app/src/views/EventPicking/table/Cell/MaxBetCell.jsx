@@ -15,13 +15,15 @@ const propTypes = {
 const MaxBetCell = props => {
   const { mode } = store.getState().mode;
   const { rowIndex, dataSource } = props;
-  const { maxbetHdp, infoSiteMatchId, leagueName } = dataSource[rowIndex];
+  const { maxbetHdp, infoSiteMatchId, leagueName, minorBettypeId, isChildMatch } = dataSource[rowIndex];
+    dataSource[rowIndex];
 
   const component = {
     [VIEW]: (
       <MaxBetViewCell
-        maxBet={convertThousandToK(maxbetHdp, true)||undefined}
+        maxBet={convertThousandToK(maxbetHdp, true) || undefined}
         leagueName={leagueName}
+        isChildMatch={isChildMatch}
       />
     ),
     [EDIT]: (
@@ -29,6 +31,7 @@ const MaxBetCell = props => {
         infoSiteMatchId={infoSiteMatchId}
         maxBet={convertThousandToK(maxbetHdp, false) || undefined}
         leagueName={leagueName}
+        minorBettypeId={minorBettypeId}
       />
     )
   };

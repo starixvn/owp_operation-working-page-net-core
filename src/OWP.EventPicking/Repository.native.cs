@@ -26,17 +26,22 @@ public interface Repository
 
     Task<List<LogModel>> GetLog(int infoSiteMatchId);
 
-    Task<List<Option>> GetLeagueName(DateTime date);
-
     Task<List<Option>> GetUpdateType();
 
     Task UpdateConfirmed(UpdateConfirmedMatchCriteria updateConfirmedMatchCriteria);
 
     Task<IEnumerable<ExportLSTFormat>> QueryEventPickingESTFormat(DateTime date);
 
+    Task<IEnumerable<ExportLSTFormat>> QueryChildMatchESTFormat(DateTime date);
+
     Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSetting();
 
     Task UpdateEvent(UpdateMaxbetSpreadCriteria criteria);
+
+    Task ExecuteNonQuery(INonQueryCommand criteria);
+
+    Task<List<EventPickingModel>> QueryEventPickingChildMatch(DateTime date);
+
 }
 
 public class RepositoryImp : Repository
@@ -133,15 +138,6 @@ public class RepositoryImp : Repository
         return result.ToList();
     }
 
-    public async Task<List<Option>> GetLeagueName(DateTime date)
-    {
-        var criteria = new QueryLeagueNameByDateCriteria { Date = date };
-
-        var result = await dynamicRepository.FetchAsync<Option>(criteria);
-
-        return result.ToList();
-    }
-
     public async Task<List<LogModel>> GetLog(int infoSiteMatchId)
     => (await dynamicRepository.FetchAsync<LogModel>(new GetLogCriteria
     {
@@ -150,6 +146,13 @@ public class RepositoryImp : Repository
 
     public async Task UpdateConfirmed(UpdateConfirmedMatchCriteria criteria)
     => await dynamicRepository.ExecuteAsync(criteria);
+
+    public async Task<IEnumerable<ExportLSTFormat>> QueryChildMatchESTFormat(DateTime date)
+    {
+        var criteria = new QueryChildMatchESTFormatCriteria { Date = date };
+        var matches = await dynamicRepository.FetchAsync<ExportLSTFormat>(criteria);
+        return matches;
+    }
 
     public async Task<IEnumerable<ExportLSTFormat>> QueryEventPickingESTFormat(DateTime date)
     {
@@ -163,4 +166,20 @@ public class RepositoryImp : Repository
 
     public async Task UpdateEvent(UpdateMaxbetSpreadCriteria criteria)
         => await dynamicRepository.ExecuteAsync(criteria);
+
+    public async Task ExecuteNonQuery(INonQueryCommand criteria)
+    => await dynamicRepository.ExecuteAsync(criteria);
+
+    public async Task<List<EventPickingModel>> QueryEventPickingChildMatch(DateTime date)
+    {
+        var criteria = new QueryEventPickingChildMatchCriteria
+        {
+            Date = date
+        };
+
+        var result = await dynamicRepository.FetchAsync<EventPickingModel>(criteria);
+
+        return result.ToList();
+    }
+
 }

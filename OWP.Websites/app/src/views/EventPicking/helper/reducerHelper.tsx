@@ -1,27 +1,25 @@
+import { uniqBy } from 'lodash';
 import { formatTime } from '../../Shared/DateTime/dateTimeHelper';
+import Utils, { filterDataTable } from '../../Shared/Utils';
+import { COLUMN_KEY } from '../table/TableSchema.json';
 import { TConfirmed } from '../types/confirmed';
 import TDataTable, {
+  TMatchOfferInfo,
   TMultipleFilter,
   TTableSlice
 } from '../types/dataTableType';
 import { TNoOfferMatch } from '../types/noOfferMatchType';
-import { uniqBy } from 'lodash';
-import { COLUMN_KEY } from '../table/TableSchema.json';
-import { isEquals } from 'immutability-helper';
-import Utils, { filterDataTable } from '../../Shared/Utils';
 
 const KO_TIME = COLUMN_KEY.KO_TIME;
 const MB = COLUMN_KEY.MB;
 
 const updateNoOfferMatch = (
-  entities: TDataTable[],
+  entities: TMatchOfferInfo[],
   noOfferMatch: TNoOfferMatch[]
 ) => {
   entities.forEach(element => {
     const noOfferMatchTarget = noOfferMatch.find(
-      x =>
-        x.infoSiteMatchId === element.infoSiteMatchId &&
-        x.childMatchId === element.childMatchId
+      x => x.infoSiteMatchId === element.infoSiteMatchId
     );
 
     if (noOfferMatchTarget) {
@@ -52,7 +50,6 @@ const buildKoOptions = (entities: TDataTable[]) =>
           Number(new Date(second.eventDateTime))
       )
       .map(m => formatTime(m.eventDateTime, 'minute', 'hh:mm A'))
-
       .map(o => ({
         value: o,
         label: o ?? ''
@@ -75,9 +72,21 @@ const buildMbOptions = (entities: TDataTable[]) =>
     i => i.value
   );
 
+const buildLeagueOptions = (entities: TDataTable[]) =>
+  uniqBy(
+    [...entities]
+      .map(o => ({
+        value: o.leagueName,
+        label: o.leagueName
+      }))
+      .sort((a, b) => a.value.localeCompare(b.value)),
+    i => i.value
+  );
+
 const buildMultipleFilterDefault = (entities: TDataTable[]) => {
   const koTimeOptions = buildKoOptions(entities);
   const mbOptions = buildMbOptions(entities);
+  const leagueOptions = buildLeagueOptions(entities);
   return {
     [KO_TIME]: {
       isFilter: false,
@@ -88,26 +97,29 @@ const buildMultipleFilterDefault = (entities: TDataTable[]) => {
       isFilter: false,
       selected: mbOptions,
       options: mbOptions
+    },
+    [COLUMN_KEY.LEAGUE]: {
+      isFilter: false,
+      selected: leagueOptions,
+      options: leagueOptions
     }
   } as TMultipleFilter;
 };
 
-const filterByKo = (
+const filterByProperty = (
   entities: TDataTable[],
-  selectedValue: (number | string | null)[]
-) =>
-  entities.filter(e =>
-    selectedValue.some(
-      s =>
-        s &&
-        isEquals(formatTime(e.eventDateTime, 'minute', 'hh:mm A'), s.toString())
-    )
-  );
-
-const filterByMb = (
-  entities: TDataTable[],
-  selectedValue: (number | string | null)[]
-) => entities.filter(e => selectedValue.some(s => e.maxbetHdp === s));
+  selectedValue: (number | string | null)[],
+  property: keyof TDataTable
+) => {
+  const selectedSet = new Set(selectedValue);
+  return entities.filter(e => {
+    const value = e[property] ?? null;
+    if (typeof value === 'string' || typeof value === 'number' || value === null) {
+      return selectedSet.has(value);
+    }
+    return entities.filter(e => selectedValue.some(s => e[property] === s));
+  });
+};
 
 const executeFilterTable = (
   state: TTableSlice,
@@ -121,24 +133,36 @@ const executeFilterTable = (
     state.filterState,
     filterByKeyword
   );
-  state.entities = filterByKo(
-    state.entities,
-    state.multipleFilter.KO_Time.selected.map(x => x.value)
-  );
-  state.entities = filterByMb(
-    state.entities,
-    state.multipleFilter.MB.selected.map(x => x.value)
-  );
+  if (state.multipleFilter.KO_Time) {
+    state.entities = filterByProperty(
+      state.entities,
+      state.multipleFilter.KO_Time.selected.map(x => x.value),
+      'time'
+    );
+  }
+  if (state.multipleFilter.MB) {
+    state.entities = filterByProperty(
+      state.entities,
+      state.multipleFilter.MB.selected.map(x => x.value),
+      'maxbetHdp'
+    );
+  }
+  if (state.multipleFilter.League) {
+    state.entities = filterByProperty(
+      state.entities,
+      state.multipleFilter.League.selected.map(x => x.value),
+      'leagueName'
+    );
+  }
   return state.entities;
 };
 
 export {
-  updateNoOfferMatch,
-  updateConfirmedMatch,
-  buildMultipleFilterDefault,
-  filterByKo,
-  filterByMb,
-  buildMbOptions,
   buildKoOptions,
-  executeFilterTable
+  buildMbOptions,
+  buildMultipleFilterDefault,
+  executeFilterTable,
+  updateConfirmedMatch,
+  updateNoOfferMatch
 };
+

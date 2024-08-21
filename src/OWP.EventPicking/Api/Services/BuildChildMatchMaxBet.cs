@@ -22,7 +22,7 @@ public class BuildChildMatchMaxBetImp : BuildChildMatchMaxBet
             {
                 switch (child.MinorBettypeId)
                 {
-                    case Bettype.Corner:
+                    case Bettype.NoOfCorner:
                         child.MaxBetHDP = maxBetDefault.NoOfCorner_FT_HDP.ToOWPMaxBetFormat();
                         child.MaxBetOU = maxBetDefault.NoOfCorner_FT_OU.ToOWPMaxBetFormat();
                         child.MaxBet1HHDP = maxBetDefault.NoOfCorner_1H_HDP.ToOWPMaxBetFormat();

@@ -366,13 +366,17 @@
 		<Setting Key="OWP_EventPicking_GetInfoSiteMatch" SpName="OWP_EventPicking_GetInfoSiteMatch" DbName="DBOWP.bodb_OWP.wsv_owp" />
 		<Setting Key="OWP_EventPicking_InsertOrDeleteNoOfferMatch" SpName="OWP_EventPicking_InsertOrDeleteNoOfferMatch" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
 		<Setting Key="OWP_EventPicking_GetRandDInfo" SpName="OWP_EventPicking_GetRandDInfo" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
-		<Setting Key="OWP_EventPicking_GetLeagueNameByDate" SpName="OWP_EventPicking_GetLeagueNameByDate" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
 		<Setting Key="OWP_EventPicking_GetUpdateType" SpName="OWP_EventPicking_GetUpdateType" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
 		<Setting Key="OWP_EventPicking_GetLogHistory" SpName="OWP_EventPicking_GetLogHistory" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
 		<Setting Key="OWP_EventPicking_UpdateConfirmed" SpName="OWP_EventPicking_UpdateConfirmed" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
-        <Setting Key="OWP_EventPicking_GetInfoSiteMatchForLST" SpName="OWP_EventPicking_GetInfoSiteMatchForLST" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
-        <Setting Key="OWP_EventPicking_UpdateMaxbetSpread" SpName ="OWP_EventPicking_UpdateMaxbetSpread" DbName="DBOWP.bodb_OWP.wsv_owp" />
-	</Function>
+    <Setting Key="OWP_EventPicking_GetInfoSiteMatchForLST" SpName="OWP_EventPicking_GetInfoSiteMatchForLST" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+    <Setting Key="OWP_EventPicking_UpdateMaxbetSpread" SpName ="OWP_EventPicking_UpdateMaxbetSpread" DbName="DBOWP.bodb_OWP.wsv_owp" />
+    <Setting Key="OWP_EventPicking_AddSpecialProduct" SpName ="OWP_EventPicking_AddSpecialProduct" DbName="DBOWP.bodb_OWP.wsv_owp" />
+    <Setting Key="OWP_EventPicking_RemoveSpecialProduct" SpName ="OWP_EventPicking_RemoveSpecialProduct" DbName="DBOWP.bodb_OWP.wsv_owp" />
+    <Setting Key="OWP_EventPicking_GetEventPickingChildMatch" SpName ="OWP_EventPicking_GetEventPickingChildMatch" DbName="DBOWP.bodb_OWP.wsv_owp" />
+    <Setting Key="OWP_EventPicking_SpecialProduct_UpdateMaxbetSpread" SpName ="OWP_EventPicking_SpecialProduct_UpdateMaxbetSpread" DbName="DBOWP.bodb_OWP.wsv_owp" /> 
+    <Setting Key="  OWP_EventPicking_GetEventPickingChildMatchForLST" SpName ="  OWP_EventPicking_GetEventPickingChildMatchForLST" DbName="DBOWP.bodb_OWP.wsv_owp" />
+  </Function>
     <Function Name="ProviderArrangement">
 		<Setting Key="OWP_ProviderArrangement_GetAllProvider" SpName="OWP_ProviderArrangement_GetAllProvider" DbName="DBOWP.bodb_OWP.wsv_owp" />
 	    <Setting Key="OWP_ProviderArrangement_UpdateOderProvider" SpName="OWP_ProviderArrangement_UpdateOderProvider" DbName="DBOWP.bodb_OWP.wsv_owp" />

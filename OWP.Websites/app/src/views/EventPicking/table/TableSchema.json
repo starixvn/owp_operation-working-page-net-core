@@ -1,13 +1,15 @@
 {
   "COLUMN_KEY": {
     "KO_TIME": "KO_Time",
-    "MB": "MB"
+    "MB": "MB",
+    "LEAGUE": "League"
   },
   "TABLE_HEADER": [
     {
       "headerName": "No #",
       "size": 3,
-      "isCheckBox": true,
+      "isCheckAll": true,
+      "isHaveDropdown": true,
       "columnKey": "No #",
       "colSpan": 1
     },
@@ -20,7 +22,7 @@
     {
       "headerName": "League",
       "size": 15,
-      "isFilter": true,
+      "isFilterMultiple": true,
       "columnKey": "League"
     },
     {
@@ -96,7 +98,8 @@
     {
       "headerName": "No #",
       "size": 3,
-      "isCheckBox": true,
+      "isHaveDropdown": true,
+      "isCheckAll": true,
       "columnKey": "No #"
     },
     {
@@ -108,7 +111,7 @@
     {
       "headerName": "League",
       "size": 10,
-      "isFilter": true,
+      "isFilterMultiple": true,
       "columnKey": "League"
     },
     {
@@ -193,5 +196,11 @@
   ],
   "itemRowHeight": 100,
   "ORDER_ASC": "ORDER_ASC",
-  "ORDER_DESC": "ORDER_DESC"
+  "ORDER_DESC": "ORDER_DESC",
+  "Special_Product_Type": [
+    { "label": "No. Of Corner", "value": -3 },
+    { "label": "Next Corner", "value": -4 },
+    { "label": "Total Booking", "value": -6 },
+    { "label": "Next Booking", "value": -7 }
+  ]
 }

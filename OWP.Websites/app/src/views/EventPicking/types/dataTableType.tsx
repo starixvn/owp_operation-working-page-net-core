@@ -1,24 +1,39 @@
 import { Option } from '../../Shared/MultipleSelection/type';
 
 type TResult = {
-  matchesByDate: Array<TDataTable>;
+  matchesByDate: Array<TMatchOfferInfo>;
   filteredMatches: Array<TDataTable>;
-}
+};
 
 type TUpdateEvents = Array<{
-  InfoSiteMatchId: number,
-  SpreadHdp: number | undefined| null,
-  SpreadOu: number | undefined| null,
-  MaxbetHdp: number | undefined|null,
-  NoOfHDP: string | undefined|null
-}>
+  InfoSiteMatchId: number;
+  SpreadHdp: number | undefined | null;
+  SpreadOu: number | undefined | null;
+  MaxbetHdp: number | undefined | null;
+  NoOfHDP: string | undefined | null;
+}>;
 
-type TDataTable = {
+type TUpdateSpecialProduct = Array<{
+  ParentId: number;
+  MinorBettypeId: number;
+  SpreadHdp: number | undefined | null;
+  SpreadOu: number | undefined | null;
+  MaxbetHdp: number | undefined | null;
+  NoOfHDP: string | undefined | null;
+}>;
+
+type TMatchOfferInfo = {
+  infoSiteMatchId: number;
+  isNoOffer: boolean;
+  eventDateTime: Required<Date>;
+}
+type TDataTable = TMatchOfferInfo & {
+  minorBettypeId: number;
   tV: string;
   ipTv: string;
   channel: string;
   wb: string;
-  eventDateTime: Required<Date>;
+  time: string;
   leagueName: string;
   matchOffer: string;
   homeName: string;
@@ -28,8 +43,6 @@ type TDataTable = {
   noOfHDP: string | undefined;
   spreadOu: number | undefined;
   spreadHdp: number | undefined;
-  isNoOffer: boolean;
-  infoSiteMatchId: number;
   isChildMatch: boolean;
   childMatchId: number;
   otherProvider: string;
@@ -66,7 +79,7 @@ type MarginInfo = {
   color: string;
 };
 
-type TColumnKey = "MB" | "KO_Time";
+type TColumnKey = 'MB' | 'KO_Time' | 'League';
 
 type TMultipleColumnFilterOption = {
   [key in TColumnKey]: Option[];
@@ -81,17 +94,25 @@ type TMultipleFilter = {
 };
 
 type TTableSlice = {
-  entitiesByDate: Array<TDataTable>;
+  matchSelected: Array<TDataTable>;
+  openPopupState: TOpenPopupState;
+  entitiesByDate: Array<TMatchOfferInfo>;
   entities: Array<TDataTable>;
   entitiesOriginal: Array<TDataTable>;
   isNoOfferAll: boolean;
   isConfirmAll: boolean;
+  isSelectedAll: boolean;
   valueFilterAllColumn: FilterAllColumn;
   columnKeyFilterCurrent: string;
   filterState: Array<TFilterState>;
   multipleFilter: TMultipleFilter;
   loading: string;
   previousNoOfferIndex: null | number;
+};
+
+type TOpenPopupState = {
+  isOpenAddSpecialProduct: boolean;
+  isOpenRemoveSpecialProduct: boolean;
 };
 
 type TFilterState = {
@@ -111,6 +132,11 @@ type TPermission = {
   SiteId: number;
 };
 
+type TActionOfSpecialProduct = {
+  ParentId: string;
+  MinorBettypeId: string;
+};
+
 export default TDataTable;
 export {
   TTurnOverInfo,
@@ -122,5 +148,9 @@ export {
   TColumnKey,
   TResult,
   TMultipleColumnFilterOption,
-  TUpdateEvents
+  TUpdateEvents,
+  TOpenPopupState,
+  TActionOfSpecialProduct,
+  TUpdateSpecialProduct,
+  TMatchOfferInfo
 };

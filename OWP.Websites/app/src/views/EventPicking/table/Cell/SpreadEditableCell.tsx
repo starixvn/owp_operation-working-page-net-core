@@ -4,11 +4,12 @@ import { useAppDispatch } from '../../app/hooks';
 import { setValueMaxbetSpread } from '../eventPickingTableSlice/reducer';
 import { handleCheckButton } from '../../helper/filterHelper';
 
-const SpreadEditableCell = ({ spread, spreadKey, infoSiteMatchId, leagueName }: {
+const SpreadEditableCell = ({ spread, spreadKey, infoSiteMatchId, leagueName, minorBettypeId }: {
   spread: number | string | undefined,
   spreadKey: 'maxbetHdp' | 'spreadOu' | 'spreadHdp',
   infoSiteMatchId: number,
-  leagueName: string
+  leagueName: string,
+  minorBettypeId: number
 }) => {
   let newValue = -999999999;
   const dispatch = useAppDispatch();
@@ -21,7 +22,8 @@ const SpreadEditableCell = ({ spread, spreadKey, infoSiteMatchId, leagueName }: 
       dispatch(setValueMaxbetSpread({
         value: valueNumber,
         key: spreadKey,
-        infoSiteMatchId
+        infoSiteMatchId,
+        minorBettypeId
       }));
   };
 
@@ -31,7 +33,8 @@ const SpreadEditableCell = ({ spread, spreadKey, infoSiteMatchId, leagueName }: 
         dispatch(setValueMaxbetSpread({
           value: newValue / 100,
           key: spreadKey,
-          infoSiteMatchId
+          infoSiteMatchId,
+          minorBettypeId
         }));
         newValue = -999999999;
       }
@@ -57,7 +60,7 @@ const SpreadEditableCell = ({ spread, spreadKey, infoSiteMatchId, leagueName }: 
         />
         <span>%</span>
       </div>
-      {!spread && <a className='mb__check' onClick={() => handleCheckButton(leagueName)}>
+      {!spread && !minorBettypeId&&<a className='mb__check' onClick={() => handleCheckButton(leagueName)}>
         Check
       </a>}
     </>

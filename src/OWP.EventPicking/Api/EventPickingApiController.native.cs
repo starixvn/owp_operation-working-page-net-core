@@ -23,6 +23,7 @@ public class EventPickingApiController
     {
         var result = await mediator.Send(request);
 
+       
         return new JsonResult(result);
     }
 
@@ -32,6 +33,7 @@ public class EventPickingApiController
     {
         var result = await mediator.Send(request);
 
+       
         return new JsonResult(result);
     }
 
@@ -62,15 +64,6 @@ public class EventPickingApiController
         return new JsonResult(result);
     }
 
-    [Route("get-league-name")]
-    [HttpGet]
-    public async Task<IActionResult> QueryLeagueName(DateTime date)
-    {
-        var result = await repository.GetLeagueName(date);
-
-        return new JsonResult(result);
-    }
-
     [Route("export-excel")]
     [HttpPost]
     public async Task<FileResult> ExportExcel(ExportExcelRequest request)
@@ -81,7 +74,20 @@ public class EventPickingApiController
     public async Task<FileResult> ExportLSTFormat(ExportLSTFormatRequest request)
         => await mediator.Send(request);
 
-    [HttpPost("update-events")]
-    public async Task UpdateMaxbetSpread(UpdateEventsRequest request)
+    [HttpPost("update-main-events")]
+    public async Task UpdateMainEventMaxbetSpread(UpdateEventsRequest request)
+
           => await mediator.Send(request);
+    
+    [HttpPost("update-special-product")]
+    public async Task UpdateSpecialProductMaxbetSpread(SpecialProductUpdateMaxbetSpreadRequest request)
+          => await mediator.Send(request);
+
+    [HttpPost("remove-special-product")]
+    public async Task RemoveSpecialProduct(RemoveSpecialProductRequest request)
+   => await mediator.Send(request);
+
+    [HttpPost("add-special-product")]
+    public async Task AddSpecialProduct(AddSpecialProductRequest request)
+        => await mediator.Send(request);
 }

@@ -11,7 +11,7 @@ const propTypes = {
 
 const CheckedByLstCell = props => {
   const { rowIndex, dataSource } = props;
-  const { isCheck, infoSiteMatchId } = dataSource[rowIndex];
+  const { isCheck, infoSiteMatchId, isChildMatch } = dataSource[rowIndex];
 
   const { permission } = store.getState().pagePolicy;
   const dispatch = useStableDispatch();
@@ -35,6 +35,7 @@ const CheckedByLstCell = props => {
         className='check-by-lst'
         checked={isCheck}
         disabled={!permission.HasWrite}
+        hidden={isChildMatch}
         onChange={handleSelectedChanged}
       />
     </div>

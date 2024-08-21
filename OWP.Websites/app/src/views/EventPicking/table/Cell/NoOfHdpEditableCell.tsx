@@ -7,11 +7,13 @@ import { handleCheckButton } from '../../helper/filterHelper';
 const NoOfHdpEditableCell = ({
   value,
   infoSiteMatchId,
-  leagueName
+  leagueName,
+  minorBettypeId
 }: {
   value: string | null | undefined;
   infoSiteMatchId: number;
   leagueName: string;
+  minorBettypeId: number
 }) => {
   let newValue = null;
   const dispatch = useAppDispatch();
@@ -20,7 +22,8 @@ const NoOfHdpEditableCell = ({
     dispatch(
       setValueNoOfHdp({
         value: inputRef?.current?.value,
-        infoSiteMatchId
+        infoSiteMatchId,
+        minorBettypeId
       })
     );
   };
@@ -31,7 +34,8 @@ const NoOfHdpEditableCell = ({
         dispatch(
           setValueNoOfHdp({
             value: newValue,
-            infoSiteMatchId
+            infoSiteMatchId,
+            minorBettypeId
           })
         );
         newValue = null;
@@ -52,7 +56,7 @@ const NoOfHdpEditableCell = ({
           newValue = v.target?.value;
         }}
       />
-      {!value && (
+      {!value && !minorBettypeId &&(
         <a className='mb__check' onClick={() => handleCheckButton(leagueName)}>
           Check
         </a>

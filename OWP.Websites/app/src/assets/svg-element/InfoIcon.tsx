@@ -24,7 +24,6 @@ const InfoIcon = () => {
         target='icon-info'>
         <p>Explanation:</p>
         <ul>
-          <li>x: A match marked with a tick will NOT be offered LIVE</li>
           <li>
             Filter match:
             <ul>
@@ -32,6 +31,7 @@ const InfoIcon = () => {
               <li>White: Other cases</li>
             </ul>
           </li>
+          <li>Orange: Special match</li>
         </ul>
       </UncontrolledTooltip>
     </>

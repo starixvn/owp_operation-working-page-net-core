@@ -1,5 +1,6 @@
 using OWP.Constants;
 using OWP.EventPicking.Api.Criteria;
+using OWP.EventPicking.Api.Helper;
 using OWP.EventPicking.Api.Middleware.Models;
 using OWP.EventPicking.Api.Models;
 
@@ -31,32 +32,36 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
         var eventPickingPolicy = permissionService.GetPermissions(FunctionKeys.EventPickingNew);
         var turnoverMarginPolicy = eventPickingPolicy.GetPermissionModel(FunctionKeys.EventPickingNew_EventAndPerformance);
         var validMatch = FilterAllMatchesByRequest(matches, request);
+
+        var generatedMatches = await buildMainAndChildMatches.GetChildEventEventPicking(request.Date);
+        var allMatches = SpecialProductHelper.CombineMainAndChildMatchEvent(validMatch, generatedMatches);
+
         if (turnoverMarginPolicy.IsRead)
         {
-            await CalculateTurnOver_Margin(request, matches);
+            await CalculateTurnOver_Margin(request, allMatches);
         }
 
         return new EventPickingResult
         {
-            MatchesByDate = matches,
-            FilteredMatches = validMatch
+            MatchesByDate = SelectMatchOfferInfos(matches),
+            FilteredMatches = allMatches
         };
     }
 
     public async Task CalculateTurnOver_Margin(EventPickingRequest request, List<EventPickingModel> matches)
     {
-        var twOneMonth = await GetTurnover_WinLoss_TGRS(request.Period.OneMonth, matches);
-        var twThreeMonths = await GetTurnover_WinLoss_TGRS(request.Period.ThreeMonths, matches);
-        var twSixMonths = await GetTurnover_WinLoss_TGRS(request.Period.SixMonths, matches);
-        var twTwelveMonths = await GetTurnover_WinLoss_TGRS(request.Period.TwelveMonths, matches);
-
+        var twOneMonth = GetTurnover_WinLoss_TGRS(request.Period.OneMonth, matches);
+        var twThreeMonths = GetTurnover_WinLoss_TGRS(request.Period.ThreeMonths, matches);
+        var twSixMonths = GetTurnover_WinLoss_TGRS(request.Period.SixMonths, matches);
+        var twTwelveMonths = GetTurnover_WinLoss_TGRS(request.Period.TwelveMonths, matches);
+        await Task.WhenAll(twOneMonth, twThreeMonths, twSixMonths, twTwelveMonths);
         foreach (var match in matches)
         {
             InitTurnover_MarginInfo(request.Period, match);
-            CalculateTurnover_WinLoss_PeriodOneMonth(twOneMonth, match);
-            CalculateTurnover_WinLoss_PeriodThreeMonth(twThreeMonths, match);
-            CalculateTurnover_WinLoss_PeriodSixMonth(twSixMonths, match);
-            CalculateTurnover_WinLoss_PeriodTwelveMonths(twTwelveMonths, match);
+            CalculateTurnover_WinLoss_PeriodOneMonth(twOneMonth.Result, match);
+            CalculateTurnover_WinLoss_PeriodThreeMonth(twThreeMonths.Result, match);
+            CalculateTurnover_WinLoss_PeriodSixMonth(twSixMonths.Result, match);
+            CalculateTurnover_WinLoss_PeriodTwelveMonths(twTwelveMonths.Result, match);
         }
     }
 
@@ -135,23 +140,23 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
     {
         if (period.OneMonth is not null)
         {
-            match.TurnoverOneMonth = new TurnOverInfo("1 month");
-            match.MarginOneMonth = new MarginInfo("1 month");
+            match.TurnoverOneMonth = new TurnOverInfo("1m");
+            match.MarginOneMonth = new MarginInfo("1m");
         }
         if (period.ThreeMonths is not null)
         {
-            match.TurnoverThreeMonths = new TurnOverInfo("3 months");
-            match.MarginThreeMonths = new MarginInfo("3 months");
+            match.TurnoverThreeMonths = new TurnOverInfo("3m");
+            match.MarginThreeMonths = new MarginInfo("3m");
         }
         if (period.SixMonths is not null)
         {
-            match.TurnoverSixMonths = new TurnOverInfo("6 months");
-            match.MarginSixMonths = new MarginInfo("6 months");
+            match.TurnoverSixMonths = new TurnOverInfo("6m");
+            match.MarginSixMonths = new MarginInfo("6m");
         }
         if (period.TwelveMonths is not null)
         {
-            match.TurnoverTwelveMonths = new TurnOverInfo("12 months");
-            match.MarginTwelveMonths = new MarginInfo("12 months");
+            match.TurnoverTwelveMonths = new TurnOverInfo("12m");
+            match.MarginTwelveMonths = new MarginInfo("12m");
         }
     }
     private static IList<string> GetLeagueName(List<EventPickingModel> matches)
@@ -175,7 +180,7 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
            && condition.HasOtherProvider.Contains(match.HasOtherProvider, StringComparer.OrdinalIgnoreCase);
 
     private static bool CheckCondition3(EventPickingModel match, EventPickingRequest condition)
-        => condition.League.Contains(match.OWPLeagueId) && CheckUpdateType(match, condition);
+        => CheckUpdateType(match, condition);
 
     private static bool CheckUpdateType(EventPickingModel match, EventPickingRequest condition)
     {
@@ -189,5 +194,9 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
         .Any(x => condition.UpdateType.Contains(x));
     }
 
+
     private static int ConvertBoolToInt(bool value) => value ? 1 : 0;
+
+    private static List<MatchOfferInfo> SelectMatchOfferInfos(List<EventPickingModel> matches)
+        => matches.Select(e => new MatchOfferInfo(e.InfoSiteMatchId, e.IsNoOffer, e.EventDateTime)).ToList();
 }

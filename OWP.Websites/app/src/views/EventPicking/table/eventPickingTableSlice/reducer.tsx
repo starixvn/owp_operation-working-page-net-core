@@ -9,7 +9,7 @@ import {
   buildMultipleFilterDefault,
   executeFilterTable
 } from '../../helper/reducerHelper';
-import {
+import TDataTable, {
   TTableSlice,
   TFilterState,
   FilterAllColumn,
@@ -27,11 +27,17 @@ import { Option } from '../../../Shared/MultipleSelection/type';
 const EventPickingTableSlice = createSlice({
   name: 'EventPickingTableSlice',
   initialState: {
+    matchSelected: [] as TDataTable[],
+    openPopupState: {
+      isOpenAddSpecialProduct: false,
+      isOpenRemoveSpecialProduct: false
+    },
     entitiesByDate: [],
     entities: [],
     entitiesOriginal: [],
     isNoOfferAll: false,
     isConfirmAll: false,
+    isSelectedAll: false,
     valueFilterAllColumn: {} as FilterAllColumn,
     columnKeyFilterCurrent: '',
     filterState: [] as TFilterState[],
@@ -47,10 +53,19 @@ const EventPickingTableSlice = createSlice({
         isFilter: false,
         selected: [],
         options: []
+      },
+      League: {
+        isFilter: false,
+        selected: [],
+        options: []
       }
     }
   } as TTableSlice,
   reducers: {
+    setOpenPopupState: (state, action) => {
+      const { key, value } = action.payload;
+      state.openPopupState = { ...state.openPopupState, [key]: value };
+    },
     setColumnKeyValue: (state, action) => {
       state.columnKeyFilterCurrent = action.payload;
     },
@@ -94,33 +109,87 @@ const EventPickingTableSlice = createSlice({
       state.entities = executeFilterTable(state, filterByKeyword);
       state.isConfirmAll = state.entities?.every(x => x.isCheck);
       state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
-
     },
     setPreviousNoOfferRow: (state, action) => {
       state.previousNoOfferIndex = action.payload;
     },
-    setValueMaxbetSpread: (state, action: PayloadAction<{
-      key: 'maxbetHdp' | 'spreadOu' | 'spreadHdp',
-      infoSiteMatchId: number,
-      value: number | undefined
-    }>) => {
-      const { key, value, infoSiteMatchId } = action.payload;
-      const target = state.entities.find(s => s.infoSiteMatchId === infoSiteMatchId);
+    setValueMaxbetSpread: (
+      state,
+      action: PayloadAction<{
+        key: 'maxbetHdp' | 'spreadOu' | 'spreadHdp';
+        infoSiteMatchId: number;
+        value: number | undefined;
+        minorBettypeId: number;
+      }>
+    ) => {
+      const { key, value, infoSiteMatchId, minorBettypeId } = action.payload;
+      const target = state.entities.find(
+        s => s.infoSiteMatchId === infoSiteMatchId && s.minorBettypeId === minorBettypeId
+      );
       if (target) {
         target.isModified = true;
         target[key] = value;
       }
     },
-    setValueNoOfHdp: (state, action: PayloadAction<{
-      infoSiteMatchId: number,
-      value: string | undefined
-    }>) => {
-      const { value, infoSiteMatchId } = action.payload;
-      const target = state.entities.find(s => s.infoSiteMatchId === infoSiteMatchId);
+    setValueNoOfHdp: (
+      state,
+      action: PayloadAction<{
+        infoSiteMatchId: number;
+        value: string | undefined;
+        minorBettypeId: number;
+      }>
+    ) => {
+      const { value, infoSiteMatchId, minorBettypeId } = action.payload;
+      const target = state.entities.find(
+        s => s.infoSiteMatchId === infoSiteMatchId && s.minorBettypeId === minorBettypeId
+      );
       if (target) {
         target.noOfHDP = value;
         target.isModified = true;
       }
+    },
+    setMatchSelected: (
+      state,
+      action: PayloadAction<{
+        match: TDataTable;
+        isAdded: boolean;
+      }>
+    ) => {
+      const { match, isAdded } = action.payload;
+
+      state.matchSelected = isAdded
+        ? [...state.matchSelected, match]
+        : state.matchSelected.filter(
+          s => s.infoSiteMatchId !== match.infoSiteMatchId
+        );
+    },
+
+    setListMatchSelected: (
+      state,
+      action: PayloadAction<{
+        matches: TDataTable[];
+        isAdded: boolean;
+      }>
+    ) => {
+      const { matches, isAdded } = action.payload;
+      state.matchSelected = isAdded
+        ? [...state.matchSelected, ...matches]
+        : state.matchSelected.filter(
+          s => !matches.some(i => s.infoSiteMatchId === i.infoSiteMatchId)
+        );
+      state.isSelectedAll =
+        state.matchSelected.length ===
+        state.entities.filter(x => !x.isChildMatch).length;
+    },
+    setAllMatchSelected: (
+      state,
+      action: PayloadAction<{
+        isAdded: boolean;
+      }>
+    ) => {
+      const { isAdded } = action.payload;
+      state.matchSelected = isAdded ? state.entities : [];
+      state.isSelectedAll = isAdded;
     }
   },
   extraReducers: builder => {
@@ -192,6 +261,9 @@ const {
   setPreviousNoOfferRow,
   setValueMaxbetSpread,
   setValueNoOfHdp,
+  setOpenPopupState,
+  setListMatchSelected,
+  setAllMatchSelected
 } = actions;
 
 export {
@@ -203,5 +275,8 @@ export {
   setMultipleFilter,
   setValueMaxbetSpread,
   setValueNoOfHdp,
+  setOpenPopupState,
+  setListMatchSelected,
+  setAllMatchSelected
 };
 export default reducer;

@@ -1,14 +1,11 @@
 import PropTypes from 'prop-types';
-import store from '../../app/store';
 import { Input } from 'reactstrap';
 import useStableDispatch from '../../../Shared/customHook/useStableDispatch';
-import updateNoOfferMatchThunk from '../updateNoOfferMatchThunkNative';
-import {
-  buildNoOfferChildMatchInfo,
-  buildNoOfferMainMatchInfo
-} from '../../helper/noOfferSingleMatchPipeline';
 import { useAppSelector } from '../../app/hooks';
-import { setPreviousNoOfferRow } from '../eventPickingTableSlice/reducer';
+import {
+  setPreviousNoOfferRow,
+  setListMatchSelected
+} from '../eventPickingTableSlice/reducer';
 
 const propTypes = {
   rowIndex: PropTypes.number.isRequired,
@@ -16,76 +13,58 @@ const propTypes = {
 };
 
 const NoCell = props => {
-  const { permission } = store.getState().pagePolicy;
+  const { rowIndex, dataSource } = props;
 
+  const dispatch = useStableDispatch();
   const previousRowIndex = useAppSelector(
     state => state.eventPickingTable.previousNoOfferIndex
   );
-  const { rowIndex, dataSource } = props;
-  const { isNoOffer, infoSiteMatchId, isChildMatch, childMatchId } =
-    dataSource[rowIndex];
+  const matchSelected = useAppSelector(
+    state => state.eventPickingTable.matchSelected
+  );
 
-  const dispatch = useStableDispatch();
+  const selected =
+    matchSelected.findIndex(
+      x => x.infoSiteMatchId === dataSource[rowIndex].infoSiteMatchId
+    ) >= 0;
 
-  const handleMultipleSelected = async (matchNoOffer, value) => {
+  const handleMultipleSelected = async isAdded => {
     const startIndex = Math.min(previousRowIndex, rowIndex);
     const endIndex = Math.max(previousRowIndex, rowIndex);
+    const matches = [];
     for (let i = startIndex; i <= endIndex; i++) {
-      const { infoSiteMatchId, childMatchId } = dataSource[i];
-      const source = {
-        infoSiteMatchId,
-        isNoOffer: value,
-        childMatchId
-      };
-      buildNoOfferMainMatchInfo({
-        dataSource,
-        source,
-        matchNoOffer
-      });
+      matches.push(dataSource[i]);
     }
+
+    dispatch(setListMatchSelected({ matches, isAdded }));
     dispatch(setPreviousNoOfferRow(rowIndex));
-    await dispatch(updateNoOfferMatchThunk(matchNoOffer));
   };
 
   const handleSelectedChanged = async event => {
-    const value = event.target.checked;
-    const matchNoOffer = [];
     if (event.shiftKey && previousRowIndex !== null) {
-      handleMultipleSelected(matchNoOffer, value);
+      handleMultipleSelected(event?.target?.checked);
       return;
     }
-    const source = {
-      infoSiteMatchId,
-      isNoOffer: value,
-      childMatchId
-    };
-
-    isChildMatch &&
-      buildNoOfferChildMatchInfo({
-        matchNoOffer,
-        source
-      });
-
-    !isChildMatch &&
-      buildNoOfferMainMatchInfo({
-        dataSource,
-        source,
-        matchNoOffer
-      });
-
+    dispatch(
+      setListMatchSelected({
+        matches: [dataSource[rowIndex]],
+        isAdded: event?.target?.checked
+      })
+    );
     dispatch(setPreviousNoOfferRow(rowIndex));
-    await dispatch(updateNoOfferMatchThunk(matchNoOffer));
   };
 
   return (
     <div className='no-cell'>
       <span>{rowIndex + 1}</span>
-      <Input
-        type='checkbox'
-        defaultChecked={isNoOffer}
-        disabled={!permission.HasWrite}
-        onClick={handleSelectedChanged}
-      />
+      {!dataSource[rowIndex]?.isChildMatch && (
+        <Input
+          type='checkbox'
+          className='check-by-lst'
+          defaultChecked={selected}
+          onClick={handleSelectedChanged}
+        />
+      )}
     </div>
   );
 };

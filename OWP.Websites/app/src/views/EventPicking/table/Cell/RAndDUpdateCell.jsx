@@ -8,7 +8,7 @@ const propTypes = {
 
 const RAndDUpdateCell = props => {
   const { rowIndex, dataSource } = props;
-  const { rAndDInfos } = dataSource[rowIndex];
+  const rAndDInfos = dataSource[rowIndex]?.rAndDInfos ?? [];
   const rAndDInfosUniqueByKey = [
     ...new Map(rAndDInfos.map(item => [item.rAndDUpdate, item])).values()
   ];

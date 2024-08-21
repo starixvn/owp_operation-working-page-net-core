@@ -60,7 +60,7 @@ public class BuildMatchOfferByLiveSettingImp : BuildMatchOfferByLiveSetting
 
         return (match.MinorBettypeId, isFantasyMatch) switch
         {
-            (Bettype.Corner, _) => liveSettingDefault.SecondAccept_Corner,
+            (Bettype.NoOfCorner, _) => liveSettingDefault.SecondAccept_Corner,
             (Bettype.NextCorner, _) => liveSettingDefault.SecondAccept_Corner,
             (Bettype.TotalBooking, _) => liveSettingDefault.SecondAccept_TotalBooking,
             (null, true) => liveSettingDefault.SecondAccept_Fantasy, // fantasy match

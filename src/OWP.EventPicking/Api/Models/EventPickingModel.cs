@@ -1,20 +1,21 @@
 
 
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace OWP.EventPicking.Api.Models;
 
-public class EventPickingModel : MaxbetSpread
+public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
 {
+    public int InfoSiteMatchId { get; set; }
+
     public int? ChildMatchId { get; set; }
+
+    public bool IsChildMatch => MinorBettypeId.HasValue;
 
     public int? AdminSiteMatchId { get; set; }
 
+    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
     public int? MinorBettypeId { get; set; }
-
-    public int? SubType { get; set; }
-
-    public bool IsChildMatch => SubType.HasValue;
 
     public bool IsTestMatch { get; set; }
 
@@ -63,7 +64,7 @@ public class EventPickingModel : MaxbetSpread
     public string MatchNo { get; set; }
 
     [Cell("B2")]
-    public string MatchStatus => IsNoOffer ? "Unselect" : string.Empty;
+    public string MatchStatus => IsNoOffer ? "No Offer" : string.Empty;
 
     [Cell("C2")]
     public string EventDate => EventDateTime.Date.ToString(CultureInfo.InvariantCulture);
@@ -402,4 +403,11 @@ public class EventPickingModel : MaxbetSpread
         Spread1H1X2 = leagueSetting.Spread_1H1X2.ToOWPSpreadFormatPercent();
 
     }
+}
+
+public class MatchOfferInfo(int infoSiteMatchId, bool isNoOffer, DateTime eventDateTime)
+{
+    public int InfoSiteMatchId { get; set; } = infoSiteMatchId;
+    public bool IsNoOffer { get; set; } = isNoOffer;
+    public DateTime EventDateTime { get; set; } = eventDateTime;
 }

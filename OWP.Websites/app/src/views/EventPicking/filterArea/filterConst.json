@@ -9,7 +9,6 @@
       "TWELVE_MONTH": "TwelveMonths"
     }
   },
-  "LEAGUE": "league",
   "FILTER_MATCH_CATEGORY": "filterMatchCategory",
   "FILTER_MATCH": "filterMatch",
   "SELECT_GAME": "selectGame",
@@ -22,7 +21,7 @@
   "SELECT_GAME_OPTIONS": [
     {
       "value": 1,
-      "label": "No Offer (x)"
+      "label": "No Offer"
     },
     {
       "value": 0,

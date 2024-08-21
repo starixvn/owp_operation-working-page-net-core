@@ -12,7 +12,7 @@ const SumProviderTable = () => {
   const entitiesByDate = useAppSelector(
     state => state.eventPickingTable.entitiesByDate
   );
-  const sumTable = useAppSelector(state => state.sumProvider.sumTable);
+  const sumTable = useAppSelector(state => state.sumProvider.sumTable) ?? [];
 
   useEffect(() => {
     dispatch(
@@ -23,35 +23,35 @@ const SumProviderTable = () => {
   return (
     <>
       <table className='sum-provider-table'>
-        <tr>
-          <th>Time</th>
-          <th>Sum</th>
-        </tr>
         <tbody>
-          {sumTable.length &&
-            sumTable.map((x, index) => {
-              return (
-                <tr key={index}>
-                  <td>{Utils.formatTime(x.countDate)}</td>
-                  <td>{x.count}</td>
-                </tr>
-              );
-            })}
+          <tr>
+            <th>Time</th>
+            <th>Sum</th>
+          </tr>
+          {sumTable.map((x, index) => {
+            return (
+              <tr key={index}>
+                <td>{Utils.formatTime(x.countDate)}</td>
+                <td>{x.count}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
       <table className='right-table'>
-        <tr>
-          <th>Sum*</th>
-        </tr>
+        <thead>
+          <tr>
+            <th>Sum*</th>
+          </tr>
+        </thead>
         <tbody>
-          {sumTable.length &&
-            sumTable.map((x, index) => {
-              return (
-                <tr key={index}>
-                  {index > 0 && <td>{x.periodCount}</td>}
-                </tr>
-              );
-            })}
+          {sumTable.map((x, index) => {
+            return (
+              <tr key={index}>
+                {index > 0 && <td>{x.periodCount}</td>}
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </>

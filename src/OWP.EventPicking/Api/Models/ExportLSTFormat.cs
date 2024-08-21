@@ -1,12 +1,16 @@
 ﻿namespace OWP.EventPicking.Api.Models;
 
-public class ExportLSTFormat
+public class ExportLSTFormat: EventProductCommon
 {
     [Cell("A2")]
     public int No { get; set; }
 
     [Cell("AI2")]
+    public int? MathId => GetMatchId();
+
     public int InfoSiteMatchId { get; set; }
+
+    public decimal? MaxBetHDPNumber { get; set; }
 
     public DateTime EventDateTime { get; set; }
 
@@ -61,12 +65,20 @@ public class ExportLSTFormat
     [Cell("AH2")]
     public string Website4 { get; set; }
 
-    public string Maxbet { get; set; }
+    [Cell("H2")] 
+    public string MaxbetFormat => MaxBetHDPNumber.ToOWPMaxBetFormat(); 
 
-    public string Spread { get; set; }
+    [Cell("I2")]
+    public string Spread => SpreadHDP.ToOWPSpreadFormatPercent() + '-' + SpreadOU.ToOWPSpreadFormatPercent();
 
+    public decimal? SpreadHDP { get; set; }
+
+    public decimal? SpreadOU { get; set; }
+
+    [Cell("J2")]
     public string NoHDP { get; set; }
 
+    [Cell("K2")]
     public string LSTNoted { get; set; }
 
     public string Remark2T { get; set; }
@@ -103,9 +115,17 @@ public class ExportLSTFormat
 
     public bool IsSaba => LeagueName.IsContains("SABA ");
 
+    public int? ChildMatchId { get; set; }
+
+    public int? MinorBettypeId { get; set; }
+
     public string GetRawColor()
     {
-        var color = Misc.Constant.ColorWhite;
+        string color = Misc.Constant.ColorWhite;
+        if (MinorBettypeId.HasValue)
+        {
+            color = Misc.Constant.ColorYellow;
+        }
         if (IsAwayBlackList || IsHomeBlackList || IsLeagueBlackList)
         {
             color = Misc.Constant.ColorGray;
@@ -115,6 +135,16 @@ public class ExportLSTFormat
             color = Misc.Constant.ColorRed;
         }
         return color;
+    }
+
+    public int? GetMatchId()
+    {
+        if (MinorBettypeId.HasValue)
+        {
+            return null;
+        }
+
+        return InfoSiteMatchId;
     }
 
     public bool IsCheck { get; set; }

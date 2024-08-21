@@ -1,90 +1,78 @@
+import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+import TableHeader from './TableHeader';
+import {
+  TABLE_HEADER,
+  TABLE_HEADER_TURN_OVER_MARGIN
+} from '../TableSchema.json';
+import { VIEW } from '../../mode/mode.json';
+import { FilterAllColumn, TFilterState } from '../../types/dataTableType';
+import { REQUEST_STATUS } from '../../../Shared/Constants';
 
-import { useAppDispatch } from '../../app/hooks';
-import { useSelector } from 'react-redux';
-import store from '../../app/store';
-import MultipleFilterHeader from './MultipleFilterHeader';
-import { fireEvent, render } from '@testing-library/react';
+const mockStore = configureStore([]);
 
+describe('TableHeader', () => {
+  let store: any;
 
-jest.mock('../../app/hooks',()=>({
-  useAppDispatch: jest.fn(),
-  useAppSelector: jest.fn(),
-}));
-
-jest.mock('../../app/store');
-
-store.getState=()=>({
-  eventPickingTable:{
-    multipleFilter:{
-      KO_Time:{
-        options:[{
-          value: 123,
-          label: 'VN'
-        }],
-        selected:[{
-          value: 123,
-          label: 'VN'
-        }],
-        isFilter: true
+  beforeEach(() => {
+    store = mockStore({
+      eventPickingTable: {
+        openPopupState: {
+          isOpenAddSpecialProduct: false,
+          isOpenRemoveSpecialProduct: false
+        },
+        entitiesByDate: [],
+        entities: [],
+        entitiesOriginal: [],
+        isNoOfferAll: false,
+        isConfirmAll: false,
+        valueFilterAllColumn: {} as FilterAllColumn,
+        columnKeyFilterCurrent: '',
+        filterState: [] as TFilterState[],
+        loading: REQUEST_STATUS.idle,
+        previousNoOfferIndex: null,
+        multipleFilter: {
+          KO_Time: {
+            isFilter: false,
+            selected: [],
+            options: []
+          },
+          MB: {
+            isFilter: false,
+            selected: [],
+            options: []
+          }
+        }
       },
-      MB:{
-        options:[{
-          value: 123,
-          label: 'VN'
-        }],
-        selected:[{
-          value: 123,
-          label: 'VN'
-        }],
-        isFilter: true
-      }
-    }
-  }
-});
+      turnOverMarginPolicy: {
+        permission: { HasRead: true }
+      },
+      pagePolicy: {
+        permission: { HasRead: true, HasWrite: true }
+      },
+      mode: { mode: VIEW }
+    });
 
-jest.mock('react-redux', () => ({
-  useDispatch: jest.fn(),
-  useSelector: jest.fn(),
-  createSelectorHook: jest.fn(),
-}));
-
-(useAppDispatch as jest.Mock).mockReturnValue(jest.fn());
-
-useSelector.mockImplementation(fn=>fn({
-  eventPickingTable:{
-    isNoOfferAll: true, 
-    isConfirmAll: true,
-    filterState:[],
-    valueFilterAllColumn:{
-      League:'League',
-    }
-  },
-  pagePolicy:{
-    permission:{
-      HasWrite: true
-    }
-  }
-}))
-
-describe('Checkbox under test', () => {
-  beforeEach(()=>{
-    jest.clearAllMocks();
-  });
-  it('should call filter', ()=>{
-    const { container, getByText } = render(<MultipleFilterHeader columnKey='MB'/>);
-   
-    const element=container.getElementsByClassName('icon-filter')[0];
-    fireEvent.click(element)
-    fireEvent.click(getByText(/Search/));
-    expect(useAppDispatch).toBeCalled();
+    store.dispatch = jest.fn();
   });
 
-  it('should call clear filter', ()=>{
-    const { container, getByText } = render(<MultipleFilterHeader columnKey='MB'/>);
-   
-    const element=container.getElementsByClassName('icon-filter')[0];
-    fireEvent.click(element)
-    fireEvent.click(getByText(/Clear All Filters/));
-    expect(useAppDispatch).toBeCalled();
+  test('renders dropdown icon and handles dropdown action', () => {
+    render(
+      <Provider store={store}>
+        <table>
+          <thead>
+            <TableHeader />
+          </thead>
+        </table>
+      </Provider>
+    );
+
+    const dropdownIcon = screen.getByTestId('dropdown');
+    fireEvent.click(dropdownIcon);
+
+    expect(screen.getByText('Add Special Product')).toBeInTheDocument();
+    expect(screen.getByText('Remove Special Product')).toBeInTheDocument();
   });
 });

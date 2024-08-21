@@ -1,10 +1,13 @@
 type DropdownIconProps = {
   colorDropdown: string;
+  handleOnClick: () => void;
 };
 const DropdownIcon = (props: DropdownIconProps) => {
-  const { colorDropdown } = props;
+  const { colorDropdown, handleOnClick } = props;
   return (
     <svg
+      data-testid='dropdown'
+      onClick={handleOnClick}
       width='24'
       height='24'
       viewBox='0 0 24 24'

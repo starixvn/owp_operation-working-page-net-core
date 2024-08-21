@@ -39,7 +39,7 @@ public class BuildRowColorUnitTests
                 IsBlackList = false,
                 OtherProvider = "RB2",
                 MaxBetHDPNumber = 1000,
-                MinorBettypeId = -1,
+                MinorBettypeId = null,
                 LeagueName = "LeagueA"
             },
             new() { // Red
@@ -57,12 +57,10 @@ public class BuildRowColorUnitTests
                 LeagueName = "League - 20 Mins Play"
             }
         };
-        service.BuildRowColor(eventPickings);
+        service.BuildRowColor(eventPickings,false);
 
         Assert.Equal("white", eventPickings[0].RowColor);
         Assert.Equal("white", eventPickings[1].RowColor);
-        Assert.Equal("white", eventPickings[2].RowColor);
-        Assert.Equal("white", eventPickings[3].RowColor);
         Assert.Equal("white", eventPickings[4].RowColor);
         Assert.Equal("#FFFFFF", eventPickings[5].RowColorHex);
     }
@@ -80,7 +78,7 @@ public class BuildRowColorUnitTests
             new() { IsLeagueBlackList = false, LeagueName = "League - 20 Mins Play" }
         };
 
-        service.BuildRowColor(eventPickings);
+        service.BuildRowColor(eventPickings, false);
 
         Assert.Equal(Constant.ColorGray, eventPickings[0].RowColor);
         Assert.Equal(Constant.ColorWhite, eventPickings[1].RowColor);

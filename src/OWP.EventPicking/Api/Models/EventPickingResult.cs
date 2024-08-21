@@ -2,7 +2,7 @@
 
 public class EventPickingResult
 {
-    public List<EventPickingModel> MatchesByDate { get; set; }
+    public List<MatchOfferInfo> MatchesByDate { get; set; }
 
     public List<EventPickingModel> FilteredMatches { get; set; }
 }

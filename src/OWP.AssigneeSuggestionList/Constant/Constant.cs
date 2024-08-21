@@ -258,7 +258,7 @@ public static class BetTypeSpecial
     public static readonly int[] BetTypes =
     [
         Bettype.NextCorner,
-        Bettype.Corner,
+        Bettype.NoOfCorner,
         Bettype.NextBooking,
         Bettype.TotalBooking,
         Bettype.Winner,
