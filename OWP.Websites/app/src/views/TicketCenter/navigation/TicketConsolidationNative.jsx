@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Subtype from '../features/consolidation/subtype/Subtype';
 import ConsolidationView from '../features/consolidation/consolidationView/ConsolidationView';
+import TicketDetailBoard from '../../Shared/chatBoardNew/TicketDetailBoard';
 
 const TicketConsolidationNative = props => {
   return (
@@ -12,7 +13,11 @@ const TicketConsolidationNative = props => {
       <div className='merge__ticket'>
         <ConsolidationView />
       </div>
-      <div className='ticket__detail'></div>
+      <div className='ticket__detail'>
+        <div className='popup-ChatBoard'>
+          <TicketDetailBoard />
+        </div>
+      </div>
     </div>
   );
 };

@@ -143,7 +143,7 @@
       right: -5px;
     }
 
-    >* {
+    > * {
       margin-bottom: 5px;
     }
 
@@ -582,7 +582,7 @@
     position: relative;
     padding: 10px 0;
 
-    +.item {
+    + .item {
       border-top: 1px solid #d3d3d3;
     }
 
@@ -647,7 +647,7 @@
   .event-date {
     font-size: 1.2rem;
 
-    >span {
+    > span {
       margin-left: 10px;
     }
 
@@ -721,7 +721,7 @@
     width: 65px;
   }
 
-  >div {
+  > div {
     width: 100%;
     // margin-left: 10px;
   }
@@ -838,7 +838,7 @@
 
   .MuiFormControl-root {
     .MuiInputLabel-formControl {
-      +.MuiInput-underline {
+      + .MuiInput-underline {
         margin-top: 45px;
       }
     }
@@ -877,7 +877,7 @@
       margin-top: 0;
     }
 
-    label+.MuiInput-formControl {
+    label + .MuiInput-formControl {
       margin-top: 35px;
     }
 
@@ -1584,14 +1584,6 @@
   }
 }
 
-.message-list .icon-save-message svg {
-  display: block;
-  width: 17px;
-  height: 22px;
-  fill: #1e88e5;
-  margin: 0;
-}
-
 .icon-reply-message {
   padding-left: 5px;
   padding-top: 3px;
@@ -1624,6 +1616,18 @@
   text-align: left;
 }
 
+.message-list .icon-fly-to-ticket {
+  right: 5px;
+  width: 14px;
+  height: 14px;
+  background: #1e88e5;
+  color: #fff !important;
+  border-radius: 50%;
+  line-height: 11px;
+  text-align: center;
+  cursor: pointer;
+}
+
 .others-user .unsave-message {
   flex-direction: row-reverse;
 }
@@ -1643,7 +1647,6 @@
 }
 
 .message-list {
-
   .message-row.my-message,
   .message-row.others-user {
     .info-user {
@@ -1656,7 +1659,7 @@
       margin-bottom: 0px;
       top: -20px;
 
-      >div {
+      > div {
         background-color: none !important;
         border-radius: 10px !important;
         height: fit-content !important;

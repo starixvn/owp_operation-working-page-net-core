@@ -2,9 +2,13 @@ import PropTypes from 'prop-types';
 import MessageContents from './MessageContentNative';
 import useStableDispatch from '../../customHook/useStableDispatch';
 import { UncontrolledTooltip } from 'reactstrap';
-import { ContentSaveOutlineIcon } from 'mdi-react';
+import { ArrowRightIcon, ContentSaveOutlineIcon } from 'mdi-react';
 import { URL } from '../const/index.json';
-import { saveMessage } from '../chatBoardThunkNative';
+import {
+  getTicketDetail,
+  getTicketSubTypes,
+  saveMessage
+} from '../chatBoardThunkNative';
 import { setModelQuoteMessage } from '../../chatBoardNew/chatBoardSlice';
 import { useSelector } from 'react-redux';
 import ToastrWrapper from '../../../components/ToastrWrapper';
@@ -14,6 +18,8 @@ import { useState, useRef, useEffect } from 'react';
 import GoodIcon from '../../../../assets/svg-element/GoodIcon';
 import AvatarDisplay from '../../common/Avatar/AvatarDisplay';
 import { netCoreURLTicKetCenter } from '../const/apiUrl';
+import { onClickIssueModel } from '../../../TicketCenter/features/signalR/signalRSlice';
+import { getDetailSegmentUrlByEventType } from '../../TicketCenterPrematch/helper/helper';
 
 const url = `${netCoreURLTicKetCenter}/${URL.UPDATE_SAVE_MESSAGE}`;
 
@@ -70,20 +76,6 @@ const MessageCell = ({
     borderColor
   });
 
-  const handleSaveMessages = async value => {
-    const model = {
-      url,
-      messageId,
-      isSaved: value,
-      ticketId,
-      actorId: permission.ActorId
-    };
-    const actionResult = dispatch(saveMessage(model));
-    if (saveMessage.rejected.match(actionResult)) {
-      ToastrWrapper.showError(actionResult.payload);
-    }
-  };
-
   const handleClickQuoteIcon = () => {
     const model = {
       messageId,
@@ -95,41 +87,30 @@ const MessageCell = ({
     dispatch(setModelQuoteMessage(model));
   };
 
-  const renderSaveIcon = () =>
+  const handleOnClickFlyToMessage = async () => {
+    const requestDetailModel = {
+      ticketId,
+      actorId: permission.ActorId,
+      detailSegmentUrl: getDetailSegmentUrlByEventType(1)
+      //eventType
+    };
+
+    //dispatch(onClickIssueModel(requestDetailModel));
+    //dispatch(getTicketSubTypes(ticketType));
+    const actionResult = await dispatch(
+      getTicketDetail({
+        ...requestDetailModel,
+        isQueryMessageInLastTwoDay: true
+      })
+    );
+    if (getTicketDetail.rejected.match(actionResult)) {
+      ToastrWrapper.showError(actionResult.payload);
+    }
+  };
+
+  const renderActionIcon = () =>
     HasWrite && (
       <span className='icon-hover-wrapper'>
-        <span className='icon-save-message'>
-          <ContentSaveOutlineIcon
-            onClick={() => handleSaveMessages(true)}
-            id={`name${messageId}`}
-          />
-        </span>
-        <span className='icon-reply-message'>
-          {!fileId && (
-            <ReplyIcon handleOnClick={() => handleClickQuoteIcon()} />
-          )}
-        </span>
-        <span className='icon-react-message'>
-          <GoodIcon
-            width={17}
-            height={17}
-            handleOnClick={() => setIsOpenReactionIcon(!isOpenReactionIcon)}
-          />
-        </span>
-        <UncontrolledTooltip placement='top' target={`name${messageId}`}>
-          Click to save your message or it is deleted after 30 days
-        </UncontrolledTooltip>
-      </span>
-    );
-  const renderUnSaveIcon = () =>
-    HasWrite && (
-      <span className='icon-hover-wrapper-unsave'>
-        <span className='icon-save-message unsave-message'>
-          <span className='text-saved'> Saved </span>
-          <span className='icon-unsave-message'>
-            <ContentSaveOutlineIcon onClick={() => handleSaveMessages(false)} />
-          </span>
-        </span>
         <span className='icon-reply-message'>
           {!fileId && (
             <ReplyIcon handleOnClick={() => handleClickQuoteIcon()} />
@@ -145,11 +126,26 @@ const MessageCell = ({
       </span>
     );
 
+  const renderFlyToMessageTicketIcon = () =>
+    HasWrite && (
+      <span className='icon-hover-wrapper'>
+        <span
+          className='icon-fly-to-ticket'
+          onClick={handleOnClickFlyToMessage}
+          id={`name${messageId}`}>
+          <ArrowRightIcon size={13} />
+        </span>
+        <UncontrolledTooltip placement='top' target={`name${messageId}`}>
+          Open this message in an ticket
+        </UncontrolledTooltip>
+      </span>
+    );
+
   const handleShowIcon = () => {
     if (isConsolidationView) {
-      return <>icon scroll to message</>;
+      return renderFlyToMessageTicketIcon();
     }
-    return isSaved ? renderUnSaveIcon() : renderSaveIcon();
+    return renderActionIcon();
   };
 
   if (message) {
