@@ -1,14 +1,13 @@
-import { Fragment, useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { isEqual } from 'lodash';
 import { REQUEST_STATUS } from '../../Constants';
-import MessageCell from './MessageCell';
 import Loading from '../../../components/Loading';
 import { isEquals } from 'immutability-helper';
 import useStableDispatch from '../../customHook/useStableDispatch';
 import { loadMoreMessageThunk } from '../chatBoardThunkNative';
-import { shouldShowUserInfo } from '../helper/chatBoardHelper';
+import MessageCommon from './MessageCommon';
 
 const MessageList = ({ policy = 'policy', ticketId }) => {
   const listRef = useRef();
@@ -41,37 +40,6 @@ const MessageList = ({ policy = 'policy', ticketId }) => {
     return <Loading />;
   }
 
-  const messageGroupByDate = messages.reduce((result, message) => {
-    const date = message.createdDate.split('T')[0];
-    if (!result[date]) {
-      result[date] = [];
-    }
-    result[date].push(message);
-    return result;
-  }, {});
-
-  const renderMessageRow = (message, index, previousMessage) => {
-    const key = `${message.messageId}-${index}`;
-    const isMyMessage = isEquals(message.userId, permission.ActorId);
-    const showUserInfo = shouldShowUserInfo(previousMessage, message);
-
-    return (
-      <li
-        key={key}
-        className={
-          isMyMessage ? 'message-row my-message' : 'message-row others-user'
-        }>
-        <MessageCell
-          policy={policy}
-          data={message}
-          ticketId={ticketId}
-          isMyMessage={isMyMessage}
-          showUserInfo={showUserInfo}
-        />
-      </li>
-    );
-  };
-
   const handleLoadMoreMessage = () => {
     dispatch(
       loadMoreMessageThunk({
@@ -95,31 +63,7 @@ const MessageList = ({ policy = 'policy', ticketId }) => {
             Load more
           </a>
         )}{' '}
-        {Object.keys(messageGroupByDate).map((date, key) => (
-          <Fragment key={`${date}-${key}`}>
-            <div>
-              <h2 className='date-time-line'>
-                <span>
-                  {new Date(date).toLocaleDateString('en-US', {
-                    month: 'long',
-                    day: 'numeric',
-                    year: 'numeric'
-                  })}
-                </span>
-              </h2>
-            </div>
-
-            <ul>
-              {messageGroupByDate[date].map((message, index) =>
-                renderMessageRow(
-                  message,
-                  index,
-                  messageGroupByDate[date][index - 1]
-                )
-              )}
-            </ul>
-          </Fragment>
-        ))}
+        <MessageCommon entities={messages} permission={permission} />
       </div>
     </>
   );

@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using OWP.Constants;
+using OWP.Services;
 using OWP.TicketCenter.Handlers;
 using OWP.TicketCenter.Middleware;
 using OWP.TicketCenter.Models;
@@ -16,10 +18,13 @@ public class TicketCenterController : ControllerBase
 
     private readonly GetInfoFeedback getInfoFeedback;
 
-    public TicketCenterController(IMediator mediator, GetInfoFeedback getInfoFeedback)
+    private readonly AccessCounter accessCounter;
+
+    public TicketCenterController(IMediator mediator, GetInfoFeedback getInfoFeedback, AccessCounter accessCounter)
     {
         this.mediator = mediator;
         this.getInfoFeedback = getInfoFeedback;
+        this.accessCounter = accessCounter;
     }
 
     [HttpPost("new-message")]
@@ -254,6 +259,7 @@ public class TicketCenterController : ControllerBase
             SubTypeId = subtypeId,
             TicketTypeId = ticketTypeId
         });
+      await accessCounter.UpdateCounter(AccessCounterConst.ConsolidationView);
       return Ok(result);
     } 
 }
