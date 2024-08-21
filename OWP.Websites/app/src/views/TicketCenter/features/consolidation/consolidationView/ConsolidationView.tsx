@@ -17,7 +17,7 @@ const ConsolidationView = () => {
   );
   const { permission } = useAppSelector(state => state.consolidationPolicy);
   const dispatch = useStableDispatch();
-  const scrollRef = useRef(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const scrollToBottom = () => {
     scrollRef.current &&
       scrollRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -46,7 +46,7 @@ const ConsolidationView = () => {
             permission={permission}
             isConsolidationView={true}
           />
-           <div ref={scrollRef} />
+          <div ref={scrollRef} />
         </InfiniteScroll>
       </div>
     </div>
