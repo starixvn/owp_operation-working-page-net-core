@@ -14,7 +14,7 @@ type TTab = string;
 
 const TabSwitcher = () => {
   const dispatch = useStableDispatch();
-  const [activeTab, setActiveTab] = useState<TTab>(TAB_CONSOLIDATE);
+  const [activeTab, setActiveTab] = useState<TTab>(TAB_MY_TICKET);
 
   const pagePolicy = usePermission(FunctionKeys.TicketCenter, 'pagePolicy');
 
