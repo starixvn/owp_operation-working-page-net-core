@@ -1,16 +1,10 @@
-import usePermission from '../Shared/customHook/usePermission';
-import { FunctionKeys } from '../Shared/Constants';
-import TicketDetailBoard from '../Shared/chatBoardNew/TicketDetailBoard';
-import Loading from '../components/Loading';
-import { getDetailSegmentUrlByEventType } from '../Shared/TicketCenterPrematch/helper/helper';
-import { useAppDispatch } from './app/hooks';
-import {
-  getTicketDetail,
-  getTicketSubTypes
-} from '../Shared/chatBoardNew/chatBoardThunkNative';
 import { useEffect } from 'react';
-import ToastrWrapper from '../components/ToastrWrapper';
-import { setIsDisplayCloseButton } from '../Shared/chatBoardNew/chatBoardSlice';
+import Loading from '../components/Loading';
+import openTicketDetailHandler from '../Shared/chatBoardNew/helper/openTicketDetailHandler';
+import TicketDetailBoard from '../Shared/chatBoardNew/TicketDetailBoard';
+import { FunctionKeys } from '../Shared/Constants';
+import usePermission from '../Shared/customHook/usePermission';
+import { useAppDispatch } from './app/hooks';
 import BlinkDocumentTitle from './BlinkDocumentTitle';
 
 const SmallChatting = () => {
@@ -23,18 +17,12 @@ const SmallChatting = () => {
 
   useEffect(() => {
     (async () => {
-      const requestDetailModel = {
+      await openTicketDetailHandler(
         ticketId,
         actorId,
-        detailSegmentUrl: getDetailSegmentUrlByEventType(eventType),
-        eventType
-      };
-      const actionResult = await dispatch(getTicketDetail(requestDetailModel));
-      dispatch(setIsDisplayCloseButton(false));
-      dispatch(getTicketSubTypes(actionResult.payload.data.ticketType));
-      if (getTicketDetail.rejected.match(actionResult)) {
-        ToastrWrapper.showError(actionResult.payload);
-      }
+        eventType,
+        dispatch
+      );
     })();
   }, []);
 

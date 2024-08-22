@@ -70,7 +70,7 @@ const MessageCommon = ({ entities, permission, consolidationInfo }) => {
 MessageCommon.propTypes = {
   entities: PropTypes.array.isRequired,
   permission: PropTypes.object.isRequired,
-  isConsolidationView: PropTypes.bool
+  consolidationInfo: PropTypes.object
 };
 
 export default MessageCommon;

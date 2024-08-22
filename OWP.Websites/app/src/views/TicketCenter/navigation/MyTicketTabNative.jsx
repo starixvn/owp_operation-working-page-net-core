@@ -1,10 +1,6 @@
 import { useEffect } from 'react';
 import { OWPBody, OWPHeader, OWPPage } from '../../Shared/common/OWP/OPWPage';
-
-import {
-  getTicketDetail,
-  getTicketSubTypes
-} from '../../Shared/chatBoardNew/chatBoardThunkNative';
+import openTicketDetailHandler from '../../Shared/chatBoardNew/helper/openTicketDetailHandler';
 import TicketDetailBoard from '../../Shared/chatBoardNew/TicketDetailBoard';
 import { FunctionKeys } from '../../Shared/Constants';
 import CreateTicketBoardOther from '../../Shared/createTicketNew/CreateTicketBoardOther';
@@ -12,13 +8,11 @@ import CreateTicketEventChecking from '../../Shared/createTicketNew/CreateTicket
 import CreateTicketLiveIncident from '../../Shared/createTicketNew/CreateTicketLiveIncident';
 import TicketLogWorkCreator from '../../Shared/createTicketNew/TicketLogWork/TicketLogWorkCreator';
 import { useAppDispatch } from '../app/hooksNative';
+import store from '../app/storeNative';
 import { RECIPIENT_TYPE } from '../const/const.json';
 import HeaderNative from '../features/header/HeaderNative';
-import { onClickIssueModel } from '../features/signalR/signalRSlice';
 import TicketCenterTable from '../features/Table/TicketCenterTable';
-import { getDetailSegmentUrlByEventType } from '../Helper/TicketCenterHelper';
 import { usePermission } from '../ImportTicketCenterHelperNative';
-import store from '../app/storeNative';
 
 const { INDIVIDUAL } = RECIPIENT_TYPE;
 const MyTicketTabNative = () => {
@@ -33,27 +27,18 @@ const MyTicketTabNative = () => {
   useEffect(() => {
     (async () => {
       if (actorId && eventType && ticketId) {
-        const requestDetailModel = {
-          ticketId: parseInt(ticketId),
-          actorId: parseInt(actorId),
-          detailSegmentUrl: getDetailSegmentUrlByEventType(eventType),
-          eventType: parseInt(actorId)
-        };
-        dispatch(onClickIssueModel(requestDetailModel));
-        const actionResult = await dispatch(
-          getTicketDetail(requestDetailModel)
+        await openTicketDetailHandler(
+          parseInt(ticketId),
+          parseInt(actorId),
+          eventType,
+          dispatch
         );
-
-        dispatch(getTicketSubTypes(actionResult.payload.data.ticketType));
-        if (getTicketDetail.rejected.match(actionResult)) {
-          ToastrWrapper.showError(actionResult.payload);
-        }
       }
     })();
   }, []);
 
-  const {permission}= store.getState().pagePolicy;
-  
+  const { permission } = store.getState().pagePolicy;
+
   const creatorInfo = {
     groupName: null,
     nickName: permission.Username,

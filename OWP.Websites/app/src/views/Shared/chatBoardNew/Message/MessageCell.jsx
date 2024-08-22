@@ -5,18 +5,12 @@ import { useSelector } from 'react-redux';
 import { UncontrolledTooltip } from 'reactstrap';
 import GoodIcon from '../../../../assets/svg-element/GoodIcon';
 import ReplyIcon from '../../../../assets/svg-element/ReplyIcon';
-import {
-  getTicketDetail,
-  getTicketSubTypes,
-  setModelQuoteMessage
-} from '../../chatBoardNew/chatBoardSlice';
+import { setModelQuoteMessage } from '../../chatBoardNew/chatBoardSlice';
 import AvatarDisplay from '../../common/Avatar/AvatarDisplay';
 import useStableDispatch from '../../customHook/useStableDispatch';
+import openTicketDetailHandler from '../helper/openTicketDetailHandler';
 import MessageContents from './MessageContentNative';
 import ReactionBar from './ReactionBar';
-import { getDetailSegmentUrlByEventType } from '../../TicketCenterPrematch/helper/helper';
-import { onClickIssueModel } from '../../../TicketCenter/features/signalR/signalRSlice';
-import ToastrWrapper from '../../../components/ToastrWrapper';
 
 const propTypes = {
   data: PropTypes.object.isRequired,
@@ -83,24 +77,13 @@ const MessageCell = ({
   };
 
   const handleOnClickFlyToMessage = async () => {
-    const { typeId, eventType } = consolidationInfo;
-
-    const requestDetailModel = {
+    const { eventType } = consolidationInfo;
+    await openTicketDetailHandler(
       ticketId,
-      actorId: permission.ActorId,
-      detailSegmentUrl: getDetailSegmentUrlByEventType(eventType)
-    };
-    dispatch(onClickIssueModel(requestDetailModel));
-    dispatch(getTicketSubTypes(typeId));
-    const actionResult = await dispatch(
-      getTicketDetail({
-        ...requestDetailModel,
-        isQueryMessageInLastTwoDay: true
-      })
+      permission.ActorId,
+      eventType,
+      dispatch
     );
-    if (getTicketDetail.rejected.match(actionResult)) {
-      return ToastrWrapper.showError(actionResult.payload);
-    }
   };
 
   const renderActionIcon = () =>
