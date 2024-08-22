@@ -8,4 +8,6 @@ public record ConsolidationSubtypeModel
     public string SubTypeName { get; set; }
 
     public bool IsRead { get; set; }
+
+    public int EventType { get; set; }
 }

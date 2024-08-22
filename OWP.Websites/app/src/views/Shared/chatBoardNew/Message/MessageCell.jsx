@@ -1,27 +1,22 @@
+import { ArrowRightIcon } from 'mdi-react';
 import PropTypes from 'prop-types';
-import MessageContents from './MessageContentNative';
-import useStableDispatch from '../../customHook/useStableDispatch';
+import { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { UncontrolledTooltip } from 'reactstrap';
-import { ArrowRightIcon, ContentSaveOutlineIcon } from 'mdi-react';
-import { URL } from '../const/index.json';
+import GoodIcon from '../../../../assets/svg-element/GoodIcon';
+import ReplyIcon from '../../../../assets/svg-element/ReplyIcon';
 import {
   getTicketDetail,
   getTicketSubTypes,
-  saveMessage
-} from '../chatBoardThunkNative';
-import { setModelQuoteMessage } from '../../chatBoardNew/chatBoardSlice';
-import { useSelector } from 'react-redux';
-import ToastrWrapper from '../../../components/ToastrWrapper';
-import ReplyIcon from '../../../../assets/svg-element/ReplyIcon';
-import ReactionBar from './ReactionBar';
-import { useState, useRef, useEffect } from 'react';
-import GoodIcon from '../../../../assets/svg-element/GoodIcon';
+  setModelQuoteMessage
+} from '../../chatBoardNew/chatBoardSlice';
 import AvatarDisplay from '../../common/Avatar/AvatarDisplay';
-import { netCoreURLTicKetCenter } from '../const/apiUrl';
-import { onClickIssueModel } from '../../../TicketCenter/features/signalR/signalRSlice';
+import useStableDispatch from '../../customHook/useStableDispatch';
+import MessageContents from './MessageContentNative';
+import ReactionBar from './ReactionBar';
 import { getDetailSegmentUrlByEventType } from '../../TicketCenterPrematch/helper/helper';
-
-const url = `${netCoreURLTicKetCenter}/${URL.UPDATE_SAVE_MESSAGE}`;
+import { onClickIssueModel } from '../../../TicketCenter/features/signalR/signalRSlice';
+import ToastrWrapper from '../../../components/ToastrWrapper';
 
 const propTypes = {
   data: PropTypes.object.isRequired,
@@ -29,7 +24,7 @@ const propTypes = {
   policy: PropTypes.string.isRequired,
   ticketId: PropTypes.number,
   isMyMessage: PropTypes.bool,
-  isConsolidationView: PropTypes.bool
+  consolidationInfo: PropTypes.object
 };
 
 const MessageCell = ({
@@ -38,7 +33,7 @@ const MessageCell = ({
   ticketId,
   isMyMessage,
   showUserInfo,
-  isConsolidationView = false
+  consolidationInfo
 }) => {
   const {
     createdDate,
@@ -47,7 +42,6 @@ const MessageCell = ({
     extension,
     fileId,
     messageId,
-    isSaved,
     quoteMessageId,
     quoteMessage,
     quoteUsername,
@@ -62,6 +56,7 @@ const MessageCell = ({
   const [isOpenReactionIcon, setIsOpenReactionIcon] = useState(false);
   const { permission } = useSelector(state => state[policy]);
   const { HasWrite } = permission;
+  const { isConsolidationView = false } = consolidationInfo || {};
   const { getCreatedTime, getMessageContent } = MessageContents({
     createdDate,
     fileId,
@@ -88,15 +83,15 @@ const MessageCell = ({
   };
 
   const handleOnClickFlyToMessage = async () => {
+    const { typeId, eventType } = consolidationInfo;
+
     const requestDetailModel = {
       ticketId,
       actorId: permission.ActorId,
-      detailSegmentUrl: getDetailSegmentUrlByEventType(1)
-      //eventType
+      detailSegmentUrl: getDetailSegmentUrlByEventType(eventType)
     };
-
-    //dispatch(onClickIssueModel(requestDetailModel));
-    //dispatch(getTicketSubTypes(ticketType));
+    dispatch(onClickIssueModel(requestDetailModel));
+    dispatch(getTicketSubTypes(typeId));
     const actionResult = await dispatch(
       getTicketDetail({
         ...requestDetailModel,
@@ -104,7 +99,7 @@ const MessageCell = ({
       })
     );
     if (getTicketDetail.rejected.match(actionResult)) {
-      ToastrWrapper.showError(actionResult.payload);
+      return ToastrWrapper.showError(actionResult.payload);
     }
   };
 

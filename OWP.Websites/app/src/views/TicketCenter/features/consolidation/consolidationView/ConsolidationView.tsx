@@ -7,11 +7,8 @@ import MessageCommon from '../../../../Shared/chatBoardNew/Message/MessageCommon
 import { resetNewMessage } from './consolidationSlice';
 
 const ConsolidationView = () => {
-  const {
-    subtype: {
-      subTypeSelected: { label }
-    }
-  } = store.getState();
+  const { subTypeSelected } = store.getState().subtype;
+  const { label } = subTypeSelected;
   const { entities, isNewMessage } = useAppSelector(
     state => state.consolidation
   );
@@ -44,7 +41,7 @@ const ConsolidationView = () => {
           <MessageCommon
             entities={entities}
             permission={permission}
-            isConsolidationView={true}
+            consolidationInfo={{ ...subTypeSelected, isConsolidationView: true }}
           />
           <div ref={scrollRef} />
         </InfiniteScroll>

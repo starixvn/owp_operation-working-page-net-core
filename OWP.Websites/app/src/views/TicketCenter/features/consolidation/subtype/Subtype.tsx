@@ -9,16 +9,17 @@ import { queryConsolidationThunk } from '../consolidationView/consolidationThunk
 
 const Subtype = () => {
   const dispatch = useAppDispatch();
-  const { loading, entities, subTypeSelected} = useAppSelector(
+  const { loading, entities, subTypeSelected } = useAppSelector(
     state => state.subtype
   );
 
-  const handleClick = (typeId: number, subTypeId: number|null, subTypeName: string) =>{
+  const handleClick = (typeId: number, subTypeId: number | null, subTypeName: string, eventType: number) => {
     dispatch(
       setSelect({
         typeId,
         subTypeId,
-        label: subTypeName
+        label: subTypeName,
+        eventType
       })
     );
     dispatch(queryConsolidationThunk({
@@ -36,21 +37,21 @@ const Subtype = () => {
   }
   return (
     <>
-    <div className='title__wrapper'>
-      <span className='title'>
-        Subtype
-      </span>
+      <div className='title__wrapper'>
+        <span className='title'>
+          Subtype
+        </span>
       </div>
       <div className='tree-view'>
-        {entities?.map(({typeId, subTypeId, subTypeName, isRead}) => (
+        {entities?.map(({ typeId, subTypeId, subTypeName, isRead, eventType }) => (
           <div key={`${typeId}-${subTypeId}`} className='tree-node'>
             <span
-              onClick={() => handleClick(typeId, subTypeId, subTypeName)}
+              onClick={() => handleClick(typeId, subTypeId, subTypeName, eventType)}
               className={`subtype-item ${subTypeName}
-                ${subTypeId === subTypeSelected.subTypeId && typeId===subTypeSelected.typeId &&
+                ${subTypeId === subTypeSelected.subTypeId && typeId === subTypeSelected.typeId &&
                 'selected'
-              } ${!isRead && ' unread'}`}>
-                {subTypeName}
+                } ${!isRead && ' unread'}`}>
+              {subTypeName}
             </span>
           </div>
         ))}

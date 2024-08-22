@@ -1,11 +1,12 @@
-type TSubTypeRow={
+type TSubTypeRow = {
   typeId: number,
-  subTypeId: number|null,
+  subTypeId: number | null,
   subTypeName: string,
-  isRead: boolean
+  isRead: boolean,
+  eventType: number;
 }
 
-type TReactIcon={
+type TReactIcon = {
   messageId: number,
   iconKey: string,
   reactUserId: number,
@@ -13,7 +14,7 @@ type TReactIcon={
   reactAvatarName: string,
 }
 
-type TMessageDetail={
+type TMessageDetail = {
   ticketId: number,
   messageId: number,
   message: string,
@@ -21,7 +22,7 @@ type TMessageDetail={
   username: string,
   avatarFileName: string,
   extension: string,
-  fileId: number|null,
+  fileId: number | null,
   isSaved: boolean,
   isFile: boolean,
   imageFileName: string,
@@ -30,7 +31,7 @@ type TMessageDetail={
   quoteUsername: string,
   quoteMessageId: number,
   quoteCreatedDate: Date,
-  messageReactIcons:Array<TReactIcon>
+  messageReactIcons: Array<TReactIcon>
 }
 export {
   TSubTypeRow,

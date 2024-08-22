@@ -4,11 +4,7 @@ import { isEquals } from 'immutability-helper';
 import { shouldShowUserInfo } from '../helper/chatBoardHelper';
 import MessageCell from './MessageCell';
 
-const MessageCommon = ({
-  entities,
-  permission,
-  isConsolidationView = false
-}) => {
+const MessageCommon = ({ entities, permission, consolidationInfo }) => {
   const messageGroupByDate = entities.reduce((result, message) => {
     const date = new Date(message.createdDate);
     if (!result[date.toDateString()]) {
@@ -35,7 +31,7 @@ const MessageCommon = ({
           ticketId={message.ticketId}
           isMyMessage={isMyMessage}
           showUserInfo={showUserInfo}
-          isConsolidationView={isConsolidationView}
+          consolidationInfo={consolidationInfo}
         />
       </li>
     );

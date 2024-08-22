@@ -11,29 +11,31 @@ const subtypeSlice = createSlice({
     entities: [] as TSubTypeRow[],
     subTypeSelected: {
       typeId: -1,
-      subTypeId: -1 as number|null,
-      label: ''
+      subTypeId: -1 as number | null,
+      label: '',
+      eventType: -1
     }
   },
   reducers: {
-    setSelect(state, action: PayloadAction<{typeId: number, subTypeId: number|null, label: string}>) {
-      const { subTypeId, typeId, label } = action.payload;
+    setSelect(state, action: PayloadAction<{ typeId: number, subTypeId: number | null, label: string, eventType: number }>) {
+      const { subTypeId, typeId, label, eventType } = action.payload;
       state.subTypeSelected.typeId = typeId;
       state.subTypeSelected.subTypeId = subTypeId;
       state.subTypeSelected.label = label;
-      const subtypeRow=state.entities.find(e=>e.typeId===typeId && e.subTypeId===subTypeId);
-      if(subtypeRow){
-        subtypeRow.isRead= true;
+      state.subTypeSelected.eventType = eventType;
+      const subtypeRow = state.entities.find(e => e.typeId === typeId && e.subTypeId === subTypeId);
+      if (subtypeRow) {
+        subtypeRow.isRead = true;
       }
     },
-    highlightSubtype(state, action: PayloadAction<{subtype: TSubTypeRow}>){
+    highlightSubtype(state, action: PayloadAction<{ subtype: TSubTypeRow }>) {
       const { subTypeId, typeId } = action.payload.subtype;
-      
-      const subtypeRowIndex=state.entities.findIndex(e=>e.typeId===typeId && e.subTypeId===subTypeId);
-      if(subtypeRowIndex!==-1){
-        state.entities[subtypeRowIndex].isRead= false;
+
+      const subtypeRowIndex = state.entities.findIndex(e => e.typeId === typeId && e.subTypeId === subTypeId);
+      if (subtypeRowIndex !== -1) {
+        state.entities[subtypeRowIndex].isRead = false;
         state.entities.unshift(state.entities.splice(subtypeRowIndex, 1)[0]);
-      }else{
+      } else {
         state.entities.unshift(action.payload.subtype);
       }
     }
@@ -54,7 +56,7 @@ const subtypeSlice = createSlice({
 });
 
 const { reducer, actions } = subtypeSlice;
-const { setSelect,highlightSubtype } = actions;
+const { setSelect, highlightSubtype } = actions;
 
 export { setSelect, highlightSubtype };
 export default reducer;
