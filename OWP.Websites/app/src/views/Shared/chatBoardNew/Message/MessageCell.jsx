@@ -116,7 +116,7 @@ const MessageCell = ({
           <ArrowRightIcon size={13} />
         </span>
         <UncontrolledTooltip placement='top' target={`name${messageId}`}>
-          Open this message in an ticket
+          View on ticket
         </UncontrolledTooltip>
       </span>
     );

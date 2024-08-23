@@ -4,6 +4,8 @@ import { Fragment, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { shouldShowUserInfo } from '../helper/chatBoardHelper';
 import MessageCell from './MessageCell';
+import { setTargetMessageId } from '../chatBoardSlice';
+import useStableDispatch from '../../customHook/useStableDispatch';
 
 const MessageCommon = ({
   entities,
@@ -11,21 +13,31 @@ const MessageCommon = ({
   consolidationInfo = {},
   messageRefs
 }) => {
+  const dispatch = useStableDispatch();
   const { targetMessageId } = useSelector(state => state.chatBoard);
-  //console.log('re-render', targetMessageId);
 
   useEffect(() => {
     if (targetMessageId > 0 && entities.length > 0) {
       const messageElement = messageRefs?.current[targetMessageId];
       if (messageElement) {
         messageElement && messageElement.scrollIntoView({ behavior: 'smooth' });
-        const messageDiv = messageElement.querySelector('.message-div');
-        if (messageDiv) {
-          messageDiv.classList.add('borderAnimation');
-        }
+        highLightMessage(messageElement);
       }
     }
   }, [targetMessageId, entities]);
+
+  const highLightMessage = messageElement => {
+    const messageDiv = messageElement.querySelector('.message-div');
+    if (messageDiv) {
+      messageDiv.classList.add('borderAnimation');
+    }
+    const timeoutId = setTimeout(() => {
+      dispatch(setTargetMessageId(-1));
+      messageDiv.classList.remove('borderAnimation');
+    }, 2000);
+
+    return () => clearTimeout(timeoutId);
+  };
 
   const messageGroupByDate = entities.reduce((result, message) => {
     const date = new Date(message.createdDate);
