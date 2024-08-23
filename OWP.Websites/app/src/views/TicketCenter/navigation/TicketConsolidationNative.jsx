@@ -1,5 +1,3 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import Subtype from '../features/consolidation/subtype/Subtype';
 import ConsolidationView from '../features/consolidation/consolidationView/ConsolidationView';
 import TicketDetailBoard from '../../Shared/chatBoardNew/TicketDetailBoard';
@@ -7,7 +5,7 @@ import TicketDetailBoard from '../../Shared/chatBoardNew/TicketDetailBoard';
 const TicketConsolidationNative = props => {
   return (
     <div className='ticket__consolidation'>
-      <div className='subtype'>
+      <div className='subtype-tab'>
         <Subtype />
       </div>
       <div className='merge__ticket'>
