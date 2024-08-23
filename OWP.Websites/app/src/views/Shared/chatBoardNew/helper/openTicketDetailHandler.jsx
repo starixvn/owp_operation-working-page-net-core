@@ -3,14 +3,16 @@ import ToastrWrapper from '../../../components/ToastrWrapper';
 import { getDetailSegmentUrlByEventType } from '../../TicketCenterPrematch/helper/helper';
 import {
   getTicketDetail,
-  getTicketSubTypes
+  getTicketSubTypes,
+  setTargetMessageId
 } from '../../chatBoardNew/chatBoardSlice';
 
 const openTicketDetailHandler = async (
   ticketId,
   actorId,
   eventType,
-  dispatch
+  dispatch,
+  targetMessageId = -1
 ) => {
   const requestDetailModel = {
     ticketId,
@@ -23,11 +25,12 @@ const openTicketDetailHandler = async (
   const actionResult = await dispatch(
     getTicketDetail({
       ...requestDetailModel,
+      targetMessageId,
       isQueryMessageInLastTwoDay: true
     })
   );
+  dispatch(setTargetMessageId(targetMessageId));
   dispatch(getTicketSubTypes(actionResult.payload.data.ticketType));
-
   if (getTicketDetail.rejected.match(actionResult)) {
     ToastrWrapper.showError(actionResult.payload);
   }

@@ -45,6 +45,7 @@ const MessageCell = ({
     avatarFileName,
     borderColor
   } = data;
+
   const dispatch = useStableDispatch();
   const ref = useRef(null);
   const [isOpenReactionIcon, setIsOpenReactionIcon] = useState(false);
@@ -82,7 +83,8 @@ const MessageCell = ({
       ticketId,
       permission.ActorId,
       eventType,
-      dispatch
+      dispatch,
+      messageId
     );
   };
 

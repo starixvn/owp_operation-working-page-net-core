@@ -1504,6 +1504,23 @@
   padding-top: 5px;
   margin-top: 5px;
 }
+.message-list {
+  .borderAnimation {
+    border: 2px solid yellow;
+    animation: borderAnimation 3s forwards;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  @keyframes borderAnimation {
+    0% {
+      border: 2px solid yellow;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+    }
+    100% {
+      border: 2px solid transparent;
+      box-shadow: none;
+    }
+  }
+}
 
 .message-list .others-user .message-div {
   height: fit-content;

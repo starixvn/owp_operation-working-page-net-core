@@ -1,18 +1,20 @@
-import { useLayoutEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
-import { isEqual } from 'lodash';
-import { REQUEST_STATUS } from '../../Constants';
-import Loading from '../../../components/Loading';
 import { isEquals } from 'immutability-helper';
+import { isEqual } from 'lodash';
+import PropTypes from 'prop-types';
+import { useLayoutEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import Loading from '../../../components/Loading';
+import { REQUEST_STATUS } from '../../Constants';
 import useStableDispatch from '../../customHook/useStableDispatch';
 import { loadMoreMessageThunk } from '../chatBoardThunkNative';
 import MessageCommon from './MessageCommon';
 
 const MessageList = ({ policy = 'policy', ticketId }) => {
   const listRef = useRef();
+  const messageRefs = useRef({});
   const lastMessageIdRef = useRef(0);
   const previousScrollDiff = useRef(0);
+
   const dispatch = useStableDispatch();
   const {
     loading,
@@ -63,7 +65,11 @@ const MessageList = ({ policy = 'policy', ticketId }) => {
             Load more
           </a>
         )}{' '}
-        <MessageCommon entities={messages} permission={permission} />
+        <MessageCommon
+          entities={messages}
+          permission={permission}
+          messageRefs={messageRefs}
+        />
       </div>
     </>
   );
