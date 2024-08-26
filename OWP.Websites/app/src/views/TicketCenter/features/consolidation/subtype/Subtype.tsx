@@ -47,8 +47,7 @@ const Subtype = () => {
           <div key={`${typeId}-${subTypeId}`} className='tree-node'>
             <span
               onClick={() => handleClick(typeId, subTypeId, subTypeName, eventType)}
-              className={`subtype-item ${subTypeName}
-                ${subTypeId === subTypeSelected.subTypeId && typeId === subTypeSelected.typeId &&
+              className={`subtype-item ${subTypeId === subTypeSelected.subTypeId && typeId === subTypeSelected.typeId &&
                 'selected'
                 } ${!isRead && ' unread'}`}>
               {subTypeName}

@@ -79,7 +79,7 @@ public class QueryEventPickingServiceImpTests
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(matches, result.MatchesByDate);
+        Assert.Equal(matches, result.FilteredMatches);
     }
 
     [Fact]

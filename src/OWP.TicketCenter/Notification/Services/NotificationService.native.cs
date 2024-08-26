@@ -162,15 +162,16 @@ public class NotificationServiceImp : NotificationService
 
     private async Task NotifyHighlightSubtype(string userId, TicketInfo ticketInfo)
     {
-            await notifyMyTicket.Clients
-                .User(userId)
-                .NotifyHighlightSubtype(new ConsolidationSubtypeModel()
-                {
-                    TypeId = ticketInfo.TicketType,
-                    SubTypeId = ticketInfo.TicketSubTypeId,
-                    SubTypeName = $"{ticketInfo.TypeName} - {ticketInfo.TicketSubTypeName ?? "None"}",
-                    IsRead = false
-                });
-        
+        await notifyMyTicket.Clients
+            .User(userId)
+            .NotifyHighlightSubtype(new ConsolidationSubtypeModel()
+            {
+                TypeId = ticketInfo.TicketType,
+                SubTypeId = ticketInfo.TicketSubTypeId,
+                SubTypeName = $"{ticketInfo.TypeName} - {ticketInfo.TicketSubTypeName ?? "None"}",
+                IsRead = false,
+                EventType = ticketInfo.EventType
+            });
+
     }
 }
