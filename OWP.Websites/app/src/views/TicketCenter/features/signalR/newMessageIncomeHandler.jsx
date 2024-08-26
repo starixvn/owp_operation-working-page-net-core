@@ -16,7 +16,7 @@ const handleNewMessageIncome = (newMsgInfo, ticketInfo) => {
   activeTab === TAB_MY_TICKET &&
     store.dispatch(updateTicketItemIntoDataSource({ ticketInfo, filterModel }));
 
-  activeTab === TAB_MY_TICKET &&
+  issueModel &&
     issueModel.ticketId === newMsgInfo.ticketId &&
     chatBoard.isOpenPopup &&
     store.dispatch(setNewMessageOnChatBoard(newMsgInfo));
