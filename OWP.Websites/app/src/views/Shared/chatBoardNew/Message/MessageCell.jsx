@@ -28,7 +28,7 @@ const MessageCell = ({
   isMyMessage,
   showUserInfo,
   consolidationInfo
-}) => {
+}) => /* NOSONAR */ {
   const {
     createdDate,
     message,

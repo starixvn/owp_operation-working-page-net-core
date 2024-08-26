@@ -1,6 +1,6 @@
 import { isEquals } from 'immutability-helper';
 import PropTypes from 'prop-types';
-import { Fragment, useEffect, useRef } from 'react';
+import { Fragment, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { shouldShowUserInfo } from '../helper/chatBoardHelper';
 import MessageCell from './MessageCell';
@@ -20,7 +20,7 @@ const MessageCommon = ({
     if (targetMessageId > 0 && entities.length > 0) {
       const messageElement = messageRefs?.current[targetMessageId];
       if (messageElement) {
-        messageElement && messageElement.scrollIntoView({ behavior: 'smooth' });
+        messageElement.scrollIntoView({ behavior: 'smooth' });
         highLightMessage(messageElement);
       }
     }
