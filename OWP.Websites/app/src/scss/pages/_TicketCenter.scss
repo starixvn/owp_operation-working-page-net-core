@@ -313,6 +313,7 @@ main {
       .public_fixedDataTable_header {
         .fixedDataTableCellGroupLayout_cellGroup {
           .fixedDataTableCellLayout_main {
+
             &:nth-child(1),
             &:nth-child(2),
             &:nth-child(4) {
@@ -372,7 +373,7 @@ main {
             overflow: hidden;
             text-overflow: ellipsis;
 
-            > * {
+            >* {
               display: inline;
             }
 
@@ -430,7 +431,7 @@ main {
               line-height: 1.2;
               display: inline-block;
 
-              > span {
+              >span {
                 width: 100%;
                 white-space: nowrap;
                 text-overflow: ellipsis;
@@ -706,7 +707,7 @@ main {
           margin-top: 0;
         }
 
-        label + .MuiInput-formControl {
+        label+.MuiInput-formControl {
           margin-top: 35px;
         }
 
@@ -994,9 +995,7 @@ main {
 
     #selected-event {
       &:has(label) {
-        div.MuiAutocomplete-root
-          > div.MuiFormControl-root
-          > div.MuiInputBase-root {
+        div.MuiAutocomplete-root>div.MuiFormControl-root>div.MuiInputBase-root {
           margin-top: 40px;
         }
       }
@@ -1179,6 +1178,7 @@ main {
       width: 100%;
 
       thead {
+
         th,
         td {
           background: #dedede;
@@ -1186,6 +1186,7 @@ main {
       }
 
       tr {
+
         th,
         td {
           border-collapse: collapse;
@@ -1240,7 +1241,7 @@ main {
     .action-cell {
       text-align: center;
 
-      > span {
+      >span {
         font-size: 16px;
         margin: 0 4px;
         color: #4f4f4f;
@@ -1444,15 +1445,16 @@ main {
 
     .subtype-tab {
       flex: 2;
-      border-right: solid 1px gray;
       height: calc(100vh - 50px - 60px);
       overflow-y: visible;
+      margin-right: 20px;
 
       .title__wrapper {
         padding: 0 20px;
         background-color: #d9d9d9;
         height: 30px;
       }
+
       .title {
         font-weight: 600;
         font-size: 18px;
