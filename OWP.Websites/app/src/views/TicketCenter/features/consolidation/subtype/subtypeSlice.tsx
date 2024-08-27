@@ -29,11 +29,11 @@ const subtypeSlice = createSlice({
       }
     },
     highlightSubtype(state, action: PayloadAction<{ subtype: TSubTypeRow }>) {
-      const { subTypeId, typeId } = action.payload.subtype;
+      const { subTypeId, typeId, isRead } = action.payload.subtype;
 
       const subtypeRowIndex = state.entities.findIndex(e => e.typeId === typeId && e.subTypeId === subTypeId);
       if (subtypeRowIndex !== -1) {
-        state.entities[subtypeRowIndex].isRead = false;
+        state.entities[subtypeRowIndex].isRead = isRead;
         state.entities.unshift(state.entities.splice(subtypeRowIndex, 1)[0]);
       } else {
         state.entities.unshift(action.payload.subtype);

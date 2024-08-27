@@ -169,7 +169,7 @@ public class NotificationServiceImp : NotificationService
                 TypeId = ticketInfo.TicketType,
                 SubTypeId = ticketInfo.TicketSubTypeId,
                 SubTypeName = $"{ticketInfo.TypeName} - {ticketInfo.TicketSubTypeName ?? "None"}",
-                IsRead = false,
+                IsRead = ticketInfo.IsRead,
                 EventType = ticketInfo.EventType
             });
 
