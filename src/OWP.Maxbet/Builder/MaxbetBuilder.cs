@@ -25,8 +25,9 @@ public class MaxbetBuilderImp : MaxbetBuilder
     public async Task<MaxbetSpread> BuildMaxbet(int owpMatchId)
     {
         var maxbet = (await syncMaxbetRepository.GetMaxbetByOwpMatchId(owpMatchId)).ToList();
+        maxbet = maxbet.Where(x => x.Value != null).ToList();
 
-        if (!maxbet.Any())
+        if (maxbet.Count == 0)
         {
             return new MaxbetSpread();
         }
@@ -146,7 +147,7 @@ public class MaxbetBuilderImp : MaxbetBuilder
         IEnumerable<MaxbetModel> maxbetMainMatch,
         IEnumerable<MaxbetSetting> maxbetSettingDefault)
     {
-       
+
         var handicapMainMatch = GetHandicapMainMatch(maxbetMainMatch);
         var canUpdateValueBettype = MaxbetHelper.CanUpdateValueBettype(maxbet);
 
