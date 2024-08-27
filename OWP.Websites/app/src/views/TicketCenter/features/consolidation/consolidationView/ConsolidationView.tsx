@@ -5,13 +5,11 @@ import store from '../../../app/storeNative';
 import { useStableDispatch } from '../../../ImportTicketCenterHelperNative';
 import MessageCommon from '../../../../Shared/chatBoardNew/Message/MessageCommon';
 import { resetNewMessage } from './consolidationSlice';
-import { REQUEST_STATUS } from '../../../../Shared/Constants';
-import Loading from '../../../../components/Loading';
 
 const ConsolidationView = () => {
   const { subTypeSelected } = store.getState().subtype;
   const { label } = subTypeSelected;
-  const { entities, isNewMessage, loading } = useAppSelector(
+  const { entities, isNewMessage } = useAppSelector(
     state => state.consolidation
   );
   const [hasVerticalScrollbar, setHasVerticalScrollbar] = useState(false);
@@ -29,10 +27,6 @@ const ConsolidationView = () => {
     const check = (element && element?.scrollHeight > 800) || false;
     setHasVerticalScrollbar(check);
   }, [entities]);
-
-  if (loading === REQUEST_STATUS.pending) {
-    return <Loading />;
-  }
 
   return (
     <div className='consolidation-wrap'>

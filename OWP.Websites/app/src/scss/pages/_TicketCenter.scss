@@ -1444,20 +1444,24 @@ main {
     background: #fff !important;
 
     .subtype-tab {
-      flex: 2;
+      width: 15%;
       height: calc(100vh - 50px - 60px);
       overflow-y: visible;
       margin-right: 20px;
+      box-shadow: -4px 4px 16px rgba(0, 0, 0, 0.16);
 
       .title__wrapper {
         padding: 0 20px;
         background-color: #d9d9d9;
         height: 30px;
+        display: flex;
       }
 
       .title {
         font-weight: 600;
         font-size: 18px;
+        display: flex;
+        align-items: center;
       }
 
       .tree-view {
@@ -1469,7 +1473,7 @@ main {
 
       .tree-node {
         margin: 10px 0;
-        padding-left: 10px;
+        padding-left: 15px;
       }
 
       .subtype-item {
@@ -1493,8 +1497,9 @@ main {
     }
 
     .merge__ticket {
+      width: 53%;
+      box-shadow: -4px 4px 16px rgba(0, 0, 0, 0.16);
       height: calc(100vh - 50px - 60px);
-      flex: 4;
     }
 
     .ticket__detail {
@@ -1527,7 +1532,7 @@ main {
 
 .consolidation-wrap {
   .message-list {
-    height: 800px;
+    height: calc(100vh - 145px);
     width: 100%;
     overflow: auto;
     display: flex;
@@ -1535,7 +1540,7 @@ main {
     padding: 0;
 
     .infinite-scroll-component__outerdiv {
-      height: 800px;
+      height: 100%;
       overflow: auto;
 
       .infinite-scroll-component {
@@ -1560,6 +1565,7 @@ main {
     .my-message .message-div {
       border-width: 1px;
       border-style: solid;
+      max-width: 600px;
 
       .message-content {
         color: #505253;
@@ -1569,6 +1575,7 @@ main {
     .others-user .message-div {
       border-width: 1px;
       border-style: solid;
+      max-width: 600px;
 
       .message-content {
         color: #505253;
