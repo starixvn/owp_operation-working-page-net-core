@@ -1,17 +1,17 @@
 import { useAppSelector } from '../../../app/hooksNative';
-import { useLayoutEffect, useEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import store from '../../../app/storeNative';
 import { useStableDispatch } from '../../../ImportTicketCenterHelperNative';
 import MessageCommon from '../../../../Shared/chatBoardNew/Message/MessageCommon';
 import { resetNewMessage } from './consolidationSlice';
+import { REQUEST_STATUS } from '../../../../Shared/Constants';
+import Loading from '../../../../components/Loading';
 
 const ConsolidationView = () => {
-  const subTypeSelected = useAppSelector(
-    state => state.subtype.subTypeSelected
-  );
+  const { subTypeSelected } = store.getState().subtype;
   const { label } = subTypeSelected;
-  const { entities, isNewMessage } = useAppSelector(
+  const { entities, isNewMessage, loading } = useAppSelector(
     state => state.consolidation
   );
   const [hasVerticalScrollbar, setHasVerticalScrollbar] = useState(false);
@@ -24,11 +24,15 @@ const ConsolidationView = () => {
     dispatch(resetNewMessage());
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const element = document.querySelector('.infinite-scroll-component');
     const check = (element && element?.scrollHeight > 800) || false;
     setHasVerticalScrollbar(check);
-  });
+  }, [entities]);
+
+  if (loading === REQUEST_STATUS.pending) {
+    return <Loading />;
+  }
 
   return (
     <div className='consolidation-wrap'>
