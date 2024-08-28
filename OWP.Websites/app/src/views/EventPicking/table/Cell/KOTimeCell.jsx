@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { formatTime } from '../../../Shared/DateTime/dateTimeHelper';
 import Switch from '@mui/joy/Switch';
 import Typography from '@mui/joy/Typography';
 import updateNoOfferMatchThunk from '../updateNoOfferMatchThunkNative';

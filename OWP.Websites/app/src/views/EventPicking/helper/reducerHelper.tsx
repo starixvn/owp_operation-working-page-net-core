@@ -117,7 +117,7 @@ const filterByProperty = (
     if (typeof value === 'string' || typeof value === 'number' || value === null) {
       return selectedSet.has(value);
     }
-    return entities.filter(e => selectedValue.some(s => e[property] === s));
+    return entities.filter(x => selectedValue.some(s => x[property] === s));
   });
 };
 
