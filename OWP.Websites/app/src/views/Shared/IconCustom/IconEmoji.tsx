@@ -17,6 +17,7 @@ type Props = {
   userReact: UseReact[];
   messageId: number;
   ticketId: number;
+  isDisableClickIcon: boolean;
 };
 
 const TableEmoji = (userReacts: UseReact[]) => {
@@ -38,7 +39,13 @@ const TableEmoji = (userReacts: UseReact[]) => {
   );
 };
 
-const IconEmoji = ({ iconKey, userReact, messageId, ticketId }: Props) => {
+const IconEmoji = ({
+  iconKey,
+  userReact,
+  messageId,
+  ticketId,
+  isDisableClickIcon = false
+}: Props) => {
   const dispatch = useStableDispatch();
   const actorId = useSelector(state => state?.pagePolicy?.permission?.ActorId);
 
@@ -50,7 +57,7 @@ const IconEmoji = ({ iconKey, userReact, messageId, ticketId }: Props) => {
       iconKey,
       ticketId
     };
-    dispatch(updateReactIconMessage(model));
+    !isDisableClickIcon && dispatch(updateReactIconMessage(model));
   };
 
   return (

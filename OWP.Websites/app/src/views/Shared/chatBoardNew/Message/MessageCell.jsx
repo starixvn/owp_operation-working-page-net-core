@@ -18,7 +18,8 @@ const propTypes = {
   policy: PropTypes.string.isRequired,
   ticketId: PropTypes.number,
   isMyMessage: PropTypes.bool,
-  consolidationInfo: PropTypes.object
+  consolidationInfo: PropTypes.object,
+  isDisableClickIcon: PropTypes.bool
 };
 
 const MessageCell = ({
@@ -27,7 +28,8 @@ const MessageCell = ({
   ticketId,
   isMyMessage,
   showUserInfo,
-  consolidationInfo
+  consolidationInfo,
+  isDisableClickIcon
 }) => /* NOSONAR */ {
   const {
     createdDate,
@@ -63,7 +65,8 @@ const MessageCell = ({
     imageFileName,
     messageReactIcons,
     ticketId,
-    borderColor
+    borderColor,
+    isDisableClickIcon
   });
 
   const handleClickQuoteIcon = () => {

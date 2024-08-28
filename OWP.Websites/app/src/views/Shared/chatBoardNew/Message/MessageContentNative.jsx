@@ -23,7 +23,8 @@ const MessageContents = ({
   imageFileName,
   messageReactIcons = [],
   ticketId = null,
-  borderColor = ''
+  borderColor = '',
+  isDisableClickIcon
 }) => {
   const getCreatedTime = () => formatTime(createdDate, 'minute', 'hh:mm A');
   const handleOnClick = () => {
@@ -119,6 +120,7 @@ const MessageContents = ({
         )}
         <div className='icons'>
           <EmojiDisplay
+            isDisableClickIcon={isDisableClickIcon}
             messageReactIcons={messageReactIcons || []}
             ticketId={ticketId}></EmojiDisplay>
         </div>
