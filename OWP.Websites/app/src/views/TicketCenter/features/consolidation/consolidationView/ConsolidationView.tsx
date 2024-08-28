@@ -47,7 +47,6 @@ const ConsolidationView = () => {
             </button>
           )}
           <MessageCommon
-            isDisableClickIcon={true}
             entities={entities}
             permission={permission}
             consolidationInfo={{

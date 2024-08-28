@@ -11,8 +11,7 @@ const MessageCommon = ({
   entities,
   permission,
   consolidationInfo = {},
-  messageRefs,
-  isDisableClickIcon
+  messageRefs
 }) => {
   const dispatch = useStableDispatch();
   const { targetMessageId } = useSelector(state => state.chatBoard);
@@ -67,7 +66,6 @@ const MessageCommon = ({
           isMyMessage ? 'message-row my-message' : 'message-row others-user'
         }>
         <MessageCell
-          isDisableClickIcon={isDisableClickIcon}
           policy={'pagePolicy'}
           data={message}
           ticketId={message.ticketId}

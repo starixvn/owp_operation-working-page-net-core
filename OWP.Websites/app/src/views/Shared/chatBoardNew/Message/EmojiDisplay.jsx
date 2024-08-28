@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const EmojiDisplay = ({
   messageReactIcons = [],
   ticketId,
-  isDisableClickIcon
+  isConsolidationView
 }) => {
   const result = groupByIconKey(messageReactIcons);
 
@@ -18,7 +18,7 @@ const EmojiDisplay = ({
           userReact={item.userReact}
           messageId={messageReactIcons[0].messageId}
           ticketId={ticketId}
-          isDisableClickIcon={isDisableClickIcon}
+          isConsolidationView={isConsolidationView}
         />
       ))}
     </>

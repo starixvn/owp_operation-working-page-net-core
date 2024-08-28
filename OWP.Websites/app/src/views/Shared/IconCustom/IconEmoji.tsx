@@ -17,7 +17,7 @@ type Props = {
   userReact: UseReact[];
   messageId: number;
   ticketId: number;
-  isDisableClickIcon: boolean;
+  isConsolidationView: boolean;
 };
 
 const TableEmoji = (userReacts: UseReact[]) => {
@@ -44,7 +44,7 @@ const IconEmoji = ({
   userReact,
   messageId,
   ticketId,
-  isDisableClickIcon = false
+  isConsolidationView = false
 }: Props) => {
   const dispatch = useStableDispatch();
   const actorId = useSelector(state => state?.pagePolicy?.permission?.ActorId);
@@ -57,7 +57,7 @@ const IconEmoji = ({
       iconKey,
       ticketId
     };
-    !isDisableClickIcon && dispatch(updateReactIconMessage(model));
+    !isConsolidationView && dispatch(updateReactIconMessage(model));
   };
 
   return (

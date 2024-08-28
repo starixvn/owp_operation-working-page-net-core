@@ -24,7 +24,7 @@ const MessageContents = ({
   messageReactIcons = [],
   ticketId = null,
   borderColor = '',
-  isDisableClickIcon
+  isConsolidationView
 }) => {
   const getCreatedTime = () => formatTime(createdDate, 'minute', 'hh:mm A');
   const handleOnClick = () => {
@@ -120,7 +120,7 @@ const MessageContents = ({
         )}
         <div className='icons'>
           <EmojiDisplay
-            isDisableClickIcon={isDisableClickIcon}
+            isConsolidationView={isConsolidationView}
             messageReactIcons={messageReactIcons || []}
             ticketId={ticketId}></EmojiDisplay>
         </div>
