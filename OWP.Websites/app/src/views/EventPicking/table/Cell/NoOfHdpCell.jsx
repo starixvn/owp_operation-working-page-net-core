@@ -12,7 +12,7 @@ const propTypes = {
 const NoOfHdpCell = props => {
   const { mode } = store.getState().mode;
   const { rowIndex, dataSource } = props;
-  const { noOfHDP, infoSiteMatchId, leagueName,minorBettypeId, isChildMatch } = dataSource[rowIndex];
+  const { noOfHDP, infoSiteMatchId, leagueName, minorBettypeId, isChildMatch } =
     dataSource[rowIndex];
 
   const component = {

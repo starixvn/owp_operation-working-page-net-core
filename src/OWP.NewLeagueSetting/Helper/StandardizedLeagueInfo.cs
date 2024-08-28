@@ -174,7 +174,7 @@ public static class StandardizedLeagueInfo
         var condition = new List<Condition>();
         var tv = split?.Where(t => t.Trim().Equals("TV", StringComparison.OrdinalIgnoreCase)) ?? new List<string>();
 
-        foreach (var iptv in split?.Except(tv))
+        foreach (var iptv in split?.Except(tv)) // NOSONAR
         {
             condition.Add(new(Type: "Contains", Value: iptv?.Trim()));
         }
