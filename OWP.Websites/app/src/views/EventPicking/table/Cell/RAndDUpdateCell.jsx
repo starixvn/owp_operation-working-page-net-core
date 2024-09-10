@@ -12,6 +12,8 @@ const RAndDUpdateCell = props => {
   const rAndDInfosUniqueByKey = [
     ...new Map(rAndDInfos.map(item => [item.rAndDUpdate, item])).values()
   ];
+
+  const correctLabel = value => value.replace(/(Update|Cancel)/, '').trim();
   return (
     <div className='r-and-d-update-cell'>
       <div className='r-and-d-update'>
@@ -25,7 +27,7 @@ const RAndDUpdateCell = props => {
                     backgroundColor: info.bgColor,
                     color: info.textColor
                   }}>
-                  {info.rAndDUpdate}
+                  {correctLabel(info.rAndDUpdate)}
                 </li>
               ))
             : null}

@@ -13,10 +13,10 @@ import PropTypes from 'prop-types';
 
 const propTypes = {
   data: PropTypes.array,
-  tableHeader: PropTypes.element,
+  tableHeader: PropTypes.element | null | undefined,
   classNameTable: PropTypes.string,
   itemRowHeight: PropTypes.number,
-  children: PropTypes.element
+  children: PropTypes.element | null | undefined
 };
 
 const CustomTable = ({
@@ -28,7 +28,6 @@ const CustomTable = ({
 }) => {
   const containerRef = useRef(null);
   const [maxHeight, setMaxHeight] = useState(window.innerHeight - 200);
-  const [maxWidth, setMaxWidth] = useState(window.innerWidth);
   const [displayStart, setDisplayStart] = useState(0);
   const [displayEnd, setDisplayEnd] = useState(0);
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -63,9 +62,8 @@ const CustomTable = ({
   }, 100);
 
   const handleResizeBrowser = () => {
-    const { innerHeight, innerWidth } = window;
+    const { innerHeight } = window;
     setMaxHeight(innerHeight - 200);
-    setMaxWidth(innerWidth);
   };
 
   const childrenWithProps = Children.map(children, child => {
@@ -104,7 +102,7 @@ const CustomTable = ({
         ref={containerRef}
         onScroll={onScrollTable}
         className='table-wrap'
-        style={{ maxHeight, maxWidth }}>
+        style={{ maxHeight }}>
         <table id='scrollable-table' className={classNameTable}>
           <thead>{tableHeader}</thead>
           <tbody>{childrenWithProps}</tbody>

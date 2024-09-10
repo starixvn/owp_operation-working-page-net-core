@@ -300,7 +300,6 @@
   box-shadow: inset 1px -1px #c8ced3;
   margin-bottom: 20px;
   margin-top: 10px;
-  max-width: 1800px;
   min-height: 450px;
   border-right: 1px solid #c8ced3;
 
@@ -316,22 +315,22 @@
           display: flex;
 
           .custom-checkbox {
-            padding-left: 10px;
+            padding-left: 5px;
 
             input {
-              width: 17px;
-              height: 17px;
+              width: 15px;
+              height: 15px;
             }
           }
 
           .dropdown-wrap {
-            margin-left: 25px;
+            margin-left: 20px;
             position: absolute;
 
             svg {
               cursor: pointer;
-              width: 25px;
-              height: 25px;
+              width: 20px;
+              height: 20px;
             }
 
             .dropdown-action {
@@ -412,17 +411,13 @@
 .table-event-picking {
   border-collapse: collapse;
   padding: 0;
-  width: 100%;
+  width: 2200px;
   height: 100%;
   color: #494848;
   font-size: 11.5px;
 
   thead {
     background: #e3e3e3 !important;
-
-    tr {
-      height: 50px;
-    }
   }
 
   th,
@@ -451,10 +446,15 @@
       }
     }
 
+    &:nth-child(1) {
+      width: 40px !important;
+    }
+
     &:nth-child(12),
     &:nth-child(13),
     &:nth-child(14),
     &:nth-child(15) {
+
       .filter-popup {
         right: 1px !important;
         left: auto !important;
@@ -464,6 +464,72 @@
           left: auto !important;
         }
       }
+    }
+  }
+
+  .no-cell {
+    width: 40px;
+  }
+
+  .ko-time-cell {
+    width: 70px;
+  }
+
+  .league-cell {
+    width: 250px;
+  }
+
+  .match-cell {
+    width: 220px;
+  }
+
+  .max-bet-cell {
+    width: 60px;
+  }
+
+  .spread-cell {
+    cursor: pointer;
+    width: 60px;
+  }
+
+  .noOf__hdp-cell {
+    cursor: pointer;
+    width: 60px;
+  }
+
+  .streaming-info-cell {
+    width: 120px;
+  }
+
+  .margin-cell {
+    width: 100px;
+  }
+
+  .provider-cell {
+    width: 200px;
+  }
+
+  .round-cell {
+    width: 200px;
+  }
+
+  .remark-cell {
+    width: 200px;
+  }
+
+  .r-and-d-update-cell {
+    width: 300px;
+  }
+
+  .round-cell,
+  .remark-cell,
+  .provider-cell,
+  .streaming-info-cell {
+    span {
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
     }
   }
 
@@ -528,6 +594,7 @@
     padding: 5px 5px;
     width: fit-content;
     list-style: none;
+    margin-bottom: 0 !important;
   }
 
   .ko-time-cell {
@@ -562,6 +629,7 @@
       margin: 0px 2px 2px 0px;
       border-radius: 8px;
       color: #000;
+      width: fit-content;
     }
 
     .bad-ranking {
@@ -610,24 +678,15 @@
       color: #e21b1b;
     }
   }
-
-  .streaming-info-cell,
-  .provider-cell,
-  .remark-cell,
-  .round-cell {
-    span {
-      width: fit-content;
-      display: block;
-    }
-  }
 }
 
-.table-event-picking::-webkit-scrollbar {
+.table-wrap::-webkit-scrollbar {
   background-color: #f5f5f5;
-  width: 7px;
+  width: 10px;
+  height: 10px;
 }
 
-.table-event-picking::-webkit-scrollbar-thumb {
+.table-wrap::-webkit-scrollbar-thumb {
   background-color: #8b8b8b;
   border-radius: 10px;
 }
@@ -676,6 +735,18 @@
         margin-bottom: 5px;
       }
     }
+  }
+}
+
+.tooltip-streaming,
+.tooltip-provider,
+.tooltip-round,
+.tooltip-remark {
+  .tooltip-inner {
+    text-align: left;
+    display: flex;
+    position: relative;
+    flex-direction: column;
   }
 }
 

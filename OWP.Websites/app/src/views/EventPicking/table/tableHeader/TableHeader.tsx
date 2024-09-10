@@ -32,10 +32,7 @@ const TableHeader = () => {
         false: TABLE_HEADER
       }[`${HasRead}`].map((item, index) => {
         return (
-          <th
-            colSpan={item?.colSpan}
-            style={{ width: `${item.size}%` }}
-            key={index}>
+          <th colSpan={item?.colSpan} key={index}>
             <div className='header-table'>
               <span>{item.headerName}</span>
               {item?.isFilter && mode === VIEW && (

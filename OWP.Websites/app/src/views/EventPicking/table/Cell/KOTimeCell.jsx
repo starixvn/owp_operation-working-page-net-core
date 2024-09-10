@@ -47,7 +47,6 @@ const KoTimeCell = props => {
   return (
     <div className='ko-time-cell'>
       <span>{time}</span>
-      <br></br>
       {!isChildMatch && (
         <Switch
           className='switch-match-offer'

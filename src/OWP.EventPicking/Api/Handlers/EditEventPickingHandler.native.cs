@@ -26,16 +26,22 @@ public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, 
 
         var leagueSetting = (await repository.QueryLeagueSetting()).ToList();
 
-        var tvList = (await repository.GetTVList()).ToList();
-
         foreach (var match in matchFiltered)
         {
-            var leagueIsValid = leagueSetting.Where(x => x.OWPLeagueId == match.OWPLeagueId)
-                .Where(league => CheckMatchValidMappingWithLeagueManagement(match, league, tvList)).ToList();
+            var leagueSettingByLeagueId = leagueSetting.Where(x => x.OWPLeagueId == match.OWPLeagueId).ToList();
 
-            if (leagueIsValid.Count == 1)
+            if (leagueSettingByLeagueId.Count == 1)
             {
-                SuggestionValue(match, leagueIsValid[0]);
+                SuggestionValue(match, leagueSettingByLeagueId.First());
+                continue;
+            }
+
+            var leagueIsMappingWithCondition = leagueSettingByLeagueId
+                .Where(league => CheckMatchValidMappingWithLeagueManagement(match, league)).ToList();
+
+            if (leagueIsMappingWithCondition.Count == 1)
+            {
+                SuggestionValue(match, leagueIsMappingWithCondition.First());
             }
         }
 
@@ -90,53 +96,23 @@ public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, 
         match.IsReferenceLeagueManagement = true;
     }
 
-    private bool CheckTvConditions(EventPickingModel match, LeagueSettingInfoSender leagueSetting, IList<Condition> tvList)
-    {
-        var matchTvList = match.TV.Split('/').Where(x => x.Length > 0).ToList();
-        var tvContains = GetValueContains(tvList);
-        var tvEqual = GetValueEquals(tvList);
-        var checkTvIsContain =
-            matchTvList.Any(x => tvContains.Any(y => x.Contains(y, StringComparison.CurrentCultureIgnoreCase))) &&
-            !string.IsNullOrEmpty(match.TV);
-        var checkTvIsEqual =
-            matchTvList.Any(x => tvEqual.Any(y => x.Equals(y, StringComparison.CurrentCultureIgnoreCase)));
-        var checkTv = checkTvIsContain || checkTvIsEqual;
-        var checkIptv = match.Iptv.Length > 0;
-
-        if (leagueSetting.Condition.HasTv && leagueSetting.Condition.HasIpTv)
-        {
-            return checkTv || checkIptv;
-        }
-        if (leagueSetting.Condition.HasTv)
-        {
-            return checkTv;
-        }
-        if (leagueSetting.Condition.HasIpTv)
-        {
-            return checkIptv;
-        }
-
-        return true;
-    }
-
     private bool CheckRoundOrDivisionConditions(string matchValues, IList<Condition> conditions)
     {
         var containsValues = GetValueContains(conditions);
         var equalsValues = GetValueEquals(conditions);
 
-        var isEmptyBoth = conditions.Count == 0 && matchValues.Length == 0;
+        var isConditionsEmpty = conditions.Count == 0;
         var isContains = containsValues.Any(x => matchValues.Contains(x, StringComparison.CurrentCultureIgnoreCase)) && !string.IsNullOrEmpty(matchValues);
         var isEquals = equalsValues.Any(x => x.Equals(matchValues, StringComparison.CurrentCultureIgnoreCase));
-        return isEmptyBoth || isContains || isEquals;
+        return isConditionsEmpty || isContains || isEquals;
     }
 
-    private bool CheckMatchValidMappingWithLeagueManagement(EventPickingModel match, LeagueSettingInfoSender leagueSetting, IList<Condition> tvList)
+    private bool CheckMatchValidMappingWithLeagueManagement(EventPickingModel match, LeagueSettingInfoSender leagueSetting)
     {
         var roundConditions = CheckRoundOrDivisionConditions(match.Round, leagueSetting.Condition.Round);
         var divisionConditions = CheckRoundOrDivisionConditions(match.Division, leagueSetting.Condition.Division);
-        var tvConditions = CheckTvConditions(match, leagueSetting, tvList);
 
-        return roundConditions && divisionConditions && tvConditions;
+        return roundConditions && divisionConditions;
     }
 
 
