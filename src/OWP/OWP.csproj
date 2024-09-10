@@ -35,7 +35,7 @@
     <PackageReference Include="NPOI" Version="2.7.1" />
     <PackageReference Include="Olympus.OWP.Constants" Version="1.0.0.4" />
     <PackageReference Include="Fanex.Logging" Version="2.0.1.1" />
-    <PackageReference Include="Fanex.NAP.Client" Version="2.0.0.1" />
+    <PackageReference Include="Fanex.NAP.Client" Version="2.0.1.3-beta1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <ItemGroup>
