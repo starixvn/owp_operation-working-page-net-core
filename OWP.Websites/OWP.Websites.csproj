@@ -168,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\src\OWP.AccountSetting\OWP.AccountSetting.csproj" />
+    <ProjectReference Include="..\src\OWP.Api\OWP.Api.csproj" />
     <ProjectReference Include="..\src\OWP.AutoAssignment\OWP.AutoAssignment.csproj" />
     <ProjectReference Include="..\src\OWP.BackgroundWorker\OWP.BackgroundWorker.csproj" />
     <ProjectReference Include="..\src\OWP.EventPicking\OWP.EventPicking.csproj" />
@@ -187,7 +188,6 @@
     <ProjectReference Include="..\src\OWP.UserManagement\OWP.UserManagement.csproj" />
     <ProjectReference Include="..\src\OWP.WorkingShift\OWP.WorkingShift.csproj" />
     <ProjectReference Include="..\src\OWP\OWP.csproj" />
-    <ProjectReference Include="..\src\OWP.Maxbet\OWP.Maxbet.csproj" />
     <ProjectReference Include="..\src\OWP.OtherSport\OWP.OtherSport.csproj" />
     <ProjectReference Include="..\src\OWP.ProductAssignmentReference\OWP.ProductAssignmentReference.csproj" />
     <ProjectReference Include="..\src\OWP.SimpleDataApi\OWP.SimpleDataApi.csproj" />

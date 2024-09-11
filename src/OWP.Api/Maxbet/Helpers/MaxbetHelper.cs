@@ -1,0 +1,83 @@
+﻿using OWP.Api.Maxbet.Constants;
+using OWP.Api.Maxbet.Models;
+using OWP.Enums;
+using KeyValuePair = OWP.Api.Maxbet.Models.KeyValuePair;
+
+namespace OWP.Api.Maxbet.Helpers;
+
+public static class MaxbetHelper
+{
+    public static T FindTraderAssignmentByBettype<T>(List<T> assignment, int bettypeId) where T : TraderAssignment
+        => assignment.Find(a => a.BettypeId == bettypeId);
+
+    public static T FindSpreadByBettype<T>(List<T> spreads, int bettypeId) where T : SpreadModel
+        => spreads.Find(a => a.Bettype == bettypeId);
+
+    public static T FindMaxbetByBettype<T>(List<T> maxbets, int bettypeId) where T : MaxbetModel
+        => maxbets.Find(a => a.BettypeId == bettypeId);
+
+    public static void UpdateSpreadPEN(MaxbetSpread spread, decimal newValueHdp, decimal newValueOU)
+    {
+        spread.Handicap = newValueHdp;
+        spread.OverUnder = newValueOU;
+    }
+
+    public static T FindOddByKey<T>(IList<T> odds, string key) where T : KeyValuePair
+    => odds?.FirstOrDefault(a => string.Equals(a.Key, key, StringComparison.OrdinalIgnoreCase));
+
+    public static void UpdateMaxbetPEN(MaxbetSpread maxbet)
+    {
+        var hdp = maxbet.Handicap;
+        if (!hdp.HasValue)
+        {
+            return;
+        }
+
+        var hdpPEN = hdp / 2;
+        maxbet.Handicap = hdpPEN;
+        maxbet.OverUnder = hdpPEN;
+    }
+
+    public static void SetDefaultMaxbetInfo(MaxbetInfo maxbetInfo)
+    {
+        maxbetInfo.Maxbet.FirstHalfHandicap = null;
+        maxbetInfo.Maxbet.FirstHalfOverUnder = null;
+
+        maxbetInfo.Spread.FirstHalfHandicap = null;
+        maxbetInfo.Spread.FirstHalfOverUnder = null;
+
+        maxbetInfo.Traders.FirstHalfHandicap = null;
+        maxbetInfo.Traders.FirstHalfOverUnder = null;
+
+        maxbetInfo.NumberOfLines = NumberOfLineHelper.UpdateNumberOfLine();
+    }
+
+    public static ExistsValueBettype CanUpdateValueBettype(List<MaxbetModel> maxbet)
+    {
+        var hasExistsHdp = maxbet.Exists(s => s.BettypeId.Equals((int)EnumBettype.Handicap));
+        var hasExistsOu = maxbet.Exists(s => s.BettypeId.Equals((int)EnumBettype.OverUnder));
+        var hasExistsFirstHalfHdp = maxbet.Exists(s => s.BettypeId.Equals((int)EnumBettype.FirstHalfHandicap));
+        var hasExistsFirstHalfOu = maxbet.Exists(s => s.BettypeId.Equals((int)EnumBettype.FirstHalfOverUnder));
+        return new ExistsValueBettype
+        {
+            Hdp = !hasExistsHdp,
+            Ou = !hasExistsOu,
+            FirstHalfHdp = !hasExistsFirstHalfHdp,
+            FirstHalfOu = !hasExistsFirstHalfOu
+        };
+    }
+
+    public static MaxbetModel Build(
+        int bettypeId,
+        decimal? valueBettype,
+        decimal? defaultValue)
+        => valueBettype.HasValue && valueBettype.Value != MaxBetSetting.FOLLOW_MAIN_MATCH ? new MaxbetModel
+        {
+            BettypeId = bettypeId,
+            Value = valueBettype
+        } : new MaxbetModel
+        {
+            BettypeId = bettypeId,
+            Value = defaultValue
+        };
+}
