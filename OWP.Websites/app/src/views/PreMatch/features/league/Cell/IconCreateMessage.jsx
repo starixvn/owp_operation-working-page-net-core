@@ -9,7 +9,8 @@ import {
 import {
   changeErrorRecipient,
   closeCreatePopup,
-  setSubTypeSelected
+  setSubTypeSelected,
+  setSelectedRecipients
 } from '../../../../Shared/createTicketNew/createTicketBoardSliceNew';
 import useStableDispatch from '../../../../Shared/customHook/useStableDispatch';
 import { backupGetIssueModel } from '../../signalR/signalRSlice';
@@ -23,7 +24,7 @@ const IconCreateMessage = props => {
   const { dataSource, rowIndex } = props;
 
   const hasWrite = useSelector(state => state.policy).permission.HasWrite;
-
+  const { defaultRecipients } = useSelector(state => state.createTicketBoard);
   const dispatch = useStableDispatch();
 
   const handleOpenCreateTicket = () => {
@@ -37,6 +38,7 @@ const IconCreateMessage = props => {
     dispatch(openTicketPopup());
     dispatch(changeErrorRecipient(false));
     dispatch(setSubTypeSelected([...[{ value: 0, label: '' }]]));
+    dispatch(setSelectedRecipients(defaultRecipients));
   };
 
   if (!hasWrite) {

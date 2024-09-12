@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import ShareOfChatBoardTicket from '../../../Shared/createTicketNew/ShareOfChatBoardTicket/ShareOfChatBoardTicket';
 import { closeTicketPopup } from '../../../Shared/chatBoardNew/chatBoardSlice';
@@ -45,14 +46,10 @@ const informResult = result => {
 };
 const ViewCreateTicketBoard = props => {
   const dispatch = useStableDispatch();
+  const { selectedRecipients, subTypeSelected, defaultRecipients } =
+    useSelector(state => state.createTicketBoard);
   const [selectedFiles, setSelectedFiles] = useState([]);
-  const {
-    selectedRecipients,
-    modelByRowIndex,
-    creatorInfo,
-    subTypeSelected,
-    defaultRecipients
-  } = props;
+  const { modelByRowIndex, creatorInfo } = props;
   const { InfoSiteMatchId, PreMatchLeagueId, LeagueId } = modelByRowIndex;
 
   const dispatchActionRecipient = value => {
