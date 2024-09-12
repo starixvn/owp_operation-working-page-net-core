@@ -37,6 +37,7 @@ const MaxBetCell = props => {
         maxBet={convertThousandToK(maxbetHdp, false) || undefined}
         leagueName={leagueName}
         minorBettypeId={minorBettypeId}
+        isChildMatch={isChildMatch}
       />
     )
   };

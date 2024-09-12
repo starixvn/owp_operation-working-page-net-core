@@ -9,22 +9,24 @@ const MaxBetViewCell = ({
   leagueName: string;
   isChildMatch: boolean;
 }) => {
-  return (
+  return !isChildMatch ? (
     <div className='max-bet-cell'>
       {maxBet ? (
         <p className='max-bet-cell__value'>{maxBet}</p>
       ) : (
         <>
-          {!isChildMatch && (
+          {
             <a
               className='mb__check'
               onClick={() => handleCheckButton(leagueName)}>
               Check
             </a>
-          )}
+          }
         </>
       )}
     </div>
+  ) : (
+    <></>
   );
 };
 

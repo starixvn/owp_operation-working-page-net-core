@@ -8,12 +8,14 @@ const NoOfHdpEditableCell = ({
   value,
   infoSiteMatchId,
   leagueName,
-  minorBettypeId
+  minorBettypeId,
+  isChildMatch
 }: {
   value: string | null | undefined;
   infoSiteMatchId: number;
   leagueName: string;
-  minorBettypeId: number
+  minorBettypeId: number;
+  isChildMatch: boolean;
 }) => {
   let newValue = null;
   const dispatch = useAppDispatch();
@@ -43,25 +45,29 @@ const NoOfHdpEditableCell = ({
     };
   });
   return (
-    <div key={uniqueId()} className='input-value'>
-      <input
-        ref={inputRef}
-        type='text'
-        name='noOfHdp'
-        className='no__hdp input-field'
-        defaultValue={value ?? ''}
-        maxLength={2000}
-        onBlur={handleBlur}
-        onChange={v => {
-          newValue = v.target?.value;
-        }}
-      />
-      {!value && !minorBettypeId &&(
-        <a className='mb__check' onClick={() => handleCheckButton(leagueName)}>
-          Check
-        </a>
-      )}
-    </div>
+    !isChildMatch && (
+      <div key={uniqueId()} className='input-value'>
+        <input
+          ref={inputRef}
+          type='text'
+          name='noOfHdp'
+          className='no__hdp input-field'
+          defaultValue={value ?? ''}
+          maxLength={2000}
+          onBlur={handleBlur}
+          onChange={v => {
+            newValue = v.target?.value;
+          }}
+        />
+        {!value && !minorBettypeId && (
+          <a
+            className='mb__check'
+            onClick={() => handleCheckButton(leagueName)}>
+            Check
+          </a>
+        )}
+      </div>
+    )
   );
 };
 

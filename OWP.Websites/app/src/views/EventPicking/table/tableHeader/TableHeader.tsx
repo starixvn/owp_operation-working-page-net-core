@@ -16,6 +16,9 @@ import CheckAllHeader from './CheckAllHeader';
 
 const TableHeader = () => {
   const {
+    pagePolicy: {
+      permission: { HasWrite }
+    },
     turnOverMarginPolicy: {
       permission: { HasRead }
     },
@@ -57,7 +60,7 @@ const TableHeader = () => {
                   columnKey={item.columnKey}
                 />
               )}
-              {item?.isHaveDropdown && (
+              {item?.isHaveDropdown && HasWrite && (
                 <div className='dropdown-wrap'>
                   <DropdownIcon
                     colorDropdown='black'

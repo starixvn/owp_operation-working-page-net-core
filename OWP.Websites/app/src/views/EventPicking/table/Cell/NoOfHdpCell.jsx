@@ -14,6 +14,7 @@ const NoOfHdpCell = props => {
   const { rowIndex, dataSource } = props;
   const { noOfHDP, infoSiteMatchId, leagueName, minorBettypeId, isChildMatch } =
     dataSource[rowIndex];
+  dataSource[rowIndex];
 
   const component = {
     [VIEW]: (
@@ -25,6 +26,7 @@ const NoOfHdpCell = props => {
     ),
     [EDIT]: (
       <NoOfHdpEditableCell
+        isChildMatch={isChildMatch}
         infoSiteMatchId={infoSiteMatchId}
         value={noOfHDP}
         leagueName={leagueName}

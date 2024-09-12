@@ -66,9 +66,9 @@ const KoTimeCell = props => {
           checked={!isNoOffer}
           onChange={handleSelectedChanged}
           sx={{
-            '--Switch-thumbSize': '20px',
-            '--Switch-trackWidth': '58px',
-            '--Switch-trackHeight': '23px'
+            '--Switch-thumbSize': '18px',
+            '--Switch-trackWidth': '56px',
+            '--Switch-trackHeight': '20px'
           }}
         />
       )}
