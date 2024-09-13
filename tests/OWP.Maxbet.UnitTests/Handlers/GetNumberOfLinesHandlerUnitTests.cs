@@ -1,9 +1,9 @@
 ﻿using Fanex.Data.Repository;
 using NSubstitute;
+using OWP.Api.Maxbet.Criteria;
+using OWP.Api.Maxbet.Handlers;
+using OWP.Api.Maxbet.Models;
 using OWP.Enums;
-using OWP.Maxbet.Criteria;
-using OWP.Maxbet.Handlers;
-using OWP.Maxbet.Models;
 using Xunit;
 
 namespace OWP.Maxbet.UnitTests.Handlers;

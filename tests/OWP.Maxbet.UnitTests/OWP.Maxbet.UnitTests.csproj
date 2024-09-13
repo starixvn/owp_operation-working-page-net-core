@@ -23,6 +23,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\OWP.Maxbet\OWP.Maxbet.csproj" />
+    <ProjectReference Include="..\..\src\OWP.Api\OWP.Api.csproj" />
   </ItemGroup>
 </Project>
