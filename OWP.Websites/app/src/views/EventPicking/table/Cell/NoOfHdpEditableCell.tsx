@@ -9,13 +9,15 @@ const NoOfHdpEditableCell = ({
   infoSiteMatchId,
   leagueName,
   minorBettypeId,
-  isChildMatch
+  isChildMatch,
+  isShowCheckButton
 }: {
   value: string | null | undefined;
   infoSiteMatchId: number;
   leagueName: string;
   minorBettypeId: number;
   isChildMatch: boolean;
+  isShowCheckButton: boolean;
 }) => {
   let newValue = null;
   const dispatch = useAppDispatch();
@@ -59,7 +61,7 @@ const NoOfHdpEditableCell = ({
             newValue = v.target?.value;
           }}
         />
-        {!value && !minorBettypeId && (
+        {isShowCheckButton && !value && !minorBettypeId && (
           <a
             className='mb__check'
             onClick={() => handleCheckButton(leagueName)}>

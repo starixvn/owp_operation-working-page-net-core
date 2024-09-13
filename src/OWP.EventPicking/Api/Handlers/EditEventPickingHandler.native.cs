@@ -30,19 +30,7 @@ public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, 
         {
             var leagueSettingByLeagueId = leagueSetting.Where(x => x.OWPLeagueId == match.OWPLeagueId).ToList();
 
-            if (leagueSettingByLeagueId.Count == 1)
-            {
-                SuggestionValue(match, leagueSettingByLeagueId.First());
-                continue;
-            }
-
-            var leagueIsMappingWithCondition = leagueSettingByLeagueId
-                .Where(league => CheckMatchValidMappingWithLeagueManagement(match, league)).ToList();
-
-            if (leagueIsMappingWithCondition.Count == 1)
-            {
-                SuggestionValue(match, leagueIsMappingWithCondition.First());
-            }
+            ProcessLeagueSettingsForMatch(leagueSettingByLeagueId, match);
         }
 
         return new EventPickingResult
@@ -50,6 +38,33 @@ public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, 
             MatchesByDate = mainMatches.MatchesByDate,
             FilteredMatches = matchFiltered
         };
+    }
+
+    private void ProcessLeagueSettingsForMatch(List<LeagueSettingInfoSender> leagueSettingByLeagueId, EventPickingModel match)
+    {
+        switch (leagueSettingByLeagueId.Count)
+        {
+            case 0:
+                match.IsShowCheckButton = false;
+                break;
+            case 1:
+                SuggestionValue(match, leagueSettingByLeagueId.First());
+                break;
+            default:
+                HandleMappingForMultipleSettings(match, leagueSettingByLeagueId);
+                break;
+        }
+    }
+
+    private void HandleMappingForMultipleSettings(EventPickingModel match, IList<LeagueSettingInfoSender> leagueSettingByLeagueId)
+    {
+        var leagueIsMappingWithCondition = leagueSettingByLeagueId
+            .Where(league => CheckMatchValidMappingWithLeagueManagement(match, league)).ToList();
+
+        if (leagueIsMappingWithCondition.Count == 1)
+        {
+            SuggestionValue(match, leagueIsMappingWithCondition.First());
+        }
     }
 
     private void SuggestionValue(EventPickingModel match, LeagueSettingInfoSender league)

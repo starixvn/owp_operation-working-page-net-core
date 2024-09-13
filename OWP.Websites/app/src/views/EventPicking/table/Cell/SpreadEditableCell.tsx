@@ -10,7 +10,8 @@ const SpreadEditableCell = ({
   infoSiteMatchId,
   leagueName,
   minorBettypeId,
-  isChildMatch
+  isChildMatch,
+  isShowCheckButton
 }: {
   spread: number | string | undefined;
   spreadKey: 'maxbetHdp' | 'spreadOu' | 'spreadHdp';
@@ -18,6 +19,7 @@ const SpreadEditableCell = ({
   leagueName: string;
   minorBettypeId: number;
   isChildMatch: boolean;
+  isShowCheckButton: boolean;
 }) => {
   let newValue = -999999999;
   const dispatch = useAppDispatch();
@@ -73,7 +75,7 @@ const SpreadEditableCell = ({
         />
         <span>%</span>
       </div>
-      {!spread && !minorBettypeId && (
+      {isShowCheckButton && !spread && !minorBettypeId && (
         <a className='mb__check' onClick={() => handleCheckButton(leagueName)}>
           Check
         </a>

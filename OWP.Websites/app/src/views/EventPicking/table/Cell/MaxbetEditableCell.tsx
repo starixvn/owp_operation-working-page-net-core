@@ -9,13 +9,15 @@ const MaxbetEditableCell = ({
   infoSiteMatchId,
   minorBettypeId,
   leagueName,
-  isChildMatch
+  isChildMatch,
+  isShowCheckButton
 }: {
   maxBet: string | number | undefined;
   infoSiteMatchId: number;
   leagueName: string;
   minorBettypeId: number;
   isChildMatch: boolean;
+  isShowCheckButton: boolean;
 }) => {
   let newValue = -999999999;
   const dispatch = useAppDispatch();
@@ -73,7 +75,7 @@ const MaxbetEditableCell = ({
           />
           <span>K</span>
         </div>
-        {!maxBet && !minorBettypeId && (
+        {isShowCheckButton && !maxBet && !minorBettypeId && (
           <a
             className='mb__check'
             onClick={() => handleCheckButton(leagueName)}>

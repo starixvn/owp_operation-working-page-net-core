@@ -12,7 +12,8 @@ const SpreadCell = ({
   infoSiteMatchId,
   leagueName,
   minorBettypeId,
-  isChildMatch
+  isChildMatch,
+  isShowCheckButton
 }: {
   infoSiteMatchId: number;
   leagueName: string;
@@ -41,6 +42,7 @@ const SpreadCell = ({
         spread={convertToPercent(spread)}
         leagueName={leagueName}
         minorBettypeId={minorBettypeId}
+        isShowCheckButton={isShowCheckButton}
       />
     )
   };
