@@ -5,6 +5,7 @@ import { handleOpenTicketDetail } from './openTicketDetailHandler';
 import { changeMessageIconHandler } from './changeMessageIconHandler';
 import handleChangeTicketStatus from './changeStatusIncomeHandler';
 import changeSubTypeIncomeHandler from './changeSubTypeIncomeHandler';
+import { highlightSubtypeHandler } from './highlightSubtypeHandler';
 
 const useSignalRWrapper = () => {
   const handlers = [
@@ -31,6 +32,10 @@ const useSignalRWrapper = () => {
     {
       method: 'NotifyChangeSubTypeIncome',
       handler: changeSubTypeIncomeHandler
+    },
+    {
+      method: 'NotifyHighlightSubtype',
+      handler: highlightSubtypeHandler
     }
   ];
 

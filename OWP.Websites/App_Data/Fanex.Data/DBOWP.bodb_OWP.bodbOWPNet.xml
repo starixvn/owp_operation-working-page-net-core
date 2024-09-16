@@ -221,7 +221,8 @@
         <Setting Key="OWP_TicketCenter_GetMatchInfoByAdminSiteId" SpName="OWP_TicketCenter_GetMatchInfoByAdminSiteId" DbName="DBACC.bodb02.wsv_nap" />
         <Setting Key="OWP_TicketCenter_UpdateMessageIcon" SpName="OWP_TicketCenter_UpdateMessageIcon" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_TicketCenter_GetReactionIcon" SpName="OWP_TicketCenter_GetReactionIcon" DbName="DBOWP.bodb_OWP.wsv_owp" />
-
+        <Setting Key="OWP_Consolidation_GetSubtype" SpName="OWP_Consolidation_GetSubtype" DbName="DBOWP.bodb_OWP.wsv_owp" />
+        <Setting Key="OWP_TicketCenter_GetAllMessageThreeDayAgo" SpName="OWP_TicketCenter_GetAllMessageThreeDayAgo" DbName="DBOWP.bodb_OWP.wsv_owp" />
     </Function>
     <Function Name="TicketEvent">
         <Setting Key="OWP_TicketEvent_GetAssigneesByOwpMatchId" SpName="OWP_TicketEvent_GetAssigneesByOwpMatchId" DbName="DBOWP.bodb_OWP.wsv_owp" />

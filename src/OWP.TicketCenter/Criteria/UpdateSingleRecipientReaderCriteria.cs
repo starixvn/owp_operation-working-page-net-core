@@ -4,7 +4,7 @@ namespace OWP.TicketCenter.Criteria;
 
 public class UpdateSingleRecipientReaderCriteria : NonQueryCommand
 {
-    public int TicketId { get; set; }
+    public string TicketIds { get; set; }
 
     public int RecipientId { get; set; }
 
@@ -12,5 +12,5 @@ public class UpdateSingleRecipientReaderCriteria : NonQueryCommand
 
     public override string GetSettingKey() => "OWP_TicketCenter_UpdateSingleRecipientReader";
 
-    public override bool IsValid() => TicketId > 0 && RecipientId > 0;
+    public override bool IsValid() => RecipientId > 0;
 }

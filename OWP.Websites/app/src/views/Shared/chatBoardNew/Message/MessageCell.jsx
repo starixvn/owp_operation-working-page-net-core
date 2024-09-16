@@ -1,30 +1,34 @@
+import { ArrowRightIcon } from 'mdi-react';
 import PropTypes from 'prop-types';
-import MessageContents from './MessageContentNative';
-import useStableDispatch from '../../customHook/useStableDispatch';
-import { UncontrolledTooltip } from 'reactstrap';
-import { ContentSaveOutlineIcon } from 'mdi-react';
-import { URL } from '../const/index.json';
-import { saveMessage } from '../chatBoardThunkNative';
-import { setModelQuoteMessage } from '../../chatBoardNew/chatBoardSlice';
+import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import ToastrWrapper from '../../../components/ToastrWrapper';
-import ReplyIcon from '../../../../assets/svg-element/ReplyIcon';
-import ReactionBar from './ReactionBar';
-import { useState, useRef, useEffect } from 'react';
+import { UncontrolledTooltip } from 'reactstrap';
 import GoodIcon from '../../../../assets/svg-element/GoodIcon';
+import ReplyIcon from '../../../../assets/svg-element/ReplyIcon';
+import { setModelQuoteMessage } from '../../chatBoardNew/chatBoardSlice';
 import AvatarDisplay from '../../common/Avatar/AvatarDisplay';
-import { netCoreURLTicKetCenter } from '../const/apiUrl';
-
-const url = `${netCoreURLTicKetCenter}/${URL.UPDATE_SAVE_MESSAGE}`;
+import useStableDispatch from '../../customHook/useStableDispatch';
+import openTicketDetailHandler from '../helper/openTicketDetailHandler';
+import MessageContents from './MessageContentNative';
+import ReactionBar from './ReactionBar';
 
 const propTypes = {
   data: PropTypes.object.isRequired,
+  showUserInfo: PropTypes.bool,
   policy: PropTypes.string.isRequired,
   ticketId: PropTypes.number,
-  isMyMessage: PropTypes.bool
+  isMyMessage: PropTypes.bool,
+  consolidationInfo: PropTypes.object
 };
 
-const MessageCell = ({ data, policy = 'policy', ticketId, isMyMessage }) => {
+const MessageCell = ({
+  data,
+  policy = 'policy',
+  ticketId,
+  isMyMessage,
+  showUserInfo,
+  consolidationInfo
+}) => /* NOSONAR */ {
   const {
     createdDate,
     message,
@@ -32,20 +36,22 @@ const MessageCell = ({ data, policy = 'policy', ticketId, isMyMessage }) => {
     extension,
     fileId,
     messageId,
-    isSaved,
     quoteMessageId,
     quoteMessage,
     quoteUsername,
     quoteCreatedDate,
     imageFileName,
     messageReactIcons,
-    avatarFileName
+    avatarFileName,
+    borderColor
   } = data;
+
   const dispatch = useStableDispatch();
   const ref = useRef(null);
   const [isOpenReactionIcon, setIsOpenReactionIcon] = useState(false);
   const { permission } = useSelector(state => state[policy]);
   const { HasWrite } = permission;
+  const { isConsolidationView = false } = consolidationInfo || {};
   const { getCreatedTime, getMessageContent } = MessageContents({
     createdDate,
     fileId,
@@ -56,22 +62,10 @@ const MessageCell = ({ data, policy = 'policy', ticketId, isMyMessage }) => {
     quoteCreatedDate,
     imageFileName,
     messageReactIcons,
-    ticketId
+    ticketId,
+    borderColor,
+    isConsolidationView
   });
-
-  const handleSaveMessages = async value => {
-    const model = {
-      url,
-      messageId,
-      isSaved: value,
-      ticketId,
-      actorId: permission.ActorId
-    };
-    const actionResult = dispatch(saveMessage(model));
-    if (saveMessage.rejected.match(actionResult)) {
-      ToastrWrapper.showError(actionResult.payload);
-    }
-  };
 
   const handleClickQuoteIcon = () => {
     const model = {
@@ -84,15 +78,20 @@ const MessageCell = ({ data, policy = 'policy', ticketId, isMyMessage }) => {
     dispatch(setModelQuoteMessage(model));
   };
 
-  const renderSaveIcon = () =>
+  const handleOnClickFlyToMessage = async () => {
+    const { eventType } = consolidationInfo;
+    await openTicketDetailHandler(
+      ticketId,
+      permission.ActorId,
+      eventType,
+      dispatch,
+      messageId
+    );
+  };
+
+  const renderActionIcon = () =>
     HasWrite && (
       <span className='icon-hover-wrapper'>
-        <span className='icon-save-message'>
-          <ContentSaveOutlineIcon
-            onClick={() => handleSaveMessages(true)}
-            id={`name${messageId}`}
-          />
-        </span>
         <span className='icon-reply-message'>
           {!fileId && (
             <ReplyIcon handleOnClick={() => handleClickQuoteIcon()} />
@@ -105,34 +104,30 @@ const MessageCell = ({ data, policy = 'policy', ticketId, isMyMessage }) => {
             handleOnClick={() => setIsOpenReactionIcon(!isOpenReactionIcon)}
           />
         </span>
+      </span>
+    );
+
+  const renderFlyToMessageTicketIcon = () =>
+    HasWrite && (
+      <span className='icon-hover-wrapper'>
+        <span
+          className='icon-fly-to-ticket'
+          onClick={handleOnClickFlyToMessage}
+          id={`name${messageId}`}>
+          <ArrowRightIcon size={13} />
+        </span>
         <UncontrolledTooltip placement='top' target={`name${messageId}`}>
-          Click to save your message or it is deleted after 30 days
+          View on ticket
         </UncontrolledTooltip>
       </span>
     );
-  const renderUnSaveIcon = () =>
-    HasWrite && (
-      <span className='icon-hover-wrapper-unsave'>
-        <span className='icon-save-message unsave-message'>
-          <span className='text-saved'> Saved </span>
-          <span className='icon-unsave-message'>
-            <ContentSaveOutlineIcon onClick={() => handleSaveMessages(false)} />
-          </span>
-        </span>
-        <span className='icon-reply-message'>
-          {!fileId && (
-            <ReplyIcon handleOnClick={() => handleClickQuoteIcon()} />
-          )}
-        </span>
-        <span className='icon-react-message'>
-          <GoodIcon
-            width={17}
-            height={17}
-            handleOnClick={() => setIsOpenReactionIcon(!isOpenReactionIcon)}
-          />
-        </span>
-      </span>
-    );
+
+  const handleShowIcon = () => {
+    if (isConsolidationView) {
+      return renderFlyToMessageTicketIcon();
+    }
+    return renderActionIcon();
+  };
 
   if (message) {
     useEffect(() => {
@@ -149,31 +144,40 @@ const MessageCell = ({ data, policy = 'policy', ticketId, isMyMessage }) => {
     }, [setIsOpenReactionIcon]);
     return (
       <div ref={ref}>
-        <ReactionBar
-          isOpenReactionIcon={isOpenReactionIcon}
-          setIsOpenReactionIcon={setIsOpenReactionIcon}
-          messageId={messageId}
-          creatorId={permission.ActorId}
-          ticketId={ticketId}
-        />
-        <div className='info-user'>
-          <div className='name-user'>
-            {!isMyMessage && (
-              <>
-                {extension?.length > 0
-                  ? `${username} (${extension})`
-                  : username}
-                {','}
-              </>
-            )}{' '}
-            {getCreatedTime()}
+        {!isConsolidationView && (
+          <ReactionBar
+            isOpenReactionIcon={isOpenReactionIcon}
+            setIsOpenReactionIcon={setIsOpenReactionIcon}
+            messageId={messageId}
+            creatorId={permission.ActorId}
+            ticketId={ticketId}
+          />
+        )}
+        {showUserInfo && (
+          <div className='info-user'>
+            <div className='name-user'>
+              {!isMyMessage && (
+                <>
+                  {extension?.length > 0
+                    ? `${username} (${extension})`
+                    : username}
+                  {','}
+                </>
+              )}{' '}
+              {getCreatedTime()}
+            </div>
           </div>
-        </div>
+        )}
 
         <div className='message-group' style={{ whiteSpace: 'pre-wrap' }}>
-          {isSaved ? renderUnSaveIcon() : renderSaveIcon()}
+          {handleShowIcon()}
           {getMessageContent()}
-          {!isMyMessage && <AvatarDisplay imageFileName={avatarFileName} />}
+          {showUserInfo && !isMyMessage && (
+            <AvatarDisplay imageFileName={avatarFileName} />
+          )}
+          {!showUserInfo && !isMyMessage && (
+            <div style={{ width: '27px' }}></div>
+          )}
         </div>
       </div>
     );

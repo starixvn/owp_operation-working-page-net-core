@@ -405,9 +405,4 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
     }
 }
 
-public class MatchOfferInfo(int infoSiteMatchId, bool isNoOffer, DateTime eventDateTime)
-{
-    public int InfoSiteMatchId { get; set; } = infoSiteMatchId;
-    public bool IsNoOffer { get; set; } = isNoOffer;
-    public DateTime EventDateTime { get; set; } = eventDateTime;
-}
+public record MatchOfferInfo(int InfoSiteMatchId, bool IsNoOffer, DateTime EventDateTime);

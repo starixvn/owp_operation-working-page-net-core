@@ -1,20 +1,14 @@
+import { openNewChattingTab } from '../../../Shared/Utils';
+import openTicketDetailHandler from '../../../Shared/chatBoardNew/helper/openTicketDetailHandler';
 import { calculateCustomTableWidth } from '../../../Shared/common/CustomTable/Helper';
+import {
+  changeErrorRecipient,
+  closeCreatePopup
+} from '../../../Shared/createTicketNew/createTicketBoardSliceNew';
+import { updatedIsReadOneRow } from '../../ImportTicketCenterHelperNative';
+import store from '../../app/storeNative';
 import DynamicCell from './Cell/DynamicCell';
 import { sort } from './eventSlice/eventCheckingSlice';
-import store from '../../app/storeNative';
-import {
-  getTicketDetail,
-  getTicketSubTypes
-} from '../../../Shared/chatBoardNew/chatBoardSlice';
-import ToastrWrapper from '../../../components/ToastrWrapper';
-import { getDetailSegmentUrlByEventType } from '../../Helper/TicketCenterHelper';
-import { updatedIsReadOneRow } from '../../ImportTicketCenterHelperNative';
-import {
-  closeCreatePopup,
-  changeErrorRecipient
-} from '../../../Shared/createTicketNew/createTicketBoardSliceNew';
-import { onClickIssueModel } from '../signalR/signalRSlice';
-import { openNewChattingTab } from '../../../Shared/Utils';
 
 const DefaultTableStyle = {
   rowHeight: 70,
@@ -110,29 +104,17 @@ const getConfigTicketsTab = containerWidth => {
         openNewChattingTab(permission.ActorId, ticketId, eventType);
         return;
       }
-      const requestDetailModel = {
-        ticketId,
-        actorId: permission.ActorId,
-        detailSegmentUrl: getDetailSegmentUrlByEventType(eventType),
-        eventType
-      };
-
       dispatch(changeErrorRecipient(false));
       dispatch(closeCreatePopup());
       dispatch(updatedIsReadOneRow(rowIndex));
-      dispatch(onClickIssueModel(requestDetailModel));
-      dispatch(getTicketSubTypes(ticketType));
-      const actionResult = await dispatch(
-        getTicketDetail({
-          ...requestDetailModel,
-          isQueryMessageInLastTwoDay: true
-        })
+      await openTicketDetailHandler(
+        ticketId,
+        permission.ActorId,
+        eventType,
+        dispatch
       );
-      if (getTicketDetail.rejected.match(actionResult)) {
-        ToastrWrapper.showError(actionResult.payload);
-      }
     }
   };
 };
 
-export { getConfigTicketsTab, ColumnModels, DefaultTableStyle };
+export { ColumnModels, DefaultTableStyle, getConfigTicketsTab };

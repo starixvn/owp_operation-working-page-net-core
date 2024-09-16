@@ -69,7 +69,7 @@ public class Handler : IRequestHandler<ValidationRequest, AssignmentValidationRe
             result.ValidationResults = e.ValidationResults;
         }
 
-        await LogExcelFile(request.SessionId, request.Stream);
+        await LogExcelFile(request.SessionId, request.Stream, request.EventDate);
 
         return result;
     }
@@ -83,7 +83,7 @@ public class Handler : IRequestHandler<ValidationRequest, AssignmentValidationRe
         return analyzedResult.OriginalRecordCount;
     }
 
-    private async Task LogExcelFile(string sessionId, Stream file)
+    private async Task LogExcelFile(string sessionId, Stream file, DateTime eventDate)
     {
         try
         {
@@ -92,13 +92,13 @@ public class Handler : IRequestHandler<ValidationRequest, AssignmentValidationRe
                 "App_Data",
                 "Files"
                 );
-            
+
             if (!Directory.Exists(absoluteFolderPath))
             {
                 Directory.CreateDirectory(absoluteFolderPath);
             }
 
-            var fileName = $"{sessionId}-{currentSession.UserName}-New.xlsx";
+            var fileName = $"{sessionId}-{currentSession.UserName}-{eventDate}.xlsx";
             var fullPath = Path.Combine(absoluteFolderPath, fileName);
             await using var stream = File.Create(fullPath);
             file.Seek(0, SeekOrigin.Begin);

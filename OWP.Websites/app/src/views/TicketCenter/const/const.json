@@ -1,4 +1,6 @@
 {
+  "CONSOLIDATION_ROOT_URL": "/api/Consolidation",
+  "GET_SUBTYPE": "get-subtype",
   "getTicketType": "get-ticket-type",
   "getEventTicket": "get-event-ticket",
   "pinTicketRoute": "pin-ticket",
@@ -45,5 +47,7 @@
     "UPLOAD_FILE": "upload",
     "ADD_MESSAGE": "new-message",
     "GET_STATUS_HISTORY": "ticket-detail/get-status-history"
-  }
+  },
+  "TAB_MY_TICKET": "TAB_MY_TICKET",
+  "TAB_CONSOLIDATE": "TAB_CONSOLIDATE"
 }

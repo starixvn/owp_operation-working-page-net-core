@@ -109,6 +109,9 @@ public interface Repository
 
     Task<IList<MessageReactIcon>> GetMessageReactIcon(string messageIds);
 
+    Task<IList<ConsolidationSubtypeModel>> GetSubtype(CriteriaBase criteria);
+
+    Task<IEnumerable<MessageDetailViewModel>> GetAllMessageThreeDayAgo(int actorId, int ticketTypeId, int? subtypeId);
 }
 
 public class RepositoryImp : Repository
@@ -166,16 +169,16 @@ public class RepositoryImp : Repository
 
     public async Task<List<string>> GetUserIdsByTicketId(int ticketId)
     {
-        var userInfors = await GetTickerReaderInfoByTicketId(ticketId);
-        return userInfors.Select(x => x.RecipientId).Distinct().ToList();
+        var userInfo = await GetTickerReaderInfoByTicketId(ticketId);
+        return userInfo.Select(x => x.RecipientId).Distinct().ToList();
     }
 
     public async Task<List<TicketReaderInfo>> GetTickerReaderInfoByTicketId(int ticketId)
     {
         var criteria = new GetUserIdsByTicketIdCriteria { TicketId = ticketId };
-        var userInfors = await dynamicRepository.FetchAsync<TicketReaderInfo>(criteria);
+        var userInfo = await dynamicRepository.FetchAsync<TicketReaderInfo>(criteria);
 
-        return userInfors.ToList();
+        return userInfo.ToList();
     }
 
     public async Task<int> AddSingleRecipient(InsertSingleRecipientRequest request)
@@ -478,4 +481,15 @@ public class RepositoryImp : Repository
         };
         return (await dynamicRepository.FetchAsync<MessageReactIcon>(criteria)).ToList();
     }
+
+    public async Task<IList<ConsolidationSubtypeModel>> GetSubtype(CriteriaBase criteria)
+        => (await dynamicRepository.FetchAsync<ConsolidationSubtypeModel>(criteria)).ToList();
+
+    public async Task<IEnumerable<MessageDetailViewModel>> GetAllMessageThreeDayAgo(int actorId, int ticketTypeId, int? subtypeId)
+        => (await dynamicRepository.FetchAsync<MessageDetailViewModel>(new GetAllMessageThreeDayAgoCriteria
+        {
+            ActorId = actorId,
+            TicketTypeId = ticketTypeId,
+            SubtypeId = subtypeId
+        }));
 }

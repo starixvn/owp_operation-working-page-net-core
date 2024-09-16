@@ -214,35 +214,6 @@
         display: inline-block;
       }
 
-      &.my-message {
-        .info-user {
-          padding: 0 0 0 70px;
-
-          .name-user {
-            order: 2;
-          }
-
-          .icon-save-message {
-            left: 0;
-            right: auto;
-
-            &.unsave-message {
-              padding: 0 5px 0 0;
-              justify-content: flex-start;
-
-              .text-saved {
-                order: 2;
-              }
-
-              .icon-unsave-message {
-                order: 1;
-                margin: 0 5px 0 0;
-              }
-            }
-          }
-        }
-      }
-
       .icon-save-message {
         font-family: Arial, Tahoma, Helvetica, sans-serif !important;
         cursor: pointer;
@@ -529,7 +500,6 @@
 }
 
 .chatBoard-info {
-  margin-bottom: 5px;
   position: relative;
   z-index: 10;
 
@@ -658,9 +628,10 @@
 }
 
 .ticket-header {
-  .back__icon:hover{
-    cursor:pointer;
+  .back__icon:hover {
+    cursor: pointer;
   }
+
   .text-bold {
     font-weight: bold;
   }
@@ -1225,14 +1196,13 @@
 }
 
 //message list
-
 .message-list {
   height: 690px;
   flex: 1;
   outline: none;
   padding: 0 10px;
   padding-left: 0;
-  margin-bottom: 8px;
+  margin-bottom: 20px;
   overflow-y: scroll;
   width: 515px;
   position: relative;
@@ -1316,37 +1286,9 @@
       display: inline-block;
     }
 
-    &.my-message {
-      .info-user {
-        padding: 0 0 0 70px;
-
-        .name-user {
-          order: 2;
-        }
-
-        .icon-save-message {
-          left: 0;
-          right: auto;
-
-          &.unsave-message {
-            padding: 0 5px 0 0;
-            justify-content: flex-start;
-
-            .text-saved {
-              order: 2;
-            }
-
-            .icon-unsave-message {
-              order: 1;
-              margin: 0 5px 0 0;
-            }
-          }
-        }
-      }
-    }
-
     .info-user {
-      padding-right: 70px;
+      margin-bottom: 0 !important;
+      padding: 5px 0 0 70px;
 
       .icon-save-message {
         font-family: Arial, Tahoma, Helvetica, sans-serif !important;
@@ -1442,8 +1384,6 @@
 
     div {
       color: #444444;
-      margin-bottom: 5px;
-      //font-size: 13px;
 
       &:first-child {
         color: #828282;
@@ -1564,6 +1504,23 @@
   padding-top: 5px;
   margin-top: 5px;
 }
+.message-list {
+  .borderAnimation {
+    border: 2px solid yellow;
+    animation: borderAnimation 3s forwards;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  @keyframes borderAnimation {
+    0% {
+      border: 2px solid yellow;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+    }
+    100% {
+      border: 2px solid transparent;
+      box-shadow: none;
+    }
+  }
+}
 
 .message-list .others-user .message-div {
   height: fit-content;
@@ -1579,11 +1536,12 @@
 .message-list .my-message .message-group {
   white-space: pre-wrap;
   display: flex;
-  column-gap: 5px;
+  column-gap: 0px;
   justify-content: flex-end;
 
   .icon-hover-wrapper {
     display: none;
+    margin-right: 5px;
   }
 
   .icon-hover-wrapper-unsave {
@@ -1643,14 +1601,6 @@
   }
 }
 
-.message-list .icon-save-message svg {
-  display: block;
-  width: 17px;
-  height: 22px;
-  fill: #1e88e5;
-  margin: 0;
-}
-
 .icon-reply-message {
   padding-left: 5px;
   padding-top: 3px;
@@ -1683,6 +1633,18 @@
   text-align: left;
 }
 
+.message-list .icon-fly-to-ticket {
+  right: 5px;
+  width: 14px;
+  height: 14px;
+  background: #1e88e5;
+  color: #fff !important;
+  border-radius: 50%;
+  line-height: 11px;
+  text-align: center;
+  cursor: pointer;
+}
+
 .others-user .unsave-message {
   flex-direction: row-reverse;
 }
@@ -1701,23 +1663,24 @@
   margin-bottom: 0 !important;
 }
 
-.message-list .info-user {
-  margin-bottom: 0 !important;
-}
-
 .message-list {
   .message-row.my-message,
   .message-row.others-user {
+    .info-user {
+      padding: 5px 0 0 0;
+    }
+
     .list-icon-reaction {
       position: absolute;
       display: flex;
-      max-height: 20px;
       margin-bottom: 0px;
+      top: -20px;
 
       > div {
         background-color: none !important;
         border-radius: 10px !important;
-        height: 'fit-content';
+        height: fit-content !important;
+        padding: 0px !important;
       }
     }
   }
@@ -1851,11 +1814,13 @@
 .custom-tooltip {
   margin-top: 0px !important;
   padding: 0px !important;
+
   .table-container {
     overflow: auto;
     max-height: 100px;
     overflow-y: auto;
   }
+
   .table-container::-webkit-scrollbar {
     background-color: #222;
     padding-left: 0px 3px !important;
@@ -1866,12 +1831,15 @@
     background-color: #555454;
     border-radius: 10px;
   }
+
   .react-table {
     margin: 3px !important;
     text-align: left;
+
     .user-name-message-icon {
       padding-left: 5px !important;
     }
+
     td {
       div {
         margin: 0px !important;

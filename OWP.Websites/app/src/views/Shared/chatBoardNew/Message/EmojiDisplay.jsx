@@ -2,7 +2,11 @@ import React from 'react';
 import IconEmoji from '../../../Shared/IconCustom/IconEmoji';
 import PropTypes from 'prop-types';
 
-const EmojiDisplay = ({ messageReactIcons = [], ticketId }) => {
+const EmojiDisplay = ({
+  messageReactIcons = [],
+  ticketId,
+  isConsolidationView
+}) => {
   const result = groupByIconKey(messageReactIcons);
 
   return (
@@ -14,6 +18,7 @@ const EmojiDisplay = ({ messageReactIcons = [], ticketId }) => {
           userReact={item.userReact}
           messageId={messageReactIcons[0].messageId}
           ticketId={ticketId}
+          isConsolidationView={isConsolidationView}
         />
       ))}
     </>

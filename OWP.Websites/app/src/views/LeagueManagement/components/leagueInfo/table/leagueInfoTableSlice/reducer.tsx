@@ -45,13 +45,11 @@ const LeagueInfoTableSlice = createSlice({
       state.entities = entitiesOriginal;
       buildDefaultTableFilter(state.entitiesOriginal, state.multipleFilter);
     },
-    setLeagueHeaderFiler: (state, actions) => {
-      //NOSONAR
+    setLeagueHeaderFiler: (state, actions) => /*NOSONAR*/ {
       const league = actions.payload;
       state.leagueFilterHeader = league;
     },
-    setFocusSettingId: (state, actions) => {
-      //NOSONAR
+    setFocusSettingId: (state, actions) => /*NOSONAR*/ {
       state.focusSettingId = actions.payload;
     },
     setMultipleFilter: (
@@ -73,9 +71,9 @@ const LeagueInfoTableSlice = createSlice({
         state.multipleFilter
       );
     },
-    removeBySettingId: (state, actions: PayloadAction<{settingId: number}>) => {
-      state.entities= state.entities.filter(l=>l.leagueSettingId!==actions.payload.settingId);
-      state.entitiesOriginal= state.entitiesOriginal.filter(l=>l.leagueSettingId!==actions.payload.settingId);
+    removeBySettingId: (state, actions: PayloadAction<{ settingId: number }>) => /*NOSONAR*/ {
+      state.entities = state.entities.filter(l => l.leagueSettingId !== actions.payload.settingId);
+      state.entitiesOriginal = state.entitiesOriginal.filter(l => l.leagueSettingId !== actions.payload.settingId);
     }
   },
   extraReducers: builder => {

@@ -22,7 +22,9 @@ const MessageContents = ({
   quoteCreatedDate = '',
   imageFileName,
   messageReactIcons = [],
-  ticketId = null
+  ticketId = null,
+  borderColor = '',
+  isConsolidationView
 }) => {
   const getCreatedTime = () => formatTime(createdDate, 'minute', 'hh:mm A');
   const handleOnClick = () => {
@@ -100,7 +102,7 @@ const MessageContents = ({
     return (
       <div>
         {!fileId && (
-          <p className='message-div'>
+          <p style={{ borderColor: `${borderColor}` }} className='message-div'>
             <Linkify properties={{ target: '_blank' }}>
               {buildMessageContent()}
             </Linkify>
@@ -118,6 +120,7 @@ const MessageContents = ({
         )}
         <div className='icons'>
           <EmojiDisplay
+            isConsolidationView={isConsolidationView}
             messageReactIcons={messageReactIcons || []}
             ticketId={ticketId}></EmojiDisplay>
         </div>

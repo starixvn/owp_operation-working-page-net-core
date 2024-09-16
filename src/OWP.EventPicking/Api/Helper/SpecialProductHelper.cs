@@ -2,7 +2,8 @@
 using OWP.EventPicking.Api.Models;
 
 namespace OWP.EventPicking.Api.Helper;
-internal static class SpecialProductHelper
+
+public static class SpecialProductHelper
 {
     public static void BuildSpecialProduct<T>(IList<T> events) where T : class, EventProductCommon
     {
@@ -14,7 +15,7 @@ internal static class SpecialProductHelper
             @event.AwayName = $"{@event.AwayName} {teamPostfix}";
         }
     }
-    public static  List<T> CombineMainAndChildMatchEvent<T>(IList<T> mainMatches, IList<T> childMatches)where T : class, EventProductCommon
+    public static List<T> CombineMainAndChildMatchEvent<T>(IList<T> mainMatches, IList<T> childMatches) where T : class, EventProductCommon
     {
         var matches = new List<T>();
 

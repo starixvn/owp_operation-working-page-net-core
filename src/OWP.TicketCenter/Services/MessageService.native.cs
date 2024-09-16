@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Fanex.NAP.Client.Helpers.Web;
+using NPOI.SS.Formula.Functions;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.ViewModels;
 
@@ -13,6 +15,8 @@ public interface MessageService
     Task<(bool, List<MessageDetailViewModel>)> GetMessageListByGreaterMessageId(int ticketId, int firstMessageId);
 
     Task BuildReactIconForMessage(IList<MessageDetailViewModel> messages);
+
+    Task<List<MessageDetailViewModel>> GetAllMessageThreeDayAgo(int ticketTypeId, int? subTypeId);
 }
 
 public class MessageServiceImp : MessageService
@@ -21,10 +25,13 @@ public class MessageServiceImp : MessageService
 
     private readonly IMapper mapper;
 
-    public MessageServiceImp(Repository repository, IMapper mapper)
+    private readonly INapSession session;
+
+    public MessageServiceImp(Repository repository, IMapper mapper, INapSession session)
     {
         this.repository = repository;
         this.mapper = mapper;
+        this.session = session;
     }
 
     public async Task<NewMessageRequestModel> InsertMessage(NewTicketModelBase request, int ticketId)
@@ -79,6 +86,31 @@ public class MessageServiceImp : MessageService
         {
             var findByMessageId = messageReactIcons.Where(x => x.MessageId == item.MessageId).ToList();
             item.MessageReactIcons = findByMessageId;
+        }
+    }
+
+    public async Task<List<MessageDetailViewModel>> GetAllMessageThreeDayAgo(int ticketTypeId, int? subTypeId)
+    {
+        var message = (await repository.GetAllMessageThreeDayAgo(session.UserId, ticketTypeId, subTypeId)).ToList();
+        await BuildReactIconForMessage(message);
+        BuildBorderColorMessageByTicketId(message);
+        return message.ToList();
+    }
+
+    private void BuildBorderColorMessageByTicketId(List<MessageDetailViewModel> messages)
+    { 
+        var rand = new Random();
+        
+        var ticketColors = messages
+            .GroupBy(x => x.TicketId)
+            .ToDictionary(
+                group => group.Key,
+                _ => String.Format("#{0:X6}", rand.Next(0x1000000))
+            );
+        
+        foreach (var message in messages)
+        {
+            message.BorderColor = ticketColors[message.TicketId];
         }
     }
 }

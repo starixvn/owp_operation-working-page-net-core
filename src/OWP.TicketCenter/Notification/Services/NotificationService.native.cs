@@ -65,6 +65,7 @@ public class NotificationServiceImp : NotificationService
             await notifyMyTicket.Clients
                 .User(ticketReader.RecipientId)
                 .NotifyNewMessageIncome(messageResponse, ticketInfo);
+            await NotifyHighlightSubtype(ticketReader.RecipientId, ticketInfo);
         }
     }
 
@@ -87,6 +88,9 @@ public class NotificationServiceImp : NotificationService
             await notifyMyTicket.Clients
                 .User(ticketReader.RecipientId)
                 .NotifyNewAddRecipient(ticketInfo);
+
+            await NotifyHighlightSubtype(ticketReader.RecipientId, ticketInfo);
+
         }
     }
 
@@ -154,5 +158,20 @@ public class NotificationServiceImp : NotificationService
         await notifyPreMatch.Clients
             .Users(userIds)
             .NotifyUpdateReactIconMessage(messageReactIcon, action, ticketId);
+    }
+
+    private async Task NotifyHighlightSubtype(string userId, TicketInfo ticketInfo)
+    {
+        await notifyMyTicket.Clients
+            .User(userId)
+            .NotifyHighlightSubtype(new ConsolidationSubtypeModel()
+            {
+                TypeId = ticketInfo.TicketType,
+                SubTypeId = ticketInfo.TicketSubTypeId,
+                SubTypeName = $"{ticketInfo.TypeName} - {ticketInfo.TicketSubTypeName ?? "None"}",
+                IsRead = ticketInfo.IsRead,
+                EventType = ticketInfo.EventType
+            });
+
     }
 }

@@ -54,7 +54,7 @@ public class QueryEventPickingServiceImpTests
             {
                 LeagueName = "TestLeague SABA ",
                 OWPLeagueId = 1,
-                IsNoOffer = false,
+                IsNoOffer = true,
                 RowColor = "Red",
                 Provider = "yes",
                 OtherProvider = "yes",
@@ -63,6 +63,7 @@ public class QueryEventPickingServiceImpTests
         };
 
         _mockBuildMainAndChildMatches.GetMainEvent(request.Date).Returns(matches);
+        _mockBuildMainAndChildMatches.GetChildEventEventPicking(request.Date).Returns(new List<EventPickingModel>());
 
         var permissions = new PermissionModel(true, false);
         var functionPolicy = new List<FunctionPolicy>();
@@ -79,7 +80,7 @@ public class QueryEventPickingServiceImpTests
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(matches, result.MatchesByDate);
+        Assert.Equal(matches, result.FilteredMatches);
     }
 
     [Fact]

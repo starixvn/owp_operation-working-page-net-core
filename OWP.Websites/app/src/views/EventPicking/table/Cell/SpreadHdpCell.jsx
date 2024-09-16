@@ -8,8 +8,14 @@ const propTypes = {
 
 const SpreadHdpCell = props => {
   const { rowIndex, dataSource } = props;
-  const { spreadHdp, infoSiteMatchId, leagueName,minorBettypeId, isChildMatch } = dataSource[rowIndex];
-    dataSource[rowIndex];
+  const {
+    spreadHdp,
+    infoSiteMatchId,
+    leagueName,
+    minorBettypeId,
+    isChildMatch
+  } = dataSource[rowIndex];
+
   return (
     <SpreadCell
       spreadKey='spreadHdp'

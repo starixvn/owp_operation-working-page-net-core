@@ -30,7 +30,7 @@ public static class CategorizeHelper
         return string.Format(text, matchInfo.KOTime.ToString(timeFormat), toTime.ToString(timeFormat));
     }
 
-    public static MatchType GetSabaBetType(this string leagueName)
+    public static MatchType GetSabaBetType(this string leagueName) // NOSONAR
         => leagueName switch
         {
             _ when leagueName.IsContains("M88 SABA") && leagueName.IsContains("- 16 Mins Play") => MatchType.SabaM8816Mins,

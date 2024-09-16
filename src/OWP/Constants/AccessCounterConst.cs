@@ -37,4 +37,5 @@ public static class AccessCounterConst
     public const string LiveGameAssignment_Export_Event_Picking = "Export Event Picking List";
     public const string AssigneeSuggestionList = "Icon Suggestion List";
     public const string AddNewLeagueSetting = "Add New League Setting";
+    public const string ConsolidationView = "Consolidation View";
 }
