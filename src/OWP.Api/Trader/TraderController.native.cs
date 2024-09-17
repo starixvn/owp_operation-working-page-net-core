@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OWP.Api.Trader.Handlers;
+using OWP.Api.Trader.Model;
 
 namespace OWP.Api.Trader;
 

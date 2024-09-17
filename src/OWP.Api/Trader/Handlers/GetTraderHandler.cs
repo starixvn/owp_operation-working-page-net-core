@@ -3,6 +3,7 @@ using MediatR;
 using Newtonsoft.Json;
 using Olympus.OWP.Constants;
 using OWP.Api.Trader.Criteria;
+using OWP.Api.Trader.Model;
 
 namespace OWP.Api.Trader.Handlers;
 
@@ -23,7 +24,7 @@ public class GetTraderHandler : IRequestHandler<TraderRequest, IEnumerable<Trade
     public async Task<IEnumerable<TraderMatch>> Handle(TraderRequest request, CancellationToken cancellationToken)
     {
         var owpMatchRequest = MapSubtypeToBettype(request.matches);
-        var owpAssignments = await GetTradersByAdminsiteMatchIds(owpMatchRequest);
+        var owpAssignments = await GetTradersByAdminsiteMatchIds(owpMatchRequest.ToList());
 
         return owpAssignments
             .GroupBy(x => x.MatchId)
@@ -40,20 +41,18 @@ public class GetTraderHandler : IRequestHandler<TraderRequest, IEnumerable<Trade
     }
 
     public List<OWPMatchRequest> MapSubtypeToBettype(List<MatchRequest> matches)
-    {
-        return matches.Select(match => new OWPMatchRequest
+        => matches.Select(match => new OWPMatchRequest
         {
             MatchId = match.MatchId,
-            ParentId = match.ParentId == 0 ? match.MatchId : match.ParentId,
+            ParentId = match.ParentId,
             Subtype = match.Subtype,
             MinorBettypeId = GetMinorBettypeIdBySubtype(match.Subtype)
         }).ToList();
-    }
 
     private static int? GetMinorBettypeIdBySubtype(int subtype)
         => subtype == 0 ? null : MinorBettype.GetMinorBettypeIdBySubtype(subtype);
 
-    public async Task<List<OWPAssignment>> GetTradersByAdminsiteMatchIds(List<OWPMatchRequest> matches)
+    public async Task<List<OWPAssignment>> GetTradersByAdminsiteMatchIds(IEnumerable<OWPMatchRequest> matches)
     {
         var criteria = new GetTraderByAdminsiteMatchIdsCriteria
         {
@@ -62,37 +61,4 @@ public class GetTraderHandler : IRequestHandler<TraderRequest, IEnumerable<Trade
 
         return (await dynamicRepository.FetchAsync<OWPAssignment>(criteria)).ToList();
     }
-}
-
-public class MatchRequest
-{
-    public int MatchId { get; set; }
-    public int ParentId { get; set; }
-    public int Subtype { get; set; }
-}
-
-public class OWPMatchRequest : MatchRequest
-{
-    public int? MinorBettypeId { get; set; }
-}
-
-public class OWPAssignment
-{
-    public int MatchId { get; set; }
-    public int UserId { get; set; }
-    public int Bettype { get; set; }
-}
-
-public class TraderMatch
-{
-    public int MatchId { get; set; }
-
-    public List<AssignedTrader> Traders { get; set; }
-}
-
-public class AssignedTrader
-{
-    public int Bettype { get; set; }
-
-    public int TraderId { get; set; }
 }
