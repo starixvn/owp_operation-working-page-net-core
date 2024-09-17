@@ -69,8 +69,8 @@ const SpreadEditableCell = ({
           autoCorrect
           format=''
           onBlur={handleBlur}
-          onChange={v => {
-            newValue = v as number;
+          onChange={(v: number) => {
+            newValue = v;
           }}
         />
         <span>%</span>

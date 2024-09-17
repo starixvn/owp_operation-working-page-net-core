@@ -13,7 +13,8 @@ const SpreadOuCell = props => {
     infoSiteMatchId,
     leagueName,
     minorBettypeId,
-    isChildMatch
+    isChildMatch,
+    isShowCheckButton
   } = dataSource[rowIndex];
 
   return (
@@ -24,6 +25,7 @@ const SpreadOuCell = props => {
       leagueName={leagueName}
       isChildMatch={isChildMatch}
       minorBettypeId={minorBettypeId}
+      isShowCheckButton={isShowCheckButton}
     />
   );
 };

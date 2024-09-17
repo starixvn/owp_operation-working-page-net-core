@@ -17,7 +17,7 @@ const SpreadCell = ({
 }: {
   infoSiteMatchId: number;
   leagueName: string;
-
+  isShowCheckButton: boolean;
   minorBettypeId: number;
   isChildMatch: boolean;
   spread: number | string | undefined;
