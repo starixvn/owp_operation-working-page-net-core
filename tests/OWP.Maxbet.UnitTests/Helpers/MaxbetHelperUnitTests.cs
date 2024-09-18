@@ -1,6 +1,6 @@
-﻿using OWP.Enums;
-using OWP.Maxbet.Helpers;
-using OWP.Maxbet.Models;
+﻿using OWP.Api.Maxbet.Helpers;
+using OWP.Api.Maxbet.Models;
+using OWP.Enums;
 using Xunit;
 
 namespace OWP.Maxbet.UnitTests.Helpers;

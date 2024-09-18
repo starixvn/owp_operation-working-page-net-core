@@ -1,6 +1,7 @@
 ﻿using NSubstitute;
-using OWP.Maxbet.Models;
-using OWP.Maxbet.Services;
+using OWP.Api.Maxbet;
+using OWP.Api.Maxbet.Models;
+using OWP.Api.Maxbet.Services;
 using Xunit;
 
 namespace OWP.Maxbet.UnitTests.Services;

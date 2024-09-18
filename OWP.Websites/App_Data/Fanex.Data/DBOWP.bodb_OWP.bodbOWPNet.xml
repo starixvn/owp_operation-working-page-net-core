@@ -512,4 +512,7 @@
     <Setting Key="OWP_NotificationSetting_GetByUserId" SpName ="OWP_NotificationSetting_GetByUserId" DbName="DBOWP.bodb_OWP.wsv_owp" />
     <Setting Key="OWP_NotificationSetting_Update" SpName ="OWP_NotificationSetting_Update" DbName="DBOWP.bodb_OWP.wsv_owp" />
   </Function>
+    <Function Name="TraderApi">
+	    <Setting Key="OWP_TraderApi_GetTraderByAdminsiteMatchIds" SpName ="OWP_TraderApi_GetTraderByAdminsiteMatchIds" DbName="DBOWP.bodb_OWP.wsv_owp" />
+    </Function>
 </Functions>
