@@ -26,7 +26,7 @@ type TMatchOfferInfo = {
   infoSiteMatchId: number;
   isNoOffer: boolean;
   eventDateTime: Required<Date>;
-}
+};
 type TDataTable = TMatchOfferInfo & {
   minorBettypeId: number;
   tV: string;
@@ -50,6 +50,7 @@ type TDataTable = TMatchOfferInfo & {
   venue: string;
   provider: string;
   lstNote: string;
+  remark2LeagueManagement: string;
   remark: string;
   remark2: string;
   homeRemark: string;

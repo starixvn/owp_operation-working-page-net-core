@@ -69,11 +69,18 @@ public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, 
 
     private void SuggestionValue(EventPickingModel match, LeagueSettingInfoSender league)
     {
+        BuildRemark2(match, league);
         BuildLstNote(match, league);
         BuildMaxBet(match, league);
         BuildSpreadHdp(match, league);
         BuildSpreadOu(match, league);
         BuildNoOfHdp(match, league);
+    }
+    private void BuildRemark2(EventPickingModel match, LeagueSettingInfoSender league)
+    {
+        if (match.Remark2LeagueManagement != null) return;
+        match.Remark2LeagueManagement = league.Remark2;
+        match.IsReferenceLeagueManagement = true;
     }
 
     private void BuildLstNote(EventPickingModel match, LeagueSettingInfoSender league)

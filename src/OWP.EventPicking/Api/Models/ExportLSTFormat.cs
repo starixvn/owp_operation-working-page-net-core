@@ -38,6 +38,9 @@ public class ExportLSTFormat: EventProductCommon
     [Cell("V2")]
     public string Remark2 { get; set; }
 
+    [Cell("W2")]
+    public string Remark2LeagueManagement { get; set; }
+
     [Cell("X2")]
     public string WB { get; set; }
 
