@@ -98,7 +98,7 @@ public class Handler : IRequestHandler<ValidationRequest, AssignmentValidationRe
                 Directory.CreateDirectory(absoluteFolderPath);
             }
 
-            var fileName = $"{sessionId}-{currentSession.UserName}-{eventDate}.xlsx";
+            var fileName = $"{sessionId}-{currentSession.UserName}-{eventDate:yyy-MM-dd}.xlsx";
             var fullPath = Path.Combine(absoluteFolderPath, fileName);
             await using var stream = File.Create(fullPath);
             file.Seek(0, SeekOrigin.Begin);
