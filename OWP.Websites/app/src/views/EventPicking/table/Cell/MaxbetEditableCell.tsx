@@ -8,24 +8,29 @@ const MaxbetEditableCell = ({
   maxBet,
   infoSiteMatchId,
   minorBettypeId,
-  leagueName
+  leagueName,
+  isChildMatch,
+  isShowCheckButton
 }: {
   maxBet: string | number | undefined;
   infoSiteMatchId: number;
   leagueName: string;
   minorBettypeId: number;
+  isChildMatch: boolean;
+  isShowCheckButton: boolean;
 }) => {
   let newValue = -999999999;
   const dispatch = useAppDispatch();
   const inputRef = createRef<HTMLInputElement>();
   const handleBlur = () => {
-    const valueNumber= typeof inputRef?.current?.value==='number'
-    ? (inputRef?.current?.value as number) * 1000
-    : undefined;
-    
+    const valueNumber =
+      typeof inputRef?.current?.value === 'number'
+        ? (inputRef?.current?.value as number) * 1000
+        : undefined;
+
     dispatch(
       setValueMaxbetSpread({
-        value:  valueNumber,
+        value: valueNumber,
         key: 'maxbetHdp',
         infoSiteMatchId,
         minorBettypeId
@@ -50,31 +55,35 @@ const MaxbetEditableCell = ({
   });
 
   return (
-    <>
-      <div className='input-value'>
-        <NumericTextbox
-          ref={inputRef}
-          className='input-field'
-          value={maxBet ?? undefined}
-          min={0}
-          max={999999}
-          decimals={3}
-          autoCorrect
-          format=''
-          name='maxbet'
-          onBlur={handleBlur}
-          onChange={v => {
-            newValue = v;
-          }}
-        />
-        <span>K</span>
-      </div>
-      {!maxBet && !minorBettypeId && (
-        <a className='mb__check' onClick={() => handleCheckButton(leagueName)}>
-          Check
-        </a>
-      )}
-    </>
+    !isChildMatch && (
+      <>
+        <div className='input-value'>
+          <NumericTextbox
+            ref={inputRef}
+            className='input-field'
+            value={maxBet ?? undefined}
+            min={0}
+            max={999999}
+            decimals={3}
+            autoCorrect
+            format=''
+            name='maxbet'
+            onBlur={handleBlur}
+            onChange={v => {
+              newValue = v;
+            }}
+          />
+          <span>K</span>
+        </div>
+        {isShowCheckButton && !maxBet && !minorBettypeId && (
+          <a
+            className='mb__check'
+            onClick={() => handleCheckButton(leagueName)}>
+            Check
+          </a>
+        )}
+      </>
+    )
   );
 };
 

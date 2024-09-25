@@ -22,10 +22,9 @@ import { SELECT_TURNOVER_OPTIONS } from '../const';
 import { getUpdateTypes } from './filterThunkNative';
 import Utils from '../../../Shared/Utils';
 
-const { VALUE: {
-  ONE_MONTH,
-  THREE_MONTHS, SIX_MONTHS, TWELVE_MONTH
-} } = PERIOD;
+const {
+  VALUE: { ONE_MONTH, THREE_MONTHS, SIX_MONTHS, TWELVE_MONTH }
+} = PERIOD;
 
 const filterSlice = createSlice({
   name: 'filter/filterSlice',
@@ -44,18 +43,6 @@ const filterSlice = createSlice({
         [ONE_MONTH]: {
           [FROM_DATE]: SELECT_TURNOVER_OPTIONS[0].fromDate,
           [TO_DATE]: SELECT_TURNOVER_OPTIONS[0].toDate
-        },
-        [THREE_MONTHS]: {
-          [FROM_DATE]: SELECT_TURNOVER_OPTIONS[1].fromDate,
-          [TO_DATE]: SELECT_TURNOVER_OPTIONS[1].toDate
-        },
-        [SIX_MONTHS]: {
-          [FROM_DATE]: SELECT_TURNOVER_OPTIONS[2].fromDate,
-          [TO_DATE]: SELECT_TURNOVER_OPTIONS[2].toDate
-        },
-        [TWELVE_MONTH]: {
-          [FROM_DATE]: SELECT_TURNOVER_OPTIONS[3].fromDate,
-          [TO_DATE]: SELECT_TURNOVER_OPTIONS[3].toDate
         }
       }
     } as TFilter
@@ -70,12 +57,11 @@ const filterSlice = createSlice({
     }
   },
   extraReducers: builder => {
-    builder
-      .addCase(getUpdateTypes.fulfilled, (state, { payload }) => {
-        const noneOption = NONE_OPTION as Option;
-        state.updateTypes = payload.concat(noneOption);
-        state.param[UPDATE_TYPE] = state.updateTypes.map(m => m.value);
-      });
+    builder.addCase(getUpdateTypes.fulfilled, (state, { payload }) => {
+      const noneOption = NONE_OPTION as Option;
+      state.updateTypes = payload.concat(noneOption);
+      state.param[UPDATE_TYPE] = state.updateTypes.map(m => m.value);
+    });
   }
 });
 

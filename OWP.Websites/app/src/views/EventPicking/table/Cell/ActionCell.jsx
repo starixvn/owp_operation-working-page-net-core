@@ -7,7 +7,7 @@ import DeleteIcon from 'mdi-react/DeleteIcon';
 import ToastrWrapper from '../../../components/ToastrWrapper';
 import { removeSpecialProduct } from '../../service/Service';
 import Spinner from '../../../components/Spinner';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import store from '../../app/store';
 import { getEventPickings } from '../eventPickingTableSlice/eventSliceThunkNative';
 
@@ -29,7 +29,7 @@ const ActionCell = props => {
   } = dataSource[rowIndex];
   const [openLog, setOpenLog] = useState(false);
   const dispatch = useAppDispatch();
-
+  const { HasWrite } = useAppSelector(state => state.pagePolicy.permission);
   const handleRemoveSpecialProduct = async () => {
     const confirmResult = await ToastrWrapper.confirmYesNo(
       'Are you sure that you want to delete this event ?'
@@ -64,9 +64,11 @@ const ActionCell = props => {
     <>
       <div className='action-cell'>
         {isChildMatch ? (
-          <span onClick={handleRemoveSpecialProduct}>
-            <DeleteIcon className='icon-delete' size={20} />
-          </span>
+          HasWrite && (
+            <span onClick={handleRemoveSpecialProduct}>
+              <DeleteIcon className='icon-delete' size={20} />
+            </span>
+          )
         ) : (
           <span className='icon-history-event' onClick={() => setOpenLog(true)}>
             <LogHistoryIcon width={20} height={20} />

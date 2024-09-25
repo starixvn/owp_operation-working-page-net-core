@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { UncontrolledTooltip } from 'reactstrap';
 
 const propTypes = {
   dataSource: PropTypes.array.isRequired,
@@ -42,12 +43,22 @@ const IPTvStreamingCell = props => {
     );
 
   return (
-    <div className='streaming-info-cell'>
-      {renderTv()}
-      {renderIpTv()}
-      {renderChanel()}
-      {renderWb()}
-    </div>
+    <>
+      <div className='streaming-info-cell' id={`streaming${rowIndex}`}>
+        {renderTv()}
+        {renderIpTv()}
+        {renderChanel()}
+        {renderWb()}
+      </div>
+      <UncontrolledTooltip
+        className='tooltip-streaming'
+        target={`streaming${rowIndex}`}>
+        {renderTv()}
+        {renderIpTv()}
+        {renderChanel()}
+        {renderWb()}
+      </UncontrolledTooltip>
+    </>
   );
 };
 

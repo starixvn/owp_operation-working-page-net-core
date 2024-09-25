@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { UncontrolledTooltip } from 'reactstrap';
 
 const propTypes = {
   dataSource: PropTypes.array.isRequired,
@@ -43,12 +44,20 @@ const ProviderCell = props => {
 
   return (
     <>
-      <div className='provider-cell'>
+      <div className='provider-cell' id={`provider${rowIndex}`}>
         {renderProvider()}
         {renderOtherProvider()}
         {renderAgent()}
         {renderVenue()}
       </div>
+      <UncontrolledTooltip
+        className='tooltip-provider'
+        target={`provider${rowIndex}`}>
+        {renderProvider()}
+        {renderOtherProvider()}
+        {renderAgent()}
+        {renderVenue()}
+      </UncontrolledTooltip>
     </>
   );
 };

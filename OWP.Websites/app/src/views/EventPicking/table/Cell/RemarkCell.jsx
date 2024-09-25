@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { UncontrolledTooltip } from 'reactstrap';
 
 const propTypes = {
   dataSource: PropTypes.array.isRequired,
@@ -7,8 +8,14 @@ const propTypes = {
 
 const RemarkCell = props => {
   const { rowIndex, dataSource } = props;
-  const { lstNote, remark, homeRemark, awayRemark, infoSiteBlackList } =
-    dataSource[rowIndex];
+  const {
+    lstNote,
+    remark,
+    remark2,
+    homeRemark,
+    awayRemark,
+    infoSiteBlackList
+  } = dataSource[rowIndex];
 
   const renderLstNote = () =>
     lstNote && (
@@ -26,9 +33,17 @@ const RemarkCell = props => {
       </span>
     );
 
+  const renderRemark2 = () =>
+    remark2 && (
+      <span>
+        <strong>Information: </strong>
+        {remark2}
+      </span>
+    );
+
   const renderTeamRemark = (teamRemark, label) =>
     teamRemark && (
-      <span>
+      <span style={{ display: 'flex' }}>
         <strong>{label}: </strong>
         <span
           className={
@@ -59,13 +74,23 @@ const RemarkCell = props => {
 
   return (
     <>
-      <div className='remark-cell'>
+      <div className='remark-cell' id={`remark${rowIndex}`}>
         {renderLstNote()}
         {renderRemark()}
+        {renderRemark2()}
         {renderHomeRemark()}
         {renderAwayRemark()}
         {renderBlackListInfoSite()}
       </div>
+      <UncontrolledTooltip
+        className='tooltip-remark'
+        target={`remark${rowIndex}`}>
+        {renderLstNote()}
+        {renderRemark()}
+        {renderRemark2()}
+        {renderHomeRemark()}
+        {renderAwayRemark()}
+      </UncontrolledTooltip>
     </>
   );
 };

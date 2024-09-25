@@ -4,44 +4,59 @@ import { useAppDispatch } from '../../app/hooks';
 import { setValueMaxbetSpread } from '../eventPickingTableSlice/reducer';
 import { handleCheckButton } from '../../helper/filterHelper';
 
-const SpreadEditableCell = ({ spread, spreadKey, infoSiteMatchId, leagueName, minorBettypeId }: {
-  spread: number | string | undefined,
-  spreadKey: 'maxbetHdp' | 'spreadOu' | 'spreadHdp',
-  infoSiteMatchId: number,
-  leagueName: string,
-  minorBettypeId: number
+const SpreadEditableCell = ({
+  spread,
+  spreadKey,
+  infoSiteMatchId,
+  leagueName,
+  minorBettypeId,
+  isChildMatch,
+  isShowCheckButton
+}: {
+  spread: number | string | undefined;
+  spreadKey: 'maxbetHdp' | 'spreadOu' | 'spreadHdp';
+  infoSiteMatchId: number;
+  leagueName: string;
+  minorBettypeId: number;
+  isChildMatch: boolean;
+  isShowCheckButton: boolean;
 }) => {
   let newValue = -999999999;
   const dispatch = useAppDispatch();
   const inputRef = createRef<HTMLInputElement>();
-  
+
   const handleBlur = () => {
-    const valueNumber= typeof inputRef?.current?.value==='number'
-    ? (inputRef?.current?.value as number) /100
-    : undefined;
-      dispatch(setValueMaxbetSpread({
+    const valueNumber =
+      typeof inputRef?.current?.value === 'number'
+        ? (inputRef?.current?.value as number) / 100
+        : undefined;
+    dispatch(
+      setValueMaxbetSpread({
         value: valueNumber,
         key: spreadKey,
         infoSiteMatchId,
         minorBettypeId
-      }));
+      })
+    );
   };
 
   useEffect(() => {
     return () => {
       if (newValue !== -999999999) {
-        dispatch(setValueMaxbetSpread({
-          value: newValue / 100,
-          key: spreadKey,
-          infoSiteMatchId,
-          minorBettypeId
-        }));
+        dispatch(
+          setValueMaxbetSpread({
+            value: newValue / 100,
+            key: spreadKey,
+            infoSiteMatchId,
+            minorBettypeId
+          })
+        );
         newValue = -999999999;
       }
     };
   });
 
-  return (
+  return !isChildMatch ? (
     <>
       <div className='input-value'>
         <NumericTextbox
@@ -54,16 +69,20 @@ const SpreadEditableCell = ({ spread, spreadKey, infoSiteMatchId, leagueName, mi
           autoCorrect
           format=''
           onBlur={handleBlur}
-          onChange={v => {
-            newValue = v as number;
+          onChange={(v: number) => {
+            newValue = v;
           }}
         />
         <span>%</span>
       </div>
-      {!spread && !minorBettypeId&&<a className='mb__check' onClick={() => handleCheckButton(leagueName)}>
-        Check
-      </a>}
+      {isShowCheckButton && !spread && !minorBettypeId && (
+        <a className='mb__check' onClick={() => handleCheckButton(leagueName)}>
+          Check
+        </a>
+      )}
     </>
+  ) : (
+    <></>
   );
 };
 

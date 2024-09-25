@@ -8,16 +8,21 @@ import { MultiSelect } from 'react-multi-select-component';
 
 const TurnoverMargin = () => {
   const dispatch = useStableDispatch();
-  const [selected, setSelected] = useState<Option[]>(SELECT_TURNOVER_OPTIONS);
+  const [selected, setSelected] = useState<Option[]>([
+    SELECT_TURNOVER_OPTIONS[0]
+  ]);
 
   const handleChange = (value: TurnoverMarginSelection[]) => {
-    const period = value.reduce((sl, item) => ({
-      ...sl,
-      [item.key]: {
-        fromDate: item.fromDate,
-        toDate: item.toDate
-      }
-    }), {});
+    const period = value.reduce(
+      (sl, item) => ({
+        ...sl,
+        [item.key]: {
+          fromDate: item.fromDate,
+          toDate: item.toDate
+        }
+      }),
+      {}
+    );
 
     dispatch(setPeriod(period));
     setSelected(value);
@@ -26,9 +31,7 @@ const TurnoverMargin = () => {
   return (
     <div className='multi-select-dropdown'>
       <div className={`Turnover__Margin--Period`}>
-        <div className='label'>
-          Turnover & Margin Period
-        </div>
+        <div className='label'>Turnover & Margin Period</div>
         <MultiSelect
           onChange={handleChange}
           value={selected}

@@ -12,6 +12,8 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
 
     public bool IsChildMatch => MinorBettypeId.HasValue;
 
+    public bool IsShowCheckButton { get; set; } = true;
+
     public int? AdminSiteMatchId { get; set; }
 
     [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]

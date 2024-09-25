@@ -13,7 +13,8 @@ const SpreadHdpCell = props => {
     infoSiteMatchId,
     leagueName,
     minorBettypeId,
-    isChildMatch
+    isChildMatch,
+    isShowCheckButton
   } = dataSource[rowIndex];
 
   return (
@@ -24,6 +25,7 @@ const SpreadHdpCell = props => {
       leagueName={leagueName}
       isChildMatch={isChildMatch}
       minorBettypeId={minorBettypeId}
+      isShowCheckButton={isShowCheckButton}
     />
   );
 };

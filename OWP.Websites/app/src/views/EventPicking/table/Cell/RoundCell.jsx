@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-
+import { UncontrolledTooltip } from 'reactstrap';
 const propTypes = {
   dataSource: PropTypes.array.isRequired,
   rowIndex: PropTypes.number.isRequired
@@ -34,11 +34,20 @@ const RoundCell = props => {
     );
 
   return (
-    <div className='round-cell'>
-      {renderDivision()}
-      {renderRound()}
-      {renderEtPk()}
-    </div>
+    <>
+      <div className='round-cell' id={`round${rowIndex}`}>
+        {renderDivision()}
+        {renderRound()}
+        {renderEtPk()}
+      </div>
+      <UncontrolledTooltip
+        className='tooltip-round'
+        target={`round${rowIndex}`}>
+        {renderDivision()}
+        {renderRound()}
+        {renderEtPk()}
+      </UncontrolledTooltip>
+    </>
   );
 };
 

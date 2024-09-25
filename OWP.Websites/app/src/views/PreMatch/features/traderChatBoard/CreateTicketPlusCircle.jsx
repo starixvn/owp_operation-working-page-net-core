@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import ViewCreateTicketBoard from './ViewCreateTicketBoard';
 import useStableDispatch from '../../../Shared/customHook/useStableDispatch';
-import { setSelectedRecipients } from '../../../Shared/createTicketNew/createTicketBoardSliceNew';
+import { setDefaultRecipients } from '../../../Shared/createTicketNew/createTicketBoardSliceNew';
 
 const propTypes = {
   creatorInfo: PropTypes.any
@@ -14,12 +14,8 @@ const CreateTicketPlusCircle = props => {
   const { isOpenTicket, modelByRowIndex } = useSelector(
     state => state.chatBoard
   );
-
-  const { selectedRecipients, subTypeSelected, defaultRecipients } =
-    useSelector(state => state.createTicketBoard);
-
   useEffect(() => {
-    creatorInfo.userName && dispatch(setSelectedRecipients([creatorInfo]));
+    creatorInfo.userName && dispatch(setDefaultRecipients([creatorInfo]));
   }, [creatorInfo, dispatch]);
 
   return (
@@ -27,10 +23,7 @@ const CreateTicketPlusCircle = props => {
       {isOpenTicket && (
         <ViewCreateTicketBoard
           modelByRowIndex={modelByRowIndex}
-          defaultRecipients={defaultRecipients}
-          selectedRecipients={selectedRecipients}
           creatorInfo={creatorInfo}
-          subTypeSelected={subTypeSelected}
         />
       )}
     </>

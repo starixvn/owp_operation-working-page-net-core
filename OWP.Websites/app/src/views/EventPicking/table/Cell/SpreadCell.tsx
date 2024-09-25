@@ -6,19 +6,22 @@ import Utils from '../../../Shared/Utils';
 
 const { convertSpreadToPercent, convertToPercent } = Utils;
 
-const SpreadCell = (
-  { spread, spreadKey, infoSiteMatchId, leagueName, minorBettypeId, isChildMatch }: {
- 
-  infoSiteMatchId: number,
-  leagueName: string,
-    
-    minorBettypeId: number,
-    isChildMatch: boolean,
+const SpreadCell = ({
+  spread,
+  spreadKey,
+  infoSiteMatchId,
+  leagueName,
+  minorBettypeId,
+  isChildMatch,
+  isShowCheckButton
+}: {
+  infoSiteMatchId: number;
+  leagueName: string;
+  isShowCheckButton: boolean;
+  minorBettypeId: number;
+  isChildMatch: boolean;
   spread: number | string | undefined;
   spreadKey: 'maxbetHdp' | 'spreadOu' | 'spreadHdp';
-
- 
- 
 }) => {
   const spreadValue = convertSpreadToPercent(spread, false);
   const { mode } = store.getState().mode;
@@ -31,12 +34,17 @@ const SpreadCell = (
         isChildMatch={isChildMatch}
       />
     ),
-  [EDIT]: <SpreadEditableCell 
-    spreadKey={spreadKey} 
-    infoSiteMatchId={infoSiteMatchId}
-     spread={convertToPercent(spread)}
-      leagueName={leagueName}
-      minorBettypeId={minorBettypeId} />
+    [EDIT]: (
+      <SpreadEditableCell
+        isChildMatch={isChildMatch}
+        spreadKey={spreadKey}
+        infoSiteMatchId={infoSiteMatchId}
+        spread={convertToPercent(spread)}
+        leagueName={leagueName}
+        minorBettypeId={minorBettypeId}
+        isShowCheckButton={isShowCheckButton}
+      />
+    )
   };
   return component[mode];
 };

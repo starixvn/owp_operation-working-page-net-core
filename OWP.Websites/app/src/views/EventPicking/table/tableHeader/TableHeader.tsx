@@ -16,6 +16,9 @@ import CheckAllHeader from './CheckAllHeader';
 
 const TableHeader = () => {
   const {
+    pagePolicy: {
+      permission: { HasWrite }
+    },
     turnOverMarginPolicy: {
       permission: { HasRead }
     },
@@ -32,10 +35,7 @@ const TableHeader = () => {
         false: TABLE_HEADER
       }[`${HasRead}`].map((item, index) => {
         return (
-          <th
-            colSpan={item?.colSpan}
-            style={{ width: `${item.size}%` }}
-            key={index}>
+          <th colSpan={item?.colSpan} key={index}>
             <div className='header-table'>
               <span>{item.headerName}</span>
               {item?.isFilter && mode === VIEW && (
@@ -60,7 +60,7 @@ const TableHeader = () => {
                   columnKey={item.columnKey}
                 />
               )}
-              {item?.isHaveDropdown && (
+              {item?.isHaveDropdown && HasWrite && (
                 <div className='dropdown-wrap'>
                   <DropdownIcon
                     colorDropdown='black'

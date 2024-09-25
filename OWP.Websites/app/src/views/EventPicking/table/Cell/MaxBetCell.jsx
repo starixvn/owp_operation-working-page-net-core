@@ -20,7 +20,8 @@ const MaxBetCell = props => {
     infoSiteMatchId,
     leagueName,
     minorBettypeId,
-    isChildMatch
+    isChildMatch,
+    isShowCheckButton
   } = dataSource[rowIndex];
 
   const component = {
@@ -37,6 +38,8 @@ const MaxBetCell = props => {
         maxBet={convertThousandToK(maxbetHdp, false) || undefined}
         leagueName={leagueName}
         minorBettypeId={minorBettypeId}
+        isChildMatch={isChildMatch}
+        isShowCheckButton={isShowCheckButton}
       />
     )
   };
