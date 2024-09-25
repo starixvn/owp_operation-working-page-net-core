@@ -5,13 +5,11 @@ using Fanex.Data.Repository;
 
 public class QueryCriteria : CriteriaBase
 {
-    public int SiteId { get; set; }
-
     public DateTime? Date { get; set; }
 
     public string User { get; set; }
 
-    public string AllUserActive { get; set; }
+    public string AllUser { get; set; }
 
     public string SectionId { get; set; }
 
@@ -28,4 +26,14 @@ public class QueryCriteria : CriteriaBase
     public override bool IsValid() => Date.HasValue
         && !string.IsNullOrWhiteSpace(SectionId)
         && !string.IsNullOrWhiteSpace(LocationCode);
+}
+
+public class AllUser
+{
+    public int UserId { get; set; }
+
+    public bool IsActive {
+        get;
+        set;
+    }
 }

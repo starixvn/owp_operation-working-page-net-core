@@ -1,5 +1,6 @@
 ﻿using Fanex.NAP.Client.Services;
 using MathNet.Numerics;
+using Newtonsoft.Json;
 using OWP.WorkingShift.DailyWorkingShift.Criteria;
 
 
@@ -32,10 +33,11 @@ public class RepositoryImp : Repository
 
     public async Task<QueryResult> Query(QueryModel model)
     {
+        var allUser = await userService.GetBySiteAsync(napSettings.SiteId, null);
         var allUserActive = await userService.GetBySiteAsync(napSettings.SiteId, true);
+        
         var criteria = new QueryCriteria
         {
-            SiteId = napSettings.SiteId,
             ShiftId = model.ShiftId,
             Date = model.Date,
             ExcludeClosedAccount = model.ExcludeClosedAccount,
@@ -43,18 +45,27 @@ public class RepositoryImp : Repository
             SectionId = model.SectionId,
             DepartmentId = model.DepartmentId,
             User = model.User,
-            AllUserActive = string.Join(",", allUserActive.Select(u => u.Id))
+            AllUser = JsonConvert.SerializeObject(allUser.Select(u=>new
+            {
+                UserId=u.Id,
+                IsActive= allUserActive.Any(a=>a.Id==u.Id)
+            }))
         };
 
-        var fetchedData = await dynamicRepository.FetchMultipleAsync<QueryUser, QueryUserShift, QueryUserMatch, QueryMatchInfo, EmployeeWorkingShiftNote>(criteria);
-        var users = fetchedData.Item1;
-        var userShifts = fetchedData.Item2.ToList();
+        var (
+            users, 
+            queryUserShifts, 
+            queryUserMatches, 
+            queryMatchInfos, 
+            employeeWorkingShiftNotes
+            ) = await dynamicRepository.FetchMultipleAsync<QueryUser, QueryUserShift, QueryUserMatch, QueryMatchInfo, EmployeeWorkingShiftNote>(criteria);
+        var userShifts = queryUserShifts.ToList();
 
-        var userMatches = fetchedData.Item3.ToList();
+        var userMatches = queryUserMatches.ToList();
 
-        var userMatchInfos = fetchedData.Item4.ToList();
+        var userMatchInfos = queryMatchInfos.ToList();
 
-        var userNotes = fetchedData.Item5.ToList();
+        var userNotes = employeeWorkingShiftNotes.ToList();
 
         ProcessAssignmentNote(userMatches);
 
