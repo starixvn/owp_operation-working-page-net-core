@@ -1,4 +1,6 @@
-﻿using OWP.WorkingShift.DailyWorkingShift.Criteria;
+﻿using Fanex.NAP.Client.Services;
+using MathNet.Numerics;
+using OWP.WorkingShift.DailyWorkingShift.Criteria;
 
 
 namespace OWP.WorkingShift.DailyWorkingShift.Repositories;
@@ -11,6 +13,7 @@ public interface Repository
 public class RepositoryImp : Repository
 {
     private readonly IDynamicRepository dynamicRepository;
+    private readonly IUserService userService;
     private readonly INapSettings napSettings;
     private readonly List<int> ExcludeMinorBettypes = [-1, -2, -5, -8, -88, -89];
     private readonly List<int> SpecialMainMatchBettypes = [-1, -2, -88, -89];
@@ -20,14 +23,16 @@ public class RepositoryImp : Repository
     private const int Specific15MinsNoOfCornersBettype = -5;
     private const int Specific15MinsTotalBookingBettype = -8;
 
-    public RepositoryImp(IDynamicRepository dynamicRepository, INapSettings napSettings)
+    public RepositoryImp(IDynamicRepository dynamicRepository, INapSettings napSettings, IUserService userService)
     {
         this.dynamicRepository = dynamicRepository;
         this.napSettings = napSettings;
+        this.userService = userService;
     }
 
     public async Task<QueryResult> Query(QueryModel model)
     {
+        var allUserActive = await userService.GetBySiteAsync(napSettings.SiteId, true);
         var criteria = new QueryCriteria
         {
             SiteId = napSettings.SiteId,
@@ -37,9 +42,10 @@ public class RepositoryImp : Repository
             LocationCode = model.LocationCode,
             SectionId = model.SectionId,
             DepartmentId = model.DepartmentId,
-            User = model.User
+            User = model.User,
+            AllUserActive = string.Join(",", allUserActive.Select(u => u.Id))
         };
-        
+
         var fetchedData = await dynamicRepository.FetchMultipleAsync<QueryUser, QueryUserShift, QueryUserMatch, QueryMatchInfo, EmployeeWorkingShiftNote>(criteria);
         var users = fetchedData.Item1;
         var userShifts = fetchedData.Item2.ToList();
@@ -257,7 +263,7 @@ public class RepositoryImp : Repository
         return selectedMatches;
     }
 
-    private AssignmentStatistic CalculateAssignmentStats(DateTime fromDate, DateTime toDate, 
+    private AssignmentStatistic CalculateAssignmentStats(DateTime fromDate, DateTime toDate,
         IList<Assignment> assignments,
         IList<OWPMatch> fetchedMatches)
     {

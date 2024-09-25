@@ -11,6 +11,8 @@ public class QueryCriteria : CriteriaBase
 
     public string User { get; set; }
 
+    public string AllUserActive { get; set; }
+
     public string SectionId { get; set; }
 
     public string DepartmentId { get; set; }
