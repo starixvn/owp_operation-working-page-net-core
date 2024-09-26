@@ -32,7 +32,7 @@ public class BuildMainAndChildMatchesImp(Repository repository,
         buildChildMatchMaxBet.Build(mainMatches, childMatches, maxBet);
         buildMatchOffer.Build(mainMatches, childMatches, maxBet);
         var filteredMainMatches = RemoveTestingMatches(mainMatches).ToList();
-        var allMatches = SpecialProductHelper.CombineMainAndChildMatchEvent(filteredMainMatches, childMatches);
+        var allMatches = SpecialProductHelper.CombineMainAndChildMatchAndAddMatchNo(filteredMainMatches, childMatches);
         buildRowColor.BuildRowColor(allMatches);
         await buildProvider.Build(allMatches);
 

@@ -94,7 +94,8 @@ public class BuildMainAndChildMatchesUnitTests
                 OWPLeagueId = 111,
                 InfoSiteMatchId = 3333,
                 EventDateTime = new DateTime(2022, 11, 06),
-                RowColor = "white"
+                RowColor = "white",
+                MinorBettypeId = -3
             },
 
             new EventPickingModel
@@ -126,23 +127,25 @@ public class BuildMainAndChildMatchesUnitTests
                 LocalTV = "TV",
                 Round = "Round",
                 OutSide = "Outside",
-                RowColor = "white"
+                RowColor = "white",
+                MatchNo = "0001"
             },
-
-            new EventPickingModel
-            {
-                OWPLeagueId = 111,
-                InfoSiteMatchId = 3333,
-                EventDateTime = new DateTime(2022, 11, 06),
-                RowColor = "white"
-            },
-
             new EventPickingModel
             {
                 OWPLeagueId = 222,
                 InfoSiteMatchId = 3333,
                 EventDateTime = new DateTime(2022, 11, 7),
-                RowColor = "white"
+                RowColor = "white",
+                MatchNo = "0001"
+            },
+            new EventPickingModel
+            {
+                OWPLeagueId = 111,
+                InfoSiteMatchId = 3333,
+                EventDateTime = new DateTime(2022, 11, 06),
+                RowColor = "white",
+                MatchNo = "0001C",
+                MinorBettypeId = -3
             }
         ];
 }
