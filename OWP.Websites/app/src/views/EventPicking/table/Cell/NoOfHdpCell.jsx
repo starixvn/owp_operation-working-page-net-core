@@ -20,7 +20,6 @@ const NoOfHdpCell = props => {
     isChildMatch,
     isShowCheckButton
   } = dataSource[rowIndex];
-  dataSource[rowIndex];
 
   const component = {
     [VIEW]: (

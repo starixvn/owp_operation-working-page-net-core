@@ -50,7 +50,7 @@ public static class SpecialProductHelper
             childMatch.MatchNo = MatchNoHelper.BuildChildMatchNo(matchNo, childMatch.MinorBettypeId);
         }
 
-        childMatchesOfThisMainMatch.Sort((x, y) => x.MatchNo.CompareTo(y.MatchNo));
+        childMatchesOfThisMainMatch.Sort((x, y) => string.CompareOrdinal(x.MatchNo, y.MatchNo));
         return true;
     }
 
