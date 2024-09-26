@@ -23,7 +23,7 @@ public class SearchEmployeeWorkingShiftCriteria : CriteriaBase
 
     public int? OrderUserId { get; set; }
 
-    public string AllUser { get; set; }
+    public string AllUserJson { get; set; }
 
     public override string GetSettingKey() => "OWP_EmployeeWorkingShift_QueryWeekly";
 

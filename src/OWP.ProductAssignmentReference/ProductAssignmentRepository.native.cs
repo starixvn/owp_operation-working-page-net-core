@@ -1,5 +1,7 @@
 ﻿using Fanex.Data.Repository;
 using Fanex.NAP.Client.Configuration;
+using Fanex.NAP.Client.Services;
+using Newtonsoft.Json;
 using OWP.Models;
 using OWP.ProductAssignmentReference.Criteria;
 using OWP.ProductAssignmentReference.Models;
@@ -22,23 +24,32 @@ public class ProductAssignmentRepositoryImp : ProductAssignmentRepository
     private readonly IDynamicRepository dynamicRepository;
     private readonly INapSettings napSettings;
 
+    private readonly IUserService userService;
+
     public ProductAssignmentRepositoryImp(
         IDynamicRepository dynamicRepository,
-        INapSettings napSettings)
+        INapSettings napSettings,
+        IUserService userService)
     {
         this.dynamicRepository = dynamicRepository;
         this.napSettings = napSettings;
+        this.userService = userService;
     }
 
     public async Task<IList<UserInfo>> QueryUser(QueryUserInfo queryInfo)
     {
+        var allUserActive = await userService.GetBySiteAsync(napSettings.SiteId, true);
         var criteria = new UserInfoCriteria
         {
             RoleId = queryInfo.RoleId,
             User = queryInfo.User,
             SectionId = queryInfo.SectionId,
             LocationId = queryInfo.LocationId,
-            SiteId = napSettings.SiteId
+            AllUserJson = JsonConvert.SerializeObject(allUserActive.Select(u => new
+            {
+                UserId = u.Id,
+                IsActive = true
+            }))
         };
         return (await dynamicRepository.FetchAsync<UserInfo>(criteria)).ToList();
     }

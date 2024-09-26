@@ -14,7 +14,7 @@ public class CalculateKpiCriteria : CriteriaBase
 
     public bool ResignUser { get; set; }
 
-    public string AllUser { get; set; }
+    public string AllUserJson { get; set; }
 
     public override string GetSettingKey() => "OWP_Kpi_Get";
 

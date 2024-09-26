@@ -8,7 +8,9 @@ public class GetAllRecipientCriteria : CriteriaBase
 
     public bool IncludeSection { get; set; }
 
-    public int SiteId { get; set; }
+
+    // TODO
+    public string AllUserJson { get; set; }
 
     public override string GetSettingKey() => "OWP_TicketSetting_GetAllRecipients";
 

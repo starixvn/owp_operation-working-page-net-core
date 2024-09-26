@@ -9,7 +9,7 @@ public class QueryCriteria : CriteriaBase
 
     public string User { get; set; }
 
-    public string AllUser { get; set; }
+    public string AllUserJson { get; set; }
 
     public string SectionId { get; set; }
 

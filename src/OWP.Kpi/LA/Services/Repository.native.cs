@@ -45,7 +45,7 @@ public class RepositoryImp : Repository
             SectionIds = request.SectionIds,
             ActiveUser = request.ActiveUser,
             ResignUser = request.ResignUser,
-            AllUser = JsonConvert.SerializeObject(allUser.Select(u => new
+            AllUserJson = JsonConvert.SerializeObject(allUser.Select(u => new
             {
                 UserId = u.Id,
                 IsActive = allUserActive.Any(a => a.Id == u.Id)

@@ -12,7 +12,7 @@ public class UserInfoCriteria : CriteriaBase
 
     public string RoleId { get; set; }
 
-    public int SiteId { get; set; }
+    public string AllUserJson { get; set; }
 
     public override string GetSettingKey() => "OWP_ProductAssignment_GetUserBy_User_Role_Section_Location";
 

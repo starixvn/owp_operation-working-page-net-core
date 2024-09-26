@@ -35,7 +35,7 @@ public class RepositoryImp : Repository
     {
         var allUser = await userService.GetBySiteAsync(napSettings.SiteId, null);
         var allUserActive = await userService.GetBySiteAsync(napSettings.SiteId, true);
-        
+
         var criteria = new QueryCriteria
         {
             ShiftId = model.ShiftId,
@@ -45,18 +45,18 @@ public class RepositoryImp : Repository
             SectionId = model.SectionId,
             DepartmentId = model.DepartmentId,
             User = model.User,
-            AllUser = JsonConvert.SerializeObject(allUser.Select(u=>new
+            AllUserJson = JsonConvert.SerializeObject(allUser.Select(u => new
             {
-                UserId=u.Id,
-                IsActive= allUserActive.Any(a=>a.Id==u.Id)
+                UserId = u.Id,
+                IsActive = allUserActive.Any(a => a.Id == u.Id)
             }))
         };
 
         var (
-            users, 
-            queryUserShifts, 
-            queryUserMatches, 
-            queryMatchInfos, 
+            users,
+            queryUserShifts,
+            queryUserMatches,
+            queryMatchInfos,
             employeeWorkingShiftNotes
             ) = await dynamicRepository.FetchMultipleAsync<QueryUser, QueryUserShift, QueryUserMatch, QueryMatchInfo, EmployeeWorkingShiftNote>(criteria);
         var userShifts = queryUserShifts.ToList();
