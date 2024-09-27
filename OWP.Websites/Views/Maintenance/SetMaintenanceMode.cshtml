@@ -1,0 +1,20 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "Set Maintenance Mode";
+}
+
+<h2>Set Maintenance Mode</h2>
+
+<form asp-action="SetMaintenanceMode" method="post">
+    <label for="from">From:</label>
+    <input type="text" id="from" name="from" required />
+
+    <label for="to">To:</label>
+    <input type="text" id="to" name="to" required />
+
+    <button type="submit">Turn On Maintenance Mode</button>
+</form>
+
+<form asp-action="TurnOffMaintenanceMode" method="post">
+    <button type="submit">Turn Off Maintenance Mode</button>
+</form>

@@ -1,5 +1,6 @@
 using Fanex.Data;
 using Newtonsoft.Json;
+using OWP.Services;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -20,6 +21,7 @@ services.AddRedis(configuration);
 services.AddRedisSession(configuration);
 services.Configure<RabbitMQSetting>(configuration.GetSection(RabbitMQSetting.RabbitMQ));
 services.Configure<AppSettings>(configuration.GetSection(AppSettings.Key));
+services.AddSingleton<MaintenanceService>();
 
 services.AddSignalR(configuration);
 services.AddSimpleDataApiModule();
