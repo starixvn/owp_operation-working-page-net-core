@@ -80,4 +80,10 @@ public static class MaxbetHelper
             BettypeId = bettypeId,
             Value = defaultValue
         };
+
+    public static bool IsMatchETPK(int subType)
+        => Array.Exists(SubTypeETPK.SubTypeETPKs, i => i == subType);
+
+    public static bool IsETPKOfMainMatch(int subType)
+        => Array.Exists(SubTypeETPK.SubTypeETPKsOfMain, i => i == subType);
 }
