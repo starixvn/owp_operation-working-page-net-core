@@ -1,13 +1,12 @@
 ﻿using Fanex.Data.Repository;
 
-namespace OWP.SimpleDataApi.Criteria.TicketSetting;
+namespace OWP.TicketSetting.TicketTypeRecipient.Criteria;
 
 public class GetAllRecipientCriteria : CriteriaBase
 {
     public bool IncludeGroup { get; set; }
 
     public bool IncludeSection { get; set; }
-
 
     // TODO
     public string AllUserJson { get; set; }
