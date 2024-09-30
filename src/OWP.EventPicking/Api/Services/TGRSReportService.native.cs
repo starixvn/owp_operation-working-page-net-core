@@ -7,7 +7,7 @@ namespace OWP.EventPicking.Api.Services;
 
 public interface TGRSService
 {
-    Task<IList<TurnOverWinLossModel>> GetTurnOverWinLoss(GetTurnOverWinLossCriteria criteria);
+    Task<(IList<TurnOverWinLossModel>, bool)> GetTurnOverWinLoss(GetTurnOverWinLossCriteria criteria);
 }
 
 public class TGRSServiceImp : TGRSService
@@ -22,17 +22,17 @@ public class TGRSServiceImp : TGRSService
         this.richHttpClient = richHttpClient;
     }
 
-    public async Task<IList<TurnOverWinLossModel>> GetTurnOverWinLoss(GetTurnOverWinLossCriteria criteria)
+    public async Task<(IList<TurnOverWinLossModel>, bool)> GetTurnOverWinLoss(GetTurnOverWinLossCriteria criteria)
     {
         try
         {
             var requestUrl = $"{configuration.GetSection("TRGS_TurnOver_WinLoss_ApiEndpoint").Value}/LeaguePerformance/GetLeaguePerformance";
-            return await richHttpClient.Post<List<TurnOverWinLossModel>>(requestUrl, criteria);
+            return (await richHttpClient.Post<List<TurnOverWinLossModel>>(requestUrl, criteria), false);
         }
         catch (Exception exception)
         {
             await Logger.Log.ErrorAsync(exception.Message);
-            return new List<TurnOverWinLossModel>();
+            return (new List<TurnOverWinLossModel>(), true);
         }
     }
 }

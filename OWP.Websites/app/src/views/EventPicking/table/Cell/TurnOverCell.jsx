@@ -1,13 +1,15 @@
 import PropTypes from 'prop-types';
+import TGRUnavailableInfoIcon from '../../../../assets/svg-element/TGRUnavailableInfoIcon';
 
 const propTypes = {
   value: PropTypes.string,
   color: PropTypes.string,
-  name: PropTypes.string
+  name: PropTypes.string,
+  isTGRUnAvailable: PropTypes.bool
 };
 
 const TurnOverCell = props => {
-  const { value, color, name } = props;
+  const { value, color, name, isTGRUnAvailable } = props;
 
   return (
     <>
@@ -30,7 +32,7 @@ const TurnOverCell = props => {
           textAlign: 'right',
           paddingRight: '3px'
         }}>
-        {value}
+        {!isTGRUnAvailable ? <TGRUnavailableInfoIcon /> : value}
       </td>
     </>
   );

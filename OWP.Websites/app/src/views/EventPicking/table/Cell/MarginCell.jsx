@@ -1,12 +1,14 @@
 import PropTypes from 'prop-types';
+import TGRUnavailableInfoIcon from '../../../../assets/svg-element/TGRUnavailableInfoIcon';
 
 const propTypes = {
   value: PropTypes.string,
-  color: PropTypes.string
+  color: PropTypes.string,
+  isTGRUnAvailable: PropTypes.bool
 };
 
 const MarginCell = props => {
-  const { value, color } = props;
+  const { value, color, isTGRUnAvailable } = props;
   return (
     <td
       className='margin-cell'
@@ -15,7 +17,7 @@ const MarginCell = props => {
         textAlign: 'right',
         padding: '3px'
       }}>
-      {value}
+      {!isTGRUnAvailable ? <TGRUnavailableInfoIcon /> : value}
     </td>
   );
 };

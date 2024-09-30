@@ -341,6 +341,8 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
     [JsonIgnore]
     public MarginInfo MarginTwelveMonths { get; set; }
 
+    public bool IsTGRUnAvailable { get; set; }
+
     public IEnumerable<TurnOverInfo> TurnoverPeriod => new List<TurnOverInfo>{
         TurnoverOneMonth ,
         TurnoverThreeMonths,

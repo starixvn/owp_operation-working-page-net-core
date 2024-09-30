@@ -50,13 +50,19 @@ public class EventPickingOldController : ControllerBase
 
     [HttpGet]
     [NapAuth(FunctionKey = FunctionKeys.EventPicking, Policy = Constant.Policy.Read)]
-    public async Task<FileResult> EventPickingExcel(DateTime date)
+    public async Task<ActionResult> EventPickingExcel(DateTime date)
     {
 
         await accessCounter.UpdateCounter(AccessCounterConst.EventPicking_Export_Excel);
         var templatePath = Path.Combine("App_Data", "Templates", "EventPicking.xlsx");
-
-        return await DownloadExcel(templatePath, date);
+        try
+        {
+            return await DownloadExcel(templatePath, date);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, e);
+        }
     }
 
     private async Task<FileStreamResult> DownloadExcel(string templatePath, DateTime date)
