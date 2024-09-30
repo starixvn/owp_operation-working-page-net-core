@@ -1,4 +1,5 @@
-﻿using OWP.Event.EventShared.Models;
+﻿using Newtonsoft.Json;
+using OWP.Event.EventShared.Models;
 using OWP.Event.EventShared.Services;
 using OWP.Event.TaskList.Model;
 
@@ -28,8 +29,15 @@ public class GetEventByDayServiceImp : GetEventByDayService
         var taskListInfo = await taskListRepository.GetTaskListInfo(eventDate);
         await eventService.GetInfositeAndAdminsiteInfo(taskListInfo.MatchInfo.ToList());
 
-        var adminsiteIds = taskListInfo.MatchInfo.Select(x => x.AdminSiteId);
-        var completedMatchIds = await taskListRepository.GetCompletedMatchFromMainDb(adminsiteIds);
+        var matchInfo = taskListInfo
+            .MatchInfo
+            .Where(m=>m.AdminSiteId.HasValue)
+            .Select(x => new
+            {
+                matchId= x.AdminSiteId,
+                league= x.League
+            });
+        var completedMatchIds = await taskListRepository.GetCompletedMatchFromMainDb(JsonConvert.SerializeObject(matchInfo));
 
         var matchInfos = BuildEvents(taskListInfo, completedMatchIds);
 

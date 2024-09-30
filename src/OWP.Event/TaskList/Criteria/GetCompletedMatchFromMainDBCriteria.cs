@@ -4,7 +4,7 @@ namespace OWP.Event.TaskList.Criteria;
 
 public class GetCompletedMatchFromMainDBCriteria : CriteriaBase
 {
-    public string AdminSiteIds { get; set; }
+    public string MatchInfoJson { get; set; }
 
     public override bool IsValid() => true;
 
