@@ -69,6 +69,7 @@ public class SyncOffVRServiceImp : SyncOffVRService
         catch (Exception ex)
         {
             await LogError(requestUrl, json, ex, now);
+            throw new Exception(ex.Message);
         }
     }
 

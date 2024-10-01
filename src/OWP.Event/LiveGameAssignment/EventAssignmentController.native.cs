@@ -8,6 +8,7 @@ using Fanex.NAP.Client.Attributes;
 using Fanex.NAP.Client.Helpers.Business;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing.Template;
 using Models;
 using Newtonsoft.Json;
 using OWP.RabbitMQ.Constants;
@@ -15,6 +16,7 @@ using RabbitMQ;
 using Services;
 using System.Linq;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 [Route("api/event-assignment")]
 [ApiController]
@@ -132,7 +134,14 @@ public class EventAssignmentController : ControllerBase
     [NapAuth(FunctionKey = FunctionKeys.LiveGameAssignment, Policy = Constant.Policy.Host)]
     public async Task<IActionResult> SyncOffVR(SyncOffVRRequest model)
     {
-        await syncOffVrService.Sync(model.Date);
+        try
+        {
+            await syncOffVrService.Sync(model.Date);
+        }
+        catch
+        {
+            return StatusCode(500, new { IsAdminSiteUM = true });
+        }
 
         return Ok();
     }
