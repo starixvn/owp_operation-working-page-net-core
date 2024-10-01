@@ -21,15 +21,6 @@ public class HomeController(AccessCounter accessCounter, ICache cache) : Control
         return View();
     }
 
-    [AllowAnonymous]
-    public IActionResult MountUM()
-    {
-        bool mountedUMPage;
-        cache.TryGet("OWP_UM_Mounted", out mountedUMPage);
-        ViewBag.UMFlag = mountedUMPage;
-        return View();
-    }
-
     [Route("EventManagement/LiveDetail/Index/{id:int}")]
     [NapAuth(FunctionKey = FunctionKeys.DetailsInformation, Policy = Constant.Policy.Read)]
     public ActionResult LiveDetail(int? id) => View("~/wwwroot/live-detail/server.cshtml");

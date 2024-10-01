@@ -27,7 +27,6 @@ services.AddSignalR(configuration);
 services.AddSimpleDataApiModule();
 services.AddFanexData(configuration);
 services.AddNapServices(configuration);
-services.AddOneBookUm(configuration);
 services.AddFanexServices(configuration);
 services.AddGetNotificationQueue();
 services.AddCoreServices();

@@ -70,10 +70,12 @@ public class QueryEventPickingServiceImpTests
         _mockPermissionService.GetPermissions(FunctionKeys.EventPickingNew).Returns(functionPolicy);
         _mockPermissionService.GetPermissionModel(Arg.Any<string>()).Returns(permissions);
 
-        _mockTGRSService.GetTurnOverWinLoss(Arg.Any<GetTurnOverWinLossCriteria>()).Returns(Task.FromResult<IList<TurnOverWinLossModel>>(new List<TurnOverWinLossModel>
-        {
-            new() { LeagueName = "TestLeague", Turnover = 1000, WinLoss = 500 }
-        }));
+        _mockTGRSService.GetTurnOverWinLoss(Arg.Any<GetTurnOverWinLossCriteria>())
+            .Returns(Task.FromResult<(IList<TurnOverWinLossModel>, bool)>(
+                (new List<TurnOverWinLossModel>
+                {
+                    new() { LeagueName = "TestLeague", Turnover = 1000, WinLoss = 500 }
+                }, true)));
 
         // Act
         var result = await _service.Execute(request);
@@ -124,7 +126,8 @@ public class QueryEventPickingServiceImpTests
                 new TurnOverWinLossModel { LeagueName = "TestLeague", Turnover = 1000, WinLoss = 500 }
             };
 
-        _mockTGRSService.GetTurnOverWinLoss(Arg.Any<GetTurnOverWinLossCriteria>()).Returns(turnoverWinLossModels);
+        _mockTGRSService.GetTurnOverWinLoss(Arg.Any<GetTurnOverWinLossCriteria>())
+            .Returns(Task.FromResult<(IList<TurnOverWinLossModel>, bool)>((turnoverWinLossModels, true)));
 
         // Act
         await _service.CalculateTurnOver_Margin(request, matches);

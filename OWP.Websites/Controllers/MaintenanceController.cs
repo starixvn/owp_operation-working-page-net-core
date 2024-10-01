@@ -1,4 +1,5 @@
-﻿using OWP.Services;
+﻿using Microsoft.AspNetCore.Authorization;
+using OWP.Services;
 
 namespace OWP.Websites.Controllers;
 
@@ -19,6 +20,7 @@ public class MaintenanceMiddleware(RequestDelegate next, MaintenanceService main
     }
 }
 
+[AllowAnonymous]
 public class MaintenanceController(MaintenanceService maintenanceService) : Controller
 {
     [HttpGet]
