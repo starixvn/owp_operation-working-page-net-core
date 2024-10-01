@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { post } from '../../Shared/Service/Service';
-import { updateEvents, updateSpecialProduct } from '../const/const.json';
-import { TUpdateEvents, TUpdateSpecialProduct } from '../types/dataTableType';
+import { updateEvents } from '../const/const.json';
+import { TUpdateEvents } from '../types/dataTableType';
 import { buildUrl } from '../UtilsNative';
 
 const updateMainEventsThunk = createAsyncThunk<void, TUpdateEvents>(
@@ -12,13 +12,6 @@ const updateMainEventsThunk = createAsyncThunk<void, TUpdateEvents>(
   }
 );
 
-const updateSpecialProductThunk = createAsyncThunk<void, TUpdateSpecialProduct>(
-  'EventPicking/updateSpecialProduct',
-  async events => {
-    const url = buildUrl(updateSpecialProduct);
-    await post({ url, Events: events });
-  }
-);
 
-export { updateMainEventsThunk, updateSpecialProductThunk };
+export { updateMainEventsThunk };
 

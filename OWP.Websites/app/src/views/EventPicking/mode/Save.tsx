@@ -3,8 +3,7 @@ import { useAppDispatch } from '../app/hooks';
 import store from '../app/store';
 import { getEventPickings } from '../table/eventPickingTableSlice/eventSliceThunkNative';
 import {
-  updateMainEventsThunk,
-  updateSpecialProductThunk
+  updateMainEventsThunk
 } from './updateEventThunkNative';
 
 const Save = ({ onSetMode }: { onSetMode: () => void }) => {
@@ -26,20 +25,9 @@ const Save = ({ onSetMode }: { onSetMode: () => void }) => {
         LstNote: e.lstNote || null,
         Remark2LeagueManagement: e.remark2LeagueManagement || null
       }));
-    const specialProduct = eventModified
-      .filter(e => e.isChildMatch)
-      .map(e => ({
-        ParentId: e.infoSiteMatchId,
-        MinorBettypeId: e.minorBettypeId,
-        SpreadHdp: e.spreadHdp || null,
-        SpreadOu: e.spreadOu || null,
-        NoOfHDP: e.noOfHDP || null,
-        MaxbetHdp: e.maxbetHdp || null
-      }));
 
     await Promise.allSettled([
-      dispatch(updateMainEventsThunk(mainEvents)),
-      dispatch(updateSpecialProductThunk(specialProduct))
+      dispatch(updateMainEventsThunk(mainEvents))
     ]);
     Spinner.hide();
     const { param } = store.getState().filter;
