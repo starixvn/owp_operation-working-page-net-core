@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Olympus.OWP.Constants;
-using OWP.Api.Maxbet.Constants;
+using OWP.Api.Maxbet.Helpers;
 using OWP.Api.Maxbet.Services;
 
 namespace OWP.Api.Maxbet;
@@ -47,7 +47,7 @@ public class MaxbetController : ControllerBase
     [Produces("application/json")]
     public async Task<IActionResult> GetSpecialProduct(int matchId, int subType)
     {
-        if (IsMatchETPK(subType))
+        if (MaxbetHelper.IsMatchETPK(subType))
         {
             var maxbetETPKInfo = await ETPKMatchService.GetMaxBetETPK(matchId, subType);
             return maxbetETPKInfo is null ? NotFound()
@@ -64,7 +64,4 @@ public class MaxbetController : ControllerBase
 
         return Ok(maxbetInfo);
     }
-
-    private bool IsMatchETPK(int subType)
-        => Array.Exists(SubTypeETPK.SubTypeETPKs, i => i == subType);
 }

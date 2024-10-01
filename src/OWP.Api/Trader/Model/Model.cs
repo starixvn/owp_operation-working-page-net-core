@@ -11,7 +11,7 @@ public class OWPMatchRequest : MatchRequest
 {
     public int? MinorBettypeId { get; set; }
 
-    public bool IsMainMatch => Subtype == 0 && ParentId == 0;
+    public bool IsMainMatch { get; set; }
 }
 
 public class OWPAssignment

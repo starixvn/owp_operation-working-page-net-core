@@ -2,6 +2,8 @@
 using MediatR;
 using Newtonsoft.Json;
 using Olympus.OWP.Constants;
+using OWP.Api.Maxbet.Constants;
+using OWP.Api.Maxbet.Helpers;
 using OWP.Api.Trader.Criteria;
 using OWP.Api.Trader.Model;
 
@@ -12,15 +14,9 @@ public class TraderRequest : IRequest<IEnumerable<TraderMatch>>
     public List<MatchRequest> matches { get; set; }
 }
 
-public class GetTraderHandler : IRequestHandler<TraderRequest, IEnumerable<TraderMatch>>
+public class GetTraderHandler(IDynamicRepository dynamicRepository)
+    : IRequestHandler<TraderRequest, IEnumerable<TraderMatch>>
 {
-    private readonly IDynamicRepository dynamicRepository;
-
-    public GetTraderHandler(IDynamicRepository dynamicRepository)
-    {
-        this.dynamicRepository = dynamicRepository;
-    }
-
     public async Task<IEnumerable<TraderMatch>> Handle(TraderRequest request, CancellationToken cancellationToken)
     {
         var owpMatchRequest = MapSubtypeToBettype(request.matches);
@@ -40,17 +36,44 @@ public class GetTraderHandler : IRequestHandler<TraderRequest, IEnumerable<Trade
             });
     }
 
-    public List<OWPMatchRequest> MapSubtypeToBettype(List<MatchRequest> matches)
-        => matches.Select(match => new OWPMatchRequest
+    public IEnumerable<OWPMatchRequest> MapSubtypeToBettype(List<MatchRequest> matches)
+    {
+        foreach (var match in matches)
         {
-            MatchId = match.MatchId,
-            ParentId = match.ParentId,
-            Subtype = match.Subtype,
-            MinorBettypeId = GetMinorBettypeIdBySubtype(match.Subtype)
-        }).ToList();
+            var isETPKOfMainMatch = MaxbetHelper.IsETPKOfMainMatch(match.Subtype);
+            if (isETPKOfMainMatch)
+            {
+                yield return new OWPMatchRequest
+                {
+                    MatchId = match.MatchId,
+                    ParentId = match.ParentId,
+                    Subtype = 0,
+                    MinorBettypeId = 0,
+                    IsMainMatch = true
+                };
+            }
+            else
+            {
+                yield return new OWPMatchRequest
+                {
+                    MatchId = match.MatchId,
+                    ParentId = match.ParentId == 0 ? match.MatchId : match.ParentId,
+                    Subtype = match.Subtype,
+                    MinorBettypeId = GetMinorBettypeIdBySubtype(match.Subtype),
+                    IsMainMatch = match.Subtype == 0 && match.ParentId == 0
+                };
+            }
+        }
+    }
+
+    public static int GetSubtypeSpecial(int subtype)
+        => SubTypeETPK.SpecialSubType.GetValueOrDefault(subtype, subtype);
 
     private static int? GetMinorBettypeIdBySubtype(int subtype)
-        => subtype == 0 ? null : MinorBettype.GetMinorBettypeIdBySubtype(subtype);
+    {
+        var subtypeSpecial = GetSubtypeSpecial(subtype);
+        return subtype == 0 ? null : MinorBettype.GetMinorBettypeIdBySubtype(subtypeSpecial);
+    }
 
     public async Task<List<OWPAssignment>> GetTradersByAdminsiteMatchIds(IEnumerable<OWPMatchRequest> matches)
     {

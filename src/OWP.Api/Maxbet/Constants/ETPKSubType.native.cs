@@ -73,6 +73,15 @@ public static class SubTypeETPK
         AwaySingleTeamET
     ];
 
+    public static readonly int[] SubTypeETPKsOfMain =
+    [
+        MainMatchET,
+        MainMatchPK,
+        FutsalET,
+        FutsalPK,
+        SaBaPK
+    ];
+
     public static readonly ImmutableDictionary<int, int> SpecialSubType = new Dictionary<int, int>
     {
         {NoOfCornersET, NoOfCorners },
