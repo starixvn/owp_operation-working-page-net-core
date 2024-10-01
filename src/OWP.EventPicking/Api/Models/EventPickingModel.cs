@@ -286,6 +286,8 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
 
     public bool Confirmed { get; set; }
 
+    public bool IsSync { get; set; }
+
     // Main match
     public string LiveTV { get; set; }
 

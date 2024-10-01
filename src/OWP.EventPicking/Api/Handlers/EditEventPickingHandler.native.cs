@@ -69,6 +69,7 @@ public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, 
 
     private void SuggestionValue(EventPickingModel match, LeagueSettingInfoSender league)
     {
+        if (match.IsSync || match.ChildMatchId is not null) return;
         BuildRemark2(match, league);
         BuildLstNote(match, league);
         BuildMaxBet(match, league);
@@ -78,40 +79,34 @@ public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, 
     }
     private void BuildRemark2(EventPickingModel match, LeagueSettingInfoSender league)
     {
-        if (match.Remark2LeagueManagement != null) return;
         match.Remark2LeagueManagement = league.Remark2;
         match.IsReferenceLeagueManagement = true;
     }
 
     private void BuildLstNote(EventPickingModel match, LeagueSettingInfoSender league)
     {
-        if (match.LstNote != null) return;
         match.LstNote = league.LstNote;
         match.IsReferenceLeagueManagement = true;
     }
 
     private void BuildMaxBet(EventPickingModel match, LeagueSettingInfoSender league)
     {
-        if (match.MaxbetHdp != null) return;
         match.MaxbetHdp = IsWeekend(match.EventDateTime) ? league.MaxbetWK_HDP_Value : league.MaxbetWD_HDP_Value;
         match.IsReferenceLeagueManagement = true;
     }
 
     private void BuildSpreadHdp(EventPickingModel match, LeagueSettingInfoSender league)
     {
-        if (match.SpreadHdp != null) return;
         match.SpreadHdp = league.Spread_HDP_Value;
         match.IsReferenceLeagueManagement = true;
     }
     private void BuildSpreadOu(EventPickingModel match, LeagueSettingInfoSender league)
     {
-        if (match.SpreadOu != null) return;
         match.SpreadOu = league.Spread_OU_Value;
         match.IsReferenceLeagueManagement = true;
     }
     private void BuildNoOfHdp(EventPickingModel match, LeagueSettingInfoSender league)
     {
-        if (match.NoOfHDP != null) return;
         match.NoOfHDP = IsWeekend(match.EventDateTime)
             ? league.WK_NoOfHDP_Value
             : league.WD_NoOfHDP_Value;
