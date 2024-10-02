@@ -64,7 +64,6 @@ public static class ServiceCollectionExtensions
             mc.AddProfile(new Report.OvertimeReport.AutoMapperProfile());
             mc.AddProfile(new Report.PreMatchReport.AutoMapperProfile());
             mc.AddProfile(new PrematchAssignment.AutoMapperProfile());
-            mc.AddProfile(new AutoAssignment.AutoMapperProfile());
             mc.AddProfile(new OSLeagueSetting.AutoMapperProfile());
             mc.AddProfile(new Report.AutoMapperProfile());
             mc.AddProfile(new LeagueManagement.AutoMapperProfile());
@@ -166,7 +165,6 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddInternalServices(this IServiceCollection services)
     {
-        services.AddAutoAssignmentService();
         services.AddSyncMaxbet();
         services.AddOtherSport();
         services.AddProductAssignment();
