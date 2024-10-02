@@ -24,37 +24,8 @@
 		<Setting Key="OWP_User_GetSectionIdByUserId" SpName="OWP_User_GetSectionIdByUserId" DbName="DBOWP.bodb_OWP.wsv_owp" />
          <Setting Key="OWP_API_SyncUsers_Get_Change_From_AdminSite" SpName="OWP_API_SyncUsers_Get_Change_From_AdminSite" DbName="DBOWP.bodb_OWP.wsv_owp" />
     </Function>
-	<Function Name="AutoAssignment">
-        <Setting Key="OWP_AutoAssignmentRequest_GetAll" SpName="OWP_AutoAssignmentRequest_GetAll" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_AutoAssignment_GetUsersByDate" SpName="OWP_AutoAssignment_GetUsersByDate" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_AutoAssignmentRequest_Insert" SpName="OWP_AutoAssignmentRequest_Insert" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_AutoAssignmentResult_Insert" SpName="OWP_AutoAssignmentResult_Insert" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_AutoAssignment_GetRequestNew" SpName="OWP_AutoAssignment_GetRequestNew" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_AutoAssignmentRequest_Api_GetStatusByRequestId" SpName="OWP_AutoAssignmentRequest_Api_GetStatusByRequestId" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_AutoAssignmentRequest_Api_UpdateStatusRequestId" SpName="OWP_AutoAssignmentRequest_Api_UpdateStatusRequestId" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_AutoAssignment_GetRequestIsWaiting" SpName="OWP_AutoAssignment_GetRequestIsWaiting" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_AutoAssignment_RemoveRequestId" SpName="OWP_AutoAssignment_RemoveRequestId" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_AutoAssignment_GetCustInfoFromDB02" SpName="OWP_AutoAssignment_GetCustInfoFromDB02" DbName="DBACC.bodb02.wsv_nap" />
-        <Setting Key="OWP_AutoAssignment_GetUserInfoFromNAPUserControl" SpName="OWP_AutoAssignment_GetUserInfoFromNAPUserControl" DbName="DBPOL.NAP_UserControl.wsv_nap" />
-        <Setting Key="OWP_AutoAssignment_GetTradersByDate" SpName="OWP_AutoAssignment_GetTradersByDate" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_AutoAssignment_GetCommonRealMatchInfoByIds" SpName="OWP_AutoAssignment_GetCommonRealMatchInfoByIds" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_AutoAssignment_GetCommonSabaMatchInfoByIds" SpName="OWP_AutoAssignment_GetCommonSabaMatchInfoByIds" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_AutoAssignment_GetMaxMaxbet_FTHDP" SpName="OWP_AutoAssignment_GetMaxMaxbet_FTHDP" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_AutoAssignment_GetMaxMaxbetForRealMatch_FTHDP" SpName="OWP_AutoAssignment_GetMaxMaxbetForRealMatch_FTHDP" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_AutoAssignment_GetInfoSiteMatchByDate" SpName="OWP_AutoAssignment_GetInfoSiteMatchByDate" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_AutoAssignment_GetMaxBetCorner" SpName="OWP_AutoAssignment_GetMaxBetCorner" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_AutoAssignmentResult_Insert" SpName="OWP_AutoAssignmentResult_Insert" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_AutoAssignment_Export_GetLAInfo" SpName="OWP_AutoAssignment_Export_GetLAInfo" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_AutoAssignment_Export_GetTraderInfo" SpName="OWP_AutoAssignment_Export_GetTraderInfo" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_AutoAssignment_GetInfoSiteMatchByIdAndBetType" SpName="OWP_AutoAssignment_GetInfoSiteMatchByIdAndBetType" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_AutoAssignment_SaveEventHistory" SpName="OWP_AutoAssignment_SaveEventHistory" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_AutoAssignment_GetProviderInfoByIds" SpName="OWP_AutoAssignment_GetProviderInfoByIds" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_AutoAssignment_GetLeagueSettingInfo" SpName="OWP_AutoAssignment_GetLeagueSettingInfo" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_AutoAssignment_GetLatestRequestIdByDate" SpName="OWP_AutoAssignment_GetLatestRequestIdByDate" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_AutoAssignment_GetInfoSiteMatchResultByRequestId" SpName="OWP_AutoAssignment_GetInfoSiteMatchResultByRequestId" DbName="DBOWP.bodb_OWP.wsv_owp" />
-    </Function>
 
-    <Function Name="AssignmentUpload">
+  <Function Name="AssignmentUpload">
         <Setting Key="OWP_AssignmentUpload_AllMatchesByTimeRange" SpName="OWP_AssignmentUpload_AllMatchesByTimeRange" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_AssignmentUpload_GetNotificationSetting" SpName="OWP_AssignmentUpload_GetNotificationSetting" DbName="DBOWP.bodb_OWP.wsv_owp" />
 		<Setting Key="OWP_AssignmentUpload_GetSectionMemberOfUserReceivedWatcher" SpName="OWP_AssignmentUpload_GetSectionMemberOfUserReceivedWatcher" DbName="DBOWP.bodb_OWP.wsv_owp" />
@@ -276,7 +247,6 @@
         <Setting Key="OWP_PreMatchReport_GetReportForMatchByDateRange" SpName="OWP_PreMatchReport_GetReportForMatchByDateRange" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_PreMatchReport_GetAllUnassignedUsers" SpName="OWP_PreMatchReport_GetAllUnassignedUsers" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_AutoAssignment_GetCustInfoFromDB02" SpName="OWP_AutoAssignment_GetCustInfoFromDB02" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_AutoAssignment_GetUserInfoFromNAPUserControl" SpName="OWP_AutoAssignment_GetUserInfoFromNAPUserControl" DbName="DBPOL.NAP_UserControl.wsv_nap" />
     </Function>
     <Function Name="MatchLiveReport">
         <Setting Key="OWP_MatchLiveReport_GetByTimeRange" SpName="OWP_MatchLiveReport_GetByTimeRange" DbName="DBOWP.bodb_OWP.wsv_owp" />

@@ -47,13 +47,6 @@ public class HomeController(AccessCounter accessCounter, ICache cache) : Control
         return View("~/wwwroot/event-upload/server.cshtml");
     }
 
-    [Route("AutoAssignment")]
-    public async Task<ActionResult> AutoAssignment()
-    {
-        await accessCounter.UpdateCounter(AccessCounterConst.AutoAssignment);
-        return View("~/wwwroot/auto-assignment/server.cshtml");
-    }
-
     [Route("ResourceManagement")]
     [NapAuth(FunctionKey = FunctionKeys.UserManagement, Policy = Constant.Policy.Read)]
     public ActionResult ResourceManagement() => View("~/wwwroot/resource-management/server.cshtml");
