@@ -34,10 +34,9 @@ services.AddMediator();
 services.AddAutoMapper();
 services.AddInternalServices();
 services.AddRabbitMQ();
-
 services.AddCarter();
-
 services.AddWebOptimizer();
+
 var app = builder.Build();
 
 app.UseDeveloperExceptionPage();
