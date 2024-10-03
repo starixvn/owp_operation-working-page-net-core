@@ -32,8 +32,8 @@ const PairsPopup = props => {
     return (
       <div className='body'>
         <MajorPair/>
-       <MainPair/>
         <EarlyPair/>
+        <MainPair/>
         </div>
     );
   };

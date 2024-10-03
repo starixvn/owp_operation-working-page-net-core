@@ -6,10 +6,56 @@ const autoSlice = createSlice({
   initialState: {
     isAuto: false,
     pairs:{
-      major:[],
+      major:[{
+        userId: 8,
+        userName:'sa',
+        assignmentType: ASSIGNMENT_TYPE.MAIN,
+        bettype: BETTYPE.HDP
+      },
+      {
+        userId: 8,
+        userName:'sa',
+        assignmentType: ASSIGNMENT_TYPE.OTHER,
+        bettype: BETTYPE.HDP
+      },
+      {
+        userId: 8,
+        userName:'sa',
+        assignmentType: ASSIGNMENT_TYPE.MAIN,
+        bettype: BETTYPE.OU
+      },
+      {
+        userId: 8,
+        userName:'sa',
+        assignmentType: ASSIGNMENT_TYPE.OTHER,
+        bettype: BETTYPE.OU
+      }],
       main:[],
       early:[],
-      majorTakeOver:[]
+      majorTakeOver:[{
+        userId: 8,
+        userName:'starix15',
+        assignmentType: ASSIGNMENT_TYPE.MAIN,
+        bettype: BETTYPE.HDP
+      },
+      {
+        userId: 8,
+        userName:'starix15',
+        assignmentType: ASSIGNMENT_TYPE.OTHER,
+        bettype: BETTYPE.HDP
+      },
+      {
+        userId: 8,
+        userName:'starix15',
+        assignmentType: ASSIGNMENT_TYPE.MAIN,
+        bettype: BETTYPE.OU
+      },
+      {
+        userId: 8,
+        userName:'starix15',
+        assignmentType: ASSIGNMENT_TYPE.OTHER,
+        bettype: BETTYPE.OU
+      }]
     }
    
   },
