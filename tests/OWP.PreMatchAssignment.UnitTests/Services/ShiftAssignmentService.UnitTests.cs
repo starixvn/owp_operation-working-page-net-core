@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Fanex.NAP.Client.Helpers.Web;
+using Fanex.NAP.Client;
 using NSubstitute;
 using OWP.PrematchAssignment.Criteria;
 using OWP.PrematchAssignment.Handlers;

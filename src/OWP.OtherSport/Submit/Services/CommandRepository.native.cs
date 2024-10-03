@@ -1,5 +1,5 @@
 ﻿using Fanex.Data.Repository;
-using Fanex.NAP.Client.Helpers.Web;
+using Fanex.NAP.Client;
 using Olympus.Xml;
 using OWP.OtherSport.Submit.Criteria;
 using OWP.OtherSport.Submit.Models;

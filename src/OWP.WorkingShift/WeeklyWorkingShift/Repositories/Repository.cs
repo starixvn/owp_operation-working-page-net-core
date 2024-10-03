@@ -1,4 +1,5 @@
 ﻿
+using Fanex.NAP.Client;
 using Fanex.NAP.Client.Services;
 using OWP.WorkingShift.ViewLog.Models;
 

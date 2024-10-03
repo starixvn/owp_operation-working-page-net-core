@@ -1,4 +1,4 @@
-﻿using Fanex.NAP.Client.Helpers.Web;
+﻿using Fanex.NAP.Client;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OWP.NotificationSetting.Models;

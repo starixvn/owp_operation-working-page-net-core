@@ -1,4 +1,5 @@
 ﻿
+using Fanex.NAP.Client;
 using Xunit.Asserts.Compare;
 
 namespace OWP.WorkingShift.UnitTests.WeeklyWorkingShift.Controllers;
@@ -8,7 +9,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using NSubstitute;
 using Xunit;
-using Fanex.NAP.Client.Helpers.Web;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OWP.WorkingShift.Common.Models;

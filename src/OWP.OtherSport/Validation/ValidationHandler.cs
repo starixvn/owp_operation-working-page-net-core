@@ -1,10 +1,10 @@
-﻿using Fanex.NAP.Client.Helpers.Web;
-using MediatR;
+﻿using MediatR;
 using OWP.Extensions;
 using OWP.OtherSport.Validation.Exceptions;
 using OWP.OtherSport.Validation.Models;
 using OWP.OtherSport.Validation.Services;
 using System.Globalization;
+using Fanex.NAP.Client;
 
 namespace OWP.OtherSport.Validation;
 

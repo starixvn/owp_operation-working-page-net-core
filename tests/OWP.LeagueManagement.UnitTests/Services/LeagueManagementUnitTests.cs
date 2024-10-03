@@ -1,4 +1,4 @@
-using Fanex.NAP.Client.Helpers.Web;
+using Fanex.NAP.Client;
 using Newtonsoft.Json;
 using NSubstitute;
 using Olympus.Xml;

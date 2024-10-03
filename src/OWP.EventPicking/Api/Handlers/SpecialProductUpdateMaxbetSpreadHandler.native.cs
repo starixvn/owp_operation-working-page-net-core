@@ -1,5 +1,6 @@
 
 
+using Fanex.NAP.Client;
 using Newtonsoft.Json;
 using OWP.EventPicking.Api.Criteria;
 using OWP.EventPicking.Api.Models;

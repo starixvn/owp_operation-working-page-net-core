@@ -1,4 +1,4 @@
-﻿using Fanex.NAP.Client.Helpers.Web;
+﻿using Fanex.NAP.Client;
 using Fanex.NAP.Client.Models;
 using Microsoft.Extensions.Configuration;
 using OWP.Constants;

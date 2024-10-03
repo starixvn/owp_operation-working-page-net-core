@@ -8,7 +8,6 @@ using Fanex.NAP.Client.Attributes;
 using Fanex.NAP.Client.Helpers.Business;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing.Template;
 using Models;
 using Newtonsoft.Json;
 using OWP.RabbitMQ.Constants;
@@ -16,7 +15,6 @@ using RabbitMQ;
 using Services;
 using System.Linq;
 using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 [Route("api/event-assignment")]
 [ApiController]

@@ -1,7 +1,7 @@
 ﻿
 
+using Fanex.NAP.Client;
 using Fanex.NAP.Client.Helpers.Business;
-using Fanex.NAP.Client.Helpers.Web;
 using OWP.Enums;
 
 namespace OWP.Application.QuickSearch;

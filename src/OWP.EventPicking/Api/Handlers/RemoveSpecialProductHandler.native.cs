@@ -1,3 +1,4 @@
+using Fanex.NAP.Client;
 using OWP.CQRS;
 using OWP.EventPicking.Api.Criteria;
 using OWP.EventPicking.Api.Models;

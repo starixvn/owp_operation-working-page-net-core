@@ -1,7 +1,6 @@
 global using Carter;
 global using Fanex.NAP.Client;
 global using Fanex.NAP.Client.Configuration;
-global using Fanex.NAP.Client.Helpers.Web;
 global using Fanex.NAP.SignIn.Attribute;
 global using Microsoft.AspNetCore.Mvc;
 global using ONEbook.UM.AspNetCore.Filters;

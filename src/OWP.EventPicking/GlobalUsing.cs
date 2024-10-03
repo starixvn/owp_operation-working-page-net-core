@@ -1,11 +1,8 @@
 global using Epplus.Mapper.Annotations;
-global using Fanex.NAP.Client.Helpers.Web;
 global using MediatR;
 global using Microsoft.AspNetCore.Mvc;
-global using Microsoft.Extensions.Options;
 global using OfficeOpenXml;
 global using OWP.Extensions;
-global using OWP.Models;
 global using OWP.Services;
 global using OWP.Utils;
 global using System.Drawing;

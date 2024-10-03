@@ -1,5 +1,4 @@
 ﻿using Fanex.NAP.Client.Services;
-using MathNet.Numerics;
 using Newtonsoft.Json;
 using OWP.WorkingShift.DailyWorkingShift.Criteria;
 

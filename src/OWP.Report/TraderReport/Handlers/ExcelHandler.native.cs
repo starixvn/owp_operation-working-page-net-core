@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Fanex.NAP.Client.Helpers.Web;
+using Fanex.NAP.Client;
 using MediatR;
 using OfficeOpenXml;
 using OWP.Report.Models;

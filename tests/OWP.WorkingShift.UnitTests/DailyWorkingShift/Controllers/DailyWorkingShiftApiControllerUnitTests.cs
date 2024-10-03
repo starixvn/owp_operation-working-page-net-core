@@ -1,4 +1,4 @@
-﻿using Fanex.NAP.Client.Helpers.Web;
+﻿using Fanex.NAP.Client;
 using Microsoft.AspNetCore.Mvc;
 using OWP.WorkingShift.DailyWorkingShift.Controllers;
 using OWP.WorkingShift.DailyWorkingShift.Models;

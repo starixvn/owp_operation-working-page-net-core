@@ -1,4 +1,6 @@
-﻿namespace OWP.ProviderVerification.Handlers;
+﻿using Fanex.NAP.Client;
+
+namespace OWP.ProviderVerification.Handlers;
 
 public class SaveEstNoteRequest : IRequest<Unit>
 {

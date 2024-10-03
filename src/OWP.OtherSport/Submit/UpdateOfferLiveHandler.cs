@@ -1,10 +1,10 @@
-﻿using Fanex.NAP.Client.Helpers.Web;
-using MediatR;
+﻿using MediatR;
 using OWP.OtherSport.Submit.Models;
 using OWP.OtherSport.Submit.Services;
 using OWP.RabbitMQ;
 using OWP.RabbitMQ.Constants;
 using System.Globalization;
+using Fanex.NAP.Client;
 using Olympus.Xml;
 using OWP.OtherSport.Submit.Criteria;
 

@@ -1,4 +1,6 @@
 ﻿
+using Fanex.NAP.Client;
+
 namespace OWP.WorkingShift.WeeklyWorkingShift.Services;
 
 using Criteria;

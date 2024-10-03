@@ -1,5 +1,5 @@
 ﻿
-using Fanex.NAP.Client.Helpers.Web;
+using Fanex.NAP.Client;
 using OWP.TicketCenter.Criteria;
 using OWP.TicketCenter.Models;
 

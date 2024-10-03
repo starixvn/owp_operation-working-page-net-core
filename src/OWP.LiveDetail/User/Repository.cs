@@ -2,7 +2,6 @@
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Configuration;
 using Fanex.NAP.Client.Services;
-using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OWP.Criteria;
 using OWP.Extensions;

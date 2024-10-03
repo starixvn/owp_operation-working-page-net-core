@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Fanex.Data.Repository;
-using Fanex.NAP.Client.Helpers.Web;
+using Fanex.NAP.Client;
 using OWP.Extensions;
 
 namespace OWP.LiveDetail.MatchSetting;

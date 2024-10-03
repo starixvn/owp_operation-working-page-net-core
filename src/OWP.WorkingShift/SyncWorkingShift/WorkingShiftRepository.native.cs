@@ -1,7 +1,6 @@
 ﻿
 using Fanex.NAP.Client.Services;
 using Newtonsoft.Json;
-using OWP.WorkingShift.DailyWorkingShift.Criteria;
 using WorkingShiftModel = OWP.WorkingShift.SyncWorkingShift.Models.WorkingShiftModel;
 
 namespace OWP.WorkingShift.SyncWorkingShift;

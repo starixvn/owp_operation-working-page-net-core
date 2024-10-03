@@ -3,7 +3,6 @@ global using Fanex.Data.Repository;
 global using Fanex.NAP.Client.Attributes;
 global using Fanex.NAP.Client.Configuration;
 global using Fanex.NAP.Client.Helpers.Business;
-global using Fanex.NAP.Client.Helpers.Web;
 global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Mvc;
 global using OWP.Constants;

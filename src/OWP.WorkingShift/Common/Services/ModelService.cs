@@ -1,4 +1,6 @@
 ﻿
+using Fanex.NAP.Client;
+
 namespace OWP.WorkingShift.Common.Services;
 
 public interface ModelService

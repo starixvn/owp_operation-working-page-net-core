@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using Fanex.NAP.Client.Helpers.Web;
-using NPOI.SS.Formula.Functions;
+using Fanex.NAP.Client;
 using OWP.TicketCenter.Models;
 using OWP.TicketCenter.ViewModels;
 

@@ -1,4 +1,5 @@
 ﻿
+using Fanex.NAP.Client;
 using OWP.WorkingShift.Common.Repositories;
 namespace OWP.WorkingShift.WeeklyWorkingShift.Controllers;
 

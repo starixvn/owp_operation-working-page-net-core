@@ -1,5 +1,7 @@
 ﻿
 
+using Fanex.NAP.Client;
+
 namespace OWP.ProviderVerification;
 
 public interface ProviderVerificationRepository

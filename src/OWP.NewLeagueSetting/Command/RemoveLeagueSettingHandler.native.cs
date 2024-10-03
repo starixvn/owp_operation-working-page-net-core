@@ -1,4 +1,6 @@
-﻿namespace OWP.NewLeagueSetting.Command;
+﻿using Fanex.NAP.Client;
+
+namespace OWP.NewLeagueSetting.Command;
 
 public record RemoveLeagueSettingRequest(int LeagueSettingId) : Command<Unit>;
 

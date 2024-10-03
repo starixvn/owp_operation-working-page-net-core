@@ -1,4 +1,5 @@
-﻿using Fanex.NAP.Client.Helpers.Web;
+﻿using Fanex.NAP.Client;
+
 namespace OWP.OddsCompiler;
 using AutoMapper;
 using Criteria;

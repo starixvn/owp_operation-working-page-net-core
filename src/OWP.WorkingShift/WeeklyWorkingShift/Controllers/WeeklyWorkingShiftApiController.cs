@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Fanex.NAP.Client;
+using Newtonsoft.Json;
 
 namespace OWP.WorkingShift.WeeklyWorkingShift.Controllers;
 

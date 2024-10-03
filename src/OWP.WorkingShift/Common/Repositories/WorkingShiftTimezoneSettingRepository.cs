@@ -1,4 +1,6 @@
-﻿namespace OWP.WorkingShift.Common.Repositories;
+﻿using Fanex.NAP.Client;
+
+namespace OWP.WorkingShift.Common.Repositories;
 
 
 public interface WorkingShiftTimezoneSettingRepository

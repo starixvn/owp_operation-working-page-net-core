@@ -1,10 +1,10 @@
-﻿using Fanex.NAP.Client.Helpers.Web;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using OWP.AssignmentUpload.Validation.Exceptions;
 using OWP.AssignmentUpload.Validation.Models;
 using OWP.AssignmentUpload.Validation.Services;
 using System.Globalization;
+using Fanex.NAP.Client;
 
 namespace OWP.AssignmentUpload.Validation;
 
