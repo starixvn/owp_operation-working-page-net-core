@@ -29,7 +29,7 @@ services.AddTransient<ILogger, Logger>();
 services.AddSignalR(configuration);
 services.AddSimpleDataApiModule();
 services.AddFanexData(configuration);
-services.AddOneBookUm(configuration);
+services.AddMaintenance(configuration);
 services.AddNapClient(configuration);
 services.AddFanexServices(configuration);
 services.AddGetNotificationQueue();

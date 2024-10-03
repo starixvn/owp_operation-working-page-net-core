@@ -5,6 +5,7 @@ using Fanex.Logging;
 using Fanex.Logging.Extensions;
 using Fanex.Logging.Extensions.AspNetCore;
 using Fanex.Logging.Sentry.RavenClient;
+using Fanex.NAP.Client.Attributes;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection;
@@ -95,7 +96,6 @@ public static class ServiceCollectionExtensions
         });
         services.AddControllersWithViews(options =>
             {
-                options.Filters.Add(new ServiceFilterAttribute(typeof(CheckUMFilterAttribute)));
                 options.Filters.Add(new SessionAuthorizeAttribute());
             })
             .AddNewtonsoftJson(options =>
