@@ -12,7 +12,7 @@ public interface TaskListRepository
 
     public Task<DateTime> UpdateTradeStatus(int matchId);
 
-    Task<List<int>> GetCompletedMatchFromMainDb(IEnumerable<int?> adminsiteIds);
+    Task<List<int>> GetCompletedMatchFromMainDb(string matchInfoJson);
 }
 
 public class TaskListRepositoryImp : TaskListRepository
@@ -50,11 +50,11 @@ public class TaskListRepositoryImp : TaskListRepository
         return (await dynamicRepository.FetchAsync<DateTime>(criteria)).FirstOrDefault();
     }
 
-    public async Task<List<int>> GetCompletedMatchFromMainDb(IEnumerable<int?> adminsiteIds)
+    public async Task<List<int>> GetCompletedMatchFromMainDb(string matchInfoJson)
     {
         var criteria = new GetCompletedMatchFromMainDBCriteria
         {
-            AdminSiteIds = string.Join(",", adminsiteIds.Where(x => x.HasValue).Distinct())
+            MatchInfoJson = matchInfoJson
         };
 
         return (await dynamicRepository.FetchAsync<int>(criteria)).ToList();
