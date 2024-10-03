@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import shiftSlice from '../features/league/shiftSlice/shiftSlice';
 import editReducer from '../features/edit/editSlice';
+import autoReducer from '../features/auto/autoSlice';
 import filterReducer from '../features/filter/filterSlice';
 import deleteLeagueReducer from '../features/deletedLeague/deleteLeagueSlice';
 import changedLogReducer from '../features/changeLog/ChangeLogSlice';
@@ -28,6 +29,7 @@ const store = configureStore({
     chatBoard: chatBoardNewReducer,
     signalR: signalRReducer,
     note: noteSlice,
+    auto: autoReducer,
     createTicketBoard: createTicketBoardReducerNew
   },
   middleware: getDefaultMiddleware =>

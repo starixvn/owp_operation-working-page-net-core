@@ -1,3 +1,116 @@
+@mixin button-style($color, $background) {
+  border: 0;
+  height: 26px;
+  line-height: 26px;
+  text-transform: capitalize;
+  border-radius: 2px;
+  font-size: 13px;
+  color: $color;
+  background: $background;
+  padding: 0 1rem;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 2px -2px rgba(0, 0, 0, 0.2),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  transition: 0.2s ease all;
+
+  &:hover {
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.14),
+      0 3px 4px -2px rgba(0, 0, 0, 0.2), 0 1px 7px 0 rgba(0, 0, 0, 0.12);
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.modal-dialog{
+  .modal-header {
+    border-bottom: 0;
+
+    .modal-title{
+      .sun__icon{
+         height: 28px;
+         width: 24px;
+         background: url(../../assets/img/icon-sun.svg) no-repeat;
+        display: inline-block;
+      }
+      .title{
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 19.36px;
+      }
+    }
+  }
+  
+  .modal-body{
+    .body{
+      display: flex;
+      justify-content: space-between;
+
+      .assignment{
+       
+       justify-content: space-between;
+        margin-top: 10px;
+        display: flex;
+        .hdp__wrapper, .ou__wrapper{
+          width: 50%;
+          .hdp, .ou{
+            width: 95%;
+            border: 0.5px solid #1588F1
+          }
+
+          .input-field{
+            width: 95%;
+            margin-top: 5px;
+          }
+         
+        }
+
+        
+        
+        
+      }
+     
+      .major__pair--take-over{
+        margin-top: 20px;
+      }
+      .early__pair{
+        border-right: 2px solid #80808040;
+        border-left: 2px solid #80808040;
+      }
+      .wrapper{
+        text-align: center;
+        width: 100%;
+       
+
+        .title{
+          font-size: 14px;
+          font-weight: 700;
+          color: #0A80C2;
+        }
+      }
+    }
+  }
+  .modal-footer{
+    border-top: 0;
+
+    .btn-add {
+      @include button-style(#fff, blue);
+      margin-left: 10px;
+    
+      &:hover {
+        background: rgba($color: blue, $alpha: 0.8);
+        color: #fff;
+      }
+    }
+    
+    .btn-cancel {
+      @include button-style(#fff, #a3a3a3);
+    }
+  }
+}
+
+
 input::placeholder {
   color: #b1a9ae;
   opacity: 1;

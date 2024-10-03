@@ -2,11 +2,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeMode } from './editSlice';
 import dayjs from 'dayjs';
 import ToastrWrapper from './../../../components/ToastrWrapper';
+import {
+  UncontrolledButtonDropdown,
+  DropdownMenu,
+  DropdownItem,
+  DropdownToggle
+} from 'reactstrap';
+import { setAutoAssign } from '../auto/autoSlice';
+
 const EditComponent = () => {
   const dispatch = useDispatch();
   const { filterDate } = useSelector(state => state.filter);
 
-  const onEdit = () => {
+  const handleManualAssign = () => {
     const validEditedDate = dayjs(new Date()).add(-3, 'days');
 
     if (dayjs(filterDate).isBefore(validEditedDate)) {
@@ -16,10 +24,37 @@ const EditComponent = () => {
     }
     return dispatch(changeMode({ isEdit: true }));
   };
+
+  const EDIT_BUTTON={
+    TITLE:'Edit',
+    ITEMS:[{
+      title: 'Manual Assign',
+      handler: handleManualAssign
+    },{
+      title: 'Auto Assign',
+      handler: ()=> dispatch(setAutoAssign(true))
+    }]
+  };
+
   return (
-    <button className='button-submit' onClick={onEdit}>
-      Edit
-    </button>
+    <UncontrolledButtonDropdown>
+      <DropdownToggle
+        caret
+        className='button-submit'>
+        {EDIT_BUTTON.TITLE}
+      </DropdownToggle>
+      <DropdownMenu>
+        {
+          EDIT_BUTTON.ITEMS.map(({title, handler}, index)=>(
+            <DropdownItem
+          key={index}
+          onClick={handler}>
+          {title}
+        </DropdownItem>
+          ))
+        }
+      </DropdownMenu>
+    </UncontrolledButtonDropdown>
   );
 };
 
