@@ -98,6 +98,7 @@ public static class ServiceCollectionExtensions
         });
         services.AddControllersWithViews(options =>
             {
+                options.Filters.Add(new ServiceFilterAttribute(typeof(CheckUMFilterAttribute)));
                 options.Filters.Add(new SessionAuthorizeAttribute());
             })
             .AddNewtonsoftJson(options =>

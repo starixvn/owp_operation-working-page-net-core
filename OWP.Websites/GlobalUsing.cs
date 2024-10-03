@@ -4,6 +4,7 @@ global using Fanex.NAP.Client.Configuration;
 global using Fanex.NAP.Client.Helpers.Web;
 global using Fanex.NAP.SignIn.Attribute;
 global using Microsoft.AspNetCore.Mvc;
+global using ONEbook.UM.AspNetCore.Filters;
 global using OWP.Hubs;
 global using OWP.Models;
 global using OWP.OtherSport.Hubs;
