@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ASSIGHMENT_TYPE as ASSIGNMENT_TYPE, BETTYPE } from '../../const/const';
+import { ASSIGNMENT_TYPE, BETTYPE } from '../../const/const';
 
 const autoSlice = createSlice({
   name: 'auto',
