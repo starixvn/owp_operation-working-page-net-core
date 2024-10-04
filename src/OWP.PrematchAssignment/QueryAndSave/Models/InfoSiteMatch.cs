@@ -39,4 +39,6 @@ public class InfoSiteMatch
     public bool HasMessages => TicketList.Count > 0;
 
     public bool IsRead => TicketList.TrueForAll(x => x.IsRead);
+
+    public bool IsTest { get; set; }
 }

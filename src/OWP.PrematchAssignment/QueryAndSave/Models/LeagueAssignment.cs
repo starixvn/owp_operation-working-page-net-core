@@ -67,4 +67,6 @@ public class LeagueAssignment
     public bool IsEarlyOffered { get; set; }
 
     public List<TicketLeagueBasicInfo> TicketList { get; set; } = [];
+
+    public bool IsSaba => LeagueName.Contains("SABA", StringComparison.CurrentCultureIgnoreCase);
 }

@@ -1,4 +1,5 @@
-﻿using OWP.PrematchAssignment.Misc;
+﻿using OWP.PrematchAssignment.AutoAssignment.Services;
+using OWP.PrematchAssignment.Misc;
 using OWP.PrematchAssignment.Services;
 
 namespace OWP.Websites;
@@ -16,5 +17,13 @@ public static class PreMatchAssignmentInjector
         services.AddScoped<MaxbetSpreadService, MaxbetSpreadServiceImp>();
         services.AddScoped<ShiftAssignmentService, ShiftAssignmentServiceImp>();
         services.AddScoped<Repository, RepositoryImp>();
+
+        AddAutoAssignmentServices(services);
+    }
+    private static void AddAutoAssignmentServices(this IServiceCollection services)
+    {
+        services.AddScoped<PreprocessDataService, PreprocessDataServiceImp>();
+        services.AddScoped<ExcludeUnSupportedLeaguesService, ExcludeUnSupportedLeaguesServiceImp>();
+        services.AddScoped<GroupAndSortLeaguesService, GroupAndSortLeaguesService>();
     }
 }
