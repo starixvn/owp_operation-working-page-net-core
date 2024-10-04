@@ -57,13 +57,4 @@ public class FileUploadController : ControllerBase
 
         return PhysicalFile(file.FilePath, file.MediaType, file.Title);
     }
-
-    [Route("initial-old-data")]
-    [HttpGet]
-    public async Task<IActionResult> InitialOldData()
-    {
-        var response = await mediator.Send(new InitialOldDataHandler.InitialOldDataRequest());
-
-        return Ok(response.ToString());
-    }
 }
