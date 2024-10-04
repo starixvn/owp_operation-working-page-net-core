@@ -7,53 +7,25 @@ const autoSlice = createSlice({
     isAuto: false,
     pairs:{
       major:[{
-        userId: 8,
-        userName:'sa',
         assignmentType: ASSIGNMENT_TYPE.MAIN,
         bettype: BETTYPE.HDP
       },
       {
-        userId: 8,
-        userName:'sa',
-        assignmentType: ASSIGNMENT_TYPE.OTHER,
-        bettype: BETTYPE.HDP
-      },
-      {
-        userId: 8,
-        userName:'sa',
         assignmentType: ASSIGNMENT_TYPE.MAIN,
-        bettype: BETTYPE.OU
-      },
-      {
-        userId: 8,
-        userName:'sa',
-        assignmentType: ASSIGNMENT_TYPE.OTHER,
         bettype: BETTYPE.OU
       }],
       main:[],
       early:[],
       majorTakeOver:[{
-        userId: 8,
-        userName:'starix15',
+        userId: undefined,
+        userName:null,
         assignmentType: ASSIGNMENT_TYPE.MAIN,
         bettype: BETTYPE.HDP
       },
       {
-        userId: 8,
-        userName:'starix15',
-        assignmentType: ASSIGNMENT_TYPE.OTHER,
-        bettype: BETTYPE.HDP
-      },
-      {
-        userId: 8,
-        userName:'starix15',
+        userId: undefined,
+        userName:null,
         assignmentType: ASSIGNMENT_TYPE.MAIN,
-        bettype: BETTYPE.OU
-      },
-      {
-        userId: 8,
-        userName:'starix15',
-        assignmentType: ASSIGNMENT_TYPE.OTHER,
         bettype: BETTYPE.OU
       }]
     }
@@ -63,17 +35,6 @@ const autoSlice = createSlice({
     setAutoAssign: {
       reducer: (state, action) => {
         state.isAuto = action.payload;
-      }
-    },
-    newMajorPairs:{
-      reducer: (state, action) => {
-        const {
-          userId, userName, assignmentType,
-          bettype
-        }= action.payload;
-        state.pairs.major.push({
-          ...action.payload
-        });
       }
     },
     updateMajorPairs:{

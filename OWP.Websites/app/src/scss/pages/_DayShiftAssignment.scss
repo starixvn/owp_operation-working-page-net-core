@@ -33,6 +33,9 @@
          width: 24px;
          background: url(../../assets/img/icon-sun.svg) no-repeat;
         display: inline-block;
+        position: relative;
+    top: 6px;
+    margin-right: 10px;
       }
       .title{
         font-size: 16px;
@@ -47,6 +50,38 @@
       display: flex;
       justify-content: space-between;
 
+      .input__assignment{
+        position: relative;
+
+        .input__suggestion{
+          position: absolute;
+          border: 1px solid gray;
+          padding: 5px;
+          background-color: #fff;
+          top: 105%;
+          z-index: 1;
+          max-height: 200px;
+          overflow-y: auto;
+
+          .suggestion__item__container{
+            padding-left: 2px;
+          
+            .suggestion__item{
+              list-style: none;
+              text-align: left;
+              padding: 3px
+            }
+
+            .suggestion__item:hover{
+              background-color: #ececec;
+            }
+          }
+        }
+      }
+      .btn-add{
+        position: relative;
+        fill: #1e88e5;
+      }
       .assignment{
        
        justify-content: space-between;
@@ -60,15 +95,10 @@
           }
 
           .input-field{
-            width: 95%;
+            width: 80%;
             margin-top: 5px;
           }
-         
         }
-
-        
-        
-        
       }
      
       .major__pair--take-over{
