@@ -1,9 +1,9 @@
 ﻿namespace OWP.EventPicking.Api.Models;
 
-public class ExportLSTFormat: EventProductCommon
+public class ExportLSTFormat : EventProductCommon
 {
     [Cell("A2")]
-    public int No { get; set; }
+    public string MatchNo { get; set; }
 
     [Cell("AI2")]
     public int? MathId => GetMatchId();
@@ -38,6 +38,9 @@ public class ExportLSTFormat: EventProductCommon
     [Cell("V2")]
     public string Remark2 { get; set; }
 
+    [Cell("W2")]
+    public string Remark2LeagueManagement { get; set; }
+
     [Cell("X2")]
     public string WB { get; set; }
 
@@ -65,8 +68,8 @@ public class ExportLSTFormat: EventProductCommon
     [Cell("AH2")]
     public string Website4 { get; set; }
 
-    [Cell("H2")] 
-    public string MaxbetFormat => MaxBetHDPNumber.ToOWPMaxBetFormat(); 
+    [Cell("H2")]
+    public string MaxbetFormat => MaxBetHDPNumber.ToOWPMaxBetFormat();
 
     [Cell("I2")]
     public string Spread => SpreadHDP.ToOWPSpreadFormatPercent() + '-' + SpreadOU.ToOWPSpreadFormatPercent();

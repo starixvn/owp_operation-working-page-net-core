@@ -18,4 +18,8 @@ public interface EventProductCommon
     bool IsSaba { get; }
 
     public DateTime EventDateTime { get; set; }
+
+    public string MatchNo { get; set; }
+
+    public bool IsNoOffer { get; set; }
 }

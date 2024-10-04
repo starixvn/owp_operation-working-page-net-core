@@ -34,7 +34,7 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
         var validMatch = FilterAllMatchesByRequest(matches, request);
 
         var generatedMatches = await buildMainAndChildMatches.GetChildEventEventPicking(request.Date);
-        var allMatches = SpecialProductHelper.CombineMainAndChildMatchEvent(validMatch, generatedMatches);
+        var allMatches = SpecialProductHelper.CombineMainAndChildMatchAndAddMatchNo(validMatch, generatedMatches);
 
         if (turnoverMarginPolicy.IsRead)
         {

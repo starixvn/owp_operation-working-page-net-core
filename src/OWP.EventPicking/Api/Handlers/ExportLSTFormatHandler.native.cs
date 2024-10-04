@@ -12,17 +12,19 @@ public class ExportLSTFormatHandler(Repository repository, ExportService exportS
     public async Task<FileResult> Handle(ExportLSTFormatRequest request, CancellationToken cancellationToken)
     {
         var matches = await GetMatches(request.Date);
+
         return await exportService.BuildFileLSTStream(matches);
     }
 
     public async Task<IList<ExportLSTFormat>> GetMatches(DateTime date)
     {
-        var mainMatches =  GetMainMatches(date);
+        var mainMatches = GetMainMatches(date);
         var childMatches = GetChildMatch(date);
         await Task.WhenAll(mainMatches, childMatches);
         var allMatchesRaw =
-            SpecialProductHelper.CombineMainAndChildMatchEvent(mainMatches.Result, childMatches.Result.ToList());
+            SpecialProductHelper.CombineMainAndChildMatchAndAddMatchNo(mainMatches.Result, childMatches.Result.ToList());
         var allMatches = await BuildProviderAndNoInfo(allMatchesRaw);
+
         return allMatches;
     }
 
@@ -52,7 +54,6 @@ public class ExportLSTFormatHandler(Repository repository, ExportService exportS
 
         for (var i = 0; i < matches.Count; i++)
         {
-            matches[i].No = i + 1;
             matches[i].Agent = ProviderHelper.BuildProviderByOtherProvider(priorityProviders, matches[i].OtherProvider);
         }
 

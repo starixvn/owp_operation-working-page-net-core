@@ -15,4 +15,6 @@ public class MainEventMaxbetSpread
 
     [Cell("J2")]
     public string LstNote { get; set; }
+
+    public string Remark2LeagueManagement { get; set; }
 }
