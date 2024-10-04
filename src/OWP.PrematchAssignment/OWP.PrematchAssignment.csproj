@@ -9,8 +9,8 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="Models\PreMatchIssueNotifyHub.cs" />
-    <Compile Remove="Services\NotificationService.cs" />
+    <Compile Remove="QueryAndSave\Models\PreMatchIssueNotifyHub.cs" />
+    <Compile Remove="QueryAndSave\Services\NotificationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="..\..\.sonarlint\nap-owp-netcore\CSharp\SonarLint.xml" Link="SonarLint.xml" />

@@ -6,7 +6,7 @@ using OWP.PrematchAssignment.Handlers;
 using OWP.PrematchAssignment.Models;
 using OWP.PrematchAssignment.Services;
 
-namespace OWP.PrematchAssignment;
+namespace OWP.PrematchAssignment.QueryAndSave;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -132,12 +132,12 @@ public class PreMatchAssignmentController : ControllerBase
         if (isTicketLeague)
         {
             var leagueTicketsTask = await repository.QueryAllLeaguesTicket(new List<int> { id }, actorId);
-            tickets = [..leagueTicketsTask.SelectMany(x => x.Value).ToList()];
+            tickets = [.. leagueTicketsTask.SelectMany(x => x.Value).ToList()];
         }
         else
         {
             var matchTicketsTask = await repository.QueryAllMatchesTicket(new List<int> { id }, actorId);
-            tickets = [..matchTicketsTask.SelectMany(x => x.Value).ToList()];
+            tickets = [.. matchTicketsTask.SelectMany(x => x.Value).ToList()];
         }
 
         return Ok(JsonConvert.SerializeObject(tickets.OrderByDescending(x => x.LatestCreatedDate).ToList()));
