@@ -60,7 +60,6 @@ const buildKoOptions = (entities: TDataTable[]) =>
 const buildMbOptions = (entities: TDataTable[]) =>
   uniqBy(
     [...entities]
-   
       .sort(
         (first, second) =>
           (first.maxbetHdp ?? Number.MAX_SAFE_INTEGER) -
@@ -69,6 +68,36 @@ const buildMbOptions = (entities: TDataTable[]) =>
       .map(o => ({
         value: o.maxbetHdp || null,
         label: Utils.convertThousandToK(o.maxbetHdp, true) || '(Blanks)'
+      })),
+    i => i.value
+  );
+
+  const buildSpreadHdpOptions = (entities: TDataTable[]) =>
+  uniqBy(
+    [...entities]
+      .sort(
+        (first, second) =>
+          (first.spreadHdp ?? Number.MAX_SAFE_INTEGER) -
+          (second.spreadHdp ?? Number.MAX_SAFE_INTEGER)
+      )
+      .map(o => ({
+        value: o.spreadHdp || null,
+        label: Utils.convertSpreadToPercent(o.spreadHdp, true) || '(Blanks)'
+      })),
+    i => i.value
+  );
+
+   const buildSpreadOuOptions = (entities: TDataTable[]) =>
+  uniqBy(
+    [...entities]
+      .sort(
+        (first, second) =>
+          (first.spreadOu ?? Number.MAX_SAFE_INTEGER) -
+          (second.spreadOu ?? Number.MAX_SAFE_INTEGER)
+      )
+      .map(o => ({
+        value: o.spreadOu || null,
+        label: Utils.convertSpreadToPercent(o.spreadOu, true) || '(Blanks)'
       })),
     i => i.value
   );
@@ -84,10 +113,24 @@ const buildLeagueOptions = (entities: TDataTable[]) =>
     i => i.value
   );
 
+  const buildNoOfHdpOptions = (entities: TDataTable[]) =>
+  uniqBy(
+    [...entities]
+      .map(o => ({
+        value: o.noOfHDP||null,
+        label: o.noOfHDP|| '(Blanks)'
+      }))
+      .sort((a, b) => (a.value??'').localeCompare(b.value??'')),
+    i => i.value
+  );
+
 const buildMultipleFilterDefault = (entities: TDataTable[]) => {
   const koTimeOptions = buildKoOptions(entities);
   const mbOptions = buildMbOptions(entities);
   const leagueOptions = buildLeagueOptions(entities);
+  const spreadHdpOptions = buildSpreadHdpOptions(entities);
+  const spreadOuOptions = buildSpreadOuOptions(entities);
+  const noOfHdpOptions = buildNoOfHdpOptions(entities);
   return {
     [KO_TIME]: {
       isFilter: false,
@@ -103,6 +146,22 @@ const buildMultipleFilterDefault = (entities: TDataTable[]) => {
       isFilter: false,
       selected: leagueOptions,
       options: leagueOptions
+    },
+    [COLUMN_KEY.SPREAD_HDP]:{
+      isFilter: false,
+      selected: spreadHdpOptions,
+      options: spreadHdpOptions
+    }
+    ,
+    [COLUMN_KEY.SPREAD_OU]:{
+      isFilter: false,
+      selected: spreadOuOptions,
+      options: spreadOuOptions
+    },
+    [COLUMN_KEY['NO.OF_HDP']]:{
+      isFilter: false,
+      selected: noOfHdpOptions,
+      options: noOfHdpOptions
     }
   } as TMultipleFilter;
 };
@@ -111,16 +170,7 @@ const filterByProperty = (
   entities: TDataTable[],
   selectedValue: (number | string | null)[],
   property: keyof TDataTable
-) => {
-  const selectedSet = new Set(selectedValue);
-  return entities.filter(e => {
-    const value = e[property] ?? null;
-    if (typeof value === 'string' || typeof value === 'number' || value === null) {
-      return selectedSet.has(value);
-    }
-    return entities.filter(x => selectedValue.some(s => x[property] === s));
-  });
-};
+) => entities.filter(e => selectedValue.some(s => e[property] === s));
 
 const executeFilterTable = (
   state: TTableSlice,
@@ -134,6 +184,27 @@ const executeFilterTable = (
     state.filterState,
     filterByKeyword
   );
+  if(state.multipleFilter.SpreadHDP){
+    state.entities = filterByProperty(
+      state.entities,
+      state.multipleFilter.SpreadHDP.selected.map(x => x.value),
+      'spreadHdp'
+    );
+  }
+  if(state.multipleFilter.SpreadOU){
+    state.entities = filterByProperty(
+      state.entities,
+      state.multipleFilter.SpreadOU.selected.map(x => x.value),
+      'spreadOu'
+    );
+  }
+  if(state.multipleFilter.NoHDP){
+    state.entities = filterByProperty(
+      state.entities,
+      state.multipleFilter.NoHDP.selected.map(x => x.value),
+      'noOfHDP'
+    );
+  }
   if (state.multipleFilter.KO_Time) {
     state.entities = filterByProperty(
       state.entities,
@@ -142,7 +213,6 @@ const executeFilterTable = (
     );
   }
   if (state.multipleFilter.MB) {
-    debugger
     state.entities = filterByProperty(
       state.entities,
       state.multipleFilter.MB.selected.map(x => x.value),

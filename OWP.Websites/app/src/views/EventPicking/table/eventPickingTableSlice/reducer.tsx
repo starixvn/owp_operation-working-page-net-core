@@ -58,7 +58,22 @@ const EventPickingTableSlice = createSlice({
         isFilter: false,
         selected: [],
         options: []
-      }
+      },
+       SpreadHDP: {
+        isFilter: false,
+        selected: [],
+        options: []
+      },
+       SpreadOU: {
+        isFilter: false,
+        selected: [],
+        options: []
+      }, 
+      NoHDP: {
+        isFilter: false,
+        selected: [],
+        options: []
+      },
     }
   } as TTableSlice,
   reducers: {
@@ -100,6 +115,7 @@ const EventPickingTableSlice = createSlice({
       }>
     ) => {
       const { columnKey, selected } = action.payload;
+      
       state.multipleFilter[columnKey] = {
         ...state.multipleFilter[columnKey],
         isFilter:
@@ -109,6 +125,9 @@ const EventPickingTableSlice = createSlice({
       state.entities = executeFilterTable(state, filterByKeyword);
       state.isConfirmAll = state.entities?.every(x => x.isCheck);
       state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
+      if(columnKey==='SpreadHDP'){
+        console.log(state.entities);
+      }
     },
     setPreviousNoOfferRow: (state, action) => {
       state.previousNoOfferIndex = action.payload;

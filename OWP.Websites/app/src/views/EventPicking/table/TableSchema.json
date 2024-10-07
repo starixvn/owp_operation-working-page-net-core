@@ -2,7 +2,10 @@
   "COLUMN_KEY": {
     "KO_TIME": "KO_Time",
     "MB": "MB",
-    "LEAGUE": "League"
+    "LEAGUE": "League",
+    "SPREAD_HDP": "SpreadHDP",
+    "SPREAD_OU":"SpreadOU",
+    "NO.OF_HDP":"NoHDP"
   },
   "TABLE_HEADER": [
     {
@@ -40,16 +43,19 @@
     {
       "headerName": "Spread HDP",
       "size": 5,
+      "isFilterMultiple": true,
       "columnKey": "SpreadHDP"
     },
     {
       "headerName": "Spread OU",
       "size": 5,
+      "isFilterMultiple": true,
       "columnKey": "SpreadOU"
     },
     {
       "headerName": "No. HDP",
       "size": 7,
+      "isFilterMultiple": true,
       "columnKey": "NoHDP"
     },
     {
@@ -129,16 +135,19 @@
     {
       "headerName": "Spread HDP",
       "size": 5,
+       "isFilterMultiple": true,
       "columnKey": "SpreadHDP"
     },
     {
       "headerName": "Spread OU",
       "size": 5,
+       "isFilterMultiple": true,
       "columnKey": "SpreadOU"
     },
     {
       "headerName": "No. HDP",
       "size": 7,
+       "isFilterMultiple": true,
       "columnKey": "NoHDP"
     },
     {
