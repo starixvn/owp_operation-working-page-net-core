@@ -74,7 +74,7 @@ public static class ReadExcel
             {
                 if (decimal.TryParse(info.FTSpread, out var spread))
                 {
-                    info.FTSpread = $"{spread * 100}%";
+                    info.FTSpread = $"{(int)(spread * 100)}%";
                 }
             }
         }
