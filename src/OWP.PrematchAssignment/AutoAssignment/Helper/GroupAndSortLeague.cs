@@ -1,6 +1,6 @@
 ﻿using OWP.PrematchAssignment.Models;
 
-namespace OWP.PrematchAssignment.AutoAssignment.BalanceLeague.Helper;
+namespace OWP.PrematchAssignment.AutoAssignment.Helper;
 public class GroupAndSortLeague
 {
     public readonly List<string> mjLeagueGroups = new() { "MJ", "MJ.T1", "MJ.T2", "CL.MJ.Q", "INT.MJ", "World Cup", "EURO", "Others 1" };
@@ -11,7 +11,7 @@ public class GroupAndSortLeague
     {
         if (leagues == null || !leagues.Any()) return;
 
-        var fantasySabaLeague = leagues.Where(x=>x.LeagueName.Contains("SABA") || x.LeagueName.Contains("FANTASY")).ToList();
+        var fantasySabaLeague = leagues.Where(x => x.LeagueName.Contains("SABA") || x.LeagueName.Contains("FANTASY")).ToList();
         var remainingLeagues = GetLeaguesExcluding(leagues, fantasySabaLeague);
         var mjLeagues = BuildForMjLeagues(remainingLeagues);
     }

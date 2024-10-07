@@ -1,21 +1,11 @@
 ﻿using OWP.Constants;
 using OWP.PrematchAssignment.Models;
 
-namespace OWP.PrematchAssignment.AutoAssignment.Services;
+namespace OWP.PrematchAssignment.AutoAssignment.Helper;
 
-public interface ExcludeUnSupportedLeaguesService
+public static class ExcludeUnSupportedLeaguesHelper
 {
-    QueryPreMatchLeagueViewModel Handle(QueryPreMatchLeagueViewModel model);
-}
-
-public class ExcludeUnSupportedLeaguesServiceImp : ExcludeUnSupportedLeaguesService
-{
-    public QueryPreMatchLeagueViewModel Handle(QueryPreMatchLeagueViewModel model)
-    {
-        return FilterPreMatchLeagues(model);
-    }
-
-    public QueryPreMatchLeagueViewModel FilterPreMatchLeagues(QueryPreMatchLeagueViewModel model)
+    public static QueryPreMatchLeagueViewModel Filter(QueryPreMatchLeagueViewModel model)
     {
         var filteredModel = new QueryPreMatchLeagueViewModel();
         var supportedSabas = new List<string>
