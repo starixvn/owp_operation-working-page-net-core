@@ -60,6 +60,7 @@ const buildKoOptions = (entities: TDataTable[]) =>
 const buildMbOptions = (entities: TDataTable[]) =>
   uniqBy(
     [...entities]
+   
       .sort(
         (first, second) =>
           (first.maxbetHdp ?? Number.MAX_SAFE_INTEGER) -
@@ -141,6 +142,7 @@ const executeFilterTable = (
     );
   }
   if (state.multipleFilter.MB) {
+    debugger
     state.entities = filterByProperty(
       state.entities,
       state.multipleFilter.MB.selected.map(x => x.value),
