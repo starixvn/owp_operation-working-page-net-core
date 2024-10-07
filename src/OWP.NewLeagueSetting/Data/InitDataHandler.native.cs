@@ -18,6 +18,7 @@ public class InitDataHandler : IRequestHandler<InitDataRequest, IList<LeagueSett
     {
         var dataExcel = ReadExcel.LoadData(request.Stream);
 
+        ReadExcel.CorrectSpecialSpreadValue(dataExcel);
         var settingInfo = StandardizedLeagueInfo.Execute(dataExcel);
 
         await InitData(settingInfo, cancellationToken);

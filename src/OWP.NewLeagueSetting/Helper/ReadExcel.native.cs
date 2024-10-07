@@ -65,4 +65,18 @@ public static class ReadExcel
         return result;
     }
 
+    public static void CorrectSpecialSpreadValue(IList<LeagueSettingExcelInfo> excelInfo)
+    {
+        foreach (var info in excelInfo)
+        {
+            var regex = Pattern.SpreadSpecialRegex();
+            if (!string.IsNullOrWhiteSpace(info.FTSpread) && regex.IsMatch(info.FTSpread))
+            {
+                if (decimal.TryParse(info.FTSpread, out var spread))
+                {
+                    info.FTSpread = $"{(int)(spread * 100)}%";
+                }
+            }
+        }
+    }
 }
