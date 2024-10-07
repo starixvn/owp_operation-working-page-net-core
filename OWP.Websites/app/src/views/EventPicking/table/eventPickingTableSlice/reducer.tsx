@@ -74,6 +74,16 @@ const EventPickingTableSlice = createSlice({
         selected: [],
         options: []
       },
+      TOver: {
+        isFilter: false,
+        selected: [],
+        options: []
+      },
+      Margin: {
+        isFilter: false,
+        selected: [],
+        options: []
+      }
     }
   } as TTableSlice,
   reducers: {

@@ -1,4 +1,4 @@
-import { uniqBy } from 'lodash';
+import { forEach, uniqBy } from 'lodash';
 import { formatTime } from '../../Shared/DateTime/dateTimeHelper';
 import Utils, { filterDataTable } from '../../Shared/Utils';
 import { COLUMN_KEY } from '../table/TableSchema.json';
@@ -102,6 +102,56 @@ const buildMbOptions = (entities: TDataTable[]) =>
     i => i.value
   );
 
+  const buildTurnOverOptions = (entities: TDataTable[]) =>
+   uniqBy(
+    [...entities]
+    .reduce((previousValue, currentValue) =>{
+        currentValue.turnoverPeriod.forEach(tOver => {
+          previousValue.push({
+            value: tOver.value||null,
+            label: tOver.valueDisplay|| '(Blanks)'
+          } as never);
+        });
+      
+      return previousValue;
+    },[] as {
+      value: number|null,
+      label: string
+    }[])
+      .sort(
+        (first, second) =>
+          (first.value ?? Number.MAX_SAFE_INTEGER) -
+          (second.value ?? Number.MAX_SAFE_INTEGER)
+      )
+      ,
+    i => i.value
+  );
+
+  const buildMarginOptions = (entities: TDataTable[]) =>
+  uniqBy(
+    [...entities]
+    .reduce((previousValue, currentValue) =>{
+        currentValue.marginPeriod.forEach(margin => {
+          previousValue.push({
+            value: margin.value||null,
+            label: margin.valueDisplay|| '(Blanks)'
+          } as never);
+        });
+      
+      return previousValue;
+    },[] as {
+      value: number|null,
+      label: string
+    }[])
+      .sort(
+        (first, second) =>
+          (first.value ?? Number.MAX_SAFE_INTEGER) -
+          (second.value ?? Number.MAX_SAFE_INTEGER)
+      )
+      ,
+    i => i.value
+  );
+
 const buildLeagueOptions = (entities: TDataTable[]) =>
   uniqBy(
     [...entities]
@@ -131,6 +181,8 @@ const buildMultipleFilterDefault = (entities: TDataTable[]) => {
   const spreadHdpOptions = buildSpreadHdpOptions(entities);
   const spreadOuOptions = buildSpreadOuOptions(entities);
   const noOfHdpOptions = buildNoOfHdpOptions(entities);
+  const turnOverOptions = buildTurnOverOptions(entities);
+  const marginOptions = buildMarginOptions(entities);
   return {
     [KO_TIME]: {
       isFilter: false,
@@ -162,6 +214,16 @@ const buildMultipleFilterDefault = (entities: TDataTable[]) => {
       isFilter: false,
       selected: noOfHdpOptions,
       options: noOfHdpOptions
+    },
+    [COLUMN_KEY.TOVER]:{
+       isFilter: false,
+      selected: turnOverOptions,
+      options:turnOverOptions
+    },
+    [COLUMN_KEY.MARGIN]:{
+       isFilter: false,
+      selected: marginOptions,
+      options: marginOptions
     }
   } as TMultipleFilter;
 };

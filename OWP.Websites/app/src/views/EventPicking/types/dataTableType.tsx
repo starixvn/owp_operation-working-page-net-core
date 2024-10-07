@@ -80,7 +80,7 @@ type MarginInfo = {
   color: string;
 };
 
-type TColumnKey = 'MB' | 'KO_Time' | 'League' |'SpreadHDP'|'SpreadOU'|"NoHDP";
+type TColumnKey = 'MB' | 'KO_Time' | 'League' |'SpreadHDP'|'SpreadOU'|"NoHDP"|'TOver'|'Margin';
 
 type TMultipleColumnFilterOption = {
   [key in TColumnKey]: Option[];
