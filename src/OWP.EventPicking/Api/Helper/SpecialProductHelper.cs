@@ -19,7 +19,6 @@ public static class SpecialProductHelper
     public static List<T> CombineMainAndChildMatchAndAddMatchNo<T>(IList<T> mainMatches, IList<T> childMatches) where T : class, EventProductCommon
     {
         var matches = new List<T>();
-        mainMatches = SortMatches(mainMatches);
 
         var matchNo = 1;
         foreach (var mainMatch in mainMatches)

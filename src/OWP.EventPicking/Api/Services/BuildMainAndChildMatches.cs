@@ -48,14 +48,14 @@ public class BuildMainAndChildMatchesImp(Repository repository,
         buildMatchOffer.BuildForMainMatch(mainMatches.Result, maxBet.Result);
         var filteredMainMatches = RemoveTestingMatches(mainMatches.Result)
             .Where(x => !SpecialProductHelper.CheckMatchHaveBeenExclude(x.HomeName))
-            .OrderBy(x => x.IsSaba)
-            .ThenBy(x => x.EventDateTime)
             .ToList();
 
-        RAndDInfoHelper.Build(filteredMainMatches, rAndDInfo.Result);
-        buildRowColor.BuildRowColor(filteredMainMatches);
-        await buildProvider.Build(filteredMainMatches);
-        return filteredMainMatches;
+        var filteredMainMatchesSorted = SortEventPicking.Sort(filteredMainMatches);
+
+        RAndDInfoHelper.Build(filteredMainMatchesSorted, rAndDInfo.Result);
+        buildRowColor.BuildRowColor(filteredMainMatchesSorted);
+        await buildProvider.Build(filteredMainMatchesSorted);
+        return filteredMainMatchesSorted;
     }
 
     public async Task<List<EventPickingModel>> GetChildEventEventPicking(DateTime date)
