@@ -80,8 +80,23 @@ type MarginInfo = {
   color: string;
 };
 
-type TColumnKey = 'MB' | 'KO_Time' | 'League' |'SpreadHDP'|'SpreadOU'|"NoHDP"|'TOver'|'Margin';
-
+type TColumnKey =
+  | 'MB'
+  | 'KO_Time'
+  | 'League'
+  | 'SpreadHDP'
+  | 'SpreadOU'
+  | 'NoHDP';
+type TOrderKey = 'one_m' | 'three_m' | 'six_m' | 'twelve_m';
+type TOrderDirection = 'none' | 'asc' | 'desc';
+type TOverArrayToObject = Array<{
+  infoSiteMatchId: number;
+  childMatchId: number | null;
+  '1m'?: number | null;
+  '3m'?: number | null;
+  '6m'?: number | null;
+  '12m'?: number | null;
+}>;
 type TMultipleColumnFilterOption = {
   [key in TColumnKey]: Option[];
 };
@@ -91,6 +106,13 @@ type TMultipleFilter = {
     isFilter: boolean;
     selected: Option[];
     options: Option[];
+  };
+};
+
+type TMultipleOrder = {
+  [key in TOrderKey]?: {
+    isOrder: boolean;
+    direction: TOrderDirection;
   };
 };
 
@@ -107,6 +129,7 @@ type TTableSlice = {
   columnKeyFilterCurrent: string;
   filterState: Array<TFilterState>;
   multipleFilter: TMultipleFilter;
+  multipleOrder: TMultipleOrder;
   loading: string;
   previousNoOfferIndex: null | number;
 };
@@ -146,6 +169,7 @@ export {
   FilterAllColumn,
   TPermission,
   TMultipleFilter,
+  TMultipleOrder,
   TColumnKey,
   TResult,
   TMultipleColumnFilterOption,
@@ -153,5 +177,8 @@ export {
   TOpenPopupState,
   TActionOfSpecialProduct,
   TUpdateSpecialProduct,
-  TMatchOfferInfo
+  TMatchOfferInfo,
+  TOrderKey,
+  TOrderDirection,
+  TOverArrayToObject
 };

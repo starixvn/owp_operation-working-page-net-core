@@ -5,9 +5,7 @@
     "LEAGUE": "League",
     "SPREAD_HDP": "SpreadHDP",
     "SPREAD_OU":"SpreadOU",
-    "NO.OF_HDP":"NoHDP",
-    "TOVER":"TOver",
-    "MARGIN":"Margin"
+    "NO.OF_HDP":"NoHDP"
   },
   "TABLE_HEADER": [
     {
@@ -162,13 +160,12 @@
       "headerName": "Turnover",
       "size": 9,
       "columnKey": "TOver",
-       "isFilterMultiple": true,
+       "isMultipleOrder": true,
       "colSpan": 2
     },
     {
       "headerName": "Margin",
       "size": 4,
-       "isFilterMultiple": true,
       "columnKey": "Margin"
     },
     {

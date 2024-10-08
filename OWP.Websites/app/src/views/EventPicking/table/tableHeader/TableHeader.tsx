@@ -13,6 +13,7 @@ import { useState } from 'react';
 import useClickOutside from '../../../Shared/customHook/useClickOutside';
 import DropdownActionHeader from './DropdownActionHeader';
 import CheckAllHeader from './CheckAllHeader';
+import MultipleOrder from './MultipleOrder';
 
 const TableHeader = () => {
   const {
@@ -38,6 +39,7 @@ const TableHeader = () => {
           <th colSpan={item?.colSpan} key={index}>
             <div className='header-table'>
               <span>{item.headerName}</span>
+              {item?.isMultipleOrder && <MultipleOrder />}
               {item?.isFilter && mode === VIEW && (
                 <FilterHeader columnKey={item.columnKey} />
               )}

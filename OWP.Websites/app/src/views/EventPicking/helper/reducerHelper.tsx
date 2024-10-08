@@ -1,4 +1,4 @@
-import { forEach, uniqBy } from 'lodash';
+import { uniqBy } from 'lodash';
 import { formatTime } from '../../Shared/DateTime/dateTimeHelper';
 import Utils, { filterDataTable } from '../../Shared/Utils';
 import { COLUMN_KEY } from '../table/TableSchema.json';
@@ -72,83 +72,21 @@ const buildMbOptions = (entities: TDataTable[]) =>
     i => i.value
   );
 
-  const buildSpreadHdpOptions = (entities: TDataTable[]) =>
+const buildSpreadOptions = (
+  entities: TDataTable[],
+  property: 'spreadOu' | 'spreadHdp'
+) =>
   uniqBy(
     [...entities]
       .sort(
         (first, second) =>
-          (first.spreadHdp ?? Number.MAX_SAFE_INTEGER) -
-          (second.spreadHdp ?? Number.MAX_SAFE_INTEGER)
+          (first[property] ?? Number.MAX_SAFE_INTEGER) -
+          (second[property] ?? Number.MAX_SAFE_INTEGER)
       )
       .map(o => ({
-        value: o.spreadHdp || null,
-        label: Utils.convertSpreadToPercent(o.spreadHdp, true) || '(Blanks)'
+        value: o[property] || null,
+        label: Utils.convertSpreadToPercent(o[property], true) || '(Blanks)'
       })),
-    i => i.value
-  );
-
-   const buildSpreadOuOptions = (entities: TDataTable[]) =>
-  uniqBy(
-    [...entities]
-      .sort(
-        (first, second) =>
-          (first.spreadOu ?? Number.MAX_SAFE_INTEGER) -
-          (second.spreadOu ?? Number.MAX_SAFE_INTEGER)
-      )
-      .map(o => ({
-        value: o.spreadOu || null,
-        label: Utils.convertSpreadToPercent(o.spreadOu, true) || '(Blanks)'
-      })),
-    i => i.value
-  );
-
-  const buildTurnOverOptions = (entities: TDataTable[]) =>
-   uniqBy(
-    [...entities]
-    .reduce((previousValue, currentValue) =>{
-        currentValue.turnoverPeriod.forEach(tOver => {
-          previousValue.push({
-            value: tOver.value||null,
-            label: tOver.valueDisplay|| '(Blanks)'
-          } as never);
-        });
-      
-      return previousValue;
-    },[] as {
-      value: number|null,
-      label: string
-    }[])
-      .sort(
-        (first, second) =>
-          (first.value ?? Number.MAX_SAFE_INTEGER) -
-          (second.value ?? Number.MAX_SAFE_INTEGER)
-      )
-      ,
-    i => i.value
-  );
-
-  const buildMarginOptions = (entities: TDataTable[]) =>
-  uniqBy(
-    [...entities]
-    .reduce((previousValue, currentValue) =>{
-        currentValue.marginPeriod.forEach(margin => {
-          previousValue.push({
-            value: margin.value||null,
-            label: margin.valueDisplay|| '(Blanks)'
-          } as never);
-        });
-      
-      return previousValue;
-    },[] as {
-      value: number|null,
-      label: string
-    }[])
-      .sort(
-        (first, second) =>
-          (first.value ?? Number.MAX_SAFE_INTEGER) -
-          (second.value ?? Number.MAX_SAFE_INTEGER)
-      )
-      ,
     i => i.value
   );
 
@@ -163,14 +101,14 @@ const buildLeagueOptions = (entities: TDataTable[]) =>
     i => i.value
   );
 
-  const buildNoOfHdpOptions = (entities: TDataTable[]) =>
+const buildNoOfHdpOptions = (entities: TDataTable[]) =>
   uniqBy(
     [...entities]
       .map(o => ({
-        value: o.noOfHDP||null,
-        label: o.noOfHDP|| '(Blanks)'
+        value: o.noOfHDP || null,
+        label: o.noOfHDP || '(Blanks)'
       }))
-      .sort((a, b) => (a.value??'').localeCompare(b.value??'')),
+      .sort((a, b) => (a.value ?? '').localeCompare(b.value ?? '')),
     i => i.value
   );
 
@@ -178,11 +116,9 @@ const buildMultipleFilterDefault = (entities: TDataTable[]) => {
   const koTimeOptions = buildKoOptions(entities);
   const mbOptions = buildMbOptions(entities);
   const leagueOptions = buildLeagueOptions(entities);
-  const spreadHdpOptions = buildSpreadHdpOptions(entities);
-  const spreadOuOptions = buildSpreadOuOptions(entities);
+  const spreadHdpOptions = buildSpreadOptions(entities, 'spreadHdp');
+  const spreadOuOptions = buildSpreadOptions(entities, 'spreadOu');
   const noOfHdpOptions = buildNoOfHdpOptions(entities);
-  const turnOverOptions = buildTurnOverOptions(entities);
-  const marginOptions = buildMarginOptions(entities);
   return {
     [KO_TIME]: {
       isFilter: false,
@@ -199,31 +135,20 @@ const buildMultipleFilterDefault = (entities: TDataTable[]) => {
       selected: leagueOptions,
       options: leagueOptions
     },
-    [COLUMN_KEY.SPREAD_HDP]:{
+    [COLUMN_KEY.SPREAD_HDP]: {
       isFilter: false,
       selected: spreadHdpOptions,
       options: spreadHdpOptions
-    }
-    ,
-    [COLUMN_KEY.SPREAD_OU]:{
+    },
+    [COLUMN_KEY.SPREAD_OU]: {
       isFilter: false,
       selected: spreadOuOptions,
       options: spreadOuOptions
     },
-    [COLUMN_KEY['NO.OF_HDP']]:{
+    [COLUMN_KEY['NO.OF_HDP']]: {
       isFilter: false,
       selected: noOfHdpOptions,
       options: noOfHdpOptions
-    },
-    [COLUMN_KEY.TOVER]:{
-       isFilter: false,
-      selected: turnOverOptions,
-      options:turnOverOptions
-    },
-    [COLUMN_KEY.MARGIN]:{
-       isFilter: false,
-      selected: marginOptions,
-      options: marginOptions
     }
   } as TMultipleFilter;
 };
@@ -246,21 +171,21 @@ const executeFilterTable = (
     state.filterState,
     filterByKeyword
   );
-  if(state.multipleFilter.SpreadHDP){
+  if (state.multipleFilter.SpreadHDP) {
     state.entities = filterByProperty(
       state.entities,
       state.multipleFilter.SpreadHDP.selected.map(x => x.value),
       'spreadHdp'
     );
   }
-  if(state.multipleFilter.SpreadOU){
+  if (state.multipleFilter.SpreadOU) {
     state.entities = filterByProperty(
       state.entities,
       state.multipleFilter.SpreadOU.selected.map(x => x.value),
       'spreadOu'
     );
   }
-  if(state.multipleFilter.NoHDP){
+  if (state.multipleFilter.NoHDP) {
     state.entities = filterByProperty(
       state.entities,
       state.multipleFilter.NoHDP.selected.map(x => x.value),
@@ -299,4 +224,3 @@ export {
   updateConfirmedMatch,
   updateNoOfferMatch
 };
-
