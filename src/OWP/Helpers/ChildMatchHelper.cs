@@ -9,7 +9,7 @@ public static class ChildMatchHelper
 
     public static bool IsChildLeagues(string leagueName)
     {
-        return MinorLeagueMatches.Exists(x => leagueName.Contains(x, StringComparison.OrdinalIgnoreCase));
+        return MinorLeagueMatches.Exists(x => leagueName.EndsWith(x, StringComparison.OrdinalIgnoreCase));
     }
 
     private static ImmutableList<string> GetAllMinorLeagueMatches()
