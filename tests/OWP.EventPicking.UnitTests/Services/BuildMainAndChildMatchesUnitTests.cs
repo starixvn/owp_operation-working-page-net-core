@@ -70,7 +70,8 @@ public class BuildMainAndChildMatchesUnitTests
                 LocalTV = "TV",
                 Round = "Round",
                 OutSide = "Outside",
-                RowColor = "white"
+                RowColor = "white",
+                LeagueName = ""
             },
 
             new EventPickingModel
@@ -83,7 +84,8 @@ public class BuildMainAndChildMatchesUnitTests
                 Round = "Round",
                 OutSide = "Outside",
                 RowColor = "white",
-                IsTestMatch = true
+                IsTestMatch = true,
+                LeagueName = ""
             }
         ];
     public List<EventPickingModel> MockChildMatches()
@@ -128,7 +130,8 @@ public class BuildMainAndChildMatchesUnitTests
                 Round = "Round",
                 OutSide = "Outside",
                 RowColor = "white",
-                MatchNo = "0001"
+                MatchNo = "0001",
+                LeagueName = ""
             },
             new EventPickingModel
             {

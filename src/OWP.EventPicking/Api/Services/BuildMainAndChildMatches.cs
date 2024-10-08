@@ -31,7 +31,7 @@ public class BuildMainAndChildMatchesImp(Repository repository,
 
         buildChildMatchMaxBet.Build(mainMatches, childMatches, maxBet);
         buildMatchOffer.Build(mainMatches, childMatches, maxBet);
-        var filteredMainMatches = RemoveTestingMatches(mainMatches).ToList();
+        var filteredMainMatches = MainMatchHelper.Filter(mainMatches);
         var allMatches = SpecialProductHelper.CombineMainAndChildMatchAndAddMatchNo(filteredMainMatches, childMatches);
         buildRowColor.BuildRowColor(allMatches);
         await buildProvider.Build(allMatches);
@@ -46,16 +46,14 @@ public class BuildMainAndChildMatchesImp(Repository repository,
         var rAndDInfo = repository.GetRAndDUpdateInfo(date);
         await Task.WhenAll(mainMatches, maxBet, rAndDInfo);
         buildMatchOffer.BuildForMainMatch(mainMatches.Result, maxBet.Result);
-        var filteredMainMatches = RemoveTestingMatches(mainMatches.Result)
-            .Where(x => !SpecialProductHelper.CheckMatchHaveBeenExclude(x.HomeName))
-            .OrderBy(x => x.IsSaba)
-            .ThenBy(x => x.EventDateTime)
-            .ToList();
+        var filteredMainMatches = MainMatchHelper.Filter(mainMatches.Result);
 
-        RAndDInfoHelper.Build(filteredMainMatches, rAndDInfo.Result);
-        buildRowColor.BuildRowColor(filteredMainMatches);
-        await buildProvider.Build(filteredMainMatches);
-        return filteredMainMatches;
+        var filteredMainMatchesSorted = SortEventPicking.SortList(filteredMainMatches);
+
+        RAndDInfoHelper.Build(filteredMainMatchesSorted, rAndDInfo.Result);
+        buildRowColor.BuildRowColor(filteredMainMatchesSorted);
+        await buildProvider.Build(filteredMainMatchesSorted);
+        return filteredMainMatchesSorted;
     }
 
     public async Task<List<EventPickingModel>> GetChildEventEventPicking(DateTime date)
@@ -68,13 +66,9 @@ public class BuildMainAndChildMatchesImp(Repository repository,
         return generatedChildMatch;
     }
 
-
     private async Task<Dictionary<decimal, MaxBetSettingModel>> GetMaxBetDefaultSetting()
     {
         var maxBet = await mediator.Send(new QueryMaxbetSettingRequest());
         return maxBet.ToDictionary(x => x.FT_HDP);
     }
-
-    private static IEnumerable<EventPickingModel> RemoveTestingMatches(IEnumerable<EventPickingModel> mainMatches)
-        => mainMatches.Where(x => !x.IsTestMatch);
 }

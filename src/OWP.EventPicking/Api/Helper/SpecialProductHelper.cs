@@ -19,7 +19,6 @@ public static class SpecialProductHelper
     public static List<T> CombineMainAndChildMatchAndAddMatchNo<T>(IList<T> mainMatches, IList<T> childMatches) where T : class, EventProductCommon
     {
         var matches = new List<T>();
-        mainMatches = SortMatches(mainMatches);
 
         var matchNo = 1;
         foreach (var mainMatch in mainMatches)
@@ -52,13 +51,6 @@ public static class SpecialProductHelper
 
         childMatchesOfThisMainMatch.Sort((x, y) => string.CompareOrdinal(x.MatchNo, y.MatchNo));
         return true;
-    }
-
-    private static List<T> SortMatches<T>(IList<T> mainMatches) where T : class, EventProductCommon
-    {
-        return mainMatches.Where(x => !CheckMatchHaveBeenExclude(x.HomeName))
-            .OrderBy(x => x.IsSaba)
-            .ThenBy(x => x.EventDateTime).ToList();
     }
 
     public static (string leaguePostfix, string teamPostfix) BuildPostFixSpecialProduct(int? minorBettypeId)
