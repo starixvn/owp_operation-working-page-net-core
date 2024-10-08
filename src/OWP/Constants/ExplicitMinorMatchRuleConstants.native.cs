@@ -1,7 +1,7 @@
 ﻿using OWP.AssignmentUpload.Validation.Models;
 using System.Collections.Immutable;
 
-namespace OWP.AssignmentUpload.Validation.Constants;
+namespace OWP.Constants;
 
 public static class ExplicitMinorMatchRuleConstants
 {

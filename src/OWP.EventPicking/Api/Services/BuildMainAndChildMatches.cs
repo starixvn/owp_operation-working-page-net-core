@@ -1,5 +1,6 @@
 using OWP.EventPicking.Api.Helper;
 using OWP.EventPicking.Api.Models;
+using OWP.Helpers;
 using OWP.MaxbetSetting.Handlers;
 using OWP.MaxbetSetting.Models;
 
@@ -46,9 +47,7 @@ public class BuildMainAndChildMatchesImp(Repository repository,
         var rAndDInfo = repository.GetRAndDUpdateInfo(date);
         await Task.WhenAll(mainMatches, maxBet, rAndDInfo);
         buildMatchOffer.BuildForMainMatch(mainMatches.Result, maxBet.Result);
-        var filteredMainMatches = RemoveTestingMatches(mainMatches.Result)
-            .Where(x => !SpecialProductHelper.CheckMatchHaveBeenExclude(x.HomeName))
-            .ToList();
+        var filteredMainMatches = FilteredMainMatches(mainMatches.Result);
 
         var filteredMainMatchesSorted = SortEventPicking.SortList(filteredMainMatches);
 
@@ -56,6 +55,14 @@ public class BuildMainAndChildMatchesImp(Repository repository,
         buildRowColor.BuildRowColor(filteredMainMatchesSorted);
         await buildProvider.Build(filteredMainMatchesSorted);
         return filteredMainMatchesSorted;
+    }
+
+    private static List<EventPickingModel> FilteredMainMatches(IEnumerable<EventPickingModel> mainMatches)
+    {
+        return RemoveTestingMatches(mainMatches)
+            .Where(x => !ChildMatchHelper.IsChildLeagues(x.LeagueName) &&
+                        !SpecialProductHelper.CheckMatchHaveBeenExclude(x.HomeName))
+            .ToList();
     }
 
     public async Task<List<EventPickingModel>> GetChildEventEventPicking(DateTime date)
