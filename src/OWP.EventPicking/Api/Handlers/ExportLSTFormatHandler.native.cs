@@ -31,9 +31,7 @@ public class ExportLSTFormatHandler(Repository repository, ExportService exportS
     public async Task<IList<ExportLSTFormat>> GetMainMatches(DateTime date)
     {
         var matchesRaw = await repository.QueryEventPickingESTFormat(date);
-        var remainingMatches = RemoveTestingMatches(matchesRaw)
-            .Where(x => !CheckMatchHaveBeenExclude(x.HomeName))
-            .ToList();
+        var remainingMatches = MainMatchHelper.Filter(matchesRaw);
         return SortEventPicking.SortList(remainingMatches);
     }
 
@@ -55,9 +53,6 @@ public class ExportLSTFormatHandler(Repository repository, ExportService exportS
 
         return matches;
     }
-
-    private static bool CheckMatchHaveBeenExclude(string homeName)
-        => homeName.IsContains("(ET)") || homeName.IsContains("(PEN)");
 
     private static IEnumerable<ExportLSTFormat> RemoveTestingMatches(IEnumerable<ExportLSTFormat> matches)
         => matches.Where(x => !x.IsTestMatch);

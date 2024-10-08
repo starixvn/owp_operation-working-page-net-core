@@ -2,13 +2,13 @@
 
 namespace OWP.EventPicking.Api.Helper;
 
-public class SortEventPicking
+public static class SortEventPicking
 {
     public static List<T> SortList<T>(IList<T> matches) where T : class, EventProductCommon
     {
-        var saba15mins = " - 15 Mins Play";
-        var saba16mins = " - 16 Mins Play";
-        var saba20mins = " - 20 Mins Play";
+        const string saba15mins = " - 15 Mins Play";
+        const string saba16mins = " - 16 Mins Play";
+        const string saba20mins = " - 20 Mins Play";
 
         var orderPriority1stSaba = matches.Where(x =>
                 x.IsSaba &&
