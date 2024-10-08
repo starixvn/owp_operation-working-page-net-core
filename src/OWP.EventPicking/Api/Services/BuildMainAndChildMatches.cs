@@ -50,7 +50,7 @@ public class BuildMainAndChildMatchesImp(Repository repository,
             .Where(x => !SpecialProductHelper.CheckMatchHaveBeenExclude(x.HomeName))
             .ToList();
 
-        var filteredMainMatchesSorted = SortEventPicking.Sort(filteredMainMatches);
+        var filteredMainMatchesSorted = SortEventPicking.SortList(filteredMainMatches);
 
         RAndDInfoHelper.Build(filteredMainMatchesSorted, rAndDInfo.Result);
         buildRowColor.BuildRowColor(filteredMainMatchesSorted);

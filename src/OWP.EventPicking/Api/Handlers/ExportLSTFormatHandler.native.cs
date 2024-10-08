@@ -31,14 +31,10 @@ public class ExportLSTFormatHandler(Repository repository, ExportService exportS
     public async Task<IList<ExportLSTFormat>> GetMainMatches(DateTime date)
     {
         var matchesRaw = await repository.QueryEventPickingESTFormat(date);
-        var orderMatches = RemoveTestingMatches(matchesRaw)
+        var remainingMatches = RemoveTestingMatches(matchesRaw)
             .Where(x => !CheckMatchHaveBeenExclude(x.HomeName))
-            .OrderBy(x => x.IsSaba)
-            .ThenBy(x => x.EventDateTime)
-            .ThenBy(x => x.InfoSiteMatchId)
             .ToList();
-
-        return orderMatches;
+        return SortEventPicking.SortList(remainingMatches);
     }
 
     public async Task<IList<ExportLSTFormat>> GetChildMatch(DateTime date)

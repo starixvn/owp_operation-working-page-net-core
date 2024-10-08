@@ -4,7 +4,7 @@ namespace OWP.EventPicking.Api.Helper;
 
 public class SortEventPicking
 {
-    public static List<EventPickingModel> Sort(IList<EventPickingModel> matches)
+    public static List<T> SortList<T>(IList<T> matches) where T : class, EventProductCommon
     {
         var saba15mins = " - 15 Mins Play";
         var saba16mins = " - 16 Mins Play";
