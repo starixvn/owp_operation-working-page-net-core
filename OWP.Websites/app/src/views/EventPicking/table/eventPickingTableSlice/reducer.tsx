@@ -5,10 +5,12 @@ import updateNoOfferMatchThunk from '../updateNoOfferMatchThunkNative';
 import updateConfirmedThunk from '../updateConfirmedThunkNative';
 import {
   updateNoOfferMatch,
-  updateConfirmedMatch,
+  updateConfirmedMatch
+} from '../../helper/reducerHelper';
+import {
   buildMultipleFilterDefault,
   executeFilterTable
-} from '../../helper/reducerHelper';
+} from '../../helper/filterHelper';
 import TDataTable, {
   TTableSlice,
   TFilterState,
@@ -16,7 +18,7 @@ import TDataTable, {
   TColumnKey,
   TOrderKey,
   TOrderDirection,
-  TMultipleOrder
+  TOrder
 } from '../../types/dataTableType';
 import {
   addOrReplaceFilterState,
@@ -48,59 +50,56 @@ const EventPickingTableSlice = createSlice({
     loading: REQUEST_STATUS.idle,
     previousNoOfferIndex: null,
     multipleFilter: {
-      KO_Time: {
+      time: {
         isFilter: false,
         selected: [],
         options: []
       },
-      MB: {
+      maxbetHdp: {
         isFilter: false,
         selected: [],
         options: []
       },
-      League: {
+      leagueName: {
         isFilter: false,
         selected: [],
         options: []
       },
-      SpreadHDP: {
+      spreadHdp: {
         isFilter: false,
         selected: [],
         options: []
       },
-      SpreadOU: {
+      spreadOu: {
         isFilter: false,
         selected: [],
         options: []
       },
-      NoHDP: {
+      noOfHDP: {
+        isFilter: false,
+        selected: [],
+        options: []
+      },
+      rAndDInfo: {
         isFilter: false,
         selected: [],
         options: []
       }
     },
-    multipleOrder: {
-      one_m: {
-        isOrder: false,
-        direction: 'none'
-      }
-    } as TMultipleOrder
+    order: {} as TOrder
   } as TTableSlice,
   reducers: {
-    setMultipleOrder: (
+    setOrder: (
       state,
       action: PayloadAction<{ key: TOrderKey; direction: TOrderDirection }>
     ) => {
       const { key, direction } = action.payload;
-      state.multipleOrder = {
-        ...state.multipleOrder,
-        [key]: {
-          isOrder: true,
-          direction
-        }
+      state.order = {
+        key,
+        direction
       };
 
-      state.entities = executeOrderTable(state.entities, state.multipleOrder);
+      state.entities = executeOrderTable(state.entities, state.order);
     },
     setOpenPopupState: (state, action) => {
       const { key, value } = action.payload;
@@ -120,7 +119,7 @@ const EventPickingTableSlice = createSlice({
       const { filterState } = state;
       state.filterState = addOrReplaceFilterState(filterState, action.payload);
       state.entities = executeFilterTable(state, filterByKeyword);
-      state.entities = executeOrderTable(state.entities, state.multipleOrder);
+      state.entities = executeOrderTable(state.entities, state.order);
       state.isConfirmAll = state.entities?.every(x => x.isCheck);
       state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
     },
@@ -129,7 +128,7 @@ const EventPickingTableSlice = createSlice({
       state.filterState = [];
       state.valueFilterAllColumn = {};
       state.entities = entitiesOriginal;
-      state.entities = executeOrderTable(state.entities, state.multipleOrder);
+      state.entities = executeOrderTable(state.entities, state.order);
       state.isConfirmAll = state.entities?.every(x => x.isCheck);
       state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
       state.multipleFilter = buildMultipleFilterDefault(state.entitiesOriginal);
@@ -150,7 +149,7 @@ const EventPickingTableSlice = createSlice({
         selected
       };
       state.entities = executeFilterTable(state, filterByKeyword);
-      state.entities = executeOrderTable(state.entities, state.multipleOrder);
+      state.entities = executeOrderTable(state.entities, state.order);
 
       state.isConfirmAll = state.entities?.every(x => x.isCheck);
       state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
@@ -269,12 +268,7 @@ const EventPickingTableSlice = createSlice({
           state.filterState,
           filterByKeyword
         );
-        state.multipleOrder = {
-          one_m: {
-            isOrder: false,
-            direction: 'none'
-          }
-        };
+        state.order = {};
         state.multipleFilter = buildMultipleFilterDefault(state.entities);
         state.isConfirmAll = state.entities?.every(x => x.isCheck);
         state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
@@ -318,7 +312,7 @@ const {
   setOpenPopupState,
   setListMatchSelected,
   setAllMatchSelected,
-  setMultipleOrder
+  setOrder
 } = actions;
 
 export {
@@ -333,6 +327,6 @@ export {
   setOpenPopupState,
   setListMatchSelected,
   setAllMatchSelected,
-  setMultipleOrder
+  setOrder
 };
 export default reducer;

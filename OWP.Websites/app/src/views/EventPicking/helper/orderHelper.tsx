@@ -1,12 +1,12 @@
 import { orderBy } from 'lodash';
 import TDataTable, {
-  TMultipleOrder,
+  TOrder,
   TOrderDirection,
   TOverArrayToObject
 } from '../types/dataTableType';
 
 const getOrderDirection = (direction?: TOrderDirection) => {
-  if (!direction || direction === 'none') {
+  if (!direction) {
     return false;
   }
 
@@ -14,7 +14,7 @@ const getOrderDirection = (direction?: TOrderDirection) => {
 };
 
 const convertTOverArrayToObject = (entity: TDataTable[]) => {
-  const tOverArrayToObject: TOverArrayToObject = [];
+  const tOverArrayToObject: TOverArrayToObject[] = [];
 
   entity.forEach(element => {
     let turnoverObject = {};
@@ -34,7 +34,7 @@ const convertTOverArrayToObject = (entity: TDataTable[]) => {
 };
 
 const rebuildEntity = (
-  orderTOver: TOverArrayToObject,
+  orderTOver: TOverArrayToObject[],
   entity: TDataTable[]
 ) => {
   return orderTOver.reduce((previousValue, currentValue) => {
@@ -48,19 +48,24 @@ const rebuildEntity = (
   }, [] as TDataTable[]);
 };
 
-const executeOrderTable = (entity: TDataTable[], orderInfo: TMultipleOrder) => {
-  const tOverArrayToObject = convertTOverArrayToObject(entity);
+const executeOrderTable = (entity: TDataTable[], orderInfo: TOrder) => {
+  const entitiesHasTOver = entity.filter(
+    e =>
+      e.turnoverPeriod.length &&
+      e.turnoverPeriod.some(t => t.title === orderInfo.key && t.value)
+  );
+  const entitiesNoTOver = entity.filter(
+    e =>
+      !e.turnoverPeriod.length ||
+      e.turnoverPeriod.some(t => t.title === orderInfo.key && !t.value)
+  );
+  const tOverArrayToObject = convertTOverArrayToObject(entitiesHasTOver);
   const orderTOver = orderBy(
     tOverArrayToObject,
-    ['1m', '3m', '6m', '12m'],
-    [
-      getOrderDirection(orderInfo.one_m?.direction),
-      getOrderDirection(orderInfo.three_m?.direction),
-      getOrderDirection(orderInfo.six_m?.direction),
-      getOrderDirection(orderInfo.twelve_m?.direction)
-    ]
+    [orderInfo.key],
+    [getOrderDirection(orderInfo.direction)]
   );
-  return rebuildEntity(orderTOver, entity);
+  return rebuildEntity(orderTOver, entity).concat(entitiesNoTOver);
 };
 
 export { executeOrderTable };

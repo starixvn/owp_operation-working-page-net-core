@@ -27,11 +27,11 @@ public class RAndDInfoHelperUnitTest
         RAndDInfoHelper.Build(matches, rAndDInfos);
 
         // Assert
-        Assert.Equal(2, matches[0].RAndDInfos.Count);
-        Assert.Contains(rAndDInfos[0], matches[0].RAndDInfos);
-        Assert.Contains(rAndDInfos[1], matches[0].RAndDInfos);
+        Assert.Equal(2, matches[0].RAndDInfo.Count);
+        Assert.Contains(rAndDInfos[0], matches[0].RAndDInfo);
+        Assert.Contains(rAndDInfos[1], matches[0].RAndDInfo);
 
-        Assert.Single(matches[1].RAndDInfos);
-        Assert.Contains(rAndDInfos[2], matches[1].RAndDInfos);
+        Assert.Single(matches[1].RAndDInfo);
+        Assert.Contains(rAndDInfos[2], matches[1].RAndDInfo);
     }
 }

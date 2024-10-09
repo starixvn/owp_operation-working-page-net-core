@@ -27,6 +27,11 @@ type TMatchOfferInfo = {
   isNoOffer: boolean;
   eventDateTime: Required<Date>;
 };
+type TMultipleFilterPipe = {
+  entities: TDataTable[];
+  filterInfo: TMultipleFilter;
+};
+
 type TDataTable = TMatchOfferInfo & {
   minorBettypeId: number;
   tV: string;
@@ -64,6 +69,7 @@ type TDataTable = TMatchOfferInfo & {
   marginPeriod: MarginInfo[];
   isModified: boolean | undefined;
   isReferenceLeagueManagement: boolean;
+  rAndDInfo: Array<{ rAndDUpdate: string }>;
 };
 
 type TTurnOverInfo = {
@@ -81,22 +87,23 @@ type MarginInfo = {
 };
 
 type TColumnKey =
-  | 'MB'
-  | 'KO_Time'
-  | 'League'
-  | 'SpreadHDP'
-  | 'SpreadOU'
-  | 'NoHDP';
-type TOrderKey = 'one_m' | 'three_m' | 'six_m' | 'twelve_m';
-type TOrderDirection = 'none' | 'asc' | 'desc';
-type TOverArrayToObject = Array<{
+  | 'maxbetHdp'
+  | 'time'
+  | 'leagueName'
+  | 'spreadHdp'
+  | 'spreadOu'
+  | 'noOfHDP'
+  | 'rAndDInfo';
+type TOrderKey = '1m' | '3m' | '6m' | '12m';
+type TOrderDirection = 'asc' | 'desc';
+type TOverArrayToObject = {
   infoSiteMatchId: number;
   childMatchId: number | null;
   '1m'?: number | null;
   '3m'?: number | null;
   '6m'?: number | null;
   '12m'?: number | null;
-}>;
+};
 type TMultipleColumnFilterOption = {
   [key in TColumnKey]: Option[];
 };
@@ -109,11 +116,9 @@ type TMultipleFilter = {
   };
 };
 
-type TMultipleOrder = {
-  [key in TOrderKey]?: {
-    isOrder: boolean;
-    direction: TOrderDirection;
-  };
+type TOrder = {
+  key?: TOrderKey;
+  direction?: TOrderDirection;
 };
 
 type TTableSlice = {
@@ -129,7 +134,7 @@ type TTableSlice = {
   columnKeyFilterCurrent: string;
   filterState: Array<TFilterState>;
   multipleFilter: TMultipleFilter;
-  multipleOrder: TMultipleOrder;
+  order: TOrder;
   loading: string;
   previousNoOfferIndex: null | number;
 };
@@ -169,7 +174,7 @@ export {
   FilterAllColumn,
   TPermission,
   TMultipleFilter,
-  TMultipleOrder,
+  TOrder,
   TColumnKey,
   TResult,
   TMultipleColumnFilterOption,
@@ -180,5 +185,6 @@ export {
   TMatchOfferInfo,
   TOrderKey,
   TOrderDirection,
-  TOverArrayToObject
+  TOverArrayToObject,
+  TMultipleFilterPipe
 };

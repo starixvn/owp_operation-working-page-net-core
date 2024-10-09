@@ -7,13 +7,12 @@ import CheckboxHeader from './CheckboxHeader';
 import store from '../../app/store';
 import MultipleFilterHeader from './MultipleFilterHeader';
 import { TColumnKey } from '../../types/dataTableType';
-import { VIEW } from '../../mode/mode.json';
 import DropdownIcon from '../../../../assets/svg-element/DropdownIcon';
 import { useState } from 'react';
 import useClickOutside from '../../../Shared/customHook/useClickOutside';
 import DropdownActionHeader from './DropdownActionHeader';
 import CheckAllHeader from './CheckAllHeader';
-import MultipleOrder from './MultipleOrder';
+import Order from './Order';
 
 const TableHeader = () => {
   const {
@@ -39,11 +38,9 @@ const TableHeader = () => {
           <th colSpan={item?.colSpan} key={index}>
             <div className='header-table'>
               <span>{item.headerName}</span>
-              {item?.isMultipleOrder && <MultipleOrder />}
-              {item?.isFilter && mode === VIEW && (
-                <FilterHeader columnKey={item.columnKey} />
-              )}
-              {item?.isFilterMultiple && mode === VIEW && (
+              {item?.isOrder && <Order />}
+              {item?.isFilter && <FilterHeader columnKey={item.columnKey} />}
+              {item?.isFilterMultiple && (
                 <MultipleFilterHeader
                   columnKey={item.columnKey as TColumnKey}
                 />

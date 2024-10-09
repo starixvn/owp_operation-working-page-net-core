@@ -58,7 +58,7 @@ public class QueryEventPickingServiceImpTests
                 RowColor = "Red",
                 Provider = "yes",
                 OtherProvider = "yes",
-                RAndDInfos = [new() { UpdateTypeId = 1 }]
+                RAndDInfo = [new() { UpdateTypeId = 1 }]
             }
         };
 
@@ -115,7 +115,7 @@ public class QueryEventPickingServiceImpTests
                     RowColor = "Red",
                     Provider = "yes",
                     OtherProvider = "yes",
-                    RAndDInfos = [new RAndDInfo { UpdateTypeId = 1 }]
+                    RAndDInfo = [new RAndDInfo { UpdateTypeId = 1 }]
                 }
             };
 
@@ -173,7 +173,7 @@ public class QueryEventPickingServiceImpTests
                     Provider = "yes",
                     OtherProvider = "yes",
                     OWPLeagueId = 1,
-                    RAndDInfos = [new RAndDInfo { UpdateTypeId = 1 }]
+                    RAndDInfo = [new RAndDInfo { UpdateTypeId = 1 }]
                 },
                 new EventPickingRequest
                 {
@@ -199,7 +199,7 @@ public class QueryEventPickingServiceImpTests
                     Provider = "yes",
                     OtherProvider = "yes",
                     OWPLeagueId = 1,
-                    RAndDInfos = [new RAndDInfo { UpdateTypeId = 1 }]
+                    RAndDInfo = [new RAndDInfo { UpdateTypeId = 1 }]
                 },
                 new EventPickingRequest
                 {
@@ -225,7 +225,7 @@ public class QueryEventPickingServiceImpTests
                     Provider = "yes",
                     OtherProvider = "yes",
                     OWPLeagueId = 1,
-                    RAndDInfos = [new RAndDInfo { UpdateTypeId = 1 }]
+                    RAndDInfo = [new RAndDInfo { UpdateTypeId = 1 }]
                 },
                 new EventPickingRequest
                 {
@@ -251,7 +251,7 @@ public class QueryEventPickingServiceImpTests
                     Provider = "yes",
                     OtherProvider = "yes",
                     OWPLeagueId = 2,
-                    RAndDInfos = [new RAndDInfo { UpdateTypeId = 1 }]
+                    RAndDInfo = [new RAndDInfo { UpdateTypeId = 1 }]
                 },
                 new EventPickingRequest
                 {
@@ -277,7 +277,7 @@ public class QueryEventPickingServiceImpTests
                     Provider = "yes",
                     OtherProvider = "yes",
                     OWPLeagueId = 1,
-                    RAndDInfos = []
+                    RAndDInfo = []
                 },
                 new EventPickingRequest
                 {
@@ -303,7 +303,7 @@ public class QueryEventPickingServiceImpTests
                     Provider = "yes",
                     OtherProvider = "yes",
                     OWPLeagueId = 1,
-                    RAndDInfos = []
+                    RAndDInfo = []
                 },
                 new EventPickingRequest
                 {

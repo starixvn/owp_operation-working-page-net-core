@@ -119,7 +119,7 @@ public static class ExcelColorHelper
 
     private static void FillColorTeam(EventPickingModel match, int row, ExcelWorksheet templateSheet)
     {
-        var updateTeam = match.RAndDInfos?.Find(r => r.UpdateTypeId == RAndDColorConstant.UPDATE_TEAM);
+        var updateTeam = match.RAndDInfo?.Find(r => r.UpdateTypeId == RAndDColorConstant.UPDATE_TEAM);
         if (updateTeam is not null)
         {
             if (updateTeam.HomeUpdated)
@@ -202,5 +202,5 @@ public static class ExcelColorHelper
     }
 
     private static bool ExistsUpdateType(int updateType, EventPickingModel match)
-    => match.RAndDInfos is not null && match.RAndDInfos.Exists(r => r.UpdateTypeId == updateType);
+    => match.RAndDInfo is not null && match.RAndDInfo.Exists(r => r.UpdateTypeId == updateType);
 }
