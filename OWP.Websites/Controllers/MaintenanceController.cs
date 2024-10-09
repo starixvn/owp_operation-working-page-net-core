@@ -1,5 +1,4 @@
-﻿
-using OWP.Services;
+﻿using OWP.Services;
 
 namespace OWP.Websites.Controllers;
 
@@ -8,11 +7,13 @@ public class MaintenanceMiddleware(RequestDelegate next, MaintenanceService main
     public async Task InvokeAsync(HttpContext context)
     {
         var isUnderMaintenance = maintenanceService.IsUnderMaintenance();
-
         if (isUnderMaintenance && !context.Request.Path.StartsWithSegments("/Maintenance/Offline")
+                               && !context.Request.Path.StartsWithSegments("/Maintenance/SetMaintenanceMode")
                                && !context.Request.Path.StartsWithSegments("/Maintenance/TurnOffMaintenanceMode"))
         {
-            context.Response.Redirect("/Maintenance/Offline");
+            var fromTime = maintenanceService.GetFromTime();
+            var toTime = maintenanceService.GetToTime();
+            context.Response.Redirect($"/Maintenance/Offline?from={fromTime}&to={toTime}");
             return;
         }
 
@@ -31,17 +32,15 @@ public class MaintenanceController(MaintenanceService maintenanceService) : Cont
     [HttpPost]
     public IActionResult SetMaintenanceMode(bool isUnderMaintenance, string from, string to)
     {
-        maintenanceService.SetMaintenanceMode(isUnderMaintenance);
-        TempData["From"] = from;
-        TempData["To"] = to;
-        return RedirectToAction("Offline");
+        maintenanceService.SetMaintenanceMode(isUnderMaintenance, from, to);
+        return RedirectToAction("Offline", new { from, to });
     }
 
     [HttpGet]
-    public IActionResult Offline()
+    public IActionResult Offline(string from, string to)
     {
-        ViewBag.From = TempData["From"];
-        ViewBag.To = TempData["To"];
+        ViewBag.From = from;
+        ViewBag.To = to;
         return View("~/Views/Maintenance/Offline.cshtml");
     }
 

@@ -2,6 +2,7 @@ using Fanex.Data;
 using Fanex.Logging;
 using Newtonsoft.Json;
 using OWP.Services;
+using OWP.Websites.Controllers;
 using ILogger = Fanex.Logging.ILogger;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
@@ -47,6 +48,7 @@ app.UseDeveloperExceptionPage();
 app.UseWebOptimizer();
 app.UseTicketPathStaticFiles();
 app.UseStaticFiles();
+app.UseMiddleware<MaintenanceMiddleware>();
 app.UseRouting();
 
 app.UseCookiePolicy();
