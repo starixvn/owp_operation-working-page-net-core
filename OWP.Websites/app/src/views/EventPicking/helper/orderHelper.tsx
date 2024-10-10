@@ -49,6 +49,9 @@ const rebuildEntity = (
 };
 
 const executeOrderTable = (entity: TDataTable[], orderInfo: TOrder) => {
+  if (!orderInfo.key) {
+    return entity;
+  }
   const entitiesHasTOver = entity.filter(
     e =>
       e.turnoverPeriod.length &&

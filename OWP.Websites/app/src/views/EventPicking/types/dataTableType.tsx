@@ -65,21 +65,15 @@ type TDataTable = TMatchOfferInfo & {
   eTPK: string;
   isCheck: boolean;
   rowColor: string;
-  turnoverPeriod: TTurnOverInfo[];
-  marginPeriod: MarginInfo[];
   isModified: boolean | undefined;
   isReferenceLeagueManagement: boolean;
-  rAndDInfo: Array<{ rAndDUpdate: string }>;
+  rAndDInfo: Array<{ rAndDUpdate: string; updateTypeId: number }>;
+  turnoverPeriod: TWinLoss[];
+  marginPeriod: TWinLoss[];
+  rowSpan: number;
 };
 
-type TTurnOverInfo = {
-  title: string;
-  valueDisplay: string;
-  value: number;
-  color: string;
-};
-
-type MarginInfo = {
+type TWinLoss = {
   title: string;
   valueDisplay: string;
   value: number;
@@ -134,6 +128,11 @@ type TTableSlice = {
   columnKeyFilterCurrent: string;
   filterState: Array<TFilterState>;
   multipleFilter: TMultipleFilter;
+  rAndDInfoFilterOriginal: {
+    isFilter: boolean;
+    selected: Option[];
+    options: Option[];
+  };
   order: TOrder;
   loading: string;
   previousNoOfferIndex: null | number;

@@ -23,7 +23,7 @@ import { getUpdateTypes } from './filterThunkNative';
 import Utils from '../../../Shared/Utils';
 
 const {
-  VALUE: { ONE_MONTH, THREE_MONTHS, SIX_MONTHS, TWELVE_MONTH }
+  VALUE: { ONE_MONTH }
 } = PERIOD;
 
 const filterSlice = createSlice({
@@ -58,8 +58,7 @@ const filterSlice = createSlice({
   },
   extraReducers: builder => {
     builder.addCase(getUpdateTypes.fulfilled, (state, { payload }) => {
-      const noneOption = NONE_OPTION as Option;
-      state.updateTypes = payload.concat(noneOption);
+      state.updateTypes = payload.concat(NONE_OPTION);
       state.param[UPDATE_TYPE] = state.updateTypes.map(m => m.value);
     });
   }

@@ -11,7 +11,7 @@ const MarginCell = props => {
     <td
       className='margin-cell'
       style={{
-        color: color,
+        color,
         textAlign: 'right',
         padding: '3px'
       }}>

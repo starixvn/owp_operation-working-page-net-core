@@ -3,6 +3,7 @@ import { uniqBy } from 'lodash';
 import { formatTime } from '../../Shared/DateTime/dateTimeHelper';
 import Utils, { filterDataTable } from '../../Shared/Utils';
 import { COLUMN_KEY } from '../table/TableSchema.json';
+import { Option } from '../../Shared/MultipleSelection/type';
 import TDataTable, {
   TColumnKey,
   TMultipleFilter,
@@ -10,6 +11,7 @@ import TDataTable, {
   TMultipleFilterPipe
 } from '../types/dataTableType';
 import { pipe } from 'lodash/fp';
+import { NONE_OPTION } from '../filterArea/filterConst.json';
 
 const KO_TIME = COLUMN_KEY.KO_TIME;
 const MB = COLUMN_KEY.MB;
@@ -96,26 +98,22 @@ const buildLeagueOptions = (entities: TDataTable[]) =>
 const buildNoOfHdpOptions = (entities: TDataTable[]) =>
   uniqBy(
     [...entities]
-      .map(o => ({
+      .map((o, index) => ({
+        index: o.noOfHDP ? index : Number.MAX_SAFE_INTEGER,
         value: o.noOfHDP || null,
         label: o.noOfHDP || '(Blanks)'
       }))
-      .sort((a, b) => (a.value ?? '').localeCompare(b.value ?? '')),
-    i => i.value
+      .sort((first, second) => first.index - second.index),
+    i => i.label
   );
 
-const buildRAndDInfoOptions = (entities: TDataTable[]) =>
-  uniqBy(
-    [...entities]
-      .map(item => {
-        return item.rAndDInfo?.length
-          ? item.rAndDInfo
-          : [{ rAndDUpdate: '(Blanks)' }];
-      })
-      .reduce((acc, curr) => acc.concat(curr), [])
-      .map(info => ({ value: info.rAndDUpdate, label: info.rAndDUpdate })),
-    i => i.value
-  );
+const buildRAndDInfoOptions = (updateTypeOption: Option[]) =>
+  updateTypeOption
+    .map(type => ({
+      value: type.value || null,
+      label: type.label
+    }))
+    .concat(NONE_OPTION);
 
 const buildMultipleFilterDefault = (entities: TDataTable[]) => {
   const koTimeOptions = buildKoOptions(entities);
@@ -124,7 +122,7 @@ const buildMultipleFilterDefault = (entities: TDataTable[]) => {
   const spreadHdpOptions = buildSpreadOptions(entities, 'spreadHdp');
   const spreadOuOptions = buildSpreadOptions(entities, 'spreadOu');
   const noOfHdpOptions = buildNoOfHdpOptions(entities);
-  const rAndDInfoOptions = buildRAndDInfoOptions(entities);
+
   return {
     [KO_TIME]: {
       isFilter: false,
@@ -155,11 +153,6 @@ const buildMultipleFilterDefault = (entities: TDataTable[]) => {
       isFilter: false,
       selected: noOfHdpOptions,
       options: noOfHdpOptions
-    },
-    [COLUMN_KEY.RAndD]: {
-      isFilter: false,
-      selected: rAndDInfoOptions,
-      options: rAndDInfoOptions
     }
   } as TMultipleFilter;
 };
@@ -176,6 +169,7 @@ const multipleFilterCommon = (
     };
   }
   const selectedValue = multipleFilter[filterProps].selected.map(x => x.value);
+
   return {
     filterInfo: multipleFilter,
     entities: entities.filter(e =>
@@ -187,10 +181,13 @@ const multipleFilterCommon = (
 const filterByRAndD = (
   entities: TDataTable[],
   selectedValue: (number | string | null)[]
-) =>
-  entities.filter(e =>
-    e.rAndDInfo.some(r => selectedValue.some(s => s === r.rAndDUpdate))
+) => {
+  return entities.filter(
+    e =>
+      e.rAndDInfo?.some(r => selectedValue?.some(s => s === r.updateTypeId)) ||
+      (!e.rAndDInfo?.length && selectedValue?.some(s => !s))
   );
+};
 
 const executeFilterTable = (
   state: TTableSlice,
@@ -259,5 +256,6 @@ export {
   buildUrl,
   handleCheckButton,
   buildMultipleFilterDefault,
-  executeFilterTable
+  executeFilterTable,
+  buildRAndDInfoOptions
 };

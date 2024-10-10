@@ -12,6 +12,8 @@ import SelectGame from './SelectGame';
 import { getUpdateTypes } from './slice/filterThunkNative';
 import TurnoverMargin from './TurnoverMargin';
 import UpdateType from './UpdateType';
+import { setUpdateTypeFilter } from '../table/eventPickingTableSlice/reducer';
+import { buildRAndDInfoOptions } from '../helper/filterHelper';
 
 const Filter = () => {
   const dispatch = useDispatch();
@@ -23,7 +25,14 @@ const Filter = () => {
   } = useSelector((state: RootState) => state);
 
   useEffect(() => {
-    dispatch(getUpdateTypes());
+    (async () => {
+      const resultAction = await dispatch(getUpdateTypes());
+      if (getUpdateTypes.fulfilled.match(resultAction)) {
+        dispatch(
+          setUpdateTypeFilter(buildRAndDInfoOptions(resultAction.payload))
+        );
+      }
+    })();
   }, [dispatch]);
 
   return (
