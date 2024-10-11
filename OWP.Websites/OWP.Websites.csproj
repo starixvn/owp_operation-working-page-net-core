@@ -24,7 +24,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Remove="Views\Home\MountUM.cshtml" />
     <Content Remove="Views\Shared\RazorHelper.cshtml" />
     <Content Remove="Views\Shared\_IFrame.cshtml" />
   </ItemGroup>
