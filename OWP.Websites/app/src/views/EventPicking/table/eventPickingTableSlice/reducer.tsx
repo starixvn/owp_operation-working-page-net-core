@@ -3,17 +3,23 @@ import { REQUEST_STATUS } from '../../../Shared/Constants';
 import { editEventPickings, getEventPickings } from './eventSliceThunkNative';
 import updateNoOfferMatchThunk from '../updateNoOfferMatchThunkNative';
 import updateConfirmedThunk from '../updateConfirmedThunkNative';
+import { Option } from '../../../Shared/MultipleSelection/type';
 import {
   updateNoOfferMatch,
-  updateConfirmedMatch,
+  updateConfirmedMatch
+} from '../../helper/reducerHelper';
+import {
   buildMultipleFilterDefault,
   executeFilterTable
-} from '../../helper/reducerHelper';
+} from '../../helper/filterHelper';
 import TDataTable, {
   TTableSlice,
   TFilterState,
   FilterAllColumn,
-  TColumnKey
+  TColumnKey,
+  TOrderKey,
+  TOrderDirection,
+  TOrder
 } from '../../types/dataTableType';
 import {
   addOrReplaceFilterState,
@@ -22,7 +28,7 @@ import {
 } from '../../../Shared/Utils';
 import filterByKeyword from '../filterByKeyword';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { Option } from '../../../Shared/MultipleSelection/type';
+import { executeOrderTable } from '../../helper/orderHelper';
 
 const EventPickingTableSlice = createSlice({
   name: 'EventPickingTableSlice',
@@ -43,25 +49,79 @@ const EventPickingTableSlice = createSlice({
     filterState: [] as TFilterState[],
     loading: REQUEST_STATUS.idle,
     previousNoOfferIndex: null,
+    rAndDInfoFilterOriginal: {
+      isFilter: false,
+      selected: [],
+      options: []
+    },
     multipleFilter: {
-      KO_Time: {
+      time: {
         isFilter: false,
         selected: [],
         options: []
       },
-      MB: {
+      maxbetHdp: {
         isFilter: false,
         selected: [],
         options: []
       },
-      League: {
+      leagueName: {
+        isFilter: false,
+        selected: [],
+        options: []
+      },
+      spreadHdp: {
+        isFilter: false,
+        selected: [],
+        options: []
+      },
+      spreadOu: {
+        isFilter: false,
+        selected: [],
+        options: []
+      },
+      noOfHDP: {
+        isFilter: false,
+        selected: [],
+        options: []
+      },
+      rAndDInfo: {
         isFilter: false,
         selected: [],
         options: []
       }
-    }
+    },
+    order: {} as TOrder
   } as TTableSlice,
   reducers: {
+    setUpdateTypeFilter: (state, action: PayloadAction<Option[]>) => {
+      state.rAndDInfoFilterOriginal = {
+        isFilter: false,
+        selected: action.payload,
+        options: action.payload
+      };
+
+      state.multipleFilter = {
+        ...state.multipleFilter,
+        rAndDInfo: {
+          isFilter: false,
+          selected: action.payload,
+          options: action.payload
+        }
+      };
+    },
+    setOrder: (
+      state,
+      action: PayloadAction<{ key: TOrderKey; direction: TOrderDirection }>
+    ) => {
+      const { key, direction } = action.payload;
+      state.order = {
+        key,
+        direction
+      };
+
+      state.entities = executeOrderTable(state.entities, state.order);
+    },
     setOpenPopupState: (state, action) => {
       const { key, value } = action.payload;
       state.openPopupState = { ...state.openPopupState, [key]: value };
@@ -80,6 +140,7 @@ const EventPickingTableSlice = createSlice({
       const { filterState } = state;
       state.filterState = addOrReplaceFilterState(filterState, action.payload);
       state.entities = executeFilterTable(state, filterByKeyword);
+      state.entities = executeOrderTable(state.entities, state.order);
       state.isConfirmAll = state.entities?.every(x => x.isCheck);
       state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
     },
@@ -88,9 +149,14 @@ const EventPickingTableSlice = createSlice({
       state.filterState = [];
       state.valueFilterAllColumn = {};
       state.entities = entitiesOriginal;
+      state.entities = executeOrderTable(state.entities, state.order);
       state.isConfirmAll = state.entities?.every(x => x.isCheck);
       state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
-      state.multipleFilter = buildMultipleFilterDefault(state.entitiesOriginal);
+      state.multipleFilter = {
+        ...state.multipleFilter,
+        ...buildMultipleFilterDefault(state.entities),
+        rAndDInfo: state.rAndDInfoFilterOriginal
+      };
     },
     setMultipleFilter: (
       state,
@@ -100,6 +166,7 @@ const EventPickingTableSlice = createSlice({
       }>
     ) => {
       const { columnKey, selected } = action.payload;
+
       state.multipleFilter[columnKey] = {
         ...state.multipleFilter[columnKey],
         isFilter:
@@ -107,6 +174,8 @@ const EventPickingTableSlice = createSlice({
         selected
       };
       state.entities = executeFilterTable(state, filterByKeyword);
+      state.entities = executeOrderTable(state.entities, state.order);
+
       state.isConfirmAll = state.entities?.every(x => x.isCheck);
       state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
     },
@@ -124,7 +193,9 @@ const EventPickingTableSlice = createSlice({
     ) => {
       const { key, value, infoSiteMatchId, minorBettypeId } = action.payload;
       const target = state.entities.find(
-        s => s.infoSiteMatchId === infoSiteMatchId && s.minorBettypeId === minorBettypeId
+        s =>
+          s.infoSiteMatchId === infoSiteMatchId &&
+          s.minorBettypeId === minorBettypeId
       );
       if (target) {
         target.isModified = true;
@@ -141,7 +212,9 @@ const EventPickingTableSlice = createSlice({
     ) => {
       const { value, infoSiteMatchId, minorBettypeId } = action.payload;
       const target = state.entities.find(
-        s => s.infoSiteMatchId === infoSiteMatchId && s.minorBettypeId === minorBettypeId
+        s =>
+          s.infoSiteMatchId === infoSiteMatchId &&
+          s.minorBettypeId === minorBettypeId
       );
       if (target) {
         target.noOfHDP = value;
@@ -160,8 +233,8 @@ const EventPickingTableSlice = createSlice({
       state.matchSelected = isAdded
         ? [...state.matchSelected, match]
         : state.matchSelected.filter(
-          s => s.infoSiteMatchId !== match.infoSiteMatchId
-        );
+            s => s.infoSiteMatchId !== match.infoSiteMatchId
+          );
     },
 
     setListMatchSelected: (
@@ -175,8 +248,8 @@ const EventPickingTableSlice = createSlice({
       state.matchSelected = isAdded
         ? [...state.matchSelected, ...matches]
         : state.matchSelected.filter(
-          s => !matches.some(i => s.infoSiteMatchId === i.infoSiteMatchId)
-        );
+            s => !matches.some(i => s.infoSiteMatchId === i.infoSiteMatchId)
+          );
       state.isSelectedAll =
         state.matchSelected.length ===
         state.entities.filter(x => !x.isChildMatch).length;
@@ -220,10 +293,15 @@ const EventPickingTableSlice = createSlice({
           state.filterState,
           filterByKeyword
         );
+        state.order = {};
 
-        state.multipleFilter = buildMultipleFilterDefault(state.entities);
         state.isConfirmAll = state.entities?.every(x => x.isCheck);
         state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
+        state.multipleFilter = {
+          ...state.multipleFilter,
+          ...buildMultipleFilterDefault(state.entities),
+          rAndDInfo: state.rAndDInfoFilterOriginal
+        };
       })
       .addCase(getEventPickings.rejected, state => {
         state.loading = REQUEST_STATUS.idle;
@@ -242,7 +320,11 @@ const EventPickingTableSlice = createSlice({
           filterByKeyword
         );
 
-        state.multipleFilter = buildMultipleFilterDefault(state.entities);
+        state.multipleFilter = {
+          ...state.multipleFilter,
+          ...buildMultipleFilterDefault(state.entities),
+          rAndDInfo: state.rAndDInfoFilterOriginal
+        };
         state.isConfirmAll = state.entities?.every(x => x.isCheck);
         state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
       })
@@ -263,7 +345,9 @@ const {
   setValueNoOfHdp,
   setOpenPopupState,
   setListMatchSelected,
-  setAllMatchSelected
+  setAllMatchSelected,
+  setOrder,
+  setUpdateTypeFilter
 } = actions;
 
 export {
@@ -277,6 +361,8 @@ export {
   setValueNoOfHdp,
   setOpenPopupState,
   setListMatchSelected,
-  setAllMatchSelected
+  setAllMatchSelected,
+  setOrder,
+  setUpdateTypeFilter
 };
 export default reducer;

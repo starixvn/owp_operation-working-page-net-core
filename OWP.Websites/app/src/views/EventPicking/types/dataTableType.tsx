@@ -27,6 +27,11 @@ type TMatchOfferInfo = {
   isNoOffer: boolean;
   eventDateTime: Required<Date>;
 };
+type TMultipleFilterPipe = {
+  entities: TDataTable[];
+  filterInfo: TMultipleFilter;
+};
+
 type TDataTable = TMatchOfferInfo & {
   minorBettypeId: number;
   tV: string;
@@ -60,28 +65,39 @@ type TDataTable = TMatchOfferInfo & {
   eTPK: string;
   isCheck: boolean;
   rowColor: string;
-  turnoverPeriod: TTurnOverInfo[];
-  marginPeriod: MarginInfo[];
   isModified: boolean | undefined;
   isReferenceLeagueManagement: boolean;
+  rAndDInfo: Array<{ rAndDUpdate: string; updateTypeId: number }>;
+  turnoverPeriod: TWinLoss[];
+  marginPeriod: TWinLoss[];
+  rowSpan: number;
 };
 
-type TTurnOverInfo = {
+type TWinLoss = {
   title: string;
   valueDisplay: string;
   value: number;
   color: string;
 };
 
-type MarginInfo = {
-  title: string;
-  valueDisplay: string;
-  value: number;
-  color: string;
+type TColumnKey =
+  | 'maxbetHdp'
+  | 'time'
+  | 'leagueName'
+  | 'spreadHdp'
+  | 'spreadOu'
+  | 'noOfHDP'
+  | 'rAndDInfo';
+type TOrderKey = '1m' | '3m' | '6m' | '12m';
+type TOrderDirection = 'asc' | 'desc';
+type TOverArrayToObject = {
+  infoSiteMatchId: number;
+  childMatchId: number | null;
+  '1m'?: number | null;
+  '3m'?: number | null;
+  '6m'?: number | null;
+  '12m'?: number | null;
 };
-
-type TColumnKey = 'MB' | 'KO_Time' | 'League';
-
 type TMultipleColumnFilterOption = {
   [key in TColumnKey]: Option[];
 };
@@ -92,6 +108,11 @@ type TMultipleFilter = {
     selected: Option[];
     options: Option[];
   };
+};
+
+type TOrder = {
+  key?: TOrderKey;
+  direction?: TOrderDirection;
 };
 
 type TTableSlice = {
@@ -107,6 +128,12 @@ type TTableSlice = {
   columnKeyFilterCurrent: string;
   filterState: Array<TFilterState>;
   multipleFilter: TMultipleFilter;
+  rAndDInfoFilterOriginal: {
+    isFilter: boolean;
+    selected: Option[];
+    options: Option[];
+  };
+  order: TOrder;
   loading: string;
   previousNoOfferIndex: null | number;
 };
@@ -146,6 +173,7 @@ export {
   FilterAllColumn,
   TPermission,
   TMultipleFilter,
+  TOrder,
   TColumnKey,
   TResult,
   TMultipleColumnFilterOption,
@@ -153,5 +181,9 @@ export {
   TOpenPopupState,
   TActionOfSpecialProduct,
   TUpdateSpecialProduct,
-  TMatchOfferInfo
+  TMatchOfferInfo,
+  TOrderKey,
+  TOrderDirection,
+  TOverArrayToObject,
+  TMultipleFilterPipe
 };

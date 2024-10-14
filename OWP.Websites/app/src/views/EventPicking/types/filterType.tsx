@@ -1,8 +1,11 @@
-import { IMultipleSelectProps, Option } from '../../Shared/MultipleSelection/type';
+import {
+  IMultipleSelectProps,
+  Option
+} from '../../Shared/MultipleSelection/type';
 type TTimeRange = {
   fromDate: Required<string>;
-  toDate: Required<string>
-}
+  toDate: Required<string>;
+};
 type TCommonFilterInfo = string | (number | string | null)[];
 type TFilter = {
   [x: string]: TCommonFilterInfo | TPeriodFilter;
@@ -19,10 +22,10 @@ type TPayloadFilter = {
 };
 
 type TPeriodFilter = {
-  PeriodOneMonth?: TTimeRange,
-  PeriodThreeMonths?: TTimeRange,
-  PeriodSixMonths?: TTimeRange,
-  PeriodTwelveMonths?: TTimeRange
+  PeriodOneMonth?: TTimeRange;
+  PeriodThreeMonths?: TTimeRange;
+  PeriodSixMonths?: TTimeRange;
+  PeriodTwelveMonths?: TTimeRange;
 };
 
 type TMultipleSelectionTemplate = IMultipleSelectProps & {
@@ -31,7 +34,8 @@ type TMultipleSelectionTemplate = IMultipleSelectProps & {
 type TurnoverMarginSelection = Option & {
   key: Required<string>;
   fromDate: Required<string>;
-  toDate: Required<string>
+  toDate: Required<string>;
+  order: number;
 };
 
 export {

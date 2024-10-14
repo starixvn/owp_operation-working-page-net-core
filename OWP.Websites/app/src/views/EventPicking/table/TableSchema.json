@@ -1,8 +1,12 @@
 {
   "COLUMN_KEY": {
-    "KO_TIME": "KO_Time",
-    "MB": "MB",
-    "LEAGUE": "League"
+    "KO_TIME": "time",
+    "MB": "maxbetHdp",
+    "LEAGUE": "leagueName",
+    "SPREAD_HDP": "spreadHdp",
+    "SPREAD_OU":"spreadOu",
+    "NO.OF_HDP":"noOfHDP",
+    "RAndD": "rAndDInfo"
   },
   "TABLE_HEADER": [
     {
@@ -17,13 +21,13 @@
       "headerName": "KO Time",
       "size": 6,
       "isFilterMultiple": true,
-      "columnKey": "KO_Time"
+      "columnKey": "time"
     },
     {
       "headerName": "League",
       "size": 15,
       "isFilterMultiple": true,
-      "columnKey": "League"
+      "columnKey": "leagueName"
     },
     {
       "headerName": "Match",
@@ -35,22 +39,25 @@
       "headerName": "MB",
       "size": 5,
       "isFilterMultiple": true,
-      "columnKey": "MB"
+      "columnKey": "maxbetHdp"
     },
     {
       "headerName": "Spread HDP",
       "size": 5,
-      "columnKey": "SpreadHDP"
+      "isFilterMultiple": true,
+      "columnKey": "spreadHdp"
     },
     {
       "headerName": "Spread OU",
       "size": 5,
-      "columnKey": "SpreadOU"
+      "isFilterMultiple": true,
+      "columnKey": "spreadOu"
     },
     {
       "headerName": "No. HDP",
       "size": 7,
-      "columnKey": "NoHDP"
+      "isFilterMultiple": true,
+      "columnKey": "noOfHDP"
     },
     {
       "headerName": "TV/IPTV",
@@ -79,7 +86,8 @@
     {
       "headerName": "R&D Update",
       "size": 13,
-      "columnKey": "R&D Update"
+      "columnKey": "rAndDInfo",
+      "isFilterMultiple": true
     },
     {
       "headerName": "Checked",
@@ -106,13 +114,13 @@
       "headerName": "KO Time",
       "size": 6,
       "isFilterMultiple": true,
-      "columnKey": "KO_Time"
+      "columnKey": "time"
     },
     {
       "headerName": "League",
       "size": 10,
       "isFilterMultiple": true,
-      "columnKey": "League"
+      "columnKey": "leagueName"
     },
     {
       "headerName": "Match",
@@ -124,22 +132,25 @@
       "headerName": "MB",
       "size": 5,
       "isFilterMultiple": true,
-      "columnKey": "MB"
+      "columnKey": "maxbetHdp"
     },
     {
       "headerName": "Spread HDP",
       "size": 5,
-      "columnKey": "SpreadHDP"
+       "isFilterMultiple": true,
+      "columnKey": "spreadHdp"
     },
     {
       "headerName": "Spread OU",
       "size": 5,
-      "columnKey": "SpreadOU"
+       "isFilterMultiple": true,
+      "columnKey": "spreadOu"
     },
     {
       "headerName": "No. HDP",
       "size": 7,
-      "columnKey": "NoHDP"
+       "isFilterMultiple": true,
+      "columnKey": "noOfHDP"
     },
     {
       "headerName": "TV/IPTV",
@@ -150,13 +161,14 @@
     {
       "headerName": "Turnover",
       "size": 9,
-      "columnKey": "TurnoverSort",
+      "columnKey": "TOver",
+       "isOrder": true,
       "colSpan": 2
     },
     {
       "headerName": "Margin",
       "size": 4,
-      "columnKey": "MarginSort"
+      "columnKey": "Margin"
     },
     {
       "headerName": "Provider",
@@ -179,7 +191,8 @@
     {
       "headerName": "R&D Update",
       "size": 13,
-      "columnKey": "R&D Update"
+      "columnKey": "rAndDInfo",
+      "isFilterMultiple": true
     },
     {
       "headerName": "Checked",
@@ -195,8 +208,6 @@
     }
   ],
   "itemRowHeight": 100,
-  "ORDER_ASC": "ORDER_ASC",
-  "ORDER_DESC": "ORDER_DESC",
   "Special_Product_Type": [
     { "label": "No. Of Corner", "value": -3 },
     { "label": "Next Corner", "value": -4 },

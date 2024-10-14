@@ -11,7 +11,16 @@
   "git.ignoreLimitWarning": true,
   "editor.formatOnSave": true,
   "files.associations": {
-    "*.js": "javascriptreact"
+    "*.js": "javascriptreact",
+    "*.tsx": "typescriptreact",
+  },
+  "[typescriptreact]": { // for .tsx files
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[javascriptreact]": { // for .tsx files
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
   },
   "sonarlint.ls.javaHome": "C:\\Program Files\\Java\\jdk1.8.0_201",
   "editor.acceptSuggestionOnEnter": "smart",

@@ -299,7 +299,7 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
 
     public decimal? MaxBetHDPNumber { get; set; }
 
-    public List<RAndDInfo> RAndDInfos { get; set; }
+    public List<RAndDInfo> RAndDInfo { get; set; }
 
     public string HasProvider => !string.IsNullOrWhiteSpace(Provider)
     ? "yes"

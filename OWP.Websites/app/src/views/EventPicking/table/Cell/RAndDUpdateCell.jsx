@@ -8,9 +8,9 @@ const propTypes = {
 
 const RAndDUpdateCell = props => {
   const { rowIndex, dataSource } = props;
-  const rAndDInfos = dataSource[rowIndex]?.rAndDInfos ?? [];
-  const rAndDInfosUniqueByKey = [
-    ...new Map(rAndDInfos.map(item => [item.rAndDUpdate, item])).values()
+  const rAndDInfo = dataSource[rowIndex]?.rAndDInfo ?? [];
+  const rAndDInfoUniqueByKey = [
+    ...new Map(rAndDInfo.map(item => [item.rAndDUpdate, item])).values()
   ];
 
   const correctLabel = value => value.replace(/(Update|Cancel)/, '').trim();
@@ -18,8 +18,8 @@ const RAndDUpdateCell = props => {
     <div className='r-and-d-update-cell'>
       <div className='r-and-d-update'>
         <ul className='r-and-d-update-list'>
-          {rAndDInfosUniqueByKey.length > 0
-            ? rAndDInfosUniqueByKey.map(info => (
+          {rAndDInfoUniqueByKey.length > 0
+            ? rAndDInfoUniqueByKey.map(info => (
                 <li
                   key={uniqueId()}
                   className='r-and-d-update-item'
