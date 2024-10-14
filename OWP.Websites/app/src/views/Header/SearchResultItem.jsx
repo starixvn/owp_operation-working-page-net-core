@@ -78,7 +78,9 @@ class SearchResultItem extends Component {
       ? this.renderHighlightKeywords(searchKeywords, item.Event)
       : item.Event;
     const eventElement = `<span class="default-highlight">${Event}</span>`;
-    const formatEventDate = item.EventDate ? this.getTimeExceptZone(item.EventDate, 'hh:mm A') : '';
+    const formatEventDate = item.EventDate
+      ? this.getTimeExceptZone(item.EventDate, 'hh:mm A')
+      : '';
     const eventDate = `<span class="default-highlight">${formatEventDate}</span>`;
     return `${this.getMatchNoText(
       item.IsToday,
@@ -91,9 +93,9 @@ class SearchResultItem extends Component {
     const isNumericKeywords = this.props.isNumeric;
     const html = !isNumericKeywords
       ? this.renderHighlightKeywords(
-        searchKeywords,
-        info.AssigneesNameConjunction
-      )
+          searchKeywords,
+          info.AssigneesNameConjunction
+        )
       : info.AssigneesNameConjunction;
     return (
       <span className='assignee-item'>
@@ -149,8 +151,9 @@ class SearchResultItem extends Component {
     }
 
     if (data.MainLA) {
-      assignee += `${data.MainTrader || data.OtherTrader ? ', ' : ''}${data.MainLA.PositionName
-        }:${data.MainLA.AssigneesNameConjunction}`;
+      assignee += `${data.MainTrader || data.OtherTrader ? ', ' : ''}${
+        data.MainLA.PositionName
+      }:${data.MainLA.AssigneesNameConjunction}`;
     }
 
     if (data.OtherLA) {
@@ -161,16 +164,12 @@ class SearchResultItem extends Component {
   };
 
   copyMatchInfo = matchInfo => {
-    const {
-      EventDate,
-      LeagueName,
-      Event,
-      AdminSiteId,
-      IPTVCopy,
-      Provider
-    } = matchInfo;
+    const { EventDate, LeagueName, Event, AdminSiteId, IPTVCopy, Provider } =
+      matchInfo;
 
-    const eventKOTime = EventDate ? this.getTimeExceptZone(EventDate, 'hh:mm A') : '';
+    const eventKOTime = EventDate
+      ? this.getTimeExceptZone(EventDate, 'hh:mm A')
+      : '';
     const koTime = `K.O Time: ${eventKOTime}`;
     const league = `League: ${LeagueName}`;
     const match = `Match: ${Event}`;
@@ -214,13 +213,20 @@ class SearchResultItem extends Component {
     return searchResults.map((item, index) => {
       const canViewDetail =
         detailInformationPolicy.HasRead && item.IsAllowedToViewDetail;
-      const className = `cd-nowrap${canViewDetail ? ' pointer' : ' cursordefault'
-        }`;
-      const eventDate = item.EventDate ? this.getTimeExceptZone(item.EventDate, 'MMM DD, YYYY') : '';
-      const eventKOTime = item.EventDate ? this.getTimeExceptZone(item.EventDate, 'hh:mm A') : '';
-      const matchInfo = `${eventDate}\n${item.IsToday && item.MatchNo ? `Match No.${item.MatchNo}\t` : ''
-        }K.O ${eventKOTime}\t${item.LeagueName}\n${item.Event}${item.IsHasAssignee ? `\n${this.allAssigneeInString(item)}` : ''
-        }`;
+      const className = `cd-nowrap${
+        canViewDetail ? ' pointer' : ' cursordefault'
+      }`;
+      const eventDate = item.EventDate
+        ? this.getTimeExceptZone(item.EventDate, 'MMM DD, YYYY')
+        : '';
+      const eventKOTime = item.EventDate
+        ? this.getTimeExceptZone(item.EventDate, 'hh:mm A')
+        : '';
+      const matchInfo = `${eventDate}\n${
+        item.IsToday && item.MatchNo ? `Match No.${item.MatchNo}\t` : ''
+      }K.O ${eventKOTime}\t${item.LeagueName}\n${item.Event}${
+        item.IsHasAssignee ? `\n${this.allAssigneeInString(item)}` : ''
+      }`;
       return this.renderFormatItemResult(
         index,
         className,
@@ -232,7 +238,7 @@ class SearchResultItem extends Component {
   }
 
   getTimeExceptZone(date, format) {
-    return dayjs(date.substring(0, date.length - 6)).format(format);
+    return dayjs(date).format(format);
   }
 
   render() {
