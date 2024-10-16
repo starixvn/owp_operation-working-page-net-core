@@ -10,6 +10,7 @@ import {
 } from '../../helper/reducerHelper';
 import {
   buildMultipleFilterDefault,
+  buildTableMultipleFilterOptions,
   executeFilterTable
 } from '../../helper/filterHelper';
 import TDataTable, {
@@ -141,6 +142,19 @@ const EventPickingTableSlice = createSlice({
       state.filterState = addOrReplaceFilterState(filterState, action.payload);
       state.entities = executeFilterTable(state, filterByKeyword);
       state.entities = executeOrderTable(state.entities, state.order);
+      const options = buildTableMultipleFilterOptions(
+        state.entities,
+        state.rAndDInfoFilterOriginal.options
+      );
+
+      state.multipleFilter.time.options = options.time;
+      state.multipleFilter.maxbetHdp.options = options.maxbetHdp;
+      state.multipleFilter.leagueName.options = options.leagueName;
+      state.multipleFilter.spreadHdp.options = options.spreadHdp;
+      state.multipleFilter.spreadOu.options = options.spreadOu;
+      state.multipleFilter.noOfHDP.options = options.noOfHDP;
+      state.multipleFilter.rAndDInfo.options = options.rAndDInfo;
+
       state.isConfirmAll = state.entities?.every(x => x.isCheck);
       state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
     },
@@ -175,7 +189,18 @@ const EventPickingTableSlice = createSlice({
       };
       state.entities = executeFilterTable(state, filterByKeyword);
       state.entities = executeOrderTable(state.entities, state.order);
+      const options = buildTableMultipleFilterOptions(
+        state.entities,
+        state.rAndDInfoFilterOriginal.options
+      );
 
+      state.multipleFilter.time.options = options.time;
+      state.multipleFilter.maxbetHdp.options = options.maxbetHdp;
+      state.multipleFilter.leagueName.options = options.leagueName;
+      state.multipleFilter.spreadHdp.options = options.spreadHdp;
+      state.multipleFilter.spreadOu.options = options.spreadOu;
+      state.multipleFilter.noOfHDP.options = options.noOfHDP;
+      state.multipleFilter.rAndDInfo.options = options.rAndDInfo;
       state.isConfirmAll = state.entities?.every(x => x.isCheck);
       state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
     },
