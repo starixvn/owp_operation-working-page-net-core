@@ -214,7 +214,7 @@ const multipleFilterCommon = (
   return {
     filterInfo: multipleFilter,
     entities: entities.filter(e =>
-      selectedValue.some(s => e[filterProps] === s)
+      selectedValue.some(s => e[filterProps] === s || (!e[filterProps] && !s))
     )
   };
 };

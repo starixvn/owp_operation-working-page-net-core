@@ -183,8 +183,7 @@ const EventPickingTableSlice = createSlice({
 
       state.multipleFilter[columnKey] = {
         ...state.multipleFilter[columnKey],
-        isFilter:
-          state.multipleFilter[columnKey].options.length !== selected.length,
+        isFilter: true,
         selected
       };
       state.entities = executeFilterTable(state, filterByKeyword);

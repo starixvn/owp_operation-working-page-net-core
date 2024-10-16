@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { MultipleFilterHeaderProps } from './typeCommon';
 import MultipleFilterHeaderPopupCommon from './MultipleFilterHeaderPopupCommon';
 import useClickOutside from '../customHook/useClickOutside';
+import { Option } from '../MultipleSelection/type';
 
 const MultipleFilterHeader = ({
   options,
@@ -14,13 +15,26 @@ const MultipleFilterHeader = ({
   setIsFilter,
   onClear
 }: MultipleFilterHeaderProps) => {
-
   const [isOpenFilter, setIsOpenFilter] = useState(false);
-  const filterRef = useClickOutside<HTMLDivElement>(() => setIsOpenFilter(false));
+  const filterRef = useClickOutside<HTMLDivElement>(() =>
+    setIsOpenFilter(false)
+  );
+
+  const handleFilter = (selected: Option[]) => {
+    setIsOpenFilter(false);
+    onFilter(selected);
+  };
+
+  const handleClearFilter = () => {
+    setIsOpenFilter(false);
+    onClear();
+  };
   return (
     <div className='filter-header'>
       <span
-        className={`icon-filter ${(setIsFilter ? setIsFilter() : isFilter) ? 'is-filter' : ''}`}
+        className={`icon-filter ${
+          (setIsFilter ? setIsFilter() : isFilter) ? 'is-filter' : ''
+        }`}
         onClick={() => setIsOpenFilter(true)}>
         <FilterIcon size={14} />
       </span>
@@ -30,8 +44,8 @@ const MultipleFilterHeader = ({
             options={setOptions ? setOptions() : options}
             selected={setSelected ? setSelected() : selected}
             onClosedPopup={() => setIsOpenFilter(false)}
-            onFilter={onFilter}
-            onClear={onClear}
+            onFilter={handleFilter}
+            onClear={handleClearFilter}
           />
         </div>
       )}
