@@ -13,7 +13,7 @@ import { getUpdateTypes } from './slice/filterThunkNative';
 import TurnoverMargin from './TurnoverMargin';
 import UpdateType from './UpdateType';
 import { setUpdateTypeFilter } from '../table/eventPickingTableSlice/reducer';
-import { buildRAndDInfoOptions } from '../helper/filterHelper';
+import { buildDefaultRAndDInfoOptions } from '../helper/filterHelper';
 
 const Filter = () => {
   const dispatch = useDispatch();
@@ -29,7 +29,9 @@ const Filter = () => {
       const resultAction = await dispatch(getUpdateTypes());
       if (getUpdateTypes.fulfilled.match(resultAction)) {
         dispatch(
-          setUpdateTypeFilter(buildRAndDInfoOptions(resultAction.payload))
+          setUpdateTypeFilter(
+            buildDefaultRAndDInfoOptions(resultAction.payload)
+          )
         );
       }
     })();

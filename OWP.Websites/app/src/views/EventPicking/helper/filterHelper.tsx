@@ -107,13 +107,54 @@ const buildNoOfHdpOptions = (entities: TDataTable[]) =>
     i => i.label
   );
 
-const buildRAndDInfoOptions = (updateTypeOption: Option[]) =>
+const buildDefaultRAndDInfoOptions = (updateTypeOption: Option[]) =>
   updateTypeOption
     .map(type => ({
       value: type.value || null,
       label: type.label
     }))
     .concat(NONE_OPTION);
+
+const buildRAndDInfoOptions = (
+  entities: TDataTable[],
+  rAndDInfoOriginalOption: Option[]
+) => {
+  const rAndDInfo = uniqBy(
+    entities
+      .map(entity => entity.rAndDInfo ?? [{ updateTypeId: null }])
+      .flat(Infinity),
+    i => i.updateTypeId
+  );
+
+  return rAndDInfoOriginalOption.filter(o =>
+    rAndDInfo.some(r => r.updateTypeId === o.value)
+  );
+};
+const buildTableMultipleFilterOptions = (
+  entities: TDataTable[],
+  rAndDInfoOriginalOption: Option[]
+) => {
+  const koTimeOptions = buildKoOptions(entities);
+  const mbOptions = buildMbOptions(entities);
+  const leagueOptions = buildLeagueOptions(entities);
+  const spreadHdpOptions = buildSpreadOptions(entities, 'spreadHdp');
+  const spreadOuOptions = buildSpreadOptions(entities, 'spreadOu');
+  const noOfHdpOptions = buildNoOfHdpOptions(entities);
+  const rAndDInfoOptions = buildRAndDInfoOptions(
+    entities,
+    rAndDInfoOriginalOption
+  );
+
+  return {
+    time: koTimeOptions,
+    maxbetHdp: mbOptions,
+    leagueName: leagueOptions,
+    spreadHdp: spreadHdpOptions,
+    spreadOu: spreadOuOptions,
+    noOfHDP: noOfHdpOptions,
+    rAndDInfo: rAndDInfoOptions
+  };
+};
 
 const buildMultipleFilterDefault = (entities: TDataTable[]) => {
   const koTimeOptions = buildKoOptions(entities);
@@ -173,7 +214,7 @@ const multipleFilterCommon = (
   return {
     filterInfo: multipleFilter,
     entities: entities.filter(e =>
-      selectedValue.some(s => e[filterProps] === s)
+      selectedValue.some(s => e[filterProps] === s || (!e[filterProps] && !s))
     )
   };
 };
@@ -257,5 +298,6 @@ export {
   handleCheckButton,
   buildMultipleFilterDefault,
   executeFilterTable,
-  buildRAndDInfoOptions
+  buildDefaultRAndDInfoOptions,
+  buildTableMultipleFilterOptions
 };
