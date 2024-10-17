@@ -121,7 +121,9 @@ const buildRAndDInfoOptions = (
 ) => {
   const rAndDInfo = uniqBy(
     entities
-      .map(entity => entity.rAndDInfo ?? [{ updateTypeId: null }])
+      .map(entity =>
+        entity.rAndDInfo?.length ? entity.rAndDInfo : [{ updateTypeId: null }]
+      )
       .flat(Infinity),
     i => i.updateTypeId
   );
