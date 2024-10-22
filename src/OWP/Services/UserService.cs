@@ -1,8 +1,11 @@
 ﻿using Fanex.Data.Repository;
 using OWP.Models;
 using OWP.Criteria;
-
+using Fanex.NAP.Client.Services;
+using Fanex.NAP.Client.Configuration;
+using Newtonsoft.Json;
 namespace OWP.Services;
+
 public interface UserRepository
 {
     Task<User> GetUserInfoById(int userId);
@@ -13,10 +16,14 @@ public interface UserRepository
 public class UserRepositoryImp : UserRepository
 {
     private readonly IDynamicRepository repository;
+    private readonly IUserService userService;
+    private readonly INapSettings napSettings;
 
-    public UserRepositoryImp(IDynamicRepository repository)
+    public UserRepositoryImp(IDynamicRepository repository, IUserService userService, INapSettings napSettings)
     {
         this.repository = repository;
+        this.userService = userService;
+        this.napSettings = napSettings;
     }
 
     public async Task<User> GetUserInfoById(int userId)
@@ -30,7 +37,14 @@ public class UserRepositoryImp : UserRepository
 
     public async Task<IList<WeeklyWorkingShiftUser>> GetAllUsers()
     {
-        var criteria = new GetAllUserCriteria();
+        var allUserActive = await userService.GetBySiteAsync(napSettings.SiteId, true);
+        var criteria = new GetAllUserCriteria(){
+            AllUserJson= JsonConvert.SerializeObject(allUserActive.Select(u => new
+            {
+                UserId = u.Id,
+                IsActive = true
+            }))
+        };
         return (await repository.FetchAsync<WeeklyWorkingShiftUser>(criteria)).ToList();
     }
 }

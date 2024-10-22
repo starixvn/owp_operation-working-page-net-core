@@ -3,8 +3,6 @@ import { TicketSettingRecipient } from '../TypeNative';
 import { post } from '../../Service/Service';
 import ToastrWrapper from '../../../components/ToastrWrapper';
 import SuggestionList from './SuggestionList';
-import { NET_CORE_QUERY_SIMPLE_API } from '../../Constants';
-import { getRecipientSuggestionKey } from '../Const.json';
 import { orderBy } from 'lodash';
 
 type PropsType = {
@@ -24,14 +22,10 @@ const RecipientSuggestion = (data: PropsType) => {
   );
   const [searchValue, setSearchValue] = useState('');
 
-  const url = `${NET_CORE_QUERY_SIMPLE_API}`;
-
   const postModel = {
-    url,
-    apiKey: getRecipientSuggestionKey,
+    url: '/api/TicketTypeRecipient/get-recipients',
     IncludeGroup: data.isIncludeGroup,
-    IncludeSection: data.isIncludeSection,
-    SiteId: data.siteId
+    IncludeSection: data.isIncludeSection
   };
 
   useEffect(() => {

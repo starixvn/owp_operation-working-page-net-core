@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Fanex.Caching;
 using Fanex.Data.Repository;
-using Fanex.NAP.Client.Helpers.Web;
+using Fanex.NAP.Client;
 using Newtonsoft.Json;
 using OWP.Extensions;
 using OWP.PrematchAssignment.Constants;

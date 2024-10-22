@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Fanex.NAP.Client;
+using Newtonsoft.Json;
 using QueryModel = OWP.WorkingShift.DailyWorkingShift.Models.QueryModel;
 using Repository = OWP.WorkingShift.DailyWorkingShift.Repositories.Repository;
 

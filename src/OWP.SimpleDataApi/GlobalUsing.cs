@@ -6,5 +6,4 @@ global using OWP.SimpleDataApi.Criteria.LiveGameAssignment;
 global using OWP.SimpleDataApi.Criteria.OsLeagueSetting;
 global using OWP.SimpleDataApi.Criteria.PreMatchAssignment;
 global using OWP.SimpleDataApi.Criteria.TicketCenter;
-global using OWP.SimpleDataApi.Criteria.TicketSetting;
 global using OWP.SimpleDataApi.Criteria.UserManagement;

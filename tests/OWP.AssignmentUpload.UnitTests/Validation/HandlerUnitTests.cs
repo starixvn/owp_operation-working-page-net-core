@@ -1,4 +1,4 @@
-﻿using Fanex.NAP.Client.Helpers.Web;
+﻿using Fanex.NAP.Client;
 using Microsoft.AspNetCore.Hosting;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;

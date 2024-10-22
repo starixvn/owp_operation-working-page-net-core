@@ -22,4 +22,8 @@ public class TicketTypeRecipientController : ControllerBase
     [HttpPost("save-ticket-recipients")]
     [ServiceFilter(typeof(DuplicateSubtypeValidator))]
     public async Task SaveTicketTypeRecipients(SaveTicketTypeRecipientsCommand command) => await mediator.Send(command);
+
+
+    [HttpPost("get-recipients")]
+    public async Task<object> GetRecipient(GetRecipientRequest command) => await mediator.Send(command);
 }

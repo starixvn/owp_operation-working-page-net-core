@@ -1,5 +1,9 @@
 ﻿using AutoMapper;
 using Fanex.Data.Repository;
+using Fanex.NAP.Client.Configuration;
+using Fanex.NAP.Client.Services;
+using Newtonsoft.Json;
+using OWP.Criteria;
 using OWP.Extensions;
 
 namespace OWP.LiveDetail.User;
@@ -17,23 +21,43 @@ public class UserRepositoryImp : UserRepository
 {
     private readonly IDynamicRepository repository;
 
-    public UserRepositoryImp(IDynamicRepository repository)
+    private readonly IUserService userService;
+    private readonly INapSettings napSettings;
+
+
+    public UserRepositoryImp(IDynamicRepository repository, INapSettings napSettings, IUserService userService)
     {
         this.repository = repository;
+        this.napSettings = napSettings;
+        this.userService = userService;
     }
 
     public async Task<IEnumerable<UserSuggestionEntity>> GetSuggestion(GetSuggestionModel model)
     {
+        var allUserActive = await userService.GetBySiteAsync(napSettings.SiteId, null);
         var mapper = new MapperConfiguration(cfg => cfg.CreateMap<GetSuggestionModel, GetSuggestionCriteria>().ForAllMembers(opt => opt.Condition(src => src != null))).CreateMapper();
 
         var criteria = mapper.Map<GetSuggestionCriteria>(model);
+        criteria.AllUserJson = JsonConvert.SerializeObject(allUserActive.Select(u => new
+        {
+            UserId = u.Id
+
+        }));
         criteria.ThrowExceptionIfInvalid();
         return await repository.FetchAsync<UserSuggestionEntity>(criteria);
     }
 
     public async Task<IEnumerable<UserInfoModel>> GetAll()
     {
-        var criteria = new GetUserListCriteria();
+        var allUserActive = await userService.GetBySiteAsync(napSettings.SiteId, true);
+        var criteria = new GetAllUserCriteria()
+        {
+            AllUserJson = JsonConvert.SerializeObject(allUserActive.Select(u => new
+            {
+                UserId = u.Id,
+                IsActive = true
+            }))
+        };
         criteria.ThrowExceptionIfInvalid();
         return await repository.FetchAsync<UserInfoModel>(criteria);
     }

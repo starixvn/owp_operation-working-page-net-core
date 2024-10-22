@@ -1,5 +1,5 @@
 ﻿
-using Fanex.NAP.Client.Helpers.Web;
+using Fanex.NAP.Client;
 using MediatR;
 using OWP.AssignmentUpload.Submit.Models;
 using OWP.AssignmentUpload.Submit.Services;

@@ -1,4 +1,4 @@
-﻿using Fanex.NAP.Client.Helpers.Web;
+﻿using Fanex.NAP.Client;
 using MediatR;
 using OWP.PrematchAssignment.Constants;
 using OWP.PrematchAssignment.Models;

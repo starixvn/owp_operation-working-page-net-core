@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using OWP.NewLeagueSetting.Helper;
+﻿using OWP.NewLeagueSetting.Helper;
 using OWP.NewLeagueSetting.Models;
 using Xunit;
 

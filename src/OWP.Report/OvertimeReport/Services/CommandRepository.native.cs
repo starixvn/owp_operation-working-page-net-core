@@ -1,5 +1,7 @@
 ﻿using Fanex.Data.Repository;
 using Fanex.NAP.Client.Configuration;
+using Fanex.NAP.Client.Services;
+using Newtonsoft.Json;
 using OWP.Report.OvertimeReport.Criteria;
 using OWP.Report.OvertimeReport.Models;
 
@@ -17,10 +19,13 @@ public class CommandRepositoryImp : CommandRepository
     private readonly IDynamicRepository repository;
     private readonly INapSettings napSetting;
 
-    public CommandRepositoryImp(IDynamicRepository repository, INapSettings napSetting)
+    private readonly IUserService userService;
+
+    public CommandRepositoryImp(IDynamicRepository repository, INapSettings napSetting, IUserService userService)
     {
         this.repository = repository;
         this.napSetting = napSetting;
+        this.userService = userService;
     }
 
     public async Task<(IEnumerable<User>, IEnumerable<OvertimeData>)> GetReportByMonth(OverTimeRequest request)
@@ -42,13 +47,18 @@ public class CommandRepositoryImp : CommandRepository
 
     public async Task<(IEnumerable<User>, IEnumerable<OvertimeData>)> GetReportByDateRange(OverTimeRequest request, DateTime fromDate, DateTime toDate)
     {
+        var allUserActive = await userService.GetBySiteAsync(napSetting.SiteId, true);
         var criteria = new GetReportByDateRangeCriteria
         {
             TraderName = request.Trader ?? string.Empty,
             Location = request.Location ?? string.Empty,
             FromDate = fromDate,
             ToDate = toDate,
-            SiteId = napSetting.SiteId
+            AllUserJson = JsonConvert.SerializeObject(allUserActive.Select(u => new
+            {
+                UserId = u.Id,
+                IsActive = true
+            }))
         };
 
         return await repository.FetchMultipleAsync<User, OvertimeData>(criteria);

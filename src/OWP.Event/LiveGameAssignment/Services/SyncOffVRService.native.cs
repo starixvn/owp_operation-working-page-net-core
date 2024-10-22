@@ -1,9 +1,9 @@
 ﻿using Fanex.Logging;
-using Fanex.NAP.Client.Helpers.Web;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using OWP.Models;
 using System.Text;
+using Fanex.NAP.Client;
 
 namespace OWP.Event.LiveGameAssignment.Services;
 
@@ -69,6 +69,7 @@ public class SyncOffVRServiceImp : SyncOffVRService
         catch (Exception ex)
         {
             await LogError(requestUrl, json, ex, now);
+            throw new Exception(ex.Message);
         }
     }
 

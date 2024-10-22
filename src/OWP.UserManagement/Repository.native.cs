@@ -4,7 +4,9 @@ using System.Threading.Tasks;
 using Criteria;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Configuration;
+using Fanex.NAP.Client.Services;
 using Models;
+using Newtonsoft.Json;
 using OWP.Models;
 using OWP.Services;
 
@@ -26,14 +28,16 @@ public class RepositoryImp : Repository
     private readonly INapSettings napSettings;
 
     private readonly RefResourceService refResource;
+    private readonly IUserService userService;
 
 
 
-    public RepositoryImp(IDynamicRepository dynamicRepository, INapSettings napSettings, RefResourceService refResource)
+    public RepositoryImp(IDynamicRepository dynamicRepository, INapSettings napSettings, RefResourceService refResource, IUserService userService)
     {
         this.dynamicRepository = dynamicRepository;
         this.napSettings = napSettings;
         this.refResource = refResource;
+        this.userService = userService;
     }
 
     public async Task<int> GetSectionIdByUserId(int userId)
@@ -61,6 +65,8 @@ public class RepositoryImp : Repository
 
     public async Task<IList<User>> GetUserPagingAsync(QueryModel model)
     {
+        var allUser = await userService.GetBySiteAsync(napSettings.SiteId, null);
+        var allUserActive = await userService.GetBySiteAsync(napSettings.SiteId, true);
         var criteria = new QueryUsersCriteria
         {
             CategoryId = model.CategoryId,
@@ -69,7 +75,11 @@ public class RepositoryImp : Repository
             RoleId = model.RoleId,
             SectionId = model.SectionId,
             User = model.User ?? "",
-            SiteId = napSettings.SiteId
+            AllUserJson = JsonConvert.SerializeObject(allUser.Select(u => new
+            {
+                UserId = u.Id,
+                IsActive = allUserActive.Any(a => a.Id == u.Id)
+            }))
         };
 
         var users = await dynamicRepository.FetchAsync<User>(criteria);

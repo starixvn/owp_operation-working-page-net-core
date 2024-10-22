@@ -1,4 +1,5 @@
 ﻿
+using Fanex.NAP.Client;
 using WorkingShiftModel = OWP.WorkingShift.Common.Models.WorkingShiftModel;
 
 namespace OWP.WorkingShift.Common.Repositories;

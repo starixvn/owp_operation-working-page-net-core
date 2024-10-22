@@ -1,5 +1,4 @@
 ﻿using Fanex.Data.Repository;
-using Fanex.NAP.Client.Helpers.Web;
 using OWP.Extensions;
 using OWP.Models;
 using OWP.OddsCompiler.Criteria;
@@ -10,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Fanex.NAP.Client;
 using InfoSiteTimeModel = OWP.OddsCompiler.Models.InfoSiteTimeModel;
 
 namespace OWP.OddsCompiler;

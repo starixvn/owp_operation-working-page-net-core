@@ -5,6 +5,7 @@ namespace OWP.UserManagement.UnitTests;
 
 using Criteria;
 using Fanex.Data.Repository;
+using Fanex.NAP.Client.Services;
 using Models;
 using NSubstitute;
 using OWP.Models;
@@ -20,13 +21,15 @@ public class RepositoryUnitTests
     private readonly Repository repository;
 
     private readonly RefResourceService resourceRepository;
+    private readonly IUserService userService;
 
     public RepositoryUnitTests()
     {
         var napSettings = Substitute.For<INapSettings>();
         dynamicRepository = Substitute.For<IDynamicRepository>();
         resourceRepository = Substitute.For<RefResourceService>();
-        repository = new RepositoryImp(dynamicRepository, napSettings, resourceRepository);
+        userService = Substitute.For<IUserService>();
+        repository = new RepositoryImp(dynamicRepository, napSettings, resourceRepository, userService);
     }
 
     [Fact]

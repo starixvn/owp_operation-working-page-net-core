@@ -1,5 +1,6 @@
 using Fanex.Data.Repository;
 using Fanex.NAP.Client.Configuration;
+using Fanex.NAP.Client.Services;
 using OWP.Report.PreMatchReport.Criteria;
 using OWP.Report.PreMatchReport.Models;
 
@@ -23,11 +24,13 @@ public class RepositoryImp : Repository
     private readonly IDynamicRepository dynamicRepository;
 
     private readonly INapSettings napSettings;
+    private readonly IUserService userService;
 
-    public RepositoryImp(IDynamicRepository dynamicRepository, INapSettings napSettings)
+    public RepositoryImp(IDynamicRepository dynamicRepository, INapSettings napSettings, IUserService userService)
     {
         this.dynamicRepository = dynamicRepository;
         this.napSettings = napSettings;
+        this.userService = userService;
     }
 
     public async Task<IEnumerable<QueryPrematchReportModel>> GetReportForLeague(QueryModel queryModel)
@@ -66,5 +69,5 @@ public class RepositoryImp : Repository
     => await dynamicRepository.FetchAsync<int>(new GetUserIdFromDb02Criteria());
 
     public async Task<IEnumerable<int>> GetUserIdFromNapUser()
-    => await dynamicRepository.FetchAsync<int>(new GetUserIdFromNapUserCriteria { SiteId = napSettings.SiteId });
+        => (await userService.GetBySiteAsync(napSettings.SiteId, true)).Select(u => u.Id);
 }

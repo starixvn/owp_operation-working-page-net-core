@@ -10,11 +10,11 @@ public class CalculateKpiCriteria : CriteriaBase
 
     public string SectionIds { get; set; }
 
-    public int SiteId { get; set; }
-
     public bool ActiveUser { get; set; }
 
     public bool ResignUser { get; set; }
+
+    public string AllUserJson { get; set; }
 
     public override string GetSettingKey() => "OWP_Kpi_Get";
 

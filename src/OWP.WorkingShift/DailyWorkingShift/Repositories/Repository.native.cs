@@ -1,4 +1,6 @@
-﻿using OWP.WorkingShift.DailyWorkingShift.Criteria;
+﻿using Fanex.NAP.Client.Services;
+using Newtonsoft.Json;
+using OWP.WorkingShift.DailyWorkingShift.Criteria;
 
 
 namespace OWP.WorkingShift.DailyWorkingShift.Repositories;
@@ -11,6 +13,7 @@ public interface Repository
 public class RepositoryImp : Repository
 {
     private readonly IDynamicRepository dynamicRepository;
+    private readonly IUserService userService;
     private readonly INapSettings napSettings;
     private readonly List<int> ExcludeMinorBettypes = [-1, -2, -5, -8, -88, -89];
     private readonly List<int> SpecialMainMatchBettypes = [-1, -2, -88, -89];
@@ -20,35 +23,48 @@ public class RepositoryImp : Repository
     private const int Specific15MinsNoOfCornersBettype = -5;
     private const int Specific15MinsTotalBookingBettype = -8;
 
-    public RepositoryImp(IDynamicRepository dynamicRepository, INapSettings napSettings)
+    public RepositoryImp(IDynamicRepository dynamicRepository, INapSettings napSettings, IUserService userService)
     {
         this.dynamicRepository = dynamicRepository;
         this.napSettings = napSettings;
+        this.userService = userService;
     }
 
     public async Task<QueryResult> Query(QueryModel model)
     {
+        var allUser = await userService.GetBySiteAsync(napSettings.SiteId, null);
+        var allUserActive = await userService.GetBySiteAsync(napSettings.SiteId, true);
+
         var criteria = new QueryCriteria
         {
-            SiteId = napSettings.SiteId,
             ShiftId = model.ShiftId,
             Date = model.Date,
             ExcludeClosedAccount = model.ExcludeClosedAccount,
             LocationCode = model.LocationCode,
             SectionId = model.SectionId,
             DepartmentId = model.DepartmentId,
-            User = model.User
+            User = model.User,
+            AllUserJson = JsonConvert.SerializeObject(allUser.Select(u => new
+            {
+                UserId = u.Id,
+                IsActive = allUserActive.Any(a => a.Id == u.Id)
+            }))
         };
-        
-        var fetchedData = await dynamicRepository.FetchMultipleAsync<QueryUser, QueryUserShift, QueryUserMatch, QueryMatchInfo, EmployeeWorkingShiftNote>(criteria);
-        var users = fetchedData.Item1;
-        var userShifts = fetchedData.Item2.ToList();
 
-        var userMatches = fetchedData.Item3.ToList();
+        var (
+            users,
+            queryUserShifts,
+            queryUserMatches,
+            queryMatchInfos,
+            employeeWorkingShiftNotes
+            ) = await dynamicRepository.FetchMultipleAsync<QueryUser, QueryUserShift, QueryUserMatch, QueryMatchInfo, EmployeeWorkingShiftNote>(criteria);
+        var userShifts = queryUserShifts.ToList();
 
-        var userMatchInfos = fetchedData.Item4.ToList();
+        var userMatches = queryUserMatches.ToList();
 
-        var userNotes = fetchedData.Item5.ToList();
+        var userMatchInfos = queryMatchInfos.ToList();
+
+        var userNotes = employeeWorkingShiftNotes.ToList();
 
         ProcessAssignmentNote(userMatches);
 
@@ -257,7 +273,7 @@ public class RepositoryImp : Repository
         return selectedMatches;
     }
 
-    private AssignmentStatistic CalculateAssignmentStats(DateTime fromDate, DateTime toDate, 
+    private AssignmentStatistic CalculateAssignmentStats(DateTime fromDate, DateTime toDate,
         IList<Assignment> assignments,
         IList<OWPMatch> fetchedMatches)
     {

@@ -1,5 +1,9 @@
 using Fanex.Data;
+using Fanex.Logging;
 using Newtonsoft.Json;
+using OWP.Services;
+using OWP.Websites.Controllers;
+using ILogger = Fanex.Logging.ILogger;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -20,12 +24,14 @@ services.AddRedis(configuration);
 services.AddRedisSession(configuration);
 services.Configure<RabbitMQSetting>(configuration.GetSection(RabbitMQSetting.RabbitMQ));
 services.Configure<AppSettings>(configuration.GetSection(AppSettings.Key));
+services.AddSingleton<MaintenanceService>();
+services.AddTransient<ILogger, Logger>();
 
 services.AddSignalR(configuration);
 services.AddSimpleDataApiModule();
 services.AddFanexData(configuration);
-services.AddNapServices(configuration);
-services.AddOneBookUm(configuration);
+services.AddMaintenance(configuration);
+services.AddNapClient(configuration);
 services.AddFanexServices(configuration);
 services.AddGetNotificationQueue();
 services.AddCoreServices();
@@ -33,16 +39,16 @@ services.AddMediator();
 services.AddAutoMapper();
 services.AddInternalServices();
 services.AddRabbitMQ();
-
 services.AddCarter();
-
 services.AddWebOptimizer();
+
 var app = builder.Build();
 
 app.UseDeveloperExceptionPage();
 app.UseWebOptimizer();
 app.UseTicketPathStaticFiles();
 app.UseStaticFiles();
+app.UseMiddleware<MaintenanceMiddleware>();
 app.UseRouting();
 
 app.UseCookiePolicy();
@@ -53,9 +59,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseRabbitListener();
 
-NapClientManager
-  .UseConfig(app.Services.GetService<INapSettings>())
-  .UseSession(app.Services.GetService<INapSession>());
 app.MapCarter();
 app.MapControllerRoute(
         "default",

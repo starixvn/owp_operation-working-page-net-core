@@ -1,4 +1,4 @@
-using Fanex.NAP.Client.Helpers.Web;
+using Fanex.NAP.Client;
 using NSubstitute;
 using OWP.LeagueManagement.Models;
 using OWP.LeagueManagement.Services;

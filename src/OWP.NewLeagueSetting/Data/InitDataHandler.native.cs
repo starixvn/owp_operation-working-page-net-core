@@ -1,7 +1,5 @@
 
 
-using OWP.NewLeagueSetting.Helper;
-
 namespace OWP.NewLeagueSetting.Data;
 
 public record InitDataRequest(Stream Stream) : IRequest<IList<LeagueSettingInfo>>;

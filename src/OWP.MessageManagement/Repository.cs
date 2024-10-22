@@ -4,7 +4,7 @@ using OWP.MessageManagement.Criteria;
 using OWP.MessageManagement.Models;
 using System.Linq;
 using System.Threading.Tasks;
-using Fanex.NAP.Client.Helpers.Web;
+using Fanex.NAP.Client;
 
 namespace OWP.MessageManagement;
 public interface Repository

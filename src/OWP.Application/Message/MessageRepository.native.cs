@@ -1,7 +1,7 @@
 ﻿
 using AutoMapper;
 using Fanex.Data.Repository;
-using Fanex.NAP.Client.Helpers.Web;
+using Fanex.NAP.Client;
 
 namespace OWP.Application.Message;
 public interface MessageRepository

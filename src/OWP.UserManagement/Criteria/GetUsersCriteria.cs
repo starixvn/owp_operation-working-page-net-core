@@ -16,7 +16,7 @@ public class QueryUsersCriteria : CriteriaBase
 
     public string LocationCode { get; set; }
 
-    public int SiteId { get; set; }
+    public string AllUserJson { get; set; }
 
     public override bool IsValid() => true;
 

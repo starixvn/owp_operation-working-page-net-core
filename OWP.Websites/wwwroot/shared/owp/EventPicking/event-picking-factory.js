@@ -30,13 +30,21 @@ var eventPickingFactory = (function ($) {
             xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                  
                     const urlFake = window.URL.createObjectURL(xhr.response);
                     const link = document.createElement('a');
                     link.href = urlFake;
-                    link.setAttribute('download', 'Event Picking-' + new Date(date).toLocaleDateString('fr-CA') +'.xlsx');
+                    link.setAttribute('download', 'Event Picking-' + new Date(date).toLocaleDateString('fr-CA') + '.xlsx');
                     document.body.appendChild(link);
                     link.click();
+                }
+                else {
+                    Swal.fire({
+                        html: 'InfoSite is not available',
+                        type: 'info',
+                        animation: false,
+                        heightAuto: false,
+                        confirmButtonText: 'OK'
+                    });
                 }
             };
             xhr.responseType = 'blob';

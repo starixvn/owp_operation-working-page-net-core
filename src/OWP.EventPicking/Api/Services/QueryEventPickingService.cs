@@ -125,13 +125,15 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
     {
         if (period is not null)
         {
-            return await tGRSService.GetTurnOverWinLoss(new GetTurnOverWinLossCriteria
+            var result = await tGRSService.GetTurnOverWinLoss(new GetTurnOverWinLossCriteria
             {
                 SportType = "Soccer",
                 FromDate = period.FromDate,
                 ToDate = period.ToDate,
                 LeagueName = GetLeagueName(matches)
             });
+            matches.ForEach(x=> x.IsTGRUnAvailable = result.Item2);
+            return result.Item1;
         }
         return new List<TurnOverWinLossModel>();
     }

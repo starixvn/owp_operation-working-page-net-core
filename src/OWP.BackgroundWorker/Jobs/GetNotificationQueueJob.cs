@@ -1,6 +1,6 @@
-﻿
-
+﻿using ONEbook.UM.Services;
 using OWP.BackgroundWorker.Handler;
+using OWP.Services;
 using ILogger = Fanex.Logging.ILogger;
 
 namespace OWP.BackgroundWorker.Jobs;
@@ -13,8 +13,8 @@ public class GetNotificationQueueJob(IMaintenanceService maintenanceService, ILo
     {
         try
         {
-            var underMaintenanceTime = await maintenanceService.GetUnderMaintenanceTimeAsync();
-            if (underMaintenanceTime.IsUnderMaintenanceTime)
+            var underMaintenanceTime = true;
+            if (underMaintenanceTime)
             {
                 return;
             }
@@ -23,7 +23,7 @@ public class GetNotificationQueueJob(IMaintenanceService maintenanceService, ILo
         }
         catch (Exception e)
         {
-          
+
             var message = $"Error in NotifyJob: {e.Message}.";
             await logger.ErrorAsync(message);
         }

@@ -5,7 +5,7 @@ using Fanex.Logging;
 using Fanex.Logging.Extensions;
 using Fanex.Logging.Extensions.AspNetCore;
 using Fanex.Logging.Sentry.RavenClient;
-using Fanex.NAP.Client.Services;
+using Fanex.NAP.Client.Attributes;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection;
@@ -40,14 +40,12 @@ using OWP.TicketSetting.TicketTypeRecipient;
 using SharpRaven;
 using StackExchange.Redis;
 using System.Reflection;
-using ILogger = Fanex.Logging.ILogger;
 
 namespace OWP.Websites;
 
 using AccountSetting.QuickMessage;
 using BackgroundWorker.Jobs;
 using EventPicking.Api;
-using Fanex.NAP.Client.Session;
 using Microsoft.Extensions.FileProviders;
 using OWP.AccountSetting.Profile;
 using Quartz;
@@ -64,7 +62,6 @@ public static class ServiceCollectionExtensions
             mc.AddProfile(new Report.OvertimeReport.AutoMapperProfile());
             mc.AddProfile(new Report.PreMatchReport.AutoMapperProfile());
             mc.AddProfile(new PrematchAssignment.AutoMapperProfile());
-            mc.AddProfile(new AutoAssignment.AutoMapperProfile());
             mc.AddProfile(new OSLeagueSetting.AutoMapperProfile());
             mc.AddProfile(new Report.AutoMapperProfile());
             mc.AddProfile(new LeagueManagement.AutoMapperProfile());
@@ -99,7 +96,6 @@ public static class ServiceCollectionExtensions
         });
         services.AddControllersWithViews(options =>
             {
-                options.Filters.Add(new ServiceFilterAttribute(typeof(CheckUMFilterAttribute)));
                 options.Filters.Add(new SessionAuthorizeAttribute());
             })
             .AddNewtonsoftJson(options =>
@@ -167,7 +163,6 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddInternalServices(this IServiceCollection services)
     {
-        services.AddAutoAssignmentService();
         services.AddSyncMaxbet();
         services.AddOtherSport();
         services.AddProductAssignment();
@@ -233,20 +228,6 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(ProfileController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(QuickMessageController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(ProviderVerificationController).GetTypeInfo().Assembly));
-        return services;
-    }
-
-    public static IServiceCollection AddNapServices(this IServiceCollection services, IConfiguration configuration)
-    {
-        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-        services.AddTransient<ILogger, Logger>();
-        services.AddSingleton<INapSettings>(new NapSettings(configuration));
-        services.AddSingleton<INapSession, NapSession>();
-        services.AddSingleton<IGroupService, GroupService>();
-        services.AddSingleton<IUserService, UserService>();
-        services.AddSingleton<ISecurityService, SecurityService>();
-        services.AddSingleton<ISiteService, SiteService>();
-
         return services;
     }
 

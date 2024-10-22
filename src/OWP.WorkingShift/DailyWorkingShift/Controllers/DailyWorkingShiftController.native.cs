@@ -1,4 +1,5 @@
-﻿using OWP.WorkingShift.DailyWorkingShift.ViewModels;
+﻿using Fanex.NAP.Client;
+using OWP.WorkingShift.DailyWorkingShift.ViewModels;
 
 namespace OWP.WorkingShift.DailyWorkingShift.Controllers;
 

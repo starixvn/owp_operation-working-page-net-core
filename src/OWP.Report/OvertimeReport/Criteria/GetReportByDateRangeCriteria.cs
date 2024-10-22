@@ -12,7 +12,7 @@ public class GetReportByDateRangeCriteria : CriteriaBase
 
     public DateTime ToDate { get; set; }
 
-    public int SiteId { get; set; }
+    public string AllUserJson { get; internal set; }
 
     public override string GetSettingKey() => "OWP_OvertimeReport_GetReportByDateRange";
 

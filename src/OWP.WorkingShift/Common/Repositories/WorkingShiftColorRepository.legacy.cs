@@ -1,4 +1,5 @@
-﻿using OWP.WorkingShift.Common.Utils;
+﻿using Fanex.NAP.Client;
+using OWP.WorkingShift.Common.Utils;
 
 namespace OWP.WorkingShift.Common.Repositories;
 

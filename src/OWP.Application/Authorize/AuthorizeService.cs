@@ -1,7 +1,7 @@
 ﻿
 
+using Fanex.NAP.Client;
 using Fanex.NAP.Client.Configuration;
-using Fanex.NAP.Client.Helpers.Web;
 using Fanex.NAP.Client.Services;
 
 namespace OWP.Application.Authorize;
@@ -26,7 +26,6 @@ public class AuthorizeServiceImp : AuthorizeService
     public Task<AuthorizeResult> Authorize(AuthorizeModel model)
     {
         var policy = userService.GetPermission(session.UserId, napSettings.SiteId, model.FunctionKey);
-
         var result = new AuthorizeResult
         {
             UserId = session.UserId,

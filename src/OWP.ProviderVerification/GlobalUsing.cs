@@ -1,6 +1,5 @@
 global using Carter;
 global using Fanex.Data.Repository;
-global using Fanex.NAP.Client.Helpers.Web;
 global using MediatR;
 global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Builder;

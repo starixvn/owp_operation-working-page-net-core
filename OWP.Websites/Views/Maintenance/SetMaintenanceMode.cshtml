@@ -1,0 +1,21 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = null;
+    ViewBag.Title = "Set Maintenance Mode";
+}
+
+<h2>Set Maintenance Mode</h2>
+
+<form asp-action="SetMaintenanceMode" method="post">
+    <label for="from">From:</label>
+    <input type="text" id="from" name="from" required placeholder="hh:mm" />
+
+    <label for="to">To:</label>
+    <input type="text" id="to" name="to" required placeholder="hh:mm" />
+    <input hidden id="isUnderMaintenance" name="isUnderMaintenance" value="true" />
+    <button type="submit">Turn On Maintenance Mode</button>
+</form>
+
+<form asp-action="TurnOffMaintenanceMode" method="post">
+    <button type="submit">Turn Off Maintenance Mode</button>
+</form>

@@ -58,10 +58,12 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
                   value={row.turnoverPeriod[index + 1].valueDisplay}
                   color={row.turnoverPeriod[index + 1].color}
                   name={row.turnoverPeriod[index + 1].title}
+                  isTGRUnAvailable={row.isTGRUnAvailable}
                 />
                 <MarginCell
                   value={row.marginPeriod[index + 1].valueDisplay}
                   color={row.marginPeriod[index + 1].color}
+                  isTGRUnAvailable={row.isTGRUnAvailable}
                 />
               </tr>
             )

@@ -1,5 +1,8 @@
 ﻿using Fanex.Data.Repository;
+using Fanex.NAP.Client.Configuration;
+using Fanex.NAP.Client.Services;
 using NSubstitute;
+using OWP.Criteria;
 using OWP.LiveDetail.User;
 using Xunit;
 
@@ -9,11 +12,16 @@ public class RepositoryUnitTests
 {
     private readonly IDynamicRepository dynamicRepository;
     private readonly UserRepository repository;
+    private readonly INapSettings napSettings;
+    private readonly IUserService userService;
+
 
     public RepositoryUnitTests()
     {
         dynamicRepository = Substitute.For<IDynamicRepository>();
-        repository = new UserRepositoryImp(dynamicRepository);
+        napSettings = Substitute.For<INapSettings>();
+        userService = Substitute.For<IUserService>();
+        repository = new UserRepositoryImp(dynamicRepository, napSettings, userService);
     }
 
     [Fact]
@@ -22,7 +30,7 @@ public class RepositoryUnitTests
         // Arrange
         var userInfos = new List<UserInfoModel>();
 
-        dynamicRepository.FetchAsync<UserInfoModel>(Arg.Compat.Any<GetUserListCriteria>()).Returns(userInfos);
+        dynamicRepository.FetchAsync<UserInfoModel>(Arg.Compat.Any<GetAllUserCriteria>()).Returns(userInfos);
 
         // Act
         var result = await repository.GetAll();

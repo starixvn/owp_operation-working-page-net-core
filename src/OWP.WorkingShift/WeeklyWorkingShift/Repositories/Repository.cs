@@ -1,4 +1,6 @@
 ﻿
+using Fanex.NAP.Client;
+using Fanex.NAP.Client.Services;
 using OWP.WorkingShift.ViewLog.Models;
 
 namespace OWP.WorkingShift.WeeklyWorkingShift.Repositories;
@@ -6,6 +8,7 @@ namespace OWP.WorkingShift.WeeklyWorkingShift.Repositories;
 using Criteria;
 using Fanex.Data.Repository;
 using Models;
+using Newtonsoft.Json;
 using OWP.WorkingShift.Common.Repositories;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +35,7 @@ public class RepositoryImp : Repository
     private readonly INapSession currentSession;
     private readonly UserRepository userRepository;
     private readonly INapSettings napSettings;
+    private readonly IUserService userService;
 
     public RepositoryImp( //NOSONAR
         IDynamicRepository dynamicRepository,
@@ -41,7 +45,7 @@ public class RepositoryImp : Repository
         WorkingShiftRepository workingShiftRepository,
         INapSession currentSession,
         UserRepository userRepository,
-        INapSettings napSettings)
+        INapSettings napSettings, IUserService userService)
     {
         this.dynamicRepository = dynamicRepository;
         this.workingShiftColorRepository = workingShiftColorRepository;
@@ -51,13 +55,16 @@ public class RepositoryImp : Repository
         this.currentSession = currentSession;
         this.userRepository = userRepository;
         this.napSettings = napSettings;
+        this.userService = userService;
     }
 
     public async Task<List<WorkingShiftUserModel>> SearchWorkingShiftUser(QueryModel model)
     {
+        var allUser = await userService.GetBySiteAsync(napSettings.SiteId, null);
+        var allUserActive = await userService.GetBySiteAsync(napSettings.SiteId, true);
+
         var criteria = new SearchEmployeeWorkingShiftCriteria
         {
-            SiteId = napSettings.SiteId,
             FromDate = model.FromDate,
             ToDate = model.ToDate,
             User = model.User,
@@ -66,7 +73,12 @@ public class RepositoryImp : Repository
             CategoryId = model.Category,
             LocationCode = model.Location,
             ExcludeClosedAccount = model.ExcludeClosedAccount,
-            OrderUserId = model.OrderUserId
+            OrderUserId = model.OrderUserId,
+            AllUserJson = JsonConvert.SerializeObject(allUser.Select(u => new
+            {
+                UserId = u.Id,
+                IsActive = allUserActive.Any(a => a.Id == u.Id)
+            }))
         };
 
         var searchUsers = await dynamicRepository.FetchAsync<WorkingShiftUserModel>(criteria);

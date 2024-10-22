@@ -8,6 +8,8 @@ public class GetSuggestionCriteria : CriteriaBase
 
     public string Keyword { get; set; }
 
+    public string AllUserJson { get; set; }
+
     public override bool IsValid() => !string.IsNullOrWhiteSpace(Keyword) && Keyword.Length >= KeywordMinLength;
 
     public override string GetSettingKey() => "OWP_UserGetBySuggestion";

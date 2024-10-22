@@ -110,7 +110,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.TicketSetting", "src\OW
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.TicketSetting.UnitTests", "tests\OWP.TicketSetting.UnitTests\OWP.TicketSetting.UnitTests.csproj", "{67DE67D7-FAFE-48D3-94E9-403F160ED382}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OWP.Api", "src\OWP.Api\OWP.Api.csproj", "{04A7CB3B-807C-439C-9F62-78CED1B4F615}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWP.Api", "src\OWP.Api\OWP.Api.csproj", "{04A7CB3B-807C-439C-9F62-78CED1B4F615}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

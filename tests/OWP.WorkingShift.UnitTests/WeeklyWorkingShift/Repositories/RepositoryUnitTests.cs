@@ -1,6 +1,7 @@
 ﻿using Fanex.Data.Repository;
+using Fanex.NAP.Client;
 using Fanex.NAP.Client.Configuration;
-using Fanex.NAP.Client.Helpers.Web;
+using Fanex.NAP.Client.Services;
 using NSubstitute;
 using OWP.Models;
 using OWP.Services;
@@ -33,6 +34,7 @@ public class RepositoryUnitTests
         workingShiftRepository = Substitute.For<WorkingShiftRepository>();
         userRepository = Substitute.For<UserRepository>();
         var settings = Substitute.For<INapSettings>();
+        var userService = Substitute.For<IUserService>();
         currentSession.UserId.Returns(99);
         repository = new RepositoryImp(dynamicRepository,
             workingShiftColorRepository,
@@ -41,7 +43,8 @@ public class RepositoryUnitTests
             workingShiftRepository,
             currentSession,
             userRepository,
-            settings);
+            settings,
+            userService);
     }
 
     [Fact]

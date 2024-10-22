@@ -1,4 +1,5 @@
-﻿using OWP.Enums;
+﻿using Fanex.NAP.Client;
+using OWP.Enums;
 
 namespace OWP.Event.LiveGameAssignment;
 
@@ -6,7 +7,6 @@ using Criteria;
 using EventShared.Builder;
 using Extensions;
 using Fanex.Data.Repository;
-using Fanex.NAP.Client.Helpers.Web;
 using Models;
 using OWP.Event.EventShared.Enum;
 using OWP.Event.EventShared.Models;

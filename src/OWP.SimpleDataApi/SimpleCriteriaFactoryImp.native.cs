@@ -94,7 +94,7 @@ public class SimpleCriteriaFactoryImp : SimpleCriteriaFactoryBase
     {
         CriteriaTypes.Add(ConstantApiKey.TicketCenterGetRecipient, typeof(GetRecipientCriteria));
         CriteriaTypes.Add(ConstantApiKey.TicketCenterGetDefaultRecipient, typeof(GetDefaultRecipientCriteria));
-        CriteriaTypes.Add(ConstantApiKey.TicketSettingGetAllRecipients, typeof(GetAllRecipientCriteria));
+       
     }
 
     private static void RegisterPreMatchAssignment()

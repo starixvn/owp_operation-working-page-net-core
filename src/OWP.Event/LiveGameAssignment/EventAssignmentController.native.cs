@@ -132,7 +132,14 @@ public class EventAssignmentController : ControllerBase
     [NapAuth(FunctionKey = FunctionKeys.LiveGameAssignment, Policy = Constant.Policy.Host)]
     public async Task<IActionResult> SyncOffVR(SyncOffVRRequest model)
     {
-        await syncOffVrService.Sync(model.Date);
+        try
+        {
+            await syncOffVrService.Sync(model.Date);
+        }
+        catch
+        {
+            return StatusCode(500, new { IsAdminSiteUM = true });
+        }
 
         return Ok();
     }

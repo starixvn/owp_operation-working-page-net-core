@@ -1,6 +1,7 @@
-﻿namespace OWP.UserManagement.UnitTests.Services;
+﻿using Fanex.NAP.Client;
 
-using Fanex.NAP.Client.Helpers.Web;
+namespace OWP.UserManagement.UnitTests.Services;
+
 using Models;
 using NSubstitute;
 using OWP.Models;

@@ -29,7 +29,11 @@ const setAxiosInterceptors = () => {
         return undefined;
       }
       if (response.status === 500) {
-        ToastrWrapper.showError('Internal server error');
+        if (response.data?.isAdminSiteUM) {
+          ToastrWrapper.showInfo('AdminSite is unavailable');
+        } else {
+          ToastrWrapper.showError('Internal server error');
+        }
         return undefined;
       }
       if (response.status === 404) {

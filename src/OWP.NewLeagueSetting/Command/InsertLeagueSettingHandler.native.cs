@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Fanex.NAP.Client;
 
 namespace OWP.NewLeagueSetting.Command;
 

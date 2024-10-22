@@ -1,5 +1,5 @@
 using Fanex.Data.Repository;
-using Fanex.NAP.Client.Helpers.Web;
+using Fanex.NAP.Client;
 using MediatR;
 
 namespace OWP.AccountSetting.QuickMessage.Handler;
