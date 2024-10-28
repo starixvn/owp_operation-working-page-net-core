@@ -6,6 +6,7 @@ import useClickOutside from '../customHook/useClickOutside';
 import { Option } from '../MultipleSelection/type';
 
 const MultipleFilterHeader = ({
+  columnKey,
   options,
   selected,
   isFilter,
@@ -41,6 +42,7 @@ const MultipleFilterHeader = ({
       {isOpenFilter && (
         <div ref={filterRef}>
           <MultipleFilterHeaderPopupCommon
+            columnKey={columnKey}
             options={setOptions ? setOptions() : options}
             selected={setSelected ? setSelected() : selected}
             onClosedPopup={() => setIsOpenFilter(false)}

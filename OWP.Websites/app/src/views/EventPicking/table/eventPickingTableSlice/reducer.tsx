@@ -149,7 +149,6 @@ const EventPickingTableSlice = createSlice({
 
       state.multipleFilter.time.options = options.time;
       state.multipleFilter.maxbetHdp.options = options.maxbetHdp;
-      state.multipleFilter.leagueName.options = options.leagueName;
       state.multipleFilter.spreadHdp.options = options.spreadHdp;
       state.multipleFilter.spreadOu.options = options.spreadOu;
       state.multipleFilter.noOfHDP.options = options.noOfHDP;
@@ -180,7 +179,6 @@ const EventPickingTableSlice = createSlice({
       }>
     ) => {
       const { columnKey, selected } = action.payload;
-
       state.multipleFilter[columnKey] = {
         ...state.multipleFilter[columnKey],
         isFilter: true,
@@ -195,7 +193,6 @@ const EventPickingTableSlice = createSlice({
 
       state.multipleFilter.time.options = options.time;
       state.multipleFilter.maxbetHdp.options = options.maxbetHdp;
-      state.multipleFilter.leagueName.options = options.leagueName;
       state.multipleFilter.spreadHdp.options = options.spreadHdp;
       state.multipleFilter.spreadOu.options = options.spreadOu;
       state.multipleFilter.noOfHDP.options = options.noOfHDP;

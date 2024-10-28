@@ -142,3 +142,7 @@ export const BettypeId = {
   noOfCorners: -3,
   nextCorners: -4
 };
+
+export const SpecialFilterColumn = {
+  LEAGUE: 'leagueName',
+};

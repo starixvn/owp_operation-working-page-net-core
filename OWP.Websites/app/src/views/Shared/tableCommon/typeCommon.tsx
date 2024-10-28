@@ -16,6 +16,7 @@ type TFilterHeaderProps = {
 };
 
 type MultipleFilterHeaderProps = {
+  columnKey?: string;
   options?: Option[];
   selected?: Option[];
   isFilter?: boolean;
@@ -28,7 +29,7 @@ type MultipleFilterHeaderProps = {
 
 type MultipleFilterPopupProps = Omit<
   MultipleFilterHeaderProps,
-  'columnKey' | 'isFilter' | 'getOptions'
+  'isFilter' | 'getOptions'
 > & {
   onClosedPopup: () => void;
 };
