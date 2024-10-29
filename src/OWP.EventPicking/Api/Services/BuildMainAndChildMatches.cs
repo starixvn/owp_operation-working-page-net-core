@@ -1,7 +1,9 @@
+using Microsoft.Extensions.Options;
 using OWP.EventPicking.Api.Helper;
 using OWP.EventPicking.Api.Models;
 using OWP.MaxbetSetting.Handlers;
 using OWP.MaxbetSetting.Models;
+using OWP.Models;
 
 namespace OWP.EventPicking.Api.Services;
 
@@ -19,9 +21,12 @@ public class BuildMainAndChildMatchesImp(Repository repository,
         BuildRowColor buildRowColor,
         BuildMatchOfferByLiveSetting buildMatchOffer,
         BuildProvider buildProvider,
-        IMediator mediator)
+        IMediator mediator,
+        IOptions<AppSettings> appSettingOptions)
     : BuildMainAndChildMatches
 {
+    private readonly AppSettings appSettings = appSettingOptions.Value;
+
     public async Task<List<EventPickingModel>> GetMainAndChildMatchEvent(DateTime date)
     {
         var mainMatches = await repository.QueryMainMatch(date);
@@ -30,7 +35,7 @@ public class BuildMainAndChildMatchesImp(Repository repository,
 
         buildChildMatchMaxBet.Build(mainMatches, childMatches, maxBet);
         buildMatchOffer.Build(mainMatches, childMatches, maxBet);
-        var filteredMainMatches = MainMatchHelper.Filter(mainMatches);
+        var filteredMainMatches = MainMatchHelper.Filter(mainMatches, appSettings.ShowTestMatchEventPicking);
         var allMatches = SpecialProductHelper.CombineMainAndChildMatchAndAddMatchNo(filteredMainMatches, childMatches);
         buildRowColor.BuildRowColor(allMatches);
         await buildProvider.Build(allMatches);
@@ -52,7 +57,7 @@ public class BuildMainAndChildMatchesImp(Repository repository,
             rAndDInfo.Result.AddRange(movedEventDateMatchesRnD);
         }
         buildMatchOffer.BuildForMainMatch(mainMatches.Result, maxBet.Result);
-        var filteredMainMatches = MainMatchHelper.Filter(mainMatches.Result);
+        var filteredMainMatches = MainMatchHelper.Filter(mainMatches.Result, appSettings.ShowTestMatchEventPicking);
 
         var filteredMainMatchesSorted = SortEventPicking.SortList(filteredMainMatches);
 
