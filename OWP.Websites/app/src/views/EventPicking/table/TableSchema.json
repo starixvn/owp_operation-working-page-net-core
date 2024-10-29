@@ -4,8 +4,8 @@
     "MB": "maxbetHdp",
     "LEAGUE": "leagueName",
     "SPREAD_HDP": "spreadHdp",
-    "SPREAD_OU":"spreadOu",
-    "NO.OF_HDP":"noOfHDP",
+    "SPREAD_OU": "spreadOu",
+    "NO.OF_HDP": "noOfHDP",
     "RAndD": "rAndDInfo"
   },
   "TABLE_HEADER": [
@@ -137,19 +137,19 @@
     {
       "headerName": "Spread HDP",
       "size": 5,
-       "isFilterMultiple": true,
+      "isFilterMultiple": true,
       "columnKey": "spreadHdp"
     },
     {
       "headerName": "Spread OU",
       "size": 5,
-       "isFilterMultiple": true,
+      "isFilterMultiple": true,
       "columnKey": "spreadOu"
     },
     {
       "headerName": "No. HDP",
       "size": 7,
-       "isFilterMultiple": true,
+      "isFilterMultiple": true,
       "columnKey": "noOfHDP"
     },
     {
@@ -162,7 +162,7 @@
       "headerName": "Turnover",
       "size": 9,
       "columnKey": "TOver",
-       "isOrder": true,
+      "isOrder": true,
       "colSpan": 2
     },
     {
@@ -209,9 +209,21 @@
   ],
   "itemRowHeight": 100,
   "Special_Product_Type": [
-    { "label": "No. Of Corner", "value": -3 },
-    { "label": "Next Corner", "value": -4 },
-    { "label": "Total Booking", "value": -6 },
-    { "label": "Next Booking", "value": -7 }
+    {
+      "label": "No. Of Corner",
+      "value": -3
+    },
+    {
+      "label": "Next Corner",
+      "value": -4
+    },
+    {
+      "label": "Total Booking",
+      "value": -6
+    },
+    {
+      "label": "Next Booking",
+      "value": -7
+    }
   ]
 }

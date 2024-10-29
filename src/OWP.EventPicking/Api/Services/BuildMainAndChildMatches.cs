@@ -12,7 +12,6 @@ public interface BuildMainAndChildMatches
     Task<List<EventPickingModel>> GetMainEvent(DateTime date);
 
     Task<List<EventPickingModel>> GetChildEventEventPicking(DateTime date);
-
 }
 
 public class BuildMainAndChildMatchesImp(Repository repository,
@@ -44,7 +43,14 @@ public class BuildMainAndChildMatchesImp(Repository repository,
         var mainMatches = repository.QueryMainMatch(date);
         var maxBet = GetMaxBetDefaultSetting();
         var rAndDInfo = repository.GetRAndDUpdateInfo(date);
+        var (movedEventDateMatches, movedEventDateMatchesRnD) = await repository.QueryMovedEventDateMatch(date);
         await Task.WhenAll(mainMatches, maxBet, rAndDInfo);
+
+        if (movedEventDateMatches.Count > 0)
+        {
+            mainMatches.Result.AddRange(movedEventDateMatches);
+            rAndDInfo.Result.AddRange(movedEventDateMatchesRnD);
+        }
         buildMatchOffer.BuildForMainMatch(mainMatches.Result, maxBet.Result);
         var filteredMainMatches = MainMatchHelper.Filter(mainMatches.Result);
 

@@ -46,6 +46,10 @@
     {
       "value": "White",
       "label": "White"
+    },
+    {
+      "value": "Grey",
+      "label": "Grey"
     }
   ],
   "HAS_PROVIDER_OPTIONS": [

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { useDispatch, useSelector } from 'react-redux';
-import {useAppSelector, useAppDispatch} from '../app/hooks'
+import { useAppSelector, useAppDispatch } from '../app/hooks'
 
 import ToastrWrapper from '../../components/ToastrWrapper';
 import Filter from './Filter';
@@ -22,7 +22,7 @@ jest.mock('react', () => ({
 jest.mock('../../components/ToastrWrapper');
 useAppSelector.mockImplementation(selectorFn =>
   selectorFn({
-    filter:{
+    filter: {
       leagues: [{
         value: 1,
         label: 'V-leagues'
@@ -33,9 +33,9 @@ useAppSelector.mockImplementation(selectorFn =>
 ToastrWrapper.showError = jest.fn().mockReturnValue('OK');
 const state = {
   turnOverMarginPolicy: {
-     permission: { HasRead: true }
+    permission: { HasRead: true }
   },
-  mode:{
+  mode: {
     mode: "VIEW"
   },
   filter: {

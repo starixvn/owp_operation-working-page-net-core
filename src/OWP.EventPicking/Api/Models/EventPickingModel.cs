@@ -1,13 +1,9 @@
-
-
 using Newtonsoft.Json;
 
 namespace OWP.EventPicking.Api.Models;
 
 public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
 {
-    public int InfoSiteMatchId { get; set; }
-
     public int? ChildMatchId { get; set; }
 
     public bool IsChildMatch => MinorBettypeId.HasValue;
@@ -38,6 +34,8 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
     public bool IsHomeBlackList { get; set; }
 
     public bool IsAwayBlackList { get; set; }
+
+    public bool IsMovedEventDate { get; set; }
 
     public List<string> InfoSiteBlackList
     {
@@ -407,7 +405,6 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
         Spread1X2 = leagueSetting.MaxBet_1X2Spread.ToOWPSpreadFormatPercent();
         MaxBet1H1X2 = leagueSetting.MaxBet_1H1X2.ToOWPMaxBetFormat();
         Spread1H1X2 = leagueSetting.Spread_1H1X2.ToOWPSpreadFormatPercent();
-
     }
 }
 

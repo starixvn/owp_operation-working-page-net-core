@@ -28,10 +28,7 @@
     <Content Remove="Views\Shared\_IFrame.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="app\**" />
-    <Content Remove="app\**" />
     <EmbeddedResource Remove="app\**" />
-    <None Remove="app\**" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="App_Data\Templates\EventPicking.xlsx" />

@@ -4,7 +4,7 @@ namespace OWP.EventPicking.Api.Services;
 
 public interface BuildRowColor
 {
-    void BuildRowColor(List<EventPickingModel> matches,bool isEventPicking = false);
+    void BuildRowColor(List<EventPickingModel> matches, bool isEventPicking = false);
 }
 
 public class BuildRowColorImp : BuildRowColor
@@ -21,12 +21,17 @@ public class BuildRowColorImp : BuildRowColor
             {
                 x.RowColor = Misc.Constant.ColorYellow;
             }
+            else if (x.IsMovedEventDate)
+            {
+                x.RowColor = Misc.Constant.ColorGrey;
+            }
             else
             {
                 x.RowColor = Misc.Constant.ColorWhite;
             }
         }
     }
+
     public static bool IsSaBaGame(string leagueName)
     {
         var sabaMinsPlay = new List<string>

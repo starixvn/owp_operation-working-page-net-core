@@ -5,7 +5,6 @@ using OWP.EventPicking.Api.Criteria;
 using OWP.EventPicking.Api.Handlers;
 using OWP.EventPicking.Api.Models;
 
-
 namespace OWP.EventPicking;
 
 public interface Repository
@@ -13,6 +12,8 @@ public interface Repository
     Task<List<EventPickingModel>> QueryMainMatch(DateTime date);
 
     Task<List<EventPickingModel>> QueryChildMatch(DateTime date);
+
+    Task<(List<EventPickingModel>, List<RAndDInfo>)> QueryMovedEventDateMatch(DateTime date);
 
     Task<Dictionary<int, List<LeagueSetting>>> GetLeagueSettings();
 
@@ -41,7 +42,6 @@ public interface Repository
     Task ExecuteNonQuery(INonQueryCommand criteria);
 
     Task<List<EventPickingModel>> QueryEventPickingChildMatch(DateTime date);
-
 }
 
 public class RepositoryImp : Repository
@@ -66,6 +66,18 @@ public class RepositoryImp : Repository
         var result = await dynamicRepository.FetchAsync<EventPickingModel>(criteria);
 
         return result.ToList();
+    }
+
+    public async Task<(List<EventPickingModel>, List<RAndDInfo>)> QueryMovedEventDateMatch(DateTime date)
+    {
+        var criteria = new QueryMoveEventDateMatchCriteria
+        {
+            Date = date
+        };
+
+        var (matches, rAndDInfo) = await dynamicRepository.FetchMultipleAsync<EventPickingModel, RAndDInfo>(criteria);
+
+        return new(matches.ToList(), rAndDInfo.ToList());
     }
 
     public async Task<List<EventPickingModel>> QueryChildMatch(DateTime date)
@@ -181,5 +193,4 @@ public class RepositoryImp : Repository
 
         return result.ToList();
     }
-
 }

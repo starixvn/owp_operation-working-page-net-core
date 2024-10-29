@@ -34,6 +34,8 @@ public static class RAndDColorConstant
     public const int CANCEL_AWAY_REMARK = 21;
     public const int UPDATE_DIVISION = 22;
     public const int CANCEL_DIVISION = 23;
+    public const int MOVE_KICKOFF_DATE = 24;
+    public const int RENEW_MATCH = 25;
 
     public static readonly ImmutableDictionary<int, (string, string)> MAP_R_AND_D_COLOR = new Dictionary<int, (string, string)>
     {
@@ -59,7 +61,8 @@ public static class RAndDColorConstant
         {UPDATE_AWAY_REMARK,(UPDATE_COLOR,GREEN)},
         {CANCEL_AWAY_REMARK,(CANCEL_COLOR,WHITE)},
         {UPDATE_DIVISION,(UPDATE_COLOR,GREEN)},
-        {CANCEL_DIVISION,(CANCEL_COLOR,WHITE)}
+        {CANCEL_DIVISION,(CANCEL_COLOR,WHITE)},
+        {MOVE_KICKOFF_DATE,(DELETE_COLOR,WHITE)},
+        {RENEW_MATCH,(NEW_COLOR,WHITE)}
     }.ToImmutableDictionary();
-
 }
