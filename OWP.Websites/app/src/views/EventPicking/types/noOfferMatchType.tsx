@@ -1,6 +1,7 @@
 type TDataSource = {
   infoSiteMatchId: Required<number>,
-  childMatchId: number | null
+  childMatchId: number | null,
+  isMovedEventDate: boolean
 };
 
 type TNoOfferMatch = TDataSource & { isNoOffer: boolean };

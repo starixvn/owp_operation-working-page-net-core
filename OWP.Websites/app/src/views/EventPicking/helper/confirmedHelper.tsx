@@ -13,7 +13,7 @@ const updateConfirmAllEvent = async (event: ChangeEvent<HTMLInputElement>) => {
     const confirmResult = await ToastrWrapper.confirm(MESSAGE.CONFIRM_ALL);
     if (confirmResult.value) {
       Spinner.show();
-      const infoSiteMatchIds = (entities as TDataSource[]).map(
+      const infoSiteMatchIds = (entities as TDataSource[]).filter(match => !match.isMovedEventDate).map(
         element => element.infoSiteMatchId
       );
       await store.dispatch(

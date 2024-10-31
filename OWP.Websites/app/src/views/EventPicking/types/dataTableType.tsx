@@ -71,6 +71,7 @@ type TDataTable = TMatchOfferInfo & {
   turnoverPeriod: TWinLoss[];
   marginPeriod: TWinLoss[];
   rowSpan: number;
+  isMovedEventDate: boolean;
 };
 
 type TWinLoss = {

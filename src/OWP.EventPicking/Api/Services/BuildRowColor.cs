@@ -23,7 +23,7 @@ public class BuildRowColorImp : BuildRowColor
             }
             else if (x.IsMovedEventDate)
             {
-                x.RowColor = Misc.Constant.ColorGrey;
+                x.RowColor = Misc.Constant.ColorBeige;
             }
             else
             {
