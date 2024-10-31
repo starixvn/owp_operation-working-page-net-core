@@ -54,9 +54,11 @@ public class BuildMainAndChildMatchesImp(Repository repository,
         if (movedEventDateMatches.Count > 0)
         {
             var existedMatchIds = mainMatches.Result.Select(m => m.InfoSiteMatchId);
+            movedEventDateMatches.RemoveAll(x => existedMatchIds.Any(i => i == x.InfoSiteMatchId));
+            movedEventDateMatchesRnD.RemoveAll(x => existedMatchIds.Any(i => i == x.InfositeId));
 
-            mainMatches.Result.AddRange(movedEventDateMatches.Where(m => !existedMatchIds.Any(i => i == m.InfoSiteMatchId)));
-            rAndDInfo.Result.AddRange(movedEventDateMatchesRnD.Where(m => !existedMatchIds.Any(i => i == m.InfositeId)));
+            mainMatches.Result.AddRange(movedEventDateMatches);
+            rAndDInfo.Result.AddRange(movedEventDateMatchesRnD);
         }
         buildMatchOffer.BuildForMainMatch(mainMatches.Result, maxBet.Result);
         var filteredMainMatches = MainMatchHelper.Filter(mainMatches.Result, appSettings.ShowTestMatchEventPicking);
