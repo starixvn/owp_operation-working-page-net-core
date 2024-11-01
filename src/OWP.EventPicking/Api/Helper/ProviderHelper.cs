@@ -29,4 +29,19 @@ public static class ProviderHelper
 
         return string.Empty;
     }
+
+    public static string SortOtherProvider(List<string> priorityProviders, string otherProviderInString)
+    {
+        if (!string.IsNullOrEmpty(otherProviderInString))
+        {
+            var sortedOtherProviderList = otherProviderInString.Split('/')
+                .Where(value => priorityProviders.Exists(p => value.StartsWith(p)))
+                .OrderBy(value => priorityProviders.FindIndex(p => value.StartsWith(p)))
+                .ToList();
+
+            return string.Join("/", sortedOtherProviderList);
+        }
+
+        return string.Empty;
+    }
 }

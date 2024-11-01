@@ -23,6 +23,7 @@ public class BuildProviderImp : BuildProvider
     {
         var priorityProviders = await repository.GetProviderArrangement();
         matches.ForEach(x => x.Provider = ProviderHelper.BuildProviderByOtherProvider(priorityProviders, x.OtherProvider));
+        matches.ForEach(x => x.OtherProvider = ProviderHelper.SortOtherProvider(priorityProviders, x.OtherProvider));
     }
 }
 
