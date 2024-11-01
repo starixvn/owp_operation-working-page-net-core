@@ -1,5 +1,4 @@
-﻿using Fanex.Caching;
-using Fanex.NAP.Client.Attributes;
+﻿using Fanex.NAP.Client.Attributes;
 using Fanex.NAP.Client.Helpers.Business;
 using Microsoft.AspNetCore.Authorization;
 using OWP.Constants;
@@ -7,7 +6,7 @@ using OWP.Services;
 
 namespace OWP.Websites.Controllers;
 
-public class HomeController(AccessCounter accessCounter, ICache cache) : Controller
+public class HomeController(AccessCounter accessCounter) : Controller
 {
     [Authorize]
     public IActionResult Index() => View("~/wwwroot/welcome/server.cshtml");
@@ -237,9 +236,8 @@ public class HomeController(AccessCounter accessCounter, ICache cache) : Control
 
     [Route("UserManagement_New")]
     [NapAuth(FunctionKey = FunctionKeys.OWPEventManagement, Policy = Constant.Policy.Read)]
-    public async Task<ActionResult> UserManagement()
+    public ActionResult UserManagement()
     {
-        //await accessCounter.UpdateCounter(AccessCounterConst.UserManagement);
         return View("~/wwwroot/user-management/server.cshtml");
     }
 
