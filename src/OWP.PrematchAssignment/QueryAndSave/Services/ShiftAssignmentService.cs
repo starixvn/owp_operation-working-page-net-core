@@ -42,14 +42,13 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
 
     private async Task<AssignmentShift> BuildPreMatchAssignments(QueryDayShiftPreMatchRequest request, QueryShiftPreMatchCriteria criteria)
     {
-        var result = await repository.QueryDayShiftPreMatchAssignments(criteria);
-        var preMatchLeagues = result.Item1;
+        var (preMatchLeagues, infoSiteMatches) = await repository.QueryDayShiftPreMatchAssignments(criteria);
 
         var earlyOfferedLeagues = await repository.GetEarlyOfferedLeagues(request.EventDate);
 
         preMatchLeagues.ForEach(x => x.IsEarlyOffered = earlyOfferedLeagues.Contains(x.LeagueName));
 
-        var (filteredLeagues, filteredInfoSiteMatches) = FilterByRequest(result.Item1, result.Item2, request);
+        var (filteredLeagues, filteredInfoSiteMatches) = FilterByRequest(preMatchLeagues, infoSiteMatches, request);
 
         await MapMatchStatusWhichLinkedOwp(filteredInfoSiteMatches, request.EventDate);
         await AddOddStatusNo(filteredInfoSiteMatches);
@@ -177,7 +176,10 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
         return (result.Item1, result.Item2);
     }
 
-    private static (List<PreMatchLeague>, List<InfoSiteMatch>) FilterByMatchOffer(List<PreMatchLeague> filteredLeagues, List<InfoSiteMatch> filteredMatches, List<string> matchOffers)
+    private static (List<PreMatchLeague>, List<InfoSiteMatch>) FilterByMatchOffer(
+        List<PreMatchLeague> filteredLeagues,
+        List<InfoSiteMatch> filteredMatches,
+        List<string> matchOffers)
     {
         var matches = matchOffers is null
             ? filteredMatches

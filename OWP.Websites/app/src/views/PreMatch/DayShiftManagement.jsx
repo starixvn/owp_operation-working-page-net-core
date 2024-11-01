@@ -21,67 +21,68 @@ import PairsPopup from './features/auto/PairsPopup';
 
 const { PRE_MATCH } = BUTTON_TYPE;
 const { INDIVIDUAL } = RECIPIENT_TYPE;
+
 const DayShiftManagement = () => {
-  const modelEditor = useSelector(state => state.editor);
-  const modelPermission = usePermission(FunctionKeys.DayShiftAssignment);
-  const { permission } = modelPermission;
+    const modelEditor = useSelector(state => state.editor);
+    const modelPermission = usePermission(FunctionKeys.DayShiftAssignment);
+    const { permission } = modelPermission;
 
-  const creatorInfo = {
-    groupName: null,
-    nickName: permission.Username,
-    recipientId: permission.ActorId,
-    recipientType: INDIVIDUAL,
-    userName: permission.Username
-  };
-  const props = {
-    sortState: {
-      orderType: 'ORDER_ASC',
-      columnKey: 'LeagueName'
-    },
-    isEditing: modelEditor.isEdit,
-    isNightShift: false
-  };
+    const creatorInfo = {
+        groupName: null,
+        nickName: permission.Username,
+        recipientId: permission.ActorId,
+        recipientType: INDIVIDUAL,
+        userName: permission.Username
+    };
+    const props = {
+        sortState: {
+            orderType: 'ORDER_ASC',
+            columnKey: 'LeagueName'
+        },
+        isEditing: modelEditor.isEdit,
+        isNightShift: false
+    };
 
-  if (!permission.Username) {
-    return <Loading />;
-  }
+    if (!permission.Username) {
+        return <Loading />;
+    }
 
-  const renderFilterEditor = () => (
-    <>
-      <EditFilterDayShift />
-      <div className='block-button '>
-        <WorkingShiftComponent />
-        <SortDefault />
-        <DayShiftSaver />
-      </div>
-    </>
-  );
+    const renderFilterEditor = () => (
+        <>
+            <EditFilterDayShift />
+            <div className='block-button'>
+                <WorkingShiftComponent />
+                <SortDefault />
+                <DayShiftSaver />
+            </div>
+        </>
+    );
 
-  const renderFilterViewer = () => (
-    <>
-      <ViewFilterDayShift />
-      {permission.HasWrite && <CreateTicketButton buttonType={PRE_MATCH} />}
-      {permission.HasWrite && <EditComponent />}
-    </>
-  );
+    const renderFilterViewer = () => (
+        <>
+            <ViewFilterDayShift />
+            {permission.HasWrite && <CreateTicketButton buttonType={PRE_MATCH} />}
+            {permission.HasWrite && <div className='btn-block-edit'><EditComponent /></div>}
+        </>
+    );
 
-  const renderFilterArea = () =>
-    modelEditor.isEdit ? renderFilterEditor() : renderFilterViewer();
+    const renderFilterArea = () =>
+        modelEditor.isEdit ? renderFilterEditor() : renderFilterViewer();
 
-  return (
-    <>
-      <HeaderDayShift isEdit={modelEditor.isEdit} />
-      <div className='block-filter'>{renderFilterArea()}</div>
-      <div className='table-PreMatch'>
-        <PreMatchTable {...props} />
-      </div>
-      <CreateTicketPlusCircle creatorInfo={creatorInfo} />
-      <TicketDetailBoard />
-      <CreateTicketOther creatorInfo={creatorInfo} />
-      <CreateTicketEventChecking creatorInfo={creatorInfo} />
-      <PairsPopup hasWrite={permission.HasWrite}/>
-    </>
-  );
+    return (
+        <>
+            <HeaderDayShift isEdit={modelEditor.isEdit} />
+            <div className='block-filter'>{renderFilterArea()}</div>
+            <div className='table-PreMatch'>
+                <PreMatchTable {...props} />
+            </div>
+            <CreateTicketPlusCircle creatorInfo={creatorInfo} />
+            <TicketDetailBoard />
+            <CreateTicketOther creatorInfo={creatorInfo} />
+            <CreateTicketEventChecking creatorInfo={creatorInfo} />
+            <PairsPopup hasWrite={permission.HasWrite} />
+        </>
+    );
 };
 
 export default DayShiftManagement;
