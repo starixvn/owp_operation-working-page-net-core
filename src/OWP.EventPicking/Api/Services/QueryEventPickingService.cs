@@ -20,9 +20,7 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
 
     private readonly TGRSService tGRSService;
 
-    private const string PhraseToRemove = "no need include miscmatch";
-
-    private const string Pattern = @"^\w+\s+Said\s+([A-Za-z\s]+[A-Za-z]+)(\s*\(Skype\s+\d{2}\s+\w+\s+\d{4}\))?$";
+    private const string InfoToHideMatch = "no need include miscmatch";
 
     public QueryEventPickingServiceImp(TGRSService tGRSService, BuildMainAndChildMatches buildMainAndChildMatches, PermissionService permissionService)
     {
@@ -46,7 +44,7 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
             await CalculateTurnOver_Margin(request, allMatches);
         }
 
-        DeleteUnusedInfoInRemark2(allMatches, PhraseToRemove);
+        HideNoNeedIncludeMiscMatch(ref allMatches, InfoToHideMatch);
 
         return new EventPickingResult
         {
@@ -209,49 +207,8 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
     private static List<MatchOfferInfo> SelectMatchOfferInfos(List<EventPickingModel> matches)
         => matches.Select(e => new MatchOfferInfo(e.InfoSiteMatchId, e.IsNoOffer, e.EventDateTime)).ToList();
 
-    private void DeleteUnusedInfoInRemark2(List<EventPickingModel> allMatches, string phraseToRemove)
+    private void HideNoNeedIncludeMiscMatch(ref List<EventPickingModel> allMatches, string infoToHideMatch)
     {
-        for (int i = 0; i < allMatches.Count; i++)
-        {
-            if (allMatches[i].Remark2.Contains(phraseToRemove))
-            {
-                allMatches[i].Remark2 = GetNewRemark2(allMatches[i].Remark2, phraseToRemove);
-            }
-        }
-    }
-
-    private static string GetNewRemark2(string text, string phraseToRemove)
-    {
-        return string.Join(". ", text.Split('.')
-            .Select(sentence => FormatSentence(sentence.Trim(), phraseToRemove))
-            .Where(sentence => !string.IsNullOrEmpty(sentence)))
-            + ".";
-    }
-
-    private static string FormatSentence(string sentence, string phraseToRemove)
-    {
-        if (!sentence.Contains(phraseToRemove))
-        {
-            return sentence;
-        }
-
-        sentence = sentence.Replace(phraseToRemove, "").Trim();
-        var subSentences = sentence.Split(',')
-            .Select(s => s.Trim())
-            .Where(s => !string.IsNullOrEmpty(s))
-            .ToList();
-
-        if (subSentences.Any() && !IsSentenceMeaningful(subSentences[0]))
-        {
-            subSentences.RemoveAt(0);
-        }
-
-        return string.Join(", ", subSentences);
-    }
-
-    private static bool IsSentenceMeaningful(string sentence)
-    {
-        var match = Regex.Match(sentence, Pattern, RegexOptions.IgnoreCase);
-        return match.Success;
+        allMatches = allMatches.Where(item => !item.Remark2.Contains(infoToHideMatch)).ToList();
     }
 }
