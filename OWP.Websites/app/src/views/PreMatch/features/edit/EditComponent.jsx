@@ -24,29 +24,18 @@ const EditComponent = () => {
         return dispatch(changeMode({ isEdit: true }));
     };
 
-    const EDIT_BUTTON = {
-        TITLE: 'Edit',
-        ITEMS: [
-            { title: 'Manual Assign', handler: handleManualAssign },
-            { title: 'Auto Assign', handler: () => dispatch(setAutoAssign(true)) }
-        ]
-    };
-
     return (
         <UncontrolledButtonDropdown>
             <DropdownToggle caret className='button-submit'>
-                {EDIT_BUTTON.TITLE}
+                Edit
             </DropdownToggle>
             <DropdownMenu>
-                {
-                    EDIT_BUTTON.ITEMS.map(({ title, handler }, index) => (
-                        <DropdownItem
-                            key={index}
-                            onClick={handler}>
-                            {title}
-                        </DropdownItem>
-                    ))
-                }
+                <DropdownItem key='manual-assign' onClick={handleManualAssign}>
+                    <span className='icon-tap' /> Manual Assign
+                </DropdownItem>
+                <DropdownItem key='auto-assign' onClick={() => dispatch(setAutoAssign(true))}>
+                    <span className='icon-refresh-setting' /> Auto Assign
+                </DropdownItem>
             </DropdownMenu>
         </UncontrolledButtonDropdown>
     );
