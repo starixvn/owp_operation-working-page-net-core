@@ -1,7 +1,11 @@
 import CustomInput from '../../../component/CustomInput';
 import { TUserInfo } from '../../../type';
 import store from '../../../app/useStoreNative';
-import { hasPermissionUser, isValidEmail, updateUserInfo } from '../../../utils';
+import {
+  hasPermissionUser,
+  isValidEmail,
+  updateUserInfo
+} from '../../../utils';
 import Toast from '../../../../components/ToastrWrapper';
 import { isEmpty } from 'lodash';
 
@@ -14,10 +18,7 @@ const EmailCell = ({ dataSource, rowIndex }: Props) => {
   const { updateValue } = store.getState();
 
   const updateInfo = (newValue: string) => {
-    if (isEmpty(newValue)) {
-      return;
-    }
-    if (!isValidEmail(newValue)) {
+    if (!isEmpty(newValue) && !isValidEmail(newValue)) {
       Toast.showError('The format email is invalid');
       return;
     }
@@ -34,7 +35,8 @@ const EmailCell = ({ dataSource, rowIndex }: Props) => {
     <CustomInput
       value={dataSource[rowIndex].email}
       handleOnBlur={updateInfo}
-      disabled={!hasPermissionUser(dataSource[rowIndex].sectionName)} />
+      disabled={!hasPermissionUser(dataSource[rowIndex].sectionName)}
+    />
   );
 };
 
