@@ -209,6 +209,6 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
 
     private void HideNoNeedIncludeMiscMatch(ref List<EventPickingModel> allMatches, string infoToHideMatch)
     {
-        allMatches = allMatches.Where(item => !item.Remark2.Contains(infoToHideMatch)).ToList();
+        allMatches = allMatches.Where(item => string.IsNullOrEmpty(item.Remark2) || !item.Remark2.Contains(infoToHideMatch)).ToList();
     }
 }
