@@ -35,8 +35,12 @@ public static class ProviderHelper
         if (!string.IsNullOrEmpty(otherProviderInString))
         {
             var sortedOtherProviderList = otherProviderInString.Split('/')
-                .Where(value => priorityProviders.Exists(p => value.StartsWith(p)))
-                .OrderBy(value => priorityProviders.FindIndex(p => value.StartsWith(p)))
+                .OrderBy(p =>
+                {
+                    var baseProvider = p.EndsWith("TV") ? p.Substring(0, p.Length - 2) : p;
+                    var index = priorityProviders.IndexOf(baseProvider);
+                    return priorityProviders.Contains(baseProvider) && p == baseProvider ? index : index + priorityProviders.Count;
+                })
                 .ToList();
 
             return string.Join("/", sortedOtherProviderList);
