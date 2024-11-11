@@ -24,6 +24,11 @@ const HistoryModal = props => {
     })();
   }, [infoSiteMatchId]);
 
+  const renderValue = value => 
+    dayjs(value, 'MM/DD/YYYY HH:mm:ss', true).isValid() 
+        ? dayjs(value, 'MM/DD/YYYY HH:mm:ss').format("MM/DD/YYYY hh:mm A") 
+        : value;
+
   const renderBody = () => {
     return logHistory.map((log, index) => {
       const { date, modifiedBy, action, oldValue, newValue } = log;
@@ -36,8 +41,8 @@ const HistoryModal = props => {
           <td>
             <span dangerouslySetInnerHTML={{ __html: action }} />
           </td>
-          <td>{oldValue}</td>
-          <td>{newValue}</td>
+          <td>{renderValue(oldValue)}</td>
+          <td>{renderValue(newValue)}</td>
         </tr>
       );
     });
