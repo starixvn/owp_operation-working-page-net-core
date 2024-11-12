@@ -26,6 +26,8 @@ public interface PreMatchAssignmentService
     Task SaveOldPreMatchAssignment(List<int> preMatchId);
 
     Task<QueryPreMatchLeagueViewModel> QueryById(QueryPreMatchLeagueByIdRequest request);
+
+    Task AutoAssignment(IEnumerable<PreMatchLeagueAssignment> assignments);
 }
 
 public class PreMatchAssignmentServiceImp : PreMatchAssignmentService
@@ -152,5 +154,15 @@ public class PreMatchAssignmentServiceImp : PreMatchAssignmentService
             PreMatchLeagues = mapper.Map<IList<LeagueAssignment>>(result.Item1)
         };
         return viewModel;
+    }
+
+    public async Task AutoAssignment(IEnumerable<PreMatchLeagueAssignment> assignments)
+    {
+        var command = new AutoAssignmentCommand
+        {
+            ActorId = currentSession.UserId,
+            Assignments = JsonConvert.SerializeObject(assignments)
+        };
+        await dynamicRepository.ExecuteAsync(command);
     }
 }

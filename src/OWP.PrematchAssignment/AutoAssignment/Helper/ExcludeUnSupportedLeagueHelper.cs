@@ -3,7 +3,7 @@ using OWP.PrematchAssignment.Models;
 
 namespace OWP.PrematchAssignment.AutoAssignment.Helper;
 
-public static class ExcludeUnSupportedLeaguesHelper
+public static class ExcludeUnSupportedLeagueHelper
 {
     public static QueryPreMatchLeagueViewModel Filter(QueryPreMatchLeagueViewModel model)
     {
@@ -19,20 +19,17 @@ public static class ExcludeUnSupportedLeaguesHelper
             .Where(league => !IsChildLeagues(league.LeagueName) && (!league.IsSaba || supportedSabas.Contains(league.LeagueName)))
             .ToList();
 
-        filteredModel.InfoSiteMatches = model.InfoSiteMatches
-            .Where(match => !match.IsTest)
-            .ToList();
+        filteredModel.InfoSiteMatches = model.InfoSiteMatches.Where(match => !match.IsTest).ToList();
 
         return filteredModel;
     }
 
-    public static bool IsChildLeagues(string leagueName)
+    private static bool IsChildLeagues(string leagueName)
     {
-        var allMinorMatches = ExplicitMinorMatchRuleConstants.MinorMatchesRules1
+        var rules = ExplicitMinorMatchRuleConstants.MinorMatchesRules1
             .Concat(ExplicitMinorMatchRuleConstants.MinorMatchRules2Away)
             .Concat(ExplicitMinorMatchRuleConstants.MinorMatchRules2Home);
 
-        return allMinorMatches
-            .Any(m => leagueName.EndsWith(m.LeagueLike, StringComparison.OrdinalIgnoreCase));
+        return rules.Any(m => leagueName.EndsWith(m.LeagueLike, StringComparison.OrdinalIgnoreCase));
     }
 }

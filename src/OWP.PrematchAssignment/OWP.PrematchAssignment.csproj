@@ -25,8 +25,4 @@
     <ProjectReference Include="..\OWP.RabbitMQ\OWP.RabbitMQ.csproj" />
     <ProjectReference Include="..\OWP\OWP.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="AutoAssignment\BalanceLeague\" />
-    <Folder Include="AutoAssignment\Services\" />
-  </ItemGroup>
 </Project>
