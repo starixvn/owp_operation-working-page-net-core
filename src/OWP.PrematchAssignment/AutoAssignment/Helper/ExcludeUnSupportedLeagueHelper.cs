@@ -29,7 +29,7 @@ public static class ExcludeUnSupportedLeagueHelper
 
         foreach (var league in filteredModel.PreMatchLeagues)
         {
-            league.MatchCount = filteredModel.InfoSiteMatches.Where(x => x.LeagueId == league.LeagueId).Count();
+            league.MatchCount = filteredModel.InfoSiteMatches.Count(x => x.LeagueId == league.LeagueId);
         }
 
         return filteredModel;

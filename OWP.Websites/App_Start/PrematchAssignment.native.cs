@@ -16,11 +16,5 @@ public static class PreMatchAssignmentInjector
         services.AddScoped<MaxbetSpreadService, MaxbetSpreadServiceImp>();
         services.AddScoped<ShiftAssignmentService, ShiftAssignmentServiceImp>();
         services.AddScoped<Repository, RepositoryImp>();
-
-        AddAutoAssignmentServices(services);
-    }
-    private static void AddAutoAssignmentServices(this IServiceCollection services)
-    {
-
     }
 }
