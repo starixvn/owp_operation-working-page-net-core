@@ -1,4 +1,6 @@
-﻿namespace OWP.EventPicking.Api.Helper;
+﻿using OWP.EventPicking.Api.Models;
+
+namespace OWP.EventPicking.Api.Helper;
 public static class ProviderHelper
 {
     public static string BuildProviderByOtherProvider(List<string> priorityProviders, string otherProviderInString)
@@ -30,6 +32,17 @@ public static class ProviderHelper
         return string.Empty;
     }
 
+    public static string AddTVBeforeProvider(EventPickingModel match)
+    {
+        var isHasValueTV = !string.IsNullOrWhiteSpace(match.TV) || !string.IsNullOrWhiteSpace(match.Channel) || !string.IsNullOrWhiteSpace(match.Iptv);
+        if (isHasValueTV)
+        {
+            return string.IsNullOrWhiteSpace(match.Provider) ? "TV" : "TV/" + match.Provider;
+        }
+
+        return match.Provider;
+    }
+
     public static string SortOtherProvider(List<string> priorityProviders, string otherProviderInString)
     {
         if (!string.IsNullOrEmpty(otherProviderInString))
@@ -44,7 +57,7 @@ public static class ProviderHelper
                 .ToList();
 
             return string.Join("/", sortedOtherProviderList);
-        }
+        } 
 
         return string.Empty;
     }

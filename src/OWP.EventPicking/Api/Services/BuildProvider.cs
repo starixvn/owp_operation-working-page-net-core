@@ -22,7 +22,8 @@ public class BuildProviderImp : BuildProvider
     public async Task Build(List<EventPickingModel> matches)
     {
         var priorityProviders = await repository.GetProviderArrangement();
-        matches.ForEach(x => x.Provider = ProviderHelper.BuildProviderByOtherProvider(priorityProviders, x.OtherProvider));
+
+        matches.ForEach(x => x.Provider = ProviderHelper.AddTVBeforeProvider(x));
         matches.ForEach(x => x.OtherProvider = ProviderHelper.SortOtherProvider(priorityProviders, x.OtherProvider));
     }
 }
