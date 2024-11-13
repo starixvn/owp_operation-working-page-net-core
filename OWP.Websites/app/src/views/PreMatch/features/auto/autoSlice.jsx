@@ -17,13 +17,13 @@ const autoSlice = createSlice({
                 { userId: 0, username: '', assignmentType: ASSIGNMENT_TYPE.MAIN, bettype: BETTYPE.OU }
             ]
         ],
-        mainPairs: [
+        earlyPairs: [
             [
                 { userId: 0, username: '', assignmentType: ASSIGNMENT_TYPE.MAIN, bettype: BETTYPE.HDP },
                 { userId: 0, username: '', assignmentType: ASSIGNMENT_TYPE.MAIN, bettype: BETTYPE.OU }
             ]
         ],
-        earlyPairs: [
+        mainPairs: [
             [
                 { userId: 0, username: '', assignmentType: ASSIGNMENT_TYPE.MAIN, bettype: BETTYPE.HDP },
                 { userId: 0, username: '', assignmentType: ASSIGNMENT_TYPE.MAIN, bettype: BETTYPE.OU }

@@ -1,15 +1,20 @@
-﻿using Fanex.NAP.Client;
-using MediatR;
+﻿using MediatR;
 using OWP.PrematchAssignment.AutoAssignment.Helper;
 using OWP.PrematchAssignment.Handlers;
 using OWP.PrematchAssignment.Models;
 using OWP.PrematchAssignment.Services;
-using OWP.RabbitMQ;
 
 namespace OWP.PrematchAssignment.AutoAssignment.Handlers;
 
-public class AutoAssignRequest : QueryDayShiftPreMatchRequest, IRequest<QueryPreMatchLeagueViewModel>
+public class AutoAssignRequest : IRequest
 {
+    public string Employee { get; set; }
+    public DateTime EventDate { get; set; }
+    public string LeagueName { get; set; }
+    public int ActorId { get; set; }
+    public List<string> MatchOffers { get; set; }
+    public List<int> EarlyOffered { get; set; }
+
     public IEnumerable<IEnumerable<PreMatchLeagueAssignment>> MajorPairs { get; set; }
     public IEnumerable<IEnumerable<PreMatchLeagueAssignment>> MajorTakeOverPairs { get; set; }
     public IEnumerable<IEnumerable<PreMatchLeagueAssignment>> MainPairs { get; set; }
@@ -17,21 +22,30 @@ public class AutoAssignRequest : QueryDayShiftPreMatchRequest, IRequest<QueryPre
 }
 
 public class AutoAssignHandler(
-    IMediator mediator,
-    PreMatchAssignmentService preMatchAssignmentService,
-    MessageClient messageClient) : IRequestHandler<AutoAssignRequest, QueryPreMatchLeagueViewModel>
+    ShiftAssignmentService shiftAssignmentService,
+    PreMatchAssignmentService preMatchAssignmentService) : IRequestHandler<AutoAssignRequest>
 {
-    public async Task<QueryPreMatchLeagueViewModel> Handle(AutoAssignRequest request, CancellationToken cancellationToken)
+    public async Task Handle(AutoAssignRequest request, CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(request, cancellationToken);
+        var model = new QueryDayShiftPreMatchRequest
+        {
+            Employee = request.Employee,
+            EventDate = request.EventDate,
+            ActorId = request.ActorId,
+            EarlyOffered = request.EarlyOffered,
+            LeagueName = request.LeagueName,
+            MatchOffers = request.MatchOffers
+        };
+        var shiftAssignments = await shiftAssignmentService.QueryDayShift(model);
 
-        var groupLeagues = PreprocessData(result);
+        var groupLeagues = PreprocessData(shiftAssignments);
 
-        var assignments = HandleAssignPairs(request, groupLeagues, result.InfoSiteMatches);
+        var assignments = HandleAssignPairs(request, groupLeagues, shiftAssignments.InfoSiteMatches);
 
-        await preMatchAssignmentService.AutoAssignment(assignments);
-
-        return result;
+        if (assignments.Any())
+        {
+            await preMatchAssignmentService.AutoAssign(assignments);
+        }
     }
 
     private static GroupPreMatchLeagueModel PreprocessData(QueryPreMatchLeagueViewModel model)
@@ -95,10 +109,15 @@ public class AutoAssignHandler(
     {
         var assignments = new List<PreMatchLeagueAssignment>();
         var index = 0;
-        var totaPairs = pairs.Count();
+        var totalPairs = pairs.Count();
+        if (totalPairs == 0)
+        {
+            return assignments;
+        }
+
         foreach (var league in leagues)
         {
-            var aindex = index % totaPairs;
+            var aindex = index % totalPairs;
             var assignees = pairs.ElementAt(aindex);
 
             foreach (var assignee in assignees)

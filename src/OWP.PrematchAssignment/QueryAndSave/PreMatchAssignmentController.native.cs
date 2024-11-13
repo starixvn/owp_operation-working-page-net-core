@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using OWP.PrematchAssignment.AutoAssignment.Handlers;
 using OWP.PrematchAssignment.Handlers;
 using OWP.PrematchAssignment.Models;
 using OWP.PrematchAssignment.Services;
@@ -141,5 +142,13 @@ public class PreMatchAssignmentController : ControllerBase
         }
 
         return Ok(JsonConvert.SerializeObject(tickets.OrderByDescending(x => x.LatestCreatedDate).ToList()));
+    }
+
+    [Route("auto-assign")]
+    [HttpPost]
+    public async Task<IActionResult> AutoAssign(AutoAssignRequest request)
+    {
+        await mediator.Send(request);
+        return Ok();
     }
 }
