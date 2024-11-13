@@ -17,7 +17,7 @@ public class WorkingShiftTimezoneApiController : ControllerBase
 
     [Route("")]
     [HttpPut]
-    [NapAuth(FunctionKey = FunctionKeys.WorkingShiftManagement_ShiftManagement, Policy = Constant.Policy.Host)]
+    [NapAuth(FunctionKey = FunctionKeys.WorkingShiftManagement, Policy = Constant.Policy.Read)]
     public async Task<IActionResult> UpdateTimeZoneSetting(TimezoneUpdateModel model)
     {
         var result = await repository.Update(model);
