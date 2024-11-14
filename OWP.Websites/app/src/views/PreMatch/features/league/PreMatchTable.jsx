@@ -82,7 +82,7 @@ const PreMatchTable = ({ isEditing, isNightShift }) => {
 
     const tableWidth = width > 1700 ? calculateTableWidth(columnWidth) : width;
 
-    const tableHeight = window.innerHeight - 200;
+    const tableHeight = window.innerHeight - 210;
 
     if (isEqual(model.loading, REQUEST_STATUS.pending)) {
         return <Loading />;

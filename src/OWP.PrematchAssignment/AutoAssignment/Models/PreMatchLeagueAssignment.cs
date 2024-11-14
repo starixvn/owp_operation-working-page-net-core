@@ -8,4 +8,5 @@ public class PreMatchLeagueAssignment
     public int Bettype { get; set; }
     public bool IsTakeOver { get; set; }
     public byte AssignmentType { get; set; }
+    public bool AssignBySystem { get; set; }
 }

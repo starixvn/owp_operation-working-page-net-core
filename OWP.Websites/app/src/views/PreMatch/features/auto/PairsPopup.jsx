@@ -1,7 +1,6 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
-import { post } from '../../../Shared/Service/Service';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAutoAssign } from './autoSlice';
 
@@ -11,9 +10,13 @@ import EarlyPair from './EarlyPair';
 import ToastrWrapper from '../../../components/ToastrWrapper';
 import Loading from '../../../components/Loading';
 
+import { post } from '../../../Shared/Service/Service';
+import { getShiftByDateAndEmployee } from '../league/shiftSlice/shiftSlice';
+
 const PairsPopup = props => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const dispatch = useDispatch();
+    const stableDispatch = useCallback(dispatch, [dispatch]);
     const { isAuto, majorPairs, majorTakeOverPairs, earlyPairs, mainPairs } = useSelector(state => state.auto);
     const filter = useSelector(state => state.signalR.backupFilterModel);
 
@@ -31,6 +34,7 @@ const PairsPopup = props => {
     };
 
     const handleClosePopup = () => dispatch(setAutoAssign(false));
+
     const handleAutoAssignment = async () => {
         const tmpMajorPairs = getPairs(majorPairs);
         const tmpMajorTakeOverPairs = getPairs(majorTakeOverPairs);
@@ -55,6 +59,8 @@ const PairsPopup = props => {
 
         if (response.status === 200) {
             ToastrWrapper.showInfo('Auto assign successful!');
+            handleClosePopup();
+            stableDispatch(getShiftByDateAndEmployee(filter));
         }
     };
 

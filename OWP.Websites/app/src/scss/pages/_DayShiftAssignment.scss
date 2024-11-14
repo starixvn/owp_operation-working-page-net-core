@@ -149,6 +149,7 @@ input::-ms-input-placeholder {
 .block-filter {
     display: flex;
     justify-content: space-between;
+    padding-right: 10px;
 
     >.button-submit {
         margin: 0 10px 0 0px;
