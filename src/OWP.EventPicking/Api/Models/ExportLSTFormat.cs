@@ -56,6 +56,8 @@ public class ExportLSTFormat : EventProductCommon
     [Cell("AD2")]
     public string Channel { get; set; }
 
+    public string Iptv { get; set; }
+
     [Cell("AE2")]
     public string Website1 { get; set; }
 

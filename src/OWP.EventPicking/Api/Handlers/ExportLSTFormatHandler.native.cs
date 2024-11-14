@@ -48,7 +48,8 @@ public class ExportLSTFormatHandler(Repository repository, ExportService exportS
 
         for (var i = 0; i < matches.Count; i++)
         {
-            matches[i].Agent = ProviderHelper.BuildProviderByOtherProvider(priorityProviders, matches[i].OtherProvider);
+            matches[i].Agent = ProviderHelper.AddTVBeforeAgent(matches[i]);
+            matches[i].OtherProvider = ProviderHelper.SortOtherProvider(priorityProviders, matches[i].OtherProvider);
         }
 
         return matches;

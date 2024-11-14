@@ -43,6 +43,17 @@ public static class ProviderHelper
         return match.Provider;
     }
 
+    public static string AddTVBeforeAgent(ExportLSTFormat match)
+    {
+        var isHasValueTV = !string.IsNullOrWhiteSpace(match.TV) || !string.IsNullOrWhiteSpace(match.Channel) || !string.IsNullOrWhiteSpace(match.Iptv);
+        if (isHasValueTV)
+        {
+            return string.IsNullOrWhiteSpace(match.Agent) ? "TV" : "TV/" + match.Agent;
+        }
+
+        return match.Agent;
+    }
+
     public static string SortOtherProvider(List<string> priorityProviders, string otherProviderInString)
     {
         if (!string.IsNullOrEmpty(otherProviderInString))
