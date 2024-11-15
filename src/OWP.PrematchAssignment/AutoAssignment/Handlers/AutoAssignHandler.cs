@@ -72,7 +72,7 @@ public class AutoAssignHandler(
         var assignments = new List<PreMatchLeagueAssignment>();
 
         assignments.AddRange(AssignPairs(groupLeagues.MajorLeagues, request.MajorPairs));
-        assignments.AddRange(AssignPairs(groupLeagues.MajorLeagues, request.MajorTakeOverPairs));
+        assignments.AddRange(AssignPairs(groupLeagues.MajorLeagues, request.MajorTakeOverPairs, true));
 
         assignments.AddRange(AssignRemainLeagues(request, groupLeagues.GreenDotLeagues, infoSiteMatches));
         assignments.AddRange(AssignRemainLeagues(request, groupLeagues.NoGreenDotLeagues, infoSiteMatches));
@@ -99,13 +99,16 @@ public class AutoAssignHandler(
         var mainPairLeagues = leagues.Except(earlyPairLeagues).ToList();
 
         assignments.AddRange(AssignPairs(earlyPairLeagues, request.EarlyPairs));
-        assignments.AddRange(AssignPairs(earlyTakeOverLeagues, request.MainPairs.Reverse().ToList()));
+        assignments.AddRange(AssignPairs(earlyTakeOverLeagues, request.MainPairs.Reverse().ToList(), true));
         assignments.AddRange(AssignPairs(mainPairLeagues, request.MainPairs));
 
         return assignments;
     }
 
-    private static List<PreMatchLeagueAssignment> AssignPairs(IEnumerable<LeagueAssignment> leagues, IEnumerable<IEnumerable<PreMatchLeagueAssignment>> pairs)
+    private static List<PreMatchLeagueAssignment> AssignPairs(
+        IEnumerable<LeagueAssignment> leagues,
+        IEnumerable<IEnumerable<PreMatchLeagueAssignment>> pairs,
+        bool isTakeOver = false)
     {
         var assignments = new List<PreMatchLeagueAssignment>();
         var index = 0;
@@ -128,7 +131,7 @@ public class AutoAssignHandler(
                     UserId = assignee.UserId,
                     Username = assignee.Username,
                     Bettype = assignee.Bettype,
-                    IsTakeOver = false,
+                    IsTakeOver = isTakeOver,
                     AssignmentType = assignee.AssignmentType
                 });
             }

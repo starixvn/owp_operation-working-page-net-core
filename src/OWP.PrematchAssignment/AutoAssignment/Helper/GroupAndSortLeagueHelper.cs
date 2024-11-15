@@ -57,8 +57,8 @@ public static class GroupAndSortLeagueHelper
 
     private static void AddLeaguesToMajorGroup(IEnumerable<LeagueAssignment> leagues, IList<LeagueAssignment> majorLeagues, int countToAdd)
     {
-        var sortedLeagues = leagues.OrderBy(x => x.IsEarlyOffered)
-            .ThenBy(x => minorLeagueGroups.Contains(x.LeagueGroup)).ToList();
+        var sortedLeagues = leagues.OrderByDescending(x => x.IsEarlyOffered)
+            .ThenByDescending(x => minorLeagueGroups.Contains(x.LeagueGroup)).ToList();
 
         for (var i = 0; i < countToAdd && i < sortedLeagues.Count; i++)
         {
