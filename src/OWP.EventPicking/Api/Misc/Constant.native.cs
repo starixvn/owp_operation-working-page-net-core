@@ -35,6 +35,7 @@ public static class Constant
     public const int AWAY_COL_INDEX = 7;
     public const int LEAGUE_COL_INDEX = 8;
     public const int PROVIDER_COL_INDEX = 32;
+    public const int OTHER_PROVIDER_COL_INDEX = 33;
     public const int DIVISION_COL_INDEX = 34;
     public const int REMARK_COL_INDEX = 35;
     public const int ROUND_COL_INDEX = 37;

@@ -53,7 +53,7 @@ public static class ExcelColorHelper
             FillColorTeam(matches[i], row, templateSheet);
             FillColorTv(matches[i], row, templateSheet);
             FillColorIpTv(matches[i], row, templateSheet);
-            FillColorProvider(matches[i], row, templateSheet);
+            FillColorOtherProvider(matches[i], row, templateSheet);
             FillColorRound(matches[i], row, templateSheet);
             FillColorRoundHAT(matches[i], row, templateSheet);
             FillColorRemark(matches[i], row, templateSheet);
@@ -133,12 +133,12 @@ public static class ExcelColorHelper
         }
     }
 
-    private static void FillColorProvider(EventPickingModel match, int row, ExcelWorksheet templateSheet)
+    private static void FillColorOtherProvider(EventPickingModel match, int row, ExcelWorksheet templateSheet)
     {
-        if (ExistsUpdateType(RAndDColorConstant.UPDATE_PROVIDER, match)
-              || ExistsUpdateType(RAndDColorConstant.CANCEL_PROVIDER, match))
+        if (ExistsUpdateType(RAndDColorConstant.UPDATE_OTHER_PROVIDER, match)
+              || ExistsUpdateType(RAndDColorConstant.CANCEL_OTHER_PROVIDER, match))
         {
-            FillCellColor(templateSheet.Cells[row, Misc.Constant.PROVIDER_COL_INDEX]);
+            FillCellColor(templateSheet.Cells[row, Misc.Constant.OTHER_PROVIDER_COL_INDEX]);
         }
     }
 

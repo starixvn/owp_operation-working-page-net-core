@@ -19,8 +19,8 @@ public static class RAndDColorConstant
     public const int CANCEL_TV = 6;
     public const int UPDATE_IPTV = 7;
     public const int CANCEL_IPTV = 8;
-    public const int UPDATE_PROVIDER = 9;
-    public const int CANCEL_PROVIDER = 10;
+    public const int UPDATE_OTHER_PROVIDER = 9;
+    public const int CANCEL_OTHER_PROVIDER = 10;
     public const int DELETE_MATCH = 11;
     public const int UPDATE_ROUND = 12;
     public const int CANCEL_ROUND = 13;
@@ -47,8 +47,8 @@ public static class RAndDColorConstant
         {CANCEL_TV ,(CANCEL_COLOR,WHITE)},
         {UPDATE_IPTV ,(UPDATE_COLOR,GREEN)},
         {CANCEL_IPTV ,(CANCEL_COLOR,WHITE)},
-        {UPDATE_PROVIDER,(UPDATE_COLOR,GREEN)},
-        {CANCEL_PROVIDER,(CANCEL_COLOR,WHITE)},
+        {UPDATE_OTHER_PROVIDER,(UPDATE_COLOR,GREEN)},
+        {CANCEL_OTHER_PROVIDER,(CANCEL_COLOR,WHITE)},
         {DELETE_MATCH,(DELETE_COLOR,WHITE)},
         {UPDATE_ROUND,(UPDATE_COLOR,GREEN)},
         {CANCEL_ROUND,(CANCEL_COLOR,WHITE)},
