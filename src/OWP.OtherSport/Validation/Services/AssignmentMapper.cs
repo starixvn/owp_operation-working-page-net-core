@@ -54,6 +54,10 @@ public class AssignmentMapperImp : AssignmentMapper
     {
         var model = mapper.Map<AssignmentModel>(excelModel);
 
+        model.League = ReplaceHiddenCharacters(model.League);
+        model.Home = ReplaceHiddenCharacters(model.Home);
+        model.Away = ReplaceHiddenCharacters(model.Away);
+
         MapDateTime(excelModel, model);
         MapTradersWithNote(excelModel, model);
         MapMaxbetsAndSpreads(excelModel, model);
@@ -172,5 +176,17 @@ public class AssignmentMapperImp : AssignmentMapper
         var trader = ExtractTrader(otherTrader);
         var note = ExtractNote(otherTrader);
         return $"{trader},{note}";
+    }
+
+    private static string ReplaceHiddenCharacters(string value)
+    {
+        var hiddenChars = " ";
+
+        while (value.Contains(hiddenChars, StringComparison.CurrentCulture))
+        {
+            value = value.Replace(hiddenChars, string.Empty);
+        }
+
+        return value;
     }
 }
