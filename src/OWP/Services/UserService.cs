@@ -13,19 +13,11 @@ public interface UserRepository
     Task<IList<WeeklyWorkingShiftUser>> GetAllUsers();
 }
 
-public class UserRepositoryImp : UserRepository
+public class UserRepositoryImp(
+    IDynamicRepository repository,
+    IUserService userService,
+    INapSettings napSettings) : UserRepository
 {
-    private readonly IDynamicRepository repository;
-    private readonly IUserService userService;
-    private readonly INapSettings napSettings;
-
-    public UserRepositoryImp(IDynamicRepository repository, IUserService userService, INapSettings napSettings)
-    {
-        this.repository = repository;
-        this.userService = userService;
-        this.napSettings = napSettings;
-    }
-
     public async Task<User> GetUserInfoById(int userId)
     {
         var criteria = new GetUserInfoByIdCriteria
@@ -38,8 +30,9 @@ public class UserRepositoryImp : UserRepository
     public async Task<IList<WeeklyWorkingShiftUser>> GetAllUsers()
     {
         var allUserActive = await userService.GetBySiteAsync(napSettings.SiteId, true);
-        var criteria = new GetAllUserCriteria(){
-            AllUserJson= JsonConvert.SerializeObject(allUserActive.Select(u => new
+        var criteria = new GetAllUserCriteria
+        {
+            AllUserJson = JsonConvert.SerializeObject(allUserActive.Select(u => new
             {
                 UserId = u.Id,
                 IsActive = true

@@ -17,21 +17,11 @@ public interface UserRepository
     Task<UserInfoModel> GetUserInfo(string name);
 }
 
-public class UserRepositoryImp : UserRepository
+public class UserRepositoryImp(
+    IDynamicRepository repository,
+    INapSettings napSettings,
+    IUserService userService) : UserRepository
 {
-    private readonly IDynamicRepository repository;
-
-    private readonly IUserService userService;
-    private readonly INapSettings napSettings;
-
-
-    public UserRepositoryImp(IDynamicRepository repository, INapSettings napSettings, IUserService userService)
-    {
-        this.repository = repository;
-        this.napSettings = napSettings;
-        this.userService = userService;
-    }
-
     public async Task<IEnumerable<UserSuggestionEntity>> GetSuggestion(GetSuggestionModel model)
     {
         var allUserActive = await userService.GetBySiteAsync(napSettings.SiteId, null);
@@ -50,7 +40,7 @@ public class UserRepositoryImp : UserRepository
     public async Task<IEnumerable<UserInfoModel>> GetAll()
     {
         var allUserActive = await userService.GetBySiteAsync(napSettings.SiteId, true);
-        var criteria = new GetAllUserCriteria()
+        var criteria = new GetAllUserCriteria
         {
             AllUserJson = JsonConvert.SerializeObject(allUserActive.Select(u => new
             {
