@@ -392,77 +392,75 @@
                 }
             }
 
-            :nth-child(10) {
-                .multiple-order {
-                    position: relative;
+            .multiple-order-margin-turnover {
+                position: relative;
 
-                    .dropdown-action.is-show {
-                        position: absolute;
-                        margin: 0;
-                        list-style: none;
-                        text-align: left;
-                        background: #fff;
-                        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 2px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+                .dropdown-action.is-show {
+                    position: absolute;
+                    margin: 0;
+                    list-style: none;
+                    text-align: left;
+                    background: #fff;
+                    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 2px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
 
-                        li {
-                            height: 25%;
+                    li {
+                        height: 25%;
+                        cursor: pointer;
+                        padding: 8px 16px;
+                        text-decoration: none;
+                        display: block;
+                        position: relative;
+
+                        .sort-icon {
+                            top: 50%;
+                            transform: translate(0, -50%);
+                            right: 2px;
+                            width: 12px;
+                            height: 12px;
                             cursor: pointer;
-                            padding: 8px 16px;
-                            text-decoration: none;
-                            display: block;
-                            position: relative;
 
-                            .sort-icon {
-                                top: 50%;
-                                transform: translate(0, -50%);
-                                right: 2px;
-                                width: 12px;
-                                height: 12px;
-                                cursor: pointer;
-
-                                &.asc {
-                                    &:before {
-                                        border-color: transparent transparent #4b595c transparent;
-                                    }
-                                }
-
-                                &.desc {
-                                    &:after {
-                                        border-color: #4b595c transparent transparent transparent;
-                                    }
-                                }
-
+                            &.asc {
                                 &:before {
-                                    content: '';
-                                    content: "";
-                                    width: 0px;
-                                    height: 3px;
-                                    border-style: solid;
-                                    top: 17px;
-                                    left: 6px;
-                                    border-color: transparent transparent #93a9aa transparent;
-                                    border-width: 0 3px 5px 3px;
-                                    position: absolute;
+                                    border-color: transparent transparent #4b595c transparent;
                                 }
+                            }
 
+                            &.desc {
                                 &:after {
-                                    content: '';
-                                    width: 0;
-                                    height: 0;
-                                    border-style: solid;
-                                    left: 6px;
-                                    top: 10px;
-                                    border-color: #93a9aa transparent transparent transparent;
-                                    border-width: 5px 3px 0 3px;
-                                    position: absolute;
+                                    border-color: #4b595c transparent transparent transparent;
                                 }
+                            }
+
+                            &:before {
+                                content: '';
+                                content: "";
+                                width: 0px;
+                                height: 3px;
+                                border-style: solid;
+                                top: 17px;
+                                left: 6px;
+                                border-color: transparent transparent #93a9aa transparent;
+                                border-width: 0 3px 5px 3px;
+                                position: absolute;
+                            }
+
+                            &:after {
+                                content: '';
+                                width: 0;
+                                height: 0;
+                                border-style: solid;
+                                left: 6px;
+                                top: 10px;
+                                border-color: #93a9aa transparent transparent transparent;
+                                border-width: 5px 3px 0 3px;
+                                position: absolute;
                             }
                         }
                     }
                 }
             }
         }
-    }
+        }
 
     tbody {
         th {

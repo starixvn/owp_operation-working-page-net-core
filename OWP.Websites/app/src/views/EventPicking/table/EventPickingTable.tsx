@@ -8,19 +8,19 @@ import { isEqual } from 'lodash';
 import { itemRowHeight } from './TableSchema.json';
 
 const EventPickingTable = () => {
-  const model = useAppSelector(state => state.eventPickingTable);
-  const { entities, loading } = model;
-  return (
-    <>
-      {isEqual(loading, REQUEST_STATUS.pending) && <Loading />}
-      <CustomTable
-        data={entities}
-        tableHeader={<TableHeader />}
-        classNameTable='table-event-picking'
-        itemRowHeight={itemRowHeight}>
-        <TableBody />
-      </CustomTable>
-    </>
-  );
+    const model = useAppSelector(state => state.eventPickingTable);
+    const { entities, loading } = model;
+    return (
+        <>
+            {isEqual(loading, REQUEST_STATUS.pending) && <Loading />}
+            <CustomTable
+                data={entities}
+                tableHeader={<TableHeader />}
+                classNameTable='table-event-picking'
+                itemRowHeight={itemRowHeight}>
+                <TableBody />
+            </CustomTable>
+        </>
+    );
 };
 export default EventPickingTable;
