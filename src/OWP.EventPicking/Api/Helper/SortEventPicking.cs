@@ -26,7 +26,10 @@ public static class SortEventPicking
 
         var sabaCombine = orderPriority1stSaba.Concat(orderPriority2ndSaba).Concat(orderPriority3rdSaba).ToList();
 
-        var realMatches = matches.Except(sabaCombine).OrderBy(x => x.EventDateTime).ToList();
+        var realMatches = matches.Except(sabaCombine)
+            .OrderBy(x => x.EventDateTime)
+            .ThenBy(x => x.LeagueName)
+            .ToList();
 
         return realMatches.Concat(sabaCombine).ToList();
     }
