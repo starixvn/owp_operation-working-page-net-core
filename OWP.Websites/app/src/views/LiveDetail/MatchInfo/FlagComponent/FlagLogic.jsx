@@ -17,7 +17,7 @@ import { PES_23_IMAGE_STORE } from './FlagStore/PES23';
 export const getFlagFromStore = props => {
   const { flagName, flagNameLibrary, flagURL } = props;
   const flagInStore = flagNameLibrary.find(
-    f => f.toLowerCase() === flagName.toLowerCase()
+    f => f.toLowerCase().replace(/\s+/g, ' ').trim() === flagName.toLowerCase().replace(/\s+/g, ' ').trim()
   );
 
   if (flagInStore) {
