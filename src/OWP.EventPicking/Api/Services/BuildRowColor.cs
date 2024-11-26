@@ -17,8 +17,7 @@ public class BuildRowColorImp : BuildRowColor
             {
                 { IsAwayBlackList: true } or { IsHomeBlackList: true } or { IsLeagueBlackList: true } => Misc.Constant.ColorGray,
                 { MinorBettypeId: not null } when isEventPicking => Misc.Constant.ColorYellow,
-                { IsMovedEventDate: true } => Misc.Constant.ColorBeige,
-                { IsDeleted: true } => Misc.Constant.ColorBrown,
+                { IsMovedEventDate: true } or { IsDeleted: true } => Misc.Constant.ColorBeige,
                 _ => Misc.Constant.ColorWhite
             };
         }
