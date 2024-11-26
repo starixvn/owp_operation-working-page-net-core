@@ -13,22 +13,14 @@ public class BuildRowColorImp : BuildRowColor
     {
         foreach (var x in matches)
         {
-            if (x.IsAwayBlackList || x.IsHomeBlackList || x.IsLeagueBlackList)
+            x.RowColor = x switch
             {
-                x.RowColor = Misc.Constant.ColorGray;
-            }
-            else if (x.MinorBettypeId.HasValue && isEventPicking)
-            {
-                x.RowColor = Misc.Constant.ColorYellow;
-            }
-            else if (x.IsMovedEventDate)
-            {
-                x.RowColor = Misc.Constant.ColorBeige;
-            }
-            else
-            {
-                x.RowColor = Misc.Constant.ColorWhite;
-            }
+                { IsAwayBlackList: true } or { IsHomeBlackList: true } or { IsLeagueBlackList: true } => Misc.Constant.ColorGray,
+                { MinorBettypeId: not null } when isEventPicking => Misc.Constant.ColorYellow,
+                { IsMovedEventDate: true } => Misc.Constant.ColorBeige,
+                { IsDeleted: true } => Misc.Constant.ColorBrown,
+                _ => Misc.Constant.ColorWhite
+            };
         }
     }
 

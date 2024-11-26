@@ -27,6 +27,8 @@ const InfoIcon = () => {
           <li>
             Filter match:
             <ul>
+              <li>Beige: A match belongs to Move KO Date</li>
+              <li>Brown: A match is Deleted</li>
               <li>Gray: A match belongs to Black list</li>
               <li>White: Other cases</li>
             </ul>
