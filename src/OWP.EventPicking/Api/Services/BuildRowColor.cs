@@ -1,3 +1,4 @@
+using OWP.EventPicking.Api.Constant;
 using OWP.EventPicking.Api.Models;
 
 namespace OWP.EventPicking.Api.Services;
@@ -21,7 +22,7 @@ public class BuildRowColorImp : BuildRowColor
             {
                 x.RowColor = Misc.Constant.ColorYellow;
             }
-            else if (x.IsMovedEventDate)
+            else if (x.IsMovedEventDate || IsPostponed(x) || IsCancelled(x))
             {
                 x.RowColor = Misc.Constant.ColorBeige;
             }
@@ -47,4 +48,12 @@ public class BuildRowColorImp : BuildRowColor
         return leagueName.Contains(TWENTY_MIN, StringComparison.OrdinalIgnoreCase) ||
                isContainSaba && sabaMinsPlay.Exists(x => leagueName.Contains(x, StringComparison.OrdinalIgnoreCase));
     }
+
+    private static bool IsPostponed(EventPickingModel match)
+        => (!string.IsNullOrEmpty(match.Remark2) && match.Remark2.Contains("Postponed"))
+            || match.InfoSiteMatchStatus == InfoSiteMatchStatus.Postponed;
+
+    private static bool IsCancelled(EventPickingModel match)
+        => (!string.IsNullOrEmpty(match.Remark2) && match.Remark2.Contains("Cancel", StringComparison.OrdinalIgnoreCase))
+            || match.InfoSiteMatchStatus == InfoSiteMatchStatus.Cancelled;
 }

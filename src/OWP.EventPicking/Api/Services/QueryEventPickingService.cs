@@ -137,7 +137,7 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
                 ToDate = period.ToDate,
                 LeagueName = GetLeagueName(matches)
             });
-            matches.ForEach(x=> x.IsTGRUnAvailable = result.Item2);
+            matches.ForEach(x => x.IsTGRUnAvailable = result.Item2);
             return result.Item1;
         }
         return new List<TurnOverWinLossModel>();
@@ -197,8 +197,8 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
         }
 
         return match.RAndDInfo
-        .Select(x => x.UpdateTypeId)
-        .Any(x => condition.UpdateType.Contains(x));
+            .Select(x => x.UpdateTypeId)
+            .Any(x => condition.UpdateType.Contains(x));
     }
 
 
@@ -207,7 +207,7 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
     private static List<MatchOfferInfo> SelectMatchOfferInfos(List<EventPickingModel> matches)
         => matches.Select(e => new MatchOfferInfo(e.InfoSiteMatchId, e.IsNoOffer, e.EventDateTime)).ToList();
 
-    private void HideNoNeedIncludeMiscMatch(ref List<EventPickingModel> allMatches, string infoToHideMatch)
+    private static void HideNoNeedIncludeMiscMatch(ref List<EventPickingModel> allMatches, string infoToHideMatch)
     {
         allMatches = allMatches.Where(item => string.IsNullOrEmpty(item.Remark2) || !item.Remark2.ToLower().Contains(infoToHideMatch)).ToList();
     }

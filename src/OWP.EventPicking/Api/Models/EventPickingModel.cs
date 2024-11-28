@@ -299,13 +299,9 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
 
     public List<RAndDInfo> RAndDInfo { get; set; }
 
-    public string HasProvider => !string.IsNullOrWhiteSpace(Provider)
-    ? "yes"
-    : "no";
+    public string HasProvider => !string.IsNullOrWhiteSpace(Provider) ? "yes" : "no";
 
-    public string HasOtherProvider => !string.IsNullOrWhiteSpace(OtherProvider)
-    ? "yes"
-    : "no";
+    public string HasOtherProvider => !string.IsNullOrWhiteSpace(OtherProvider) ? "yes" : "no";
 
     [Cell("BV2")]
     [JsonIgnore]
@@ -340,6 +336,15 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
     public MarginInfo MarginTwelveMonths { get; set; }
 
     public bool IsTGRUnAvailable { get; set; }
+
+    [JsonIgnore]
+    public bool RoundConfirm { get; set; }
+
+    public bool IsHomeBadRanking { get; set; }
+    public bool IsAwayBadRanking { get; set; }
+    public bool IsHomeDowngrade { get; set; }
+    public bool IsAwayDowngrade { get; set; }
+    public byte? InfoSiteMatchStatus { get; set; }
 
     public IEnumerable<TurnOverInfo> TurnoverPeriod => new List<TurnOverInfo>{
         TurnoverOneMonth ,

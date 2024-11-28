@@ -55,7 +55,6 @@ public static class ExcelColorHelper
             FillColorIpTv(matches[i], row, templateSheet);
             FillColorOtherProvider(matches[i], row, templateSheet);
             FillColorRound(matches[i], row, templateSheet);
-            FillColorRoundHAT(matches[i], row, templateSheet);
             FillColorRemark(matches[i], row, templateSheet);
             FillColorHomeRemark(matches[i], row, templateSheet);
             FillColorAwayRemark(matches[i], row, templateSheet);
@@ -74,6 +73,8 @@ public static class ExcelColorHelper
 
     private static void FillColorAwayRemark(EventPickingModel match, int row, ExcelWorksheet templateSheet)
     {
+        AddTeamRemarkBadRanking(templateSheet, row, Misc.Constant.AWAY_REMARK_COL_INDEX, match.AwayRemark, match.IsAwayBadRanking);
+        AddTeamRemarkRegelation(templateSheet, row, Misc.Constant.AWAY_REMARK_COL_INDEX, match.IsAwayDowngrade);
         if (ExistsUpdateType(RAndDColorConstant.UPDATE_AWAY_REMARK, match)
             || ExistsUpdateType(RAndDColorConstant.CANCEL_AWAY_REMARK, match))
         {
@@ -83,6 +84,8 @@ public static class ExcelColorHelper
 
     private static void FillColorHomeRemark(EventPickingModel match, int row, ExcelWorksheet templateSheet)
     {
+        AddTeamRemarkBadRanking(templateSheet, row, Misc.Constant.HOME_REMARK_COL_INDEX, match.HomeRemark, match.IsHomeBadRanking);
+        AddTeamRemarkRegelation(templateSheet, row, Misc.Constant.HOME_REMARK_COL_INDEX, match.IsHomeDowngrade);
         if (ExistsUpdateType(RAndDColorConstant.UPDATE_HOME_REMARK, match)
             || ExistsUpdateType(RAndDColorConstant.CANCEL_HOME_REMARK, match))
         {
@@ -96,15 +99,6 @@ public static class ExcelColorHelper
             || ExistsUpdateType(RAndDColorConstant.CANCEL_REMARK, match))
         {
             FillCellColor(templateSheet.Cells[row, Misc.Constant.REMARK_COL_INDEX]);
-        }
-    }
-
-    private static void FillColorRoundHAT(EventPickingModel match, int row, ExcelWorksheet templateSheet)
-    {
-        if (ExistsUpdateType(RAndDColorConstant.UPDATE_ROUND_HAT, match)
-            || ExistsUpdateType(RAndDColorConstant.CANCEL_ROUND_HAT, match))
-        {
-            FillCellColor(templateSheet.Cells[row, Misc.Constant.ROUND_HAT_COL_INDEX]);
         }
     }
 
@@ -174,6 +168,22 @@ public static class ExcelColorHelper
             var cell = templateSheet.Cells[row, Misc.Constant.REMARK_COL_INDEX];
             cell.Value = $"[DELETED] {cell.Value}";
             FillCellColor(cell);
+            return;
+        }
+
+        if (ExistsUpdateType(RAndDColorConstant.MATCH_POSTPONED, match))
+        {
+            var cell = templateSheet.Cells[row, Misc.Constant.REMARK_COL_INDEX];
+            cell.Value = $"[POSTPONED] {cell.Value}";
+            FillCellColor(cell);
+            return;
+        }
+
+        if (ExistsUpdateType(RAndDColorConstant.MATCH_CANCELLED, match))
+        {
+            var cell = templateSheet.Cells[row, Misc.Constant.REMARK_COL_INDEX];
+            cell.Value = $"[CANCELLED] {cell.Value}";
+            FillCellColor(cell);
         }
     }
 
@@ -202,5 +212,23 @@ public static class ExcelColorHelper
     }
 
     private static bool ExistsUpdateType(int updateType, EventPickingModel match)
-    => match.RAndDInfo is not null && match.RAndDInfo.Exists(r => r.UpdateTypeId == updateType);
+        => match.RAndDInfo is not null && match.RAndDInfo.Exists(r => r.UpdateTypeId == updateType);
+
+    private static void AddTeamRemarkBadRanking(ExcelWorksheet templateSheet, int row, int col, string remark, bool isBadRanking)
+    {
+        if ((string.IsNullOrEmpty(remark) || !remark.Contains("Bad ranking strike out", StringComparison.OrdinalIgnoreCase)) && isBadRanking)
+        {
+            var cell = templateSheet.Cells[row, col];
+            cell.Value = $"{cell.Value}{(!string.IsNullOrWhiteSpace(cell.Value.ToString()) ? Environment.NewLine : string.Empty)}Bad Ranking";
+        }
+    }
+
+    private static void AddTeamRemarkRegelation(ExcelWorksheet templateSheet, int row, int col, bool isDowngrade)
+    {
+        if (isDowngrade)
+        {
+            var cell = templateSheet.Cells[row, col];
+            cell.Value = $"{cell.Value}{(!string.IsNullOrWhiteSpace(cell.Value.ToString()) ? Environment.NewLine : string.Empty)}Relegation";
+        }
+    }
 }

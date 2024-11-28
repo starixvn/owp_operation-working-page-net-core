@@ -16,39 +16,39 @@ import { setUpdateTypeFilter } from '../table/eventPickingTableSlice/reducer';
 import { buildDefaultRAndDInfoOptions } from '../helper/filterHelper';
 
 const Filter = () => {
-  const dispatch = useDispatch();
-  const {
-    turnOverMarginPolicy: {
-      permission: { HasRead }
-    },
-    mode: { mode }
-  } = useSelector((state: RootState) => state);
+    const dispatch = useDispatch();
+    const {
+        turnOverMarginPolicy: {
+            permission: { HasRead }
+        },
+        mode: { mode }
+    } = useSelector((state: RootState) => state);
 
-  useEffect(() => {
-    (async () => {
-      const resultAction = await dispatch(getUpdateTypes());
-      if (getUpdateTypes.fulfilled.match(resultAction)) {
-        dispatch(
-          setUpdateTypeFilter(
-            buildDefaultRAndDInfoOptions(resultAction.payload)
-          )
-        );
-      }
-    })();
-  }, [dispatch]);
+    useEffect(() => {
+        (async () => {
+            const resultAction = await dispatch(getUpdateTypes());
+            if (getUpdateTypes.fulfilled.match(resultAction)) {
+                dispatch(
+                    setUpdateTypeFilter(
+                        buildDefaultRAndDInfoOptions(resultAction.payload)
+                    )
+                );
+            }
+        })();
+    }, [dispatch]);
 
-  return (
-    <>
-      <DateTimePicker />
-      <SelectGame />
-      <FilterMatch />
-      <HasProvider />
-      <HasOtherProvider />
-      <MatchCategory />
-      {HasRead && <TurnoverMargin />}
-      <UpdateType />
-      {mode === VIEW && <Command />}
-    </>
-  );
+    return (
+        <>
+            <DateTimePicker />
+            <SelectGame />
+            <FilterMatch />
+            <HasProvider />
+            <HasOtherProvider />
+            <MatchCategory />
+            {HasRead && <TurnoverMargin />}
+            <UpdateType />
+            {mode === VIEW && <Command />}
+        </>
+    );
 };
 export default Filter;

@@ -6,24 +6,14 @@ namespace OWP.EventPicking.Api;
 
 [Route("api/EventPicking")]
 [ApiController]
-public class EventPickingApiController
+public class EventPickingApiController(IMediator mediator, Repository repository)
 {
-    private readonly IMediator mediator;
-    private readonly Repository repository;
-
-    public EventPickingApiController(IMediator mediator, Repository repository)
-    {
-        this.mediator = mediator;
-        this.repository = repository;
-    }
-
     [HttpPost("get-event-picking")]
     [ServiceFilter(typeof(GetEventValidator))]
     public async Task<IActionResult> QueryEventPicking(QueryEventPickingRequest request)
     {
         var result = await mediator.Send(request);
 
-       
         return new JsonResult(result);
     }
 
@@ -33,7 +23,6 @@ public class EventPickingApiController
     {
         var result = await mediator.Send(request);
 
-       
         return new JsonResult(result);
     }
 
@@ -67,7 +56,7 @@ public class EventPickingApiController
     [Route("export-excel")]
     [HttpPost]
     public async Task<FileResult> ExportExcel(ExportExcelRequest request)
-    => await mediator.Send(request);
+        => await mediator.Send(request);
 
     [Route("export-excel-lst-format")]
     [HttpPost]
@@ -76,12 +65,11 @@ public class EventPickingApiController
 
     [HttpPost("update-main-events")]
     public async Task UpdateMainEventMaxbetSpread(UpdateEventsRequest request)
+        => await mediator.Send(request);
 
-          => await mediator.Send(request);
-    
     [HttpPost("update-special-product")]
     public async Task UpdateSpecialProductMaxbetSpread(SpecialProductUpdateMaxbetSpreadRequest request)
-          => await mediator.Send(request);
+        => await mediator.Send(request);
 
     [HttpPost("remove-special-product")]
     public async Task RemoveSpecialProduct(RemoveSpecialProductRequest request)

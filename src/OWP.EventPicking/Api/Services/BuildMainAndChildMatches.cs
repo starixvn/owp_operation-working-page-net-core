@@ -60,6 +60,7 @@ public class BuildMainAndChildMatchesImp(Repository repository,
             mainMatches.Result.AddRange(movedEventDateMatches);
             rAndDInfo.Result.AddRange(movedEventDateMatchesRnD);
         }
+
         buildMatchOffer.BuildForMainMatch(mainMatches.Result, maxBet.Result);
         var filteredMainMatches = MainMatchHelper.Filter(mainMatches.Result, appSettings.ShowTestMatchEventPicking);
 
