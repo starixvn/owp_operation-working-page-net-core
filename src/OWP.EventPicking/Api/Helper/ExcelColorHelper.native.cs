@@ -169,10 +169,10 @@ public static class ExcelColorHelper
 
     private static void FillColorDeleteMatch(EventPickingModel match, int row, ExcelWorksheet templateSheet)
     {
-        if (ExistsUpdateType(RAndDColorConstant.DELETE_MATCH, match))
+        if (match.IsDeleted)
         {
             var cell = templateSheet.Cells[row, Misc.Constant.REMARK_COL_INDEX];
-            cell.Value = $"[DELETED] {cell.Value}";
+            cell.Value = $"[DELETED MATCH] {cell.Value}";
             FillCellColor(cell);
         }
     }
