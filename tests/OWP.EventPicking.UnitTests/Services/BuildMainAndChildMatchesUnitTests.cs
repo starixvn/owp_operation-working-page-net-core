@@ -6,14 +6,17 @@ using Xunit;
 
 namespace OWP.EventPicking.UnitTests.Services;
 
+using Microsoft.Extensions.Options;
 using OWP.EventPicking.Api.Models;
 using OWP.EventPicking.Api.Services;
+using OWP.Models;
 using Xunit.Asserts.Compare;
 
 public class BuildMainAndChildMatchesUnitTests
 {
     private readonly Repository repository;
     private readonly IMediator mediator;
+    private readonly IOptions<AppSettings> appSettingOptions;
     private readonly BuildMainAndChildMatchesImp services;
 
     public BuildMainAndChildMatchesUnitTests()
@@ -22,6 +25,7 @@ public class BuildMainAndChildMatchesUnitTests
         var buildChildMatchMaxBet = Substitute.For<BuildChildMatchMaxBet>();
         var buildRowColor = Substitute.For<BuildRowColor>();
         mediator = Substitute.For<IMediator>();
+        appSettingOptions = Substitute.For<IOptions<AppSettings>>();
         var buildMatchOffer = Substitute.For<BuildMatchOfferByLiveSetting>();
         var providerBuilder = Substitute.For<BuildProvider>();
 
@@ -31,7 +35,8 @@ public class BuildMainAndChildMatchesUnitTests
             buildRowColor,
             buildMatchOffer,
             providerBuilder,
-            mediator);
+            mediator,
+            appSettingOptions);
     }
 
     [Fact]

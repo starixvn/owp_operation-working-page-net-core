@@ -22,7 +22,7 @@ public class BuildRowColorImp : BuildRowColor
             {
                 x.RowColor = Misc.Constant.ColorYellow;
             }
-            else if (x.IsMovedEventDate || IsPostponed(x) || IsCancelled(x))
+            else if (x.IsMovedEventDate || x.IsDeleted || IsPostponed(x) || IsCancelled(x))
             {
                 x.RowColor = Misc.Constant.ColorBeige;
             }

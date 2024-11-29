@@ -40,16 +40,16 @@
   ],
   "FILTER_MATCH_OPTIONS": [
     {
+      "value": "Beige",
+      "label": "Beige"
+    },
+    {
       "value": "Gray",
       "label": "Gray"
     },
     {
       "value": "White",
       "label": "White"
-    },
-    {
-      "value": "Beige",
-      "label": "Beige"
     }
   ],
   "HAS_PROVIDER_OPTIONS": [
