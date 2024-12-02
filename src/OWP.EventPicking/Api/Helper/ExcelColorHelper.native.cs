@@ -73,6 +73,7 @@ public static class ExcelColorHelper
 
     private static void FillColorAwayRemark(EventPickingModel match, int row, ExcelWorksheet templateSheet)
     {
+        AddTeamRemarkBlackList(templateSheet, row, Misc.Constant.AWAY_REMARK_COL_INDEX, match.IsAwayBlackList);
         AddTeamRemarkBadRanking(templateSheet, row, Misc.Constant.AWAY_REMARK_COL_INDEX, match.AwayRemark, match.IsAwayBadRanking);
         AddTeamRemarkRegelation(templateSheet, row, Misc.Constant.AWAY_REMARK_COL_INDEX, match.IsAwayDowngrade);
         if (ExistsUpdateType(RAndDColorConstant.UPDATE_AWAY_REMARK, match)
@@ -84,6 +85,7 @@ public static class ExcelColorHelper
 
     private static void FillColorHomeRemark(EventPickingModel match, int row, ExcelWorksheet templateSheet)
     {
+        AddTeamRemarkBlackList(templateSheet, row, Misc.Constant.HOME_REMARK_COL_INDEX, match.IsHomeBlackList);
         AddTeamRemarkBadRanking(templateSheet, row, Misc.Constant.HOME_REMARK_COL_INDEX, match.HomeRemark, match.IsHomeBadRanking);
         AddTeamRemarkRegelation(templateSheet, row, Misc.Constant.HOME_REMARK_COL_INDEX, match.IsHomeDowngrade);
         if (ExistsUpdateType(RAndDColorConstant.UPDATE_HOME_REMARK, match)
@@ -213,6 +215,15 @@ public static class ExcelColorHelper
 
     private static bool ExistsUpdateType(int updateType, EventPickingModel match)
         => match.RAndDInfo is not null && match.RAndDInfo.Exists(r => r.UpdateTypeId == updateType);
+
+    private static void AddTeamRemarkBlackList(ExcelWorksheet templateSheet, int row, int col, bool isBlackList)
+    {
+        if (isBlackList)
+        {
+            var cell = templateSheet.Cells[row, col];
+            cell.Value = $"{cell.Value}{(!string.IsNullOrWhiteSpace(cell.Value.ToString()) ? Environment.NewLine : string.Empty)}Black List";
+        }
+    }
 
     private static void AddTeamRemarkBadRanking(ExcelWorksheet templateSheet, int row, int col, string remark, bool isBadRanking)
     {
