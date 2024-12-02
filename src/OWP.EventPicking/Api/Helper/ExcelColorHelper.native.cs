@@ -173,7 +173,8 @@ public static class ExcelColorHelper
             return;
         }
 
-        if (ExistsUpdateType(RAndDColorConstant.MATCH_POSTPONED, match))
+        if ((!string.IsNullOrEmpty(match.Remark2) && match.Remark2.Contains("Postponed", StringComparison.OrdinalIgnoreCase))
+            || match.InfoSiteMatchStatus == InfoSiteMatchStatus.Postponed)
         {
             var cell = templateSheet.Cells[row, Misc.Constant.REMARK_COL_INDEX];
             cell.Value = $"[POSTPONED] {cell.Value}";
@@ -181,7 +182,8 @@ public static class ExcelColorHelper
             return;
         }
 
-        if (ExistsUpdateType(RAndDColorConstant.MATCH_CANCELLED, match))
+        if ((!string.IsNullOrEmpty(match.Remark2) && match.Remark2.Contains("Cancel", StringComparison.OrdinalIgnoreCase))
+            || match.InfoSiteMatchStatus == InfoSiteMatchStatus.Cancelled)
         {
             var cell = templateSheet.Cells[row, Misc.Constant.REMARK_COL_INDEX];
             cell.Value = $"[CANCELLED] {cell.Value}";
