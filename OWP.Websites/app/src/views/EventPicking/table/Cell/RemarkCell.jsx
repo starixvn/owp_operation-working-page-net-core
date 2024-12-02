@@ -49,8 +49,9 @@ const RemarkCell = props => {
         if (teamRemark.toLowerCase().includes('bad ranking strike out')) {
             return <span style={{ display: 'flex' }}>
                 <strong>{label}: </strong>
-                <span className='team-bad-ranking'>
-                    {teamRemark}
+                <span>
+                    <span className='team-bad-ranking'>{teamRemark}</span>
+                    {isDowngrade && <span className='team-downgrade'>Regelation</span>}
                 </span>
             </span>;
         }
