@@ -54,11 +54,11 @@ const executeOrderTable = (entities: TDataTable[], orderInfo: TOrder) => {
     }
 
     const entitiesHasValue = entities.filter(
-        e => e[orderInfo.columnKey].length && e[orderInfo.columnKey].some(t => t.title === orderInfo[orderInfo.columnKey].key && t.value)
+        e => e[orderInfo.columnKey].length && e[orderInfo.columnKey].some(t => t.title === orderInfo[orderInfo.columnKey].key && t.value !== null)
     );
 
     const entitiesNoValue = entities.filter(
-        e => !e[orderInfo.columnKey].length || e[orderInfo.columnKey].some(t => t.title === orderInfo[orderInfo.columnKey].key && !t.value)
+        e => !e[orderInfo.columnKey].length || e[orderInfo.columnKey].some(t => t.title === orderInfo[orderInfo.columnKey].key && t.value === null)
     );
 
     const tOverArrayToObject = convertTOverArrayToObject(entitiesHasValue, orderInfo);
