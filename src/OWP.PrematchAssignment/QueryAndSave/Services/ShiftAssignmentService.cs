@@ -160,8 +160,8 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
         var filteredLeagues = preMatchLeagues
             .Where(x => x.LeagueName.IsContains(request.LeagueName))
             .Where(x => string.IsNullOrEmpty(employee) ||
-                                   CheckMainAssignmentContainsEmployee(x, employee) ||
-                                   CheckOtherAssignmentContainsEmployee(x, employee))
+                CheckMainAssignmentContainsEmployee(x, employee) ||
+                CheckOtherAssignmentContainsEmployee(x, employee))
             .ToList();
 
         filteredLeagues = request.EarlyOffered is null
@@ -171,9 +171,9 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
         var filteredMatches = infoSiteMatches
             .Where(x => filteredLeagues.Exists(y => y.PreMatchLeagueId == x.PreMatchLeagueId)).ToList();
 
-        var result = FilterByMatchOffer(filteredLeagues, filteredMatches, matchOffers);
+        var (leagues, matches) = FilterByMatchOffer(filteredLeagues, filteredMatches, matchOffers);
 
-        return (result.Item1, result.Item2);
+        return (leagues, matches);
     }
 
     private static (List<PreMatchLeague>, List<InfoSiteMatch>) FilterByMatchOffer(

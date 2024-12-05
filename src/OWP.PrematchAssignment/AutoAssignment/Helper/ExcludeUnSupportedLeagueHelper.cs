@@ -21,15 +21,17 @@ public static class ExcludeUnSupportedLeagueHelper
             "SABA CLUB FRIENDLY Virtual PES 21 - 15 Mins Play"
         };
 
-        filteredModel.PreMatchLeagues = model.PreMatchLeagues
-            .Where(league => !IsChildLeagues(league.LeagueName) && (!league.IsSaba || supportedSabas.Contains(league.LeagueName)))
-            .ToList();
-
         filteredModel.InfoSiteMatches = model.InfoSiteMatches.Where(match => !match.IsTest).ToList();
+
+        filteredModel.PreMatchLeagues = model.PreMatchLeagues
+            .Where(league => !IsChildLeagues(league.LeagueName)
+                && (!league.IsSaba || supportedSabas.Contains(league.LeagueName))
+                && filteredModel.InfoSiteMatches.Any(m => m.LeagueId == league.LeagueId))
+            .ToList();
 
         foreach (var league in filteredModel.PreMatchLeagues)
         {
-            league.MatchCount = filteredModel.InfoSiteMatches.Count(x => x.LeagueId == league.LeagueId);
+            league.MatchCount = filteredModel.InfoSiteMatches.Count(m => m.LeagueId == league.LeagueId);
         }
 
         return filteredModel;
