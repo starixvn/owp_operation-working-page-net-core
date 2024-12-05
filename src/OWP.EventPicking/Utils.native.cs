@@ -52,10 +52,10 @@ public static class Utils
         }
         else
         {
-            var value = Math.Round(turnover_winLoss.WinLoss / turnover_winLoss.Turnover, 2);
+            var value = Math.Round(turnover_winLoss.WinLoss / turnover_winLoss.Turnover, 3);
             value = Math.Abs(value).Equals(0) ? 0 : value;
 
-            marginInfo.ValueDisplay = $"{value:#,0.00}";
+            marginInfo.ValueDisplay = $"{value:#,0.000}";
             marginInfo.Value = value;
 
             if (value < 0)
