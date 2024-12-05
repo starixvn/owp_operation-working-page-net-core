@@ -91,10 +91,10 @@ public class AutoAssignHandler(
         var assignments = new List<PreMatchLeagueAssignment>();
 
         var earlyPairLeagues = leagues
-            .Where(l => infoSiteMatches.Any(m => m.LeagueId == l.LeagueId && m.EventDateTime <= m.EventDateTime.Date.AddHours(Hours).AddMinutes(Minutes)))
+            .Where(l => infoSiteMatches.Any(m => m.LeagueId == l.LeagueId && m.EventDateTime <= request.EventDate.Date.AddHours(Hours).AddMinutes(Minutes)))
             .ToList();
         var earlyTakeOverLeagues = earlyPairLeagues
-            .Where(l => infoSiteMatches.Any(m => m.LeagueId == l.LeagueId && m.EventDateTime > m.EventDateTime.Date.AddHours(Hours).AddMinutes(Minutes)))
+            .Where(l => infoSiteMatches.Any(m => m.LeagueId == l.LeagueId && m.EventDateTime > request.EventDate.Date.AddHours(Hours).AddMinutes(Minutes)))
             .ToList();
         var mainPairLeagues = leagues.Except(earlyPairLeagues).ToList();
 
