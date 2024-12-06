@@ -21,13 +21,8 @@ const handlePending = state => {
 };
 
 const handleSuccess = (state, action) => {
-  let leagueGroupOption = Converter.convertResourceToOptions(action.data);
-  leagueGroupOption.sort(
-    (prevOption, nextOption) => prevOption.value - nextOption.value
-  );
-  const mJLeague = leagueGroupOption.find(l => isEqual(l.label, 'MJ'));
-  leagueGroupOption = [...[mJLeague], ...leagueGroupOption];
-  leagueGroupOption = [...new Set(leagueGroupOption)];
+  const leagueGroupOption = Converter.convertResourceToOptions(action.data);
+
   return {
     ...state,
     leagueGroup: MaxbetConst.leagueGroupAll,
