@@ -5,11 +5,13 @@ namespace OWP.PrematchAssignment.AutoAssignment.Helper;
 
 public static class ExcludeUnSupportedLeagueHelper
 {
-    private static readonly IList<string> childMatchRules = ExplicitMinorMatchRuleConstants.MinorMatchesRules1
-        .Concat(ExplicitMinorMatchRuleConstants.MinorMatchRules2Away)
-        .Concat(ExplicitMinorMatchRuleConstants.MinorMatchRules2Home)
-        .Where(x => !string.IsNullOrWhiteSpace(x.LeagueLike))
-        .Select(x => x.LeagueLike).Distinct().ToList();
+    private static readonly IList<string> childMatchRules = [
+        "- SPECIFIC 15 MINS", "- SPECIFIC 10 MINS", "- CORNERS", "- BOOKING", "- WINNER", "- PENALTY",
+        "- GOAL KICK", "- OFFSIDE", "- THROW IN", "- FREE KICK", "- SPECIALS GOAL",
+        "- SPECIFIC 15 MINS NUMBER OF CORNERS", "- SPECIFIC 15 MINS TOTAL BOOKINGS",
+        "- BRONZE MEDAL WINNER", "- GOLD MEDAL WINNER", "- WHICH TEAM WILL ADVANCE TO NEXT ROUND",
+        "- SINGLE TEAM OVER/UNDER", "- PENALTY SHOOT-OUT"
+    ];
 
     public static QueryPreMatchLeagueViewModel Filter(QueryPreMatchLeagueViewModel model)
     {

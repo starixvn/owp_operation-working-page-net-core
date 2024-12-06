@@ -99,8 +99,16 @@ public class AutoAssignHandler(
         var mainPairLeagues = leagues.Except(earlyPairLeagues).ToList();
 
         assignments.AddRange(AssignPairs(earlyPairLeagues, request.EarlyPairs));
-        assignments.AddRange(AssignPairs(earlyTakeOverLeagues, request.MainPairs.Reverse().ToList(), true));
-        assignments.AddRange(AssignPairs(mainPairLeagues, request.MainPairs));
+
+        if (earlyTakeOverLeagues.Any())
+        {
+            assignments.AddRange(AssignPairs(earlyTakeOverLeagues, request.MainPairs, true));
+            assignments.AddRange(AssignPairs(mainPairLeagues, request.MainPairs.Reverse()));
+        }
+        else
+        {
+            assignments.AddRange(AssignPairs(mainPairLeagues, request.MainPairs));
+        }
 
         return assignments;
     }
