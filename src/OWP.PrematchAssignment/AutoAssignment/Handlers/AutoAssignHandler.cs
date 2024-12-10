@@ -66,7 +66,7 @@ public class AutoAssignHandler(
     {
         if (!groupLeagues.MajorLeagues.Any())
         {
-            request.MainPairs = request.MainPairs.Concat(request.MajorPairs).ToList();
+            request.MainPairs = request.MainPairs.Concat(request.MajorPairs).Concat(request.MajorTakeOverPairs).ToList();
         }
 
         var assignments = new List<PreMatchLeagueAssignment>();
