@@ -1,17 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { PlusCircleIcon, RemoveCircleIcon } from 'mdi-react';
 
+import { validateAssignment } from '../league/Cell/AssignmentCell/AssignmentHelper';
+import ToastrWrapper from '../../../components/ToastrWrapper';
 import UserService from '../../../Shared/User/UserService';
 
 const InputAssignment = ({ pairIndex, username, assignmentType, bettype, showAddOther, showRemoveOther, onChange, onAdd, onRemove }) => {
     const [inputUsername, setUsername] = useState(username);
     const [suggestions, setSuggestion] = useState([]);
-    const inputRef = useRef(null);
-    const inputAssignmentRef = useRef(null);
 
     const handleChange = e => {
         const { value } = e.target;
+        setUsername(value);
+
         if (value && value.trim() && value.length >= 2) {
             const response = UserService.getSuggestion(value);
             if (response) {
@@ -24,25 +26,32 @@ const InputAssignment = ({ pairIndex, username, assignmentType, bettype, showAdd
         } else {
             setSuggestion([]);
         }
+    };
 
-        if (value.length === 0 && username.length > 0) {
+    const handleAddAssignmentType = () => onAdd(pairIndex, bettype);
+
+    const handleRemoveAssignmentType = () => onRemove(pairIndex, bettype);
+
+    const handleBlur = async () => {
+        if (inputUsername) {
+            const { validateResult, valueAfterValidate, userId } = await validateAssignment(inputUsername, '');
+
+            if (!validateResult) {
+                await ToastrWrapper.showError('User not found');
+                onChange(pairIndex, bettype, assignmentType, 0, '');
+                setUsername('');
+            } else {
+                onChange(pairIndex, bettype, assignmentType, userId, valueAfterValidate);
+                setUsername(valueAfterValidate);
+            }
+        } else {
             onChange(pairIndex, bettype, assignmentType, 0, '');
         }
 
-        setUsername(value);
+        if (suggestions.length > 0) {
+            setSuggestion([]);
+        }
     };
-
-    useEffect(() => {
-        const handleClickOutside = event => {
-            if (inputAssignmentRef.current && !inputAssignmentRef.current.contains(event.target)) {
-                setSuggestion([]);
-            }
-        };
-
-        document.addEventListener('mousedown', handleClickOutside);
-
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, [inputAssignmentRef]);
 
     const renderSuggestion = () => {
         if (suggestions.length > 0) {
@@ -51,7 +60,8 @@ const InputAssignment = ({ pairIndex, username, assignmentType, bettype, showAdd
                     <ul className='suggestion__item__container'>
                         {suggestions.map(({ username, userId }) =>
                             <li className='suggestion__item' key={userId}
-                                onClick={() => onChange(pairIndex, bettype, assignmentType, userId, username)}
+                                onMouseDown={event => event.preventDefault()}
+                                onClick={() => { setUsername(username); setSuggestion([]); }}
                             >
                                 {username}
                             </li>
@@ -64,19 +74,16 @@ const InputAssignment = ({ pairIndex, username, assignmentType, bettype, showAdd
         return null;
     };
 
-    const handleAddAssignmentType = () => onAdd(pairIndex, bettype);
-
-    const handleRemoveAssignmentType = () => onRemove(pairIndex, bettype);
-
     return (
-        <div className='input__assignment' ref={inputAssignmentRef}>
+        <div className='input__assignment'
+            tabIndex={pairIndex} onBlur={handleBlur}
+        >
             <input
-                ref={inputRef}
                 type='text' name='league'
                 className='input-field'
                 autoFocus={false}
                 value={inputUsername}
-                maxLength='100' autoComplete='off'
+                maxLength='30' autoComplete='off'
                 placeholder='Type a username'
                 onChange={handleChange}
             />
