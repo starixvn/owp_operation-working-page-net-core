@@ -14,7 +14,8 @@ public static class GroupAndSortLeagueHelper
         }
 
         var fantasySabaLeagues = leagues.Where(x => x.LeagueName.Contains("SABA") || x.LeagueName.Contains("FANTASY"))
-            .OrderByDescending(x => x.MatchCount).ToList();
+            .OrderByDescending(x => x.IsEarlyOffered)
+            .ThenByDescending(x => x.MatchCount).ToList();
         var remainingLeagues = GetLeaguesExcluding(leagues, fantasySabaLeagues);
         var majorLeagues = BuildForMajorLeagues(remainingLeagues);
 
