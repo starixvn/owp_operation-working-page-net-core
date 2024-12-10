@@ -74,9 +74,12 @@ public class AutoAssignHandler(
         assignments.AddRange(AssignPairs(groupLeagues.MajorLeagues, request.MajorPairs));
         assignments.AddRange(AssignPairs(groupLeagues.MajorLeagues, request.MajorTakeOverPairs, true));
 
-        assignments.AddRange(AssignRemainLeagues(request, groupLeagues.GreenDotLeagues, infoSiteMatches));
-        assignments.AddRange(AssignRemainLeagues(request, groupLeagues.NoGreenDotLeagues, infoSiteMatches));
-        assignments.AddRange(AssignRemainLeagues(request, groupLeagues.FantasySabaLeagues, infoSiteMatches));
+        IEnumerable<LeagueAssignment> remainLeagues = [];
+        remainLeagues = remainLeagues.Concat(groupLeagues.GreenDotLeagues);
+        remainLeagues = remainLeagues.Concat(groupLeagues.NoGreenDotLeagues);
+        remainLeagues = remainLeagues.Concat(groupLeagues.FantasySabaLeagues);
+
+        assignments.AddRange(AssignRemainLeagues(request, remainLeagues, infoSiteMatches));
 
         return assignments;
     }
@@ -100,7 +103,7 @@ public class AutoAssignHandler(
 
         assignments.AddRange(AssignPairs(earlyPairLeagues, request.EarlyPairs));
 
-        if (earlyTakeOverLeagues.Any())
+        if (earlyTakeOverLeagues.Count > 0)
         {
             assignments.AddRange(AssignPairs(earlyTakeOverLeagues, request.MainPairs, true));
             assignments.AddRange(AssignPairs(mainPairLeagues, request.MainPairs.Reverse()));
