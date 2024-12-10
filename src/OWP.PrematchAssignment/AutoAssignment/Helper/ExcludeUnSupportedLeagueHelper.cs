@@ -10,7 +10,7 @@ public static class ExcludeUnSupportedLeagueHelper
         "- GOAL KICK", "- OFFSIDE", "- THROW IN", "- FREE KICK", "- SPECIALS GOAL",
         "- SPECIFIC 15 MINS NUMBER OF CORNERS", "- SPECIFIC 15 MINS TOTAL BOOKINGS",
         "- BRONZE MEDAL WINNER", "- GOLD MEDAL WINNER", "- WHICH TEAM WILL ADVANCE TO NEXT ROUND",
-        "- SINGLE TEAM OVER/UNDER", "- PENALTY SHOOT-OUT"
+        "- SINGLE TEAM OVER/UNDER", "- PENALTY SHOOT-OUT", "- PENALTY SHOOT-OUT - WHICH TEAM TO TAKE THE FIRST PENALTY"
     ];
 
     public static QueryPreMatchLeagueViewModel Filter(QueryPreMatchLeagueViewModel model)
