@@ -38,5 +38,6 @@
         public const string AssigneeSuggestionList = "Icon Suggestion List";
         public const string AddNewLeagueSetting = "Add New League Setting";
         public const string ConsolidationView = "Consolidation View";
+        public const string DayShiftAssignment_Automatically_Assign_Trader = "DayShift Assignment - Automatically assign trader";
     }
 }

@@ -2,28 +2,21 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using OWP.Constants;
 using OWP.PrematchAssignment.AutoAssignment.Handlers;
 using OWP.PrematchAssignment.Handlers;
 using OWP.PrematchAssignment.Models;
 using OWP.PrematchAssignment.Services;
+using OWP.Services;
 
 namespace OWP.PrematchAssignment.QueryAndSave;
 
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]
-public class PreMatchAssignmentController : ControllerBase
+public class PreMatchAssignmentController(
+    IMediator mediator, Repository repository, AccessCounter accessCounter) : ControllerBase
 {
-    private readonly IMediator mediator;
-
-    private readonly Repository repository;
-
-    public PreMatchAssignmentController(IMediator mediator, Repository repository)
-    {
-        this.mediator = mediator;
-        this.repository = repository;
-    }
-
     [Route("get-assignee-pre-match")]
     [HttpPost]
     public async Task<IEnumerable<TicketAssignee>> GetAssigneesPreMatch(QueryAssigneesRequest request)
@@ -157,6 +150,7 @@ public class PreMatchAssignmentController : ControllerBase
     public async Task<IActionResult> SubmitAutoAssign(SubmitAutoAssignRequest request)
     {
         await mediator.Send(request);
+        await accessCounter.UpdateCounter(AccessCounterConst.DayShiftAssignment_Automatically_Assign_Trader);
         return Ok();
     }
 }
