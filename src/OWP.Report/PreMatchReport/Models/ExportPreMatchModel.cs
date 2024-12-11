@@ -35,6 +35,8 @@ public class ExportPreMatchModel
 
     public string LeagueHdpMjT2 { get; set; }
 
+    public string LeagueHdpMjT3 { get; set; }
+
     public string LeagueHdpClMjQ { get; set; }
 
     public string LeagueHdpClMnQ { get; set; }
@@ -46,6 +48,8 @@ public class ExportPreMatchModel
     public string LeagueHdpWorldCup { get; set; }
 
     public string LeagueHdpEuro { get; set; }
+
+    public string LeagueHdpCopA { get; set; }
 
     public string LeagueHdpUnknown { get; set; }
 
@@ -78,6 +82,8 @@ public class ExportPreMatchModel
 
     public string LeagueOuMjT2 { get; set; }
 
+    public string LeagueOuMjT3 { get; set; }
+
     public string LeagueOuClMjQ { get; set; }
 
     public string LeagueOuClMnQ { get; set; }
@@ -89,6 +95,8 @@ public class ExportPreMatchModel
     public string LeagueOuWorldCup { get; set; }
 
     public string LeagueOuEuro { get; set; }
+
+    public string LeagueOuCopA { get; set; }
 
     public string LeagueOuUnknown { get; set; }
 
@@ -121,6 +129,8 @@ public class ExportPreMatchModel
 
     public string MatchHdpMjT2 { get; set; }
 
+    public string MatchHdpMjT3 { get; set; }
+
     public string MatchHdpClMjQ { get; set; }
 
     public string MatchHdpClMnQ { get; set; }
@@ -132,6 +142,8 @@ public class ExportPreMatchModel
     public string MatchHdpWorldCup { get; set; }
 
     public string MatchHdpEuro { get; set; }
+
+    public string MatchHdpCopA { get; set; }
 
     public string MatchHdpUnknown { get; set; }
 
@@ -164,6 +176,8 @@ public class ExportPreMatchModel
 
     public string MatchOuMjT2 { get; set; }
 
+    public string MatchOuMjT3 { get; set; }
+
     public string MatchOuClMjQ { get; set; }
 
     public string MatchOuClMnQ { get; set; }
@@ -175,6 +189,8 @@ public class ExportPreMatchModel
     public string MatchOuWorldCup { get; set; }
 
     public string MatchOuEuro { get; set; }
+
+    public string MatchOuCopA { get; set; }
 
     public string MatchOuUnknown { get; set; }
 

@@ -36,13 +36,16 @@ public class AutoMapperProfile : Profile
              .ForMember(dest => dest.LeagueHdpUnknown, act => act.MapFrom(src => src.ReportHDPLeague.Unknown.ToDashes()))
              .ForMember(dest => dest.LeagueHdpMjT1, act => act.MapFrom(src => src.ReportHDPLeague.MjT1.ToDashes()))
              .ForMember(dest => dest.LeagueHdpMjT2, act => act.MapFrom(src => src.ReportHDPLeague.MjT2.ToDashes()))
+             .ForMember(dest => dest.LeagueHdpMjT3, act => act.MapFrom(src => src.ReportHDPLeague.MjT3.ToDashes()))
              .ForMember(dest => dest.LeagueHdpClMjQ, act => act.MapFrom(src => src.ReportHDPLeague.ClMjQ.ToDashes()))
              .ForMember(dest => dest.LeagueHdpClMnQ, act => act.MapFrom(src => src.ReportHDPLeague.ClMnQ.ToDashes()))
              .ForMember(dest => dest.LeagueHdpIntMj, act => act.MapFrom(src => src.ReportHDPLeague.IntMj.ToDashes()))
              .ForMember(dest => dest.LeagueHdpIntMn, act => act.MapFrom(src => src.ReportHDPLeague.IntMn.ToDashes()))
              .ForMember(dest => dest.LeagueHdpWorldCup, act => act.MapFrom(src => src.ReportHDPLeague.WorldCup.ToDashes()))
              .ForMember(dest => dest.LeagueHdpEuro, act => act.MapFrom(src => src.ReportHDPLeague.Euro.ToDashes()))
+             .ForMember(dest => dest.LeagueHdpCopA, act => act.MapFrom(src => src.ReportHDPLeague.CopA.ToDashes()))
              .ForMember(dest => dest.LeagueHdpTotal, act => act.MapFrom(src => src.ReportHDPLeague.Total.ToDashes()))
+
              .ForMember(dest => dest.LeagueOuMj, act => act.MapFrom(src => src.ReportOULeague.MJ.ToDashes()))
              .ForMember(dest => dest.LeagueOuM1, act => act.MapFrom(src => src.ReportOULeague.M1.ToDashes()))
              .ForMember(dest => dest.LeagueOuM2, act => act.MapFrom(src => src.ReportOULeague.M2.ToDashes()))
@@ -57,12 +60,14 @@ public class AutoMapperProfile : Profile
              .ForMember(dest => dest.LeagueOuUnknown, act => act.MapFrom(src => src.ReportOULeague.Unknown.ToDashes()))
              .ForMember(dest => dest.LeagueOuMjT1, act => act.MapFrom(src => src.ReportOULeague.MjT1.ToDashes()))
              .ForMember(dest => dest.LeagueOuMjT2, act => act.MapFrom(src => src.ReportOULeague.MjT2.ToDashes()))
+             .ForMember(dest => dest.LeagueOuMjT3, act => act.MapFrom(src => src.ReportOULeague.MjT3.ToDashes()))
              .ForMember(dest => dest.LeagueOuClMjQ, act => act.MapFrom(src => src.ReportOULeague.ClMjQ.ToDashes()))
              .ForMember(dest => dest.LeagueOuClMnQ, act => act.MapFrom(src => src.ReportOULeague.ClMnQ.ToDashes()))
              .ForMember(dest => dest.LeagueOuIntMj, act => act.MapFrom(src => src.ReportOULeague.IntMj.ToDashes()))
              .ForMember(dest => dest.LeagueOuIntMn, act => act.MapFrom(src => src.ReportOULeague.IntMn.ToDashes()))
              .ForMember(dest => dest.LeagueOuWorldCup, act => act.MapFrom(src => src.ReportOULeague.WorldCup.ToDashes()))
              .ForMember(dest => dest.LeagueOuEuro, act => act.MapFrom(src => src.ReportOULeague.Euro.ToDashes()))
+             .ForMember(dest => dest.LeagueOuCopA, act => act.MapFrom(src => src.ReportOULeague.CopA.ToDashes()))
              .ForMember(dest => dest.LeagueOuTotal, act => act.MapFrom(src => src.ReportOULeague.Total.ToDashes()));
     }
 
@@ -84,13 +89,16 @@ public class AutoMapperProfile : Profile
           .ForMember(dest => dest.MatchHdpUnknown, act => act.MapFrom(src => src.ReportHDPMatches.Unknown.ToDashes()))
           .ForMember(dest => dest.MatchHdpMjT1, act => act.MapFrom(src => src.ReportHDPMatches.MjT1.ToDashes()))
           .ForMember(dest => dest.MatchHdpMjT2, act => act.MapFrom(src => src.ReportHDPMatches.MjT2.ToDashes()))
+          .ForMember(dest => dest.MatchHdpMjT3, act => act.MapFrom(src => src.ReportHDPMatches.MjT3.ToDashes()))
           .ForMember(dest => dest.MatchHdpClMjQ, act => act.MapFrom(src => src.ReportHDPMatches.ClMjQ.ToDashes()))
           .ForMember(dest => dest.MatchHdpClMnQ, act => act.MapFrom(src => src.ReportHDPMatches.ClMnQ.ToDashes()))
           .ForMember(dest => dest.MatchHdpIntMj, act => act.MapFrom(src => src.ReportHDPMatches.IntMj.ToDashes()))
           .ForMember(dest => dest.MatchHdpIntMn, act => act.MapFrom(src => src.ReportHDPMatches.IntMn.ToDashes()))
           .ForMember(dest => dest.MatchHdpWorldCup, act => act.MapFrom(src => src.ReportHDPMatches.WorldCup.ToDashes()))
           .ForMember(dest => dest.MatchHdpEuro, act => act.MapFrom(src => src.ReportHDPMatches.Euro.ToDashes()))
+          .ForMember(dest => dest.MatchHdpCopA, act => act.MapFrom(src => src.ReportHDPMatches.CopA.ToDashes()))
           .ForMember(dest => dest.MatchHdpTotal, act => act.MapFrom(src => src.ReportHDPMatches.Total.ToDashes()))
+
           .ForMember(dest => dest.MatchOuMj, act => act.MapFrom(src => src.ReportOUMatches.MJ.ToDashes()))
           .ForMember(dest => dest.MatchOuM1, act => act.MapFrom(src => src.ReportOUMatches.M1.ToDashes()))
           .ForMember(dest => dest.MatchOuM2, act => act.MapFrom(src => src.ReportOUMatches.M2.ToDashes()))
@@ -105,12 +113,14 @@ public class AutoMapperProfile : Profile
           .ForMember(dest => dest.MatchOuUnknown, act => act.MapFrom(src => src.ReportOUMatches.Unknown.ToDashes()))
           .ForMember(dest => dest.MatchOuMjT1, act => act.MapFrom(src => src.ReportOUMatches.MjT1.ToDashes()))
           .ForMember(dest => dest.MatchOuMjT2, act => act.MapFrom(src => src.ReportOUMatches.MjT2.ToDashes()))
+          .ForMember(dest => dest.MatchOuMjT3, act => act.MapFrom(src => src.ReportOUMatches.MjT3.ToDashes()))
           .ForMember(dest => dest.MatchOuClMjQ, act => act.MapFrom(src => src.ReportOUMatches.ClMjQ.ToDashes()))
           .ForMember(dest => dest.MatchOuClMnQ, act => act.MapFrom(src => src.ReportOUMatches.ClMnQ.ToDashes()))
           .ForMember(dest => dest.MatchOuIntMj, act => act.MapFrom(src => src.ReportOUMatches.IntMj.ToDashes()))
           .ForMember(dest => dest.MatchOuIntMn, act => act.MapFrom(src => src.ReportOUMatches.IntMn.ToDashes()))
           .ForMember(dest => dest.MatchOuWorldCup, act => act.MapFrom(src => src.ReportOUMatches.WorldCup.ToDashes()))
           .ForMember(dest => dest.MatchOuEuro, act => act.MapFrom(src => src.ReportOUMatches.Euro.ToDashes()))
+          .ForMember(dest => dest.MatchOuCopA, act => act.MapFrom(src => src.ReportOUMatches.CopA.ToDashes()))
           .ForMember(dest => dest.MatchOuTotal, act => act.MapFrom(src => src.ReportOUMatches.Total.ToDashes()));
     }
 }

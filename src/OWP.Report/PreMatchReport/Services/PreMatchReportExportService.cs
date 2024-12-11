@@ -63,14 +63,14 @@ public class PreMatchReportExportServiceImp : PreMatchReportExportService
     private void Visualize(ExcelWorksheet worksheet, List<ExportPreMatchModel> records)
     {
         var rowEnd = records.Count + 2;
-        var range = $"A1:CI{rowEnd}";
+        var range = $"A1:CQ{rowEnd}";
 
         worksheet.Cells[range].Style.Border.Top.Style = ExcelBorderStyle.Thin;
         worksheet.Cells[range].Style.Border.Left.Style = ExcelBorderStyle.Thin;
         worksheet.Cells[range].Style.Border.Right.Style = ExcelBorderStyle.Thin;
         worksheet.Cells[range].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
 
-        var rangeData = records.Count == 0 ? "B3:CI3" : $"B3:CI{rowEnd}";
+        var rangeData = records.Count == 0 ? "B3:CQ3" : $"B3:CQ{rowEnd}";
 
         worksheet.Cells[rangeData].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
     }

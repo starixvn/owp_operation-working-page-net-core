@@ -1,3 +1,5 @@
+using NPOI.SS.Formula.Functions;
+
 namespace OWP.Report.PreMatchReport.Models;
 
 public class ReportBaseModel
@@ -28,6 +30,8 @@ public class ReportBaseModel
 
     public int MjT2 { get; set; }
 
+    public int MjT3 { get; set; }
+
     public int ClMjQ { get; set; }
 
     public int ClMnQ { get; set; }
@@ -39,6 +43,8 @@ public class ReportBaseModel
     public int WorldCup { get; set; }
 
     public int Euro { get; set; }
+
+    public int CopA { get; set; }
 
     public int Unknown { get; set; }
 
