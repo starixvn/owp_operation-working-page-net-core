@@ -5,6 +5,8 @@ const autoSlice = createSlice({
     name: 'prematchAutoAssignTrader',
     initialState: {
         isAuto: false,
+        autoMode: false,
+        assignments: [],
         majorPairs: [
             [
                 { userId: 0, username: '', assignmentType: ASSIGNMENT_TYPE.MAIN, bettype: BETTYPE.HDP },
@@ -33,6 +35,12 @@ const autoSlice = createSlice({
     reducers: {
         setAutoAssign: (state, action) => {
             state.isAuto = action.payload;
+        },
+        setAutoMode: (state, action) => {
+            state.autoMode = action.payload;
+        },
+        setAssignments: (state, action) => {
+            state.assignments = action.payload;
         },
         addAssignmentType: (state, action) => {
             const { fieldName, pairIndex, bettype, assignmentType } = action.payload;
@@ -66,7 +74,7 @@ const autoSlice = createSlice({
 const { actions, reducer } = autoSlice;
 
 export const {
-    setAutoAssign, newMajorPairs, updatePairs,
+    setAutoAssign, setAutoMode, setAssignments, newMajorPairs, updatePairs,
     addAssignmentType, removeAssignmentType, addPairs, removePairs
 } = actions;
 

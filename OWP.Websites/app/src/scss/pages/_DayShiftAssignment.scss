@@ -1287,6 +1287,10 @@ input::-ms-input-placeholder {
     }
 
     .btn-block-edit {
+        .button-submit {
+            margin-left: 0;
+        }
+
         .dropdown-menu {
             .dropdown-item {
                 display: flex;

@@ -20,6 +20,8 @@ import { getMMDDYYYYStringFromDateTime } from '../../../Shared/DateTime/dateTime
 import { withResizeDetector } from 'react-resize-detector';
 import { getTotalLeagues } from '../../features/league/shiftSlice/shiftHelper';
 
+import { ASSIGNMENT_TYPE, BETTYPE } from '../../const/const';
+
 const { rowHeight, headerHeight } = DefaultTableStyle;
 
 const propTypes = {
@@ -30,6 +32,7 @@ const propTypes = {
 const PreMatchTable = ({ isEditing, isNightShift }) => {
     const model = useSelector(state => state.dayShift);
     const filter = useSelector(state => state.filter);
+    const { autoMode, assignments } = useSelector(state => state.auto);
     const tableKey = model.tableKey;
     const data = model.entities;
     const dataLength = data.length;
@@ -43,6 +46,7 @@ const PreMatchTable = ({ isEditing, isNightShift }) => {
             }
         };
         document.addEventListener('keydown', handleEscKey);
+
         return () => document.removeEventListener('keydown', handleEscKey);
     }, [dispatch]);
 
@@ -88,6 +92,37 @@ const PreMatchTable = ({ isEditing, isNightShift }) => {
         return <Loading />;
     }
 
+    const findAssignmentByBettypeAndType = (pairs, bettype, assignmentType, isTakeOver = false) => {
+        const assignment = pairs.find(a => a.Bettype === bettype && a.AssignmentType === assignmentType && a.IsTakeOver === isTakeOver);
+
+        return assignment ? assignment.Username : '';
+    };
+
+    let tableData = [];
+    if (autoMode) {
+        for (let index = 0; index < dataLength; index++) {
+            const league = data[index];
+            const tmpAssignments = assignments.filter(item => item.PreMatchLeagueId === league.PreMatchLeagueId);
+            if (tmpAssignments.length > 0) {
+                tableData.push({
+                    ...league,
+                    HDP: findAssignmentByBettypeAndType(tmpAssignments, BETTYPE.HDP, ASSIGNMENT_TYPE.MAIN),
+                    OtherHDP: findAssignmentByBettypeAndType(tmpAssignments, BETTYPE.HDP, ASSIGNMENT_TYPE.OTHER),
+                    OU: findAssignmentByBettypeAndType(tmpAssignments, BETTYPE.OU, ASSIGNMENT_TYPE.MAIN),
+                    OtherOU: findAssignmentByBettypeAndType(tmpAssignments, BETTYPE.OU, ASSIGNMENT_TYPE.OTHER),
+                    HDPTakeOver: findAssignmentByBettypeAndType(tmpAssignments, BETTYPE.HDP, ASSIGNMENT_TYPE.MAIN, true),
+                    OtherHDPTakeOver: findAssignmentByBettypeAndType(tmpAssignments, BETTYPE.HDP, ASSIGNMENT_TYPE.OTHER, true),
+                    OUTakeOver: findAssignmentByBettypeAndType(tmpAssignments, BETTYPE.OU, ASSIGNMENT_TYPE.MAIN, true),
+                    OtherOUTakeOver: findAssignmentByBettypeAndType(tmpAssignments, BETTYPE.OU, ASSIGNMENT_TYPE.OTHER, false)
+                });
+            } else {
+                tableData.push({ ...league });
+            }
+        }
+    } else {
+        tableData = data;
+    }
+
     return (
         <div className='table'>
             <Table
@@ -101,9 +136,9 @@ const PreMatchTable = ({ isEditing, isNightShift }) => {
                 maxHeight={tableHeight}
                 rowClassNameGetter={rowClassNameGetter}
                 headerHeight={headerHeight}>
-                {ColumnsFactory(data, newProps, columnWidth)}
+                {ColumnsFactory(tableData, newProps, columnWidth)}
             </Table>
-            <div className='total'>Total Leagues: {getTotalLeagues(data)}</div>
+            <div className='total'>Total Leagues: {getTotalLeagues(tableData)}</div>
         </div>
     );
 };

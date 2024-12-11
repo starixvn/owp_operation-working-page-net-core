@@ -24,6 +24,7 @@ const { INDIVIDUAL } = RECIPIENT_TYPE;
 
 const DayShiftManagement = () => {
     const modelEditor = useSelector(state => state.editor);
+    const { autoMode } = useSelector(state => state.auto);
     const modelPermission = usePermission(FunctionKeys.DayShiftAssignment);
     const { permission } = modelPermission;
 
@@ -39,7 +40,7 @@ const DayShiftManagement = () => {
             orderType: 'ORDER_ASC',
             columnKey: 'LeagueName'
         },
-        isEditing: modelEditor.isEdit,
+        isEditing: modelEditor.isEdit && !autoMode,
         isNightShift: false
     };
 

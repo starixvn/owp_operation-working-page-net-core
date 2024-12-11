@@ -6,11 +6,9 @@ using OWP.PrematchAssignment.Services;
 
 namespace OWP.PrematchAssignment.AutoAssignment.Handlers;
 
-public class AutoAssignRequest : IRequest
+public class AutoAssignRequest : IRequest<IList<PreMatchLeagueAssignment>>
 {
-    public string Employee { get; set; }
     public DateTime EventDate { get; set; }
-    public string LeagueName { get; set; }
     public int ActorId { get; set; }
     public List<string> MatchOffers { get; set; }
     public List<int> EarlyOffered { get; set; }
@@ -21,19 +19,15 @@ public class AutoAssignRequest : IRequest
     public IEnumerable<IEnumerable<PreMatchLeagueAssignment>> EarlyPairs { get; set; }
 }
 
-public class AutoAssignHandler(
-    ShiftAssignmentService shiftAssignmentService,
-    PreMatchAssignmentService preMatchAssignmentService) : IRequestHandler<AutoAssignRequest>
+public class AutoAssignHandler(ShiftAssignmentService shiftAssignmentService) : IRequestHandler<AutoAssignRequest, IList<PreMatchLeagueAssignment>>
 {
-    public async Task Handle(AutoAssignRequest request, CancellationToken cancellationToken)
+    public async Task<IList<PreMatchLeagueAssignment>> Handle(AutoAssignRequest request, CancellationToken cancellationToken)
     {
         var model = new QueryDayShiftPreMatchRequest
         {
-            Employee = request.Employee,
             EventDate = request.EventDate,
             ActorId = request.ActorId,
             EarlyOffered = request.EarlyOffered,
-            LeagueName = request.LeagueName,
             MatchOffers = request.MatchOffers
         };
         var shiftAssignments = await shiftAssignmentService.QueryDayShift(model);
@@ -42,10 +36,7 @@ public class AutoAssignHandler(
 
         var assignments = HandleAssignPairs(request, groupLeagues, shiftAssignments.InfoSiteMatches);
 
-        if (assignments.Any())
-        {
-            await preMatchAssignmentService.AutoAssign(assignments);
-        }
+        return assignments;
     }
 
     private static GroupPreMatchLeagueModel PreprocessData(QueryPreMatchLeagueViewModel model)

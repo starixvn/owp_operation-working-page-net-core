@@ -148,6 +148,14 @@ public class PreMatchAssignmentController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> AutoAssign(AutoAssignRequest request)
     {
+        var assignments = await mediator.Send(request);
+        return Ok(JsonConvert.SerializeObject(assignments));
+    }
+
+    [Route("submit-auto-assign")]
+    [HttpPost]
+    public async Task<IActionResult> SubmitAutoAssign(SubmitAutoAssignRequest request)
+    {
         await mediator.Send(request);
         return Ok();
     }
