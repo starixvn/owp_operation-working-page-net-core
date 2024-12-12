@@ -6,4 +6,5 @@ public class GroupPreMatchLeagueModel
     public IEnumerable<LeagueAssignment> GreenDotLeagues { get; set; } = new List<LeagueAssignment>();
     public IEnumerable<LeagueAssignment> NoGreenDotLeagues { get; set; } = new List<LeagueAssignment>();
     public IEnumerable<LeagueAssignment> FantasySabaLeagues { get; set; } = new List<LeagueAssignment>();
+    public IEnumerable<LeagueAssignment> ChildLeagues { get; set; } = new List<LeagueAssignment>();
 }

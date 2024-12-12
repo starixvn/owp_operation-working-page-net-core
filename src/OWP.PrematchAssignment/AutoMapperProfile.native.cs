@@ -10,5 +10,6 @@ public class AutoMapperProfile : Profile
     {
         CreateMap<LeagueAssignment, UpdateAssignmentCriteria>();
         CreateMap<PreMatchLeague, LeagueAssignment>();
+        CreateMap<PreMatchLeagueAssignment, PreMatchLeagueAssignment>();
     }
 }

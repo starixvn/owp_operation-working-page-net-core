@@ -1,5 +1,8 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
+using NPOI.Util;
 using OWP.PrematchAssignment.AutoAssignment.Helper;
+using OWP.PrematchAssignment.Constants;
 using OWP.PrematchAssignment.Handlers;
 using OWP.PrematchAssignment.Models;
 using OWP.PrematchAssignment.Services;
@@ -8,7 +11,7 @@ namespace OWP.PrematchAssignment.AutoAssignment.Handlers;
 
 public class AutoAssignRequest : IRequest<IList<PreMatchLeagueAssignment>>
 {
-    public DateTime EventDate { get; set; }
+    public DateTime Date { get; set; }
     public int ActorId { get; set; }
     public List<string> MatchOffers { get; set; }
     public List<int> EarlyOffered { get; set; }
@@ -19,13 +22,15 @@ public class AutoAssignRequest : IRequest<IList<PreMatchLeagueAssignment>>
     public IEnumerable<IEnumerable<PreMatchLeagueAssignment>> EarlyPairs { get; set; }
 }
 
-public class AutoAssignHandler(ShiftAssignmentService shiftAssignmentService) : IRequestHandler<AutoAssignRequest, IList<PreMatchLeagueAssignment>>
+public class AutoAssignHandler(
+    IMapper mapper,
+    ShiftAssignmentService shiftAssignmentService) : IRequestHandler<AutoAssignRequest, IList<PreMatchLeagueAssignment>>
 {
     public async Task<IList<PreMatchLeagueAssignment>> Handle(AutoAssignRequest request, CancellationToken cancellationToken)
     {
         var model = new QueryDayShiftPreMatchRequest
         {
-            EventDate = request.EventDate,
+            EventDate = request.Date,
             ActorId = request.ActorId,
             EarlyOffered = request.EarlyOffered,
             MatchOffers = request.MatchOffers
@@ -50,7 +55,7 @@ public class AutoAssignHandler(ShiftAssignmentService shiftAssignmentService) : 
         return groupLeagues;
     }
 
-    private static List<PreMatchLeagueAssignment> HandleAssignPairs(
+    private List<PreMatchLeagueAssignment> HandleAssignPairs(
         AutoAssignRequest request,
         GroupPreMatchLeagueModel groupLeagues,
         IEnumerable<InfoSiteMatch> infoSiteMatches)
@@ -72,6 +77,8 @@ public class AutoAssignHandler(ShiftAssignmentService shiftAssignmentService) : 
 
         assignments.AddRange(AssignRemainLeagues(request, remainLeagues, infoSiteMatches));
 
+        assignments.AddRange(AssignChildLeagues(groupLeagues, assignments));
+
         return assignments;
     }
 
@@ -85,10 +92,10 @@ public class AutoAssignHandler(ShiftAssignmentService shiftAssignmentService) : 
         var assignments = new List<PreMatchLeagueAssignment>();
 
         var earlyPairLeagues = leagues
-            .Where(l => infoSiteMatches.Any(m => m.LeagueId == l.LeagueId && m.EventDateTime <= request.EventDate.Date.AddHours(Hours).AddMinutes(Minutes)))
+            .Where(l => infoSiteMatches.Any(m => m.LeagueId == l.LeagueId && m.EventDateTime <= request.Date.Date.AddHours(Hours).AddMinutes(Minutes)))
             .ToList();
         var earlyTakeOverLeagues = earlyPairLeagues
-            .Where(l => infoSiteMatches.Any(m => m.LeagueId == l.LeagueId && m.EventDateTime > request.EventDate.Date.AddHours(Hours).AddMinutes(Minutes)))
+            .Where(l => infoSiteMatches.Any(m => m.LeagueId == l.LeagueId && m.EventDateTime > request.Date.Date.AddHours(Hours).AddMinutes(Minutes)))
             .ToList();
         var mainPairLeagues = leagues.Except(earlyPairLeagues).ToList();
 
@@ -105,6 +112,32 @@ public class AutoAssignHandler(ShiftAssignmentService shiftAssignmentService) : 
         }
 
         return assignments;
+    }
+
+    private List<PreMatchLeagueAssignment> AssignChildLeagues(GroupPreMatchLeagueModel groupLeagues, IList<PreMatchLeagueAssignment> assignments)
+    {
+        var childAssignments = new List<PreMatchLeagueAssignment>();
+        IList<LeagueAssignment> mainLeagues = [
+            ..groupLeagues.MajorLeagues,
+            ..groupLeagues.GreenDotLeagues,
+            ..groupLeagues.NoGreenDotLeagues,
+            ..groupLeagues.FantasySabaLeagues];
+        foreach (var child in groupLeagues.ChildLeagues)
+        {
+            var mainLeague = FindMainLeague(mainLeagues, child);
+            if (mainLeague != null)
+            {
+                var mainAssignments = assignments.Where(x => x.PreMatchLeagueId == mainLeague.PreMatchLeagueId).ToList();
+                childAssignments.AddRange(mapper.Map<IList<PreMatchLeagueAssignment>>(mainAssignments)
+                    .Select(x =>
+                    {
+                        x.PreMatchLeagueId = child.PreMatchLeagueId;
+                        return x;
+                    }));
+            }
+        }
+
+        return childAssignments;
     }
 
     private static List<PreMatchLeagueAssignment> AssignPairs(
@@ -142,5 +175,13 @@ public class AutoAssignHandler(ShiftAssignmentService shiftAssignmentService) : 
         }
 
         return assignments;
+    }
+
+    private static LeagueAssignment FindMainLeague(IList<LeagueAssignment> mainLeagues, LeagueAssignment childLeague)
+    {
+        var rule = AutoAssignmentConstants.ChildLeagueRules.First(x => childLeague.LeagueName.EndsWith(x));
+        var leagueLength = childLeague.LeagueName.Length - rule.Length;
+        var league = childLeague.LeagueName[..leagueLength].Trim();
+        return mainLeagues.FirstOrDefault(x => string.Compare(x.LeagueName, league, StringComparison.OrdinalIgnoreCase) == 0);
     }
 }

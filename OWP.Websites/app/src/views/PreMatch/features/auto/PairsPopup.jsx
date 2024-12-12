@@ -10,6 +10,7 @@ import MainPair from './MainPair';
 import EarlyPair from './EarlyPair';
 import ToastrWrapper from '../../../components/ToastrWrapper';
 import Loading from '../../../components/Loading';
+import { EARLY_OFFERED, MATCH_OFFER } from '../../const/const';
 
 import { post } from '../../../Shared/Service/Service';
 
@@ -17,7 +18,7 @@ const PairsPopup = props => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const dispatch = useDispatch();
     const { isAuto, majorPairs, majorTakeOverPairs, earlyPairs, mainPairs } = useSelector(state => state.auto);
-    const filter = useSelector(state => state.signalR.backupFilterModel);
+    const filter = useSelector(state => state.filter);
 
     const getPairs = pairs => {
         const result = [];
@@ -45,7 +46,9 @@ const PairsPopup = props => {
         }
 
         const modelFilter = {
-            ...filter,
+            date: filter.filterDate,
+            matchOffers: [...MATCH_OFFER.map(m => m.value)],
+            earlyOffered: [...EARLY_OFFERED.map(m => m.value)],
             majorPairs: tmpMajorPairs,
             majorTakeOverPairs: tmpMajorTakeOverPairs,
             earlyPairs: tmpEarlyPairs,
