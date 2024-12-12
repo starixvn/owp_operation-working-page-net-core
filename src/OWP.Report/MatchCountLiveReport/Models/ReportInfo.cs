@@ -115,51 +115,65 @@ public class ReportInfo
     public string ExcelMJT2Column => LiveReportHelper.BuildCellValue(MJT2);
 
     [EpplusIgnore]
-    public int? CLMJQ { get; set; }
+    public int? MJT3 { get; set; }
 
     [Cell("Q3")]
+    [JsonIgnore]
+    public string ExcelMJT3Column => LiveReportHelper.BuildCellValue(MJT3);
+
+    [EpplusIgnore]
+    public int? CLMJQ { get; set; }
+
+    [Cell("R3")]
     [JsonIgnore]
     public string ExcelCLMJQColumn => LiveReportHelper.BuildCellValue(CLMJQ);
 
     [EpplusIgnore]
     public int? CLMNQ { get; set; }
 
-    [Cell("R3")]
+    [Cell("S3")]
     [JsonIgnore]
     public string ExcelCLMNQColumn => LiveReportHelper.BuildCellValue(CLMNQ);
 
     [EpplusIgnore]
     public int? INTMJ { get; set; }
 
-    [Cell("S3")]
+    [Cell("T3")]
     [JsonIgnore]
     public string ExcelINTMJColumn => LiveReportHelper.BuildCellValue(INTMJ);
 
     [EpplusIgnore]
     public int? INTMN { get; set; }
 
-    [Cell("T3")]
+    [Cell("U3")]
     [JsonIgnore]
     public string ExcelINTMNColumn => LiveReportHelper.BuildCellValue(INTMN);
 
     [EpplusIgnore]
     public int? WorldCup { get; set; }
 
-    [Cell("U3")]
+    [Cell("V3")]
     [JsonIgnore]
     public string ExcelWorldCupColumn => LiveReportHelper.BuildCellValue(WorldCup);
 
     [EpplusIgnore]
     public int? Euro { get; set; }
 
-    [Cell("V3")]
+    [Cell("W3")]
     [JsonIgnore]
     public string ExcelEuroColumn => LiveReportHelper.BuildCellValue(Euro);
 
     [EpplusIgnore]
+    public int? CopA { get; set; }
+
+    [Cell("X3")]
+    [JsonIgnore]
+    public string ExcelCopAColumn => LiveReportHelper.BuildCellValue(CopA);
+
+    [EpplusIgnore]
     public int? Unknown { get; set; }
 
-    [Cell("W3")]
+    [Cell("Y3")]
     [JsonIgnore]
     public string ExcelUnknownColumn => LiveReportHelper.BuildCellValue(Unknown);
 }
