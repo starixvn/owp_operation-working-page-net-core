@@ -105,12 +105,22 @@ public class AutoAssignHandler(
         }
 
         var totalLeaguePerEarlyPair = (float)(totalLeague - totalLeagueNoTakeOver) / totalMainPair;
+        if (totalLeaguePerEarlyPair <= totalLeagueNoTakeOver)
+        {
+            totalLeaguePerEarlyPair = (float)totalLeague / (totalEarlyPair * totalMainPair);
+        }
+
         var totalLeagueEarlyPairs = (int)Math.Round(totalLeaguePerEarlyPair * totalEarlyPair);
 
         if (earlyLeagues.Count < totalLeagueEarlyPairs)
         {
             var additional = totalLeagueEarlyPairs - earlyLeagues.Count;
             earlyLeagues = [.. earlyLeagues, .. mainLeagues.Take(additional).ToList()];
+        }
+
+        if (earlyLeagues.Count > totalLeagueEarlyPairs)
+        {
+            earlyLeagues = earlyLeagues.Take(totalLeagueEarlyPairs).ToList();
         }
 
         mainLeagues = leagues.Except(earlyLeagues).ToList();
