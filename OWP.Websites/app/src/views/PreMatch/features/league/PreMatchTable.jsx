@@ -70,8 +70,6 @@ const PreMatchTable = ({ isEditing, isNightShift }) => {
         isNightShift
     };
 
-    const getRowHeight = index => calculateRowHeight(data[index], isEditing);
-
     const rowClassNameGetter = index => {
         const classNames = [];
         dataLength > 7 && index > dataLength - 6 && classNames.push('is-last-row');
@@ -122,6 +120,8 @@ const PreMatchTable = ({ isEditing, isNightShift }) => {
     } else {
         tableData = data;
     }
+
+    const getRowHeight = index => calculateRowHeight(tableData[index], isEditing);
 
     return (
         <div className='table'>

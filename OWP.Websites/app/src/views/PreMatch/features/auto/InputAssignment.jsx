@@ -10,24 +10,6 @@ const InputAssignment = ({ pairIndex, username, assignmentType, bettype, showAdd
     const [inputUsername, setUsername] = useState(username);
     const [suggestions, setSuggestion] = useState([]);
 
-    const handleChange = e => {
-        const { value } = e.target;
-        setUsername(value);
-
-        if (value && value.trim() && value.length >= 2) {
-            const response = UserService.getSuggestion(value);
-            if (response) {
-                setSuggestion(response.map(({ UserId, UserName, NickName }) => ({
-                    userId: UserId,
-                    username: UserName,
-                    nickname: NickName
-                })));
-            }
-        } else {
-            setSuggestion([]);
-        }
-    };
-
     const handleAddAssignmentType = () => onAdd(pairIndex, bettype);
 
     const handleRemoveAssignmentType = () => onRemove(pairIndex, bettype);
@@ -53,6 +35,30 @@ const InputAssignment = ({ pairIndex, username, assignmentType, bettype, showAdd
         }
     };
 
+    const handleInputUser = e => {
+        const { value } = e.target;
+        setUsername(value);
+
+        if (value && value.trim() && value.length >= 2) {
+            const response = UserService.getSuggestion(value);
+            if (response) {
+                setSuggestion(response.map(({ UserId, UserName, NickName }) => ({
+                    userId: UserId,
+                    username: UserName,
+                    nickname: NickName
+                })));
+            }
+        } else {
+            setSuggestion([]);
+        }
+    };
+
+    const handleSelectUser = (userId, username) => {
+        onChange(pairIndex, bettype, assignmentType, userId, username);
+        setUsername(username);
+        setSuggestion([]);
+    };
+
     const renderSuggestion = () => {
         if (suggestions.length > 0) {
             return (
@@ -61,7 +67,7 @@ const InputAssignment = ({ pairIndex, username, assignmentType, bettype, showAdd
                         {suggestions.map(({ username, userId }) =>
                             <li className='suggestion__item' key={userId}
                                 onMouseDown={event => event.preventDefault()}
-                                onClick={() => { setUsername(username); setSuggestion([]); }}
+                                onClick={() => handleSelectUser(userId, username)}
                             >
                                 {username}
                             </li>
@@ -85,7 +91,7 @@ const InputAssignment = ({ pairIndex, username, assignmentType, bettype, showAdd
                 value={inputUsername}
                 maxLength='30' autoComplete='off'
                 placeholder='Type a username'
-                onChange={handleChange}
+                onChange={handleInputUser}
             />
             {
                 showAddOther &&
