@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using NPOI.Util;
 using OWP.PrematchAssignment.AutoAssignment.Helper;
 using OWP.PrematchAssignment.Constants;
 using OWP.PrematchAssignment.Handlers;
@@ -62,7 +61,7 @@ public class AutoAssignHandler(
     {
         if (!groupLeagues.MajorLeagues.Any())
         {
-            request.MainPairs = request.MainPairs.Concat(request.MajorPairs).Concat(request.MajorTakeOverPairs).ToList();
+            request.MainPairs = [.. request.MainPairs, .. request.MajorPairs, .. request.MajorTakeOverPairs];
         }
 
         var assignments = new List<PreMatchLeagueAssignment>();
@@ -70,11 +69,7 @@ public class AutoAssignHandler(
         assignments.AddRange(AssignPairs(groupLeagues.MajorLeagues, request.MajorPairs));
         assignments.AddRange(AssignPairs(groupLeagues.MajorLeagues, request.MajorTakeOverPairs, true));
 
-        IEnumerable<LeagueAssignment> remainLeagues = [];
-        remainLeagues = remainLeagues.Concat(groupLeagues.GreenDotLeagues);
-        remainLeagues = remainLeagues.Concat(groupLeagues.NoGreenDotLeagues);
-        remainLeagues = remainLeagues.Concat(groupLeagues.FantasySabaLeagues);
-
+        IList<LeagueAssignment> remainLeagues = [.. groupLeagues.GreenDotLeagues, .. groupLeagues.NoGreenDotLeagues, .. groupLeagues.FantasySabaLeagues];
         assignments.AddRange(AssignRemainLeagues(request, remainLeagues, infoSiteMatches));
 
         assignments.AddRange(AssignChildLeagues(groupLeagues, assignments));
@@ -91,24 +86,48 @@ public class AutoAssignHandler(
         const byte Minutes = 30;
         var assignments = new List<PreMatchLeagueAssignment>();
 
-        var earlyPairLeagues = leagues
+        var earlyLeagues = leagues
             .Where(l => infoSiteMatches.Any(m => m.LeagueId == l.LeagueId && m.EventDateTime <= request.Date.Date.AddHours(Hours).AddMinutes(Minutes)))
             .ToList();
-        var earlyTakeOverLeagues = earlyPairLeagues
+        var earlyNoTakeOverLeagues = earlyLeagues
+            .Where(l => !infoSiteMatches.Any(m => m.LeagueId == l.LeagueId && m.EventDateTime > request.Date.Date.AddHours(Hours).AddMinutes(Minutes)))
+            .ToList();
+        var mainLeagues = leagues.Except(earlyLeagues).ToList();
+
+        var totalLeague = leagues.Count();
+        var totalEarlyPair = request.EarlyPairs.Count();
+        var totalMainPair = request.MainPairs.Count();
+        var totalLeagueNoTakeOver = earlyNoTakeOverLeagues.Count;
+
+        if (totalMainPair == 0)
+        {
+            return assignments;
+        }
+
+        var totalLeaguePerEarlyPair = (float)(totalLeague - totalLeagueNoTakeOver) / totalMainPair;
+        var totalLeagueEarlyPairs = (int)Math.Round(totalLeaguePerEarlyPair * totalEarlyPair);
+
+        if (earlyLeagues.Count < totalLeagueEarlyPairs)
+        {
+            var additional = totalLeagueEarlyPairs - earlyLeagues.Count;
+            earlyLeagues = [.. earlyLeagues, .. mainLeagues.Take(additional).ToList()];
+        }
+
+        mainLeagues = leagues.Except(earlyLeagues).ToList();
+
+        assignments.AddRange(AssignPairs(earlyLeagues, request.EarlyPairs));
+
+        var earlyLeaguesNeadTakeOver = earlyLeagues
             .Where(l => infoSiteMatches.Any(m => m.LeagueId == l.LeagueId && m.EventDateTime > request.Date.Date.AddHours(Hours).AddMinutes(Minutes)))
             .ToList();
-        var mainPairLeagues = leagues.Except(earlyPairLeagues).ToList();
-
-        assignments.AddRange(AssignPairs(earlyPairLeagues, request.EarlyPairs));
-
-        if (earlyTakeOverLeagues.Count > 0)
+        if (earlyLeaguesNeadTakeOver.Count > 0)
         {
-            assignments.AddRange(AssignPairs(earlyTakeOverLeagues, request.MainPairs, true));
-            assignments.AddRange(AssignPairs(mainPairLeagues, request.MainPairs.Reverse()));
+            assignments.AddRange(AssignPairs(earlyLeaguesNeadTakeOver, request.MainPairs, true));
+            assignments.AddRange(AssignPairs(mainLeagues, request.MainPairs.Reverse()));
         }
         else
         {
-            assignments.AddRange(AssignPairs(mainPairLeagues, request.MainPairs));
+            assignments.AddRange(AssignPairs(mainLeagues, request.MainPairs));
         }
 
         return assignments;
