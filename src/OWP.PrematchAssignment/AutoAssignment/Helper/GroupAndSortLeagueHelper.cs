@@ -79,5 +79,5 @@ public static class GroupAndSortLeagueHelper
     }
 
     private static bool IsChildLeagues(string leagueName)
-        => AutoAssignmentConstants.ChildLeagueRules.Any(rule => leagueName.EndsWith(rule, StringComparison.OrdinalIgnoreCase));
+        => AutoAssignmentConstants.ChildLeagueRules.Exists(rule => leagueName.EndsWith(rule, StringComparison.OrdinalIgnoreCase));
 }

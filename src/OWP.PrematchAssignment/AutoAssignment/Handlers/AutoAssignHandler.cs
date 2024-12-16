@@ -121,11 +121,7 @@ public class AutoAssignHandler(
         else
         {
             // Leagues of Early Pair > Leagues Main Pair => priority assign leagues having group M4 to main pair first
-            earlyLeagues = earlyLeagues.OrderByDescending(x => x.LeagueGroup switch
-                {
-                    "M4" => 1,
-                    _ => 2
-                })
+            earlyLeagues = earlyLeagues.OrderBy(x => x.LeagueGroup == "M4" ? 1 : 2)
                 .ThenBy(x => x.IsEarlyOffered)
                 .ThenBy(x => x.MatchCount)
                 .Take(totalLeagueEarlyPairs).ToList();
