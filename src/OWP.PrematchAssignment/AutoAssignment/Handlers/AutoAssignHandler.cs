@@ -25,6 +25,9 @@ public class AutoAssignHandler(
     IMapper mapper,
     ShiftAssignmentService shiftAssignmentService) : IRequestHandler<AutoAssignRequest, IList<PreMatchLeagueAssignment>>
 {
+    private const byte Hours = 17;
+    private const byte Minutes = 30;
+
     public async Task<IList<PreMatchLeagueAssignment>> Handle(AutoAssignRequest request, CancellationToken cancellationToken)
     {
         var model = new QueryDayShiftPreMatchRequest
@@ -82,54 +85,56 @@ public class AutoAssignHandler(
         IEnumerable<LeagueAssignment> leagues,
         IEnumerable<InfoSiteMatch> infoSiteMatches)
     {
-        const byte Hours = 17;
-        const byte Minutes = 30;
         var assignments = new List<PreMatchLeagueAssignment>();
 
-        var earlyLeagues = leagues
-            .Where(l => infoSiteMatches.Any(m => m.LeagueId == l.LeagueId && m.EventDateTime <= request.Date.Date.AddHours(Hours).AddMinutes(Minutes)))
-            .ToList();
-        var earlyNoTakeOverLeagues = earlyLeagues
-            .Where(l => !infoSiteMatches.Any(m => m.LeagueId == l.LeagueId && m.EventDateTime > request.Date.Date.AddHours(Hours).AddMinutes(Minutes)))
-            .ToList();
-        var mainLeagues = leagues.Except(earlyLeagues).ToList();
-
-        var totalLeague = leagues.Count();
         var totalEarlyPair = request.EarlyPairs.Count();
         var totalMainPair = request.MainPairs.Count();
-        var totalLeagueNoTakeOver = earlyNoTakeOverLeagues.Count;
 
         if (totalMainPair == 0)
         {
             return assignments;
         }
 
+        var earlyLeagues = GetLeagueForEarlyPair(request.Date, leagues, infoSiteMatches);
+        var earlyLeaguesNoTakeOver = GetLeagueNoNeedTakeOver(request.Date, earlyLeagues, infoSiteMatches);
+
+        var totalLeague = leagues.Count();
+        var totalLeagueNoTakeOver = earlyLeaguesNoTakeOver.Count;
         var totalLeaguePerEarlyPair = (float)(totalLeague - totalLeagueNoTakeOver) / totalMainPair;
+
+        // e <= noOver
         if (totalLeaguePerEarlyPair <= totalLeagueNoTakeOver)
         {
             totalLeaguePerEarlyPair = (float)totalLeague / (totalEarlyPair * totalMainPair);
         }
 
+        var mainLeagues = leagues.Except(earlyLeagues).ToList();
         var totalLeagueEarlyPairs = (int)Math.Round(totalLeaguePerEarlyPair * totalEarlyPair);
 
-        if (earlyLeagues.Count < totalLeagueEarlyPairs)
+        if (earlyLeagues.Count <= totalLeagueEarlyPairs)
         {
+            // Leagues of Early Pair <= Leagues Main Pair => auto assign randomly
             var additional = totalLeagueEarlyPairs - earlyLeagues.Count;
             earlyLeagues = [.. earlyLeagues, .. mainLeagues.Take(additional).ToList()];
+            mainLeagues = leagues.Except(earlyLeagues).ToList();
         }
-
-        if (earlyLeagues.Count > totalLeagueEarlyPairs)
+        else
         {
-            earlyLeagues = earlyLeagues.Take(totalLeagueEarlyPairs).ToList();
+            // Leagues of Early Pair > Leagues Main Pair => priority assign leagues having group M4 to main pair first
+            earlyLeagues = earlyLeagues.OrderByDescending(x => x.LeagueGroup switch
+                {
+                    "M4" => 1,
+                    _ => 2
+                })
+                .ThenBy(x => x.IsEarlyOffered)
+                .ThenBy(x => x.MatchCount)
+                .Take(totalLeagueEarlyPairs).ToList();
+            mainLeagues = leagues.Except(earlyLeagues).ToList();
         }
-
-        mainLeagues = leagues.Except(earlyLeagues).ToList();
 
         assignments.AddRange(AssignPairs(earlyLeagues, request.EarlyPairs));
 
-        var earlyLeaguesNeadTakeOver = earlyLeagues
-            .Where(l => infoSiteMatches.Any(m => m.LeagueId == l.LeagueId && m.EventDateTime > request.Date.Date.AddHours(Hours).AddMinutes(Minutes)))
-            .ToList();
+        var earlyLeaguesNeadTakeOver = GetLeagueNeedTakeOver(request.Date, earlyLeagues, infoSiteMatches);
         if (earlyLeaguesNeadTakeOver.Count > 0)
         {
             assignments.AddRange(AssignPairs(earlyLeaguesNeadTakeOver, request.MainPairs, true));
@@ -205,6 +210,30 @@ public class AutoAssignHandler(
 
         return assignments;
     }
+
+    private static List<LeagueAssignment> GetLeagueForEarlyPair(
+        DateTime requestDate,
+        IEnumerable<LeagueAssignment> leagues,
+        IEnumerable<InfoSiteMatch> infoSiteMatches)
+    => leagues
+        .Where(l => infoSiteMatches.Any(m => m.LeagueId == l.LeagueId && m.EventDateTime <= requestDate.Date.AddHours(Hours).AddMinutes(Minutes)))
+        .ToList();
+
+    private static List<LeagueAssignment> GetLeagueNoNeedTakeOver(
+        DateTime requestDate,
+        IEnumerable<LeagueAssignment> leagues,
+        IEnumerable<InfoSiteMatch> infoSiteMatches)
+    => leagues
+        .Where(l => !infoSiteMatches.Any(m => m.LeagueId == l.LeagueId && m.EventDateTime > requestDate.Date.AddHours(Hours).AddMinutes(Minutes)))
+        .ToList();
+
+    private static List<LeagueAssignment> GetLeagueNeedTakeOver(
+        DateTime requestDate,
+        IEnumerable<LeagueAssignment> leagues,
+        IEnumerable<InfoSiteMatch> infoSiteMatches)
+    => leagues
+        .Where(l => infoSiteMatches.Any(m => m.LeagueId == l.LeagueId && m.EventDateTime > requestDate.Date.AddHours(Hours).AddMinutes(Minutes)))
+        .ToList();
 
     private static LeagueAssignment FindMainLeague(IList<LeagueAssignment> mainLeagues, LeagueAssignment childLeague)
     {

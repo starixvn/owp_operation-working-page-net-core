@@ -37,5 +37,6 @@ public static class AutoAssignmentConstants
         "- SINGLE TEAM OVER/UNDER",
         "- PENALTY SHOOT-OUT",
         "- PENALTY SHOOT-OUT - WHICH TEAM TO TAKE THE FIRST PENALTY",
+        "- HOME TEAM/AWAY TEAM"
     ];
 }
