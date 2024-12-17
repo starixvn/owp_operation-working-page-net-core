@@ -72,7 +72,17 @@ public class EventPickingOldController : ControllerBase
         var nextDate = date.AddDays(1);
         var mainMatches = await GetMainMatch(date, nextDate);
         var pullingChildMatch = new PullingChildMatch();
-        var childMatches = pullingChildMatch.Query(settings.InfoSiteAPI, date, nextDate);
+
+        var childMatches = new List<ChildMatch>();
+        try
+        {
+            childMatches = pullingChildMatch.Query(settings.InfoSiteAPI, date, nextDate).ToList();
+        }
+        catch (Exception ex)
+        {
+            await logger.ErrorAsync(ex.Message);
+        }
+        
         var matches = CombineSubMatch(mainMatches, childMatches);
         var syncedMatches = await leagueSettingService.ApplyMatchMaxbet(matches);
         await using var stream = new FileStream(templatePath, FileMode.Open, FileAccess.Read);
@@ -91,7 +101,7 @@ public class EventPickingOldController : ControllerBase
         return fsr;
     }
 
-    private Task<List<MatchExporting>> GetMainMatch(DateTime fromDate, DateTime toDate)
+    private async Task<List<MatchExporting>> GetMainMatch(DateTime fromDate, DateTime toDate)
     {
         var timeFrom = fromDate.AddHours(12);
         var timeTo = toDate.AddHours(12);
@@ -100,7 +110,17 @@ public class EventPickingOldController : ControllerBase
         var date = fromDate;
         while (date <= toDate)
         {
-            mainRawMatches.AddRange(pullingMainMatch.Query(settings.InfoSiteAPI, date, date, DateTime.Today.AddYears(-10))); //NOSONAR
+            var mainMatch = new List<CommonMatchEx>();
+            try
+            {
+                mainMatch = pullingMainMatch.Query(settings.InfoSiteAPI, date, date, DateTime.Today.AddYears(-10)).ToList();
+            }
+            catch (Exception ex)
+            {
+                await logger.ErrorAsync(ex.Message);
+            }
+
+            mainRawMatches.AddRange(mainMatch); //NOSONAR
             date = date.AddDays(1);
         }
 
@@ -108,7 +128,7 @@ public class EventPickingOldController : ControllerBase
                             .Select(e => new MatchExporting(e))
                             .Where(e => e.GameDate >= timeFrom && e.GameDate < timeTo)
                             .ToList();
-        return Task.FromResult(mainMatches);
+        return mainMatches;
     }
 
     private static List<MatchExporting> CombineSubMatch(IList<MatchExporting> mainMatches, IList<ChildMatch> childMatches)
