@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <LangVersion>latest</LangVersion>
@@ -12,9 +12,9 @@
   <ItemGroup>
     <ProjectReference Include="..\OWP.RabbitMQ\OWP.RabbitMQ.csproj" />
     <ProjectReference Include="..\OWP\OWP.csproj" />
-    <PackageReference Include="MediatR" Version="12.4.0" />
-    <PackageReference Include="Fanex.NAP.Client" Version="2.0.1.4-beta1" />
-    <PackageReference Include="Carter" Version="8.2.1" />
-    <PackageReference Include="Microsoft.NETCore.Targets" Version="6.0.0-preview.4.21253.7" PrivateAssets="all" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
+    <PackageReference Include="Fanex.NAP.Client" Version="2.0.2" />
+    <PackageReference Include="Carter" Version="9.0.0" />
+    <PackageReference Include="Microsoft.NETCore.Targets" Version="5.0.0" PrivateAssets="all" />
   </ItemGroup>
 </Project>

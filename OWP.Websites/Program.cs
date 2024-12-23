@@ -1,7 +1,7 @@
 using Fanex.Data;
 using Fanex.Logging;
-using Fanex.NAP.SignIn;
 using Newtonsoft.Json;
+using ONEbook.UM.DependencyInjection;
 using OWP.Services;
 using OWP.Websites.Controllers;
 using ILogger = Fanex.Logging.ILogger;
@@ -70,6 +70,4 @@ app.MapHub<TicketCenterNotifyHubImp>("/ticketCenterNotifyHub");
 app.MapHub<PreMatchNotifyHubImp>("/preMatchNotifyHub");
 
 ThreadPool.SetMinThreads(100, 100);
-app.Run();
-
-
+await app.RunAsync();
