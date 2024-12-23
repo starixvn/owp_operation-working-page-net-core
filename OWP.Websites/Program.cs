@@ -33,7 +33,7 @@ services.AddSimpleDataApiModule();
 services.AddFanexData(configuration);
 services.AddOneBookUm(configuration);
 services.AddNapClient(configuration);
-services.AddFanexServices(configuration);
+services.AddFanexLogServices(configuration);
 services.AddGetNotificationQueue();
 services.AddCoreServices();
 services.AddMediator();

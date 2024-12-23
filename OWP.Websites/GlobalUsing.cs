@@ -1,7 +1,7 @@
 global using Carter;
 global using Fanex.NAP.Client;
 global using Microsoft.AspNetCore.Mvc;
-global using ONEbook.UM.AspNetCore.Filters;
+global using ONEbook.UM;
 global using OWP.Hubs;
 global using OWP.Models;
 global using OWP.OtherSport.Hubs;
