@@ -73,7 +73,7 @@ public static class ServiceCollectionExtensions
             mc.AddProfile(new Event.LiveGameAssignment.Download.AutoMapperProfile());
             mc.AddProfile(new Application.AutoMapperProfile());
             mc.AddProfile(new WorkingShift.Common.AutoMapperProfile());
-            mc.AddProfile(new WorkingShift.DailyWorkingShift.AutoMapperProfile());
+            mc.AddProfile(new WorkingShift.AutoMapperProfile());
             mc.AddProfile(new MessageManagement.AutoMapperProfile());
             mc.AddProfile(new OddsCompiler.AutoMapperProfile());
             mc.AddProfile(new NewLeagueSetting.AutoMapperProfile());

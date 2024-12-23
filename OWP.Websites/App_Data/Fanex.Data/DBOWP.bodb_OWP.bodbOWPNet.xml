@@ -70,6 +70,7 @@
 	<Function Name="APISyncWorkingShift">
 		<Setting Key="OWP_API_SyncEmployeeWorkingShift_GetWorkingShift" SpName="OWP_API_SyncEmployeeWorkingShift_GetWorkingShift" DbName="DBOWP.bodb_OWP.wsv_owp" />
 		<Setting Key="OWP_API_SyncWorkingShift_To_HRPP" SpName="OWP_API_SyncWorkingShift_To_HRPP" DbName="DBOWP.bodb_OWP.wsv_owp" />
+        <Setting Key="OWP_API_SyncEmployeeWorkingShift" SpName="OWP_API_SyncEmployeeWorkingShift" DbName="DBOWP.bodb_OWP.wsv_owp" />
 	</Function>
 	<Function Name="TicketSetting">
 		<Setting Key="OWP_TicketSetting_GetAllRecipients" SpName="OWP_TicketSetting_GetAllRecipients" DbName="DBOWP.bodb_OWP.wsv_owp" />

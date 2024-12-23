@@ -50,6 +50,7 @@ public class WorkingShiftModel
             var getExtension = Extension.Value.ToExtension();
             ShiftCode = ShiftCode + " " + getExtension;
         }
+
         ShiftCode = ShiftCode.TrimEnd();
     }
 }
