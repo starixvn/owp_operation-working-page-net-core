@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <CodeAnalysisRuleSet>..\..\.sonarlint\nap-owp-netcorecsharp.ruleset</CodeAnalysisRuleSet>
@@ -10,7 +10,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
-    <PackageReference Include="Fanex.Caching.Redis.AspNetCore" Version="2.2.4" />
+    <PackageReference Include="Fanex.Caching.Redis.AspNetCore" Version="2.2.5" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OWP.RabbitMQ\OWP.RabbitMQ.csproj" />

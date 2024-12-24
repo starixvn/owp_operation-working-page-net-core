@@ -37,7 +37,6 @@ using OWP.TicketCenter;
 using OWP.TicketSetting.RecipientGroup;
 using OWP.TicketSetting.TicketEvent;
 using OWP.TicketSetting.TicketTypeRecipient;
-using SharpRaven;
 using StackExchange.Redis;
 using System.Reflection;
 
@@ -119,9 +118,9 @@ public static class ServiceCollectionExtensions
                     Name = "Fanex.OWP.Cookie",
                     SecurePolicy = CookieSecurePolicy.SameAsRequest
                 };
-                options.Events.OnSigningOut = context =>
+                options.Events.OnSigningOut = x =>
                 {
-                    context.Response.Redirect(options.LoginPath);
+                    x.Response.Redirect(options.LoginPath);
                     return Task.CompletedTask;
                 };
             });
@@ -144,18 +143,9 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddFanexServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddFanexLogServices(this IServiceCollection services, IConfiguration configuration)
     {
-        LogManager
-        .SetDefaultLogCategory(configuration.GetSection("LogCategory").Value)
-        .Use(new List<ILogEngine>
-        {
-            new SentryLogging(new SentryEngineOptions
-            {
-                Dsn = new Dsn(configuration.GetSection("SentryEngineOptions:Dsn").Value)
-            })
-        });
-
+        services.AddFanexLogSentry(configuration);
         ExceptionHandler.UseConfig(new LoggingConfiguration());
 
         return services;

@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <CodeAnalysisRuleSet>..\..\.sonarlint\nap-owp-netcorecsharp.ruleset</CodeAnalysisRuleSet>
@@ -27,12 +27,12 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
-    <PackageReference Include="Epplus.Mapper" Version="7.0.0" />
-    <PackageReference Include="MediatR" Version="12.4.0" />
-    <PackageReference Include="NPOI" Version="2.7.1" />
+    <PackageReference Include="Epplus.Mapper" Version="7.5.0" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
+    <PackageReference Include="NPOI" Version="2.7.2" />
     <PackageReference Include="Olympus.InfoSiteClient" Version="2.2.0.7" />
-    <PackageReference Include="System.CodeDom" Version="8.0.0" />
-    <PackageReference Include="System.Drawing.Common" Version="8.0.7" />
+    <PackageReference Include="System.CodeDom" Version="9.0.0" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OWP.RabbitMQ\OWP.RabbitMQ.csproj" />

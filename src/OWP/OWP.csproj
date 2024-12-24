@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <SonarQubeExclude>True</SonarQubeExclude>
@@ -30,12 +30,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Fanex.Data.ProxyClient" Version="1.0.0" />
-    <PackageReference Include="MediatR" Version="12.4.0" />
-    <PackageReference Include="NPOI" Version="2.7.1" />
+    <PackageReference Include="Fanex.Data.ProxyClient" Version="1.0.3" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
+    <PackageReference Include="NPOI" Version="2.7.2" />
     <PackageReference Include="Olympus.OWP.Constants" Version="1.0.0.4" />
-    <PackageReference Include="Fanex.Logging" Version="2.0.1.1" />
-    <PackageReference Include="Fanex.NAP.Client" Version="2.0.1.4-beta1" />
+    <PackageReference Include="Fanex.Logging" Version="2.0.2" />
+    <PackageReference Include="Fanex.NAP.Client" Version="2.0.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <ItemGroup>
@@ -47,9 +47,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MenuItems.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Constants\FunctionKeys.cs">

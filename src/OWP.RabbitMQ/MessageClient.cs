@@ -9,13 +9,13 @@ namespace OWP.RabbitMQ;
 
 public interface MessageClient
 {
-    void Connect();
-    void SendMessage(object message, string messageType);
+    Task<bool> Connect();
+    ValueTask<bool> SendMessage(object message, string messageType);
 }
 
 public class MessageClientImp : MessageClient
 {
-    private IModel channel;
+    private IChannel channel;
 
     private readonly RabbitMQSetting setting;
     private readonly ILogger logger;
@@ -28,7 +28,7 @@ public class MessageClientImp : MessageClient
         this.logger = logger;
     }
 
-    public void Connect()
+    public async Task<bool> Connect()
     {
         try
         {
@@ -38,35 +38,42 @@ public class MessageClientImp : MessageClient
                 Password = setting.Password,
                 HostName = setting.Hosting,
                 Port = setting.Port,
-                VirtualHost = setting.VirtualHost,
-                DispatchConsumersAsync = true
+                VirtualHost = setting.VirtualHost
             };
 
-            var connection = factory.CreateConnection();
-            channel = connection.CreateModel();
+            var connection = await factory.CreateConnectionAsync();
+            channel = await connection.CreateChannelAsync();
 
-            channel.QueueDeclare(setting.RequestQueue, true, false, false);
+            await channel.QueueDeclareAsync(setting.RequestQueue, true, false, false);
         }
         catch (Exception ex)
         {
-            logger.Error(ex.Message, ex);
+            await logger.ErrorAsync(ex.Message, ex);
+            return false;
         }
+
+        return true;
     }
 
-    public void SendMessage(object message, string messageType)
+    public async ValueTask<bool> SendMessage(object message, string messageType)
     {
         const int EXPIRATION_TIME = 1000 * 60 * 30;
         var json = JsonConvert.SerializeObject(message);
         var messageBytes = Encoding.UTF8.GetBytes(json);
 
-        var props = channel.CreateBasicProperties();
-        props.Type = messageType;
-        props.Expiration = EXPIRATION_TIME.ToString();
+        var props = new BasicProperties
+        {
+            Type = messageType,
+            Expiration = EXPIRATION_TIME.ToString()
+        };
 
-        channel.BasicPublish(
+        await channel.BasicPublishAsync(
             string.Empty,
             setting.RequestQueue,
-            props,
-            messageBytes);
+            basicProperties: props,
+            body: messageBytes,
+            mandatory: true);
+
+        return true;
     }
 }
