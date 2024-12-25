@@ -15,24 +15,21 @@ public interface RefResourceService
     IList<UserLocation> GetAllLocations();
 }
 
-public class RefResourceServiceImp : RefResourceService
+public class RefResourceServiceImp(IDynamicRepository dynamicRepository) : RefResourceService
 {
-    private readonly IDynamicRepository dynamicRepository;
-
-    public RefResourceServiceImp(IDynamicRepository dynamicRepository)
-    {
-        this.dynamicRepository = dynamicRepository;
-    }
-
     public IList<UserLocation> GetAllLocations()
     {
         return new List<UserLocation>
         {
+            new() { LocationName = "CSC", LocationCode = "CSC" },
             new() { LocationName = "CTI", LocationCode = "CTI" },
+            new() { LocationName = "DBS", LocationCode = "DBS" },
             new() { LocationName = "SMS", LocationCode = "SMS" },
             new() { LocationName = "WAH HCMC", LocationCode = "WAH HCMC" },
             new() { LocationName = "WAH MAL", LocationCode = "WAH MAL" },
             new() { LocationName = "WAH MNL", LocationCode = "WAH MNL" },
+            new() { LocationName = "WGI", LocationCode = "WGI" },
+            new() { LocationName = "XPC", LocationCode = "XPC" },
             new() { LocationName = "None", LocationCode = "None" }
         };
     }
