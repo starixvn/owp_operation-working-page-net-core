@@ -69,6 +69,7 @@ const MatchCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
                 isFantasy={IsFantasy}
                 rowIndex={rowIndex}
                 minorBettypeId={MinorBettypeId}
+                league={League}
               />
             </>
           )}

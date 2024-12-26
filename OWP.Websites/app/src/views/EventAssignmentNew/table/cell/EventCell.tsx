@@ -14,10 +14,7 @@ const EventCell = (props: TCellModel) => {
     policy: {
       entities: { FullBetTypes, detailInformationPolicy }
     },
-    allowAddEvent: {
-      isAllowAddEvent,
-      isYesterdayOrAfter
-    }
+    allowAddEvent: { isAllowAddEvent, isYesterdayOrAfter }
   } = store.getState();
   const { rowIndex, dataSource } = props;
   const event = dataSource[rowIndex];
@@ -74,10 +71,7 @@ const EventCell = (props: TCellModel) => {
         </a>
       )}
 
-      <MatchInfo
-        dataSource={dataSource}
-        rowIndex={rowIndex}
-      />
+      <MatchInfo dataSource={dataSource} rowIndex={rowIndex} />
 
       {event.AdminSiteId && (
         <>
@@ -90,6 +84,7 @@ const EventCell = (props: TCellModel) => {
             isFantasy={event.IsFantasy}
             rowIndex={rowIndex}
             minorBettypeId={event.MinorBettypeId}
+            league={event.League}
           />
         </>
       )}
