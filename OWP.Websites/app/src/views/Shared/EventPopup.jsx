@@ -7,11 +7,24 @@ const propTypes = {
   adminSiteId: PropTypes.number.isRequired,
   isFantasy: PropTypes.bool.isRequired,
   className: PropTypes.string,
-  minorBettypeId: PropTypes.number
+  minorBettypeId: PropTypes.number,
+  league: PropTypes.string
 };
 
 const EventPopup = props => {
-  const { rowIndex, adminSiteId, isFantasy, className, minorBettypeId } = props;
+  const {
+    rowIndex,
+    adminSiteId,
+    isFantasy,
+    className,
+    minorBettypeId,
+    league
+  } = props;
+
+  const leaguesUseSabaLink = [
+    'SABA ELITE FRIENDLY Virtual PES 23 - PENALTY SHOOTOUTS',
+    'SABA ELITE FRIENDLY Virtual PES 21 - 5 Mins Play'
+  ];
 
   const renderItem = (href, value) => (
     <li>
@@ -21,8 +34,18 @@ const EventPopup = props => {
     </li>
   );
 
+  const getLaControllerHref = (league, adminSiteId) => {
+    const isUseSabaLink = leaguesUseSabaLink.includes(league);
+
+    const baseUrl = isUseSabaLink
+      ? 'http://live.oneops.net:805/Live/OddsControl_Saba.aspx'
+      : 'http://live.oneops.net:805/Live/OddsControl.aspx';
+
+    return `${baseUrl}?matchid=${adminSiteId}&type=s`;
+  };
+
   const renderLaControllerItem = () => {
-    const href = `http://live.oneops.net:805/Live/OddsControl.aspx?matchid=${adminSiteId}&type=s`;
+    const href = getLaControllerHref(league, adminSiteId);
     return renderItem(href, 'LA Controller');
   };
 

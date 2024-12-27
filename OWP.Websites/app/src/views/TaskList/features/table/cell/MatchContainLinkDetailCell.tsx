@@ -72,6 +72,7 @@ const MatchContainLinkDetailCell = (props: CellProps) => {
           isFantasy={IsFantasy}
           rowIndex={rowIndex}
           minorBettypeId={MinorBettypeId}
+          league={League}
         />
       </>
     );
