@@ -114,6 +114,10 @@
         "id": "MjT2"
       },
       {
+        "name": "MJ.T3",
+        "id": "MjT3"
+      },
+      {
         "name": "CL.MJ.Q",
         "id": "ClMjQ"
       },
@@ -136,6 +140,10 @@
       {
         "name": "EURO",
         "id": "Euro"
+      },
+      {
+        "name": "Cop.A",
+        "id": "CopA"
       },
       {
         "name": "Unknown",

@@ -28,7 +28,9 @@ public static class LeagueGroupHelper
         { LeagueGroupConst.IntMj , "IntMj"},
         { LeagueGroupConst.IntMn , "IntMn"},
         { LeagueGroupConst.WorldCup , "WorldCup"},
-        { LeagueGroupConst.Euro , "Euro"}
+        { LeagueGroupConst.Euro , "Euro"},
+        { LeagueGroupConst.MjT3 , "MjT3"},
+        { LeagueGroupConst.CopA , "CopA"}
     };
 
     public static void Build(ReportBaseModel singleTraderOfLeague, QueryPrematchReportModel element)

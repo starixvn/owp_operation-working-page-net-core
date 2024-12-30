@@ -16,6 +16,6 @@ public class GetLeagueGroupHandler : IRequestHandler<GetLeagueGroupRequest, IEnu
     public async Task<IEnumerable<ReferenceResource>> Handle(GetLeagueGroupRequest request, CancellationToken cancellationToken)
     {
         var resource = await refResourceService.GetRefResourcesByName(ReferenceResourceNames.LeagueCategory);
-        return resource.OrderBy(x => x.ResourceId);
+        return resource;
     }
 }

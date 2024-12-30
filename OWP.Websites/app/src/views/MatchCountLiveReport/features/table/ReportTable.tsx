@@ -72,7 +72,8 @@ const ReportTable = () => {
         accessor: `${subCol.id}`,
         width: 70,
         id: `${subCol.id}`,
-        Cell: (cellInfo: CellInfo) => formatNumber(cellInfo.original[`${subCol.id}`]) ?? '-'
+        Cell: (cellInfo: CellInfo) =>
+          formatNumber(cellInfo.original[`${subCol.id}`]) ?? '-'
       };
     });
   };

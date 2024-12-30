@@ -30,4 +30,6 @@ public static class LeagueGroupConst
     public const int IntMn = 17;
     public const int WorldCup = 18;
     public const int Euro = 19;
+    public const int MjT3 = 20;
+    public const int CopA = 21;
 }

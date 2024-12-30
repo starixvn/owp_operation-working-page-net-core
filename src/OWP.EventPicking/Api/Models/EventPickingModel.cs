@@ -84,6 +84,8 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
     [Cell("H2")]
     public string LeagueName { get; set; }
 
+    public string LeagueGroup { get; set; }
+
     [Cell("I2")]
     public string MatchOffer { get; set; }
 

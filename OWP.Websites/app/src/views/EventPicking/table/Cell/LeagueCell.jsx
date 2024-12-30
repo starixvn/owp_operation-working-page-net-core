@@ -10,13 +10,16 @@ const propTypes = {
 
 const LeagueCell = props => {
   const { rowIndex, dataSource } = props;
-  const { leagueName, matchOffer, noHDP } = dataSource[rowIndex];
+  const { leagueName, leagueGroup, matchOffer, noHDP } = dataSource[rowIndex];
   const matchOfferLst = matchOffer && matchOffer.split(',');
   const refMatchOffer = useRef(null);
   const refNoHdp = useRef(null);
   return (
     <div className='league-cell'>
-      <div className='league-name'>{leagueName}</div>
+      <p>
+        {leagueGroup && <span className='league-group'>{leagueGroup}</span>}
+        <span className='league-name'>{leagueName}</span>
+      </p>
       <div className='offer'>
         {matchOffer &&
           matchOfferLst.map(x => (
