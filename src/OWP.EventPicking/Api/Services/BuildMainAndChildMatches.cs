@@ -16,16 +16,33 @@ public interface BuildMainAndChildMatches
     Task<List<EventPickingModel>> GetChildEventEventPicking(DateTime date);
 }
 
-public class BuildMainAndChildMatchesImp(Repository repository,
+public class BuildMainAndChildMatchesImp: BuildMainAndChildMatches
+{
+    private readonly AppSettings appSettings;
+    private readonly Repository repository;
+    private readonly BuildChildMatchMaxBet buildChildMatchMaxBet;
+    private readonly BuildRowColor buildRowColor;
+    private readonly BuildMatchOfferByLiveSetting buildMatchOffer;
+    private readonly BuildProvider buildProvider;
+    private readonly IMediator mediator;
+
+    public BuildMainAndChildMatchesImp(
+        Repository repository,
         BuildChildMatchMaxBet buildChildMatchMaxBet,
         BuildRowColor buildRowColor,
         BuildMatchOfferByLiveSetting buildMatchOffer,
         BuildProvider buildProvider,
         IMediator mediator,
         IOptions<AppSettings> appSettingOptions)
-    : BuildMainAndChildMatches
-{
-    private readonly AppSettings appSettings = appSettingOptions.Value;
+    {
+        appSettings = appSettingOptions.Value;
+        this.repository = repository;
+        this.buildChildMatchMaxBet = buildChildMatchMaxBet;
+        this.buildRowColor = buildRowColor;
+        this.buildMatchOffer = buildMatchOffer;
+        this.buildProvider = buildProvider;
+        this.mediator = mediator;
+    }
 
     public async Task<List<EventPickingModel>> GetMainAndChildMatchEvent(DateTime date)
     {
