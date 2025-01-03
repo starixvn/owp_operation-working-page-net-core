@@ -13,7 +13,7 @@ public class MainEventMaxbetSpread
 
     public string NoOfHDP { get; set; }
 
-    [Cell("J2")]
+    [Cell("M2")]
     public string LstNote { get; set; }
 
     public string Remark2LeagueManagement { get; set; }

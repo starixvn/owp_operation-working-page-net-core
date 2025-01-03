@@ -76,138 +76,137 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
     public string OtherTime { get; set; }
 
     [Cell("F2")]
-    public string HomeName { get; set; }
-
-    [Cell("G2")]
-    public string AwayName { get; set; }
-
-    [Cell("H2")]
-    public string LeagueName { get; set; }
-
-    public string LeagueGroup { get; set; }
-
-    [Cell("I2")]
-    public string MatchOffer { get; set; }
-
-    [Cell("K2")]
-    public string MaxBetHDP { get; set; }
-
-    [Cell("L2")]
-    public string SpreadHDP { get; set; }
-
-    [Cell("M2")]
-    public string SpreadOU { get; set; }
-
-    [Cell("N2")]
-    public string NoHDP { get; set; }
-
-    [Cell("O2")]
-    public string TraderHDP { get; set; }
-
-    [Cell("P2")]
-    public string TraderOU { get; set; }
-
-    [Cell("Q2")]
-    public string Trader1HHDP { get; set; }
-
-    [Cell("R2")]
-    public string Trader1HOU { get; set; }
-
-    [Cell("S2")]
-    public string OtherTradersHDP { get; set; }
-
-    [Cell("T2")]
-    public string OtherTradersOU { get; set; }
-
-    [Cell("U2")]
-    public string OtherTraders1HHDP { get; set; }
-
-    [Cell("V2")]
-    public string OtherTraders1HOU { get; set; }
-
-    [Cell("W2")]
-    public string X15mins { get; set; }
-
-    [Cell("X2")]
-    public string X10mins { get; set; }
-
-    [Cell("Y2")]
-    public string Trader1X2 { get; set; }
-
-    [Cell("Z2")]
-    public string OtherTraders1X2 { get; set; }
-
-    [Cell("AA2")]
-    public string FM { get; set; }
-
-    [Cell("AB2")]
-    public string AIO { get; set; }
-
-    [Cell("AC2")]
-    public string LA { get; set; }
-
-    [Cell("AD2")]
-    public string OtherLA { get; set; }
-
-    [Cell("AE2")]
-    public string LASystemAssign { get; set; }
-
-    [Cell("AF2")]
     public string Provider { get; set; }
 
-    [Cell("AG2")]
+    [Cell("G2")]
     public string OtherProvider { get; set; }
 
-    [Cell("AH2")]
-    public string Division { get; set; }
-
-    [Cell("AI2")]
-    public string Remark { get; set; }
-
-    [Cell("AJ2")]
-    public string Wb { get; set; }
-
-    [Cell("AK2")]
-    public string Round { get; set; }
-
-    [Cell("AL2")]
-    public string TV { get; set; }
-
-    [Cell("AM2")]
-    public string Channel { get; set; }
-
-    [Cell("AN2")]
-    public string Iptv { get; set; }
-
-    [Cell("AO2")]
+    [Cell("H2")]
     public string Agent { get; set; }
 
+    [Cell("I2")]
+    public string HomeName { get; set; }
+
+    [Cell("J2")]
+    public string AwayName { get; set; }
+
+    [Cell("K2")]
+    public string LeagueName { get; set; }
+    public string LeagueGroup { get; set; }
+
+    [Cell("L2")]
+    public string MatchOffer { get; set; }
+
+    [Cell("N2")]
+    public string MaxBetHDP { get; set; }
+
+    [Cell("O2")]
+    public string SpreadHDP { get; set; }
+
+    [Cell("P2")]
+    public string SpreadOU { get; set; }
+
+    [Cell("Q2")]
+    public string NoHDP { get; set; }
+
+    [Cell("R2")]
+    public string TraderHDP { get; set; }
+
+    [Cell("S2")]
+    public string TraderOU { get; set; }
+
+    [Cell("T2")]
+    public string Trader1HHDP { get; set; }
+
+    [Cell("U2")]
+    public string Trader1HOU { get; set; }
+
+    [Cell("V2")]
+    public string OtherTradersHDP { get; set; }
+
+    [Cell("W2")]
+    public string OtherTradersOU { get; set; }
+
+    [Cell("X2")]
+    public string OtherTraders1HHDP { get; set; }
+
+    [Cell("Y2")]
+    public string OtherTraders1HOU { get; set; }
+
+    [Cell("Z2")]
+    public string X15mins { get; set; }
+
+    [Cell("AA2")]
+    public string X10mins { get; set; }
+
+    [Cell("AB2")]
+    public string Trader1X2 { get; set; }
+
+    [Cell("AC2")]
+    public string OtherTraders1X2 { get; set; }
+
+    [Cell("AD2")]
+    public string FM { get; set; }
+
+    [Cell("AE2")]
+    public string AIO { get; set; }
+
+    [Cell("AF2")]
+    public string LA { get; set; }
+
+    [Cell("AG2")]
+    public string OtherLA { get; set; }
+
+    [Cell("AH2")]
+    public string LASystemAssign { get; set; }
+
+    [Cell("AI2")]
+    public string Division { get; set; }
+
+    [Cell("AJ2")]
+    public string Remark { get; set; }
+
+    [Cell("AK2")]
+    public string Remark2 { get; set; }
+
+    [Cell("AL2")]
+    public string HomeRemark { get; set; }
+
+    [Cell("AM2")]
+    public string AwayRemark { get; set; }
+
+    [Cell("AN2")]
+    public string Wb { get; set; }
+
+    [Cell("AO2")]
+    public string Round { get; set; }
+
     [Cell("AP2")]
-    public string ReporterPhone { get; set; }
+    public string TotalRound { get; set; }
 
     [Cell("AQ2")]
-    public string InfoSiteIdExport => IsChildMatch ? string.Empty : InfoSiteMatchId.ToString();
+    public string ETPK { get; set; }
 
     [Cell("AR2")]
-    public string AdminSiteIdExport => IsChildMatch ? string.Empty : AdminSiteMatchId.ToString();
+    public string ReporterPhone { get; set; }
 
     [Cell("AS2")]
     public string Venue { get; set; }
 
     [Cell("AT2")]
-    public string HomeRemark { get; set; }
+    public string TV { get; set; }
 
     [Cell("AU2")]
-    public string AwayRemark { get; set; }
+    public string Iptv { get; set; }
 
     [Cell("AV2")]
-    public string ETPK { get; set; }
+    public string Channel { get; set; }
 
     [Cell("AW2")]
-    public string Remark2 { get; set; }
+    public string InfoSiteIdExport => IsChildMatch ? string.Empty : InfoSiteMatchId.ToString();
 
     [Cell("AX2")]
-    public string TotalRound { get; set; }
+    public string AdminSiteIdExport => IsChildMatch ? string.Empty : AdminSiteMatchId.ToString();
 
     [Cell("AY2")]
     public string Website1 { get; set; }
