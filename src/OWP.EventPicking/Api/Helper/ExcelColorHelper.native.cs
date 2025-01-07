@@ -10,7 +10,7 @@ public static class ExcelColorHelper
         for (int i = 0, row = 2; i < matches.Count; i++, row++)
         {
             var match = matches[i];
-            for (var column = 1; column <= 75; column++)
+            for (var column = 1; column <= 76; column++)
             {
                 if (match.RowColorHex == null || match.RowColorHex == Misc.Constant.ColorWhiteHex)
                 {
