@@ -58,11 +58,6 @@ public class EventPickingApiController(IMediator mediator, Repository repository
     public async Task<FileResult> ExportExcel(ExportExcelRequest request)
         => await mediator.Send(request);
 
-    [Route("export-excel-lst-format")]
-    [HttpPost]
-    public async Task<FileResult> ExportLSTFormat(ExportLSTFormatRequest request)
-        => await mediator.Send(request);
-
     [HttpPost("update-main-events")]
     public async Task UpdateMainEventMaxbetSpread(UpdateEventsRequest request)
         => await mediator.Send(request);
