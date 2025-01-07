@@ -31,31 +31,14 @@ public class NewTicketIssueLogWorkRequest : NewTicketModelBase, IRequest<int>
 
 }
 
-public class NewTicketIssueLogWorkHandler : IRequestHandler<NewTicketIssueLogWorkRequest, int>
+public class NewTicketIssueLogWorkHandler(
+    Repository repository,
+    MessageService messageService,
+    NotificationService notificationService,
+    RecipientService recipientService,
+    MessageClient messageClient,
+    IMapper mapper) : IRequestHandler<NewTicketIssueLogWorkRequest, int>
 {
-    private readonly MessageClient messageClient;
-    private readonly MessageService messageService;
-    private readonly NotificationService notificationService;
-    private readonly RecipientService recipientService;
-    private readonly Repository repository;
-    private readonly IMapper mapper;
-
-    public NewTicketIssueLogWorkHandler(
-        Repository repository,
-        MessageService messageService,
-        NotificationService notificationService,
-        RecipientService recipientService,
-        MessageClient messageClient,
-        IMapper mapper)
-    {
-        this.repository = repository;
-        this.notificationService = notificationService;
-        this.recipientService = recipientService;
-        this.messageClient = messageClient;
-        this.messageService = messageService;
-        this.mapper = mapper;
-    }
-
     public async Task<int> Handle(NewTicketIssueLogWorkRequest request, CancellationToken cancellationToken)
     {
         var criteria = mapper.Map<CreateNewTicketCriteria>(request);
@@ -83,7 +66,7 @@ public class NewTicketIssueLogWorkHandler : IRequestHandler<NewTicketIssueLogWor
             ActorId = request.CreatorId
         };
 
-        messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketLogWork);
+        await messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketLogWork);
 
         var userIds = await repository.GetUserIdsByTicketId(ticketId);
 
@@ -93,6 +76,7 @@ public class NewTicketIssueLogWorkHandler : IRequestHandler<NewTicketIssueLogWor
 
         return ticketId;
     }
+
     public async Task<TicketInfo> BuildModelTicket(NewTicketIssueLogWorkRequest request, int TicketId)
     {
         var lastComments = (await repository.GetTwoLastComment(new List<int> { TicketId })).ToList();

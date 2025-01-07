@@ -13,18 +13,10 @@ using Fanex.NAP.Client.Helpers.Business;
 [ApiController]
 [Authorize]
 [Route("api/live-detail/assignment")]
-public class AssignmentController : ControllerBase
+public class AssignmentController(
+    AssignmentRepository repository,
+    MessageClient messageClient) : ControllerBase
 {
-    private readonly AssignmentRepository repository;
-
-    private readonly MessageClient messageClient;
-
-    public AssignmentController(AssignmentRepository repository, MessageClient messageClient)
-    {
-        this.repository = repository;
-        this.messageClient = messageClient;
-    }
-
     [HttpGet]
     [Route("")]
     [NapAuth(FunctionKey = FunctionKeys.DetailsInformation, Policy = Constant.Policy.Read)]
@@ -51,9 +43,8 @@ public class AssignmentController : ControllerBase
         var createdResult = await repository.Create(model);
         if (createdResult.Code == 0)
         {
-            messageClient.SendMessage(new { createdResult.SessionId }, RoutingKey.LiveDetail);
+            await messageClient.SendMessage(new { createdResult.SessionId }, RoutingKey.LiveDetail);
         }
-
 
         return Ok(JsonConvert.SerializeObject(createdResult));
     }
@@ -66,7 +57,7 @@ public class AssignmentController : ControllerBase
         var updatedResult = await repository.Update(model);
         if (updatedResult.Code == 0)
         {
-            messageClient.SendMessage(new { updatedResult.SessionId }, RoutingKey.LiveDetail);
+            await messageClient.SendMessage(new { updatedResult.SessionId }, RoutingKey.LiveDetail);
         }
 
         return Ok(JsonConvert.SerializeObject(updatedResult));
@@ -80,7 +71,7 @@ public class AssignmentController : ControllerBase
         var deleteResult = await repository.Delete(model);
         if (deleteResult.Code == 0)
         {
-            messageClient.SendMessage(new { deleteResult.SessionId }, RoutingKey.LiveDetail);
+            await messageClient.SendMessage(new { deleteResult.SessionId }, RoutingKey.LiveDetail);
         }
 
         return Ok(JsonConvert.SerializeObject(deleteResult));

@@ -33,33 +33,14 @@ public class SubmitResponse
     public bool IsSuccessful { get; set; }
 }
 
-public class SubmitHandler : IRequestHandler<SubmitRequest, SubmitResponse>
+public class SubmitHandler(
+    CacheManipulator cacheManipulator,
+    CommandRepository commandRepository,
+    INapSession session,
+    IHubContext<NewDataUploadNotifyHubImp, NewDataUploadNotifyHub> notifyHub,
+    MessageClient messageClient,
+    AssignmentAnalyzer assignmentAnalyzer) : IRequestHandler<SubmitRequest, SubmitResponse>
 {
-    private readonly CacheManipulator cacheManipulator;
-    private readonly CommandRepository commandRepository;
-    private readonly INapSession session;
-    private readonly IHubContext<NewDataUploadNotifyHubImp, NewDataUploadNotifyHub> notifyHub;
-    private readonly MessageClient messageClient;
-    private readonly AssignmentAnalyzer assignmentAnalyzer;
-
-
-    public SubmitHandler(
-        CacheManipulator cacheManipulator,
-        CommandRepository commandRepository,
-        INapSession session,
-        IHubContext<NewDataUploadNotifyHubImp, NewDataUploadNotifyHub> notifyHub,
-        MessageClient messageClient,
-        AssignmentAnalyzer assignmentAnalyzer)
-
-    {
-        this.cacheManipulator = cacheManipulator;
-        this.commandRepository = commandRepository;
-        this.session = session;
-        this.notifyHub = notifyHub;
-        this.messageClient = messageClient;
-        this.assignmentAnalyzer = assignmentAnalyzer;
-    }
-
     public async Task<SubmitResponse> Handle(SubmitRequest request, CancellationToken cancellationToken)
     {
         var newAssignments = await cacheManipulator.GetNewAssignments(request.SessionId);
@@ -80,7 +61,7 @@ public class SubmitHandler : IRequestHandler<SubmitRequest, SubmitResponse>
         await TryHandle(eventDates, newAssignments, request);
         await notifyHub.Clients.All.NotifyUploadedNewData();
 
-        messageClient.SendMessage(new
+        await messageClient.SendMessage(new
         {
             request.SessionId,
             request.FromDate,
@@ -88,7 +69,6 @@ public class SubmitHandler : IRequestHandler<SubmitRequest, SubmitResponse>
             ActorId = session.UserId,
             session.UserName
         }, RoutingKey.OtherSport);
-
 
         return new SubmitResponse
         {

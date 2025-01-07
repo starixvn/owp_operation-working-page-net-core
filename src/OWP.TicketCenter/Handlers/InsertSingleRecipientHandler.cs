@@ -10,29 +10,13 @@ namespace OWP.TicketCenter.Handlers;
 
 public class InsertSingleRecipientRequest : InsertOrRemoveSingleRecipientModel, IRequest<int>;
 
-public class InsertRecipientHandler : IRequestHandler<InsertSingleRecipientRequest, int>
+public class InsertRecipientHandler(
+    Repository repository,
+    RecipientService recipientService,
+    NotificationService notificationService,
+    MessageClient messageClient,
+    PreMatchNotificationService preMatchNotification) : IRequestHandler<InsertSingleRecipientRequest, int>
 {
-    private readonly Repository repository;
-    private readonly RecipientService recipientService;
-    private readonly NotificationService notificationService;
-    private readonly MessageClient messageClient;
-    private readonly PreMatchNotificationService preMatchNotification;
-
-    public InsertRecipientHandler(
-        Repository repository,
-        RecipientService recipientService,
-        NotificationService notificationService,
-        MessageClient messageClient,
-        PreMatchNotificationService preMatchNotification
-    )
-    {
-        this.repository = repository;
-        this.recipientService = recipientService;
-        this.notificationService = notificationService;
-        this.messageClient = messageClient;
-        this.preMatchNotification = preMatchNotification;
-    }
-
     public async Task<int> Handle(InsertSingleRecipientRequest request, CancellationToken cancellationToken)
     {
         var recipients = new List<InsertOrRemoveManyRecipientModel>
@@ -54,7 +38,7 @@ public class InsertRecipientHandler : IRequestHandler<InsertSingleRecipientReque
     private async Task NotifyToUsers(InsertOrRemoveSingleRecipientModel request)
     {
         // publish rabbit
-        messageClient.SendMessage(request, RoutingKey.TicketCenterNewRecipient);
+        await messageClient.SendMessage(request, RoutingKey.TicketCenterNewRecipient);
 
         var userIds = new List<string> { request.RecipientId.ToString() };
         await notificationService.NotifyNewAddRecipient(userIds, request.TicketInfo);

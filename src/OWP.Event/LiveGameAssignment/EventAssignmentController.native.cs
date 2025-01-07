@@ -121,7 +121,7 @@ public class EventAssignmentController : ControllerBase
         if (result.IsSuccess)
         {
             var sessionId = result.Data as string;
-            messageClient.SendMessage(new { SessionId = sessionId }, RoutingKey.LiveDetail);
+            await messageClient.SendMessage(new { SessionId = sessionId }, RoutingKey.LiveDetail);
         }
 
         return Ok(JsonConvert.SerializeObject(result));

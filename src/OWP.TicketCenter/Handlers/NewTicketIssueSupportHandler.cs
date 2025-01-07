@@ -15,35 +15,16 @@ public class NewTicketIssueSupportRequest : NewTicketModelBase, IRequest<int>
     public string Subject { get; set; }
 
     public int? EventType => (int)Enum.EventType.Support;
-
 }
 
-public class NewTicketIssueSupportHandler : IRequestHandler<NewTicketIssueSupportRequest, int>
+public class NewTicketIssueSupportHandler(
+    Repository repository,
+    MessageService messageService,
+    NotificationService notificationService,
+    RecipientService recipientService,
+    MessageClient messageClient,
+    IMapper mapper) : IRequestHandler<NewTicketIssueSupportRequest, int>
 {
-    private readonly MessageClient messageClient;
-    private readonly MessageService messageService;
-    private readonly NotificationService notificationService;
-    private readonly RecipientService recipientService;
-    private readonly Repository repository;
-    private readonly IMapper mapper;
-   
-
-    public NewTicketIssueSupportHandler(
-        Repository repository,
-        MessageService messageService,
-        NotificationService notificationService,
-        RecipientService recipientService,
-        MessageClient messageClient,
-        IMapper mapper)
-    {
-        this.repository = repository;
-        this.messageService = messageService;
-        this.notificationService = notificationService;
-        this.recipientService = recipientService;
-        this.messageClient = messageClient;
-        this.mapper = mapper;
-    }
-
     public async Task<int> Handle(NewTicketIssueSupportRequest request, CancellationToken cancellationToken)
     {
         var criteria = mapper.Map<CreateNewTicketCriteria>(request);
@@ -78,7 +59,7 @@ public class NewTicketIssueSupportHandler : IRequestHandler<NewTicketIssueSuppor
             ActorId = request.CreatorId
         };
 
-        messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketSupport);
+        await messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketSupport);
 
         var userIds = await repository.GetUserIdsByTicketId(request.TicketId);
 
@@ -89,7 +70,7 @@ public class NewTicketIssueSupportHandler : IRequestHandler<NewTicketIssueSuppor
     public async Task<TicketInfo> BuildModelTicket(NewTicketIssueSupportRequest request, int TicketId)
     {
         var lastComments = (await repository.GetTwoLastComment(new List<int> { TicketId })).ToList();
-        
+
         return new TicketInfo
         {
             TicketId = TicketId,
@@ -100,9 +81,8 @@ public class NewTicketIssueSupportHandler : IRequestHandler<NewTicketIssueSuppor
             TicketSubTypeName = request.SubTypeName,
             LastCommentDate = lastComments.Count != 0 ? lastComments[0].CreatedDate : new MessageInfoModel().CreatedDate,
             TicketType = request.TicketType,
-            TicketSubTypeId = request.SubType, 
+            TicketSubTypeId = request.SubType,
             EventType = request.EventType ?? 0
         };
-
     }
 }

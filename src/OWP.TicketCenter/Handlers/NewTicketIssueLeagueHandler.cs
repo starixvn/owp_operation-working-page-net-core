@@ -19,35 +19,15 @@ public class NewTicketIssueLeagueRequest : NewTicketModelBase, IRequest<int>
     public int? EventType => (int)Enum.EventType.League;
 }
 
-public class NewTicketIssueLeagueHandler : IRequestHandler<NewTicketIssueLeagueRequest, int>
+public class NewTicketIssueLeagueHandler(
+    Repository repository,
+    MessageService messageService,
+    NotificationService notificationService,
+    RecipientService recipientService,
+    MessageClient messageClient,
+    PreMatchNotificationService preMatchNotification,
+    IMapper mapper) : IRequestHandler<NewTicketIssueLeagueRequest, int>
 {
-    private readonly MessageClient messageClient;
-    private readonly MessageService messageService;
-    private readonly NotificationService notificationService;
-    private readonly RecipientService recipientService;
-    private readonly Repository repository;
-    private readonly PreMatchNotificationService preMatchNotification;
-    private readonly IMapper mapper;
-   
-
-    public NewTicketIssueLeagueHandler(
-        Repository repository,
-        MessageService messageService,
-        NotificationService notificationService,
-        RecipientService recipientService,
-        MessageClient messageClient,
-        PreMatchNotificationService preMatchNotification,
-        IMapper mapper)
-    {
-        this.repository = repository;
-        this.messageService = messageService;
-        this.notificationService = notificationService;
-        this.recipientService = recipientService;
-        this.messageClient = messageClient;
-        this.preMatchNotification = preMatchNotification;
-        this.mapper = mapper;
-    }
-
     public async Task<int> Handle(NewTicketIssueLeagueRequest request, CancellationToken cancellationToken)
     {
         var criteria = mapper.Map<CreateNewTicketCriteria>(request);
@@ -81,11 +61,11 @@ public class NewTicketIssueLeagueHandler : IRequestHandler<NewTicketIssueLeagueR
             Comment = newMessage.Message,
             ActorId = request.CreatorId
         };
-        messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketLeague);
+        await messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketLeague);
 
         var userIds = await repository.GetUserIdsByTicketId(ticketId);
-        var ticketModel =await BuildModelTicket(request, ticketId);
-        
+        var ticketModel = await BuildModelTicket(request, ticketId);
+
         await notificationService.NotifyNewAddRecipient(userIds, ticketModel);
         await preMatchNotification.NotifyNewAddRecipientPrematch(request.TicketId, request.TicketType, userIds);
     }
@@ -105,9 +85,7 @@ public class NewTicketIssueLeagueHandler : IRequestHandler<NewTicketIssueLeagueR
             TicketSubTypeName = request.SubTypeName,
             OwpLeagueId = request.OwpLeagueId,
             EventType = request.EventType ?? 0,
-            LastCommentDate = lastComments.Count!=0
-            ?lastComments[0].CreatedDate
-            : new MessageInfoModel().CreatedDate,
+            LastCommentDate = lastComments.Count != 0 ? lastComments[0].CreatedDate : new MessageInfoModel().CreatedDate,
             TicketType = request.TicketType,
             TicketSubTypeId = request.SubType
         };
