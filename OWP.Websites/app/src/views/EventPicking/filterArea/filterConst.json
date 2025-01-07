@@ -68,8 +68,6 @@
   },
   "EXPORT": {
     "EXPORT_AND_CHECK_ALL": "Export and check all",
-    "EXPORT_ONLY": "Export only",
-    "EXPORT_LST_FORMAT_CHECK_ALL": "Export LST format and check all",
-    "EXPORT_LST_FORMAT": "Export LST format only"
+    "EXPORT_ONLY": "Export only"
   }
 }
