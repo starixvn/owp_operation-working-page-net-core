@@ -20,6 +20,7 @@ public class ExportExcelHandler : IRequestHandler<ExportExcelRequest, FileResult
     public async Task<FileResult> Handle(ExportExcelRequest request, CancellationToken cancellationToken)
     {
         var matches = await queryEventPickingService.Execute(request);
-        return await exportService.BuildFileStream(matches.FilteredMatches, false);
+        var mainMatches = matches.FilteredMatches.Where(match => !match.IsChildMatch).ToList();
+        return await exportService.BuildFileStream(mainMatches, false);
     }
 }
