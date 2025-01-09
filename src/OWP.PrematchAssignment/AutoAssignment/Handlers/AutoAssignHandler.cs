@@ -62,18 +62,12 @@ public class AutoAssignHandler(
         GroupPreMatchLeagueModel groupLeagues,
         IEnumerable<InfoSiteMatch> infoSiteMatches)
     {
-        if (!groupLeagues.MajorLeagues.Any())
-        {
-            request.MainPairs = [.. request.MainPairs, .. request.MajorPairs, .. request.MajorTakeOverPairs];
-        }
-
         var assignments = new List<PreMatchLeagueAssignment>();
 
         assignments.AddRange(AssignPairs(groupLeagues.MajorLeagues, request.MajorPairs));
         assignments.AddRange(AssignPairs(groupLeagues.MajorLeagues, request.MajorTakeOverPairs, true));
 
-        IList<LeagueAssignment> remainLeagues = [.. groupLeagues.GreenDotLeagues, .. groupLeagues.NoGreenDotLeagues, .. groupLeagues.FantasySabaLeagues];
-        assignments.AddRange(AssignRemainLeagues(request, remainLeagues, infoSiteMatches));
+        assignments.AddRange(AssignRemainLeagues(request, groupLeagues, infoSiteMatches));
 
         assignments.AddRange(AssignChildLeagues(groupLeagues, assignments));
 
@@ -82,7 +76,7 @@ public class AutoAssignHandler(
 
     private static List<PreMatchLeagueAssignment> AssignRemainLeagues(
         AutoAssignRequest request,
-        IEnumerable<LeagueAssignment> leagues,
+        GroupPreMatchLeagueModel groupLeagues,
         IEnumerable<InfoSiteMatch> infoSiteMatches)
     {
         var assignments = new List<PreMatchLeagueAssignment>();
@@ -95,10 +89,13 @@ public class AutoAssignHandler(
             return assignments;
         }
 
-        var earlyLeagues = GetLeagueForEarlyPair(request.Date, leagues, infoSiteMatches);
+        IList<LeagueAssignment> remainLeagues = [.. groupLeagues.GreenDotLeagues, .. groupLeagues.NoGreenDotLeagues];
+        remainLeagues = [.. remainLeagues.OrderByDescending(x => x.MatchCount > 10).ThenBy(x => x.IsEarlyOffered), .. groupLeagues.FantasySabaLeagues];
+
+        var earlyLeagues = GetLeagueForEarlyPair(request.Date, remainLeagues, infoSiteMatches);
         var earlyLeaguesNoTakeOver = GetLeagueNoNeedTakeOver(request.Date, earlyLeagues, infoSiteMatches);
 
-        var totalLeague = leagues.Count();
+        var totalLeague = remainLeagues.Count;
         var totalLeagueNoTakeOver = earlyLeaguesNoTakeOver.Count;
         var totalLeaguePerEarlyPair = (float)(totalLeague - totalLeagueNoTakeOver) / totalMainPair;
 
@@ -108,7 +105,7 @@ public class AutoAssignHandler(
             totalLeaguePerEarlyPair = (float)totalLeague / (totalEarlyPair * totalMainPair);
         }
 
-        var mainLeagues = leagues.Except(earlyLeagues).ToList();
+        var mainLeagues = remainLeagues.Except(earlyLeagues).ToList();
         var totalLeagueEarlyPairs = (int)Math.Round(totalLeaguePerEarlyPair * totalEarlyPair);
 
         if (earlyLeagues.Count <= totalLeagueEarlyPairs)
@@ -116,7 +113,7 @@ public class AutoAssignHandler(
             // Leagues of Early Pair <= Leagues Main Pair => auto assign randomly
             var additional = totalLeagueEarlyPairs - earlyLeagues.Count;
             earlyLeagues = [.. earlyLeagues, .. mainLeagues.Take(additional).ToList()];
-            mainLeagues = leagues.Except(earlyLeagues).ToList();
+            mainLeagues = remainLeagues.Except(earlyLeagues).ToList();
         }
         else
         {
@@ -125,7 +122,7 @@ public class AutoAssignHandler(
                 .ThenBy(x => x.IsEarlyOffered)
                 .ThenBy(x => x.MatchCount)
                 .Take(totalLeagueEarlyPairs).ToList();
-            mainLeagues = leagues.Except(earlyLeagues).ToList();
+            mainLeagues = remainLeagues.Except(earlyLeagues).ToList();
         }
 
         assignments.AddRange(AssignPairs(earlyLeagues, request.EarlyPairs));
