@@ -6,13 +6,14 @@ public static class AutoAssignmentConstants
 {
     public static readonly ImmutableList<string> MajorLeagueGroups =
     [
-        "MJ", "MJ.T1", "MJ.T2", "CL.MJ.Q", "INT.MJ", "World Cup", "EURO", "Others 1"
+        "MJ", "MJ.T1", "MJ.T2", "CL.MJ.Q", "INT.MJ", "World Cup", "EURO"
     ];
 
     public static readonly ImmutableList<string> SupportedSabaLeagues =
     [
         "SABA CLUB FRIENDLY Virtual FC 24 - 16 Mins Play",
         "SABA INTERNATIONAL FRIENDLY Virtual PES 21 - 20 Mins Play",
+        "SABA INTERNATIONAL FRIENDLY Virtual FC 24 - 16 Mins Play",
         "SABA CLUB FRIENDLY Virtual PES 21 - 15 Mins Play"
     ];
 
