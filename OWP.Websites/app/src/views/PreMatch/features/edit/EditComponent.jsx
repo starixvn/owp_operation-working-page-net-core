@@ -24,6 +24,16 @@ const EditComponent = () => {
         return dispatch(changeMode({ isEdit: true }));
     };
 
+    const handleAutoAssign = () => {
+        const validEditedDate = dayjs(new Date()).add(-3, 'days');
+
+        if (dayjs(filterDate).isBefore(validEditedDate)) {
+            return ToastrWrapper.showError('You cannot edit any assignments that were created more than three days ago.');
+        }
+
+        return dispatch(setAutoAssign(true));
+    };
+
     return (
         <UncontrolledButtonDropdown>
             <DropdownToggle caret className='button-submit'>
@@ -33,7 +43,7 @@ const EditComponent = () => {
                 <DropdownItem key='manual-assign' onClick={handleManualAssign}>
                     <span className='icon-tap' /> Manual Assign
                 </DropdownItem>
-                <DropdownItem key='auto-assign' onClick={() => dispatch(setAutoAssign(true))}>
+                <DropdownItem key='auto-assign' onClick={handleAutoAssign}>
                     <span className='icon-refresh-setting' /> Auto Assign
                 </DropdownItem>
             </DropdownMenu>
