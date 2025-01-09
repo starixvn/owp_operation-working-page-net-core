@@ -111,7 +111,7 @@ const PreMatchTable = ({ isEditing, isNightShift }) => {
                     HDPTakeOver: findAssignmentByBettypeAndType(tmpAssignments, BETTYPE.HDP, ASSIGNMENT_TYPE.MAIN, true),
                     OtherHDPTakeOver: findAssignmentByBettypeAndType(tmpAssignments, BETTYPE.HDP, ASSIGNMENT_TYPE.OTHER, true),
                     OUTakeOver: findAssignmentByBettypeAndType(tmpAssignments, BETTYPE.OU, ASSIGNMENT_TYPE.MAIN, true),
-                    OtherOUTakeOver: findAssignmentByBettypeAndType(tmpAssignments, BETTYPE.OU, ASSIGNMENT_TYPE.OTHER, false)
+                    OtherOUTakeOver: findAssignmentByBettypeAndType(tmpAssignments, BETTYPE.OU, ASSIGNMENT_TYPE.OTHER, true)
                 });
             } else {
                 tableData.push({ ...league });
