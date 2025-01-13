@@ -101,7 +101,7 @@ const PreMatchTable = ({ isEditing, isNightShift }) => {
         for (let index = 0; index < dataLength; index++) {
             const league = data[index];
             const tmpAssignments = assignments.filter(item => item.PreMatchLeagueId === league.PreMatchLeagueId);
-            if (tmpAssignments.length > 0) {
+            if (!league.InfoSiteMatchId && tmpAssignments.length > 0) {
                 tableData.push({
                     ...league,
                     HDP: findAssignmentByBettypeAndType(tmpAssignments, BETTYPE.HDP, ASSIGNMENT_TYPE.MAIN),
