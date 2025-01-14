@@ -40,6 +40,116 @@ public static class ExcelColorHelper
             FillColorHomeRemark(matches[i], row, templateSheet);
             FillColorAwayRemark(matches[i], row, templateSheet);
             FillColorDivision(matches[i], row, templateSheet);
+            FillColorRoundConfirm(matches[i], row, templateSheet);
+            FillColorAdminSiteId(matches[i], row, templateSheet);
+            FillColorWeb1(matches[i], row, templateSheet);
+            FillColorWeb2(matches[i], row, templateSheet);
+            FillColorWeb3(matches[i], row, templateSheet);
+            FillColorWeb4(matches[i], row, templateSheet);
+            FillColorLink(matches[i], row, templateSheet);
+            FillColorChannel(matches[i], row, templateSheet);
+            FillColorAgent(matches[i], row, templateSheet);
+            FillColorVenue(matches[i], row, templateSheet);
+            FillColorETPK(matches[i], row, templateSheet);
+        }
+    }
+
+    private static void FillColorETPK(EventPickingModel match, int row, ExcelWorksheet templateSheet)
+    {
+        if (ExistsUpdateType(RAndDColorConstant.UPDATE_ETPK, match)
+            || ExistsUpdateType(RAndDColorConstant.CANCEL_ETPK, match))
+        {
+            FillCellColor(templateSheet.Cells[row, Misc.Constant.ETPK_COL_INDEX]);
+        }
+    }
+
+    private static void FillColorVenue(EventPickingModel match, int row, ExcelWorksheet templateSheet)
+    {
+        if (ExistsUpdateType(RAndDColorConstant.UPDATE_VENUE, match)
+            || ExistsUpdateType(RAndDColorConstant.CANCEL_VENUE, match))
+        {
+            FillCellColor(templateSheet.Cells[row, Misc.Constant.VENUE_COL_INDEX]);
+        }
+    }
+
+    private static void FillColorAgent(EventPickingModel match, int row, ExcelWorksheet templateSheet)
+    {
+        if (ExistsUpdateType(RAndDColorConstant.UPDATE_AGENT, match)
+            || ExistsUpdateType(RAndDColorConstant.CANCEL_AGENT, match))
+        {
+            FillCellColor(templateSheet.Cells[row, Misc.Constant.AGENT_COL_INDEX]);
+        }
+    }
+
+    private static void FillColorChannel(EventPickingModel match, int row, ExcelWorksheet templateSheet)
+    {
+        if (ExistsUpdateType(RAndDColorConstant.UPDATE_CHANNEL, match)
+            || ExistsUpdateType(RAndDColorConstant.CANCEL_CHANNEL, match))
+        {
+            FillCellColor(templateSheet.Cells[row, Misc.Constant.CHANNEL_COL_INDEX]);
+        }
+    }
+
+    private static void FillColorLink(EventPickingModel match, int row, ExcelWorksheet templateSheet)
+    {
+        if (ExistsUpdateType(RAndDColorConstant.UPDATE_LINK, match)
+            || ExistsUpdateType(RAndDColorConstant.CANCEL_LINK, match))
+        {
+            FillCellColor(templateSheet.Cells[row, Misc.Constant.LINK_COL_INDEX]);
+        }
+    }
+
+    private static void FillColorWeb1(EventPickingModel match, int row, ExcelWorksheet templateSheet)
+    {
+        if (ExistsUpdateType(RAndDColorConstant.UPDATE_WEB1, match)
+            || ExistsUpdateType(RAndDColorConstant.CANCEL_WEB1, match))
+        {
+            FillCellColor(templateSheet.Cells[row, Misc.Constant.WEB1_COL_INDEX]);
+        }
+    }
+
+    private static void FillColorWeb2(EventPickingModel match, int row, ExcelWorksheet templateSheet)
+    {
+        if (ExistsUpdateType(RAndDColorConstant.UPDATE_WEB2, match)
+            || ExistsUpdateType(RAndDColorConstant.CANCEL_WEB2, match))
+        {
+            FillCellColor(templateSheet.Cells[row, Misc.Constant.WEB2_COL_INDEX]);
+        }
+    }
+
+    private static void FillColorWeb3(EventPickingModel match, int row, ExcelWorksheet templateSheet)
+    {
+        if (ExistsUpdateType(RAndDColorConstant.UPDATE_WEB3, match)
+            || ExistsUpdateType(RAndDColorConstant.CANCEL_WEB3, match))
+        {
+            FillCellColor(templateSheet.Cells[row, Misc.Constant.WEB3_COL_INDEX]);
+        }
+    }
+
+    private static void FillColorWeb4(EventPickingModel match, int row, ExcelWorksheet templateSheet)
+    {
+        if (ExistsUpdateType(RAndDColorConstant.UPDATE_WEB4, match)
+            || ExistsUpdateType(RAndDColorConstant.CANCEL_WEB4, match))
+        {
+            FillCellColor(templateSheet.Cells[row, Misc.Constant.WEB4_COL_INDEX]);
+        }
+    }
+
+    private static void FillColorAdminSiteId(EventPickingModel match, int row, ExcelWorksheet templateSheet)
+    {
+        if (ExistsUpdateType(RAndDColorConstant.UPDATE_ADMINSITEID, match)
+            || ExistsUpdateType(RAndDColorConstant.CANCEL_ADMINSITEID, match))
+        {
+            FillCellColor(templateSheet.Cells[row, Misc.Constant.ADMINSITE_ID_COL_INDEX]);
+        }
+    }
+
+    private static void FillColorRoundConfirm(EventPickingModel match, int row, ExcelWorksheet templateSheet)
+    {
+        if (ExistsUpdateType(RAndDColorConstant.UPDATE_ROUND_CONFIRM, match)
+            || ExistsUpdateType(RAndDColorConstant.CANCEL_ROUND_CONFIRM, match))
+        {
+            FillCellColor(templateSheet.Cells[row, Misc.Constant.ROUND_CONFIRM_COL_INDEX]);
         }
     }
 
@@ -96,17 +206,19 @@ public static class ExcelColorHelper
 
     private static void FillColorTeam(EventPickingModel match, int row, ExcelWorksheet templateSheet)
     {
-        var updateTeam = match.RAndDInfo?.Find(r => r.UpdateTypeId == RAndDColorConstant.UPDATE_TEAM);
-        if (updateTeam is not null)
+        if (ExistsUpdateType(RAndDColorConstant.UPDATE_NEUTRAL, match) || ExistsUpdateType(RAndDColorConstant.CANCEL_NEUTRAL, match))
         {
-            if (updateTeam.HomeUpdated)
-            {
-                FillCellColor(templateSheet.Cells[row, Misc.Constant.HOME_COL_INDEX]);
-            }
-            if (updateTeam.AwayUpdated)
-            {
-                FillCellColor(templateSheet.Cells[row, Misc.Constant.AWAY_COL_INDEX]);
-            }
+            FillCellColor(templateSheet.Cells[row, Misc.Constant.HOME_COL_INDEX]);
+        }
+
+        var updateTeam = match.RAndDInfo?.Find(r => r.UpdateTypeId == RAndDColorConstant.UPDATE_TEAM);
+        if (updateTeam is null) return;
+
+        if (updateTeam.HomeUpdated || updateTeam.AwayUpdated)
+        {
+            FillCellColor(templateSheet.Cells[row, updateTeam.HomeUpdated
+                ? Misc.Constant.HOME_COL_INDEX
+                : Misc.Constant.AWAY_COL_INDEX]);
         }
     }
 

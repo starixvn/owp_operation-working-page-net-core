@@ -33,6 +33,7 @@ public static class Constant
     public const int TIME_COL_INDEX = 4;
     public const int PROVIDER_COL_INDEX = 6;
     public const int OTHER_PROVIDER_COL_INDEX = 7;
+    public const int AGENT_COL_INDEX = 8;
     public const int HOME_COL_INDEX = 9;
     public const int AWAY_COL_INDEX = 10;
     public const int LEAGUE_COL_INDEX = 11;
@@ -40,9 +41,19 @@ public static class Constant
     public const int REMARK_COL_INDEX = 36;
     public const int HOME_REMARK_COL_INDEX = 38;
     public const int AWAY_REMARK_COL_INDEX = 39;
+    public const int LINK_COL_INDEX = 40;
     public const int ROUND_COL_INDEX = 41;
+    public const int ROUND_CONFIRM_COL_INDEX = 42;
+    public const int ETPK_COL_INDEX = 44;
+    public const int VENUE_COL_INDEX = 46;
     public const int TV_COL_INDEX = 47;
     public const int IPTV_COL_INDEX = 48;
+    public const int CHANNEL_COL_INDEX = 49;
+    public const int ADMINSITE_ID_COL_INDEX = 51;
+    public const int WEB1_COL_INDEX = 52;
+    public const int WEB2_COL_INDEX = 53;
+    public const int WEB3_COL_INDEX = 54;
+    public const int WEB4_COL_INDEX = 55;
 
 
     public const int START_ROW = 2;

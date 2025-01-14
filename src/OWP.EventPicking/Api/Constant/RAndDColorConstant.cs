@@ -38,6 +38,30 @@ public static class RAndDColorConstant
     public const short RENEW_MATCH = 25;
     public const short MATCH_POSTPONED = 26;
     public const short MATCH_CANCELLED = 27;
+    public const short UPDATE_ROUND_CONFIRM = 28;
+    public const short CANCEL_ROUND_CONFIRM = 29;
+    public const short UPDATE_ADMINSITEID = 30;
+    public const short CANCEL_ADMINSITEID = 31;
+    public const short UPDATE_WEB1 = 32;
+    public const short CANCEL_WEB1 = 33;
+    public const short UPDATE_WEB2 = 34;
+    public const short CANCEL_WEB2 = 35;
+    public const short UPDATE_WEB3 = 36;
+    public const short CANCEL_WEB3 = 37;
+    public const short UPDATE_WEB4 = 38;
+    public const short CANCEL_WEB4 = 39;
+    public const short UPDATE_LINK = 40;
+    public const short CANCEL_LINK = 41;
+    public const short UPDATE_CHANNEL= 42;
+    public const short CANCEL_CHANNEL = 43;
+    public const short UPDATE_AGENT = 44;
+    public const short CANCEL_AGENT = 45;
+    public const short UPDATE_VENUE = 46;
+    public const short CANCEL_VENUE = 47;
+    public const short UPDATE_ETPK = 48;
+    public const short CANCEL_ETPK = 49;
+    public const short UPDATE_NEUTRAL = 50;
+    public const short CANCEL_NEUTRAL = 51;
 
     public static readonly ImmutableDictionary<int, (string, string)> MAP_R_AND_D_COLOR = new Dictionary<int, (string, string)>
     {
@@ -67,6 +91,30 @@ public static class RAndDColorConstant
         {MOVE_KICKOFF_DATE, (DELETE_COLOR, WHITE)},
         {RENEW_MATCH, (NEW_COLOR, WHITE)},
         {MATCH_POSTPONED, (CANCEL_COLOR, WHITE)},
-        {MATCH_CANCELLED, (CANCEL_COLOR, WHITE)}
+        {MATCH_CANCELLED, (CANCEL_COLOR, WHITE)},
+        {UPDATE_ROUND_CONFIRM, (UPDATE_COLOR, GREEN)},
+        {CANCEL_ROUND_CONFIRM, (CANCEL_COLOR, WHITE)},
+        {UPDATE_ADMINSITEID, (UPDATE_COLOR, GREEN)},
+        {CANCEL_ADMINSITEID, (CANCEL_COLOR, WHITE)},
+        {UPDATE_WEB1, (UPDATE_COLOR, GREEN)},
+        {CANCEL_WEB1, (CANCEL_COLOR, WHITE)},
+        {UPDATE_WEB2, (UPDATE_COLOR, GREEN)},
+        {CANCEL_WEB2, (CANCEL_COLOR, WHITE)},
+        {UPDATE_WEB3, (UPDATE_COLOR, GREEN)},
+        {CANCEL_WEB3, (CANCEL_COLOR, WHITE)},
+        {UPDATE_WEB4, (UPDATE_COLOR, GREEN)},
+        {CANCEL_WEB4, (CANCEL_COLOR, WHITE)},
+        {UPDATE_LINK, (UPDATE_COLOR, GREEN)},
+        {CANCEL_LINK, (CANCEL_COLOR, WHITE)},
+        {UPDATE_CHANNEL, (UPDATE_COLOR, GREEN)},
+        {CANCEL_CHANNEL, (CANCEL_COLOR, WHITE)},
+        {UPDATE_AGENT, (UPDATE_COLOR, GREEN)},
+        {CANCEL_AGENT, (CANCEL_COLOR, WHITE)},
+        {UPDATE_VENUE, (UPDATE_COLOR, GREEN)},
+        {CANCEL_VENUE, (CANCEL_COLOR, WHITE)},
+        {UPDATE_ETPK, (UPDATE_COLOR, GREEN)},
+        {CANCEL_ETPK, (CANCEL_COLOR, WHITE)},
+        {UPDATE_NEUTRAL, (UPDATE_COLOR, GREEN)},
+        {CANCEL_NEUTRAL, (CANCEL_COLOR, WHITE)}
     }.ToImmutableDictionary();
 }
