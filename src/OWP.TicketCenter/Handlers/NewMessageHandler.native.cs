@@ -25,25 +25,12 @@ public class NewMessageRequest : PermissionCheckedModel, IRequest<MessageDetailV
     public TicketInfo TicketInfo { get; set; }
 }
 
-public class NewMessageHandler : IRequestHandler<NewMessageRequest, MessageDetailViewModel>
+public class NewMessageHandler(
+    Repository repository,
+    NotificationService notification,
+    MessageClient messageClient,
+    PreMatchNotificationService preMatchNotification) : IRequestHandler<NewMessageRequest, MessageDetailViewModel>
 {
-    private readonly MessageClient messageClient;
-    private readonly PreMatchNotificationService preMatchNotification;
-    private readonly NotificationService notification;
-    private readonly Repository repository;
-
-    public NewMessageHandler(
-        Repository repository,
-        NotificationService notification,
-        MessageClient messageClient,
-        PreMatchNotificationService preMatchNotification)
-    {
-        this.repository = repository;
-        this.notification = notification;
-        this.messageClient = messageClient;
-        this.preMatchNotification = preMatchNotification;
-    }
-
     public async Task<MessageDetailViewModel> Handle(NewMessageRequest request, CancellationToken cancellationToken)
     {
         var message = new NewMessageRequestModel
@@ -71,11 +58,11 @@ public class NewMessageHandler : IRequestHandler<NewMessageRequest, MessageDetai
 
     private async Task NotifyToUsers(NewMessageRequest request, MessageDetailViewModel messageResponse)
     {
-        messageClient.SendMessage(request, RoutingKey.TicketCenterNewMessage);
+        await messageClient.SendMessage(request, RoutingKey.TicketCenterNewMessage);
 
         var userIds = await repository.GetUserIdsByTicketId(request.TicketId);
 
-        await notification.NotifyNewMessageIncome(userIds,request.TicketInfo, messageResponse);
+        await notification.NotifyNewMessageIncome(userIds, request.TicketInfo, messageResponse);
 
         if (request.TicketEventType == (int)EventType.LiveIncident)
         {

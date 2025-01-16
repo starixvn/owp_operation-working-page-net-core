@@ -13,17 +13,10 @@ using Fanex.NAP.Client.Helpers.Business;
 [Route("api/live-detail/match-note")]
 [ApiController]
 [Authorize]
-public class MatchNoteController : ControllerBase
+public class MatchNoteController(
+    MatchNoteRepository repository,
+    MessageClient messageClient) : ControllerBase
 {
-    private readonly MessageClient messageClient;
-    private readonly MatchNoteRepository repository;
-
-    public MatchNoteController(MatchNoteRepository repository, MessageClient messageClient)
-    {
-        this.repository = repository;
-        this.messageClient = messageClient;
-    }
-
     [HttpGet]
     [Route("")]
     [NapAuth(FunctionKey = FunctionKeys.Note, Policy = Constant.Policy.Read)]
@@ -39,7 +32,7 @@ public class MatchNoteController : ControllerBase
     public async Task<IActionResult> Create(CreateModel model)
     {
         var result = await repository.Create(model);
-        messageClient.SendMessage(new { result.SessionId }, RoutingKey.LiveDetail);
+        await messageClient.SendMessage(new { result.SessionId }, RoutingKey.LiveDetail);
         return Ok(JsonConvert.SerializeObject(result));
     }
 
@@ -49,7 +42,7 @@ public class MatchNoteController : ControllerBase
     public async Task Update(UpdateModel model)
     {
         var sessionId = await repository.Update(model);
-        messageClient.SendMessage(new { SessionId = sessionId }, RoutingKey.LiveDetail);
+        await messageClient.SendMessage(new { SessionId = sessionId }, RoutingKey.LiveDetail);
     }
 
     [HttpDelete]
@@ -58,6 +51,6 @@ public class MatchNoteController : ControllerBase
     public async Task Delete(DeleteModel model)
     {
         var sessionId = await repository.Delete(model);
-        messageClient.SendMessage(new { SessionId = sessionId }, RoutingKey.LiveDetail);
+        await messageClient.SendMessage(new { SessionId = sessionId }, RoutingKey.LiveDetail);
     }
 }

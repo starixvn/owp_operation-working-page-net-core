@@ -18,40 +18,14 @@ using Fanex.NAP.Client.Helpers.Business;
 [Route("api/live-detail/match-info")]
 [ApiController]
 [Authorize]
-public class MatchInfoController : ControllerBase
+public class MatchInfoController(
+    MatchInfoRepository repository,
+    PermissionService permissionService,
+    LiveDetailCacheManipulator cacheManipulator,
+    CheckIsLiveStatusServices checkIsLiveStatusServices,
+    GetAdminSiteMatchIdService getAdminSiteMatchIdService,
+    MessageClient messageClient) : ControllerBase
 {
-    private readonly MatchInfoRepository repository;
-
-    private readonly MessageClient messageClient;
-
-    private readonly PermissionService permissionService;
-
-    private readonly LiveDetailCacheManipulator cacheManipulator;
-
-    private readonly CheckIsLiveStatusServices checkIsLiveStatusServices;
-
-    private readonly GetAdminSiteMatchIdService getAdminSiteMatchIdService;
-
-
-#pragma warning disable S107 // Methods should not have too many parameters
-    public MatchInfoController(
-        MatchInfoRepository repository,
-        PermissionService permissionService,
-        LiveDetailCacheManipulator cacheManipulator,
-        CheckIsLiveStatusServices checkIsLiveStatusServices,
-        GetAdminSiteMatchIdService getAdminSiteMatchIdService,
-        MessageClient messageClient
-    )
-#pragma warning restore S107 // Methods should not have too many parameters
-    {
-        this.repository = repository;
-        this.permissionService = permissionService;
-        this.cacheManipulator = cacheManipulator;
-        this.checkIsLiveStatusServices = checkIsLiveStatusServices;
-        this.getAdminSiteMatchIdService = getAdminSiteMatchIdService;
-        this.messageClient = messageClient;
-    }
-
     [HttpGet]
     [Route("")]
     [NapAuth(FunctionKey = FunctionKeys.DetailsInformation, Policy = Constant.Policy.Read)]
@@ -108,9 +82,9 @@ public class MatchInfoController : ControllerBase
         if (updateResult.Code == 0)
         {
             var sessionId = updateResult.Data;
-            messageClient.SendMessage(new { SessionId = sessionId }, RoutingKey.LiveDetail);
+            await messageClient.SendMessage(new { SessionId = sessionId }, RoutingKey.LiveDetail);
             await cacheManipulator.SaveOldAssignmentSnapshot(sessionId, oldSnapshot);
-            messageClient.SendMessage(new
+            await messageClient.SendMessage(new
             {
                 SessionId = sessionId,
                 EventDate = filterEventDate.Date
@@ -152,7 +126,7 @@ public class MatchInfoController : ControllerBase
 
         if (updateResult.IsSuccess)
         {
-            messageClient.SendMessage(new { SessionId = updateResult.Data }, RoutingKey.LiveDetail);
+            await messageClient.SendMessage(new { SessionId = updateResult.Data }, RoutingKey.LiveDetail);
         }
         return Ok(JsonConvert.SerializeObject(updateResult));
     }
@@ -165,7 +139,7 @@ public class MatchInfoController : ControllerBase
         var updateResult = await repository.UpdateTradingInfo(model);
         if (updateResult.IsSuccess)
         {
-            messageClient.SendMessage(new { SessionId = updateResult.Data }, RoutingKey.LiveDetail);
+            await messageClient.SendMessage(new { SessionId = updateResult.Data }, RoutingKey.LiveDetail);
         }
         return Ok(JsonConvert.SerializeObject(updateResult));
     }

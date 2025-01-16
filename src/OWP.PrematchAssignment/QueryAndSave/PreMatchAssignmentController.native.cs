@@ -2,27 +2,21 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using OWP.Constants;
+using OWP.PrematchAssignment.AutoAssignment.Handlers;
 using OWP.PrematchAssignment.Handlers;
 using OWP.PrematchAssignment.Models;
 using OWP.PrematchAssignment.Services;
+using OWP.Services;
 
-namespace OWP.PrematchAssignment;
+namespace OWP.PrematchAssignment.QueryAndSave;
 
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]
-public class PreMatchAssignmentController : ControllerBase
+public class PreMatchAssignmentController(
+    IMediator mediator, Repository repository, AccessCounter accessCounter) : ControllerBase
 {
-    private readonly IMediator mediator;
-
-    private readonly Repository repository;
-
-    public PreMatchAssignmentController(IMediator mediator, Repository repository)
-    {
-        this.mediator = mediator;
-        this.repository = repository;
-    }
-
     [Route("get-assignee-pre-match")]
     [HttpPost]
     public async Task<IEnumerable<TicketAssignee>> GetAssigneesPreMatch(QueryAssigneesRequest request)
@@ -132,14 +126,31 @@ public class PreMatchAssignmentController : ControllerBase
         if (isTicketLeague)
         {
             var leagueTicketsTask = await repository.QueryAllLeaguesTicket(new List<int> { id }, actorId);
-            tickets = [..leagueTicketsTask.SelectMany(x => x.Value).ToList()];
+            tickets = [.. leagueTicketsTask.SelectMany(x => x.Value).ToList()];
         }
         else
         {
             var matchTicketsTask = await repository.QueryAllMatchesTicket(new List<int> { id }, actorId);
-            tickets = [..matchTicketsTask.SelectMany(x => x.Value).ToList()];
+            tickets = [.. matchTicketsTask.SelectMany(x => x.Value).ToList()];
         }
 
         return Ok(JsonConvert.SerializeObject(tickets.OrderByDescending(x => x.LatestCreatedDate).ToList()));
+    }
+
+    [Route("auto-assign")]
+    [HttpPost]
+    public async Task<IActionResult> AutoAssign(AutoAssignRequest request)
+    {
+        var assignments = await mediator.Send(request);
+        return Ok(JsonConvert.SerializeObject(assignments));
+    }
+
+    [Route("submit-auto-assign")]
+    [HttpPost]
+    public async Task<IActionResult> SubmitAutoAssign(SubmitAutoAssignRequest request)
+    {
+        await mediator.Send(request);
+        await accessCounter.UpdateCounter(AccessCounterConst.DayShiftAssignment_Automatically_Assign_Trader);
+        return Ok();
     }
 }

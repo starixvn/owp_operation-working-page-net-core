@@ -21,7 +21,6 @@ using OWP.LeagueManagement;
 using OWP.MaxbetSetting;
 using OWP.OSLeagueSetting;
 using OWP.OtherSport;
-using OWP.PrematchAssignment;
 using OWP.ProviderArrangement;
 using OWP.ProviderVerification;
 using OWP.RabbitMQ;
@@ -47,6 +46,7 @@ using BackgroundWorker.Jobs;
 using EventPicking.Api;
 using Microsoft.Extensions.FileProviders;
 using OWP.AccountSetting.Profile;
+using OWP.PrematchAssignment.QueryAndSave;
 using Quartz;
 using WorkingShift.SyncWorkingShift;
 

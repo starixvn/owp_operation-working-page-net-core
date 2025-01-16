@@ -1,6 +1,7 @@
-﻿namespace OWP.Constants;
-
-public static class EventStatus
+﻿namespace OWP.Constants
 {
-    public const string Running = "running";
+    public static class EventStatus
+    {
+        public const string Running = "running";
+    }
 }

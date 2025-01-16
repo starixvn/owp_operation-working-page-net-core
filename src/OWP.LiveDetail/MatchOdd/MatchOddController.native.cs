@@ -13,17 +13,10 @@ using Fanex.NAP.Client.Helpers.Business;
 [Route("api/live-detail/match-odd")]
 [ApiController]
 [Authorize]
-public class MatchOddController : ControllerBase
+public class MatchOddController(
+    MatchOddRepository repository,
+    MessageClient messageClient) : ControllerBase
 {
-    private readonly MessageClient messageClient;
-    private readonly MatchOddRepository repository;
-
-    public MatchOddController(MatchOddRepository repository, MessageClient messageClient)
-    {
-        this.repository = repository;
-        this.messageClient = messageClient;
-    }
-
     [HttpGet]
     [Route("")]
     [NapAuth(FunctionKey = FunctionKeys.DetailsInformation, Policy = Constant.Policy.Read)]
@@ -39,7 +32,7 @@ public class MatchOddController : ControllerBase
     public async Task<IActionResult> Create(CreateModel model)
     {
         var result = await repository.Create(model);
-        messageClient.SendMessage(new { result.SessionId }, RoutingKey.LiveDetail);
+        await messageClient.SendMessage(new { result.SessionId }, RoutingKey.LiveDetail);
         return Ok(JsonConvert.SerializeObject(result));
     }
 
@@ -49,7 +42,7 @@ public class MatchOddController : ControllerBase
     public async Task<IActionResult> Update(UpdateModel model)
     {
         var result = await repository.Update(model);
-        messageClient.SendMessage(new { result.SessionId }, RoutingKey.LiveDetail);
+        await messageClient.SendMessage(new { result.SessionId }, RoutingKey.LiveDetail);
         return Ok(JsonConvert.SerializeObject(result));
     }
 
@@ -59,7 +52,7 @@ public class MatchOddController : ControllerBase
     public async Task<IActionResult> Delete(DeleteModel model)
     {
         var result = await repository.Delete(model);
-        messageClient.SendMessage(new { result.SessionId }, RoutingKey.LiveDetail);
+        await messageClient.SendMessage(new { result.SessionId }, RoutingKey.LiveDetail);
         return Ok(JsonConvert.SerializeObject(result));
     }
 }

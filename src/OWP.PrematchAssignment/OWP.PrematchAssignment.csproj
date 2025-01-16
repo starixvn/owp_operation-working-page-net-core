@@ -9,15 +9,15 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="Models\PreMatchIssueNotifyHub.cs" />
-    <Compile Remove="Services\NotificationService.cs" />
+    <Compile Remove="QueryAndSave\Models\PreMatchIssueNotifyHub.cs" />
+    <Compile Remove="QueryAndSave\Services\NotificationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="..\..\.sonarlint\nap-owp-netcore\CSharp\SonarLint.xml" Link="SonarLint.xml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
-    <PackageReference Include="Fanex.Caching.Redis.AspNetCore" Version="2.2.5" />
+    <PackageReference Include="Fanex.Caching.Redis" Version="2.2.8" />
     <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="Microsoft.NETCore.Targets" Version="5.0.0" PrivateAssets="all" />
   </ItemGroup>

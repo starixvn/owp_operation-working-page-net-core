@@ -79,6 +79,16 @@ const localStoreKeyTime = {
   night: 'NightShift-PreMatchTimeCondition'
 };
 
+const BETTYPE={
+  HDP: 1,
+  OU: 3
+};
+
+const ASSIGNMENT_TYPE={
+  MAIN: 1,
+  OTHER: 2
+};
+
 export {
   EARLY_OFFERED,
   ticketType,
@@ -104,5 +114,7 @@ export {
   simpleApiQueryUrl,
   simpleApiUpdateUrl,
   URL_QUERY_TICKET_LIST,
-  localStoreKeyTime
+  localStoreKeyTime,
+  BETTYPE,
+  ASSIGNMENT_TYPE
 };

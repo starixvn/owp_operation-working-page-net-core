@@ -26,30 +26,16 @@ public interface PreMatchAssignmentService
     Task SaveOldPreMatchAssignment(List<int> preMatchId);
 
     Task<QueryPreMatchLeagueViewModel> QueryById(QueryPreMatchLeagueByIdRequest request);
+
+    Task<int> AutoAssign(IEnumerable<PreMatchLeagueAssignment> assignments);
 }
 
-public class PreMatchAssignmentServiceImp : PreMatchAssignmentService
+public class PreMatchAssignmentServiceImp(
+    IDynamicRepository dynamicRepository,
+    INapSession currentSession,
+    IMapper mapper,
+    ICache cache) : PreMatchAssignmentService
 {
-    private readonly IDynamicRepository dynamicRepository;
-
-    private readonly INapSession currentSession;
-
-    private readonly IMapper mapper;
-
-    private readonly ICache cache;
-
-    public PreMatchAssignmentServiceImp(
-        IDynamicRepository dynamicRepository,
-        INapSession currentSession,
-        IMapper mapper,
-        ICache cache)
-    {
-        this.dynamicRepository = dynamicRepository;
-        this.currentSession = currentSession;
-        this.mapper = mapper;
-        this.cache = cache;
-    }
-
     public async Task<IEnumerable<TicketAssignee>> QueryAssigneesByLeagueId(int id)
     {
         var criteria = new QueryAssigneePreMatchByPreLeagueIdCriteria
@@ -144,13 +130,23 @@ public class PreMatchAssignmentServiceImp : PreMatchAssignmentService
             StartTime = request.StartTime
         };
 
-        var result = await dynamicRepository.FetchMultipleAsync<PreMatchLeague, InfoSiteMatch>(criteria);
+        var (preMatchLeagues, infoSiteMatches) = await dynamicRepository.FetchMultipleAsync<PreMatchLeague, InfoSiteMatch>(criteria);
 
         var viewModel = new QueryPreMatchLeagueViewModel
         {
-            InfoSiteMatches = result.Item2,
-            PreMatchLeagues = mapper.Map<IList<LeagueAssignment>>(result.Item1)
+            InfoSiteMatches = infoSiteMatches,
+            PreMatchLeagues = mapper.Map<IList<LeagueAssignment>>(preMatchLeagues)
         };
         return viewModel;
+    }
+
+    public async Task<int> AutoAssign(IEnumerable<PreMatchLeagueAssignment> assignments)
+    {
+        var command = new AutoAssignmentCommand
+        {
+            ActorId = currentSession.UserId,
+            Assignments = JsonConvert.SerializeObject(assignments)
+        };
+        return await dynamicRepository.ExecuteAsync(command);
     }
 }

@@ -18,32 +18,14 @@ public class NewTicketIssueOtherRequest : NewTicketModelBase, IRequest<int>
 
 }
 
-public class NewTicketIssueOtherHandler : IRequestHandler<NewTicketIssueOtherRequest, int>
+public class NewTicketIssueOtherHandler(
+    Repository repository,
+    MessageService messageService,
+    NotificationService notificationService,
+    RecipientService recipientService,
+    MessageClient messageClient,
+    IMapper mapper) : IRequestHandler<NewTicketIssueOtherRequest, int>
 {
-    private readonly MessageClient messageClient;
-    private readonly MessageService messageService;
-    private readonly NotificationService notificationService;
-    private readonly RecipientService recipientService;
-    private readonly Repository repository;
-    private readonly IMapper mapper;
-
-    public NewTicketIssueOtherHandler(
-        Repository repository,
-        MessageService messageService,
-        NotificationService notificationService,
-        RecipientService recipientService,
-        MessageClient messageClient,
-        IMapper mapper)
-    {
-        this.repository = repository;
-        this.recipientService = recipientService;
-        this.messageService = messageService;
-        this.messageClient = messageClient;
-        this.notificationService = notificationService;
-        this.mapper = mapper;
-      
-    }
-
     public async Task<int> Handle(NewTicketIssueOtherRequest request, CancellationToken cancellationToken)
     {
         var criteria = mapper.Map<CreateNewTicketCriteria>(request);
@@ -71,7 +53,7 @@ public class NewTicketIssueOtherHandler : IRequestHandler<NewTicketIssueOtherReq
             ActorId = request.CreatorId
         };
 
-        messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketOther);
+        await messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketOther);
 
         var userIds = await repository.GetUserIdsByTicketId(request.TicketId);
         var modelTicket = await BuildModelTicket(request, ticketId);
@@ -82,12 +64,12 @@ public class NewTicketIssueOtherHandler : IRequestHandler<NewTicketIssueOtherReq
 
     public async Task<TicketInfo> BuildModelTicket(NewTicketIssueOtherRequest request, int TicketId)
     {
-        var lastComments =(await repository.GetTwoLastComment(new List<int> { TicketId })).ToList();
-    
+        var lastComments = (await repository.GetTwoLastComment(new List<int> { TicketId })).ToList();
+
         return new TicketInfo
         {
             TicketId = TicketId,
-            Subject =request.Subject,
+            Subject = request.Subject,
             Messages = lastComments,
             TicketStatus = "Open",
             TypeName = request.TicketTypeName,

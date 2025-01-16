@@ -26,31 +26,14 @@ public class NewTicketIssueLiveIncidentRequest : NewTicketModelBase, IRequest<in
 
 }
 
-public class NewTicketIssueLiveIncidentHandler : IRequestHandler<NewTicketIssueLiveIncidentRequest, int>
+public class NewTicketIssueLiveIncidentHandler(
+    Repository repository,
+    MessageService messageService,
+    NotificationService notificationService,
+    RecipientService recipientService,
+    MessageClient messageClient,
+    IMapper mapper) : IRequestHandler<NewTicketIssueLiveIncidentRequest, int>
 {
-    private readonly MessageClient messageClient;
-    private readonly MessageService messageService;
-    private readonly NotificationService notificationService;
-    private readonly RecipientService recipientService;
-    private readonly Repository repository;
-    private readonly IMapper mapper;
-
-    public NewTicketIssueLiveIncidentHandler(
-        Repository repository,
-        MessageService messageService,
-        NotificationService notificationService,
-        RecipientService recipientService,
-        MessageClient messageClient,
-        IMapper mapper)
-    {
-        this.repository = repository;
-        this.notificationService = notificationService;
-        this.recipientService = recipientService;
-        this.messageClient = messageClient;
-        this.messageService = messageService;
-        this.mapper = mapper;
-    }
-
     public async Task<int> Handle(NewTicketIssueLiveIncidentRequest request, CancellationToken cancellationToken)
     {
         var criteria = mapper.Map<CreateNewTicketCriteria>(request);
@@ -89,7 +72,7 @@ public class NewTicketIssueLiveIncidentHandler : IRequestHandler<NewTicketIssueL
             OwpAwayName = request.OwpAwayName
         };
 
-        messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketLiveIncident);
+        await messageClient.SendMessage(notificationMessage, RoutingKey.TicketCenterNewTicketLiveIncident);
 
         var userIds = await repository.GetUserIdsByTicketId(ticketId);
         var parentMatchId = await repository.GetParentMatchIdByTicketId(ticketId);

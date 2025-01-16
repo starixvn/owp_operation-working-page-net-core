@@ -1,10 +1,10 @@
-﻿namespace OWP.Constants;
-
-public static class MenuItemExtensions
+﻿namespace OWP.Constants
 {
-    private static Dictionary<string, string> MenuItemIcons()
+    public static class MenuItemExtensions
     {
-        var dictionary = new Dictionary<string, string>
+        private static Dictionary<string, string> MenuItemIcons()
+        {
+            var dictionary = new Dictionary<string, string>
         {
             { MenuItems.TaskList, "icon-home" },
             { MenuItems.LiveGameAssignment, "icon-calendar-clock" },
@@ -37,12 +37,13 @@ public static class MenuItemExtensions
             { MenuItems.OSBasketballMaxBet, "icon-event-checking" },
             { MenuItems.ProviderVerification, "icon-provider-verification" }
         };
-        return dictionary;
-    }
+            return dictionary;
+        }
 
-    public static string GetIconCssClass(string menuName)
-    {
-        var dictionary = MenuItemIcons();
-        return dictionary.ContainsKey(menuName) ? dictionary[menuName] : string.Empty;
+        public static string GetIconCssClass(string menuName)
+        {
+            var dictionary = MenuItemIcons();
+            return dictionary.ContainsKey(menuName) ? dictionary[menuName] : string.Empty;
+        }
     }
 }

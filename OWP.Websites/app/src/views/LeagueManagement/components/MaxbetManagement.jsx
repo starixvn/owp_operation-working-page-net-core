@@ -15,63 +15,63 @@ import SpecialProduct from './SpecialProduct';
 import LeagueInfoManagement from './leagueInfo/LeagueInfoManagement';
 
 const MaxbetManagement = () => {
-  const dispatch = useDispatch();
-  const [navigationId, setNavigationId] = useState(MaxbetConst.leagueInfo.id);
-  const maxbetUrl = buildMaxbetUrl();
-  const model = useSelector(selectPolicy);
-  const stableDispatch = useCallback(dispatch, [dispatch]);
-  const history = useHistory();
+    const dispatch = useDispatch();
+    const [navigationId, setNavigationId] = useState(MaxbetConst.leagueInfo.id);
+    const maxbetUrl = buildMaxbetUrl();
+    const model = useSelector(selectPolicy);
+    const stableDispatch = useCallback(dispatch, [dispatch]);
+    const history = useHistory();
 
-  useEffect(() => {
-    stableDispatch(queryPolicy());
-  }, [stableDispatch]);
+    useEffect(() => {
+        stableDispatch(queryPolicy());
+    }, [stableDispatch]);
 
-  const navbarList = [
-    { ...MaxbetConst.leagueInfo },
-    { ...MaxbetConst.maxbetInfo },
-    { ...MaxbetConst.SpecialLiveProductInfo },
-    { ...MaxbetConst.maxbetSetting }
-  ];
+    const navbarList = [
+        { ...MaxbetConst.leagueInfo },
+        { ...MaxbetConst.maxbetInfo },
+        { ...MaxbetConst.SpecialLiveProductInfo },
+        { ...MaxbetConst.maxbetSetting }
+    ];
 
-  const handleNavigation = id => {
-    history.push(maxbetUrl.maxbetGeneralUrl);
-    setNavigationId(id);
-  };
+    const handleNavigation = id => {
+        history.push(maxbetUrl.maxbetGeneralUrl);
+        setNavigationId(id);
+    };
 
-  if (model.policyPending) {
-    return <Loading />;
-  }
-  return (
-    <>
-      <NavigationBar
-        onUpdateNavigate={id => handleNavigation(id)}
-        navbarList={navbarList}
-        activeTabId={navigationId}
-      />
-      {isEqual(navigationId, MaxbetConst.leagueInfo.id) && (
-        <LeagueInfoManagement />
-      )}
-      {isEqual(navigationId, MaxbetConst.maxbetInfo.id) && (
-        <Switch>
-          <Route
-            exact
-            path={`${maxbetUrl.maxbetGeneralUrl}`}
-            render={() => <Maxbet />}
-          />
-          <Route
-            exact
-            path={`${maxbetUrl.maxbetDetailUrl}`}
-            render={props => <MaxbetDetail {...props} />}
-          />
-        </Switch>
-      )}
-      {isEqual(navigationId, MaxbetConst.SpecialLiveProductInfo.id) && (
-        <SpecialProduct />
-      )}
-      {isEqual(navigationId, MaxbetConst.maxbetSetting.id) && (
-        <MaxbetSettingTab />
-      )}
-    </>
-  );
+    if (model.policyPending) {
+        return <Loading />;
+    }
+    return (
+        <>
+            <NavigationBar
+                onUpdateNavigate={id => handleNavigation(id)}
+                navbarList={navbarList}
+                activeTabId={navigationId}
+            />
+            {isEqual(navigationId, MaxbetConst.leagueInfo.id) && (
+                <LeagueInfoManagement />
+            )}
+            {isEqual(navigationId, MaxbetConst.maxbetInfo.id) && (
+                <Switch>
+                    <Route
+                        exact
+                        path={`${maxbetUrl.maxbetGeneralUrl}`}
+                        render={() => <Maxbet />}
+                    />
+                    <Route
+                        exact
+                        path={`${maxbetUrl.maxbetDetailUrl}`}
+                        render={props => <MaxbetDetail {...props} />}
+                    />
+                </Switch>
+            )}
+            {isEqual(navigationId, MaxbetConst.SpecialLiveProductInfo.id) && (
+                <SpecialProduct />
+            )}
+            {isEqual(navigationId, MaxbetConst.maxbetSetting.id) && (
+                <MaxbetSettingTab />
+            )}
+        </>
+    );
 };
 export default MaxbetManagement;
