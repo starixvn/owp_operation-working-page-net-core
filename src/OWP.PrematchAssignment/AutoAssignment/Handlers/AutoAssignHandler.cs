@@ -125,12 +125,13 @@ public class AutoAssignHandler(
             mainLeagues = remainLeagues.Except(earlyLeagues).ToList();
         }
 
+        earlyLeagues = earlyLeagues.OrderBy(x => x.IsEarlyOffered).ThenBy(x => x.MatchCount).ToList();
         assignments.AddRange(AssignPairs(earlyLeagues, request.EarlyPairs));
 
-        var earlyLeaguesNeadTakeOver = GetLeagueNeedTakeOver(request.Date, earlyLeagues, infoSiteMatches);
-        if (earlyLeaguesNeadTakeOver.Count > 0)
+        var earlyLeaguesNeedTakeOver = GetLeagueNeedTakeOver(request.Date, earlyLeagues, infoSiteMatches);
+        if (earlyLeaguesNeedTakeOver.Count > 0)
         {
-            assignments.AddRange(AssignPairs(earlyLeaguesNeadTakeOver, request.MainPairs, true));
+            assignments.AddRange(AssignPairs(earlyLeaguesNeedTakeOver, request.MainPairs, true));
             assignments.AddRange(AssignPairs(mainLeagues, request.MainPairs.Reverse()));
         }
         else
