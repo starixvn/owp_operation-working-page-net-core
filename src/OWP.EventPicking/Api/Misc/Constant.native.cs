@@ -30,6 +30,7 @@ public static class Constant
 
     public static readonly List<string> SpecialOwpName = ["Next Corners", "Next Booking", "(SPECIFIC 15 MINS)"];
 
+    public const int DATE_COL_INDEX = 3;
     public const int TIME_COL_INDEX = 4;
     public const int PROVIDER_COL_INDEX = 6;
     public const int OTHER_PROVIDER_COL_INDEX = 7;

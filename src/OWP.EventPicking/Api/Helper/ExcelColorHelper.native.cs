@@ -34,6 +34,7 @@ public static class ExcelColorHelper
             FillColorAndAddRemark(matches[i], row, templateSheet);
             FillColorTeamColumn(matches[i], row, templateSheet);
             FillColor(matches[i], row, templateSheet, Misc.Constant.TIME_COL_INDEX, RAndDColorConstant.UPDATE_KO_TIME);
+            FillColor(matches[i], row, templateSheet, Misc.Constant.DATE_COL_INDEX, RAndDColorConstant.RENEW_MATCH);
             FillColor(matches[i], row, templateSheet, Misc.Constant.LEAGUE_COL_INDEX, RAndDColorConstant.UPDATE_LEAGUE);
             FillColor(matches[i], row, templateSheet, Misc.Constant.TV_COL_INDEX, RAndDColorConstant.UPDATE_TV, RAndDColorConstant.CANCEL_TV);
             FillColor(matches[i], row, templateSheet, Misc.Constant.IPTV_COL_INDEX, RAndDColorConstant.UPDATE_IPTV, RAndDColorConstant.CANCEL_IPTV);
