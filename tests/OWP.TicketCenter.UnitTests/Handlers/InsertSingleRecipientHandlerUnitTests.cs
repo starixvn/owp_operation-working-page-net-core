@@ -47,7 +47,7 @@ public class InsertSingleRecipientHandlerUnitTests
             .AddSingleRecipient(Arg.Compat.Any<InsertSingleRecipientRequest>())
             .ReturnsForAnyArgs(_ => 1);
 
-        messageClient.SendMessage(Arg.Compat.Any<object>(), Arg.Compat.Any<string>());
+        await messageClient.SendMessage(Arg.Compat.Any<object>(), Arg.Compat.Any<string>());
 
         var actual = await handler.Handle(new InsertSingleRecipientRequest(), CancellationToken.None);
 

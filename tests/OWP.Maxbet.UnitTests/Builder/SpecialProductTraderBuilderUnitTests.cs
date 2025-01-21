@@ -21,7 +21,7 @@ public class SpecialProductTraderBuilderUnitTests
     }
 
     [Fact]
-    public async void BuildTraderXMins_Not_Found_Trader_Return_ModelDefaultTrader()
+    public async Task BuildTraderXMins_Not_Found_Trader_Return_ModelDefaultTrader()
     {
         syncMaxbetRepository
             .GetTraderXMins(123)
@@ -32,7 +32,7 @@ public class SpecialProductTraderBuilderUnitTests
     }
 
     [Fact]
-    public async void BuildTraderXMins_Not_Trader_Return_ModelTrader()
+    public async Task BuildTraderXMins_Not_Trader_Return_ModelTrader()
     {
         syncMaxbetRepository
             .GetTraderXMins(123)

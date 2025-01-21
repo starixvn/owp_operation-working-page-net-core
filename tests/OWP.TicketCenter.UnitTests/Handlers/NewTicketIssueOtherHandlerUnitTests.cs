@@ -40,7 +40,7 @@ public class NewTicketIssueOtherHandlerUnitTests
     }
 
     [Fact]
-    public async void InsertNewOtherIssue_IssueInfo_ReturnTicketId()
+    public async Task InsertNewOtherIssue_IssueInfo_ReturnTicketId()
     {
         // Arrange
         var request = new NewTicketIssueOtherRequest();

@@ -22,7 +22,7 @@ public class SpecialProductMaxbetBuilderUnitTests
     }
 
     [Fact]
-    public async void BuildMaxbet_Not_Found_Maxbet_Return_ModelDefault()
+    public async Task BuildMaxbet_Not_Found_Maxbet_Return_ModelDefault()
     {
         syncMaxbetRepository
             .GetMaxbetByOwpMatchId(123)
@@ -32,7 +32,7 @@ public class SpecialProductMaxbetBuilderUnitTests
     }
 
     [Fact]
-    public async void BuildMaxbet_Found_Maxbet_Return_ModelMaxbetSpread()
+    public async Task BuildMaxbet_Found_Maxbet_Return_ModelMaxbetSpread()
     {
         syncMaxbetRepository
             .GetMaxbetByOwpMatchId(123)
@@ -70,7 +70,7 @@ public class SpecialProductMaxbetBuilderUnitTests
     }
 
     [Fact]
-    public async void BuildMaxbetXMins_Not_Found_Maxbet_Return_ModelDefaultMaxbetSpread()
+    public async Task BuildMaxbetXMins_Not_Found_Maxbet_Return_ModelDefaultMaxbetSpread()
     {
         syncMaxbetRepository
             .GetMaxbetXMins(123)
@@ -81,7 +81,7 @@ public class SpecialProductMaxbetBuilderUnitTests
     }
 
     [Fact]
-    public async void BuildMaxbetXMins_Found_Maxbet_Return_ModelMaxbetSpread()
+    public async Task BuildMaxbetXMins_Found_Maxbet_Return_ModelMaxbetSpread()
     {
         syncMaxbetRepository
             .GetMaxbetXMins(123)

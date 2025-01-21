@@ -21,7 +21,7 @@ public class GetEventOptionsUnitTests
     }
 
     [Fact]
-    public async void GetEventOption_Keyword_ReturnListOption()
+    public async Task GetEventOption_Keyword_ReturnListOption()
     {
         // Arrange
         var request = new GetTicketEventOptionRequest
@@ -34,27 +34,16 @@ public class GetEventOptionsUnitTests
             new ()
             {
                 InfoSiteMatchId = 123,
-
                 OwpLeagueId = 123,
-
                 LeagueName = "V-league",
-
                 HomeId = 111,
-
                 AwayId = 112,
-
                 HomeName = "VN",
-
                 AwayName = "TL",
-
                 EventDateTimeGmt8 = DateTime.Parse("2021/10/27"),
-
                 RecipientId = 19,
-
                 UserName = "sa",
-
                 NickName = "sa_nickname",
-
                 HasAssignee = true
             }
         };
@@ -76,19 +65,12 @@ public class GetEventOptionsUnitTests
                     new ()
                     {
                         InfoSiteMatchId = 123,
-
                         OwpLeagueId = 123,
-
                         LeagueName = "V-league",
-
                         HomeId = 111,
-
                         AwayId = 112,
-
                         HomeName = "VN",
-
                         AwayName = "TL",
-
                         EventDateTimeGmt8 = DateTime.Parse("2021/10/27")
                     }
                 },
@@ -97,9 +79,7 @@ public class GetEventOptionsUnitTests
                     new ()
                     {
                         RecipientId = 19,
-
                         UserName = "sa",
-
                         NickName = "sa_nickname"
                     }
                 }
