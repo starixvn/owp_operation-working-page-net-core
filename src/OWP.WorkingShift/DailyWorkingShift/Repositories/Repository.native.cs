@@ -164,14 +164,14 @@ public class RepositoryImp : Repository
                 ShiftId = user.ShiftId,
                 Matches = []
             };
-            if (userMatchDict.ContainsKey(user.EmployeeId))
+            if (userMatchDict.TryGetValue(user.EmployeeId, out var userMatch))
             {
-                userGroup.Matches.AddRange(userMatchDict[user.EmployeeId]);
+                userGroup.Matches.AddRange(userMatch);
             }
 
-            if (userETPKMatchDict.ContainsKey(user.EmployeeId))
+            if (userETPKMatchDict.TryGetValue(user.EmployeeId, out var userETPKMatch))
             {
-                userGroup.Matches.AddRange(userETPKMatchDict[user.EmployeeId]);
+                userGroup.Matches.AddRange(userETPKMatch);
             }
 
             userGroup.Matches = userGroup.Matches.OrderBy(x => x.EventDateTime).ThenBy(x => x.OWPMatchId).ToList();

@@ -17,17 +17,8 @@ public interface LeagueSettingNewFormatService
     Task ApplyMatchMaxbet(IList<MatchExportingNewFormat> matches);
 }
 
-public class LeagueSettingNewFormatServiceImp : LeagueSettingNewFormatService
+public class LeagueSettingNewFormatServiceImp(LeagueSettingRepository repository, IMapper mapper) : LeagueSettingNewFormatService
 {
-    private readonly LeagueSettingRepository repository;
-    private readonly IMapper mapper;
-
-    public LeagueSettingNewFormatServiceImp(LeagueSettingRepository repository, IMapper mapper)
-    {
-        this.repository = repository;
-        this.mapper = mapper;
-    }
-
     public async Task ApplyMatchMaxbet(IList<MatchExportingNewFormat> matches)
     {
         var leagueSettings = await GetLeagueSetting(new GetLeagueSettingCriteria());
@@ -37,9 +28,9 @@ public class LeagueSettingNewFormatServiceImp : LeagueSettingNewFormatService
         {
             var key = match.LeagueName;
 
-            if (leagueSettings.ContainsKey(key))
+            if (leagueSettings.TryGetValue(key, out var setting))
             {
-                SyncMaxbetToInfoSiteMatch(match, leagueSettings[key], tvList);
+                SyncMaxbetToInfoSiteMatch(match, setting, tvList);
             }
         }
     }

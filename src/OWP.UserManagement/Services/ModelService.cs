@@ -12,15 +12,8 @@ public interface ModelService
     UserManagementPermission BuildPermissionViewModel();
 }
 
-public class ModelServiceImp : ModelService
+public class ModelServiceImp(PermissionService permissionService) : ModelService
 {
-    private readonly PermissionService permissionService;
-
-    public ModelServiceImp(PermissionService permissionService)
-    {
-        this.permissionService = permissionService;
-    }
-
     public UserManagementPermission BuildPermissionViewModel()
     {
         var userManagementPolicies = permissionService.GetPermissions(FunctionKeys.UserManagement);

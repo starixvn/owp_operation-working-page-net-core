@@ -19,7 +19,7 @@ public class MatchAssignment
 
     public string AssignmentNote { get; set; } = string.Empty;
 
-    public int Order => BettypeOrder.GetValue(BetTypeName, 0);
+    public int Order => BettypeOrder.GetValueOrDefault(BetTypeName, 0);
 
     private readonly Dictionary<string, int> BettypeOrder = new()
     {

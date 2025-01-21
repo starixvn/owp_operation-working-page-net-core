@@ -19,18 +19,8 @@ public class QueryAssignedLeagueIdRequest : IRequest<AssignedLeagueId>
     public bool IsDay { get; set; }
 }
 
-public class QueryAssignedLeagueIdHandler : IRequestHandler<QueryAssignedLeagueIdRequest, AssignedLeagueId>
+public class QueryAssignedLeagueIdHandler(IDynamicRepository dynamicRepository, Repository repository) : IRequestHandler<QueryAssignedLeagueIdRequest, AssignedLeagueId>
 {
-    private readonly IDynamicRepository dynamicRepository;
-
-    private readonly Repository repository;
-
-    public QueryAssignedLeagueIdHandler(IDynamicRepository dynamicRepository, Repository repository)
-    {
-        this.dynamicRepository = dynamicRepository;
-        this.repository = repository;
-    }
-
     public async Task<AssignedLeagueId> Handle(QueryAssignedLeagueIdRequest request, CancellationToken cancellationToken)
     {
         var prematchLeagueIds = await GetTodayPrematchLeague(request.IsDay);
@@ -63,7 +53,7 @@ public class QueryAssignedLeagueIdHandler : IRequestHandler<QueryAssignedLeagueI
                 EventToDateTime = eventDate.AddDays(1).AddHours(11).AddMinutes(59).AddSeconds(59),
                 IsDay = true
             }
-            : ShiftHelper.CreateShiftCriteria(eventDate, false, startTime ?? new TimeSpan());
+            : ShiftHelper.CreateShiftCriteria(eventDate, false, startTime ?? TimeSpan.Zero);
 
         var (prematchLeague, _) = await dynamicRepository.FetchMultipleAsync<PreMatchLeague, InfoSiteMatch>(criteria);
         return prematchLeague.Select(x => x.PreMatchLeagueId).Distinct();

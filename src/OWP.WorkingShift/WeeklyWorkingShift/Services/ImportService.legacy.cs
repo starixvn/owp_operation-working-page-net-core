@@ -25,21 +25,12 @@ public interface ImportService
     Task Import(IList<WorkingShiftImportEntity> shifts);
 }
 
-public class ImportServiceImp : ImportService
+public class ImportServiceImp(
+    WorkingShiftColorRepository workingShiftColorRepository,
+    IDynamicRepository dynamicRepository,
+    INapSession currentSession,
+    UserRepository userRepository) : ImportService
 {
-    private readonly WorkingShiftColorRepository workingShiftColorRepository;
-    private readonly IDynamicRepository dynamicRepository;
-    private readonly INapSession currentSession;
-    private readonly UserRepository userRepository;
-
-    public ImportServiceImp(WorkingShiftColorRepository workingShiftColorRepository, IDynamicRepository dynamicRepository, INapSession currentSession, UserRepository userRepository)
-    {
-        this.workingShiftColorRepository = workingShiftColorRepository;
-        this.dynamicRepository = dynamicRepository;
-        this.currentSession = currentSession;
-        this.userRepository = userRepository;
-    }
-
     public async Task Import(IList<WorkingShiftImportEntity> shifts)
     {
         var uploadData = new WorkingShiftUploadData
@@ -79,8 +70,8 @@ public class ImportServiceImp : ImportService
         }
         finally
         {
-            stream.Flush();
-            stream.Dispose();
+            await stream.FlushAsync();
+            await stream.DisposeAsync();
         }
     }
 
@@ -129,8 +120,7 @@ public class ImportServiceImp : ImportService
 
             var stringValue = sheet.Cells[row, column].Value.ToString();
             var dateStringFormat = "d-MMM";
-            DateTime result;
-            if (DateTime.TryParseExact(stringValue, dateStringFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out result))
+            if (DateTime.TryParseExact(stringValue, dateStringFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out var result))
             {
                 return result;
             }

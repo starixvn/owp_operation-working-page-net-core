@@ -83,7 +83,7 @@ public class BuildExcelModelServiceImp : BuildExcelModelService
         foreach (var key in assignmentSnapshot.Matches.Keys)
         {
             var sport = assignmentSnapshot.Matches[key].Sport;
-            var assignments = assignmentSnapshot.MatchAssignments.GetValue(key, []);
+            var assignments = assignmentSnapshot.MatchAssignments.GetValueOrDefault(key, []);
             var excelAssignments = BuildTrader(sport, assignments);
 
             matchAssignments.Add(key, excelAssignments.ToList());
@@ -106,8 +106,8 @@ public class BuildExcelModelServiceImp : BuildExcelModelService
 
     private static int GetTraderColumnIndex(MatchAssignment assignment, string sport)
         => assignment.AssignmentType == (int)AssignmentType.Assignment
-            ? ExcelConst.TraderColumn.GetValue(new Tuple<string, string>(sport, assignment.BetTypeName), 1)
-            : ExcelConst.OtherTraderColumn.GetValue(new Tuple<string, string>(sport, assignment.BetTypeName), 2);
+            ? ExcelConst.TraderColumn.GetValueOrDefault(new Tuple<string, string>(sport, assignment.BetTypeName), 1)
+            : ExcelConst.OtherTraderColumn.GetValueOrDefault(new Tuple<string, string>(sport, assignment.BetTypeName), 2);
 
     private static string GetTraderValue(MatchAssignment assignment)
         => assignment.UserId != 0
@@ -121,7 +121,7 @@ public class BuildExcelModelServiceImp : BuildExcelModelService
         foreach (var key in assignmentSnapshot.Matches.Keys)
         {
             var sport = assignmentSnapshot.Matches[key].Sport;
-            var maxbets = assignmentSnapshot.MatchSettings.GetValue(key, []);
+            var maxbets = assignmentSnapshot.MatchSettings.GetValueOrDefault(key, []);
             var excelAssignments = BuildMatchSetting(sport, maxbets);
 
             matchMaxbets.Add(key, excelAssignments.ToList());
@@ -144,7 +144,7 @@ public class BuildExcelModelServiceImp : BuildExcelModelService
     }
 
     private static int GetColumnIndex<T>(T excelColumn, MatchSetting matchSetting, string sport) where T : Dictionary<Tuple<string, string>, int>
-        => excelColumn.GetValue(new Tuple<string, string>(sport, matchSetting.BetTypeName), 3);
+        => excelColumn.GetValueOrDefault(new Tuple<string, string>(sport, matchSetting.BetTypeName), 3);
 
     private static string GetMaxbetSpreadValue(decimal? value)
         => value?.ToString().TrimEnd('0').TrimEnd('.');

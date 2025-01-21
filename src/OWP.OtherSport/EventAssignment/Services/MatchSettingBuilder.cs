@@ -17,7 +17,7 @@ public class MatchSettingBuilderImp : MatchSettingBuilder
     {
         foreach (var eventAssignmentModel in eventAssignmentModels)
         {
-            var matchSettingsByOWPMatchId = matchSettings.GetValue(eventAssignmentModel.OSMatchId, []);
+            var matchSettingsByOWPMatchId = matchSettings.GetValueOrDefault(eventAssignmentModel.OSMatchId, []);
 
             CreateMatchSetting(matchSettingsByOWPMatchId, eventAssignmentModel.TraderMaxbetModels, eventAssignmentModel.Sport);
             SortMatchSettings(eventAssignmentModel.TraderMaxbetModels);

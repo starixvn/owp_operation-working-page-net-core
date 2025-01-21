@@ -44,9 +44,7 @@ public class MaxbetSpreadServiceImp : MaxbetSpreadService
 
         foreach (var infoSiteMatch in infoSiteMatches)
         {
-            var maxbetSpreadValue = maxbetSpreadPair.GetValue(
-                infoSiteMatch.AdminSiteMatchId,
-                []);
+            var maxbetSpreadValue = maxbetSpreadPair.GetValueOrDefault(infoSiteMatch.AdminSiteMatchId, []);
 
             BuildMaxbetSpreadHdp(maxbetSpreadValue, infoSiteMatch);
             BuildMaxbetSpreadOu(maxbetSpreadValue, infoSiteMatch);

@@ -76,7 +76,5 @@ public class CoverageBuilder
     }
 
     public string GetValueFromDict<T>(int? key, T dict) where T : Dictionary<int, string>
-        => key.HasValue
-        ? dict.GetValue(key.Value, string.Empty)
-        : string.Empty;
+        => key.HasValue ? dict.GetValueOrDefault(key.Value, string.Empty) : string.Empty;
 }

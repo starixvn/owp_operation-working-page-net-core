@@ -41,7 +41,7 @@ public class TemplateBuilder
 
     protected string GetShiftCode(int shiftId)
     {
-        return logData.Shifts.ContainsKey(shiftId) ? logData.Shifts[shiftId] : "The shift has been removed";
+        return logData.Shifts.GetValueOrDefault(shiftId, "The shift has been removed");
     }
 
     protected string GetShiftCode(string shiftId)

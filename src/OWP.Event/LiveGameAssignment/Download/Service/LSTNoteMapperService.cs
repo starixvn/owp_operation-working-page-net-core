@@ -16,17 +16,8 @@ public interface LstNoteMapperService
     Task<IList<EventModel>> ApplyLstTNote(IList<EventModel> matches);
 }
 
-public class LstNoteMapperServiceImp : LstNoteMapperService
+public class LstNoteMapperServiceImp(LeagueSettingRepository repository, IMapper mapper) : LstNoteMapperService
 {
-    private readonly LeagueSettingRepository repository;
-    private readonly IMapper mapper;
-
-    public LstNoteMapperServiceImp(LeagueSettingRepository repository, IMapper mapper)
-    {
-        this.repository = repository;
-        this.mapper = mapper;
-    }
-
     public async Task<IList<EventModel>> ApplyLstTNote(IList<EventModel> matches)
     {
         var leagueSettings = await GetLeagueSetting(new GetLeagueSettingCriteria());
@@ -38,9 +29,9 @@ public class LstNoteMapperServiceImp : LstNoteMapperService
             var key = match.LeagueName;
             var syncedMatch = match;
 
-            if (leagueSettings.ContainsKey(key))
+            if (leagueSettings.TryGetValue(key, out var setting))
             {
-                syncedMatch = SyncMaxbetToInfoSiteMatch(match, leagueSettings[key], tvList);
+                syncedMatch = SyncMaxbetToInfoSiteMatch(match, setting, tvList);
             }
 
             result.Add(syncedMatch);

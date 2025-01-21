@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using OWP.FileUpload.Handlers;
 using OWP.FileUpload.Models;
 using static OWP.FileUpload.Handlers.DownloadHandler;
 using static OWP.FileUpload.Handlers.UploadHandler;

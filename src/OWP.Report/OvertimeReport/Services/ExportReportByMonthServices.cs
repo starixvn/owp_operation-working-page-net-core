@@ -106,7 +106,7 @@ public class ExportReportByMonthServicesImp : ExportReportByMonthServices, IDisp
         for (var i = 0; i < dateColumns.Count; i++)
         {
             var colIndex = i + ExcelConst.StartDataColIndex;
-            var overtime = overtimes.GetValue(dateColumns[i].Date, new OverTimeInfo());
+            var overtime = overtimes.GetValueOrDefault(dateColumns[i].Date, new OverTimeInfo());
             reportSheet.Cells[rowIndex, colIndex].Value = FormatHour(overtime.Hour);
             reportSheet.Cells[rowIndex, colIndex].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
 

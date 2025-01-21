@@ -108,11 +108,13 @@ public class EventPickingServiceImp : EventPickingService
             FillRowColor(matchOrderable, templateSheet);
 
             var fileStream = new MemoryStream();
-            excelPackage.SaveAs(fileStream);
+            await excelPackage.SaveAsAsync(fileStream);
             fileStream.Position = 0;
             const string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            var fsr = new FileStreamResult(fileStream, contentType);
-            fsr.FileDownloadName = $"Event Picking-{date.ToString("yyyy-MM-dd")}.xlsx";
+            var fsr = new FileStreamResult(fileStream, contentType)
+            {
+                FileDownloadName = $"Event Picking-{date:yyyy-MM-dd}.xlsx"
+            };
             return fsr;
         }
     }

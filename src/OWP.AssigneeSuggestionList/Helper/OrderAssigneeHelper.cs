@@ -179,6 +179,6 @@ public static class OrderAssigneeHelper
 
     private static int GetAssignmentPriority(AssignmentModel assignment)
     {
-        return OrderConstant.PriorityMapping.TryGetValue(assignment.MatchType, out var priority) ? priority : 6;
+        return OrderConstant.PriorityMapping.GetValueOrDefault(assignment.MatchType, 6);
     }
 }

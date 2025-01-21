@@ -61,7 +61,7 @@ public class MatchStatusCalculatorImp : MatchStatusCalculator
             }
             else
             {
-                var matchFromMainDb = matchStatusFromMainDBs.GetValue((int)match.AdminsiteMatchId, new EventStatus());
+                var matchFromMainDb = matchStatusFromMainDBs.GetValueOrDefault((int)match.AdminsiteMatchId, new EventStatus());
                 match.MatchStatus = matchFromMainDb.MatchStatus;
             }
         }

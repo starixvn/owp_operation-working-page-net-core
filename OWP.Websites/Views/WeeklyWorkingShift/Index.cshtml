@@ -36,7 +36,7 @@
         value = x.ResourceId,
         text = x.Value
     });
-    var selectedTimezoneSetting = Model.TimezoneSettings.Where(x => x.IsSelected).First();
+    var selectedTimezoneSetting = Model.TimezoneSettings.First(x => x.IsSelected);
     var currentDateServer = DateTime.UtcNow.AddHours(7);
 
 }

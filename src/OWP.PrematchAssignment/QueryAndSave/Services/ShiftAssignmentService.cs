@@ -129,7 +129,7 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
     {
         foreach (var nightShiftLeague in nightShiftLeagues)
         {
-            var dayShiftLeague = dayShiftLeagues.GetValue(nightShiftLeague.Key, null);
+            var dayShiftLeague = dayShiftLeagues.GetValueOrDefault(nightShiftLeague.Key, null);
             if (dayShiftLeague is not null)
             {
                 UpdateAssignmentHint(nightShiftLeague.Value, dayShiftLeague);
@@ -319,7 +319,7 @@ public class ShiftAssignmentServiceImp : ShiftAssignmentService
 
         foreach (var infositeMatch in infoSiteMatches)
         {
-            var oddStatusByMatchId = oddStatusesDict.GetValue(infositeMatch.AdminSiteMatchId, []);
+            var oddStatusByMatchId = oddStatusesDict.GetValueOrDefault(infositeMatch.AdminSiteMatchId, []);
             var openedHDP = ShiftHelper.IsRunning(oddStatusByMatchId.Where(x => x.Bettype == 1));
             var openedOU = ShiftHelper.IsRunning(oddStatusByMatchId.Where(x => x.Bettype == 3));
 
