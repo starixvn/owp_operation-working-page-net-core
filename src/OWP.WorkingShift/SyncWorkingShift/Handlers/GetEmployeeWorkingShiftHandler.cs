@@ -24,9 +24,9 @@ public class QueryEmployeeWorkingShiftHandler(
         {
             if (request.Timezone == Timezone_GMT7)
             {
-                workingShift.ShiftStartTime = workingShift.ShiftStartTime.HasValue ? workingShift.ShiftStartTime.Value.AddHours(-1) : workingShift.ShiftStartTime;
-                workingShift.ShiftEndTime = workingShift.ShiftEndTime.HasValue ? workingShift.ShiftEndTime.Value.AddHours(-1) : workingShift.ShiftEndTime;
-                workingShift.LastUpdated = workingShift.LastUpdated.HasValue ? workingShift.LastUpdated.Value.AddHours(-1) : workingShift.LastUpdated;
+                workingShift.ShiftStartTime = workingShift.ShiftStartTime?.AddHours(-1) ?? workingShift.ShiftStartTime;
+                workingShift.ShiftEndTime = workingShift.ShiftEndTime?.AddHours(-1) ?? workingShift.ShiftEndTime;
+                workingShift.LastUpdated = workingShift.LastUpdated?.AddHours(-1) ?? workingShift.LastUpdated;
             }
 
             RecalculateShiftCode(workingShift);
@@ -42,16 +42,16 @@ public class QueryEmployeeWorkingShiftHandler(
             return;
         }
 
-        var startTime = workingShift.ShiftStartTime?.TimeOfDay ?? new TimeSpan();
-        var endTime = workingShift.ShiftEndTime?.TimeOfDay ?? new TimeSpan();
+        var startTime = workingShift.ShiftStartTime?.TimeOfDay ?? TimeSpan.Zero;
+        var endTime = workingShift.ShiftEndTime?.TimeOfDay ?? TimeSpan.Zero;
 
         var startTimeFormat = startTime.Minutes == 0 ? "hh" : @"hh\:mm";
         var endTimeFormat = endTime.Minutes == 0 ? "hh" : @"hh\:mm";
         workingShift.ShiftCode = startTime.ToString(startTimeFormat) + " >" + endTime.ToString(endTimeFormat);
         if (workingShift.Extension.HasValue)
         {
-            var getExtension = workingShift.Extension.Value.ToExtension();
-            workingShift.ShiftCode = workingShift.ShiftCode + " " + getExtension;
+            var extension = workingShift.Extension.Value.ToExtension();
+            workingShift.ShiftCode = workingShift.ShiftCode + " " + extension;
         }
 
         workingShift.ShiftCode = workingShift.ShiftCode.Trim();

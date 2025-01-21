@@ -8,15 +8,6 @@ namespace OWP.WorkingShift.SyncWorkingShift;
 [AllowAnonymous]
 public class SyncWorkingShiftController(IMediator mediator) : ControllerBase
 {
-    [HttpGet("SyncWorkingShift/{from:datetime}/{to:datetime}")]
-    [Produces("application/json")]
-    public async Task<IEnumerable<Models.WorkingShiftModel>> GetWorkingShiftToHRM(DateTime from, DateTime to)
-        => await mediator.Send(new QueryWorkingShiftRequest
-        {
-            From = from,
-            To = to
-        });
-
     [HttpGet("SyncWorkingShiftToHRPP/{from:datetime}/{to:datetime}")]
     [Produces("application/json")]
     public async Task<IEnumerable<WorkingShiftHRPPModel>> GetWorkingShiftToHRPP(DateTime from, DateTime to)
