@@ -1,7 +1,6 @@
 using AutoMapper;
 using Fanex.Caching.Redis;
 using Fanex.Data.Repository;
-using Fanex.Logging;
 using Fanex.Logging.Extensions;
 using Fanex.Logging.Extensions.AspNetCore;
 using Fanex.Logging.Sentry.RavenClient;

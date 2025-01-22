@@ -14,17 +14,8 @@ public interface LeagueSettingService
     Task<IList<MatchExporting>> ApplyMatchMaxbet(IList<MatchExporting> matches);
 }
 
-public class LeagueSettingServiceImp : LeagueSettingService
+public class LeagueSettingServiceImp(LeagueSettingRepository repository, IMapper mapper) : LeagueSettingService
 {
-    private readonly LeagueSettingRepository repository;
-    private readonly IMapper mapper;
-
-    public LeagueSettingServiceImp(LeagueSettingRepository repository, IMapper mapper)
-    {
-        this.repository = repository;
-        this.mapper = mapper;
-    }
-
     public async Task<IList<MatchExporting>> ApplyMatchMaxbet(IList<MatchExporting> matches)
     {
         var leagueSettings = await GetLeagueSetting(new GetLeagueSettingCriteria());
@@ -36,9 +27,9 @@ public class LeagueSettingServiceImp : LeagueSettingService
             var key = match.LeagueName;
             var syncedMatch = match;
 
-            if (leagueSettings.ContainsKey(key))
+            if (leagueSettings.TryGetValue(key, out var setting))
             {
-                syncedMatch = SyncMaxbetToInfoSiteMatch(match, leagueSettings[key], tvList);
+                syncedMatch = SyncMaxbetToInfoSiteMatch(match, setting, tvList);
             }
 
             result.Add(syncedMatch);
@@ -137,7 +128,7 @@ public class LeagueSettingServiceImp : LeagueSettingService
     {
         if (value.HasValue)
         {
-            return $"{(value.Value / 1000).ToString("0.###")} K";
+            return $"{(value.Value / 1000):0.###} K";
         }
 
         return string.Empty;

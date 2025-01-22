@@ -18,7 +18,7 @@ public class DuplicateSettingServiceUnitTest
     }
 
     [Fact]
-    public async void GetLeagueSetting_Always_ListLeagueSettingModel()
+    public async Task GetLeagueSetting_Always_ListLeagueSettingModel()
     {
         var service = new DuplicateSettingServiceImp(repository, new SettingRuleCreatorImp());
         var model = new SettingDetail

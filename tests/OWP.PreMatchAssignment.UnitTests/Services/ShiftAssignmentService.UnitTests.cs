@@ -395,7 +395,7 @@ public class ShiftAssignmentServiceTests
         Assert.Empty(matches[3].MatchStatus);
     }
 
-    private static TimeSpan MockStartTime(bool isExisted) => isExisted ? new TimeSpan(15, 00, 00) : new TimeSpan();
+    private static TimeSpan MockStartTime(bool isExisted) => isExisted ? new TimeSpan(15, 00, 00) : TimeSpan.Zero;
 
     private static (List<PreMatchLeague>, List<InfoSiteMatch>) CreateMockData()
     {

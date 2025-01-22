@@ -76,7 +76,7 @@ public static class StringExtension
         }
         catch
         {
-            return default;
+            return null;
         }
         finally
         {

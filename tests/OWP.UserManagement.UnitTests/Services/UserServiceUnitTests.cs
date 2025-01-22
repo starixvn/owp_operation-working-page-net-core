@@ -237,6 +237,6 @@ public class UserServiceUnitTests
             c.ActorId == 99));
 
         Assert.Equal(0, updateUserInfo.ErrCode);
-        Assert.Equal(null, updateUserInfo.ErrMsg);
+        Assert.Null(updateUserInfo.ErrMsg);
     }
 }

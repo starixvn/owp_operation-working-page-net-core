@@ -22,6 +22,6 @@ public static class OneManyMapping
     public static Tuple<int, int> GetRangeOneManyMatch(int? betTypeId)
     {
         var betTypeIdValue = betTypeId ?? 0;
-        return OneManyList.GetValue(betTypeIdValue, new Tuple<int, int>(0, 0));
+        return OneManyList.GetValueOrDefault(betTypeIdValue, new Tuple<int, int>(0, 0));
     }
 }

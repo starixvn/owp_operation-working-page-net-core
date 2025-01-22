@@ -1,5 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using OWP.Constants;
+﻿using OWP.Constants;
 using OWP.EventPicking.Api.Criteria;
 using OWP.EventPicking.Api.Helper;
 using OWP.EventPicking.Api.Middleware.Models;

@@ -26,7 +26,7 @@ public class GetLeagueSettingServiceUnitTest
     }
 
     [Fact]
-    public async void GetLeagueSetting_Always_ListLeagueSettingModel()
+    public async Task GetLeagueSetting_Always_ListLeagueSettingModel()
     {
         var service = new GetLeagueSettingServiceImp(repository, mapper);
         repository.GetLeagueSettingInfo(Arg.Any<GetLeagueInfoHandler.Request>()).Returns(GetLeagueSettingInfosRaw());

@@ -4,15 +4,6 @@ FROM $CI_REGISTRY_IMAGE:builder AS deps
 
 RUN mkdir -p /src/packages
 
-FROM hub.nexdev.net/base/dotnet/core/sdk:9.0-alpine AS prepare-restore-files
-
-ENV PATH="${PATH}:/root/.dotnet/tools"
-RUN dotnet tool install --global --no-cache dotnet-subset --version 0.3.2
-
-WORKDIR /src
-COPY . .
-RUN dotnet subset restore ./OWP.Websites/OWP.Websites.csproj --root-directory /src --output /src/restore_subset/
-
 FROM hub.nexdev.net/base/dotnet/core/sdk:9.0-alpine AS builder
 
 ENV NUGET_PACKAGES=/src/packages
@@ -20,7 +11,41 @@ ENV NUGET_PACKAGES=/src/packages
 COPY --from=deps $NUGET_PACKAGES/. $NUGET_PACKAGES/
 
 WORKDIR /src
-COPY --from=prepare-restore-files /src/restore_subset .
+
+COPY ./src/OWP.AccountSetting/OWP.AccountSetting.csproj ./src/OWP.AccountSetting/
+COPY ./src/OWP.Api/OWP.Api.csproj ./src/OWP.Api/
+COPY ./src/OWP.Application/OWP.Application.csproj ./src/OWP.Application/
+COPY ./src/OWP.AssigneeSuggestionList/OWP.AssigneeSuggestionList.csproj ./src/OWP.AssigneeSuggestionList/
+COPY ./src/OWP.AssignmentUpload/OWP.AssignmentUpload.csproj ./src/OWP.AssignmentUpload/
+COPY ./src/OWP.BackgroundWorker/OWP.BackgroundWorker.csproj ./src/OWP.BackgroundWorker/
+COPY ./src/OWP.Event/OWP.Event.csproj ./src/OWP.Event/
+COPY ./src/OWP.EventPicking/OWP.EventPicking.csproj ./src/OWP.EventPicking/
+COPY ./src/OWP.FileUpload/OWP.FileUpload.csproj ./src/OWP.FileUpload/
+COPY ./src/OWP.Kpi/OWP.Kpi.csproj ./src/OWP.Kpi/
+COPY ./src/OWP.LeagueManagement/OWP.LeagueManagement.csproj ./src/OWP.LeagueManagement/
+COPY ./src/OWP.LiveDetail/OWP.LiveDetail.csproj ./src/OWP.LiveDetail/
+COPY ./src/OWP.MaxbetSetting/OWP.MaxbetSetting.csproj ./src/OWP.MaxbetSetting/
+COPY ./src/OWP.MessageManagement/OWP.MessageManagement.csproj ./src/OWP.MessageManagement/
+COPY ./src/OWP.NewLeagueSetting/OWP.NewLeagueSetting.csproj ./src/OWP.NewLeagueSetting/
+COPY ./src/OWP.NotificationSetting/OWP.NotificationSetting.csproj ./src/OWP.NotificationSetting/
+COPY ./src/OWP.OddsCompiler/OWP.OddsCompiler.csproj ./src/OWP.OddsCompiler/
+COPY ./src/OWP.OSLeagueSetting/OWP.OSLeagueSetting.csproj ./src/OWP.OSLeagueSetting/
+COPY ./src/OWP.OtherSport/OWP.OtherSport.csproj ./src/OWP.OtherSport/
+COPY ./src/OWP.PrematchAssignment/OWP.PrematchAssignment.csproj ./src/OWP.PrematchAssignment/
+COPY ./src/OWP.ProductAssignmentReference/OWP.ProductAssignmentReference.csproj ./src/OWP.ProductAssignmentReference/
+COPY ./src/OWP.ProviderArrangement/OWP.ProviderArrangement.csproj ./src/OWP.ProviderArrangement/
+COPY ./src/OWP.ProviderVerification/OWP.ProviderVerification.csproj ./src/OWP.ProviderVerification/
+COPY ./src/OWP.RabbitMQ/OWP.RabbitMQ.csproj ./src/OWP.RabbitMQ/
+COPY ./src/OWP.Report/OWP.Report.csproj ./src/OWP.Report/
+COPY ./src/OWP.ResourceManagement/OWP.ResourceManagement.csproj ./src/OWP.ResourceManagement/
+COPY ./src/OWP.SimpleDataApi/OWP.SimpleDataApi.csproj ./src/OWP.SimpleDataApi/
+COPY ./src/OWP.TicketCenter/OWP.TicketCenter.csproj ./src/OWP.TicketCenter/
+COPY ./src/OWP.TicketSetting/OWP.TicketSetting.csproj ./src/OWP.TicketSetting/
+COPY ./src/OWP.UserManagement/OWP.UserManagement.csproj ./src/OWP.UserManagement/
+COPY ./src/OWP.WorkingShift/OWP.WorkingShift.csproj ./src/OWP.WorkingShift/
+COPY ./src/OWP/OWP.csproj ./src/OWP/
+COPY ./OWP.Websites/OWP.Websites.csproj ./OWP.Websites/
+
 RUN dotnet nuget add source https://nuget.nexdev.net/api/v2
 RUN dotnet restore -v n -r linux-x64 ./OWP.Websites/OWP.Websites.csproj
 

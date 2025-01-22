@@ -43,7 +43,7 @@
         public static string GetIconCssClass(string menuName)
         {
             var dictionary = MenuItemIcons();
-            return dictionary.ContainsKey(menuName) ? dictionary[menuName] : string.Empty;
+            return dictionary.GetValueOrDefault(menuName, string.Empty);
         }
     }
 }

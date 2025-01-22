@@ -8,8 +8,8 @@ public static class MatchSettingBuilder
 {
     public static MatchSettingModel Build(MatchInfo matchInfo, Dictionary<int, List<MatchSetting>> matchSettingsDict, Dictionary<int, List<MatchSetting>> minorMatchSettingsDict)
     {
-        var matchSettings = matchSettingsDict.GetValue(matchInfo.OWPMatchId, []);
-        var generatedMatchSettings = minorMatchSettingsDict.GetValue(matchInfo.OWPMatchId, []);
+        var matchSettings = matchSettingsDict.GetValueOrDefault(matchInfo.OWPMatchId, []);
+        var generatedMatchSettings = minorMatchSettingsDict.GetValueOrDefault(matchInfo.OWPMatchId, []);
 
         return new MatchSettingModel
         {

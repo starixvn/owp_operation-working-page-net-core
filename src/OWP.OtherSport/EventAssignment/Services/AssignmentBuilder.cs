@@ -16,7 +16,7 @@ public class AssignmentBuilderImp : AssignmentBuilder
     {
         foreach (var eventAssignmentModel in eventAssignmentModels)
         {
-            var assignmentsByOWPMatchId = matchAssignments.GetValue(eventAssignmentModel.OSMatchId, []);
+            var assignmentsByOWPMatchId = matchAssignments.GetValueOrDefault(eventAssignmentModel.OSMatchId, []);
 
             CreateAssignments(assignmentsByOWPMatchId, eventAssignmentModel);
         }

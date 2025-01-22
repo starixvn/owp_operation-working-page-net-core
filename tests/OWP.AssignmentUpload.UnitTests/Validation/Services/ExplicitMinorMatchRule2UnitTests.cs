@@ -7,12 +7,7 @@ namespace OWP.AssignmentUpload.UnitTests.Validation.Services;
 
 public class ExplicitMinorMatchRule2UnitTests
 {
-    private readonly ExplicitMinorMatchRule2Imp explicitMinorMatchRule2;
-
-    public ExplicitMinorMatchRule2UnitTests()
-    {
-        explicitMinorMatchRule2 = new ExplicitMinorMatchRule2Imp();
-    }
+    private readonly ExplicitMinorMatchRule2Imp explicitMinorMatchRule2 = new();
 
 
     [Fact]
@@ -22,7 +17,7 @@ public class ExplicitMinorMatchRule2UnitTests
         {
             MatchNo = "1",
             MatchStatus = "Completed",
-            KickOffTime = new TimeSpan(),
+            KickOffTime = TimeSpan.Zero,
             League = " FCPENALTY SHOOT-OUT",
             Home = "FC Okzhetpes PENALTY SHOOT-OUT",
             Away = "FC Astana PENALTY SHOOT-OUT"
@@ -35,7 +30,7 @@ public class ExplicitMinorMatchRule2UnitTests
                 MatchNo = "1",
                 League=" FCPENALTY SHOOT-OUT",
                 MatchStatus="Completed",
-                KickOffTime= new TimeSpan(),
+                KickOffTime= TimeSpan.Zero,
                 Home="FC PENALTY SHOOT-OUT",
                 Away="FC PENALTY SHOOT-OUT"
             }

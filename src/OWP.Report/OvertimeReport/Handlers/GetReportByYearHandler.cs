@@ -14,18 +14,8 @@ public class QueryReportByYearRequest : IRequest<IEnumerable<OvertimeByYear>>
     public int Year { get; set; }
 }
 
-public class GetReportByYearHandler : IRequestHandler<QueryReportByYearRequest, IEnumerable<OvertimeByYear>>
+public class GetReportByYearHandler(CommandRepository commandRepository, IMapper mapper) : IRequestHandler<QueryReportByYearRequest, IEnumerable<OvertimeByYear>>
 {
-    private readonly CommandRepository commandRepository;
-
-    private readonly IMapper mapper;
-
-    public GetReportByYearHandler(CommandRepository commandRepository, IMapper mapper)
-    {
-        this.commandRepository = commandRepository;
-        this.mapper = mapper;
-    }
-
     public async Task<IEnumerable<OvertimeByYear>> Handle(QueryReportByYearRequest request, CancellationToken cancellationToken)
     {
         var getRequest = mapper.Map<OverTimeRequest>(request);

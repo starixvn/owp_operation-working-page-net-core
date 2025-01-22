@@ -82,7 +82,7 @@ public class ReportByMonthServicesImp : ReportByMonthServices
     }
 
     private static List<OvertimeData> GetOvertimeByUserId(Dictionary<int, List<OvertimeData>> dataGroup, int userId)
-        => dataGroup.GetValue(userId, []);
+        => dataGroup.GetValueOrDefault(userId, []);
 
     private static bool IsWeekend(DateTimeOffset date)
     {

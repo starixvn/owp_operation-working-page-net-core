@@ -8,8 +8,8 @@ public static class AssignmentBuilder
 {
     public static AssignmentModel Build(MatchInfo matchInfo, Dictionary<int, List<Assignment>> assignmentsDict, Dictionary<int, List<Assignment>> minorAssignmentsDict)
     {
-        var assignments = assignmentsDict.GetValue(matchInfo.OWPMatchId, []);
-        var generatedAssignments = minorAssignmentsDict.GetValue(matchInfo.ParentMatchId, []);
+        var assignments = assignmentsDict.GetValueOrDefault(matchInfo.OWPMatchId, []);
+        var generatedAssignments = minorAssignmentsDict.GetValueOrDefault(matchInfo.ParentMatchId, []);
 
         if (!assignments.Any() && !generatedAssignments.Any())
         {

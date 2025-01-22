@@ -25,36 +25,16 @@ public interface ExportService
     Task Export(Stream stream, ExportModel viewModel);
 }
 
-public class ExportServiceImp : ExportService
+public class ExportServiceImp(
+    INapSession currentSession,
+    RefResourceService resourceRepository,
+    WorkingShiftTimezoneSettingRepository timezoneSettingRepository,
+    UserRepository userRepository,
+    Repositories.Repository repository,
+    WorkingShiftRepository workingShiftRepository,
+    WorkingShiftColorRepository workingShiftColorRepository,
+    ConfigurationService configurationService) : ExportService
 {
-    private readonly INapSession currentSession;
-    private readonly RefResourceService resourceRepository;
-    private readonly WorkingShiftTimezoneSettingRepository timezoneSettingRepository;
-    private readonly UserRepository userRepository;
-    private readonly Repositories.Repository repository;
-    private readonly WorkingShiftRepository workingShiftRepository;
-    private readonly WorkingShiftColorRepository workingShiftColorRepository;
-    private readonly ConfigurationService configurationService;
-
-    public ExportServiceImp(
-        INapSession currentSession,
-        RefResourceService resourceRepository,
-        WorkingShiftTimezoneSettingRepository timezoneSettingRepository,
-        UserRepository userRepository,
-        Repositories.Repository repository,
-        WorkingShiftRepository workingShiftRepository,
-        WorkingShiftColorRepository workingShiftColorRepository, ConfigurationService configurationService)
-    {
-        this.currentSession = currentSession;
-        this.resourceRepository = resourceRepository;
-        this.timezoneSettingRepository = timezoneSettingRepository;
-        this.userRepository = userRepository;
-        this.repository = repository;
-        this.workingShiftRepository = workingShiftRepository;
-        this.workingShiftColorRepository = workingShiftColorRepository;
-        this.configurationService = configurationService;
-    }
-
     public async Task Export(Stream stream, ExportModel viewModel)
     {
         var exportModel = await BuildWorkingShiftExportModel(viewModel);
@@ -217,9 +197,9 @@ public class ExportServiceImp : ExportService
                 col = firstDayColumn;
                 foreach (var date in listDates)
                 {
-                    if (item.WorkingShiftDates.ContainsKey(date))
+                    if (item.WorkingShiftDates.TryGetValue(date, out var workingShiftDates))
                     {
-                        worksheet.Cells[row, col].Value = item.WorkingShiftDates[date].Count;
+                        worksheet.Cells[row, col].Value = workingShiftDates.Count;
                     }
 
                     col++;
@@ -298,7 +278,7 @@ public class ExportServiceImp : ExportService
         };
     }
 
-    private List<WorkingShiftGroupByDateModel> GetWorkingShiftGroupByDate(WorkingShiftExportModel exportModel)
+    private static List<WorkingShiftGroupByDateModel> GetWorkingShiftGroupByDate(WorkingShiftExportModel exportModel)
     {
         return exportModel.WorkingShiftColors
             .Where(c => c.IsTimeShift)

@@ -35,7 +35,7 @@ public static class LeagueGroupHelper
 
     public static void Build(ReportBaseModel singleTraderOfLeague, QueryPrematchReportModel element)
     {
-        var leagueGroup = leagueGroups.GetValue(element.GroupId, string.Empty);
+        var leagueGroup = leagueGroups.GetValueOrDefault(element.GroupId, string.Empty);
         var prop = singleTraderOfLeague.GetType().GetProperty(leagueGroup, BindingFlags.Public | BindingFlags.Instance);
 
         if (prop != null && prop.CanWrite)

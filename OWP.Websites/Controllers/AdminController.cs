@@ -55,7 +55,7 @@ public class AdministratorController : Controller
             { "overtime", "OWP_SumReportData_OvertimeReport_LastDate" },
             { "matchlive", "OWP_SumReportData_MatchLiveReport_LastDate" }
         };
-        var cacheKey = cacheKeyDict.GetValue(functionName, string.Empty);
+        var cacheKey = cacheKeyDict.GetValueOrDefault(functionName, string.Empty);
         var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromDays(1));
 
         await cache.SetAsync(cacheKey, lastDate.ToString("yyyy-MM-dd"), cachePolicy);

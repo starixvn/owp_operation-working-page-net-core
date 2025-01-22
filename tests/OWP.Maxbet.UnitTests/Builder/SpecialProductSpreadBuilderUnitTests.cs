@@ -21,7 +21,7 @@ public class SpecialProductSpreadBuilderUnitTests
     }
 
     [Fact]
-    public async void BuildSpreadXMins_Not_Found_Spread_Return_ModelDefaultMaxbetSpread()
+    public async Task BuildSpreadXMins_Not_Found_Spread_Return_ModelDefaultMaxbetSpread()
     {
         syncMaxbetRepository
             .GetSpreadXMins(123)
@@ -32,7 +32,7 @@ public class SpecialProductSpreadBuilderUnitTests
     }
 
     [Fact]
-    public async void BuildTraderXMins_Not_Trader_Return_ModelTrader()
+    public async Task BuildTraderXMins_Not_Trader_Return_ModelTrader()
     {
         syncMaxbetRepository
             .GetSpreadXMins(123)

@@ -1,15 +1,12 @@
 ﻿
 using Fanex.NAP.Client.Services;
 using Newtonsoft.Json;
-using WorkingShiftModel = OWP.WorkingShift.SyncWorkingShift.Models.WorkingShiftModel;
 
 namespace OWP.WorkingShift.SyncWorkingShift;
 
 public interface WorkingShiftRepository
 {
     Task<IEnumerable<EmployeeWorkingShiftModel>> QueryWorkingShift(QueryEmployeeWorkingShiftRequest request);
-
-    Task<IEnumerable<WorkingShiftModel>> Query(QueryWorkingShiftRequest request);
 
     Task<IEnumerable<WorkingShiftHRPPModel>> QueryWorkingShiftHRPP(QueryWorkingShiftToHRPPRequest request);
 }
@@ -35,22 +32,6 @@ public class WorkingShiftRepositoryImp(
         };
 
         return await dynamicRepository.FetchAsync<EmployeeWorkingShiftModel>(criteria);
-    }
-
-    public async Task<IEnumerable<WorkingShiftModel>> Query(QueryWorkingShiftRequest request)
-    {
-        var allUserActive = (await userService.GetBySiteAsync(napSettings.SiteId, true)).ToList();
-
-        return await dynamicRepository.FetchAsync<WorkingShiftModel>(new GetEmployeeWorkingShiftCriteria
-        {
-            FromDate = request.From,
-            ToDate = request.To,
-            AllUserJson = JsonConvert.SerializeObject(allUserActive.Select(u => new
-            {
-                UserId = u.Id,
-                IsActive = true
-            }))
-        });
     }
 
     public async Task<IEnumerable<WorkingShiftHRPPModel>> QueryWorkingShiftHRPP(QueryWorkingShiftToHRPPRequest request)
