@@ -2,6 +2,7 @@
 
 public static class ReportConstant
 {
+    public const string HomeTeamAwayTeam = "HOME TEAM/AWAY TEAM";
     public const int TurnOverColumn = 75;
     public const int MarginColumn = 76;
 }
