@@ -1,5 +1,4 @@
 ﻿using Olympus.InfoSiteClient.Models;
-using OWP.Extensions;
 
 namespace OWP.Event.LiveGameAssignment.EventPicking.Builder;
 

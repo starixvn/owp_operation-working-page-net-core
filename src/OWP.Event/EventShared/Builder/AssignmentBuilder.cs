@@ -1,6 +1,5 @@
 ﻿using OWP.Enums;
 using OWP.Event.EventShared.Models;
-using OWP.Extensions;
 
 namespace OWP.Event.EventShared.Builder;
 

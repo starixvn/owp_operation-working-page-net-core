@@ -1,6 +1,5 @@
 ﻿using Epplus.Mapper.Extensions;
 using OfficeOpenXml;
-using OWP.Extensions;
 using OWP.OtherSport.Download.Constants;
 using OWP.OtherSport.Download.Models;
 using OWP.OtherSport.Submit.Models;

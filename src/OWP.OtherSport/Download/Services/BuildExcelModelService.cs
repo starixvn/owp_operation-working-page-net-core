@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using OWP.Extensions;
 using OWP.OtherSport.Download.Constants;
 using OWP.OtherSport.Download.Models;
 using OWP.OtherSport.Shared.Helper;

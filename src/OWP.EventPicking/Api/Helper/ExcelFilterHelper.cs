@@ -1,4 +1,4 @@
-using System.Linq;
+using OWP.EventPicking.Api.Constant;
 using OWP.EventPicking.Api.Models;
 
 namespace OWP.EventPicking.Api.Helper;
@@ -60,7 +60,7 @@ public static class ExcelFilterHelper
 
     public static IList<EventPickingModel> FilterLeagueName(IList<EventPickingModel> matches, string includeText)
     {
-        return matches.Where(match => !match.LeagueName.ToLower().Contains(includeText.ToLower())).ToList();
+        return matches.Where(match => !match.LeagueName.ToLowerInvariant().Contains(includeText.ToLowerInvariant())).ToList();
     }
 
     private static bool IsChildMatch(EventPickingModel match)
@@ -82,7 +82,7 @@ public static class ExcelFilterHelper
 
     private static bool IsCorners(EventPickingModel match)
     {
-        return match.LeagueName.Contains("CORNERS", StringComparison.CurrentCultureIgnoreCase)
+        return match.LeagueName.Contains(ReportConstant.CORNERS, StringComparison.CurrentCultureIgnoreCase)
                && !match.LeagueName.Contains("SPECIFIC 15 MINS NUMBER OF CORNERS", StringComparison.CurrentCultureIgnoreCase)
                && match.HomeName.Contains("No.of Corners", StringComparison.CurrentCultureIgnoreCase)
                && !match.HomeName.Contains(" Over", StringComparison.CurrentCultureIgnoreCase);
@@ -90,7 +90,7 @@ public static class ExcelFilterHelper
 
     private static bool IsNextCorners(EventPickingModel match)
     {
-        return match.LeagueName.Contains("CORNERS", StringComparison.CurrentCultureIgnoreCase)
+        return match.LeagueName.Contains(ReportConstant.CORNERS, StringComparison.CurrentCultureIgnoreCase)
                && match.HomeName.Contains("Next Corner", StringComparison.CurrentCultureIgnoreCase);
     }
 
@@ -145,7 +145,7 @@ public static class ExcelFilterHelper
 
     private static bool IsLastCorners(EventPickingModel match)
     {
-        return match.LeagueName.Contains("CORNERS", StringComparison.CurrentCultureIgnoreCase)
+        return match.LeagueName.Contains(ReportConstant.CORNERS, StringComparison.CurrentCultureIgnoreCase)
                  && match.HomeName.Contains("Last Corner", StringComparison.CurrentCultureIgnoreCase);
     }
 
@@ -162,7 +162,7 @@ public static class ExcelFilterHelper
 
     private static bool IsHomeSingleTeamOUOfCorners(EventPickingModel match)
     {
-        return match.LeagueName.Contains("CORNERS", StringComparison.CurrentCultureIgnoreCase)
+        return match.LeagueName.Contains(ReportConstant.CORNERS, StringComparison.CurrentCultureIgnoreCase)
                 && match.HomeName.Contains("No.of Corners - Over", StringComparison.CurrentCultureIgnoreCase);
     }
 
