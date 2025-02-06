@@ -85,9 +85,6 @@ export const flagFactory = props => {
 export const createFlag = props => {
   const { flagName, flagInfo } = props;
 
-  if (flagInfo === V_LEAGUE.type) {
-    return flagFactory({ flagName, flagInfo });
-  }
   const vStringCondition = /[(]V[)]/im;
 
   const vString = vStringCondition.exec(flagName);
@@ -130,8 +127,9 @@ export const checkLeague = props => /* NOSONAR */ {
   const fifa23 = testRegex({ leagueName, ...FIFA_FLAG_23 });
   const pes23 = testRegex({ leagueName, ...PES_FLAG_23 });
   const fc24 = testRegex({ leagueName, ...FC_24 });
+  const vLeague = testRegex({ leagueName, ...V_LEAGUE });
 
-  if (leagueName === V_LEAGUE.condition) {
+  if (vLeague) {
     return { isHaveFlag: true, flagInfo: V_LEAGUE.type };
   }
   if (pes && fifa) {
