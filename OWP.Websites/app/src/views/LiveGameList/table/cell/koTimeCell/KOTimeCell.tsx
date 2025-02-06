@@ -43,7 +43,7 @@ const KOTimeCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
           </UncontrolledTooltip>
         </>
       )}
-      {(IsPESOther || IsPES23) && !IsVietNamVLeague && (
+      {(IsPESOther || IsPES23) && (
         <>
           <i
             className={`icon-match ${IsPES23 ? 'icon-pes23' : 'icon-pes'}`}

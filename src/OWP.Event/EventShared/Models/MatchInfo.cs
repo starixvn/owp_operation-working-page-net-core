@@ -51,7 +51,8 @@ public class MatchInfo : TaskListMatchInfo
 
     public bool IsPESOther =>
         League.Contains(" PES ", StringComparison.CurrentCultureIgnoreCase) &&
-        !League.Contains(" PES 23", StringComparison.CurrentCultureIgnoreCase);
+        !League.Contains(" PES 23", StringComparison.CurrentCultureIgnoreCase) &&
+        !League.Equals("SABA VIETNAM V LEAGUE 1 Virtual PES 24 - 15 Mins Play", StringComparison.CurrentCultureIgnoreCase);
 
     public bool IsFIFA =>
         League.Contains("SABA ", StringComparison.CurrentCultureIgnoreCase) &&

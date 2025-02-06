@@ -14,11 +14,14 @@ import { PES_IMAGE_STORE } from './FlagStore/PES';
 import { PES_21_IMAGE_STORE } from './FlagStore/PES21';
 import { FIFA_23_IMAGE_STORE } from './FlagStore/FIFA23';
 import { PES_23_IMAGE_STORE } from './FlagStore/PES23';
+import { V_LEAGUE_IMAGE_STORE } from './FlagStore/VLeague';
 
 export const getFlagFromStore = props => {
   const { flagName, flagNameLibrary, flagURL, flagExtension = '.jpg' } = props;
   const flagInStore = flagNameLibrary.find(
-    f => f.toLowerCase().replace(/\s+/g, ' ').trim() === flagName.toLowerCase().replace(/\s+/g, ' ').trim()
+    f =>
+      f.toLowerCase().replace(/\s+/g, ' ').trim() ===
+      flagName.toLowerCase().replace(/\s+/g, ' ').trim()
   );
 
   if (flagInStore) {
