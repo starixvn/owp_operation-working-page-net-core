@@ -40,7 +40,11 @@ public class GetEventByDayServiceImp : GetEventByDayService
         var completedMatchIds = await taskListRepository.GetCompletedMatchFromMainDb(JsonConvert.SerializeObject(matchInfo));
 
         var matchInfos = BuildEvents(taskListInfo, completedMatchIds);
-
+        foreach (var match in matchInfos)
+        {
+            match.League = "SABA VIETNAM V LEAGUE 1 Virtual PES 24 - 15 Mins Play";
+           
+        }
         return new TaskListModel
         {
             Matches = matchInfos,

@@ -35,3 +35,9 @@ export const FC_24 = {
   condition: 'FC 24',
   rootPath: '/images/Flags/FC24'
 };
+
+export const V_LEAGUE = {
+  type: 'SABA VIETNAM V LEAGUE 1 Virtual PES 24 - 15 Mins Play',
+  condition: 'SABA VIETNAM V LEAGUE 1 Virtual PES 24 - 15 Mins Play',
+  rootPath: '/images/Flags/VLEAGUE'
+};

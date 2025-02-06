@@ -15,7 +15,8 @@ const KOTimeCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
     IsPES23,
     IsFC24,
     IsPESOther,
-    IsFIFA
+    IsFIFA,
+    IsVietNamVLeague
   } = dataSource[rowIndex];
 
   const propsTime = {
@@ -42,7 +43,7 @@ const KOTimeCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
           </UncontrolledTooltip>
         </>
       )}
-      {(IsPESOther || IsPES23) && (
+      {(IsPESOther || IsPES23) && !IsVietNamVLeague && (
         <>
           <i
             className={`icon-match ${IsPES23 ? 'icon-pes23' : 'icon-pes'}`}
@@ -61,6 +62,17 @@ const KOTimeCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
             original-title='FIFA'></i>
           <UncontrolledTooltip placement='bottom' target={ref}>
             FIFA
+          </UncontrolledTooltip>
+        </>
+      )}
+      {IsVietNamVLeague && (
+        <>
+          <i
+            className='icon-match icon-vn-vleague'
+            original-title='VLeague'
+            ref={ref}></i>
+          <UncontrolledTooltip placement='bottom' target={ref}>
+            VLeague
           </UncontrolledTooltip>
         </>
       )}

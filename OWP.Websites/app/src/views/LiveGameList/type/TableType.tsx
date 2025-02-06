@@ -151,6 +151,7 @@ interface MatchInfo {
   IsPES23: boolean;
   IsFC24: boolean;
   IsPESOther: boolean;
+  IsVietNamVLeague: boolean;
   KickOffTime: string;
   League: string;
   LeagueGroup: string;

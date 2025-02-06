@@ -26,9 +26,7 @@ namespace OWP.Constants
 	{
 			public const string AssignmentConfiguration = "Assignment Configuration";
 
-				public const string AutoAssignment = "Auto Assignment";
-
-				public const string DailyWorkingShift = "Daily Working Shift";
+            public const string DailyWorkingShift = "Daily Working Shift";
 
 				public const string DayShiftAssignment = "DayShift Assignment";
 

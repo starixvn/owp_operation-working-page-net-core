@@ -57,6 +57,8 @@ public class MatchInfo : TaskListMatchInfo
         League.Contains("SABA ", StringComparison.CurrentCultureIgnoreCase) &&
         League.Contains("FIFA", StringComparison.CurrentCultureIgnoreCase);
 
+    public bool IsVietNamVLeague => League.Trim().Equals("SABA VIETNAM V LEAGUE 1 Virtual PES 24 - 15 Mins Play", StringComparison.CurrentCultureIgnoreCase);
+
     public string NoOfHDP { get; set; }
 
     public int NoOfHDPId { get; set; }
