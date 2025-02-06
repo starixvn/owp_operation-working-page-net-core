@@ -14,22 +14,7 @@ public class BuildRowColorImp : BuildRowColor
     {
         foreach (var x in matches)
         {
-            if (x.IsAwayBlackList || x.IsHomeBlackList || x.IsLeagueBlackList)
-            {
-                x.RowColor = Misc.Constant.ColorGray;
-            }
-            else if (x.MinorBettypeId.HasValue && isEventPicking)
-            {
-                x.RowColor = Misc.Constant.ColorYellow;
-            }
-            else if (x.IsMovedEventDate || x.IsDeleted || IsPostponed(x) || IsCancelled(x))
-            {
-                x.RowColor = Misc.Constant.ColorBeige;
-            }
-            else
-            {
-                x.RowColor = Misc.Constant.ColorWhite;
-            }
+            x.RowColor = DetermineRowColor(x, isEventPicking);
         }
     }
 
@@ -47,6 +32,40 @@ public class BuildRowColorImp : BuildRowColor
 
         return leagueName.Contains(TWENTY_MIN, StringComparison.OrdinalIgnoreCase) ||
                isContainSaba && sabaMinsPlay.Exists(x => leagueName.Contains(x, StringComparison.OrdinalIgnoreCase));
+    }
+    private string DetermineRowColor(EventPickingModel x, bool isEventPicking)
+    {
+        if (IsBlackListed(x))
+        {
+            return Misc.Constant.ColorGray;
+        }
+            
+        if (HasMinorBetTypeAndEventPicking(x, isEventPicking))
+        {
+            return Misc.Constant.ColorYellow;
+        }
+            
+        if (IsEventStateChanged(x))
+        {
+            return Misc.Constant.ColorBeige;
+        }
+            
+        return Misc.Constant.ColorWhite;
+    }
+
+    private bool IsBlackListed(EventPickingModel x)
+    {
+        return x.IsAwayBlackList || x.IsHomeBlackList || x.IsLeagueBlackList;
+    }
+
+    private bool HasMinorBetTypeAndEventPicking(EventPickingModel x, bool isEventPicking)
+    {
+        return x.MinorBettypeId.HasValue && isEventPicking;
+    }
+
+    private bool IsEventStateChanged(EventPickingModel x)
+    {
+        return x.IsMovedEventDate || x.IsDeleted || IsPostponed(x) || IsCancelled(x);
     }
 
     private static bool IsPostponed(EventPickingModel match)

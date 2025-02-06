@@ -1,3 +1,5 @@
+using OWP.EventPicking.Api.Constant;
+using OWP.EventPicking.Api.Helper;
 using OWP.EventPicking.Api.Middleware.Models;
 using OWP.EventPicking.Api.Services;
 
@@ -20,6 +22,10 @@ public class ExportExcelHandler : IRequestHandler<ExportExcelRequest, FileResult
     public async Task<FileResult> Handle(ExportExcelRequest request, CancellationToken cancellationToken)
     {
         var matches = await queryEventPickingService.Execute(request);
-        return await exportService.BuildFileStream(matches.FilteredMatches, false);
+        var mainMatches = ExcelFilterHelper.ExcludeChildMatch(matches);
+        var excludedDeletedMatches = ExcelFilterHelper.ExcludeMatchesDeletedToday(mainMatches, request.Date);
+        var filterMatchesByIncludeText = ExcelFilterHelper.FilterLeagueName(excludedDeletedMatches, ReportConstant.HomeTeamAwayTeam);
+
+        return await exportService.BuildFileStream(filterMatchesByIncludeText, false);
     }
 }

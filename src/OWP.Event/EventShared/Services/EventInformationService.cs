@@ -1,6 +1,5 @@
 ﻿using OWP.Event.EventShared.Builder;
 using OWP.Event.EventShared.Models;
-using OWP.Extensions;
 using OWP.Models;
 
 namespace OWP.Event.EventShared.Services;

@@ -1,5 +1,4 @@
-﻿using OWP.Extensions;
-using OWP.OtherSport.EventAssignment.Models;
+﻿using OWP.OtherSport.EventAssignment.Models;
 using OWP.OtherSport.Submit.Constants;
 using OWP.OtherSport.Submit.Models;
 

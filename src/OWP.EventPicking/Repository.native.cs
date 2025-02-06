@@ -31,10 +31,6 @@ public interface Repository
 
     Task UpdateConfirmed(UpdateConfirmedMatchCriteria updateConfirmedMatchCriteria);
 
-    Task<IEnumerable<ExportLSTFormat>> QueryEventPickingESTFormat(DateTime date);
-
-    Task<IEnumerable<ExportLSTFormat>> QueryChildMatchESTFormat(DateTime date);
-
     Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSetting();
 
     Task UpdateEvent(UpdateMaxbetSpreadCriteria criteria);
@@ -158,20 +154,6 @@ public class RepositoryImp : Repository
 
     public async Task UpdateConfirmed(UpdateConfirmedMatchCriteria criteria)
     => await dynamicRepository.ExecuteAsync(criteria);
-
-    public async Task<IEnumerable<ExportLSTFormat>> QueryChildMatchESTFormat(DateTime date)
-    {
-        var criteria = new QueryChildMatchESTFormatCriteria { Date = date };
-        var matches = await dynamicRepository.FetchAsync<ExportLSTFormat>(criteria);
-        return matches;
-    }
-
-    public async Task<IEnumerable<ExportLSTFormat>> QueryEventPickingESTFormat(DateTime date)
-    {
-        var criteria = new QueryEventPickingESTFormatCriteria { Date = date };
-        var matches = await dynamicRepository.FetchAsync<ExportLSTFormat>(criteria);
-        return matches;
-    }
 
     public async Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSetting()
         => await dynamicRepository.FetchAsync<LeagueSettingInfoSender>(new GetNewLeagueSettingCriteria());

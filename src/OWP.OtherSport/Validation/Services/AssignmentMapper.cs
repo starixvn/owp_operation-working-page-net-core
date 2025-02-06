@@ -180,7 +180,7 @@ public class AssignmentMapperImp : AssignmentMapper
 
     private static string ReplaceHiddenCharacters(string value)
     {
-        var hiddenChars = " ";
+        const string hiddenChars = " ";
 
         while (value.Contains(hiddenChars, StringComparison.CurrentCulture))
         {
