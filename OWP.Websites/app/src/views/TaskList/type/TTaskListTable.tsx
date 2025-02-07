@@ -14,6 +14,7 @@ interface PesOrFiFa {
   IsFC24: boolean;
   IsPESOther: boolean;
   IsFIFA: boolean;
+  IsVietNamVLeague: boolean;
   rowIndex: number;
 }
 

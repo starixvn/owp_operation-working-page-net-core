@@ -4,24 +4,23 @@ import KOTime from '../features/component/KOTime';
 
 const KOTimeToday = (props: KOTimeCellProps) => {
   const { dataSource, rowIndex } = props;
-  const { IsFIFA, IsPESOther, IsPES23, IsFC24 } = dataSource;
+  const { IsFIFA, IsPESOther, IsPES23, IsFC24, IsVietNamVLeague } = dataSource;
 
   const flagsProps: PesOrFiFa = {
     IsFIFA,
     IsPES23,
     IsPESOther,
     IsFC24,
+    IsVietNamVLeague,
     rowIndex
   };
 
   return (
-    <>
-      <KOTime
-        rowIndex={rowIndex}
-        dataSource={dataSource}
-        flagElement={<FlagFactory {...flagsProps} />}
-      />
-    </>
+    <KOTime
+      rowIndex={rowIndex}
+      dataSource={dataSource}
+      flagElement={<FlagFactory {...flagsProps} />}
+    />
   );
 };
 

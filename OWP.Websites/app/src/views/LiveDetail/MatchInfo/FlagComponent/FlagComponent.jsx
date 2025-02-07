@@ -16,11 +16,7 @@ const FlagComponent = props => {
     leagueName: props.leagueName
   });
 
-  return (
-    <>
-      <FlagMatch {...props} {...flag} />
-    </>
-  );
+  return <FlagMatch {...props} {...flag} />;
 };
 
 FlagComponent.propTypes = propTypes;

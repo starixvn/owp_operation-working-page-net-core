@@ -25,7 +25,6 @@
             { MenuItems.LAKPI, "icon-kpi" },
             { MenuItems.OvertimeReport, "icon-overtime-report" },
             { MenuItems.MatchCountLiveReport, "icon-Path" },
-            { MenuItems.AutoAssignment, "icon-auto-assignment" },
             { MenuItems.DayShiftAssignment, "icon-day" },
             { MenuItems.NightShiftAssignment, "icon-night" },
             { MenuItems.PrematchReport, "icon-calendar-clock" },

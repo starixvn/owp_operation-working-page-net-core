@@ -31,11 +31,11 @@ public class GetEventByDayServiceImp : GetEventByDayService
 
         var matchInfo = taskListInfo
             .MatchInfo
-            .Where(m=>m.AdminSiteId.HasValue)
+            .Where(m => m.AdminSiteId.HasValue)
             .Select(x => new
             {
-                matchId= x.AdminSiteId,
-                league= x.League
+                matchId = x.AdminSiteId,
+                league = x.League
             });
         var completedMatchIds = await taskListRepository.GetCompletedMatchFromMainDb(JsonConvert.SerializeObject(matchInfo));
 

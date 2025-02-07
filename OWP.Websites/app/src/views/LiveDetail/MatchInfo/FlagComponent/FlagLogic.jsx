@@ -6,22 +6,26 @@ import {
   FIFA_FLAG_23,
   PES_FLAG_23,
   SABA,
-  FC_24
+  FC_24,
+  V_LEAGUE
 } from './FlagStore/FlagsCondition';
 import { FC_24_IMAGE_STORE } from './FlagStore/FC24';
 import { PES_IMAGE_STORE } from './FlagStore/PES';
 import { PES_21_IMAGE_STORE } from './FlagStore/PES21';
 import { FIFA_23_IMAGE_STORE } from './FlagStore/FIFA23';
 import { PES_23_IMAGE_STORE } from './FlagStore/PES23';
+import { V_LEAGUE_IMAGE_STORE } from './FlagStore/VLeague';
 
 export const getFlagFromStore = props => {
-  const { flagName, flagNameLibrary, flagURL } = props;
+  const { flagName, flagNameLibrary, flagURL, flagExtension = '.jpg' } = props;
   const flagInStore = flagNameLibrary.find(
-    f => f.toLowerCase().replace(/\s+/g, ' ').trim() === flagName.toLowerCase().replace(/\s+/g, ' ').trim()
+    f =>
+      f.toLowerCase().replace(/\s+/g, ' ').trim() ===
+      flagName.toLowerCase().replace(/\s+/g, ' ').trim()
   );
 
   if (flagInStore) {
-    return `${flagURL}/${flagInStore}.jpg`;
+    return `${flagURL}/${flagInStore}${flagExtension}`;
   }
 
   return null;
@@ -30,6 +34,13 @@ export const getFlagFromStore = props => {
 export const flagFactory = props => {
   const { flagName, flagInfo } = props;
   switch (flagInfo) {
+    case V_LEAGUE.type:
+      return getFlagFromStore({
+        flagName,
+        flagNameLibrary: V_LEAGUE_IMAGE_STORE,
+        flagURL: V_LEAGUE.rootPath,
+        flagExtension: '.png'
+      });
     case 'FIFA':
       return getFlagFromStore({
         flagName,
@@ -73,6 +84,7 @@ export const flagFactory = props => {
 
 export const createFlag = props => {
   const { flagName, flagInfo } = props;
+
   const vStringCondition = /[(]V[)]/im;
 
   const vString = vStringCondition.exec(flagName);
@@ -115,6 +127,11 @@ export const checkLeague = props => /* NOSONAR */ {
   const fifa23 = testRegex({ leagueName, ...FIFA_FLAG_23 });
   const pes23 = testRegex({ leagueName, ...PES_FLAG_23 });
   const fc24 = testRegex({ leagueName, ...FC_24 });
+  const vLeague = testRegex({ leagueName, ...V_LEAGUE });
+
+  if (vLeague) {
+    return { isHaveFlag: true, flagInfo: V_LEAGUE.type };
+  }
   if (pes && fifa) {
     return { isHaveFlag: null, flagInfo: null };
   }
