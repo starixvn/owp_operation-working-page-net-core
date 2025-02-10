@@ -28,7 +28,9 @@
     <Content Remove="Views\Shared\_IFrame.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="app\**" />
     <EmbeddedResource Remove="app\**" />
+    <None Remove="app\**" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="App_Data\Templates\EventPicking.xlsx" />
@@ -198,6 +200,7 @@
   </ItemGroup>
 	<ItemGroup>
 		<Content Remove="appsettings.*.json" />
+		<Content Remove="app\**" />
 		<Content Include="appsettings.*.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<DependentUpon>appsettings.json</DependentUpon>
