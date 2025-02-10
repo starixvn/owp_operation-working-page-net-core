@@ -28,6 +28,12 @@ public class EventModel
     public string RemarkEst { get; set; }
 
     public string RemarkBy { get; set; }
+
+    public string LstBookProvider { get; set; }
+
+    public string InHouseProviderId { get; set; }
+
+    public string ProviderMatchId { get; set; }
 }
 
 public class ProviderVerificationModel : EventModel

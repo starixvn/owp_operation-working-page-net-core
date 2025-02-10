@@ -4,9 +4,9 @@ public class QueryProviderVerification : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/ProviderVerification/get-provider-verification", async (DateTime eventDate, ISender sender) =>
+        app.MapGet("/api/ProviderVerification/get-provider-verification", async (DateTime eventDate, bool isMismatchEvent, ISender sender) =>
         {
-            var result = await sender.Send(new QueryProviderVerificationRequest(eventDate));
+            var result = await sender.Send(new QueryProviderVerificationRequest(eventDate, isMismatchEvent));
             return Results.Json(result, JsonSerializerOptions.Default);
         }
        ).RequireAuthorization()
