@@ -167,8 +167,7 @@ public static class ExcelColorHelper
     private static bool IsPostponed(EventPickingModel match)
     {
         return (!string.IsNullOrEmpty(match.Remark2) &&
-                 match.Remark2.Contains("Postponed", StringComparison.OrdinalIgnoreCase))
-                || match.InfoSiteMatchStatus == InfoSiteMatchStatus.Postponed;
+                 match.Remark2.Contains("Postponed", StringComparison.OrdinalIgnoreCase)) || match.IsPostponed;
     }
 
     private static bool IsCancelled(EventPickingModel match)
