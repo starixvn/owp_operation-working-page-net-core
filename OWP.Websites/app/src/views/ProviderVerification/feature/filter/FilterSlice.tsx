@@ -6,7 +6,8 @@ const filterSlice = createSlice({
   name: 'tableSlice',
   initialState: {
     filter: {
-      eventDate: buildDefaultFilterDateProviderVerification()
+      eventDate: buildDefaultFilterDateProviderVerification(),
+      onlyShowIsMismatchEvent: false
     }
   },
   reducers: {

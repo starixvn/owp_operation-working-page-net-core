@@ -3,17 +3,13 @@ import { formatTime } from '../../../Shared/DateTime/dateTimeHelper';
 import TicketCell from './cell/TicketCell';
 import AgentConfirmCell from './cell/AgentConfirmCell';
 import { TDataSource } from '../../type/table';
-import MBCell from './cell/MBCell';
-import EstNoteCell from './cell/EstNoteCell';
 import MatchCell from './cell/MatchCell';
 
 const TableBody = ({ dataSource }: { dataSource: TDataSource[] }) => {
   return (
     <tbody>
       {dataSource.map((event, index) => (
-        <tr
-          key={event.OWPMatchId}
-          style={{ backgroundColor: event.RowColor }}>
+        <tr key={event.OWPMatchId} style={{ backgroundColor: event.RowColor }}>
           <ReadonlyCommonCell
             className='match_no'
             value={event.MatchNo}
@@ -42,11 +38,7 @@ const TableBody = ({ dataSource }: { dataSource: TDataSource[] }) => {
             isCanToolTip={false}
           />
 
-          <MatchCell
-            className='match'
-            home={event.Home}
-            away={event.Away}
-          />
+          <MatchCell className='match' home={event.Home} away={event.Away} />
 
           <td>
             <TicketCell
@@ -78,13 +70,6 @@ const TableBody = ({ dataSource }: { dataSource: TDataSource[] }) => {
             value={event.AgentEst}
           />
 
-          <td className='max__bet'>
-            <MBCell
-              HandicapSetting={event.HandicapSetting}
-              OverUnderSetting={event.OverUnderSetting}
-            />
-          </td>
-
           <ReadonlyCommonCell
             className='remark'
             value={event.RemarkEst}
@@ -104,13 +89,6 @@ const TableBody = ({ dataSource }: { dataSource: TDataSource[] }) => {
               value: a.Value,
               label: a.Label
             }))}
-            owpMatchId={event.OWPMatchId}
-          />
-
-          <EstNoteCell
-            columnKey='estNote'
-            rowIndex={index}
-            value={event.EstNote}
             owpMatchId={event.OWPMatchId}
           />
         </tr>

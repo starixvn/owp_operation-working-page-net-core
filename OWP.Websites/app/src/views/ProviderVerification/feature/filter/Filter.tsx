@@ -4,23 +4,27 @@ import { getEvents } from '../table/tableThunk';
 import FilterDate from './FilterDate';
 import SummarizeProviderIcon from '../summarizeProvider/sum/SummarizeProviderIcon';
 import CompareAgent from '../summarizeProvider/compare/CompareAgentIcon';
+import MismatchEvent from './MismatchEvent';
+import store from '../../app/storeNative';
 
 const Filter = () => {
   const dispatch = useAppDispatch();
-  const filterState = useAppSelector(state => state.filterState.filter);
+  const {
+    filterState: {
+      filter: { eventDate, onlyShowIsMismatchEvent }
+    }
+  } = store.getState();
   const handleOnSearch = () => {
-    dispatch(getEvents(filterState.eventDate));
+    dispatch(getEvents({ eventDate, onlyShowIsMismatchEvent }));
   };
 
-  useEffect(() => {
-    dispatch(getEvents(filterState.eventDate));
-  }, []);
+  useEffect(handleOnSearch, []);
 
   return (
     <div className='top-control'>
       <div className='left-control'>
         <FilterDate />
-
+        <MismatchEvent />
         <div className='filter-control btn-block'>
           <button className='button-submit' onClick={handleOnSearch}>
             Search

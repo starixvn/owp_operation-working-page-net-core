@@ -16,16 +16,23 @@
   justify-content: space-between;
   padding: 10px;
   position: relative;
-
-  .filter-control {
-    display: inline-block;
-    width: 150px;
-    margin-right: 16px;
-
-    input {
-      background-color: transparent;
+  .left-control{
+    display: flex;
+    .filter-control-checkbox{
+      display: flex;
+        align-items: center;
     }
+         .filter-control {
+           display: inline-block;
+           width: 150px;
+           margin-right: 16px;
+    
+           input {
+             background-color: transparent;
+           }
+         }
   }
+ 
 
   .right-control {
     position: absolute;

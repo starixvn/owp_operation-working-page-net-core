@@ -52,12 +52,7 @@
       "WIDTH": "9%",
       "IS_FILTER": true
     },
-    {
-      "HEADER_KEY": "Mb",
-      "HEADER_NAME": "MB",
-      "WIDTH": "5%",
-      "IS_FILTER": true
-    },
+   
     {
       "HEADER_KEY": "RemarkEst",
       "HEADER_NAME": "Remark For EST",
@@ -73,12 +68,6 @@
     {
       "HEADER_KEY": "AgentConfirm",
       "HEADER_NAME": "Agent Confirm",
-      "WIDTH": "8%",
-      "IS_FILTER": true
-    },
-    {
-      "HEADER_KEY": "EstNote",
-      "HEADER_NAME": "EST Note",
       "WIDTH": "8%",
       "IS_FILTER": true
     }

@@ -8,15 +8,6 @@ type TAgentConfirm = {
   Disabled?: boolean;
 };
 
-type TMaxbetSetting = {
-  [key in 'HandicapSetting' | 'OverUnderSetting']: {
-    MaxBet: number | undefined;
-    MaxBetToDisplay: string | undefined;
-    Spread: number | undefined;
-    SpreadToDisplay: string | undefined;
-  };
-};
-
 type TDataSource = {
   Provider?: string | null;
   OtherProvider?: string | null;
@@ -34,12 +25,12 @@ type TDataSource = {
   AgentConfirm: TAgentConfirm[];
   RowColor: string | undefined;
 } & {
-    [key in TEditableKey]: string | undefined;
-  } & TTicketCell & TMaxbetSetting;
+  [key in TEditableKey]: string | undefined;
+} & TTicketCell;
 
 type TCommonCell = {
   className?: string;
-  value: string | null;
+  value: string | null | undefined;
   index: number;
   isCanToolTip: boolean;
 };
@@ -48,7 +39,7 @@ type TMatchCell = {
   className: string;
   home: string;
   away: string;
-}
+};
 
 type TEditableCell = {
   owpMatchId: number;

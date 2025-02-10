@@ -8,11 +8,18 @@ const getUrl = (methodRoute: string) =>
 
 const getEvents = createAsyncThunk(
   'provider-verification/get-event',
-  async (eventDate: Date) => {
+  async ({
+    eventDate,
+    onlyShowIsMismatchEvent
+  }: {
+    eventDate: Date;
+    onlyShowIsMismatchEvent: boolean;
+  }) => {
     const url = getUrl('get-provider-verification');
     const response = await get({
       url,
-      eventDate: Utils.formatDate(eventDate)
+      eventDate: Utils.formatDate(eventDate),
+      onlyShowIsMismatchEvent
     });
     return response.data;
   }

@@ -4,7 +4,7 @@ public class GetProviderVerificationCriteria : CriteriaBase
 {
     public DateTime EventDate { get; set; }
 
-    public bool IsMismatchEvent { get; set; }
+    public bool OnlyShowIsMismatchEvent { get; set; }
 
     public override string GetSettingKey() => "OWP_ProviderVerification_Query";
 
