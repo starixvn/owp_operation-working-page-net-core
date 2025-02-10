@@ -9,9 +9,9 @@ global using Microsoft.AspNetCore.Routing;
 global using OWP.CQRS;
 global using OWP.Enums;
 global using OWP.ProviderVerification.Criteria;
-global using OWP.ProviderVerification.Handlers;
 global using OWP.ProviderVerification.Models;
 global using System.Text.Json;
+global using Fanex.NAP.Client;
 
 
 

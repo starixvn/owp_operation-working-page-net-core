@@ -37,6 +37,7 @@ using OWP.TicketSetting.TicketEvent;
 using OWP.TicketSetting.TicketTypeRecipient;
 using StackExchange.Redis;
 using System.Reflection;
+using OWP.ProviderVerification.ProviderVerification.QueryProvider;
 
 namespace OWP.Websites;
 
@@ -225,7 +226,7 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(x => x.RegisterServicesFromAssembly(AppDomain.CurrentDomain.Load("OWP.BackgroundWorker")));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(ProfileController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(QuickMessageController).GetTypeInfo().Assembly));
-        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(ProviderVerificationController).GetTypeInfo().Assembly));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.Load("OWP.ProviderVerification")));
         return services;
     }
 
