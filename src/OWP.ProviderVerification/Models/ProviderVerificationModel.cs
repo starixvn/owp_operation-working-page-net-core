@@ -28,16 +28,11 @@ public class EventModel
     public string RemarkEst { get; set; }
 
     public string RemarkBy { get; set; }
-
-    public string EstNote { get; set; }
 }
 
 public class ProviderVerificationModel : EventModel
 {
-    public MatchSetting HandicapSetting { get; set; }
-
-    public MatchSetting OverUnderSetting { get; set; }
-
+    
     public List<AgentConfirmOption> AgentConfirm { get; set; }
 
     public string RowColor => MatchStatus switch

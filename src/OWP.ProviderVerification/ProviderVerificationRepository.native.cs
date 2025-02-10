@@ -29,16 +29,15 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
 
     public async Task<IEnumerable<ProviderVerificationModel>> GetProviderVerification(CriteriaBase criteria)
     {
-        var result = await dynamicRepository.FetchMultipleAsync<EventModel, AgentConfirmModel, MatchSetting>(criteria);
+        var result = await dynamicRepository.FetchMultipleAsync<EventModel, AgentConfirmModel>(criteria);
         var matchInfo = result.Item1.ToList();
         var agentConfirms = result.Item2.ToList();
-        var matchSettings = result.Item3.ToList();
 
-        return await MappingInfo(matchInfo, agentConfirms, matchSettings);
+        return await MappingInfo(matchInfo, agentConfirms);
     }
 
     private async Task<IList<ProviderVerificationModel>> MappingInfo(IList<EventModel> matches,
-        IList<AgentConfirmModel> agentConfirms, IList<MatchSetting> matchSettings)
+        IList<AgentConfirmModel> agentConfirms)
     {
 
         var owpIds = string.Join(",", matches.Select(x => x.OWPMatchId));
@@ -67,9 +66,6 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
                 AgentEst = match.AgentEst,
                 RemarkEst = match.RemarkEst,
                 RemarkBy = match.RemarkBy,
-                EstNote = match.EstNote,
-                HandicapSetting = GetMatchSettings(matchSettings, match.OWPMatchId, (int)MajorBetType.Handicap),
-                OverUnderSetting = GetMatchSettings(matchSettings, match.OWPMatchId, (int)MajorBetType.OverUnder),
                 AgentConfirm = agentConfirms.Where(x => x.OwpMatchId == match.OWPMatchId).Select(y =>
                     new AgentConfirmOption
                     {
@@ -88,11 +84,6 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
         }
 
         return result;
-    }
-
-    private static MatchSetting GetMatchSettings(IList<MatchSetting> matchSettings, int owpMatchId, int bettype)
-    {
-        return matchSettings.FirstOrDefault(x => x.OWPMatchId == owpMatchId && x.Bettype == bettype);
     }
 
     public async Task<IEnumerable<AgentOption>> GetAgentOptions()
