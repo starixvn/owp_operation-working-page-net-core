@@ -6,6 +6,7 @@ import SummarizeProviderIcon from '../summarizeProvider/sum/SummarizeProviderIco
 import CompareAgent from '../summarizeProvider/compare/CompareAgentIcon';
 import MismatchEvent from './MismatchEvent';
 import store from '../../app/storeNative';
+import ConfirmProvider from './ConfirmProvider';
 
 const Filter = () => {
   const dispatch = useAppDispatch();
@@ -25,6 +26,7 @@ const Filter = () => {
     <div className='top-control'>
       <div className='left-control'>
         <FilterDate />
+        <ConfirmProvider />
         <MismatchEvent />
         <div className='filter-control btn-block'>
           <button className='button-submit' onClick={handleSearch}>

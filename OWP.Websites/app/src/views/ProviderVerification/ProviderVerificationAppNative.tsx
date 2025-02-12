@@ -13,7 +13,9 @@ import TicketDetailBoard from '../Shared/chatBoardNew/TicketDetailBoard';
 
 const ProviderVerificationAppNative = () => {
   const dispatch = useAppDispatch();
-  const { loadingConfirmProviderOption } = useAppSelector(state => state.events);
+  const loadingConfirmProviderOption = useAppSelector(
+    state => state.common.confirmProvider.loadingConfirmProviderOption
+  );
 
   const pagePolicy = usePermission(
     FunctionKeys.ProviderVerification,

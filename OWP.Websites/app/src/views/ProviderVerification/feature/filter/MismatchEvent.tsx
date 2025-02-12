@@ -19,7 +19,7 @@ const MismatchEvent = () => {
     <div className='filter-control-checkbox'>
       <label>
         <input
-          className='unread-checkbox'
+          className='mismatch-match-checkbox'
           type='checkbox'
           checked={isMismatchEvent}
           onChange={handleChange}
