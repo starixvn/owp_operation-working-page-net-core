@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../app/hookNative';
+import { useAppDispatch } from '../../app/hookNative';
 import { getEvents } from '../table/tableThunk';
 import FilterDate from './FilterDate';
 import SummarizeProviderIcon from '../summarizeProvider/sum/SummarizeProviderIcon';
