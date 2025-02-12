@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getAgentConfirm, getEvents } from './tableThunk';
+import { getConfirmProvider, getEvents } from './tableThunk';
 import {
   TColumnKey,
   TDataSource,
   TMultipleFilter,
-  TUpdateAgentConfirm,
+  TUpdateConfirmProvider,
   TUpdateRow
 } from '../../type/table';
 import { REQUEST_STATUS } from '../../../Shared/Constants';
@@ -22,24 +22,22 @@ const tableSlice = createSlice({
   name: 'tableSlice',
   initialState: {
     loadingDataTable: REQUEST_STATUS.pending,
-    loadingAgentConfirmOption: REQUEST_STATUS.pending,
+    loadingConfirmProviderOption: REQUEST_STATUS.pending,
     dataSource: [] as TDataSource[],
     dataSourceOriginal: [] as TDataSource[],
-    agentConfirmOption: [] as Option[],
+    confirmProviderOption: [] as Option[],
     multipleFilter: {
       MatchNo: buildMultipleFilterDefault(),
       MatchStatus: buildMultipleFilterDefault(),
       KoTime: buildMultipleFilterDefault(),
       League: buildMultipleFilterDefault(),
       Match: buildMultipleFilterDefault(),
-      Mb: buildMultipleFilterDefault(),
-      Provider: buildMultipleFilterDefault(),
-      OtherProvider: buildMultipleFilterDefault(),
-      AgentEst: buildMultipleFilterDefault(),
-      RemarkEst: buildMultipleFilterDefault(),
+      LSTBookProvider: buildMultipleFilterDefault(),
+      InhouseProviderID: buildMultipleFilterDefault(),
+      Remark: buildMultipleFilterDefault(),
       RemarkBy: buildMultipleFilterDefault(),
-      AgentConfirm: buildMultipleFilterDefault(),
-      EstNote: buildMultipleFilterDefault()
+      // EstNote: buildMultipleFilterDefault(),
+      ConfirmProvider: buildMultipleFilterDefault()
     } as TMultipleFilter
   },
   reducers: {
@@ -68,14 +66,14 @@ const tableSlice = createSlice({
         }
       });
     },
-    setAgentConfirm: (state, action: PayloadAction<TUpdateAgentConfirm>) => {
+    setConfirmProvider: (state, action: PayloadAction<TUpdateConfirmProvider>) => {
       const { owpMatchId, value } = action.payload;
       const event = state.dataSource.find(d => d.OWPMatchId === owpMatchId);
-      event && (event.AgentConfirm = value);
+      event && (event.ConfirmProvider = value);
       const eventOriginal = state.dataSourceOriginal.find(
         d => d.OWPMatchId === owpMatchId
       );
-      eventOriginal && (eventOriginal.AgentConfirm = value);
+      eventOriginal && (eventOriginal.ConfirmProvider = value);
     },
     setMultipleFilter: (
       state,
@@ -104,7 +102,7 @@ const tableSlice = createSlice({
       state.dataSource = state.dataSourceOriginal;
       buildDefaultTableFilter(
         state.dataSource,
-        state.agentConfirmOption,
+        state.confirmProviderOption,
         state.multipleFilter
       );
     }
@@ -122,7 +120,7 @@ const tableSlice = createSlice({
           state.dataSourceOriginal = action.payload;
           buildDefaultTableFilter(
             state.dataSourceOriginal,
-            state.agentConfirmOption,
+            state.confirmProviderOption,
             state.multipleFilter
           );
         }
@@ -130,15 +128,15 @@ const tableSlice = createSlice({
       .addCase(getEvents.rejected, state => {
         state.loadingDataTable = REQUEST_STATUS.idle;
       })
-      .addCase(getAgentConfirm.pending, state => {
-        state.loadingAgentConfirmOption = REQUEST_STATUS.pending;
+      .addCase(getConfirmProvider.pending, state => {
+        state.loadingConfirmProviderOption = REQUEST_STATUS.pending;
       })
-      .addCase(getAgentConfirm.fulfilled, (state, { payload }) => {
-        state.loadingAgentConfirmOption = REQUEST_STATUS.idle;
-        state.agentConfirmOption = payload;
+      .addCase(getConfirmProvider.fulfilled, (state, { payload }) => {
+        state.loadingConfirmProviderOption = REQUEST_STATUS.idle;
+        state.confirmProviderOption = payload;
       })
-      .addCase(getAgentConfirm.rejected, state => {
-        state.loadingAgentConfirmOption = REQUEST_STATUS.idle;
+      .addCase(getConfirmProvider.rejected, state => {
+        state.loadingConfirmProviderOption = REQUEST_STATUS.idle;
       });
   }
 });
@@ -147,7 +145,7 @@ const { actions, reducer } = tableSlice;
 const {
   setValue,
   setDataSignalR,
-  setAgentConfirm,
+  setConfirmProvider,
   setMultipleFilter,
   handleClearFilter,
   setDataTable
@@ -155,7 +153,7 @@ const {
 export {
   setValue,
   setDataSignalR,
-  setAgentConfirm,
+  setConfirmProvider,
   setMultipleFilter,
   handleClearFilter,
   setDataTable

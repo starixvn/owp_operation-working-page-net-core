@@ -53,7 +53,7 @@ describe('buildMaxbetItemInOption', () => {
 
 describe('buildDefaultTableFilter', () => {
   const dataSource = [];
-  const agentConfirmOption = [{ value: 1, label: 'Agent 1' }];
+  const confirmProviderOption = [{ value: 1, label: 'Agent 1' }];
   let tableFilter: TMultipleFilter;
 
   beforeEach(() => {
@@ -61,14 +61,14 @@ describe('buildDefaultTableFilter', () => {
   });
 
   it('should populate tableFilter with default values', () => {
-    buildDefaultTableFilter(dataSource, agentConfirmOption, tableFilter);
+    buildDefaultTableFilter(dataSource, confirmProviderOption, tableFilter);
 
     expect(tableFilter.MatchNo).toEqual({
       selected: helper.MatchNo(dataSource),
       isFilter: false
     });
-    expect(tableFilter.AgentConfirm).toEqual({
-      selected: [...agentConfirmOption, { value: -1, label: '(Blanks)' }],
+    expect(tableFilter.ConfirmProvider).toEqual({
+      selected: [...confirmProviderOption, { value: -1, label: '(Blanks)' }],
       isFilter: false
     });
   });

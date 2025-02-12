@@ -16,23 +16,27 @@
   justify-content: space-between;
   padding: 10px;
   position: relative;
-  .left-control{
+
+  .left-control {
     display: flex;
-    .filter-control-checkbox{
+    align-items: flex-end;
+
+    .filter-control-checkbox {
       display: flex;
-        align-items: center;
+      align-items: center;
+      margin: 0 20px;
     }
-         .filter-control {
-           display: inline-block;
-           width: 150px;
-           margin-right: 16px;
-    
-           input {
-             background-color: transparent;
-           }
-         }
+
+    .filter-control {
+      display: inline-block;
+      width: 150px;
+      margin-right: 16px;
+
+      input {
+        background-color: transparent;
+      }
+    }
   }
- 
 
   .right-control {
     position: absolute;
@@ -101,7 +105,7 @@
       margin-top: 0;
     }
 
-    label + .MuiInput-formControl {
+    label+.MuiInput-formControl {
       margin-top: 35px;
     }
 
@@ -267,6 +271,7 @@
       z-index: -1;
     }
   }
+
   tbody {
     tr:nth-child(even) {
       background-color: #ffffff !important;
@@ -283,21 +288,25 @@
     text-align: left;
     border-collapse: collapse;
   }
+
   .match_no,
   .match_status,
   .ko_time,
   .max__bet {
     text-align: center !important;
   }
+
   .league {
     font-size: 13px;
   }
+
   .match {
     .home {
       color: #e21b1b;
       font-weight: 700;
       margin-bottom: 2px !important;
     }
+
     .away {
       display: block;
       color: #494848;
@@ -343,6 +352,7 @@
       }
     }
   }
+
   .agent__view,
   .est__note__view {
     max-width: 120px;
@@ -362,6 +372,7 @@
       }
     }
   }
+
   .agent__edit,
   .est__note__edit {
     max-width: 120px;
@@ -534,7 +545,7 @@
       }
 
       .dropdown-heading-value {
-        > span {
+        >span {
           display: block;
           max-width: 130px;
           overflow: hidden;
@@ -553,6 +564,7 @@
         border-top-right-radius: 0;
       }
     }
+
     //input field
     .dropdown-container {
       height: 28px !important;
@@ -571,6 +583,7 @@
 
     .select-item {
       padding: 2px 1px;
+
       &:focus {
         background-color: transparent;
       }
@@ -581,10 +594,11 @@
       }
 
       .item-renderer {
-        input[type='checkbox'] + span {
+        input[type='checkbox']+span {
           &:before {
             margin: 2px 5px !important;
           }
+
           &:after {
             left: 6px;
             top: 2px;
@@ -746,17 +760,17 @@
   position: relative;
 }
 
-.provider,
-.other__provider,
+.lst-book-provider,
+.inhouse-providerID,
 .remark,
 .agent,
-.remark__by,
-.est__note {
+.remark__by {
   max-width: 130px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .ticket-cell span {
   margin: 0 !important;
 }

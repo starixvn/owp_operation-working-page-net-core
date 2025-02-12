@@ -31,31 +31,26 @@
       "IS_FILTER": true
     },
     {
-      "HEADER_NAME": "Ticket",
-      "WIDTH": "3%"
-    },
-    {
-      "HEADER_KEY": "Provider",
-      "HEADER_NAME": "Provider",
-      "WIDTH": "6%",
-      "IS_FILTER": true
-    },
-    {
-      "HEADER_KEY": "OtherProvider",
-      "HEADER_NAME": "Other Provider",
+      "HEADER_KEY": "LSTBookProvider",
+      "HEADER_NAME": "LST Book Provider",
       "WIDTH": "8%",
       "IS_FILTER": true
     },
     {
-      "HEADER_KEY": "AgentEst",
-      "HEADER_NAME": "Agent For EST",
-      "WIDTH": "9%",
+      "HEADER_KEY": "InhouseProviderID",
+      "HEADER_NAME": "Inhouse ProviderID",
+      "WIDTH": "8%",
       "IS_FILTER": true
     },
-   
     {
-      "HEADER_KEY": "RemarkEst",
-      "HEADER_NAME": "Remark For EST",
+      "HEADER_KEY": "ConfirmProvider",
+      "HEADER_NAME": "Confirm Provider",
+      "WIDTH": "8%",
+      "IS_FILTER": true
+    },
+    {
+      "HEADER_KEY": "Remark",
+      "HEADER_NAME": "Remark",
       "WIDTH": "9%",
       "IS_FILTER": true
     },
@@ -66,10 +61,8 @@
       "IS_FILTER": true
     },
     {
-      "HEADER_KEY": "AgentConfirm",
-      "HEADER_NAME": "Agent Confirm",
-      "WIDTH": "8%",
-      "IS_FILTER": true
+      "HEADER_NAME": "Ticket",
+      "WIDTH": "3%"
     }
   ]
 }

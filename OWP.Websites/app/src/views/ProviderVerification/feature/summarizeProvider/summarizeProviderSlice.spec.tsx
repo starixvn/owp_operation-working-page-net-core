@@ -25,7 +25,7 @@ describe('sumProviderSlice', () => {
         Home: 'Home1',
         Away: 'Away1',
         AgentEst: 'AgentEst1',
-        AgentConfirm: [{ Value: 1, Label: 'Agent1' }],
+        ConfirmProvider: [{ Value: 1, Label: 'Agent1' }],
         RowColor: 'Red',
         HandicapSetting: { MaxBet: 10, MaxBetToDisplay: '10', Spread: 5, SpreadToDisplay: '5' },
         OverUnderSetting: { MaxBet: 20, MaxBetToDisplay: '20', Spread: 10, SpreadToDisplay: '10' },

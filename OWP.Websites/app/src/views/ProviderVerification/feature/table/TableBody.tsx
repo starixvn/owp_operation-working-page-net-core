@@ -1,7 +1,7 @@
 import ReadonlyCommonCell from './cell/ReadonlyCommonCell';
 import { formatTime } from '../../../Shared/DateTime/dateTimeHelper';
 import TicketCell from './cell/TicketCell';
-import AgentConfirmCell from './cell/AgentConfirmCell';
+import ConfirmProviderCell from './cell/ConfirmProviderCell';
 import { TDataSource } from '../../type/table';
 import MatchCell from './cell/MatchCell';
 
@@ -40,39 +40,33 @@ const TableBody = ({ dataSource }: { dataSource: TDataSource[] }) => {
 
           <MatchCell className='match' home={event.Home} away={event.Away} />
 
-          <td>
-            <TicketCell
-              dataSource={dataSource}
-              HasTicket={event.HasTicket}
-              IsRead={event.IsRead}
-              rowIndex={index}
-            />
-          </td>
-
           <ReadonlyCommonCell
-            className='provider'
-            value={event.Provider}
+            className='lst-book-provider'
+            value={event.LSTBookProvider}
             index={index}
             isCanToolTip={true}
           />
 
           <ReadonlyCommonCell
-            className='other_provider'
-            value={event.OtherProvider}
+            className='inhouse-providerID'
+            value={event.InhouseProviderID}
             index={index}
             isCanToolTip={true}
           />
 
-          <ReadonlyCommonCell
-            index={index}
-            isCanToolTip={true}
-            className='agent'
-            value={event.AgentEst}
-          />
+          {/* <ConfirmProviderCell
+            confirmProvider={event.ConfirmProvider.map(a => ({
+              value: a.Value,
+              label: a.Label
+            }))}
+            owpMatchId={event.OWPMatchId}
+          /> */}
+
+          <td></td>
 
           <ReadonlyCommonCell
             className='remark'
-            value={event.RemarkEst}
+            value={event.Remark}
             index={index}
             isCanToolTip={true}
           />
@@ -84,13 +78,14 @@ const TableBody = ({ dataSource }: { dataSource: TDataSource[] }) => {
             isCanToolTip={true}
           />
 
-          <AgentConfirmCell
-            agentConfirm={event.AgentConfirm.map(a => ({
-              value: a.Value,
-              label: a.Label
-            }))}
-            owpMatchId={event.OWPMatchId}
-          />
+          <td>
+            <TicketCell
+              dataSource={dataSource}
+              HasTicket={event.HasTicket}
+              IsRead={event.IsRead}
+              rowIndex={index}
+            />
+          </td>
         </tr>
       ))}
     </tbody>

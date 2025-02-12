@@ -1,7 +1,7 @@
 import { Option } from '../../Shared/MultipleSelection/type';
 
-type TEditableKey = 'EstNote';
-type TAgentConfirm = {
+type TEditableKey = '';
+type TConfirmProvider = {
   Value: number | string | null;
   Label: string;
   Key?: string;
@@ -9,9 +9,9 @@ type TAgentConfirm = {
 };
 
 type TDataSource = {
-  Provider?: string | null;
-  OtherProvider?: string | null;
-  RemarkEst?: string | null;
+  LSTBookProvider?: string | null;
+  InhouseProviderID?: string | null;
+  Remark?: string | null;
   RemarkBy?: string | null;
   OWPMatchId: number;
   ParentMatchId: number;
@@ -21,8 +21,7 @@ type TDataSource = {
   League: string;
   Home: string;
   Away: string;
-  AgentEst: string;
-  AgentConfirm: TAgentConfirm[];
+  ConfirmProvider: TConfirmProvider[];
   RowColor: string | undefined;
 } & {
   [key in TEditableKey]: string | undefined;
@@ -59,7 +58,7 @@ type TUpdateRow = {
   value: string | undefined;
 };
 
-type TUpdateAgentConfirm = { value: TAgentConfirm[] } & { owpMatchId: number };
+type TUpdateConfirmProvider = { value: TConfirmProvider[] } & { owpMatchId: number };
 
 type TColumnKey =
   | 'MatchNo'
@@ -67,14 +66,11 @@ type TColumnKey =
   | 'KoTime'
   | 'League'
   | 'Match'
-  | 'Provider'
-  | 'AgentEst'
-  | 'Mb'
-  | 'RemarkEst'
-  | 'RemarkBy'
-  | 'AgentConfirm'
-  | 'EstNote'
-  | 'OtherProvider';
+  | 'LSTBookProvider'
+  | 'InhouseProviderID'
+  | 'ConfirmProvider'
+  | 'Remark'
+  | 'RemarkBy';
 
 type TMultipleColumnFilterOption = {
   [key in TColumnKey]: Option[];
@@ -94,9 +90,8 @@ export {
   TEditableCell,
   TEditableKey,
   TUpdateRow,
-  TMaxbetSetting,
-  TAgentConfirm,
-  TUpdateAgentConfirm,
+  TConfirmProvider,
+  TUpdateConfirmProvider,
   TMultipleColumnFilterOption,
   TMultipleFilter,
   TColumnKey,

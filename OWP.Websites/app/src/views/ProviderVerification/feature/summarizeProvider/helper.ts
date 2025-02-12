@@ -8,7 +8,7 @@ import {
 import { TDataSource } from '../../type/table';
 
 const summarize = (data: TDataSource[], agentOption: Option[]) => {
-  const agents = data.map(x => x.AgentConfirm.map(agent => agent.Label)).flat();
+  const agents = data.map(x => x.ConfirmProvider.map(agent => agent.Label)).flat();
   const agentLabels = agentOption.map(x => x.label);
   const agentCounts = agentLabels.map(agentName => {
     const count = agents.filter(agent => agent === agentName).length;

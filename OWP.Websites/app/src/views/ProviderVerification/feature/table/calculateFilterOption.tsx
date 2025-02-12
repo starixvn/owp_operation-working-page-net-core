@@ -1,6 +1,6 @@
 import { uniqBy } from "lodash";
 import { formatTime } from "../../../Shared/DateTime/dateTimeHelper";
-import { buildLabelItemOption, buildMaxbetItemInOption } from "./helper";
+import { buildLabelItemOption } from "./helper";
 import { TDataSource } from "../../type/table";
 import store from "../../app/storeNative";
 import { Option } from "../../../Shared/MultipleSelection/type";
@@ -11,12 +11,14 @@ const calculateMatchNoOption = (dataSource: TDataSource[]) => {
     label: buildLabelItemOption(x.MatchNo)
   })), v => v.label));
 };
+
 const calculateMatchStatusOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource].map(x => ({
     value: x.OWPMatchId,
     label: buildLabelItemOption(x.MatchStatus)
   })), v => v.label));
 };
+
 const calculateKoOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource]
     .sort((first, second) =>
@@ -27,49 +29,39 @@ const calculateKoOption = (dataSource: TDataSource[]) => {
       label: formatTime(x.EventDateTime, 'minute', 'hh:mm A') ?? '(Blanks)'
     })), v => v.label));
 };
+
 const calculateLeagueOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource].map(x => ({
     value: x.OWPMatchId,
     label: x.League ?? '(Blanks)'
   })), v => v.label));
 };
+
 const calculateMatchOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource].map(x => ({
     value: x.OWPMatchId,
     label: `${x.Home} -vs- ${x.Away}`
   })), v => v.label));
 };
-const calculateProviderOption = (dataSource: TDataSource[]) => {
+
+const calculateLSTBookProviderOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource].map(x => ({
     value: x.OWPMatchId,
-    label: buildLabelItemOption(x.Provider)
+    label: buildLabelItemOption(x.LSTBookProvider)
   })), v => v.label));
-};
-const calculateOtherProviderOption = (dataSource: TDataSource[]) => {
-  return swapBlanks(uniqBy([...dataSource].map(x => ({
-    value: x.OWPMatchId,
-    label: buildLabelItemOption(x.OtherProvider)
-  })), v => v.label));
-};
-const calculateAgentOption = (dataSource: TDataSource[]) => {
-  return swapBlanks(uniqBy([...dataSource].map(x => ({
-    value: x.AgentEst ?? '',
-    label: buildLabelItemOption(x.AgentEst)
-  })), v => v.value));
 };
 
-const calculateMbOption = (dataSource: TDataSource[]) => {
-  return swapBlanks(uniqBy([...dataSource]
-    .sort((first, second) => (first.HandicapSetting?.MaxBet ?? Number.MAX_SAFE_INTEGER) - (second.HandicapSetting?.MaxBet ?? Number.MAX_SAFE_INTEGER))
-    .map(x => ({
-      value: x.OWPMatchId,
-      label: buildMaxbetItemInOption({ HandicapSetting: x.HandicapSetting, OverUnderSetting: x.OverUnderSetting }) ?? '(Blanks)'
-    })), v => v.label));
+const calculateInhouseProviderIDOption = (dataSource: TDataSource[]) => {
+  return swapBlanks(uniqBy([...dataSource].map(x => ({
+    value: x.OWPMatchId,
+    label: buildLabelItemOption(x.InhouseProviderID)
+  })), v => v.label));
 };
+
 const calculateRemarkOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource].map(x => ({
     value: x.OWPMatchId,
-    label: buildLabelItemOption(x.RemarkEst)
+    label: buildLabelItemOption(x.Remark)
   })), v => v.label));
 };
 const calculateRemarkByOption = (dataSource: TDataSource[]) => {
@@ -79,15 +71,16 @@ const calculateRemarkByOption = (dataSource: TDataSource[]) => {
   })), v => v.label));
 };
 
-const calculateAgentConfirmOption = () => {
-  const { agentConfirmOption } = store.getState().events;
-  return [...agentConfirmOption, { value: -1, label: '(Blanks)' }];
+const calculateConfirmProviderOption = () => {
+  const { confirmProviderOption } = store.getState().events;
+  return [...confirmProviderOption, { value: -1, label: '(Blanks)' }];
 };
 
 const calculateEstNoteOption = (dataSource: TDataSource[]) => swapBlanks(uniqBy([...dataSource].map(x => ({
   value: x.EstNote ?? '',
   label: buildLabelItemOption(x.EstNote)
 })), v => v.value));
+
 
 const swapBlanks = (options: Option[]) => {
   const indexBlanks = options.findIndex(o => o.label === '(Blanks)');
@@ -106,14 +99,12 @@ const helper = {
   KoTime: (dataSource: TDataSource[]) => calculateKoOption(dataSource),
   League: (dataSource: TDataSource[]) => calculateLeagueOption(dataSource),
   Match: (dataSource: TDataSource[]) => calculateMatchOption(dataSource),
-  Provider: (dataSource: TDataSource[]) => calculateProviderOption(dataSource),
-  AgentEst: (dataSource: TDataSource[]) => calculateAgentOption(dataSource),
-  Mb: (dataSource: TDataSource[]) => calculateMbOption(dataSource),
-  RemarkEst: (dataSource: TDataSource[]) => calculateRemarkOption(dataSource),
+  LSTBookProvider: (dataSource: TDataSource[]) => calculateLSTBookProviderOption(dataSource),
+  Remark: (dataSource: TDataSource[]) => calculateRemarkOption(dataSource),
   RemarkBy: (dataSource: TDataSource[]) => calculateRemarkByOption(dataSource),
-  AgentConfirm: (dataSource: TDataSource[]) => calculateAgentConfirmOption(),
-  EstNote: (dataSource: TDataSource[]) => calculateEstNoteOption(dataSource),
-  OtherProvider: (dataSource: TDataSource[]) => calculateOtherProviderOption(dataSource)
+  ConfirmProvider: (dataSource: TDataSource[]) => calculateConfirmProviderOption(),
+  // EstNote: (dataSource: TDataSource[]) => calculateEstNoteOption(dataSource),
+  InhouseProviderID: (dataSource: TDataSource[]) => calculateInhouseProviderIDOption(dataSource)
 };
 
 export default helper;

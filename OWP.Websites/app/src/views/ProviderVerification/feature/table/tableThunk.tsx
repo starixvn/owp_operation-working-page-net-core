@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { get, post } from '../../../Shared/Service/Service';
 import Utils from '../../../Shared/Utils';
-import { TOptionResponse } from '../../type/agentConfirmOption';
+import { TOptionResponse } from '../../type/confirmProviderOption';
 
 const getUrl = (methodRoute: string) =>
   `/api/ProviderVerification/${methodRoute}`;
@@ -25,7 +25,7 @@ const getEvents = createAsyncThunk(
   }
 );
 
-const getAgentConfirm = createAsyncThunk(
+const getConfirmProvider = createAsyncThunk(
   'provider-verification/get-agent-confirm',
   async () => {
     const url = getUrl('get-agent-option');
@@ -39,7 +39,7 @@ const getAgentConfirm = createAsyncThunk(
   }
 );
 
-const saveAgentConfirm = createAsyncThunk(
+const saveConfirmProvider = createAsyncThunk(
   'provider-verification/save-agent-confirm',
   async (data: { owpMatchId: number; agentSelected: string }) => {
     const url = getUrl('save-agent-confirm');
@@ -77,8 +77,8 @@ const saveESTAgent = createAsyncThunk(
 
 export {
   getEvents,
-  getAgentConfirm,
-  saveAgentConfirm,
+  getConfirmProvider,
+  saveConfirmProvider,
   saveESTNote,
   saveESTAgent
 };

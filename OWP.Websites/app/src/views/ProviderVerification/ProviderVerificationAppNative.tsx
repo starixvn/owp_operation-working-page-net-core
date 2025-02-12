@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from './app/hookNative';
 import Filter from './feature/filter/Filter';
 import Table from './feature/table/Table';
-import { getAgentConfirm } from './feature/table/tableThunk';
+import { getConfirmProvider } from './feature/table/tableThunk';
 import usePermission from '../Shared/customHook/usePermission';
 import { isEquals } from 'immutability-helper';
 import { REQUEST_STATUS, FunctionKeys } from '../Shared/Constants';
@@ -13,7 +13,7 @@ import TicketDetailBoard from '../Shared/chatBoardNew/TicketDetailBoard';
 
 const ProviderVerificationAppNative = () => {
   const dispatch = useAppDispatch();
-  const { loadingAgentConfirmOption } = useAppSelector(state => state.events);
+  const { loadingConfirmProviderOption } = useAppSelector(state => state.events);
 
   const pagePolicy = usePermission(
     FunctionKeys.ProviderVerification,
@@ -21,7 +21,7 @@ const ProviderVerificationAppNative = () => {
   );
 
   useEffect(() => {
-    dispatch(getAgentConfirm());
+    dispatch(getConfirmProvider());
   }, [dispatch]);
 
   const ticketCenterPermissionModel = usePermission(
@@ -40,7 +40,7 @@ const ProviderVerificationAppNative = () => {
   };
 
   if (
-    isEquals(loadingAgentConfirmOption, REQUEST_STATUS.pending) ||
+    isEquals(loadingConfirmProviderOption, REQUEST_STATUS.pending) ||
     !Username ||
     !pagePolicy.permission.Username
   ) {

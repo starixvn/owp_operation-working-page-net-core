@@ -1,15 +1,15 @@
-import { fireEvent, getByText, render, screen, waitFor } from '@testing-library/react';
-import React, { act } from 'react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import React from 'react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import AgentConfirmCell from './AgentConfirmCell';
+import ConfirmProviderCell from './ConfirmProviderCell';
 import { useAppDispatch, useAppSelector } from '../../../app/hookNative';
 
 jest.mock('../../../app/hookNative');
 const mockStore = configureStore([]);
 const mockDispatch = jest.fn();
 
-describe('AgentConfirmCell', () => {
+describe('ConfirmProviderCell', () => {
   let store: any;
   let container: HTMLElement;
 
@@ -19,7 +19,7 @@ describe('AgentConfirmCell', () => {
         <table>
           <tbody>
             <tr>
-              <AgentConfirmCell {...props} />
+              <ConfirmProviderCell {...props} />
             </tr>
           </tbody>
         </table>
@@ -31,7 +31,7 @@ describe('AgentConfirmCell', () => {
     jest.clearAllMocks();
     store = mockStore({
       events: {
-        agentConfirmOption: [
+        confirmProviderOption: [
           { label: 'Agent 1', value: '1' },
           { label: 'Agent 2', value: '2' }
         ]
@@ -46,7 +46,7 @@ describe('AgentConfirmCell', () => {
   });
 
   const defaultProps = {
-    agentConfirm: [{ label: 'Agent 1', value: '1' }],
+    confirmProvider: [{ label: 'Agent 1', value: '1' }],
     owpMatchId: 1
   };
 
@@ -71,7 +71,7 @@ describe('AgentConfirmCell', () => {
   it('should disable selection if HasWrite is false', () => {
     store = mockStore({
       events: {
-        agentConfirmOption: [
+        confirmProviderOption: [
           { label: 'Agent 1', value: '1' },
           { label: 'Agent 2', value: '2' }
         ]

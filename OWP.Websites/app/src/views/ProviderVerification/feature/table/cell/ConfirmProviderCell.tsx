@@ -1,18 +1,18 @@
 import { Option } from '../../../../Shared/MultipleSelection/type';
 import { MultiSelect } from 'react-multi-select-component';
 import { useAppDispatch, useAppSelector } from '../../../app/hookNative';
-import { setAgentConfirm } from '../tableSlice';
-import { saveAgentConfirm } from '../tableThunk';
+import { setConfirmProvider } from '../tableSlice';
+import { saveConfirmProvider } from '../tableThunk';
 
-const AgentConfirmCell = ({
-  agentConfirm,
+const ConfirmProviderCell = ({
+  confirmProvider,
   owpMatchId
 }: {
-  agentConfirm: Option[];
+  confirmProvider: Option[];
   owpMatchId: number;
 }) => {
-  const agentConfirmOption = useAppSelector(
-    store => store.events.agentConfirmOption
+  const confirmProviderOption = useAppSelector(
+    store => store.events.confirmProviderOption
   );
 
   const hasWrite = useAppSelector(
@@ -22,9 +22,9 @@ const AgentConfirmCell = ({
 
   const handleOnChange = (event: Option[]) => {
     const agentSelected = event.map((a: Option) => a.value).join(',');
-    dispatch(saveAgentConfirm({ owpMatchId, agentSelected }));
+    dispatch(saveConfirmProvider({ owpMatchId, agentSelected }));
     dispatch(
-      setAgentConfirm({
+      setConfirmProvider({
         owpMatchId,
         value: event.map((a: Option) => ({
           Value: a.value,
@@ -39,8 +39,8 @@ const AgentConfirmCell = ({
       <span className='agent__confirm'>
         <MultiSelect
           onChange={handleOnChange}
-          value={agentConfirm}
-          options={agentConfirmOption}
+          value={confirmProvider}
+          options={confirmProviderOption}
           ClearSelectedIcon={null}
           className='multi-select'
           hasSelectAll
@@ -56,4 +56,4 @@ const AgentConfirmCell = ({
   );
 };
 
-export default AgentConfirmCell;
+export default ConfirmProviderCell;

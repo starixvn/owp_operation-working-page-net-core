@@ -12,7 +12,7 @@ jest.mock('./cell/ReadonlyCommonCell', () => ({ className, value, index, isCanTo
 jest.mock('./cell/TicketCell', () => ({ HasTicket, IsRead }) => (
   <td data-testid="ticket-cell">{`${HasTicket}-${IsRead}`}</td>
 ));
-jest.mock('./cell/AgentConfirmCell', () => ({ agentConfirm }) => (
+jest.mock('./cell/ConfirmProviderCell', () => ({ agentConfirm }) => (
   <td data-testid="agent-confirm-cell">{agentConfirm.map(a => a.label).join(', ')}</td>
 ));
 jest.mock('./cell/MBCell', () => ({ HandicapSetting, OverUnderSetting }) => (
