@@ -9,16 +9,17 @@ import store from '../../app/storeNative';
 
 const Filter = () => {
   const dispatch = useAppDispatch();
-  const {
-    filterState: {
-      filter: { eventDate, onlyShowIsMismatchEvent }
-    }
-  } = store.getState();
-  const handleOnSearch = () => {
+
+  const handleSearch = () => {
+    const {
+      filterState: {
+        filter: { eventDate, onlyShowIsMismatchEvent }
+      }
+    } = store.getState();
     dispatch(getEvents({ eventDate, onlyShowIsMismatchEvent }));
   };
 
-  useEffect(handleOnSearch, []);
+  useEffect(handleSearch, []);
 
   return (
     <div className='top-control'>
@@ -26,7 +27,7 @@ const Filter = () => {
         <FilterDate />
         <MismatchEvent />
         <div className='filter-control btn-block'>
-          <button className='button-submit' onClick={handleOnSearch}>
+          <button className='button-submit' onClick={handleSearch}>
             Search
           </button>
         </div>
