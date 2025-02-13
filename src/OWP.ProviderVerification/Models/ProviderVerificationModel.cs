@@ -19,10 +19,6 @@ public class EventModel
 
     public string Away { get; set; }
 
-    public string OtherProvider { get; set; }
-
-    public string Provider { get; set; }
-
     public string AgentEst { get; set; }
 
     public string RemarkEst { get; set; }
