@@ -4,7 +4,7 @@ import ProviderUpload from './feature/uploadProvider/ProviderUpload';
 
 const CheckDiffDifferenceProviderNative = () => {
   return (
-    <div className='event-upload-container'>
+    <div className='provider-verification-upload-container'>
       <Provider store={store}>
         <ProviderUpload />
       </Provider>

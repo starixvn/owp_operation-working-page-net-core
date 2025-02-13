@@ -3,14 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Input } from 'reactstrap';
 import ToastrWrapper from '../../../components/ToastrWrapper';
 import { RootState } from '../../app/storeNative';
-import { validateFile } from '../helper/validationHelper';
+import { validateFile } from '../../../Shared/uploadFile/validationHelper';
 import { setFile, setIsUploadFMAndAIO } from '../slice/eventUploadSlice';
 import { BackButton, NextButton } from './Button';
 
 const UPLOAD_PLACEHOLDER = 'Upload file';
 
 const AssignAndUpload = () => {
-  const { isUploadFMAndAIO, eventDate } = useSelector((state: RootState) => state.uploadReducer.request);
+  const { isUploadFMAndAIO, eventDate } = useSelector(
+    (state: RootState) => state.uploadReducer.request
+  );
   const dispatch = useDispatch();
 
   const [textInput, setTextInput] = useState(UPLOAD_PLACEHOLDER);
@@ -33,7 +35,6 @@ const AssignAndUpload = () => {
 
     return true;
   };
-
 
   return (
     <div className='upload-file'>

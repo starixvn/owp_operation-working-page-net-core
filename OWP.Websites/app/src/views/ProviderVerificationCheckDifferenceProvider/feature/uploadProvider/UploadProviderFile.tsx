@@ -1,5 +1,55 @@
+import { useState, ChangeEvent } from 'react';
+import { BackButton, NextButton } from './Button';
+import ToastrWrapper from '../../../components/ToastrWrapper';
+
+const UPLOAD_PLACEHOLDER = 'Upload file';
+
 const UploadProviderFile = (props: TUploadProviderFile) => {
-  return <div></div>;
+  const [textInput, setTextInput] = useState(UPLOAD_PLACEHOLDER);
+  const [selectedFile, setSelectedFile] = useState<File>();
+
+  const handleOnChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    setTextInput(UPLOAD_PLACEHOLDER);
+    const file = event.target.files?.[0];
+    file && setTextInput(file.name);
+    file && setSelectedFile(file);
+  };
+
+  const validateUploadFile = () => {
+    const message = {}; //validateFile(selectedFile);
+    if (message) {
+      ToastrWrapper.showError(message);
+      return false;
+    }
+    // TODO
+    //dispatch(setFile(selectedFile));
+
+    return true;
+  };
+
+  return (
+    <div className='upload-file'>
+      Date: <b>{new URL(window.location.href).searchParams.get('date')}</b>
+      <div>Upload Agent file to compare (max: 5MB)</div>
+      <div className='control-field'>
+        <span className='text-input-file'>{textInput}</span>
+        <label htmlFor='myFile' className='button-input-file'>
+          Browse
+        </label>
+        <input
+          type='file'
+          id='myFile'
+          name='filename'
+          accept='.xlsx,.xls,.xlsm'
+          onChange={handleOnChange}
+        />
+      </div>
+      <div className='wizard-buttons'>
+        <BackButton />
+        <NextButton onValidate={validateUploadFile} />
+      </div>
+    </div>
+  );
 };
 
 export default UploadProviderFile;
