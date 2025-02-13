@@ -72,7 +72,7 @@ const executeFilterTable = (dataSource: TDataSource[], tableFilter: TMultipleFil
 
 const filterByConfirmProvider = (dataSource: TDataSource[], tableFilter: TMultipleFilter) => {
   return dataSource.filter(e => {
-    const { ConfirmProvider } = e;
+    const ConfirmProvider = e.AgentConfirm;
     const { selected } = tableFilter.ConfirmProvider;
     if (!ConfirmProvider.length && selected.some(s => s.label === '(Blanks)')) {
       return true;

@@ -36,7 +36,7 @@ const ConfirmProviderCell = ({
 
   return (
     <td>
-      <span className='agent__confirm'>
+      <span className='confirm-provider'>
         <MultiSelect
           onChange={handleOnChange}
           value={confirmProvider}

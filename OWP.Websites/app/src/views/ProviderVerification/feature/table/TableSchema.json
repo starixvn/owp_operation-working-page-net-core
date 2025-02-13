@@ -45,13 +45,13 @@
     {
       "HEADER_KEY": "ConfirmProvider",
       "HEADER_NAME": "Confirm Provider",
-      "WIDTH": "8%",
+      "WIDTH": "9%",
       "IS_FILTER": true
     },
     {
       "HEADER_KEY": "Remark",
       "HEADER_NAME": "Remark",
-      "WIDTH": "9%",
+      "WIDTH": "8%",
       "IS_FILTER": true
     },
     {
