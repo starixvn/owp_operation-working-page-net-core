@@ -70,37 +70,31 @@ const Wizard = props => {
     };
 
     return (
-      <>
-        <div className='wizard-buttons'>
-          {onCanBack(currentStep) && generateButton(propButtonBack)}
-          {onCanNext(currentStep) && generateButton(propButtonNext)}
-          {onCanSubmit(currentStep) && generateButton(propButtonSubmit)}
-          {onFinish(currentStep) && generateButton(propButtonOK)}
-        </div>
-      </>
+      <div className='wizard-buttons'>
+        {onCanBack(currentStep) && generateButton(propButtonBack)}
+        {onCanNext(currentStep) && generateButton(propButtonNext)}
+        {onCanSubmit(currentStep) && generateButton(propButtonSubmit)}
+        {onFinish(currentStep) && generateButton(propButtonOK)}
+      </div>
     );
   };
 
   const renderCloseButton = () => {
     return (
-      <button
-        className='btn-close'
-        onClick={onClose}>
+      <button className='btn-close' onClick={onClose}>
         X
       </button>
     );
   };
 
   return (
-    <>
-      <div className='wizard-overlay'>
-        <div className='wizard-body'>
-          {renderCloseButton()}
-          {onRenderContent(currentStep)}
-          {renderCommand()}
-        </div>
+    <div className='wizard-overlay'>
+      <div className='wizard-body'>
+        {renderCloseButton()}
+        {onRenderContent(currentStep)}
+        {renderCommand()}
       </div>
-    </>
+    </div>
   );
 };
 
