@@ -29,15 +29,17 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
 
     public async Task<IEnumerable<ProviderVerificationModel>> GetProviderVerification(CriteriaBase criteria)
     {
-        var result = await dynamicRepository.FetchMultipleAsync<EventModel, AgentConfirmModel>(criteria);
+        var result = await dynamicRepository.FetchMultipleAsync<EventModel, AgentConfirmModel, ProviderMatchModel>(criteria);
         var matchInfo = result.Item1.ToList();
         var agentConfirms = result.Item2.ToList();
+        var providerMatches = result.Item3.ToList();
 
-        return await MappingInfo(matchInfo, agentConfirms);
+        return await MappingInfo(matchInfo, agentConfirms, providerMatches);
     }
 
     private async Task<IList<ProviderVerificationModel>> MappingInfo(IList<EventModel> matches,
-        IList<AgentConfirmModel> agentConfirms)
+        IList<AgentConfirmModel> agentConfirms,
+        IList<ProviderMatchModel> providerMatches)
     {
 
         var owpIds = string.Join(",", matches.Select(x => x.OWPMatchId));
@@ -62,6 +64,7 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
                 Home = match.Home,
                 Away = match.Away,
                 LstBookProvider = match.LstBookProvider,
+                InHouseProviderId = string.Join("/", providerMatches.Where(p => p.OWPMatchId == match.OWPMatchId).Select(p => p.ProviderMatchId)),
                 AgentEst = match.AgentEst,
                 RemarkEst = match.RemarkEst,
                 RemarkBy = match.RemarkBy,
