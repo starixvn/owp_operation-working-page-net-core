@@ -33,10 +33,9 @@ const tableSlice = createSlice({
       League: buildMultipleFilterDefault(),
       Match: buildMultipleFilterDefault(),
       LSTBookProvider: buildMultipleFilterDefault(),
-      InhouseProviderID: buildMultipleFilterDefault(),
+      InhouseProviderId: buildMultipleFilterDefault(),
       Remark: buildMultipleFilterDefault(),
       RemarkBy: buildMultipleFilterDefault(),
-      // EstNote: buildMultipleFilterDefault(),
       ConfirmProvider: buildMultipleFilterDefault()
     } as TMultipleFilter
   },

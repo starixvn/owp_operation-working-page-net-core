@@ -48,21 +48,19 @@ const TableBody = ({ dataSource }: { dataSource: TDataSource[] }) => {
           />
 
           <ReadonlyCommonCell
-            className='inhouse-providerID'
-            value={event.InhouseProviderID}
+            className='inhouse-providerId'
+            value={event.InhouseProviderId}
             index={index}
             isCanToolTip={true}
           />
 
-          {/* <ConfirmProviderCell
-            confirmProvider={event.ConfirmProvider.map(a => ({
+          <ConfirmProviderCell
+            confirmProvider={event.AgentConfirm.map(a => ({
               value: a.Value,
               label: a.Label
             }))}
             owpMatchId={event.OWPMatchId}
-          /> */}
-
-          <td></td>
+          />
 
           <ReadonlyCommonCell
             className='remark'

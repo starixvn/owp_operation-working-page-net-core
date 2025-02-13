@@ -51,10 +51,10 @@ const calculateLSTBookProviderOption = (dataSource: TDataSource[]) => {
   })), v => v.label));
 };
 
-const calculateInhouseProviderIDOption = (dataSource: TDataSource[]) => {
+const calculateInhouseProviderIdOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource].map(x => ({
     value: x.OWPMatchId,
-    label: buildLabelItemOption(x.InhouseProviderID)
+    label: buildLabelItemOption(x.InhouseProviderId)
   })), v => v.label));
 };
 
@@ -75,11 +75,6 @@ const calculateConfirmProviderOption = () => {
   const { confirmProviderOption } = store.getState().events;
   return [...confirmProviderOption, { value: -1, label: '(Blanks)' }];
 };
-
-const calculateEstNoteOption = (dataSource: TDataSource[]) => swapBlanks(uniqBy([...dataSource].map(x => ({
-  value: x.EstNote ?? '',
-  label: buildLabelItemOption(x.EstNote)
-})), v => v.value));
 
 
 const swapBlanks = (options: Option[]) => {
@@ -103,8 +98,7 @@ const helper = {
   Remark: (dataSource: TDataSource[]) => calculateRemarkOption(dataSource),
   RemarkBy: (dataSource: TDataSource[]) => calculateRemarkByOption(dataSource),
   ConfirmProvider: (dataSource: TDataSource[]) => calculateConfirmProviderOption(),
-  // EstNote: (dataSource: TDataSource[]) => calculateEstNoteOption(dataSource),
-  InhouseProviderID: (dataSource: TDataSource[]) => calculateInhouseProviderIDOption(dataSource)
+  InhouseProviderId: (dataSource: TDataSource[]) => calculateInhouseProviderIdOption(dataSource)
 };
 
 export default helper;

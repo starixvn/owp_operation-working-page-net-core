@@ -28,8 +28,8 @@ const buildDefaultTableFilter = (dataSource: TDataSource[], confirmProviderOptio
     selected: helper.LSTBookProvider(dataSource),
     isFilter: false
   };
-  tableFilter.InhouseProviderID = {
-    selected: helper.InhouseProviderID(dataSource),
+  tableFilter.InhouseProviderId = {
+    selected: helper.InhouseProviderId(dataSource),
     isFilter: false
   };
   tableFilter.Remark = {
@@ -53,7 +53,7 @@ const executeFilterTable = (dataSource: TDataSource[], tableFilter: TMultipleFil
     League,
     Match,
     LSTBookProvider,
-    InhouseProviderID,
+    InhouseProviderId,
     Remark,
     RemarkBy
   } = tableFilter;
@@ -63,7 +63,7 @@ const executeFilterTable = (dataSource: TDataSource[], tableFilter: TMultipleFil
     && KoTime.selected.some(m => m.label === formatTime(e.EventDateTime, 'minute', 'hh:mm A'))
     && League.selected.some(m => m.label === e.League)
     && LSTBookProvider.selected.some(m => m.label === buildLabelItemOption(e.LSTBookProvider))
-    && InhouseProviderID.selected.some(m => m.label === buildLabelItemOption(e.InhouseProviderID))
+    && InhouseProviderId.selected.some(m => m.label === buildLabelItemOption(e.InhouseProviderId))
     && Remark.selected.some(m => m.label === buildLabelItemOption(e.Remark))
     && RemarkBy.selected.some(m => m.label === buildLabelItemOption(e.RemarkBy)));
 

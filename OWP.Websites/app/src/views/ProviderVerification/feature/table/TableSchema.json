@@ -37,8 +37,8 @@
       "IS_FILTER": true
     },
     {
-      "HEADER_KEY": "InhouseProviderID",
-      "HEADER_NAME": "Inhouse ProviderID",
+      "HEADER_KEY": "InhouseProviderId",
+      "HEADER_NAME": "Inhouse ProviderId",
       "WIDTH": "8%",
       "IS_FILTER": true
     },

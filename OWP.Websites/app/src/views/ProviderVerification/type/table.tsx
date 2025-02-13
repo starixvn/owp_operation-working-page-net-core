@@ -10,7 +10,7 @@ type TConfirmProvider = {
 
 type TDataSource = {
   LSTBookProvider?: string | null;
-  InhouseProviderID?: string | null;
+  InhouseProviderId?: string | null;
   Remark?: string | null;
   RemarkBy?: string | null;
   OWPMatchId: number;
@@ -22,6 +22,7 @@ type TDataSource = {
   Home: string;
   Away: string;
   ConfirmProvider: TConfirmProvider[];
+  AgentConfirm: TConfirmProvider[];
   RowColor: string | undefined;
 } & {
   [key in TEditableKey]: string | undefined;
@@ -67,7 +68,7 @@ type TColumnKey =
   | 'League'
   | 'Match'
   | 'LSTBookProvider'
-  | 'InhouseProviderID'
+  | 'InhouseProviderId'
   | 'ConfirmProvider'
   | 'Remark'
   | 'RemarkBy';

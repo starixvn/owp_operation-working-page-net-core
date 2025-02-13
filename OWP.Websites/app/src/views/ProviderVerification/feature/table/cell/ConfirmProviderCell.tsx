@@ -21,8 +21,8 @@ const ConfirmProviderCell = ({
   const dispatch = useAppDispatch();
 
   const handleOnChange = (event: Option[]) => {
-    const agentSelected = event.map((a: Option) => a.value).join(',');
-    dispatch(saveConfirmProvider({ owpMatchId, agentSelected }));
+    const confirmProviderSelected = event.map((a: Option) => a.value).join(',');
+    dispatch(saveConfirmProvider({ owpMatchId, confirmProviderSelected }));
     dispatch(
       setConfirmProvider({
         owpMatchId,
