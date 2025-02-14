@@ -7,6 +7,7 @@ import CompareAgent from '../summarizeProvider/compare/CompareAgentIcon';
 import MismatchEvent from './MismatchEvent';
 import store from '../../app/storeNative';
 import ConfirmProvider from './ConfirmProvider';
+import EyeIcon from 'mdi-react/EyeIcon';
 
 const Filter = () => {
   const dispatch = useAppDispatch();
@@ -35,6 +36,9 @@ const Filter = () => {
         </div>
       </div>
       <div className='right-control'>
+        <div className='pearl-icon'>
+          <EyeIcon size={30} />
+        </div>
         <CompareAgent />
         <SummarizeProviderIcon />
       </div>

@@ -99,6 +99,12 @@
     position: absolute;
     right: 10px;
     bottom: 10px;
+    display: flex;
+    align-items: center;
+
+    .pearl-icon {
+      margin-right: 16px;
+    }
   }
 
   .icon-condition {
