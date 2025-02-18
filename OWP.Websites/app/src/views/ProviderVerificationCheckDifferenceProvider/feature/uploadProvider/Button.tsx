@@ -1,12 +1,12 @@
 import { useDispatch } from 'react-redux';
-//import { resetResponse, setBackStep, setNextStep, setResetValidationResult } from '../slice/eventUploadSlice';
+import { setBackStep, setNextStep } from './providerUploadSlice';
 
 const BackButton = (props: { onClick?: Function }) => {
   const { onClick } = props;
   const dispatch = useDispatch();
   const handleClick = () => {
     onClick?.();
-    //dispatch(setBackStep());
+    dispatch(setBackStep());
   };
 
   return (
