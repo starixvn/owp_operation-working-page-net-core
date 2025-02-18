@@ -72,7 +72,7 @@ public class BuildRowColorImp : BuildRowColor
         => IsPostponed(match) || IsCancelled(match) || IsSuspended(match);
 
     private static bool IsPostponed(EventPickingModel match)
-        => (!string.IsNullOrEmpty(match.Remark2) && match.Remark2.Contains("Postponed"))
+        => (!string.IsNullOrEmpty(match.Remark2) && match.Remark2.Contains("Postponed", StringComparison.OrdinalIgnoreCase))
             || match.IsPostponed;
 
     private static bool IsCancelled(EventPickingModel match)
