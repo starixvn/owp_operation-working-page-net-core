@@ -142,8 +142,7 @@ public class RepositoryImp : Repository
         var criteria = new QueryUpdateTypeCriteria();
 
         var result = await dynamicRepository.FetchAsync<Option>(criteria);
-
-        return result.ToList();
+        return result.DistinctBy(o => o.Value).ToList();
     }
 
     public async Task<List<LogModel>> GetLog(int infoSiteMatchId)

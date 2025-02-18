@@ -14,7 +14,7 @@ public class EventPickingRequest
 
     public List<int> FilterMatchCategory { get; set; }
 
-    public List<int?> UpdateType { get; set; }
+    public List<string> UpdateType { get; set; }
 
     public Period Period { get; set; }
 }
