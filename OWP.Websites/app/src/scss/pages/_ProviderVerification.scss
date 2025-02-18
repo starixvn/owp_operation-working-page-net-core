@@ -118,6 +118,10 @@
   cursor: pointer;
   width: 18px;
 
+  &:hover {
+    color: #1e88e5;
+  }
+
   &.icon-message {
     fill: #bdbdbd;
     cursor: pointer;

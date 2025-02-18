@@ -17,14 +17,14 @@ const BackButton = (props: { onClick?: Function }) => {
 };
 
 const NextButton = (props: { onValidate?: Function }) => {
-  //const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const { onValidate } = props;
   const handleClick = () => {
     if (!onValidate || onValidate()) {
-      //dispatch(setNextStep());
-      //dispatch(resetResponse());
-      //dispatch(setResetValidationResult());
+      dispatch(setNextStep());
+      // dispatch(resetResponse());
+      // dispatch(setResetValidationResult());
     }
   };
 

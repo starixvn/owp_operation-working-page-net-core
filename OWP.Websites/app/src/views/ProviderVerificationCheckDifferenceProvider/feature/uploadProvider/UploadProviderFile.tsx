@@ -1,12 +1,17 @@
 import { useState, ChangeEvent } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { BackButton, NextButton } from './Button';
 import ToastrWrapper from '../../../components/ToastrWrapper';
+import { validateFile } from '../../../Shared/uploadFile/validationHelper';
+import { setFile } from './providerUploadSlice';
 
 const UPLOAD_PLACEHOLDER = 'Upload file';
 
 const UploadProviderFile = (props: TUploadProviderFile) => {
   const [textInput, setTextInput] = useState(UPLOAD_PLACEHOLDER);
   const [selectedFile, setSelectedFile] = useState<File>();
+
+  const dispatch = useDispatch();
 
   const handleOnChange = async (event: ChangeEvent<HTMLInputElement>) => {
     setTextInput(UPLOAD_PLACEHOLDER);
@@ -16,13 +21,13 @@ const UploadProviderFile = (props: TUploadProviderFile) => {
   };
 
   const validateUploadFile = () => {
-    const message = {}; //validateFile(selectedFile);
+    const message = validateFile(selectedFile);
     if (message) {
       ToastrWrapper.showError(message);
       return false;
     }
-    // TODO
-    //dispatch(setFile(selectedFile));
+
+    dispatch(setFile(selectedFile));
 
     return true;
   };

@@ -23,6 +23,10 @@ const Filter = () => {
 
   useEffect(handleSearch, []);
 
+  const handleClick = () => {
+      window.open('/CheckDifferenceProviderId')
+  };
+
   return (
     <div className='top-control'>
       <div className='left-control'>
@@ -36,8 +40,8 @@ const Filter = () => {
         </div>
       </div>
       <div className='right-control'>
-        <div className='pearl-icon'>
-          <EyeIcon size={30} />
+        <div className='pearl-icon' onClick={handleClick}>
+          <EyeIcon size={30}/>
         </div>
         <CompareAgent />
         <SummarizeProviderIcon />

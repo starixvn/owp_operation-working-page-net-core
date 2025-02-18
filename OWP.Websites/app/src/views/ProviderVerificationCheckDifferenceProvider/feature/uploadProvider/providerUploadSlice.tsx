@@ -21,7 +21,8 @@ const eventUploadSlice = createSlice({
   name: 'eventUploadSlice',
   initialState: {
     isLoading: false,
-    currentStep: 1
+    currentStep: 1,
+    file: null
     //validationResponse: validationResultDefault,
     //submitResponse: { isSuccessful: false, message: '' } as SubmitResponse
   },
@@ -34,7 +35,10 @@ const eventUploadSlice = createSlice({
     },
     setStep: (state, action: PayloadAction<number>) => {
       state.currentStep = action.payload;
-    }
+    },
+    setFile: (state, { payload }) => {
+      state.file = payload;
+    },
   },
   extraReducers: builder => {
     /*  builder.addCase(uploadEventThunk.pending, state => {
@@ -57,8 +61,8 @@ const eventUploadSlice = createSlice({
 });
 
 const { reducer, actions } = eventUploadSlice;
-const { setNextStep, setBackStep, setStep } = actions;
+  const { setNextStep, setBackStep, setStep, setFile } = actions;
 
-export { setNextStep, setBackStep, setStep };
+export { setNextStep, setBackStep, setStep, setFile };
 
 export default reducer;
