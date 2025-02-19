@@ -23,8 +23,7 @@ public class ExportExcelHandler : IRequestHandler<ExportExcelRequest, FileResult
     {
         var matches = await queryEventPickingService.Execute(request);
         var mainMatches = ExcelFilterHelper.ExcludeChildMatch(matches);
-        var excludedDeletedMatches = ExcelFilterHelper.ExcludeMatchesDeletedToday(mainMatches, request.Date);
-        var filterMatchesByIncludeText = ExcelFilterHelper.FilterLeagueName(excludedDeletedMatches, ReportConstant.HomeTeamAwayTeam);
+        var filterMatchesByIncludeText = ExcelFilterHelper.FilterLeagueName(mainMatches, ReportConstant.HomeTeamAwayTeam);
 
         return await exportService.BuildFileStream(filterMatchesByIncludeText, false);
     }

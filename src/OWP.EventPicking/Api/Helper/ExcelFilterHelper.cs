@@ -52,12 +52,6 @@ public static class ExcelFilterHelper
         return matchesData;
     }
 
-    public static IList<EventPickingModel> ExcludeMatchesDeletedToday(IList<EventPickingModel> matches, DateTime requestDate)
-    {
-        var isRemoveDeletedMatch = requestDate == DateTime.Now.Date;
-        return isRemoveDeletedMatch ? matches.Where(match => !match.IsDeleted).ToList() : matches;
-    }
-
     public static IList<EventPickingModel> FilterLeagueName(IList<EventPickingModel> matches, string includeText)
     {
         return matches.Where(match => !match.LeagueName.ToLowerInvariant().Contains(includeText.ToLowerInvariant())).ToList();
