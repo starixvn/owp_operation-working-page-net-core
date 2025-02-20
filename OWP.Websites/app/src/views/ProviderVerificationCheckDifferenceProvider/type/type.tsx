@@ -9,3 +9,17 @@ type TUploadProviderFile = {
 type TReview = {
   key: number;
 };
+
+type ValidationResponse = {
+  hasError: boolean;
+  sessionId: string;
+  recordCount: number;
+  validationResults: Array<MessageResponse>;
+  isSuccessful: boolean;
+  exception: string;
+};
+
+type MessageResponse = {
+  row: number;
+  message: string;
+};

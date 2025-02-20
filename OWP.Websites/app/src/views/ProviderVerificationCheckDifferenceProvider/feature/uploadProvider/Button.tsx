@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { setBackStep, setNextStep } from './providerUploadSlice';
+import { resetResponse, setBackStep, setNextStep, setResetValidationResult } from './providerUploadSlice';
 
 const BackButton = (props: { onClick?: Function }) => {
   const { onClick } = props;
@@ -18,13 +18,12 @@ const BackButton = (props: { onClick?: Function }) => {
 
 const NextButton = (props: { onValidate?: Function }) => {
   const dispatch = useDispatch();
-
   const { onValidate } = props;
   const handleClick = () => {
     if (!onValidate || onValidate()) {
       dispatch(setNextStep());
-      // dispatch(resetResponse());
-      // dispatch(setResetValidationResult());
+      dispatch(resetResponse());
+      dispatch(setResetValidationResult());
     }
   };
 

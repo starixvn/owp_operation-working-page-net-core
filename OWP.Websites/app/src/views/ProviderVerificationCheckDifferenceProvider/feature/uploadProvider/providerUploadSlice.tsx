@@ -1,30 +1,29 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-/* import {
+import {
   SubmitResponse,
   UploadRequest,
   ValidationResponse
-} from '../../typeNative'; */
-//import { submitEventThunk, uploadEventThunk } from './eventUploadServiceNative';
+} from '../../type/type';
 
-/* const validationResultDefault = {
+const validationResultDefault = {
   hasError: false,
   sessionId: '',
   recordCount: 0,
   validationResults: [],
   isSuccessful: false,
   exception: ''
-} as ValidationResponse; */
+} as ValidationResponse;
 
 const eventUploadSlice = createSlice({
   name: 'eventUploadSlice',
   initialState: {
     isLoading: false,
     currentStep: 1,
-    file: null
-    //validationResponse: validationResultDefault,
-    //submitResponse: { isSuccessful: false, message: '' } as SubmitResponse
+    file: null,
+    validationResponse: validationResultDefault,
+    submitResponse: { isSuccessful: false, message: '' } as SubmitResponse
   },
   reducers: {
     setNextStep: state => {
@@ -39,6 +38,12 @@ const eventUploadSlice = createSlice({
     setFile: (state, { payload }) => {
       state.file = payload;
     },
+    setResetValidationResult: state => {
+      state.validationResponse = validationResultDefault;
+    },
+    resetResponse: state => {
+      state.submitResponse = { isSuccessful: false, message: '' };
+    }
   },
   extraReducers: builder => {
     /*  builder.addCase(uploadEventThunk.pending, state => {
@@ -61,8 +66,8 @@ const eventUploadSlice = createSlice({
 });
 
 const { reducer, actions } = eventUploadSlice;
-  const { setNextStep, setBackStep, setStep, setFile } = actions;
+  const { setNextStep, setBackStep, setStep, setFile, resetResponse, setResetValidationResult } = actions;
 
-export { setNextStep, setBackStep, setStep, setFile };
+export { setNextStep, setBackStep, setStep, setFile, resetResponse, setResetValidationResult };
 
 export default reducer;

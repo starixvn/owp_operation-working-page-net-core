@@ -9,7 +9,7 @@ const ProviderUpload = () => {
   const currentStep = useAppSelector(state => state.upload.currentStep);
 
   useEffect(() => {
-    //dispatch(setEventDate(buildDateString(defaultDate)));
+    // dispatch(setEventDate(buildDateString(defaultDate)));
   }, []);
 
   const wizardContent = [
