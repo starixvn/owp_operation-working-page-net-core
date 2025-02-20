@@ -3,12 +3,14 @@ using OWP.EventPicking.Api.Criteria;
 using OWP.EventPicking.Api.Helper;
 using OWP.EventPicking.Api.Middleware.Models;
 using OWP.EventPicking.Api.Models;
+using System.Linq;
 
 namespace OWP.EventPicking.Api.Services;
 
 public interface QueryEventPickingService
 {
-    Task<EventPickingResult> Execute(EventPickingRequest request);
+
+    Task<EventPickingResult> Execute(EventPickingRequest request, IList<int> excludeUpdateType);
 }
 
 public class QueryEventPickingServiceImp : QueryEventPickingService
@@ -28,7 +30,7 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
         this.tGRSService = tGRSService;
     }
 
-    public async Task<EventPickingResult> Execute(EventPickingRequest request)
+    public async Task<EventPickingResult> Execute(EventPickingRequest request, IList<int> excludeUpdateType)
     {
         var matches = await buildMainAndChildMatches.GetMainEvent(request.Date);
         var eventPickingPolicy = permissionService.GetPermissions(FunctionKeys.EventPickingNew);
@@ -47,8 +49,8 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
 
         return new EventPickingResult
         {
-            MatchesByDate = SelectMatchOfferInfos(matches),
-            FilteredMatches = allMatches
+            MatchesByDate = SelectMatchOfferInfos(ExcludeUpdateType(matches, excludeUpdateType)),
+            FilteredMatches = ExcludeUpdateType(allMatches,excludeUpdateType)
         };
     }
 
@@ -170,7 +172,14 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
             .Any(gr => condition.UpdateType.Exists(ut => ut == gr));
     }
 
-
+    private static List<EventPickingModel> ExcludeUpdateType(List<EventPickingModel> eventPicking, IList<int> excludeUpdateType)
+    {
+        foreach (var @event in eventPicking)
+        {
+            @event.RAndDInfo = @event.RAndDInfo.Where(e => excludeUpdateType.All(t => t != e.UpdateTypeId)).ToList();
+        }
+        return eventPicking;
+    }
     private static int ConvertBoolToInt(bool value) => value ? 1 : 0;
 
     private static List<MatchOfferInfo> SelectMatchOfferInfos(List<EventPickingModel> matches)
