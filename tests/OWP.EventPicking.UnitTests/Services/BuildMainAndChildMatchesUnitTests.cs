@@ -1,7 +1,6 @@
 using MediatR;
 using NSubstitute;
-using OWP.MaxbetSetting.Handlers;
-using OWP.MaxbetSetting.Models;
+using OWP.Services;
 using Xunit;
 
 namespace OWP.EventPicking.UnitTests.Services;
@@ -15,7 +14,7 @@ using Xunit.Asserts.Compare;
 public class BuildMainAndChildMatchesUnitTests
 {
     private readonly Repository repository;
-    private readonly IMediator mediator;
+    private readonly MaxbetSettingService maxbetSettingService;
     private readonly IOptions<AppSettings> appSettingOptions;
     private readonly BuildMainAndChildMatchesImp services;
 
@@ -24,7 +23,7 @@ public class BuildMainAndChildMatchesUnitTests
         repository = Substitute.For<Repository>();
         var buildChildMatchMaxBet = Substitute.For<BuildChildMatchMaxBet>();
         var buildRowColor = Substitute.For<BuildRowColor>();
-        mediator = Substitute.For<IMediator>();
+        maxbetSettingService = Substitute.For<MaxbetSettingService>();
         appSettingOptions = Substitute.For<IOptions<AppSettings>>();
         var buildMatchOffer = Substitute.For<BuildMatchOfferByLiveSetting>();
         var providerBuilder = Substitute.For<BuildProvider>();
@@ -35,8 +34,7 @@ public class BuildMainAndChildMatchesUnitTests
             buildRowColor,
             buildMatchOffer,
             providerBuilder,
-            mediator,
-            appSettingOptions);
+            appSettingOptions, maxbetSettingService);
     }
 
     [Fact]
@@ -57,7 +55,7 @@ public class BuildMainAndChildMatchesUnitTests
             new() {FT_HDP = 3000, TotalBooking_FT_HDP = 300, TotalBooking_FT_OU = 100, SecondAccept_TotalBooking = "12s Accept"},
             new() {FT_HDP = -1000, NextCorner_FT_HDP = 200, NextBooking_FT_HDP = 333}
         };
-        mediator.Send(Arg.Any<QueryMaxbetSettingRequest>()).Returns(maxbetSettings);
+        maxbetSettingService.QueryMaxbetSetting().Returns(maxbetSettings);
 
         var actual = await services.GetMainAndChildMatchEvent(new DateTime(2022, 11, 06));
         DeepAssert.Equal(ExpectedMatches(), actual);

@@ -1,6 +1,6 @@
 ﻿using OWP.Constants;
 using OWP.EventPicking.Api.Models;
-using OWP.MaxbetSetting.Models;
+using OWP.Models;
 
 namespace OWP.EventPicking.Api.Services;
 

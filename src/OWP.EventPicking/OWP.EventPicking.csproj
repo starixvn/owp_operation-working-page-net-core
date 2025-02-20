@@ -16,7 +16,6 @@
     <PackageReference Include="Olympus.Xml" Version="1.0.0.5" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OWP.MaxbetSetting\OWP.MaxbetSetting.csproj" />
     <ProjectReference Include="..\OWP\OWP.csproj" />
   </ItemGroup>
 </Project>

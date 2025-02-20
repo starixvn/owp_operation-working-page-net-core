@@ -1,8 +1,6 @@
 using Microsoft.Extensions.Options;
 using OWP.EventPicking.Api.Helper;
 using OWP.EventPicking.Api.Models;
-using OWP.MaxbetSetting.Handlers;
-using OWP.MaxbetSetting.Models;
 using OWP.Models;
 
 namespace OWP.EventPicking.Api.Services;
@@ -24,7 +22,7 @@ public class BuildMainAndChildMatchesImp: BuildMainAndChildMatches
     private readonly BuildRowColor buildRowColor;
     private readonly BuildMatchOfferByLiveSetting buildMatchOffer;
     private readonly BuildProvider buildProvider;
-    private readonly IMediator mediator;
+    private readonly MaxbetSettingService maxbetSettingService;
 
     public BuildMainAndChildMatchesImp(
         Repository repository,
@@ -32,8 +30,8 @@ public class BuildMainAndChildMatchesImp: BuildMainAndChildMatches
         BuildRowColor buildRowColor,
         BuildMatchOfferByLiveSetting buildMatchOffer,
         BuildProvider buildProvider,
-        IMediator mediator,
-        IOptions<AppSettings> appSettingOptions)
+        IOptions<AppSettings> appSettingOptions,
+        MaxbetSettingService maxbetSettingService)
     {
         appSettings = appSettingOptions.Value;
         this.repository = repository;
@@ -41,7 +39,7 @@ public class BuildMainAndChildMatchesImp: BuildMainAndChildMatches
         this.buildRowColor = buildRowColor;
         this.buildMatchOffer = buildMatchOffer;
         this.buildProvider = buildProvider;
-        this.mediator = mediator;
+        this.maxbetSettingService = maxbetSettingService;
     }
 
     public async Task<List<EventPickingModel>> GetMainAndChildMatchEvent(DateTime date)
@@ -101,7 +99,7 @@ public class BuildMainAndChildMatchesImp: BuildMainAndChildMatches
 
     private async Task<Dictionary<decimal, MaxBetSettingModel>> GetMaxBetDefaultSetting()
     {
-        var maxBet = await mediator.Send(new QueryMaxbetSettingRequest());
+        var maxBet = await maxbetSettingService.QueryMaxbetSetting();
         return maxBet.ToDictionary(x => x.FT_HDP);
     }
 }

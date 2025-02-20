@@ -1,4 +1,4 @@
-﻿namespace OWP.MaxbetSetting.Models;
+﻿namespace OWP.Models;
 
 public class MaxBetSettingModel
 {
