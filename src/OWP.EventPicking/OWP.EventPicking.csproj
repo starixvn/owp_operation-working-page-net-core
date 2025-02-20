@@ -12,8 +12,8 @@
     <PackageReference Include="EPPlus" Version="7.5.3" />
     <PackageReference Include="Epplus.Mapper" Version="7.5.0" />
     <PackageReference Include="Fanex.NAP.Client" Version="2.0.2" />
+    <PackageReference Include="Olympus.OWP.Constants" Version="9.0.0.5" />
     <PackageReference Include="Olympus.Xml" Version="1.0.0.5" />
-    <PackageReference Include="olympus.OWP.Constants" Version="9.0.0.3" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OWP.MaxbetSetting\OWP.MaxbetSetting.csproj" />

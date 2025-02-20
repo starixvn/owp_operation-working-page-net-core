@@ -41,6 +41,7 @@ public static class ExcelColorHelper
             FillColor(matches[i], row, templateSheet, Misc.Constant.IPTV_COL_INDEX, UpdateTypeConstant.UPDATE_IPTV, UpdateTypeConstant.CANCEL_IPTV);
             FillColor(matches[i], row, templateSheet, Misc.Constant.ROUND_COL_INDEX, UpdateTypeConstant.UPDATE_ROUND, UpdateTypeConstant.CANCEL_ROUND);
             FillColor(matches[i], row, templateSheet, Misc.Constant.REMARK_COL_INDEX, UpdateTypeConstant.UPDATE_REMARK, UpdateTypeConstant.CANCEL_REMARK);
+            FillColor(matches[i], row, templateSheet, Misc.Constant.REMARK2_COL_INDEX, UpdateTypeConstant.UPDATE_REMARK2, UpdateTypeConstant.CANCEL_REMARK2);
             FillColor(matches[i], row, templateSheet, Misc.Constant.HOME_REMARK_COL_INDEX, UpdateTypeConstant.UPDATE_HOME_REMARK, UpdateTypeConstant.CANCEL_HOME_REMARK);
             FillColor(matches[i], row, templateSheet, Misc.Constant.AWAY_REMARK_COL_INDEX, UpdateTypeConstant.UPDATE_AWAY_REMARK, UpdateTypeConstant.CANCEL_AWAY_REMARK);
             FillColor(matches[i], row, templateSheet, Misc.Constant.OTHER_PROVIDER_COL_INDEX, UpdateTypeConstant.UPDATE_OTHER_PROVIDER, UpdateTypeConstant.CANCEL_OTHER_PROVIDER);
