@@ -344,6 +344,7 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
     public bool IsAwayBadRanking { get; set; }
     public bool IsHomeDowngrade { get; set; }
     public bool IsAwayDowngrade { get; set; }
+    public bool IsPostponed{ get; set; }
     public byte? InfoSiteMatchStatus { get; set; }
 
     public IEnumerable<TurnOverInfo> TurnoverPeriod => new List<TurnOverInfo>{

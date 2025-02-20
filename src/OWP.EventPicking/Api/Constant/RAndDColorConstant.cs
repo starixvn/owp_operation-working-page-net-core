@@ -62,6 +62,7 @@ public static class RAndDColorConstant
     public const short CANCEL_ETPK = 49;
     public const short UPDATE_NEUTRAL = 50;
     public const short CANCEL_NEUTRAL = 51;
+    public const short MATCH_SUSPENDED = 52;
 
     public static readonly ImmutableDictionary<int, (string, string)> MAP_R_AND_D_COLOR = new Dictionary<int, (string, string)>
     {
@@ -115,6 +116,7 @@ public static class RAndDColorConstant
         {UPDATE_ETPK, (UPDATE_COLOR, GREEN)},
         {CANCEL_ETPK, (CANCEL_COLOR, WHITE)},
         {UPDATE_NEUTRAL, (UPDATE_COLOR, GREEN)},
-        {CANCEL_NEUTRAL, (CANCEL_COLOR, WHITE)}
+        {CANCEL_NEUTRAL, (CANCEL_COLOR, WHITE)},
+        {MATCH_SUSPENDED, (CANCEL_COLOR, WHITE)}
     }.ToImmutableDictionary();
 }

@@ -88,6 +88,10 @@ public static class ExcelColorHelper
         {
             remarkBuilder.Insert(0, "[CANCELLED] ");
         }
+        else if (IsSuspended(match))
+        {
+            remarkBuilder.Insert(0, "[SUSPENDED] ");
+        }
 
         if (remarkBuilder.Length > 0)
         {
@@ -167,8 +171,7 @@ public static class ExcelColorHelper
     private static bool IsPostponed(EventPickingModel match)
     {
         return (!string.IsNullOrEmpty(match.Remark2) &&
-                 match.Remark2.Contains("Postponed", StringComparison.OrdinalIgnoreCase))
-                || match.InfoSiteMatchStatus == InfoSiteMatchStatus.Postponed;
+                 match.Remark2.Contains("Postponed", StringComparison.OrdinalIgnoreCase)) || match.IsPostponed;
     }
 
     private static bool IsCancelled(EventPickingModel match)
@@ -176,5 +179,10 @@ public static class ExcelColorHelper
         return (!string.IsNullOrEmpty(match.Remark2) &&
                  match.Remark2.Contains("Cancel", StringComparison.OrdinalIgnoreCase))
                 || match.InfoSiteMatchStatus == InfoSiteMatchStatus.Cancelled;
+    }
+
+    private static bool IsSuspended(EventPickingModel match)
+    {
+        return match.InfoSiteMatchStatus == InfoSiteMatchStatus.Suspended;
     }
 }

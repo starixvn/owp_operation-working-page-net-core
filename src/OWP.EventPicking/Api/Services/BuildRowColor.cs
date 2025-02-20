@@ -65,14 +65,20 @@ public class BuildRowColorImp : BuildRowColor
 
     private bool IsEventStateChanged(EventPickingModel x)
     {
-        return x.IsMovedEventDate || x.IsDeleted || IsPostponed(x) || IsCancelled(x);
+        return x.IsMovedEventDate || x.IsDeleted || IsMatchStatusChanged(x);
     }
 
+    private static bool IsMatchStatusChanged(EventPickingModel match)
+        => IsPostponed(match) || IsCancelled(match) || IsSuspended(match);
+
     private static bool IsPostponed(EventPickingModel match)
-        => (!string.IsNullOrEmpty(match.Remark2) && match.Remark2.Contains("Postponed"))
-            || match.InfoSiteMatchStatus == InfoSiteMatchStatus.Postponed;
+        => (!string.IsNullOrEmpty(match.Remark2) && match.Remark2.Contains("Postponed", StringComparison.OrdinalIgnoreCase))
+            || match.IsPostponed;
 
     private static bool IsCancelled(EventPickingModel match)
         => (!string.IsNullOrEmpty(match.Remark2) && match.Remark2.Contains("Cancel", StringComparison.OrdinalIgnoreCase))
             || match.InfoSiteMatchStatus == InfoSiteMatchStatus.Cancelled;
+
+    private static bool IsSuspended(EventPickingModel match)
+        => match.InfoSiteMatchStatus == InfoSiteMatchStatus.Suspended;
 }
