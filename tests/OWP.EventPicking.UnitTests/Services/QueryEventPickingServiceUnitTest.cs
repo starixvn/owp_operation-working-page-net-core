@@ -78,7 +78,7 @@ public class QueryEventPickingServiceImpTests
                 }, true)));
 
         // Act
-        var result = await _service.Execute(request,new List<int>() );
+        var result = await _service.Execute(request,new List<short>() );
 
         // Assert
         Assert.NotNull(result);

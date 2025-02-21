@@ -20,7 +20,7 @@ public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, 
 
     public async Task<EventPickingResult> Handle(EditEventPickingRequest request, CancellationToken cancellationToken)
     {
-        var mainMatches = await service.Execute(request, new List<int>());
+        var mainMatches = await service.Execute(request, new List<short>());
 
         var matchFiltered = mainMatches.FilteredMatches;
 

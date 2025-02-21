@@ -21,7 +21,7 @@ public class ExportExcelHandler : IRequestHandler<ExportExcelRequest, FileResult
 
     public async Task<FileResult> Handle(ExportExcelRequest request, CancellationToken cancellationToken)
     {
-        var matches = await queryEventPickingService.Execute(request, new List<int>());
+        var matches = await queryEventPickingService.Execute(request, new List<short>());
         var mainMatches = ExcelFilterHelper.ExcludeChildMatch(matches);
         var filterMatchesByIncludeText = ExcelFilterHelper.FilterLeagueName(mainMatches, ReportConstant.HomeTeamAwayTeam);
 

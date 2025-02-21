@@ -10,7 +10,7 @@ namespace OWP.EventPicking.Api.Services;
 public interface QueryEventPickingService
 {
 
-    Task<EventPickingResult> Execute(EventPickingRequest request, IList<int> excludeUpdateType);
+    Task<EventPickingResult> Execute(EventPickingRequest request, IList<short> excludeUpdateType);
 }
 
 public class QueryEventPickingServiceImp : QueryEventPickingService
@@ -30,7 +30,7 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
         this.tGRSService = tGRSService;
     }
 
-    public async Task<EventPickingResult> Execute(EventPickingRequest request, IList<int> excludeUpdateType)
+    public async Task<EventPickingResult> Execute(EventPickingRequest request, IList<short> excludeUpdateType)
     {
         var matches = await buildMainAndChildMatches.GetMainEvent(request.Date);
         var eventPickingPolicy = permissionService.GetPermissions(FunctionKeys.EventPickingNew);
@@ -172,7 +172,7 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
             .Any(gr => condition.UpdateType.Exists(ut => ut == gr));
     }
 
-    private static List<EventPickingModel> ExcludeUpdateType(List<EventPickingModel> eventPicking, IList<int> excludeUpdateType)
+    private static List<EventPickingModel> ExcludeUpdateType(List<EventPickingModel> eventPicking, IList<short> excludeUpdateType)
     {
         foreach (var @event in eventPicking)
         {
