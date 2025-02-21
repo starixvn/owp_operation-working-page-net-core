@@ -78,6 +78,12 @@ public static class ExcelColorHelper
             remarkBuilder.Insert(0, "[NEW ADD]");
         }
 
+        if (ExistsUpdateType(match, UpdateTypeConstant.RENEW_MATCH))
+        {
+            remarkBuilder.Insert(0, "[Move KO Date] ");
+            remarkBuilder.Insert(0, "[Renew Match] ");
+        }
+
         if (match.IsDeleted)
         {
             remarkBuilder.Insert(0, "[DELETED MATCH] ");
