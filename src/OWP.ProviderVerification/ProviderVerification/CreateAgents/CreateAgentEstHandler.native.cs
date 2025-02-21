@@ -1,4 +1,4 @@
-namespace OWP.ProviderVerification.ProviderVerification.Agents.createAgents;
+namespace OWP.ProviderVerification.ProviderVerification.createAgents;
 
 public record CreateAgentEstRequest(int OwpMatchId, string EstAgent) : Command<Unit>;
 

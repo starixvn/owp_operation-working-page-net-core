@@ -1,4 +1,4 @@
-namespace OWP.ProviderVerification.ProviderVerification.Agents.QueryAgents;
+namespace OWP.ProviderVerification.ProviderVerification.QueryAgents;
 
 public record QueryAgentOptionRequest : Query<IEnumerable<AgentOption>>;
 
