@@ -10,7 +10,7 @@ namespace OWP.EventPicking.Api.Services;
 public interface QueryEventPickingService
 {
 
-    Task<EventPickingResult> Execute(EventPickingRequest request, IList<short> excludeUpdateType);
+    Task<EventPickingResult> Execute(EventPickingRequest request, IList<short> excludedUpdateTypes);
 }
 
 public class QueryEventPickingServiceImp : QueryEventPickingService
@@ -30,7 +30,7 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
         this.tGRSService = tGRSService;
     }
 
-    public async Task<EventPickingResult> Execute(EventPickingRequest request, IList<short> excludeUpdateType)
+    public async Task<EventPickingResult> Execute(EventPickingRequest request, IList<short> excludedUpdateTypes)
     {
         var matches = await buildMainAndChildMatches.GetMainEvent(request.Date);
         var eventPickingPolicy = permissionService.GetPermissions(FunctionKeys.EventPickingNew);
@@ -49,8 +49,8 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
 
         return new EventPickingResult
         {
-            MatchesByDate = SelectMatchOfferInfos(ExcludeUpdateType(matches, excludeUpdateType)),
-            FilteredMatches = ExcludeUpdateType(allMatches,excludeUpdateType)
+            MatchesByDate = SelectMatchOfferInfos(ExcludeUpdateType(matches, excludedUpdateTypes)),
+            FilteredMatches = ExcludeUpdateType(allMatches,excludedUpdateTypes)
         };
     }
 
@@ -161,7 +161,7 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
 
     private static bool CheckUpdateType(EventPickingModel match, EventPickingRequest condition)
     {
-        if (condition.UpdateType.Any(string.IsNullOrEmpty) && match.RAndDInfo.Count == 0)
+        if (condition.UpdateType.Exists(string.IsNullOrEmpty) && match.RAndDInfo.Count == 0)
         {
             return true;
         }
@@ -172,11 +172,11 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
             .Any(gr => condition.UpdateType.Exists(ut => ut == gr));
     }
 
-    private static List<EventPickingModel> ExcludeUpdateType(List<EventPickingModel> eventPicking, IList<short> excludeUpdateType)
+    private static List<EventPickingModel> ExcludeUpdateType(List<EventPickingModel> eventPicking, IList<short> excludedUpdateTypes)
     {
         foreach (var @event in eventPicking)
         {
-            @event.RAndDInfo = @event.RAndDInfo.Where(e => excludeUpdateType.All(t => t != e.UpdateTypeId)).ToList();
+            @event.RAndDInfo = @event.RAndDInfo.Where(e => excludedUpdateTypes.All(t => t != e.UpdateTypeId)).ToList();
         }
         return eventPicking;
     }

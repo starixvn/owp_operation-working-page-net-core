@@ -10,7 +10,7 @@ public class QueryEventPickingRequest : EventPickingRequest, IRequest<EventPicki
 public class QueryEventPickingHandler(QueryEventPickingService queryEventPickingService)
     : IRequestHandler<QueryEventPickingRequest, EventPickingResult>
 {
-    private static readonly short[] _updateTypes = [
+    private static readonly short[] _excludedUpdateTypes = [
         UpdateTypeConstant.UPDATE_REMARK2,
         UpdateTypeConstant.CANCEL_REMARK2,
         UpdateTypeConstant.UPDATE_WEB1,
@@ -26,5 +26,5 @@ public class QueryEventPickingHandler(QueryEventPickingService queryEventPicking
     ];
 
     public async Task<EventPickingResult> Handle(QueryEventPickingRequest request, CancellationToken cancellationToken)
-    => await queryEventPickingService.Execute(request, _updateTypes);
+    => await queryEventPickingService.Execute(request, _excludedUpdateTypes);
 }
