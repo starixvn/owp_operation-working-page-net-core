@@ -1,0 +1,74 @@
+{
+  "TABLE_HEADER": [
+    {
+      "HEADER_KEY": "MatchNo",
+      "HEADER_NAME": "No #",
+      "WIDTH": "4%",
+      "IS_FILTER": true
+    },
+    {
+      "HEADER_KEY": "KoTime",
+      "HEADER_NAME": "KO time",
+      "WIDTH": "5%",
+      "IS_FILTER": true
+    },
+    {
+      "HEADER_KEY": "League",
+      "HEADER_NAME": "League",
+      "WIDTH": "12.5%",
+      "IS_FILTER": true
+    },
+    {
+      "HEADER_KEY": "Match",
+      "HEADER_NAME": "Match",
+      "WIDTH": "13%",
+      "IS_FILTER": true
+    },
+    {
+      "HEADER_KEY": "LSTBookProvider",
+      "HEADER_NAME": "LST Book Provider",
+      "WIDTH": "8%",
+      "IS_FILTER": true
+    },
+    {
+      "HEADER_KEY": "InhouseProviderId",
+      "HEADER_NAME": "Inhouse ProviderId",
+      "WIDTH": "8%",
+      "IS_FILTER": true
+    },
+    {
+      "HEADER_KEY": "ProviderId",
+      "HEADER_NAME": "ProviderID",
+      "WIDTH": "8%",
+      "IS_FILTER": true
+    },
+    {
+      "HEADER_KEY": "Provider",
+      "HEADER_NAME": "Provider",
+      "WIDTH": "8%",
+      "IS_FILTER": true
+    },
+    {
+      "HEADER_KEY": "ConfirmProvider",
+      "HEADER_NAME": "Confirm Provider",
+      "WIDTH": "9%",
+      "IS_FILTER": true
+    },
+    {
+      "HEADER_KEY": "Remark",
+      "HEADER_NAME": "Remark",
+      "WIDTH": "8%",
+      "IS_FILTER": true
+    },
+    {
+      "HEADER_KEY": "RemarkBy",
+      "HEADER_NAME": "Remark by",
+      "WIDTH": "7%",
+      "IS_FILTER": true
+    },
+    {
+      "HEADER_NAME": "Ticket",
+      "WIDTH": "3%"
+    }
+  ]
+}

@@ -10,6 +10,10 @@ type TReview = {
   key: number;
 };
 
+type UploadRequest = {
+  file: File;
+};
+
 type ValidationResponse = {
   hasError: boolean;
   sessionId: string;

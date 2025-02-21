@@ -5,7 +5,8 @@ import {
   SubmitResponse,
   UploadRequest,
   ValidationResponse
-} from '../../type/type';
+} from '../../type/typeNative';
+import { uploadProviderThunk, submitProviderThunk } from './providerUploadServiceNative';
 
 const validationResultDefault = {
   hasError: false,
@@ -46,28 +47,44 @@ const eventUploadSlice = createSlice({
     }
   },
   extraReducers: builder => {
-    /*  builder.addCase(uploadEventThunk.pending, state => {
+    builder.addCase(uploadProviderThunk.pending, state => {
       state.isLoading = true;
     })
-    .addCase(uploadEventThunk.fulfilled, (state, { payload }) => {
-      state.validationResponse = payload;
-      state.isLoading = false;
-    }).addCase(uploadEventThunk.rejected, state => {
-      state.isLoading = false;
-    }).addCase(submitEventThunk.pending, state => {
-      state.isLoading = true;
-    }).addCase(submitEventThunk.fulfilled, (state, { payload }) => {
-      state.submitResponse = payload;
-      state.isLoading = false;
-    }).addCase(submitEventThunk.rejected, state => {
-      state.isLoading = false;
-    }); */
+      .addCase(uploadProviderThunk.fulfilled, (state, { payload }) => {
+        state.validationResponse = payload;
+        state.isLoading = false;
+      }).addCase(uploadProviderThunk.rejected, state => {
+        state.isLoading = false;
+      }).addCase(submitProviderThunk.pending, state => {
+        state.isLoading = true;
+      }).addCase(submitProviderThunk.fulfilled, (state, { payload }) => {
+        state.submitResponse = payload;
+        state.isLoading = false;
+      }).addCase(submitProviderThunk.rejected, state => {
+        state.isLoading = false;
+      });
   }
 });
 
 const { reducer, actions } = eventUploadSlice;
-  const { setNextStep, setBackStep, setStep, setFile, resetResponse, setResetValidationResult } = actions;
+const {
+  setNextStep,
+  setBackStep,
+  setStep,
+  setFile,
+  resetResponse,
+  setResetValidationResult
+} = actions;
 
-export { setNextStep, setBackStep, setStep, setFile, resetResponse, setResetValidationResult };
+export {
+  setNextStep,
+  setBackStep,
+  setStep,
+  setFile,
+  resetResponse,
+  setResetValidationResult,
+  uploadProviderThunk,
+  submitProviderThunk
+};
 
 export default reducer;
