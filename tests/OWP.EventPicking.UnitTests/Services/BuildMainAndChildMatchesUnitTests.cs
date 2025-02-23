@@ -24,9 +24,15 @@ public class BuildMainAndChildMatchesUnitTests
         var buildChildMatchMaxBet = Substitute.For<BuildChildMatchMaxBet>();
         var buildRowColor = Substitute.For<BuildRowColor>();
         maxbetSettingService = Substitute.For<MaxbetSettingService>();
-        appSettingOptions = Substitute.For<IOptions<AppSettings>>();
         var buildMatchOffer = Substitute.For<BuildMatchOfferByLiveSetting>();
         var providerBuilder = Substitute.For<BuildProvider>();
+        var appSettings = new AppSettings
+        {
+            ShowTestMatchEventPicking = false
+        };
+
+        appSettingOptions = Substitute.For<IOptions<AppSettings>>();
+        appSettingOptions.Value.Returns(appSettings);
 
         services = new BuildMainAndChildMatchesImp(
             repository,
@@ -34,7 +40,8 @@ public class BuildMainAndChildMatchesUnitTests
             buildRowColor,
             buildMatchOffer,
             providerBuilder,
-            appSettingOptions, maxbetSettingService);
+            appSettingOptions, 
+            maxbetSettingService);
     }
 
     [Fact]
