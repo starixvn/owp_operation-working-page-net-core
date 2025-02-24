@@ -41,8 +41,32 @@ const getConfirmProvider = createAsyncThunk(
 
 const saveConfirmProvider = createAsyncThunk(
   'provider-verification/save-confirm-provider',
-  async (data: { owpMatchId: number; confirmProviderSelected: string }) => {
+  async (data: { owpMatchId: number; confirmProviderSelected: string; }) => {
     const url = getUrl('save-confirm-provider');
+    const prop = {
+      url,
+      ...data
+    };
+    return post(prop);
+  }
+);
+
+const saveRemark = createAsyncThunk(
+  'provider-verification/save-remark',
+  async (data: { owpMatchId: number; remark: string | undefined; }) => {
+    const url = getUrl('save-remark');
+    const prop = {
+      url,
+      ...data
+    };
+    return post(prop);
+  }
+);
+
+const saveRemarkBy = createAsyncThunk(
+  'provider-verification/save-remark-by',
+  async (data: { owpMatchId: number; remarkBy: string | undefined; }) => {
+    const url = getUrl('save-remark-by');
     const prop = {
       url,
       ...data
@@ -54,5 +78,7 @@ const saveConfirmProvider = createAsyncThunk(
 export {
   getEvents,
   getConfirmProvider,
-  saveConfirmProvider
+  saveConfirmProvider,
+  saveRemark,
+  saveRemarkBy
 };

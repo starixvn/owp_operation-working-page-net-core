@@ -40,27 +40,14 @@ const calculateMatchOption = (dataSource: TDataSource[]) => {
 const calculateLSTBookProviderOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource].map(x => ({
     value: x.OWPMatchId,
-    label: buildLabelItemOption(x.LSTBookProvider)
+    label: buildLabelItemOption(x.LstBookProvider)
   })), v => v.label));
 };
 
-const calculateInhouseProviderIdOption = (dataSource: TDataSource[]) => {
+const calculateProviderOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource].map(x => ({
     value: x.OWPMatchId,
-    label: buildLabelItemOption(x.InhouseProviderId)
-  })), v => v.label));
-};
-
-const calculateRemarkOption = (dataSource: TDataSource[]) => {
-  return swapBlanks(uniqBy([...dataSource].map(x => ({
-    value: x.OWPMatchId,
-    label: buildLabelItemOption(x.Remark)
-  })), v => v.label));
-};
-const calculateRemarkByOption = (dataSource: TDataSource[]) => {
-  return swapBlanks(uniqBy([...dataSource].map(x => ({
-    value: x.OWPMatchId,
-    label: buildLabelItemOption(x.RemarkBy)
+    label: buildLabelItemOption(x.InHouseProviderId)
   })), v => v.label));
 };
 
@@ -68,7 +55,6 @@ const calculateConfirmProviderOption = () => {
   const { confirmProviderOption } = store.getState().events;
   return [...confirmProviderOption, { value: -1, label: '(Blanks)' }];
 };
-
 
 const swapBlanks = (options: Option[]) => {
   const indexBlanks = options.findIndex(o => o.label === '(Blanks)');
@@ -86,11 +72,9 @@ const helper = {
   KoTime: (dataSource: TDataSource[]) => calculateKoOption(dataSource),
   League: (dataSource: TDataSource[]) => calculateLeagueOption(dataSource),
   Match: (dataSource: TDataSource[]) => calculateMatchOption(dataSource),
-  LSTBookProvider: (dataSource: TDataSource[]) => calculateLSTBookProviderOption(dataSource),
-  Remark: (dataSource: TDataSource[]) => calculateRemarkOption(dataSource),
-  RemarkBy: (dataSource: TDataSource[]) => calculateRemarkByOption(dataSource),
-  ConfirmProvider: (dataSource: TDataSource[]) => calculateConfirmProviderOption(),
-  InhouseProviderId: (dataSource: TDataSource[]) => calculateInhouseProviderIdOption(dataSource)
+  LstBookProvider: (dataSource: TDataSource[]) => calculateLSTBookProviderOption(dataSource),
+  Provider: (dataSource: TDataSource[]) => calculateProviderOption(dataSource),
+  ConfirmProvider: (dataSource: TDataSource[]) => calculateConfirmProviderOption()
 };
 
 export default helper;

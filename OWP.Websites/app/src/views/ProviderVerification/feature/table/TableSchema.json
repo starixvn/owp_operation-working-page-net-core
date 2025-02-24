@@ -31,14 +31,14 @@
       "IS_FILTER": true
     },
     {
-      "HEADER_KEY": "LSTBookProvider",
+      "HEADER_KEY": "LstBookProvider",
       "HEADER_NAME": "LST Book Provider",
       "WIDTH": "8%",
       "IS_FILTER": true
     },
     {
-      "HEADER_KEY": "InhouseProviderId",
-      "HEADER_NAME": "Inhouse ProviderId",
+      "HEADER_KEY": "InHouseProviderId",
+      "HEADER_NAME": "Inhouse ProviderID",
       "WIDTH": "8%",
       "IS_FILTER": true
     },

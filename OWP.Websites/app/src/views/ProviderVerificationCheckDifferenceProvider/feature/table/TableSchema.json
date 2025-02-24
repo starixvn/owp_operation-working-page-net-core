@@ -25,22 +25,22 @@
       "IS_FILTER": true
     },
     {
-      "HEADER_KEY": "LSTBookProvider",
+      "HEADER_KEY": "LstBookProvider",
       "HEADER_NAME": "LST Book Provider",
       "WIDTH": "8%",
       "IS_FILTER": true
     },
     {
-      "HEADER_KEY": "InhouseProviderId",
-      "HEADER_NAME": "Inhouse ProviderId",
+      "HEADER_KEY": "InHouseProviderId",
+      "HEADER_NAME": "Inhouse ProviderID",
       "WIDTH": "8%",
-      "IS_FILTER": true
+      "IS_FILTER": false
     },
     {
       "HEADER_KEY": "ProviderId",
       "HEADER_NAME": "ProviderID",
       "WIDTH": "8%",
-      "IS_FILTER": true
+      "IS_FILTER": false
     },
     {
       "HEADER_KEY": "Provider",
@@ -58,13 +58,13 @@
       "HEADER_KEY": "Remark",
       "HEADER_NAME": "Remark",
       "WIDTH": "8%",
-      "IS_FILTER": true
+      "IS_FILTER": false
     },
     {
       "HEADER_KEY": "RemarkBy",
       "HEADER_NAME": "Remark by",
       "WIDTH": "7%",
-      "IS_FILTER": true
+      "IS_FILTER": false
     },
     {
       "HEADER_NAME": "Ticket",

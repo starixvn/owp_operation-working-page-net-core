@@ -5,7 +5,7 @@ import ConfirmProviderCell from './cell/ConfirmProviderCell';
 import { TDataSource } from '../../type/table';
 import MatchCell from './cell/MatchCell';
 
-const TableBody = ({ dataSource }: { dataSource: TDataSource[] }) => {
+const TableBody = ({ dataSource }: { dataSource: TDataSource[]; }) => {
   return (
     <tbody>
       {dataSource.map((event, index) => (
@@ -13,13 +13,6 @@ const TableBody = ({ dataSource }: { dataSource: TDataSource[] }) => {
           <ReadonlyCommonCell
             className='match_no'
             value={event.MatchNo}
-            index={index}
-            isCanToolTip={false}
-          />
-
-          <ReadonlyCommonCell
-            className='match_status'
-            value={event.MatchStatus}
             index={index}
             isCanToolTip={false}
           />
@@ -42,16 +35,30 @@ const TableBody = ({ dataSource }: { dataSource: TDataSource[] }) => {
 
           <ReadonlyCommonCell
             className='lst-book-provider'
-            value={event.LSTBookProvider}
+            value={event.LstBookProvider}
             index={index}
             isCanToolTip={true}
           />
 
           <ReadonlyCommonCell
             className='inhouse-providerId'
-            value={event.InhouseProviderId}
+            value={event.InHouseProviderId}
             index={index}
-            isCanToolTip={true}
+            isCanToolTip={false}
+          />
+
+          <ReadonlyCommonCell
+            className='providerId'
+            value={event.InHouseProviderId}
+            index={index}
+            isCanToolTip={false}
+          />
+
+          <ReadonlyCommonCell
+            className='provider'
+            value={event.InHouseProviderId}
+            index={index}
+            isCanToolTip={false}
           />
 
           <ConfirmProviderCell

@@ -9,8 +9,10 @@ type TConfirmProvider = {
 };
 
 type TDataSource = {
-  LSTBookProvider?: string | null;
-  InhouseProviderId?: string | null;
+  LstBookProvider?: string | null;
+  InHouseProviderId?: string | null;
+  ProviderId?: string | null;
+  Provider?: string | null;
   Remark?: string | null;
   RemarkBy?: string | null;
   OWPMatchId: number;
@@ -66,8 +68,10 @@ type TColumnKey =
   | 'KoTime'
   | 'League'
   | 'Match'
-  | 'LSTBookProvider'
-  | 'InhouseProviderId'
+  | 'LstBookProvider'
+  | 'InHouseProviderId'
+  | 'ProviderId'
+  | 'Provider'
   | 'ConfirmProvider'
   | 'Remark'
   | 'RemarkBy';

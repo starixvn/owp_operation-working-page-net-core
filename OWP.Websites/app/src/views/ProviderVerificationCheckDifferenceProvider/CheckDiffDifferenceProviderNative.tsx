@@ -1,16 +1,13 @@
 import { Provider } from 'react-redux';
 import store from './app/storeNative';
-import ProviderUpload from './feature/uploadProvider/ProviderUpload';
-import Table from './feature/table/Table';
+import CheckDiffDifferenceProviderAppNative from './CheckDiffDifferenceProviderAppNative';
 
 const CheckDiffDifferenceProviderNative = () => {
+
   return (
-    <div className='provider-verification-upload-container'>
-      <Provider store={store}>
-        <ProviderUpload />
-        <Table />
-      </Provider>
-    </div>
+    <Provider store={store}>
+      <CheckDiffDifferenceProviderAppNative />
+    </Provider>
   );
 };
 

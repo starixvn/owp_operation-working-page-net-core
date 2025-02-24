@@ -31,10 +31,8 @@ const tableSlice = createSlice({
       KoTime: buildMultipleFilterDefault(),
       League: buildMultipleFilterDefault(),
       Match: buildMultipleFilterDefault(),
-      LSTBookProvider: buildMultipleFilterDefault(),
-      InhouseProviderId: buildMultipleFilterDefault(),
-      Remark: buildMultipleFilterDefault(),
-      RemarkBy: buildMultipleFilterDefault(),
+      LstBookProvider: buildMultipleFilterDefault(),
+      Provider: buildMultipleFilterDefault(),
       ConfirmProvider: buildMultipleFilterDefault()
     } as TMultipleFilter
   },

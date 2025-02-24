@@ -20,13 +20,13 @@ const Table = () => {
     <>
       <div
         className='table-wrap'
-        style={{ maxHeight, maxWidth, minHeight: '450px' }}>
+        style={{ maxHeight: maxHeight - 130, maxWidth: maxWidth, minHeight: '450px' }}>
         <table className='table__provider__verification'>
           <TableHeader />
           <TableBody dataSource={dataSource} />
         </table>
       </div>
-      {/* <div className='total-record'>Total record: {dataSource.length}</div> */}
+      <div className='total-record'>Total record: {dataSource.length}</div>
     </>
   );
 };

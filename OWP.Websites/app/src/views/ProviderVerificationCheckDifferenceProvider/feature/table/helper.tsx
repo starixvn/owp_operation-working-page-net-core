@@ -20,20 +20,12 @@ const buildDefaultTableFilter = (dataSource: TDataSource[], confirmProviderOptio
     selected: helper.Match(dataSource),
     isFilter: false
   };
-  tableFilter.LSTBookProvider = {
-    selected: helper.LSTBookProvider(dataSource),
+  tableFilter.LstBookProvider = {
+    selected: helper.LstBookProvider(dataSource),
     isFilter: false
   };
-  tableFilter.InhouseProviderId = {
-    selected: helper.InhouseProviderId(dataSource),
-    isFilter: false
-  };
-  tableFilter.Remark = {
-    selected: helper.Remark(dataSource),
-    isFilter: false
-  };
-  tableFilter.RemarkBy = {
-    selected: helper.RemarkBy(dataSource),
+  tableFilter.Provider = {
+    selected: helper.Provider(dataSource),
     isFilter: false
   };
   tableFilter.ConfirmProvider = {
@@ -47,19 +39,15 @@ const executeFilterTable = (dataSource: TDataSource[], tableFilter: TMultipleFil
     KoTime,
     League,
     Match,
-    LSTBookProvider,
-    InhouseProviderId,
-    Remark,
-    RemarkBy
+    LstBookProvider,
+    Provider
   } = tableFilter;
   const result = dataSource.filter(e => MatchNo.selected.some(m => m.label === buildLabelItemOption(e.MatchNo)) //NOSONAR
     && Match.selected.some(m => m.label === `${e.Home} -vs- ${e.Away}`)
     && KoTime.selected.some(m => m.label === formatTime(e.EventDateTime, 'minute', 'hh:mm A'))
     && League.selected.some(m => m.label === e.League)
-    && LSTBookProvider.selected.some(m => m.label === buildLabelItemOption(e.LSTBookProvider))
-    && InhouseProviderId.selected.some(m => m.label === buildLabelItemOption(e.InhouseProviderId))
-    && Remark.selected.some(m => m.label === buildLabelItemOption(e.Remark))
-    && RemarkBy.selected.some(m => m.label === buildLabelItemOption(e.RemarkBy)));
+    && LstBookProvider.selected.some(m => m.label === buildLabelItemOption(e.LstBookProvider))
+    && Provider.selected.some(m => m.label === buildLabelItemOption(e.Provider)));
 
   return filterByConfirmProvider(result, tableFilter);
 };

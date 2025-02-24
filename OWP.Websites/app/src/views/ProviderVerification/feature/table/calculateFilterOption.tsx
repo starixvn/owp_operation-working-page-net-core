@@ -47,14 +47,14 @@ const calculateMatchOption = (dataSource: TDataSource[]) => {
 const calculateLSTBookProviderOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource].map(x => ({
     value: x.OWPMatchId,
-    label: buildLabelItemOption(x.LSTBookProvider)
+    label: buildLabelItemOption(x.LstBookProvider)
   })), v => v.label));
 };
 
 const calculateInhouseProviderIdOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource].map(x => ({
     value: x.OWPMatchId,
-    label: buildLabelItemOption(x.InhouseProviderId)
+    label: buildLabelItemOption(x.InHouseProviderId)
   })), v => v.label));
 };
 
@@ -94,11 +94,11 @@ const helper = {
   KoTime: (dataSource: TDataSource[]) => calculateKoOption(dataSource),
   League: (dataSource: TDataSource[]) => calculateLeagueOption(dataSource),
   Match: (dataSource: TDataSource[]) => calculateMatchOption(dataSource),
-  LSTBookProvider: (dataSource: TDataSource[]) => calculateLSTBookProviderOption(dataSource),
+  LstBookProvider: (dataSource: TDataSource[]) => calculateLSTBookProviderOption(dataSource),
   Remark: (dataSource: TDataSource[]) => calculateRemarkOption(dataSource),
   RemarkBy: (dataSource: TDataSource[]) => calculateRemarkByOption(dataSource),
   ConfirmProvider: (dataSource: TDataSource[]) => calculateConfirmProviderOption(),
-  InhouseProviderId: (dataSource: TDataSource[]) => calculateInhouseProviderIdOption(dataSource)
+  InHouseProviderId: (dataSource: TDataSource[]) => calculateInhouseProviderIdOption(dataSource)
 };
 
 export default helper;
