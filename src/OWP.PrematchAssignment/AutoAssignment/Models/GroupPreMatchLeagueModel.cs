@@ -1,4 +1,6 @@
-namespace OWP.PrematchAssignment.Models;
+using OWP.PrematchAssignment.QueryAndSave.Models;
+
+namespace OWP.PrematchAssignment.AutoAssignment.Models;
 
 public class GroupPreMatchLeagueModel
 {

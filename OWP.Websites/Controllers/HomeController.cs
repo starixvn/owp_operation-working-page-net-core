@@ -257,7 +257,7 @@ public class HomeController(AccessCounter accessCounter) : Controller
     }
 
 
-    [Route("ProviderVerification/check-difference-provider?date={date}")]
+    [Route(template: "ProviderVerification/check-difference-provider/{date:DateTime}")]
     [NapAuth(FunctionKey = FunctionKeys.ProviderVerification, Policy = Constant.Policy.Read)]
     public ActionResult ProviderVerificationCheckDifferenceProvider()
     {

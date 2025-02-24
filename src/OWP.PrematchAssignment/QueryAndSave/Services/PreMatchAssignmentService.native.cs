@@ -4,12 +4,13 @@ using Fanex.Data.Repository;
 using Fanex.NAP.Client;
 using Newtonsoft.Json;
 using OWP.Extensions;
+using OWP.PrematchAssignment.AutoAssignment.Models;
 using OWP.PrematchAssignment.Constants;
 using OWP.PrematchAssignment.Criteria;
-using OWP.PrematchAssignment.Handlers;
-using OWP.PrematchAssignment.Models;
+using OWP.PrematchAssignment.QueryAndSave.Handlers;
+using OWP.PrematchAssignment.QueryAndSave.Models;
 
-namespace OWP.PrematchAssignment.Services;
+namespace OWP.PrematchAssignment.QueryAndSave.Services;
 
 public interface PreMatchAssignmentService
 {

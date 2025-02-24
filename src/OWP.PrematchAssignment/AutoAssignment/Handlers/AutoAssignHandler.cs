@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using MediatR;
 using OWP.PrematchAssignment.AutoAssignment.Helper;
+using OWP.PrematchAssignment.AutoAssignment.Models;
 using OWP.PrematchAssignment.Constants;
-using OWP.PrematchAssignment.Handlers;
-using OWP.PrematchAssignment.Models;
-using OWP.PrematchAssignment.Services;
+using OWP.PrematchAssignment.QueryAndSave.Handlers;
+using OWP.PrematchAssignment.QueryAndSave.Models;
+using OWP.PrematchAssignment.QueryAndSave.Services;
 
 namespace OWP.PrematchAssignment.AutoAssignment.Handlers;
 

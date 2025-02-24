@@ -1,4 +1,4 @@
-﻿namespace OWP.PrematchAssignment.Enum;
+﻿namespace OWP.PrematchAssignment.QueryAndSave.Enum;
 
 public enum RecipientType
 {

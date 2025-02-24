@@ -1,5 +1,5 @@
-﻿using OWP.PrematchAssignment.Misc;
-using OWP.PrematchAssignment.Services;
+﻿using OWP.PrematchAssignment.QueryAndSave.Misc;
+using OWP.PrematchAssignment.QueryAndSave.Services;
 
 namespace OWP.Websites;
 

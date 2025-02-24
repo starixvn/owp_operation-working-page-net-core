@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
+using OWP.PrematchAssignment.AutoAssignment.Models;
 using OWP.PrematchAssignment.Criteria;
-using OWP.PrematchAssignment.Models;
+using OWP.PrematchAssignment.QueryAndSave.Models;
 
 namespace OWP.PrematchAssignment;
 

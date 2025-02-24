@@ -1,4 +1,4 @@
-namespace OWP.PrematchAssignment.Models;
+namespace OWP.PrematchAssignment.AutoAssignment.Models;
 
 public class PreMatchLeagueAssignment
 {

@@ -2,11 +2,11 @@
 using MediatR;
 using OWP.Extensions;
 using OWP.PrematchAssignment.Criteria;
-using OWP.PrematchAssignment.Helper;
-using OWP.PrematchAssignment.Models;
-using OWP.PrematchAssignment.Services;
+using OWP.PrematchAssignment.QueryAndSave.Helper;
+using OWP.PrematchAssignment.QueryAndSave.Models;
+using OWP.PrematchAssignment.QueryAndSave.Services;
 
-namespace OWP.PrematchAssignment.Handlers;
+namespace OWP.PrematchAssignment.QueryAndSave.Handlers;
 
 public class QueryAssignedLeagueIdRequest : IRequest<AssignedLeagueId>
 {

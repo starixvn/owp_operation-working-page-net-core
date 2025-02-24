@@ -2,7 +2,7 @@
 using OWP.Utils;
 using System.Xml.Serialization;
 
-namespace OWP.PrematchAssignment.Models;
+namespace OWP.PrematchAssignment.QueryAndSave.Models;
 
 public class WorkingShiftModel
 {

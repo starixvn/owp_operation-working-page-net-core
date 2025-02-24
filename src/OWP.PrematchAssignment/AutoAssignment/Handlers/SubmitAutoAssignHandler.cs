@@ -1,6 +1,6 @@
 using MediatR;
-using OWP.PrematchAssignment.Models;
-using OWP.PrematchAssignment.Services;
+using OWP.PrematchAssignment.AutoAssignment.Models;
+using OWP.PrematchAssignment.QueryAndSave.Services;
 
 namespace OWP.PrematchAssignment.AutoAssignment.Handlers;
 

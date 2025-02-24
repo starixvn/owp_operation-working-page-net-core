@@ -1,8 +1,8 @@
 ﻿using Fanex.Data.Repository;
 using OWP.PrematchAssignment.Criteria;
-using OWP.PrematchAssignment.Models;
+using OWP.PrematchAssignment.QueryAndSave.Models;
 
-namespace OWP.PrematchAssignment.Services;
+namespace OWP.PrematchAssignment.QueryAndSave.Services;
 
 public interface Repository
 {
