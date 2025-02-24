@@ -1,4 +1,3 @@
-using OWP.Helpers;
 
 namespace OWP.ProviderVerification.ProviderVerification.UploadAgent;
 
@@ -20,7 +19,7 @@ public class UploadAgentEndpoint : ICarterModule
 
                     await using var ms = new MemoryStream();
                     await httpRequest.Form.Files[0].CopyToAsync(ms);
-                    var result= await sender.Send(new UploadAgentRequest(ms));
+                    var result= await sender.Send(new UploadAgentValidationRequest(ms, Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture)));
                     return Results.Ok(result);
 
                 }
