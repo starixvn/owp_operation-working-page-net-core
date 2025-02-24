@@ -19,7 +19,7 @@ public class Analyzer:  List<ExcelProviderModel>
             }
             if (string.IsNullOrWhiteSpace(this[index].ProviderMatchID))
             {
-                errors.Add(Error.Validation(ErrorCode.PROVIDER_IS_REQUIRED, "ProviderMatchID is required", this[index].Row));
+                errors.Add(Error.Validation(ErrorCode.PROVIDER_MATCH_ID_IS_REQUIRED, "ProviderMatchID is required", this[index].Row));
             }
         }
         return errors.Any()
