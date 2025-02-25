@@ -17,6 +17,8 @@ const CheckDiffDifferenceProviderAppNative = () => {
     state => state.common.confirmProvider.loadingConfirmProviderOption
   );
 
+  const { showTable } = useAppSelector(state => state.upload);
+
   const pagePolicy = usePermission(
     FunctionKeys.ProviderVerification,
     'providerPolicy'
@@ -53,7 +55,7 @@ const CheckDiffDifferenceProviderAppNative = () => {
     <>
       <div className='provider-verification-upload-container'>
         <ProviderUpload />
-        <Table />
+        {showTable && <Table />}
       </div>
       <CreateTicketLGAView
         creatorInfo={creatorInfo}

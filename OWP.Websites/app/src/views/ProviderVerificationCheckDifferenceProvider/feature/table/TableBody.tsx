@@ -49,14 +49,14 @@ const TableBody = ({ dataSource }: { dataSource: TDataSource[]; }) => {
 
           <ReadonlyCommonCell
             className='providerId'
-            value={event.InHouseProviderId}
+            value={event.ProviderId}
             index={index}
             isCanToolTip={false}
           />
 
           <ReadonlyCommonCell
             className='provider'
-            value={event.InHouseProviderId}
+            value={event.Provider}
             index={index}
             isCanToolTip={false}
           />

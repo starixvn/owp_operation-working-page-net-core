@@ -101,7 +101,7 @@ const tableSlice = createSlice({
         state.confirmProviderOption,
         state.multipleFilter
       );
-    }
+    },
   },
   extraReducers: builder => {
     builder

@@ -21,6 +21,7 @@ const eventUploadSlice = createSlice({
   name: 'eventUploadSlice',
   initialState: {
     isLoading: false,
+    showTable: false,
     currentStep: 1,
     file: null,
     validationResponse: validationResultDefault,
@@ -44,6 +45,9 @@ const eventUploadSlice = createSlice({
     },
     resetResponse: state => {
       state.submitResponse = { isSuccessful: false, message: '' };
+    },
+    setShowTable: (state, action) => {
+      state.showTable = action.payload;
     }
   },
   extraReducers: builder => {
@@ -73,7 +77,8 @@ const {
   setStep,
   setFile,
   resetResponse,
-  setResetValidationResult
+  setResetValidationResult,
+  setShowTable
 } = actions;
 
 export {
@@ -84,7 +89,8 @@ export {
   resetResponse,
   setResetValidationResult,
   uploadProviderThunk,
-  submitProviderThunk
+  submitProviderThunk,
+  setShowTable
 };
 
 export default reducer;

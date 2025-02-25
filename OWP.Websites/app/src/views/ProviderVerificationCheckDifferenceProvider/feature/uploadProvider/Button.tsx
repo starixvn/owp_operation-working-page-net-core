@@ -1,7 +1,9 @@
 import { useDispatch } from 'react-redux';
+import { saveAs } from "file-saver";
+import axios, { AxiosResponse } from 'axios';
 import { resetResponse, setBackStep, setNextStep, setResetValidationResult } from './providerUploadSlice';
 
-const BackButton = (props: { onClick?: Function }) => {
+const BackButton = (props: { onClick?: Function; }) => {
   const { onClick } = props;
   const dispatch = useDispatch();
   const handleClick = () => {
@@ -16,7 +18,7 @@ const BackButton = (props: { onClick?: Function }) => {
   );
 };
 
-const NextButton = (props: { onValidate?: Function }) => {
+const NextButton = (props: { onValidate?: Function; }) => {
   const dispatch = useDispatch();
   const { onValidate } = props;
   const handleClick = () => {
@@ -34,7 +36,7 @@ const NextButton = (props: { onValidate?: Function }) => {
   );
 };
 
-const SubmitButton = (props: { onSubmit: Function }) => {
+const SubmitButton = (props: { onSubmit: Function; }) => {
   const { onSubmit } = props;
 
   return (
@@ -44,4 +46,26 @@ const SubmitButton = (props: { onSubmit: Function }) => {
   );
 };
 
-export { BackButton, NextButton, SubmitButton };
+const ExportButton = () => {
+  const handleExport = async () => {
+    const url = "/api/ProviderVerification/";
+    const fileName = "CheckDifferenceProviderId.xlsx";
+    const options = {
+      url,
+      method: 'GET',
+      headers: { 'Accept': 'application/json' },
+      responseType: 'blob' as const
+    };
+    const response: AxiosResponse<Blob> = await axios.request(options);
+    const fileUrl = window.URL.createObjectURL(new Blob([response.data]));
+    saveAs(fileUrl, fileName);
+  };
+
+  return (
+    <button className='button-export' onClick={handleExport}>
+      Export
+    </button>
+  );
+};
+
+export { BackButton, NextButton, SubmitButton, ExportButton };

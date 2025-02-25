@@ -2,12 +2,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CheckboxMarkedCircleOutlineIcon } from 'mdi-react';
 import { useEffect } from 'react';
 import { RootState } from '../../app/storeNative';
-import { BackButton, SubmitButton } from './Button';
-import { setBackStep, setResetValidationResult, uploadProviderThunk, submitProviderThunk, resetResponse } from './providerUploadSlice';
+import { BackButton, SubmitButton, ExportButton } from './Button';
+import { setBackStep, setNextStep, setResetValidationResult, uploadProviderThunk, submitProviderThunk, resetResponse, setShowTable } from './providerUploadSlice';
 import { getEvents } from './providerUploadServiceNative';
 
 const Review = (props: TReview) => {
-  const { validationResponse, isLoading, submitResponse, file } = useSelector((state: RootState) => state.upload);
+  const { validationResponse, isLoading, submitResponse, file, showTable } = useSelector((state: RootState) => state.upload);
   const { validationResults, isSuccessful, recordCount, exception } = validationResponse;
   const dispatch = useDispatch();
 
@@ -23,7 +23,8 @@ const Review = (props: TReview) => {
     // } else {
     //   //TODO
     // }
-      handleSubmit();
+    handleSubmit();
+    dispatch(setShowTable(true));
   };
 
   const handleSubmit = () => {
@@ -32,12 +33,10 @@ const Review = (props: TReview) => {
     // dispatch(submitProviderThunk({ sessionId }));
 
     //fake data
-    dispatch(getEvents({ 
+    dispatch(getEvents({
       eventDate: new Date(2025, 1, 6),
       onlyShowIsMismatchEvent: false
     }));
-    
-
   };
 
   return (
@@ -47,12 +46,15 @@ const Review = (props: TReview) => {
         <span>Successful</span>
       </div>
       <div className='wizard-buttons'>
+        {showTable && <ExportButton />}
+
         <BackButton onClick={() => {
           dispatch(setResetValidationResult());
           dispatch(resetResponse());
+          dispatch(setShowTable(false));
         }} />
-        {/* {isSuccessful && <SubmitButton onSubmit={submitFile} />} */}
-        <SubmitButton onSubmit={submitUploadFile} />
+
+        {!showTable && <SubmitButton onSubmit={submitUploadFile} />}
       </div>
     </div>
   );

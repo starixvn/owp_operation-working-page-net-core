@@ -1,5 +1,5 @@
 import { useState, ChangeEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { BackButton, NextButton } from './Button';
 import ToastrWrapper from '../../../components/ToastrWrapper';
 import { validateFile } from '../../../Shared/uploadFile/validationHelper';

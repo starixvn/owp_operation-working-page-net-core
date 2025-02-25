@@ -1,35 +1,54 @@
 import CloudDownloadIcon from 'mdi-react/CloudDownloadIcon';
 import CloudUploadIcon from 'mdi-react/CloudUploadIcon';
 import EyeIcon from 'mdi-react/EyeIcon';
+import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../app/storeNative';
 import { useAppDispatch } from '../../app/hooks';
-import { setStep } from './providerUploadSlice';
+import { setStep, setShowTable } from './providerUploadSlice';
 
 type PropTypes = {
   currentStep: number;
 };
+
 const STEP_0 = 0;
 const STEP_1 = 1;
 const STEP_2 = 2;
 
 const StepControl = (props: PropTypes) => {
+  const { showTable } = useSelector((state: RootState) => state.upload);
   const dispatch = useAppDispatch();
-  const { currentStep } = props;
+  const currentStep = props.currentStep;
+  const [clickStep, setClickStep] = useState(currentStep);
+
+  const handleClickStep = (step: number) => {
+    setClickStep(step);
+    if (step < STEP_2) {
+      dispatch(setStep(step));
+    }
+  };
+
+  useEffect(() => {
+    if (showTable && clickStep < STEP_2) {
+      dispatch(setShowTable(false));
+    }
+  }, [clickStep]);
 
   const renderStepNodeTemplate = (step: number) => {
-    const className = currentStep > step ? 'active' : '';
     const title = [
       {
         title: 'GET AGENT PROVIDERID TEMPLATE',
-        onClick: () => dispatch(setStep(STEP_0)),
+        onClick: () => handleClickStep(STEP_0),
         icon: <CloudDownloadIcon size={24} />
       },
       {
         title: 'FULLFILE & UPLOAD',
-        onClick: () => dispatch(setStep(STEP_1)),
+        onClick: () => handleClickStep(STEP_1),
         icon: <CloudUploadIcon size={24} />
       },
       {
         title: 'REVIEW',
+        onClick: () => handleClickStep(STEP_2),
         icon: <EyeIcon size={24} />
       }
     ];
@@ -38,6 +57,8 @@ const StepControl = (props: PropTypes) => {
       const onClick = title[step].onClick;
       onClick && onClick();
     };
+
+    const className = currentStep > step || showTable ? 'active' : '';
 
     return (
       <li className={className} role='tab'>
