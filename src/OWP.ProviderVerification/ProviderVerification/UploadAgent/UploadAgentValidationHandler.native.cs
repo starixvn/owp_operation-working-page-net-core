@@ -9,8 +9,7 @@ public class UploadAgentValidationHandler(ICache cache, IDynamicRepository dynam
     private const int ROW_HEADER = 1;
     private const int START_ROW_CONTENT = 2;
 
-    private const string KEY_PROVIDER_VERIFICATION = "OWP-PROVIDER-VERIFICATION";
-    private const int CACHE_EXPIRED_IN_DAYS = 1;
+     private const int CACHE_EXPIRED_IN_DAYS = 1;
 
     public async Task<ResultT<AnalyzedResult>> Handle(UploadAgentValidationRequest request, CancellationToken cancellationToken)
     {
@@ -67,7 +66,7 @@ public class UploadAgentValidationHandler(ICache cache, IDynamicRepository dynam
         var expiredDate = DateTime.Today.AddDays(CACHE_EXPIRED_IN_DAYS);
         var absoluteTimeSpan = expiredDate - DateTime.Now;
         var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(absoluteTimeSpan);
-        var cacheKey = $"{KEY_PROVIDER_VERIFICATION}-{sessionId}";
+        var cacheKey = $"{Const.Const.KEY_PROVIDER_VERIFICATION}-{sessionId}";
 
         var assignmentsJson = JsonConvert.SerializeObject(providerModel);
         await cache.SetAsync(cacheKey, assignmentsJson, cachePolicy);

@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using OWP.Models;
-
-namespace OWP.ProviderVerification.Models;
+﻿namespace OWP.ProviderVerification.Models;
 
 public record AnalyzedResult(string SessionId, int OriginalRecordCount);
 

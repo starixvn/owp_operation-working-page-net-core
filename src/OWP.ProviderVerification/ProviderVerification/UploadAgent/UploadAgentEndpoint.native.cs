@@ -26,9 +26,22 @@ public class UploadAgentEndpoint : ICarterModule
 
             ).RequireAuthorization()
         .WithName("UploadAgentValidator")
-            .Produces<Unit>()
             .ProducesProblem(StatusCodes.Status500InternalServerError)
-            .WithSummary("validate agent file")
-            .WithDescription("validate agent file");
+            .WithSummary("Validate agent file")
+            .WithDescription("Validate agent file");
+
+        app.MapPost("/api/ProviderVerification/upload-agent/submit", async ([FromServices] ISender sender, SubmitAgentRequest request) =>
+                {
+                    var result = await sender.Send(request);
+                    return Results.Ok(result);
+                }
+
+            ).RequireAuthorization()
+            .WithName("SubmitAgent")
+            .ProducesProblem(StatusCodes.Status500InternalServerError)
+            .WithSummary("Submit agent file")
+            .WithDescription("Submit agent file");
     }
+
+   
 }
