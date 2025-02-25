@@ -10,10 +10,12 @@ import { uploadProviderThunk, submitProviderThunk } from './providerUploadServic
 
 const validationResultDefault = {
   hasError: false,
-  sessionId: '',
-  recordCount: 0,
   validationResults: [],
-  isSuccessful: false,
+  isSuccess: false,
+  value: {
+    originalRecordCount: 0,
+    sessionId: '',
+  },
   exception: ''
 } as ValidationResponse;
 

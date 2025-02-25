@@ -2,28 +2,30 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { UploadRequest } from '../../type/typeNative';
 import Utils from '../../../Shared/Utils';
-import { get, post } from '../../../Shared/Service/Service';
+import { get } from '../../../Shared/Service/Service';
+
+const API_BASE_URL = 'api/ProviderVerification/upload-agent';
 
 const uploadProviderThunk = createAsyncThunk(
   'upload',
   async (model: UploadRequest) => {
-    const file  = model;
+    const file = model;
     const formData = new FormData();
     formData.append('uploadFile', file, file.name);
 
-    const url = `api/ProviderVerification/upload-agent/validate`;
-    const response = await axios.post(url, formData);
+    const response = await axios.post(`${API_BASE_URL}/validate`, formData);
 
     return response.data;
   }
 );
 
-const submitProviderThunk = createAsyncThunk('submit', async (model: object) => {
-  const url = `api/ProviderVerification/upload-agent/submit`;
-  const response = await axios.post(url, model);
+const submitProviderThunk = createAsyncThunk(
+  'submit',
+  async (model: object) => {
+    const response = await axios.post(`${API_BASE_URL}/submit`, model);
 
-  return response.data;
-});
+    return response.data;
+  });
 
 const getUrl = (methodRoute: string) =>
   `/api/ProviderVerification/${methodRoute}`;

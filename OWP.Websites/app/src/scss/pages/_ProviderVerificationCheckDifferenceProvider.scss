@@ -671,3 +671,12 @@
 .ticket-cell span {
   margin: 0 !important;
 }
+
+.success-info, .error-info {
+  display: flex;
+  align-items: center;
+
+  span {
+    margin-left: 10px;
+  }
+}

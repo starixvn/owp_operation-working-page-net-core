@@ -53,7 +53,7 @@ type TEditTableCell = {
 
 type TTicketCell = {
   [key in 'HasTicket' | 'IsRead']: boolean;
-} & { rowIndex: number; dataSource: TDataSource[] };
+} & { rowIndex: number; dataSource: TDataSource[]; };
 
 type TUpdateRow = {
   owpMatchId: Required<number>;
@@ -61,7 +61,7 @@ type TUpdateRow = {
   value: string | undefined;
 };
 
-type TUpdateConfirmProvider = { value: TConfirmProvider[] } & { owpMatchId: number };
+type TUpdateConfirmProvider = { value: TConfirmProvider[]; } & { owpMatchId: number; };
 
 type TColumnKey =
   | 'MatchNo'

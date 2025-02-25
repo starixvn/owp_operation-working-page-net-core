@@ -1,14 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { CheckboxMarkedCircleOutlineIcon } from 'mdi-react';
+import { CheckboxMarkedCircleOutlineIcon, CloseCircleIcon } from 'mdi-react';
 import { useEffect } from 'react';
 import { RootState } from '../../app/storeNative';
 import { BackButton, SubmitButton, ExportButton } from './Button';
 import { setBackStep, setNextStep, setResetValidationResult, uploadProviderThunk, submitProviderThunk, resetResponse, setShowTable } from './providerUploadSlice';
 import { getEvents } from './providerUploadServiceNative';
+import ToastrWrapper from '../../../components/ToastrWrapper';
 
 const Review = (props: TReview) => {
   const { validationResponse, isLoading, submitResponse, file, showTable } = useSelector((state: RootState) => state.upload);
-  const { validationResults, isSuccessful, recordCount, exception } = validationResponse;
+  const { validationResults, isSuccess, value, exception } = validationResponse;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -17,20 +18,26 @@ const Review = (props: TReview) => {
     dispatch(resetResponse());
   }, []);
 
+  useEffect(() => {
+    if (exception) {
+      ToastrWrapper.showError(exception);
+    }
+  }, [exception]);
+
   const submitUploadFile = async () => {
-    // if (recordCount > 0) {
-    //   handleSubmit();
-    // } else {
-    //   //TODO
-    // }
-    handleSubmit();
-    dispatch(setShowTable(true));
+    if (value.originalRecordCount > 0) {
+      handleSubmit();
+      dispatch(setShowTable(true));
+    } else {
+      // TODO
+    }
+
   };
 
   const handleSubmit = () => {
-    const { sessionId } = validationResponse;
+    const { sessionId } = validationResponse.value;
     dispatch(resetResponse());
-    // dispatch(submitProviderThunk({ sessionId }));
+    dispatch(submitProviderThunk({ sessionId }));
 
     //fake data
     dispatch(getEvents({
@@ -40,11 +47,21 @@ const Review = (props: TReview) => {
   };
 
   return (
-    <div>
-      <div className='success-info'>
-        <CheckboxMarkedCircleOutlineIcon size={20} />
-        <span>Successful</span>
-      </div>
+    <>
+      {isSuccess
+        ? <div className='success-info'>
+          <CheckboxMarkedCircleOutlineIcon size={20} />
+          <span>
+            There is no failed record in the total of {value.originalRecordCount} record(s)
+          </span>
+        </div>
+        : !exception && <>
+          <div className='error-info'>
+            <CloseCircleIcon size={20} />
+            <span>Number of failure(s): {validationResults.length}</span>
+          </div>
+        </>
+      }
       <div className='wizard-buttons'>
         {showTable && <ExportButton />}
 
@@ -54,9 +71,9 @@ const Review = (props: TReview) => {
           dispatch(setShowTable(false));
         }} />
 
-        {!showTable && <SubmitButton onSubmit={submitUploadFile} />}
+        {!showTable && isSuccess && <SubmitButton onSubmit={submitUploadFile} />}
       </div>
-    </div>
+    </>
   );
 };
 
