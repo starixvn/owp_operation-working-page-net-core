@@ -10,6 +10,10 @@ public class RAndDInfo
 
     public string RAndDUpdate { get; set; }
 
+    public string OldValue { get; set; }
+
+    public string NewValue { get; set; }
+
     public string Group { get; set; }
 
     public string BgColor => Color.Item1;

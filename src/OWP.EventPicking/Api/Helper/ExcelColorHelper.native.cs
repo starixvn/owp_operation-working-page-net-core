@@ -78,17 +78,21 @@ public static class ExcelColorHelper
             remarkBuilder.Insert(0, "[NEW ADD]");
         }
 
-        if (ExistsUpdateType(match, UpdateTypeConstant.RENEW_MATCH))
+        if (IsRenewMatchPostponed(match))
         {
-            remarkBuilder.Insert(0, "[Move KO Date] ");
-            remarkBuilder.Insert(0, "[Renew Match] ");
+            remarkBuilder.Insert(0, "[Renew Match] [POSTPONED] ");
+        }
+
+        if (IsRenewMatchAfterChangeKODate(match))
+        {
+            remarkBuilder.Insert(0, "[Renew Match] [Move KO Date] ");
         }
 
         if (match.IsDeleted)
         {
             remarkBuilder.Insert(0, "[DELETED MATCH] ");
         }
-        else if (IsPostponed(match))
+        else if (match.IsPostponed)
         {
             remarkBuilder.Insert(0, "[POSTPONED] ");
         }
@@ -176,12 +180,6 @@ public static class ExcelColorHelper
         }
     }
 
-    private static bool IsPostponed(EventPickingModel match)
-    {
-        return (!string.IsNullOrEmpty(match.Remark2) &&
-                 match.Remark2.Contains("Postponed", StringComparison.OrdinalIgnoreCase)) || match.IsPostponed;
-    }
-
     private static bool IsCancelled(EventPickingModel match)
     {
         return (!string.IsNullOrEmpty(match.Remark2) &&
@@ -193,4 +191,12 @@ public static class ExcelColorHelper
     {
         return match.InfoSiteMatchStatus == InfoSiteMatchStatus.Suspended;
     }
+
+    private static bool IsRenewMatchPostponed(EventPickingModel match)
+        => match.RAndDInfo is not null
+           && match.RAndDInfo.Any(r => r.UpdateTypeId == UpdateTypeConstant.RENEW_MATCH && r.OldValue == "Postponed");
+
+    private static bool IsRenewMatchAfterChangeKODate(EventPickingModel match)
+        => match.RAndDInfo is not null
+           && match.RAndDInfo.Any(r => r.UpdateTypeId == UpdateTypeConstant.RENEW_MATCH && r.OldValue != "Postponed");
 }

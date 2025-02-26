@@ -1,9 +1,11 @@
 ﻿using OWP.Constants;
+using OWP.EventPicking.Api.Constant;
 using OWP.EventPicking.Api.Criteria;
 using OWP.EventPicking.Api.Helper;
 using OWP.EventPicking.Api.Middleware.Models;
 using OWP.EventPicking.Api.Models;
 using System.Linq;
+using Olympus.OWP.Constants;
 
 namespace OWP.EventPicking.Api.Services;
 
@@ -167,16 +169,27 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
         }
 
         return match.RAndDInfo
-            .Select(info => info.Group)
-            .Where(gr => !string.IsNullOrEmpty(gr))
-            .Any(gr => condition.UpdateType.Exists(ut => ut == gr));
+            .Where(info => !string.IsNullOrEmpty(info.Group))
+            .Any(info => condition.UpdateType.Exists(ut => ut == info.Group) &&
+                         (info.UpdateTypeId != UpdateTypeConstant.MATCH_POSTPONED || match.IsPostponed)); 
     }
 
     private static List<EventPickingModel> ExcludeUpdateType(List<EventPickingModel> eventPicking, IList<short> excludedUpdateTypes)
     {
         foreach (var @event in eventPicking)
         {
-            @event.RAndDInfo = @event.RAndDInfo.Where(e => excludedUpdateTypes.All(t => t != e.UpdateTypeId)).ToList();
+            var filteredRAndDInfo = @event.RAndDInfo
+                .Where(e => excludedUpdateTypes.All(t => t != e.UpdateTypeId))
+                .ToList();
+
+            if (!@event.IsPostponed)
+            {
+                filteredRAndDInfo = filteredRAndDInfo
+                    .Where(r => r.UpdateTypeId != UpdateTypeConstant.MATCH_POSTPONED)
+                    .ToList();
+            }
+
+            @event.RAndDInfo = filteredRAndDInfo;
         }
         return eventPicking;
     }
