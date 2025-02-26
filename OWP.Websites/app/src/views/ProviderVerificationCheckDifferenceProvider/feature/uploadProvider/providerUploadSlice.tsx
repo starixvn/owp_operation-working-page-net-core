@@ -1,22 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-
-import {
-  SubmitResponse,
-  UploadRequest,
-  ValidationResponse
-} from '../../type/typeNative';
+import { ValidationResponse } from '../../type/typeNative';
 import { uploadProviderThunk, submitProviderThunk } from './providerUploadServiceNative';
 
 const validationResultDefault = {
-  hasError: false,
-  validationResults: [],
   isSuccess: false,
   value: {
     originalRecordCount: 0,
     sessionId: '',
-  },
-  exception: ''
+  }
 } as ValidationResponse;
 
 const eventUploadSlice = createSlice({
@@ -26,8 +18,7 @@ const eventUploadSlice = createSlice({
     showTable: false,
     currentStep: 1,
     file: null,
-    validationResponse: validationResultDefault,
-    submitResponse: { isSuccessful: false, message: '' } as SubmitResponse
+    validationResponse: validationResultDefault
   },
   reducers: {
     setNextStep: state => {
@@ -45,9 +36,6 @@ const eventUploadSlice = createSlice({
     setResetValidationResult: state => {
       state.validationResponse = validationResultDefault;
     },
-    resetResponse: state => {
-      state.submitResponse = { isSuccessful: false, message: '' };
-    },
     setShowTable: (state, action) => {
       state.showTable = action.payload;
     }
@@ -63,9 +51,6 @@ const eventUploadSlice = createSlice({
         state.isLoading = false;
       }).addCase(submitProviderThunk.pending, state => {
         state.isLoading = true;
-      }).addCase(submitProviderThunk.fulfilled, (state, { payload }) => {
-        state.submitResponse = payload;
-        state.isLoading = false;
       }).addCase(submitProviderThunk.rejected, state => {
         state.isLoading = false;
       });
@@ -78,7 +63,6 @@ const {
   setBackStep,
   setStep,
   setFile,
-  resetResponse,
   setResetValidationResult,
   setShowTable
 } = actions;
@@ -88,7 +72,6 @@ export {
   setBackStep,
   setStep,
   setFile,
-  resetResponse,
   setResetValidationResult,
   uploadProviderThunk,
   submitProviderThunk,

@@ -10,20 +10,13 @@ type TReview = {
   key: number;
 };
 
-type UploadRequest = {
-  file: File;
-};
-
 type ValidationResponse = {
-  hasError: boolean;
-  sessionId: string;
-  recordCount: number;
-  validationResults: Array<MessageResponse>;
-  isSuccessful: boolean;
-  exception: string;
+  isSuccess: boolean;
+  value: {
+    originalRecordCount: number;
+    sessionId: string;
+
+  };
 };
 
-type MessageResponse = {
-  row: number;
-  message: string;
-};
+export { TGetTemplate, TUploadProviderFile, TReview, ValidationResponse };

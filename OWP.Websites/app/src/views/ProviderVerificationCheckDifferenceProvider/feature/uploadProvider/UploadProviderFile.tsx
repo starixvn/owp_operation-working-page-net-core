@@ -4,6 +4,7 @@ import { BackButton, NextButton } from './Button';
 import ToastrWrapper from '../../../components/ToastrWrapper';
 import { validateFile } from '../../../Shared/uploadFile/validationHelper';
 import { setFile } from './providerUploadSlice';
+import { TUploadProviderFile } from '../../type/typeNative';
 
 const UPLOAD_PLACEHOLDER = 'Upload file';
 

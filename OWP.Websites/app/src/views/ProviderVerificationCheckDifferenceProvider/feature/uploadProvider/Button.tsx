@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { saveAs } from "file-saver";
 import axios, { AxiosResponse } from 'axios';
-import { resetResponse, setBackStep, setNextStep, setResetValidationResult } from './providerUploadSlice';
+import { setBackStep, setNextStep, setResetValidationResult } from './providerUploadSlice';
 
 const BackButton = (props: { onClick?: Function; }) => {
   const { onClick } = props;
@@ -24,7 +24,6 @@ const NextButton = (props: { onValidate?: Function; }) => {
   const handleClick = () => {
     if (!onValidate || onValidate()) {
       dispatch(setNextStep());
-      dispatch(resetResponse());
       dispatch(setResetValidationResult());
     }
   };

@@ -69,12 +69,8 @@ type TColumnKey =
   | 'League'
   | 'Match'
   | 'LstBookProvider'
-  | 'InHouseProviderId'
-  | 'ProviderId'
   | 'Provider'
-  | 'ConfirmProvider'
-  | 'Remark'
-  | 'RemarkBy';
+  | 'ConfirmProvider';
 
 type TMultipleColumnFilterOption = {
   [key in TColumnKey]: Option[];

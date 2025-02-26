@@ -1,6 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { UploadRequest } from '../../type/typeNative';
 import Utils from '../../../Shared/Utils';
 import { get } from '../../../Shared/Service/Service';
 
@@ -8,11 +7,9 @@ const API_BASE_URL = 'api/ProviderVerification/upload-agent';
 
 const uploadProviderThunk = createAsyncThunk(
   'upload',
-  async (model: UploadRequest) => {
-    const file = model;
+  async (model: File) => {
     const formData = new FormData();
-    formData.append('uploadFile', file, file.name);
-
+    formData.append('uploadFile', model, model.name);
     const response = await axios.post(`${API_BASE_URL}/validate`, formData);
 
     return response.data;

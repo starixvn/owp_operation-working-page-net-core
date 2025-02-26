@@ -1,6 +1,7 @@
 import { NextButton } from './Button';
 import { saveAs } from "file-saver";
 import axios, { AxiosResponse } from 'axios';
+import { TGetTemplate } from '../../type/typeNative';
 
 const GetTemplate = (props: TGetTemplate) => {
 
