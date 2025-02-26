@@ -14,7 +14,9 @@ const exportAndConfirmAllEvent = async exportCallback => {
     const { entities } = store.getState().eventPickingTable;
     await store.dispatch(exportCallback(param));
     if (entities.length) {
-      const infoSiteMatchIds = entities.map(element => element.infoSiteMatchId);
+      const infoSiteMatchIds = entities
+        .filter(element => !element.isMovedEventDate)
+        .map(element => element.infoSiteMatchId);
       await store.dispatch(
         updateConfirmedThunk({
           infoSiteMatchIds,
