@@ -75,6 +75,7 @@ public static class ServiceCollectionExtensions
             mc.AddProfile(new MessageManagement.AutoMapperProfile());
             mc.AddProfile(new OddsCompiler.AutoMapperProfile());
             mc.AddProfile(new NewLeagueSetting.AutoMapperProfile());
+            mc.AddProfile(new EventPicking.AutoMapperProfile());
         });
 
         var mapper = mapperConfig.CreateMapper();
