@@ -13,6 +13,7 @@
     <ProjectReference Include="..\OWP.RabbitMQ\OWP.RabbitMQ.csproj" />
     <ProjectReference Include="..\OWP\OWP.csproj" />
     <PackageReference Include="EPPlus" Version="7.5.3" />
+    <PackageReference Include="Epplus.Mapper" Version="7.5.0" />
     <PackageReference Include="Fanex.Caching" Version="2.2.8" />
     <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="Fanex.NAP.Client" Version="2.0.2" />
