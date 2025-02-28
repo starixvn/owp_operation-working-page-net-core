@@ -40,9 +40,9 @@ const getConfirmProvider = createAsyncThunk(
 );
 
 const saveConfirmProvider = createAsyncThunk(
-  'provider-verification/save-confirm-provider',
-  async (data: { owpMatchId: number; confirmProviderSelected: string; }) => {
-    const url = getUrl('save-confirm-provider');
+  'provider-verification/save-provider-confirm',
+  async (data: { owpMatchId: number; agentSelected: string; }) => {
+    const url = getUrl('save-provider-confirm');
     const prop = {
       url,
       ...data

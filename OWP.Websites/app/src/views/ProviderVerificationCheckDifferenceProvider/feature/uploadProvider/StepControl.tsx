@@ -35,6 +35,7 @@ const StepControl = (props: PropTypes) => {
   }, [clickStep]);
 
   const renderStepNodeTemplate = (step: number) => {
+    const className = currentStep > step || showTable ? 'active' : '';
     const title = [
       {
         title: 'GET AGENT PROVIDERID TEMPLATE',
@@ -58,7 +59,6 @@ const StepControl = (props: PropTypes) => {
       onClick && onClick();
     };
 
-    const className = currentStep > step || showTable ? 'active' : '';
 
     return (
       <li className={className} role='tab'>

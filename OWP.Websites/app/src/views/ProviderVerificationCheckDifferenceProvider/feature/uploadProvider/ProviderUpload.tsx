@@ -8,10 +8,6 @@ import { useAppSelector } from '../../app/hooks';
 const ProviderUpload = () => {
   const currentStep = useAppSelector(state => state.upload.currentStep);
 
-  useEffect(() => {
-    // dispatch(setEventDate(buildDateString(defaultDate)));
-  }, []);
-
   const wizardContent = [
     <GetTemplate key={0} />,
     <UploadProviderFile key={1} />,
