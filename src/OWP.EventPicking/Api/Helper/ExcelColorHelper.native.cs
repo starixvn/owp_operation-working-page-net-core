@@ -1,4 +1,5 @@
 using System.Text;
+using Olympus.OWP.Constants;
 using OWP.EventPicking.Api.Constant;
 using OWP.EventPicking.Api.Models;
 
@@ -13,7 +14,7 @@ public static class ExcelColorHelper
             var match = matches[i];
             for (var column = 1; column <= 76; column++)
             {
-                if (match.RowColorHex == null || match.RowColorHex == Misc.Constant.ColorWhiteHex)
+                if (match.RowColorHex is null or Misc.Constant.ColorWhiteHex)
                 {
                     continue;
                 }
@@ -33,29 +34,30 @@ public static class ExcelColorHelper
 
             FillColorAndAddRemark(matches[i], row, templateSheet);
             FillColorTeamColumn(matches[i], row, templateSheet);
-            FillColor(matches[i], row, templateSheet, Misc.Constant.TIME_COL_INDEX, RAndDColorConstant.UPDATE_KO_TIME);
-            FillColor(matches[i], row, templateSheet, Misc.Constant.DATE_COL_INDEX, RAndDColorConstant.RENEW_MATCH);
-            FillColor(matches[i], row, templateSheet, Misc.Constant.LEAGUE_COL_INDEX, RAndDColorConstant.UPDATE_LEAGUE);
-            FillColor(matches[i], row, templateSheet, Misc.Constant.TV_COL_INDEX, RAndDColorConstant.UPDATE_TV, RAndDColorConstant.CANCEL_TV);
-            FillColor(matches[i], row, templateSheet, Misc.Constant.IPTV_COL_INDEX, RAndDColorConstant.UPDATE_IPTV, RAndDColorConstant.CANCEL_IPTV);
-            FillColor(matches[i], row, templateSheet, Misc.Constant.ROUND_COL_INDEX, RAndDColorConstant.UPDATE_ROUND, RAndDColorConstant.CANCEL_ROUND);
-            FillColor(matches[i], row, templateSheet, Misc.Constant.REMARK_COL_INDEX, RAndDColorConstant.UPDATE_REMARK, RAndDColorConstant.CANCEL_REMARK);
-            FillColor(matches[i], row, templateSheet, Misc.Constant.HOME_REMARK_COL_INDEX, RAndDColorConstant.UPDATE_HOME_REMARK, RAndDColorConstant.CANCEL_HOME_REMARK);
-            FillColor(matches[i], row, templateSheet, Misc.Constant.AWAY_REMARK_COL_INDEX, RAndDColorConstant.UPDATE_AWAY_REMARK, RAndDColorConstant.CANCEL_AWAY_REMARK);
-            FillColor(matches[i], row, templateSheet, Misc.Constant.OTHER_PROVIDER_COL_INDEX, RAndDColorConstant.UPDATE_OTHER_PROVIDER, RAndDColorConstant.CANCEL_OTHER_PROVIDER);
-            FillColor(matches[i], row, templateSheet, Misc.Constant.DIVISION_COL_INDEX, RAndDColorConstant.UPDATE_DIVISION, RAndDColorConstant.CANCEL_DIVISION);
-            FillColor(matches[i], row, templateSheet, Misc.Constant.ROUND_CONFIRM_COL_INDEX, RAndDColorConstant.UPDATE_ROUND_CONFIRM, RAndDColorConstant.CANCEL_ROUND_CONFIRM);
-            FillColor(matches[i], row, templateSheet, Misc.Constant.ADMINSITE_ID_COL_INDEX, RAndDColorConstant.UPDATE_ADMINSITEID, RAndDColorConstant.CANCEL_ADMINSITEID);
-            FillColor(matches[i], row, templateSheet, Misc.Constant.WEB1_COL_INDEX, RAndDColorConstant.UPDATE_WEB1, RAndDColorConstant.CANCEL_WEB1);
-            FillColor(matches[i], row, templateSheet, Misc.Constant.WEB2_COL_INDEX, RAndDColorConstant.UPDATE_WEB2, RAndDColorConstant.CANCEL_WEB2);
-            FillColor(matches[i], row, templateSheet, Misc.Constant.WEB3_COL_INDEX, RAndDColorConstant.UPDATE_WEB3, RAndDColorConstant.CANCEL_WEB3);
-            FillColor(matches[i], row, templateSheet, Misc.Constant.WEB4_COL_INDEX, RAndDColorConstant.UPDATE_WEB4, RAndDColorConstant.CANCEL_WEB4);
-            FillColor(matches[i], row, templateSheet, Misc.Constant.LINK_COL_INDEX, RAndDColorConstant.UPDATE_LINK, RAndDColorConstant.CANCEL_LINK);
-            FillColor(matches[i], row, templateSheet, Misc.Constant.CHANNEL_COL_INDEX, RAndDColorConstant.UPDATE_CHANNEL, RAndDColorConstant.CANCEL_CHANNEL);
-            FillColor(matches[i], row, templateSheet, Misc.Constant.AGENT_COL_INDEX, RAndDColorConstant.UPDATE_AGENT, RAndDColorConstant.CANCEL_AGENT);
-            FillColor(matches[i], row, templateSheet, Misc.Constant.VENUE_COL_INDEX, RAndDColorConstant.UPDATE_VENUE, RAndDColorConstant.CANCEL_VENUE);
-            FillColor(matches[i], row, templateSheet, Misc.Constant.ETPK_COL_INDEX, RAndDColorConstant.UPDATE_ETPK, RAndDColorConstant.CANCEL_ETPK);
-            FillColor(matches[i], row, templateSheet, Misc.Constant.HOME_COL_INDEX, RAndDColorConstant.UPDATE_NEUTRAL, RAndDColorConstant.CANCEL_NEUTRAL);
+            FillColor(matches[i], row, templateSheet, Misc.Constant.TIME_COL_INDEX, UpdateTypeConstant.UPDATE_KO_TIME);
+            FillColor(matches[i], row, templateSheet, Misc.Constant.DATE_COL_INDEX, UpdateTypeConstant.RENEW_MATCH);
+            FillColor(matches[i], row, templateSheet, Misc.Constant.LEAGUE_COL_INDEX, UpdateTypeConstant.UPDATE_LEAGUE);
+            FillColor(matches[i], row, templateSheet, Misc.Constant.TV_COL_INDEX, UpdateTypeConstant.UPDATE_TV, UpdateTypeConstant.CANCEL_TV);
+            FillColor(matches[i], row, templateSheet, Misc.Constant.IPTV_COL_INDEX, UpdateTypeConstant.UPDATE_IPTV, UpdateTypeConstant.CANCEL_IPTV);
+            FillColor(matches[i], row, templateSheet, Misc.Constant.ROUND_COL_INDEX, UpdateTypeConstant.UPDATE_ROUND, UpdateTypeConstant.CANCEL_ROUND);
+            FillColor(matches[i], row, templateSheet, Misc.Constant.REMARK_COL_INDEX, UpdateTypeConstant.UPDATE_REMARK, UpdateTypeConstant.CANCEL_REMARK);
+            FillColor(matches[i], row, templateSheet, Misc.Constant.REMARK2_COL_INDEX, UpdateTypeConstant.UPDATE_REMARK2, UpdateTypeConstant.CANCEL_REMARK2);
+            FillColor(matches[i], row, templateSheet, Misc.Constant.HOME_REMARK_COL_INDEX, UpdateTypeConstant.UPDATE_HOME_REMARK, UpdateTypeConstant.CANCEL_HOME_REMARK);
+            FillColor(matches[i], row, templateSheet, Misc.Constant.AWAY_REMARK_COL_INDEX, UpdateTypeConstant.UPDATE_AWAY_REMARK, UpdateTypeConstant.CANCEL_AWAY_REMARK);
+            FillColor(matches[i], row, templateSheet, Misc.Constant.OTHER_PROVIDER_COL_INDEX, UpdateTypeConstant.UPDATE_OTHER_PROVIDER, UpdateTypeConstant.CANCEL_OTHER_PROVIDER);
+            FillColor(matches[i], row, templateSheet, Misc.Constant.DIVISION_COL_INDEX, UpdateTypeConstant.UPDATE_DIVISION, UpdateTypeConstant.CANCEL_DIVISION);
+            FillColor(matches[i], row, templateSheet, Misc.Constant.ROUND_CONFIRM_COL_INDEX, UpdateTypeConstant.UPDATE_ROUND_CONFIRM, UpdateTypeConstant.CANCEL_ROUND_CONFIRM);
+            FillColor(matches[i], row, templateSheet, Misc.Constant.ADMINSITE_ID_COL_INDEX, UpdateTypeConstant.UPDATE_ADMINSITEID, UpdateTypeConstant.CANCEL_ADMINSITEID);
+            FillColor(matches[i], row, templateSheet, Misc.Constant.WEB1_COL_INDEX, UpdateTypeConstant.UPDATE_WEB1, UpdateTypeConstant.CANCEL_WEB1);
+            FillColor(matches[i], row, templateSheet, Misc.Constant.WEB2_COL_INDEX, UpdateTypeConstant.UPDATE_WEB2, UpdateTypeConstant.CANCEL_WEB2);
+            FillColor(matches[i], row, templateSheet, Misc.Constant.WEB3_COL_INDEX, UpdateTypeConstant.UPDATE_WEB3, UpdateTypeConstant.CANCEL_WEB3);
+            FillColor(matches[i], row, templateSheet, Misc.Constant.WEB4_COL_INDEX, UpdateTypeConstant.UPDATE_WEB4, UpdateTypeConstant.CANCEL_WEB4);
+            FillColor(matches[i], row, templateSheet, Misc.Constant.LINK_COL_INDEX, UpdateTypeConstant.UPDATE_LINK, UpdateTypeConstant.CANCEL_LINK);
+            FillColor(matches[i], row, templateSheet, Misc.Constant.CHANNEL_COL_INDEX, UpdateTypeConstant.UPDATE_CHANNEL, UpdateTypeConstant.CANCEL_CHANNEL);
+            FillColor(matches[i], row, templateSheet, Misc.Constant.AGENT_COL_INDEX, UpdateTypeConstant.UPDATE_AGENT, UpdateTypeConstant.CANCEL_AGENT);
+            FillColor(matches[i], row, templateSheet, Misc.Constant.VENUE_COL_INDEX, UpdateTypeConstant.UPDATE_VENUE, UpdateTypeConstant.CANCEL_VENUE);
+            FillColor(matches[i], row, templateSheet, Misc.Constant.ETPK_COL_INDEX, UpdateTypeConstant.UPDATE_ETPK, UpdateTypeConstant.CANCEL_ETPK);
+            FillColor(matches[i], row, templateSheet, Misc.Constant.HOME_COL_INDEX, UpdateTypeConstant.UPDATE_NEUTRAL, UpdateTypeConstant.CANCEL_NEUTRAL);
         }
     }
 
@@ -71,16 +73,26 @@ public static class ExcelColorHelper
     {
         var remarkBuilder = new StringBuilder();
 
-        if (ExistsUpdateType(match, RAndDColorConstant.NEW_MATCH))
+        if (ExistsUpdateType(match, UpdateTypeConstant.NEW_MATCH))
         {
             remarkBuilder.Insert(0, "[NEW ADD]");
+        }
+
+        if (IsRenewMatchPostponed(match))
+        {
+            remarkBuilder.Insert(0, "[Renew Match] [POSTPONED] ");
+        }
+
+        if (IsRenewMatchAfterChangeKODate(match))
+        {
+            remarkBuilder.Insert(0, "[Renew Match] [Move KO Date] ");
         }
 
         if (match.IsDeleted)
         {
             remarkBuilder.Insert(0, "[DELETED MATCH] ");
         }
-        else if (IsPostponed(match))
+        else if (match.IsPostponed)
         {
             remarkBuilder.Insert(0, "[POSTPONED] ");
         }
@@ -115,7 +127,7 @@ public static class ExcelColorHelper
 
     private static void FillColorTeamColumn(EventPickingModel match, int row, ExcelWorksheet templateSheet)
     {
-        var updateTeam = match.RAndDInfo?.Find(r => r.UpdateTypeId == RAndDColorConstant.UPDATE_TEAM);
+        var updateTeam = match.RAndDInfo?.Find(r => r.UpdateTypeId == UpdateTypeConstant.UPDATE_TEAM);
         if (updateTeam is not null)
         {
             PinkColor(templateSheet.Cells[row, updateTeam.HomeUpdated
@@ -168,12 +180,6 @@ public static class ExcelColorHelper
         }
     }
 
-    private static bool IsPostponed(EventPickingModel match)
-    {
-        return (!string.IsNullOrEmpty(match.Remark2) &&
-                 match.Remark2.Contains("Postponed", StringComparison.OrdinalIgnoreCase)) || match.IsPostponed;
-    }
-
     private static bool IsCancelled(EventPickingModel match)
     {
         return (!string.IsNullOrEmpty(match.Remark2) &&
@@ -185,4 +191,12 @@ public static class ExcelColorHelper
     {
         return match.InfoSiteMatchStatus == InfoSiteMatchStatus.Suspended;
     }
+
+    private static bool IsRenewMatchPostponed(EventPickingModel match)
+        => match.RAndDInfo is not null
+           && match.RAndDInfo.Any(r => r.UpdateTypeId == UpdateTypeConstant.RENEW_MATCH && r.OldValue == "Postponed");
+
+    private static bool IsRenewMatchAfterChangeKODate(EventPickingModel match)
+        => match.RAndDInfo is not null
+           && match.RAndDInfo.Any(r => r.UpdateTypeId == UpdateTypeConstant.RENEW_MATCH && r.OldValue != "Postponed");
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OWP.MaxbetSetting.Handlers;
+using OWP.Services;
 
 namespace OWP.MaxbetSetting;
 
@@ -10,17 +11,20 @@ namespace OWP.MaxbetSetting;
 [Authorize]
 public class MaxbetSettingController
 {
+    private readonly MaxbetSettingService maxbetSettingService;
+
     private readonly IMediator mediator;
 
-    public MaxbetSettingController(IMediator mediator)
+    public MaxbetSettingController(MaxbetSettingService maxbetSettingService, IMediator mediator)
     {
+        this.maxbetSettingService = maxbetSettingService;
         this.mediator = mediator;
     }
 
     [HttpGet("get-maxbet-setting")]
     public async Task<IActionResult> QueryMaxbetSetting()
     {
-        var result = await mediator.Send(new QueryMaxbetSettingRequest());
+        var result = await maxbetSettingService.QueryMaxbetSetting();
 
         return new JsonResult(result);
     }

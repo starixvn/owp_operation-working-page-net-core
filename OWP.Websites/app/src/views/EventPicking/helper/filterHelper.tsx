@@ -122,14 +122,14 @@ const buildRAndDInfoOptions = (
   const rAndDInfo = uniqBy(
     entities
       .map(entity =>
-        entity.rAndDInfo?.length ? entity.rAndDInfo : [{ updateTypeId: null }]
+        entity.rAndDInfo?.length ? entity.rAndDInfo : [{ group: null }]
       )
       .flat(Infinity),
-    i => i.updateTypeId
+    i => i.group
   );
 
   return rAndDInfoOriginalOption.filter(o =>
-    rAndDInfo.some(r => r.updateTypeId === o.value)
+    rAndDInfo.some(r => r.group === o.value)
   );
 };
 const buildTableMultipleFilterOptions = (
@@ -227,7 +227,7 @@ const filterByRAndD = (
 ) => {
   return entities.filter(
     e =>
-      e.rAndDInfo?.some(r => selectedValue?.some(s => s === r.updateTypeId)) ||
+      e.rAndDInfo?.some(r => selectedValue?.some(s => s === r.group)) ||
       (!e.rAndDInfo?.length && selectedValue?.some(s => !s))
   );
 };

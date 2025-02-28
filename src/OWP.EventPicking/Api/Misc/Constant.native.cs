@@ -40,6 +40,7 @@ public static class Constant
     public const int LEAGUE_COL_INDEX = 11;
     public const int DIVISION_COL_INDEX = 35;
     public const int REMARK_COL_INDEX = 36;
+    public const int REMARK2_COL_INDEX = 37;
     public const int HOME_REMARK_COL_INDEX = 38;
     public const int AWAY_REMARK_COL_INDEX = 39;
     public const int LINK_COL_INDEX = 40;

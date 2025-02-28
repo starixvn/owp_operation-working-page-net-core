@@ -38,7 +38,7 @@ public class QueryEventPickingServiceImpTests
             HasProvider = ["yes"],
             HasOtherProvider = ["yes"],
             FilterMatchCategory = [1],
-            UpdateType = [1],
+            UpdateType = ["1"],
             Period = new Period
             {
                 OneMonth = new TimeRange { FromDate = DateTime.Now.AddMonths(-1), ToDate = DateTime.Now },
@@ -78,7 +78,7 @@ public class QueryEventPickingServiceImpTests
                 }, true)));
 
         // Act
-        var result = await _service.Execute(request);
+        var result = await _service.Execute(request,new List<short>() );
 
         // Assert
         Assert.NotNull(result);
@@ -97,7 +97,7 @@ public class QueryEventPickingServiceImpTests
             HasProvider = ["yes"],
             HasOtherProvider = ["yes"],
             FilterMatchCategory = [1],
-            UpdateType = [1],
+            UpdateType = ["1"],
             Period = new Period
             {
                 OneMonth = new TimeRange { FromDate = DateTime.Now.AddMonths(-1), ToDate = DateTime.Now },
@@ -186,7 +186,7 @@ public class QueryEventPickingServiceImpTests
                     HasProvider = ["yes"],
                     HasOtherProvider = ["yes"],
 
-                    UpdateType = [1]
+                    UpdateType = ["1"]
                 },
                 true
         ];
@@ -212,7 +212,7 @@ public class QueryEventPickingServiceImpTests
                     HasProvider = ["yes"],
                     HasOtherProvider = ["yes"],
 
-                    UpdateType = [1]
+                    UpdateType = ["1"]
                 },
                 false
         ];
@@ -238,7 +238,7 @@ public class QueryEventPickingServiceImpTests
                     HasProvider = ["yes"],
                     HasOtherProvider = ["yes"],
 
-                    UpdateType = [1]
+                    UpdateType = ["1"]
                 },
                 false
         ];
@@ -264,7 +264,7 @@ public class QueryEventPickingServiceImpTests
                     HasProvider = ["yes"],
                     HasOtherProvider = ["yes"],
 
-                    UpdateType = [1]
+                    UpdateType = ["1"]
                 },
                 true
         ];

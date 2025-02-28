@@ -1,6 +1,6 @@
 ﻿using OWP.EventPicking.Api.Models;
 using OWP.EventPicking.Api.Services;
-using OWP.MaxbetSetting.Models;
+using OWP.Models;
 using Xunit;
 
 namespace OWP.EventPicking.UnitTests.Services;

@@ -1,4 +1,4 @@
-using OWP.MaxbetSetting.Models;
+using OWP.Models;
 using Xunit;
 
 namespace OWP.EventPicking.UnitTests.Services;

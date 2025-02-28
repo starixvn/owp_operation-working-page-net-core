@@ -1,14 +1,18 @@
 ﻿using OWP.Constants;
+using OWP.EventPicking.Api.Constant;
 using OWP.EventPicking.Api.Criteria;
 using OWP.EventPicking.Api.Helper;
 using OWP.EventPicking.Api.Middleware.Models;
 using OWP.EventPicking.Api.Models;
+using System.Linq;
+using Olympus.OWP.Constants;
 
 namespace OWP.EventPicking.Api.Services;
 
 public interface QueryEventPickingService
 {
-    Task<EventPickingResult> Execute(EventPickingRequest request);
+
+    Task<EventPickingResult> Execute(EventPickingRequest request, IList<short> excludedUpdateTypes);
 }
 
 public class QueryEventPickingServiceImp : QueryEventPickingService
@@ -28,7 +32,7 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
         this.tGRSService = tGRSService;
     }
 
-    public async Task<EventPickingResult> Execute(EventPickingRequest request)
+    public async Task<EventPickingResult> Execute(EventPickingRequest request, IList<short> excludedUpdateTypes)
     {
         var matches = await buildMainAndChildMatches.GetMainEvent(request.Date);
         var eventPickingPolicy = permissionService.GetPermissions(FunctionKeys.EventPickingNew);
@@ -47,8 +51,8 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
 
         return new EventPickingResult
         {
-            MatchesByDate = SelectMatchOfferInfos(matches),
-            FilteredMatches = allMatches
+            MatchesByDate = SelectMatchOfferInfos(ExcludeUpdateType(matches, excludedUpdateTypes)),
+            FilteredMatches = ExcludeUpdateType(allMatches,excludedUpdateTypes)
         };
     }
 
@@ -159,17 +163,36 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
 
     private static bool CheckUpdateType(EventPickingModel match, EventPickingRequest condition)
     {
-        if (condition.UpdateType.Contains(null) && match.RAndDInfo.Count == 0)
+        if (condition.UpdateType.Exists(string.IsNullOrEmpty) && match.RAndDInfo.Count == 0)
         {
             return true;
         }
 
         return match.RAndDInfo
-            .Select(x => x.UpdateTypeId)
-            .Any(x => condition.UpdateType.Contains(x));
+            .Where(info => !string.IsNullOrEmpty(info.Group))
+            .Any(info => condition.UpdateType.Exists(ut => ut == info.Group) &&
+                         (info.UpdateTypeId != UpdateTypeConstant.MATCH_POSTPONED || match.IsPostponed)); 
     }
 
+    private static List<EventPickingModel> ExcludeUpdateType(List<EventPickingModel> eventPicking, IList<short> excludedUpdateTypes)
+    {
+        foreach (var @event in eventPicking)
+        {
+            var filteredRAndDInfo = @event.RAndDInfo
+                .Where(e => excludedUpdateTypes.All(t => t != e.UpdateTypeId))
+                .ToList();
 
+            if (!@event.IsPostponed)
+            {
+                filteredRAndDInfo = filteredRAndDInfo
+                    .Where(r => r.UpdateTypeId != UpdateTypeConstant.MATCH_POSTPONED)
+                    .ToList();
+            }
+
+            @event.RAndDInfo = filteredRAndDInfo;
+        }
+        return eventPicking;
+    }
     private static int ConvertBoolToInt(bool value) => value ? 1 : 0;
 
     private static List<MatchOfferInfo> SelectMatchOfferInfos(List<EventPickingModel> matches)

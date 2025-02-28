@@ -139,6 +139,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<AccessCounter, AccessCounterImp>();
         services.AddScoped<UserRepository, UserRepositoryImp>();
         services.AddScoped<OldNotificationService, OldNotificationServiceImp>();
+        services.AddScoped<MaxbetSettingService, MaxbetSettingServiceImp>();
         return services;
     }
 
