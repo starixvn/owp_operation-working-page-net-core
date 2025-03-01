@@ -163,7 +163,8 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
 
     private static bool CheckUpdateType(EventPickingModel match, EventPickingRequest condition)
     {
-        if (condition.UpdateType.Exists(string.IsNullOrEmpty) && match.RAndDInfo.Count == 0)
+        if (condition.UpdateType.Exists(string.IsNullOrEmpty) &&
+            (match.RAndDInfo.Count == 0 || match.RAndDInfo.Any(info => string.IsNullOrEmpty(info.Group))))
         {
             return true;
         }
