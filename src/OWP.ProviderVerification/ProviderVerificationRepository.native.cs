@@ -72,7 +72,8 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
                     {
                         Label = y.AgentName,
                         Value = y.AgentId
-                    }).ToList()
+                    }).ToList(),
+                ProviderMatch = providerMatches.Where(x => x.OWPMatchId == match.OWPMatchId).ToList()
             };
             var ticket = hasTicketModel.Find(x => x.ParentMatchId == match.OWPMatchId);
             if (ticket is not null)

@@ -43,12 +43,17 @@ public class EventModel
     public string InHouseProviderId { get; set; }
 
     public string ProviderMatchId { get; set; }
+
+    public string Provider { get; set; }
 }
 
 public class ProviderVerificationModel : EventModel
 {
     // TODO
     public List<AgentConfirmOption> AgentConfirm { get; set; }
+
+    public List<ProviderMatchModel> ProviderMatch { get; set; }
+
 
     public string RowColor => MatchStatus switch
     {

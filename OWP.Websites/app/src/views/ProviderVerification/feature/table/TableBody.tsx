@@ -44,7 +44,7 @@ const TableBody = ({ dataSource }: { dataSource: TDataSource[] }) => {
             className='lst-book-provider'
             value={event.LstBookProvider}
             index={index}
-            isCanToolTip={false}
+            isCanToolTip={true}
           />
 
           <ReadonlyCommonCell
