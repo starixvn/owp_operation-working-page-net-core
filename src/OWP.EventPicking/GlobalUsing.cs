@@ -13,7 +13,9 @@ global using OWP.EventPicking.Api.Criteria;
 global using OWP.EventPicking.Api.Handlers;
 global using OWP.EventPicking.Api.Models;
 global using AutoMapper;
-
+global using Olympus.OWP.Constants;
+global using Olympus.Xml;
+global using OWP.EventPicking.Api.Constant;
 
 global using Olympus.OWP.Log.Criteria;
 global using Olympus.OWP.Log.Services;

@@ -74,3 +74,12 @@ public static class RAndDColorConstant
         {58, (CANCEL_COLOR, WHITE)},
     }.ToImmutableDictionary();
 }
+
+public sealed class UpdateTypeConst
+{
+    public static readonly IImmutableDictionary<int, string> UpdateType = new Dictionary<int, string>
+    {
+        { UpdateTypeConstant.MOVE_KICKOFF_DATE, "Move <b>KO Date</b>" },
+        { UpdateTypeConstant.RENEW_MATCH, "Renew Match" },
+    }.ToImmutableDictionary();
+}

@@ -9,6 +9,7 @@
     <AdditionalFiles Include="..\..\.sonarlint\nap-owp-netcore\CSharp\SonarLint.xml" Link="SonarLint.xml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
     <PackageReference Include="EPPlus" Version="7.5.3" />
     <PackageReference Include="Olympus.OWP.Log" Version="9.0.1" />
     <PackageReference Include="Epplus.Mapper" Version="7.5.0" />
