@@ -9,7 +9,7 @@ const ConfirmProviderCell = ({
   owpMatchId
 }: {
   confirmProvider: Option[];
-  owpMatchId: number;
+  owpMatchId?: number;
 }) => {
   const confirmProviderOption = useAppSelector(
     store => store.events.confirmProviderOption

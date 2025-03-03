@@ -12,9 +12,9 @@ const Table = () => {
   );
   const { maxHeight, maxWidth } = useLayoutTable();
 
-  // if (isEquals(loadingDataTable, REQUEST_STATUS.pending)) {
-  //   return <Loading />;
-  // }
+  if (isEquals(loadingDataTable, REQUEST_STATUS.pending)) {
+    return <Loading />;
+  }
 
   return (
     <>

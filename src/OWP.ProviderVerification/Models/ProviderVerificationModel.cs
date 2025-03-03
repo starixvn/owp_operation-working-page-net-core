@@ -5,7 +5,7 @@ namespace OWP.ProviderVerification.Models;
 
 public class EventModel
 {
-    public int OWPMatchId { get; set; }
+    public int ?OWPMatchId { get; set; }
 
     [Cell("A2")]
     public string MatchNo { get; set; }
@@ -14,7 +14,7 @@ public class EventModel
     public string MatchStatus { get; set; }
 
     [Cell("C2")]
-    public DateTime EventDateTime { get; set; }
+    public DateTime ?EventDateTime { get; set; }
 
     [Cell("D2")]
     public string KoTime { get; set; }

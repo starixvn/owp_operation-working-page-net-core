@@ -9,23 +9,23 @@ type TConfirmProvider = {
 };
 
 type TDataSource = {
-  LstBookProvider?: string | null;
-  InHouseProviderId?: string | null;
-  ProviderId?: string | null;
-  Provider?: string | null;
-  Remark?: string | null;
-  RemarkBy?: string | null;
-  OWPMatchId: number;
+  lstBookProvider?: string | null;
+  inHouseProviderId?: string | null;
+  providerMatchId?: string | null;
+  provider?: string | null;
+  remark?: string | null;
+  remarkBy?: string | null;
+  owpMatchId?: number;
   ParentMatchId: number;
-  MatchNo: string;
-  MatchStatus: string;
-  EventDateTime: string;
-  League: string;
-  Home: string;
-  Away: string;
-  ConfirmProvider: TConfirmProvider[];
-  AgentConfirm: TConfirmProvider[];
-  RowColor: string | undefined;
+  matchNo: string;
+  matchStatus: string;
+  eventDateTime?: string;
+  league: string;
+  home: string;
+  away: string;
+  confirmProvider: TConfirmProvider[];
+  agentConfirm: TConfirmProvider[];
+  rowColor: string | undefined;
 } & {
   [key in TEditTableKey]: string | undefined;
 } & TTicketCell;

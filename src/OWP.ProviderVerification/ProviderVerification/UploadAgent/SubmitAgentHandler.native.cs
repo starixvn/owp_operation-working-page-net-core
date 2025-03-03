@@ -1,7 +1,7 @@
 ﻿
 namespace OWP.ProviderVerification.ProviderVerification.UploadAgent;
 
-public record SubmitAgentRequest(string SessionId) : Query<ResultT<IList<ProviderVerificationModel>>>;
+public record SubmitAgentRequest(string SessionId, DateTime date) : Query<ResultT<IList<ProviderVerificationModel>>>;
 
 public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository repository) : QueryHandler<SubmitAgentRequest, ResultT<IList<ProviderVerificationModel>>>
 {
@@ -13,7 +13,7 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
 
         var (_, excelProviderModel) = await cache.TryGetAsync<string>(cacheKey);
         var excelProviderModels = JsonConvert.DeserializeObject<IList<ExcelProviderModel>>(excelProviderModel);
-        var compareResult = await Compare(excelProviderModels);
+        var compareResult = await Compare(request.date, excelProviderModels);
         if (compareResult?.Any() == true)
         {
             await SaveProviderCompareInfo(request.SessionId, compareResult);
@@ -22,30 +22,35 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
         return ResultT<IList<ProviderVerificationModel>>.Success(compareResult);
     }
 
-    private async Task<IList<ProviderVerificationModel>> Compare(IList<ExcelProviderModel> excelProviderModels)
+    private async Task<IList<ProviderVerificationModel>> Compare(DateTime date, IList<ExcelProviderModel> excelProviderModels)
     {
         var criteria = new GetProviderVerificationCriteria
         {
-            EventDate = new DateTime(2025, 2, 12),
+            EventDate = date,
             OnlyShowIsMismatchEvent = false
         };
 
         var providerVerification = await repository.GetProviderVerification(criteria);
 
-        var excelProviderMatchIds = new HashSet<string>(excelProviderModels.Select(e => e.ProviderMatchID));
+        var providerVerificationIds = providerVerification
+            .SelectMany(pv => pv.ProviderMatch.Select(pm => pm.ProviderMatchId.ToString()))
+            .ToHashSet();
 
-        var unmatchedInProviderVerification = providerVerification
-            .Where(pv => pv.ProviderMatch.All(pm => !excelProviderMatchIds.Contains(pm.ProviderMatchId.ToString())))
+        var excelProviderMatchIDs = excelProviderModels.Select(e => e.ProviderMatchID).ToHashSet();
+
+        var unMapProviderVerification = providerVerification
+            .Where(pv => pv.ProviderMatch.All(pm =>
+                !excelProviderMatchIDs.Contains(pm.ProviderMatchId.ToString())))
             .ToList();
 
-        var unmatchedInExcel = excelProviderModels
-            .Where(e => !excelProviderMatchIds.Contains(e.ProviderMatchID))
+        var unMapInExcel = excelProviderModels
+            .Where(e => !providerVerificationIds.Contains(e.ProviderMatchID))
             .Select(e => new ProviderVerificationModel
             {
-                OWPMatchId = 0,
+                OWPMatchId = null,
                 MatchNo = string.Empty,
                 MatchStatus = string.Empty,
-                EventDateTime = DateTime.MinValue,
+                EventDateTime = null,
                 KoTime = string.Empty,
                 League = string.Empty,
                 Home = string.Empty,
@@ -61,9 +66,9 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
             })
             .ToList();
 
-        unmatchedInProviderVerification.AddRange(unmatchedInExcel);
+        unMapProviderVerification.AddRange(unMapInExcel);
 
-        return unmatchedInProviderVerification;
+        return unMapProviderVerification;
     }
     private async Task SaveProviderCompareInfo(string sessionId, IList<ProviderVerificationModel> providerVerification)
     {

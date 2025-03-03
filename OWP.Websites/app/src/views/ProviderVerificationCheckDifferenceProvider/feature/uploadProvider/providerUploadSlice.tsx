@@ -2,6 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { ValidationResponse } from '../../type/typeNative';
 import { uploadProviderThunk, submitProviderThunk } from './providerUploadServiceNative';
+import { TDataSource } from '../../type/table';
+import { REQUEST_STATUS } from '../../../Shared/Constants';
 
 const validationResultDefault = {
   isSuccess: false,
@@ -41,9 +43,10 @@ const eventUploadSlice = createSlice({
     }
   },
   extraReducers: builder => {
-    builder.addCase(uploadProviderThunk.pending, state => {
-      state.isLoading = true;
-    })
+    builder
+      .addCase(uploadProviderThunk.pending, state => {
+        state.isLoading = true;
+      })
       .addCase(uploadProviderThunk.fulfilled, (state, { payload }) => {
         state.validationResponse = payload;
         state.isLoading = false;

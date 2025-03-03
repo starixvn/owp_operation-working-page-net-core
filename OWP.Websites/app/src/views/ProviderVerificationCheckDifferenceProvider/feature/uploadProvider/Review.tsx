@@ -4,7 +4,6 @@ import { useEffect } from 'react';
 import { RootState } from '../../app/storeNative';
 import { BackButton, SubmitButton, ExportButton } from './Button';
 import { setResetValidationResult, uploadProviderThunk, submitProviderThunk, setShowTable } from './providerUploadSlice';
-import { getEvents } from './providerUploadServiceNative';
 import { TReview } from '../../type/typeNative';
 
 const Review = (props: TReview) => {
@@ -31,13 +30,7 @@ const Review = (props: TReview) => {
 
   const handleSubmit = () => {
     const { sessionId } = validationResponse.value;
-    dispatch(submitProviderThunk({ sessionId }));
-
-    //fake data
-    dispatch(getEvents({
-      eventDate: new Date(2025, 1, 6),
-      onlyShowIsMismatchEvent: false
-    }));
+    dispatch(submitProviderThunk({ sessionId: { sessionId }, date: new Date(2025, 1, 27) }));
   };
 
   return (

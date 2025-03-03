@@ -9,88 +9,97 @@ const TableBody = ({ dataSource }: { dataSource: TDataSource[]; }) => {
   return (
     <tbody>
       {dataSource.map((event, index) => (
-        <tr key={event.OWPMatchId} style={{ backgroundColor: event.RowColor }}>
+        <tr key={index} style={{ backgroundColor: event.rowColor }}>
           <ReadonlyCommonCell
             className='match_no'
-            value={event.MatchNo}
+            value={event.matchNo}
             index={index}
             isCanToolTip={false}
           />
 
           <ReadonlyCommonCell
             className='ko_time'
-            value={formatTime(event.EventDateTime, 'minute', 'hh:mm A')}
+            value={formatTime(event.eventDateTime, 'minute', 'hh:mm A')}
             index={index}
             isCanToolTip={false}
           />
 
           <ReadonlyCommonCell
             className='league'
-            value={event.League}
+            value={event.league}
             index={index}
             isCanToolTip={false}
           />
 
-          <MatchCell className='match' home={event.Home} away={event.Away} />
+          <MatchCell className='match' home={event.home} away={event.away} />
 
           <ReadonlyCommonCell
             className='lst-book-provider'
-            value={event.LstBookProvider}
+            value={event.lstBookProvider}
             index={index}
             isCanToolTip={true}
           />
 
           <ReadonlyCommonCell
             className='inhouse-providerId'
-            value={event.InHouseProviderId}
+            value={event.inHouseProviderId}
             index={index}
             isCanToolTip={false}
           />
 
           <ReadonlyCommonCell
-            className='providerId'
-            value={event.ProviderId}
+            className='ProviderMatchId'
+            value={event.providerMatchId}
             index={index}
             isCanToolTip={false}
           />
 
           <ReadonlyCommonCell
             className='provider'
-            value={event.Provider}
+            value={event.provider}
             index={index}
             isCanToolTip={false}
           />
 
-          <ConfirmProviderCell
-            confirmProvider={event.AgentConfirm.map(a => ({
-              value: a.Value,
-              label: a.Label
-            }))}
-            owpMatchId={event.OWPMatchId}
-          />
+          {event.owpMatchId ? (
+            <>
+              <ConfirmProviderCell
+                confirmProvider={event.agentConfirm?.map(({ Value, Label }) => ({
+                  value: Value,
+                  label: Label
+                })) ?? []}
+                owpMatchId={event.owpMatchId}
+              />
+              <ReadonlyCommonCell
+                className="remark"
+                value={event.remark}
+                index={index}
+                isCanToolTip
+              />
+              <ReadonlyCommonCell
+                className="remark__by"
+                value={event.remarkBy}
+                index={index}
+                isCanToolTip
+              />
+              <td>
+                <TicketCell
+                  dataSource={dataSource}
+                  HasTicket={event.HasTicket}
+                  IsRead={event.IsRead}
+                  rowIndex={index}
+                />
+              </td>
+            </>
+          ) : (
+            <>
+              <td />
+              <td />
+              <td />
+              <td />
+            </>
+          )}
 
-          <ReadonlyCommonCell
-            className='remark'
-            value={event.Remark}
-            index={index}
-            isCanToolTip={true}
-          />
-
-          <ReadonlyCommonCell
-            className='remark__by'
-            value={event.RemarkBy}
-            index={index}
-            isCanToolTip={true}
-          />
-
-          <td>
-            <TicketCell
-              dataSource={dataSource}
-              HasTicket={event.HasTicket}
-              IsRead={event.IsRead}
-              rowIndex={index}
-            />
-          </td>
         </tr>
       ))}
     </tbody>

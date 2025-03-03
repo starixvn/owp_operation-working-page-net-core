@@ -12,6 +12,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { Option } from '../../../Shared/MultipleSelection/type';
 import { buildIsReadValue } from '../../../Shared/ticketEvent/helper/ticketHelper';
 import { buildDefaultTableFilter, executeFilterTable } from './helper';
+import { submitProviderThunk } from '../uploadProvider/providerUploadSlice';
 
 const buildMultipleFilterDefault = () => ({
   isFilter: false,
@@ -39,10 +40,10 @@ const tableSlice = createSlice({
   reducers: {
     setValue: (state, action: PayloadAction<TUpdateRow>) => {
       const { owpMatchId, key, value } = action.payload;
-      const event = state.dataSource.find(d => d.OWPMatchId === owpMatchId);
+      const event = state.dataSource.find(d => d.owpMatchId === owpMatchId);
       event && (event[key] = value);
       const eventOriginal = state.dataSourceOriginal.find(
-        d => d.OWPMatchId === owpMatchId
+        d => d.owpMatchId === owpMatchId
       );
       eventOriginal && (eventOriginal[key] = value);
       state.multipleFilter[key] = {
@@ -56,7 +57,7 @@ const tableSlice = createSlice({
     setDataSignalR: (state, action) => {
       const { actorId, parentMatchId, userId } = action.payload;
       state.dataSource.forEach((item: TDataSource) => {
-        if (item.OWPMatchId === parentMatchId) {
+        if (item.owpMatchId === parentMatchId) {
           item.IsRead = buildIsReadValue(actorId, userId, item.IsRead);
           item.HasTicket = true;
         }
@@ -64,12 +65,12 @@ const tableSlice = createSlice({
     },
     setConfirmProvider: (state, action: PayloadAction<TUpdateConfirmProvider>) => {
       const { owpMatchId, value } = action.payload;
-      const event = state.dataSource.find(d => d.OWPMatchId === owpMatchId);
-      event && (event.ConfirmProvider = value);
+      const event = state.dataSource.find(d => d.owpMatchId === owpMatchId);
+      event && (event.confirmProvider = value);
       const eventOriginal = state.dataSourceOriginal.find(
-        d => d.OWPMatchId === owpMatchId
+        d => d.owpMatchId === owpMatchId
       );
-      eventOriginal && (eventOriginal.ConfirmProvider = value);
+      eventOriginal && (eventOriginal.confirmProvider = value);
     },
     setMultipleFilter: (
       state,
@@ -133,7 +134,19 @@ const tableSlice = createSlice({
       })
       .addCase(getConfirmProvider.rejected, state => {
         state.loadingConfirmProviderOption = REQUEST_STATUS.idle;
-      });
+      })
+      .addCase(submitProviderThunk.fulfilled,
+        (state, action: PayloadAction<TDataSource[]>) => {
+          state.loadingDataTable = REQUEST_STATUS.idle;
+          state.dataSource = action.payload;
+          state.dataSourceOriginal = action.payload;
+          buildDefaultTableFilter(
+            state.dataSourceOriginal,
+            state.confirmProviderOption,
+            state.multipleFilter
+          );
+        }
+      );
   }
 });
 
