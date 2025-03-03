@@ -46,6 +46,7 @@ public static class Constant
     public const int LINK_COL_INDEX = 40;
     public const int ROUND_COL_INDEX = 41;
     public const int ROUND_CONFIRM_COL_INDEX = 42;
+    public const int TOTAL_ROUND_COL_INDEX = 43;
     public const int ETPK_COL_INDEX = 44;
     public const int VENUE_COL_INDEX = 46;
     public const int TV_COL_INDEX = 47;
