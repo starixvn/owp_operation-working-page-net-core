@@ -2,8 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { ValidationResponse } from '../../type/typeNative';
 import { uploadProviderThunk, submitProviderThunk } from './providerUploadServiceNative';
-import { TDataSource } from '../../type/table';
-import { REQUEST_STATUS } from '../../../Shared/Constants';
 
 const validationResultDefault = {
   isSuccess: false,

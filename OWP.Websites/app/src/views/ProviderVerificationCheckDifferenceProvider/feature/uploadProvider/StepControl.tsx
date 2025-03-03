@@ -1,7 +1,6 @@
 import CloudDownloadIcon from 'mdi-react/CloudDownloadIcon';
 import CloudUploadIcon from 'mdi-react/CloudUploadIcon';
 import EyeIcon from 'mdi-react/EyeIcon';
-import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../app/storeNative';
 import { useAppDispatch } from '../../app/hooks';
@@ -19,20 +18,15 @@ const StepControl = (props: PropTypes) => {
   const { showTable } = useSelector((state: RootState) => state.upload);
   const dispatch = useAppDispatch();
   const currentStep = props.currentStep;
-  const [clickStep, setClickStep] = useState(currentStep);
 
   const handleClickStep = (step: number) => {
-    setClickStep(step);
     if (step < STEP_2) {
       dispatch(setStep(step));
     }
-  };
-
-  useEffect(() => {
-    if (showTable && clickStep < STEP_2) {
+    if (showTable && step < STEP_2) {
       dispatch(setShowTable(false));
     }
-  }, [clickStep]);
+  };
 
   const renderStepNodeTemplate = (step: number) => {
     const className = currentStep > step || showTable ? 'active' : '';
@@ -49,7 +43,6 @@ const StepControl = (props: PropTypes) => {
       },
       {
         title: 'REVIEW',
-        onClick: () => handleClickStep(STEP_2),
         icon: <EyeIcon size={24} />
       }
     ];

@@ -338,6 +338,10 @@
     tr:nth-child(even) {
       background-color: #f9f9f9 !important;
     }
+
+    td {
+      height: 34px;
+    }
   }
 
   th,
@@ -672,7 +676,8 @@
   margin: 0 !important;
 }
 
-.success-info, .error-info {
+.success-info,
+.error-info {
   display: flex;
   align-items: center;
 

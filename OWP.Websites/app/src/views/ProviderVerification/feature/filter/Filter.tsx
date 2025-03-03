@@ -23,8 +23,13 @@ const Filter = () => {
 
   useEffect(handleSearch, []);
 
+  const handleExport = () => {
+
+  };
+
+
   const handleClick = () => {
-      window.open('/CheckDifferenceProviderId')
+    window.open('/CheckDifferenceProviderId');
   };
 
   return (
@@ -37,11 +42,16 @@ const Filter = () => {
           <button className='button-submit' onClick={handleSearch}>
             Search
           </button>
+          <button
+            className='button-export'
+            onClick={handleExport}>
+            Export
+          </button>
         </div>
       </div>
       <div className='right-control'>
         <div className='pearl-icon' onClick={handleClick}>
-          <EyeIcon size={30}/>
+          <EyeIcon size={30} />
         </div>
         <CompareAgent />
         <SummarizeProviderIcon />

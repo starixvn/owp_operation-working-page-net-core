@@ -32,24 +32,29 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
 
         var providerVerification = await repository.GetProviderVerification(criteria);
 
+        var excelProviderMatchIDs = excelProviderModels.Select(e => e.ProviderMatchID).ToHashSet();
+
+        var unMapProviderVerification = providerVerification
+            .Where(pv => pv.ProviderMatch == null || pv.ProviderMatch.Count == 0 ||
+                         !pv.ProviderMatch.All(pm => excelProviderMatchIDs.Contains(pm.ProviderMatchId.ToString())))
+            .ToList();
+
         var providerVerificationIds = providerVerification
             .SelectMany(pv => pv.ProviderMatch.Select(pm => pm.ProviderMatchId.ToString()))
             .ToHashSet();
 
-        var excelProviderMatchIDs = excelProviderModels.Select(e => e.ProviderMatchID).ToHashSet();
-
-        var unMapProviderVerification = providerVerification
-            .Where(pv => pv.ProviderMatch.All(pm =>
-                !excelProviderMatchIDs.Contains(pm.ProviderMatchId.ToString())))
-            .ToList();
-
         var unMapInExcel = excelProviderModels
-            .Where(e => !providerVerificationIds.Contains(e.ProviderMatchID))
+            .Where(e =>
+                providerVerification.Any(pv =>
+                    pv.ProviderMatch.Any(pm => pm.ProviderMatchId.ToString() == e.ProviderMatchID) &&
+                    pv.ProviderMatch.Any(pm => !excelProviderMatchIDs.Contains(pm.ProviderMatchId.ToString()))
+                )
+                || !providerVerificationIds.Contains(e.ProviderMatchID)
+            )
             .Select(e => new ProviderVerificationModel
             {
                 OWPMatchId = null,
                 MatchNo = string.Empty,
-                MatchStatus = string.Empty,
                 EventDateTime = null,
                 KoTime = string.Empty,
                 League = string.Empty,
@@ -57,10 +62,6 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
                 Away = string.Empty,
                 LstBookProvider = string.Empty,
                 InHouseProviderId = string.Empty,
-                AgentEst = string.Empty,
-                RemarkEst = string.Empty,
-                RemarkBy = string.Empty,
-                AgentConfirm = new List<AgentConfirmOption>(),
                 Provider = e.Provider,
                 ProviderMatchId = e.ProviderMatchID
             })
@@ -70,6 +71,7 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
 
         return unMapProviderVerification;
     }
+
     private async Task SaveProviderCompareInfo(string sessionId, IList<ProviderVerificationModel> providerVerification)
     {
         var expiredDate = DateTime.Today.AddDays(CACHE_EXPIRED_IN_DAYS);
