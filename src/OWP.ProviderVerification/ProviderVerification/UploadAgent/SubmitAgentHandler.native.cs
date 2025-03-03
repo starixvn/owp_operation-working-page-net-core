@@ -70,7 +70,7 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
         var expiredDate = DateTime.Today.AddDays(CACHE_EXPIRED_IN_DAYS);
         var absoluteTimeSpan = expiredDate - DateTime.Now;
         var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(absoluteTimeSpan);
-        var cacheKey = $"{Const.Const.KEY_PROVIDER_COMPARE_VERIFICATION}-{sessionId}";
+        var cacheKey = $"{Const.Const.KEY_CACHE_PROVIDER_VERIFICATION_DIFFERENCE}-{sessionId}";
         var assignmentsJson = JsonConvert.SerializeObject(providerVerification);
         await cache.SetAsync(cacheKey, assignmentsJson, cachePolicy);
     }
