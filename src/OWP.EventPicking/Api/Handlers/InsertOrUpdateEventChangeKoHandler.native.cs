@@ -12,7 +12,9 @@ public class InsertOrUpdateEventChangeKoHandler(
     public async Task<Unit> Handle(InsertOrUpdateEventChangeKoRequest request, CancellationToken cancellationToken)
     {
         var logs=CreateLogsChangeModels(request, await GetEventDateByInfoSiteId(request.InfositeId));
-        await WriteLogForMonitor(request);
+        await WriteLogForMonitor(request, "GetEventChangeGameDate");
+        await WriteLogForMonitor(logs, "LogChangeGameDate");
+        //await SaveLogs(logs);
         await SaveLogs(logs);
         return Unit.Value;
     }
@@ -54,12 +56,12 @@ public class InsertOrUpdateEventChangeKoHandler(
         };
     }
 
-    public async Task WriteLogForMonitor(InsertOrUpdateEventChangeKoRequest request)
+    public async Task WriteLogForMonitor(object request, string action)
     {
         await logger.Execute(new InfoSiteLogCriteria()
         {
             CreatedDate = DateTime.Now,
-            Action = "GetEventChangeGameDate",
+            Action = action,
             Payload = JsonConvert.SerializeObject(request)
         });
     }
