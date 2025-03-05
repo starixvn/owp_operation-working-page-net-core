@@ -11,7 +11,9 @@ public interface ProviderVerificationRepository
 
     Task SaveAgentConfirm(int owpMatchId, string agentSelected, int actorId);
 
-    Task SaveEstAgent(int owpMatchId, string estAgent);
+    Task SaveRemark(int owpMatchId, string remark);
+
+    Task SaveRemarkBy(int owpMatchId, string remarkBy);
 }
 
 public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
@@ -99,10 +101,18 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
             ActorId = actorId
         });
 
-    public async Task SaveEstAgent(int owpMatchId, string estAgent)
-        => await dynamicRepository.ExecuteAsync(new SaveEstAgentCriteria
+    public async Task SaveRemark(int owpMatchId, string remark)
+        => await dynamicRepository.ExecuteAsync(new SaveRemarkCriteria
         {
-            EstAgent = estAgent,
+            Remark = remark,
+            OwpMatchId = owpMatchId,
+            ActorId = session.UserId
+        });
+
+    public async Task SaveRemarkBy(int owpMatchId, string remarkBy)
+        => await dynamicRepository.ExecuteAsync(new SaveRemarkByCriteria
+        {
+            RemarkBy = remarkBy,
             OwpMatchId = owpMatchId,
             ActorId = session.UserId
         });

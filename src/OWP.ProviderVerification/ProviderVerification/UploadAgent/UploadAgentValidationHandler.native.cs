@@ -61,7 +61,7 @@ public class UploadAgentValidationHandler(ICache cache, IDynamicRepository dynam
         return ResultT<AnalyzedResult>.Success(new AnalyzedResult(request.SessionId, analyzer.Count));
     }
 
-    public async Task SaveAgentUploadInfo(string sessionId, IList<ExcelProviderModel> providerModel)
+    private async Task SaveAgentUploadInfo(string sessionId, IList<ExcelProviderModel> providerModel)
     {
         var expiredDate = DateTime.Today.AddDays(CACHE_EXPIRED_IN_DAYS);
         var absoluteTimeSpan = expiredDate - DateTime.Now;
@@ -72,7 +72,7 @@ public class UploadAgentValidationHandler(ICache cache, IDynamicRepository dynam
         await cache.SetAsync(cacheKey, assignmentsJson, cachePolicy);
     }
 
-    public async Task LogDetailedPayload(DateTime CreatedDate, string Action, string Payload)
+    private async Task LogDetailedPayload(DateTime CreatedDate, string Action, string Payload)
     {
         await dynamicRepository.ExecuteAsync(new LogMonitoringCriteria()
         {

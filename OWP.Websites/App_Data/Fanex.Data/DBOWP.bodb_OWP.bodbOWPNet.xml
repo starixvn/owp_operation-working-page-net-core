@@ -359,7 +359,8 @@
         <Setting Key="OWP_ProviderVerification_Query" SpName="OWP_ProviderVerification_Query" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_ProviderVerification_GetAgentOptions" SpName="OWP_ProviderVerification_GetAgentOptions" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_ProviderVerification_SaveAgentConfirm" SpName="OWP_ProviderVerification_SaveAgentConfirm" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_ProviderVerification_SaveEstAgent" SpName="OWP_ProviderVerification_SaveEstAgent" DbName="DBOWP.bodb_OWP.wsv_owp" />
+        <Setting Key="OWP_ProviderVerification_SaveRemark" SpName="OWP_ProviderVerification_SaveRemark" DbName="DBOWP.bodb_OWP.wsv_owp" />
+        <Setting Key="OWP_ProviderVerification_SaveRemarkBy" SpName="OWP_ProviderVerification_SaveRemarkBy" DbName="DBOWP.bodb_OWP.wsv_owp" />
     </Function>
     <Function Name="ResourceManagement">
         <Setting Key="OWP_RefResource_Update" SpName="OWP_RefResource_Update" DbName="DBOWP.bodb_OWP.wsv_owp" />

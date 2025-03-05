@@ -66,11 +66,11 @@ const tableSlice = createSlice({
     setConfirmProvider: (state, action: PayloadAction<TUpdateConfirmProvider>) => {
       const { owpMatchId, value } = action.payload;
       const event = state.dataSource.find(d => d.owpMatchId === owpMatchId);
-      event && (event.confirmProvider = value);
+      event && (event.agentConfirm = value);
       const eventOriginal = state.dataSourceOriginal.find(
         d => d.owpMatchId === owpMatchId
       );
-      eventOriginal && (eventOriginal.confirmProvider = value);
+      eventOriginal && (eventOriginal.agentConfirm = value);
     },
     setMultipleFilter: (
       state,

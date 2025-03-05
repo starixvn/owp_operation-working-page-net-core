@@ -8,9 +8,13 @@ import MismatchEvent from './MismatchEvent';
 import store from '../../app/storeNative';
 import ConfirmProvider from './ConfirmProvider';
 import EyeIcon from 'mdi-react/EyeIcon';
+import { useAppSelector } from '../../app/hookNative';
 
 const Filter = () => {
   const dispatch = useAppDispatch();
+  const { dataSource } = useAppSelector(
+    state => state.events
+  );
 
   const handleSearch = () => {
     const {
@@ -43,10 +47,12 @@ const Filter = () => {
             Search
           </button>
           <button
-            className='button-export'
-            onClick={handleExport}>
+            className={`button-export ${dataSource.length === 0 ? "btn-disable" : ""}`}
+            onClick={handleExport}
+          >
             Export
           </button>
+
         </div>
       </div>
       <div className='right-control'>

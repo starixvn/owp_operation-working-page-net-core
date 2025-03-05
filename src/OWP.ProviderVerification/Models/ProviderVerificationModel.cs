@@ -49,7 +49,6 @@ public class EventModel
 
 public class ProviderVerificationModel : EventModel
 {
-    // TODO
     public List<AgentConfirmOption> AgentConfirm { get; set; }
 
     public List<ProviderMatchModel> ProviderMatch { get; set; }
