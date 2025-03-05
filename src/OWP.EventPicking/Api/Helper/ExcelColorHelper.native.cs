@@ -39,13 +39,13 @@ public static class ExcelColorHelper
             FillColor(matches[i], row, templateSheet, Misc.Constant.LEAGUE_COL_INDEX, UpdateTypeConstant.UPDATE_LEAGUE);
             FillColor(matches[i], row, templateSheet, Misc.Constant.TV_COL_INDEX, UpdateTypeConstant.UPDATE_TV, UpdateTypeConstant.CANCEL_TV);
             FillColor(matches[i], row, templateSheet, Misc.Constant.IPTV_COL_INDEX, UpdateTypeConstant.UPDATE_IPTV, UpdateTypeConstant.CANCEL_IPTV);
-            FillColor(matches[i], row, templateSheet, Misc.Constant.TOTAL_ROUND_COL_INDEX, 57, 58);
+            FillColor(matches[i], row, templateSheet, Misc.Constant.TOTAL_ROUND_COL_INDEX, UpdateTypeConstant.UPDATE_TOTAL_ROUND, UpdateTypeConstant.CANCEL_TOTAL_ROUND);
             FillColor(matches[i], row, templateSheet, Misc.Constant.ROUND_COL_INDEX, UpdateTypeConstant.UPDATE_ROUND, UpdateTypeConstant.CANCEL_ROUND);
             FillColor(matches[i], row, templateSheet, Misc.Constant.REMARK_COL_INDEX, UpdateTypeConstant.UPDATE_REMARK, UpdateTypeConstant.CANCEL_REMARK);
             FillColor(matches[i], row, templateSheet, Misc.Constant.REMARK2_COL_INDEX, UpdateTypeConstant.UPDATE_REMARK2, UpdateTypeConstant.CANCEL_REMARK2);
             FillColor(matches[i], row, templateSheet, Misc.Constant.HOME_REMARK_COL_INDEX, UpdateTypeConstant.UPDATE_HOME_REMARK, UpdateTypeConstant.CANCEL_HOME_REMARK);
             FillColor(matches[i], row, templateSheet, Misc.Constant.AWAY_REMARK_COL_INDEX, UpdateTypeConstant.UPDATE_AWAY_REMARK, UpdateTypeConstant.CANCEL_AWAY_REMARK);
-            FillColor(matches[i], row, templateSheet, Misc.Constant.PROVIDER_COL_INDEX, 55, 56);
+            FillColor(matches[i], row, templateSheet, Misc.Constant.PROVIDER_COL_INDEX, UpdateTypeConstant.UPDATE_PROVIDER, UpdateTypeConstant.CANCEL_PROVIDER);
             FillColor(matches[i], row, templateSheet, Misc.Constant.OTHER_PROVIDER_COL_INDEX, UpdateTypeConstant.UPDATE_OTHER_PROVIDER, UpdateTypeConstant.CANCEL_OTHER_PROVIDER);
             FillColor(matches[i], row, templateSheet, Misc.Constant.DIVISION_COL_INDEX, UpdateTypeConstant.UPDATE_DIVISION, UpdateTypeConstant.CANCEL_DIVISION);
             FillColor(matches[i], row, templateSheet, Misc.Constant.ROUND_CONFIRM_COL_INDEX, UpdateTypeConstant.UPDATE_ROUND_CONFIRM, UpdateTypeConstant.CANCEL_ROUND_CONFIRM);
