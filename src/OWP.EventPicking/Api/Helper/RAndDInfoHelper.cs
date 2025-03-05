@@ -6,7 +6,6 @@ public static class RAndDInfoHelper
 {
     public static void Build(List<EventPickingModel> matches, List<RAndDInfo> rAndDInfos)
     {
-
         matches.ForEach(x => x.RAndDInfo = BuildRAndDValue(x.InfoSiteMatchId, rAndDInfos));
     }
 
