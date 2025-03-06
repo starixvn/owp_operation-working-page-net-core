@@ -4,8 +4,10 @@ import TicketCell from './cell/TicketCell';
 import ConfirmProviderCell from './cell/ConfirmProviderCell';
 import { TDataSource } from '../../type/table';
 import MatchCell from './cell/MatchCell';
+import RemarkCell from './cell/RemarkCell';
 
-const TableBody = ({ dataSource }: { dataSource: TDataSource[] }) => {
+const TableBody = ({ dataSource }: { dataSource: TDataSource[]; }) => {
+
   return (
     <tbody>
       {dataSource.map((event, index) => (
@@ -62,18 +64,16 @@ const TableBody = ({ dataSource }: { dataSource: TDataSource[] }) => {
             owpMatchId={event.OWPMatchId}
           />
 
-          <ReadonlyCommonCell
+          <RemarkCell
             className='remark'
-            value={event.Remark}
+            event={event}
             index={index}
-            isCanToolTip={true}
           />
 
-          <ReadonlyCommonCell
+          <RemarkCell
             className='remark__by'
-            value={event.RemarkBy}
+            event={event}
             index={index}
-            isCanToolTip={true}
           />
 
           <td>

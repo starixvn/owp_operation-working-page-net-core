@@ -7,13 +7,13 @@ public class SaveRemarkRequest : IRequest<Unit>
     public string Remark { get; set; }
 }
 
-public class SaveEstNoteHandler : IRequestHandler<SaveRemarkRequest, Unit>
+public class SaveRemarkHandler : IRequestHandler<SaveRemarkRequest, Unit>
 {
     private readonly ProviderVerificationRepository repository;
 
     private readonly INapSession currentSession;
 
-    public SaveEstNoteHandler(ProviderVerificationRepository repository, INapSession currentSession)
+    public SaveRemarkHandler(ProviderVerificationRepository repository, INapSession currentSession)
     {
         this.repository = repository;
         this.currentSession = currentSession;

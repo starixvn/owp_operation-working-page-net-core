@@ -28,10 +28,8 @@ public class EventModel
     [Cell("F2")]
     public string Away { get; set; }
 
-    public string AgentEst { get; set; }
-
     [Cell("K2")]
-    public string RemarkEst { get; set; }
+    public string Remark { get; set; }
 
     [Cell("L2")]
     public string RemarkBy { get; set; }

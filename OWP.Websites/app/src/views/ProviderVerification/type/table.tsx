@@ -1,6 +1,5 @@
 import { Option } from '../../Shared/MultipleSelection/type';
 
-type TEditableKey = '';
 type TConfirmProvider = {
   Value: number | string | null;
   Label: string;
@@ -24,8 +23,6 @@ type TDataSource = {
   ConfirmProvider: TConfirmProvider[];
   AgentConfirm: TConfirmProvider[];
   RowColor: string | undefined;
-} & {
-  [key in TEditableKey]: string | undefined;
 } & TTicketCell;
 
 type TCommonCell = {
@@ -41,25 +38,23 @@ type TMatchCell = {
   away: string;
 };
 
-type TEditableCell = {
-  owpMatchId: number;
-  columnKey: string;
-  rowIndex: number;
+type TRemarkCell = {
   className?: string;
-  value: string | undefined;
+  event: TDataSource;
+  index: number;
+};
+
+type TRemarkPopover = {
+  hasWrite: boolean;
+  event: TDataSource;
+  index: number;
 };
 
 type TTicketCell = {
   [key in 'HasTicket' | 'IsRead']: boolean;
-} & { rowIndex: number; dataSource: TDataSource[] };
+} & { rowIndex: number; dataSource: TDataSource[]; };
 
-type TUpdateRow = {
-  owpMatchId: Required<number>;
-  key: TEditableKey;
-  value: string | undefined;
-};
-
-type TUpdateConfirmProvider = { value: TConfirmProvider[] } & { owpMatchId: number };
+type TUpdateConfirmProvider = { value: TConfirmProvider[]; } & { owpMatchId: number; };
 
 type TColumnKey =
   | 'MatchNo'
@@ -84,17 +79,22 @@ type TMultipleFilter = {
   };
 };
 
+type TRemark = {
+  Remark: string;
+  owpMatchId: number;
+};
+
 export {
   TDataSource,
   TCommonCell,
   TTicketCell,
-  TEditableCell,
-  TEditableKey,
-  TUpdateRow,
+  TRemarkCell,
   TConfirmProvider,
   TUpdateConfirmProvider,
   TMultipleColumnFilterOption,
   TMultipleFilter,
   TColumnKey,
-  TMatchCell
+  TMatchCell,
+  TRemark,
+  TRemarkPopover
 };

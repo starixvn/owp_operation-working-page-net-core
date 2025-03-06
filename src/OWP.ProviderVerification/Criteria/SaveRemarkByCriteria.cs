@@ -8,7 +8,7 @@ public class SaveRemarkByCriteria : NonQueryCommand
 
     public string RemarkBy { get; set; }
 
-    public override string GetSettingKey() => "OWP_ProviderVerification_RemarkBy";
+    public override string GetSettingKey() => "OWP_ProviderVerification_SaveRemarkBy";
 
     public override bool IsValid() => true;
 }

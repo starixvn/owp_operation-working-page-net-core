@@ -66,8 +66,7 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
                 Away = match.Away,
                 LstBookProvider = match.LstBookProvider,
                 InHouseProviderId = string.Join("/", providerMatches.Where(p => p.OWPMatchId == match.OWPMatchId).Select(p => p.ProviderMatchId)),
-                AgentEst = match.AgentEst,
-                RemarkEst = match.RemarkEst,
+                Remark = match.Remark,
                 RemarkBy = match.RemarkBy,
                 AgentConfirm = agentConfirms.Where(x => x.OwpMatchId == match.OWPMatchId).Select(y =>
                     new AgentConfirmOption

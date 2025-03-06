@@ -27,19 +27,19 @@
     {
       "HEADER_KEY": "Match",
       "HEADER_NAME": "Match",
-      "WIDTH": "13%",
+      "WIDTH": "14%",
       "IS_FILTER": true
     },
     {
       "HEADER_KEY": "LstBookProvider",
       "HEADER_NAME": "LST Book Provider",
-      "WIDTH": "8%",
+      "WIDTH": "9%",
       "IS_FILTER": true
     },
     {
       "HEADER_KEY": "InHouseProviderId",
       "HEADER_NAME": "Inhouse ProviderID",
-      "WIDTH": "8%",
+      "WIDTH": "9%",
       "IS_FILTER": true
     },
     {
@@ -51,13 +51,13 @@
     {
       "HEADER_KEY": "Remark",
       "HEADER_NAME": "Remark",
-      "WIDTH": "8%",
+      "WIDTH": "4%",
       "IS_FILTER": true
     },
     {
       "HEADER_KEY": "RemarkBy",
       "HEADER_NAME": "Remark by",
-      "WIDTH": "7%",
+      "WIDTH": "4%",
       "IS_FILTER": true
     },
     {

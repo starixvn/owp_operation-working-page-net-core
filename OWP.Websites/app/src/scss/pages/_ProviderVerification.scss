@@ -323,6 +323,7 @@
 }
 
 .table__provider__verification {
+  position: relative;
   border-collapse: collapse;
   padding: 0;
   width: 100%;
@@ -340,14 +341,19 @@
   }
 
   tbody {
-    tr:nth-child(even) {
+    tr:nth-child(odd) {
       background-color: #ffffff !important;
     }
 
     tr:nth-child(even) {
       background-color: #f9f9f9 !important;
     }
+
+    tr:hover {
+      background-color: #cef3fc !important;
+    }
   }
+
 
   th,
   td {
@@ -830,7 +836,6 @@
 .lst-book-provider,
 .inhouse-providerID,
 .remark,
-.agent,
 .remark__by {
   max-width: 130px;
   white-space: nowrap;
@@ -840,4 +845,23 @@
 
 .ticket-cell span {
   margin: 0 !important;
+}
+
+.remark-cell,
+.remark-by-cell {
+  position: absolute;
+
+  .icon-edit {
+    opacity: 0;
+  }
+
+  .note-popover {
+    right: 100%;
+    left: unset;
+    top: -20px;
+  }
+}
+
+.remark:hover .icon-edit {
+  opacity: 1;
 }

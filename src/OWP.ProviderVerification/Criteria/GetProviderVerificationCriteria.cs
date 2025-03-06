@@ -6,6 +6,8 @@ public class GetProviderVerificationCriteria : CriteriaBase
 
     public bool OnlyShowIsMismatchEvent { get; set; }
 
+    public string ConfirmProvider { get; set; }
+
     public override string GetSettingKey() => "OWP_ProviderVerification_Query";
 
     public override bool IsValid() => true;
