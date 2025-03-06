@@ -2,42 +2,34 @@
 
 namespace OWP.EventPicking.Api.Handlers;
 
-public record InsertOrUpdateEventChangeKoRequest(int InfositeId, DateTime NewEventDate) : Command<Unit>;
+public record InsertOrUpdateEventChangeKoRequest(int InfositeId, DateTime OldEventDate, DateTime NewEventDate) : Command<Unit>;
 
 public class InsertOrUpdateEventChangeKoHandler(
     IDynamicRepository repository,
     LogWriterService logger) : IRequestHandler<InsertOrUpdateEventChangeKoRequest, Unit>
 {
-
+    private const int DefaultGmt8 = 8;
     public async Task<Unit> Handle(InsertOrUpdateEventChangeKoRequest request, CancellationToken cancellationToken)
     {
-        var logs=CreateLogsChangeModels(request, await GetEventDateByInfoSiteId(request.InfositeId));
+        var logs=CreateLogsChangeModels(request);
         await WriteLogForMonitor(request, "GetEventChangeGameDate");
-        await WriteLogForMonitor(logs, "LogChangeGameDate");
-        //await SaveLogs(logs);
         await SaveLogs(logs);
         return Unit.Value;
     }
 
-    public static IList<LoggedChangeModel> CreateLogsChangeModels(InsertOrUpdateEventChangeKoRequest request, DateTime? oldDateTime)
+    public static IList<LoggedChangeModel> CreateLogsChangeModels(InsertOrUpdateEventChangeKoRequest request)
     {
-        if (oldDateTime is null)
-        {
-            return new List<LoggedChangeModel>();
-        }
-
-        var formattedNewDate = request.NewEventDate.ToString("MM/dd/yyyy HH:mm:ss");
-        var formattedOldDate = oldDateTime.Value.ToString("MM/dd/yyyy HH:mm:ss");
+        var formattedNewDate = request.NewEventDate.AddHours(DefaultGmt8).ToString("MM/dd/yyyy HH:mm:ss");
+        var formattedOldDate = request.OldEventDate.AddHours(DefaultGmt8).ToString("MM/dd/yyyy HH:mm:ss");
         var currentDateTime = DateTime.Now.AddHours(12);
-        var action = UpdateTypeConst.UpdateType[UpdateTypeConstant.MOVE_KICKOFF_DATE];
-
+       
         return new List<LoggedChangeModel>
         {
             new()
             {
                 InfoSiteMatchId = request.InfositeId,
                 UpdateTypeId = UpdateTypeConstant.MOVE_KICKOFF_DATE,
-                Action = UpdateTypeConst.UpdateType[UpdateTypeConstant.MOVE_KICKOFF_DATE],
+                Action = UpdateTypeConstant.UpdateType[UpdateTypeConstant.MOVE_KICKOFF_DATE],
                 NewValue = formattedNewDate,
                 OldValue = formattedOldDate,
                 UpDateTime = currentDateTime,
@@ -47,7 +39,7 @@ public class InsertOrUpdateEventChangeKoHandler(
             {
                 InfoSiteMatchId = request.InfositeId,
                 UpdateTypeId = UpdateTypeConstant.RENEW_MATCH,
-                Action = UpdateTypeConst.UpdateType[UpdateTypeConstant.RENEW_MATCH],
+                Action = UpdateTypeConstant.UpdateType[UpdateTypeConstant.RENEW_MATCH],
                 NewValue = formattedNewDate,
                 OldValue = formattedOldDate,
                 UpDateTime = currentDateTime,
@@ -60,7 +52,7 @@ public class InsertOrUpdateEventChangeKoHandler(
     {
         await logger.Execute(new InfoSiteLogCriteria()
         {
-            CreatedDate = DateTime.Now,
+            CreatedDate = DateTime.Now.AddHours(12),
             Action = action,
             Payload = JsonConvert.SerializeObject(request)
         });
@@ -73,15 +65,5 @@ public class InsertOrUpdateEventChangeKoHandler(
             Xml = xml
         };
         await repository.ExecuteAsync(criteria);
-    }
-    public async Task<DateTime?> GetEventDateByInfoSiteId(int infoSiteId)
-    {
-        var criteria= new GetEventDateByInfoSiteId()
-        {
-            InfoSiteId = infoSiteId
-        };
-        await repository.FetchAsync<int>(criteria);
-
-        return criteria.EventDate;
     }
 }

@@ -10,5 +10,3 @@ public class SaveLogsChangeCriteria : NonQueryCommand
 
     public override bool IsValid() => true;
 }
-
-

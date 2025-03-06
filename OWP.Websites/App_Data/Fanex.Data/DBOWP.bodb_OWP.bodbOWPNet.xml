@@ -348,7 +348,6 @@
         <Setting Key="OWP_EventPicking_GetEventPickingChildMatch" SpName ="OWP_EventPicking_GetEventPickingChildMatch" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_EventPicking_SpecialProduct_UpdateMaxbetSpread" SpName ="OWP_EventPicking_SpecialProduct_UpdateMaxbetSpread" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_EventPicking_SaveLogs" SpName ="OWP_EventPicking_SaveLogs" DbName="DBOWP.bodb_OWP.wsv_owp" /> 
-        <Setting Key="OWP_EventPicking_GetEventDateByInfoSiteId" SpName ="OWP_EventPicking_GetEventDateByInfoSiteId" DbName="DBOWP.bodb_OWP.wsv_owp" /> 
       
     </Function>
     <Function Name="ProviderArrangement">
