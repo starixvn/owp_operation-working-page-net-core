@@ -19,18 +19,30 @@ const Filter = () => {
   const handleSearch = () => {
     const {
       filterState: {
-        filter: { eventDate, onlyShowIsMismatchEvent }
+        filter: { eventDate, onlyShowIsMismatchEvent, confirmProvider }
       }
     } = store.getState();
-    dispatch(getEvents({ eventDate, onlyShowIsMismatchEvent }));
+
+    const { confirmProviderOption } = store.getState().common.confirmProvider;
+
+    let confirmProviderValue = confirmProvider?.length
+      ? confirmProvider.map(x => x.value).join(',')
+      : null;
+
+    if (confirmProviderValue && confirmProvider.length === confirmProviderOption.length) {
+      confirmProviderValue = null;
+    }
+
+    dispatch(getEvents({ eventDate, onlyShowIsMismatchEvent, confirmProvider: confirmProviderValue }));
   };
 
-  useEffect(handleSearch, []);
+  useEffect(() => {
+    handleSearch();
+  }, []);
 
   const handleExport = () => {
 
   };
-
 
   const handleClick = () => {
     window.open('/CheckDifferenceProviderId');

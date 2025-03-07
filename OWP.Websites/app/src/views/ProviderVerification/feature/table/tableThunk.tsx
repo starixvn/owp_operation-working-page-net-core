@@ -10,16 +10,19 @@ const getEvents = createAsyncThunk(
   'provider-verification/get-event',
   async ({
     eventDate,
-    onlyShowIsMismatchEvent
+    onlyShowIsMismatchEvent,
+    confirmProvider
   }: {
     eventDate: Date;
     onlyShowIsMismatchEvent: boolean;
+    confirmProvider: number | string | null;
   }) => {
     const url = getUrl('get-provider-verification');
     const response = await get({
       url,
       eventDate: Utils.formatDate(eventDate),
-      onlyShowIsMismatchEvent
+      onlyShowIsMismatchEvent,
+      confirmProvider
     });
     return response.data;
   }

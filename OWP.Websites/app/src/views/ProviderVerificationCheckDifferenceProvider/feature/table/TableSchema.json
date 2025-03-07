@@ -57,13 +57,13 @@
     {
       "HEADER_KEY": "Remark",
       "HEADER_NAME": "Remark",
-      "WIDTH": "8%",
+      "WIDTH": "4%",
       "IS_FILTER": false
     },
     {
       "HEADER_KEY": "RemarkBy",
       "HEADER_NAME": "Remark by",
-      "WIDTH": "7%",
+      "WIDTH": "4%",
       "IS_FILTER": false
     },
     {

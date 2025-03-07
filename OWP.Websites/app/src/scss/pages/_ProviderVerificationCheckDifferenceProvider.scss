@@ -331,12 +331,8 @@
   }
 
   tbody {
-    tr:nth-child(even) {
-      background-color: #ffffff !important;
-    }
-
-    tr:nth-child(even) {
-      background-color: #f9f9f9 !important;
+    tr:hover {
+      background-color: #cef3fc !important;
     }
 
     td {
@@ -686,10 +682,7 @@
   }
 }
 
-
 .note-cell {
-  position: absolute;
-
   .icon-edit {
     opacity: 0;
   }
@@ -697,14 +690,26 @@
   .note-popover {
     right: 100%;
     left: unset;
-    top: -20px;
   }
+}
+
+.remark,
+.remark__by {
+  position: relative;
+  overflow: visible;
+  text-align: center !important;
 }
 
 .remark:hover,
 .remark__by:hover {
-
   .icon-edit {
     opacity: 1;
   }
+}
+
+.lst-book-provider,
+.inhouse-providerId,
+.ProviderMatchId,
+.provider {
+  text-align: center;
 }

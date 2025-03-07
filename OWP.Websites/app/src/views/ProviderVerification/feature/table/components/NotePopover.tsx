@@ -56,11 +56,9 @@ const NotePopover = ({ hasWrite, OWPMatchId, value, index, isRemark }: TRemarkPo
   return (
     <div className={`note-cell${note ? " has-note" : ""}`}>
       {note ? (
-        <>
-          <span className="icon-comment" onClick={handleOpen} id={`note-${index}`}>
-            <CommentIcon size={14} />
-          </span>
-        </>
+        <span className="icon-comment" onClick={handleOpen} id={`note-${index}`}>
+          <CommentIcon size={14} />
+        </span>
       ) : (
         <span className="icon-edit" onClick={handleOpen}>
           <EditIcon size={14} />

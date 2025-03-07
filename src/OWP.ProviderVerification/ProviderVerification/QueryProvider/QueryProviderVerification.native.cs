@@ -1,6 +1,6 @@
 namespace OWP.ProviderVerification.ProviderVerification.QueryProvider;
 
-public record QueryProviderVerificationRequest(DateTime EventDate, bool OnlyShowIsMismatchEvent) : Query<IEnumerable<ProviderVerificationModel>>;
+public record QueryProviderVerificationRequest(DateTime EventDate, bool OnlyShowIsMismatchEvent, string ConfirmProvider) : Query<IEnumerable<ProviderVerificationModel>>;
 public class QueryProviderVerificationHandler(ProviderVerificationRepository repository)
     : QueryHandler<QueryProviderVerificationRequest, IEnumerable<ProviderVerificationModel>>
 {
@@ -9,7 +9,8 @@ public class QueryProviderVerificationHandler(ProviderVerificationRepository rep
         var criteria = new GetProviderVerificationCriteria
         {
             EventDate = request.EventDate,
-            OnlyShowIsMismatchEvent = request.OnlyShowIsMismatchEvent
+            OnlyShowIsMismatchEvent = request.OnlyShowIsMismatchEvent,
+            ConfirmProvider = request.ConfirmProvider
         };
 
         return await repository.GetProviderVerification(criteria);

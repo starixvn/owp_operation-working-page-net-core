@@ -54,7 +54,7 @@ public class ProviderVerificationModel : EventModel
 
     public string RowColor => MatchStatus switch
     {
-        "Cancel" => "#EEEDDD",
+        "Cancel" => "#FDFBDE",
         "Postponed" or "Suspended" => "#DDEFDA",
         _ => "#FFF"
     };
