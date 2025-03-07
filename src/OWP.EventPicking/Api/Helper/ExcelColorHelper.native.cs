@@ -73,39 +73,7 @@ public static class ExcelColorHelper
 
     private static void FillColorAndAddRemark(EventPickingModel match, int row, ExcelWorksheet templateSheet)
     {
-        var remarkBuilder = new StringBuilder();
-
-        if (ExistsUpdateType(match, UpdateTypeConstant.NEW_MATCH))
-        {
-            remarkBuilder.Insert(0, "[NEW ADD]");
-        }
-
-        if (IsRenewMatchPostponed(match))
-        {
-            remarkBuilder.Insert(0, "[Renew Match] [POSTPONED] ");
-        }
-
-        if (IsRenewMatchAfterChangeKODate(match))
-        {
-            remarkBuilder.Insert(0, "[Renew Match] [Move KO Date] ");
-        }
-
-        if (match.IsDeleted)
-        {
-            remarkBuilder.Insert(0, "[DELETED MATCH] ");
-        }
-        else if (match.IsPostponed)
-        {
-            remarkBuilder.Insert(0, "[POSTPONED] ");
-        }
-        else if (IsCancelled(match))
-        {
-            remarkBuilder.Insert(0, "[CANCELLED] ");
-        }
-        else if (IsSuspended(match))
-        {
-            remarkBuilder.Insert(0, "[SUSPENDED] ");
-        }
+        var remarkBuilder = BuildRemark(match);
 
         if (remarkBuilder.Length > 0)
         {
@@ -113,6 +81,56 @@ public static class ExcelColorHelper
         }
     }
 
+    private static StringBuilder BuildRemark(EventPickingModel match)
+    {
+        var remarkBuilder = new StringBuilder();
+
+        AddNewMatchRemark(match, remarkBuilder);
+        AddRenewMatchRemarks(match, remarkBuilder);
+        AddStatusRemarks(match, remarkBuilder);
+
+        return remarkBuilder;
+    }
+
+    private static void AddNewMatchRemark(EventPickingModel match, StringBuilder remarkBuilder)
+    {
+        if (ExistsUpdateType(match, UpdateTypeConstant.NEW_MATCH))
+        {
+            remarkBuilder.Insert(0, "[NEW ADD]");
+        }
+    }
+
+    private static void AddRenewMatchRemarks(EventPickingModel match, StringBuilder remarkBuilder)
+    {
+        foreach (var info in match.RAndDInfo.Where(info => info.UpdateTypeId == UpdateTypeConstant.RENEW_MATCH))
+        {
+            remarkBuilder.Insert(0, info.OldValue switch
+            {
+                "Postponed" => "[RENEW MATCH] [POSTPONED] ",
+                "Cancelled" => "[RENEW MATCH] [CANCELLED] ",
+                "Suspended" => "[RENEW MATCH] [SUSPENDED] ",
+                _ => "[RENEW MATCH] [MOVE KO DATE] "
+            });
+        }
+    }
+
+    private static void AddStatusRemarks(EventPickingModel match, StringBuilder remarkBuilder)
+    {
+        var statusRemark = match switch
+        {
+            { IsDeleted: true } => "[DELETED MATCH] ",
+            _ when IsPostponed(match) => "[POSTPONED] ",
+            _ when IsCancelled(match) => "[CANCELLED] ",
+            _ when IsSuspended(match) => "[SUSPENDED] ",
+            { IsMovedEventDate: true } => "[MOVE KO DATE] ",
+            _ => string.Empty
+        };
+
+        if (!string.IsNullOrEmpty(statusRemark))
+        {
+            remarkBuilder.Insert(0, statusRemark);
+        }
+    }
     private static void AddAwayRemark(EventPickingModel match, int row, ExcelWorksheet templateSheet)
     {
         AddTeamRemarkBlackList(templateSheet, row, Misc.Constant.AWAY_REMARK_COL_INDEX, match.IsAwayBlackList);
@@ -182,6 +200,13 @@ public static class ExcelColorHelper
         }
     }
 
+    private static bool IsPostponed(EventPickingModel match)
+    {
+        return (!string.IsNullOrEmpty(match.Remark2) &&
+                match.Remark2.Contains("Postponed", StringComparison.OrdinalIgnoreCase))
+               || match.InfoSiteMatchStatus == InfoSiteMatchStatus.Postponed;
+    }
+
     private static bool IsCancelled(EventPickingModel match)
     {
         return (!string.IsNullOrEmpty(match.Remark2) &&
@@ -193,12 +218,4 @@ public static class ExcelColorHelper
     {
         return match.InfoSiteMatchStatus == InfoSiteMatchStatus.Suspended;
     }
-
-    private static bool IsRenewMatchPostponed(EventPickingModel match)
-        => match.RAndDInfo is not null
-           && match.RAndDInfo.Any(r => r.UpdateTypeId == UpdateTypeConstant.RENEW_MATCH && r.OldValue == "Postponed");
-
-    private static bool IsRenewMatchAfterChangeKODate(EventPickingModel match)
-        => match.RAndDInfo is not null
-           && match.RAndDInfo.Any(r => r.UpdateTypeId == UpdateTypeConstant.RENEW_MATCH && r.OldValue != "Postponed");
 }

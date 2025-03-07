@@ -39,7 +39,7 @@ public class ExportServiceImp : ExportService, IDisposable
         var turnoverMarginPolicy = permissionService
             .GetPermissions(FunctionKeys.EventPickingNew)?
             .GetPermissionModel(FunctionKeys.EventPickingNew_EventAndPerformance);
-        if (turnoverMarginPolicy != null && !turnoverMarginPolicy.IsRead || isMiscMatch)
+        if (turnoverMarginPolicy is { IsRead: false } || isMiscMatch)
         {
             templateSheet.DeleteColumn(ReportConstant.MarginColumn);
             templateSheet.DeleteColumn(ReportConstant.TurnOverColumn);
