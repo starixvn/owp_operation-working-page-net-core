@@ -4,7 +4,7 @@ import TicketCell from './cell/TicketCell';
 import ConfirmProviderCell from './cell/ConfirmProviderCell';
 import { TDataSource } from '../../type/table';
 import MatchCell from './cell/MatchCell';
-import RemarkCell from './cell/RemarkCell';
+import NoteCell from './cell/NoteCell';
 
 const TableBody = ({ dataSource }: { dataSource: TDataSource[]; }) => {
 
@@ -64,16 +64,20 @@ const TableBody = ({ dataSource }: { dataSource: TDataSource[]; }) => {
             owpMatchId={event.OWPMatchId}
           />
 
-          <RemarkCell
+          <NoteCell
             className='remark'
-            event={event}
+            OWPMatchId={event.OWPMatchId}
+            value={event.Remark}
             index={index}
+            isRemark={true}
           />
 
-          <RemarkCell
+          <NoteCell
             className='remark__by'
-            event={event}
+            OWPMatchId={event.OWPMatchId}
+            value={event.RemarkBy}
             index={index}
+            isRemark={false}
           />
 
           <td>

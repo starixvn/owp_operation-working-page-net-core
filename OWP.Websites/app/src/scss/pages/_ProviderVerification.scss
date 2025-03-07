@@ -847,8 +847,7 @@
   margin: 0 !important;
 }
 
-.remark-cell,
-.remark-by-cell {
+.note-cell {
   position: absolute;
 
   .icon-edit {
@@ -862,6 +861,10 @@
   }
 }
 
-.remark:hover .icon-edit {
-  opacity: 1;
+.remark:hover,
+.remark__by:hover {
+
+  .icon-edit {
+    opacity: 1;
+  }
 }

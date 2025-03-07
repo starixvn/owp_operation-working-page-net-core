@@ -4,6 +4,7 @@ import TicketCell from './cell/TicketCell';
 import ConfirmProviderCell from './cell/ConfirmProviderCell';
 import { TDataSource } from '../../type/table';
 import MatchCell from './cell/MatchCell';
+import NoteCell from '../../../ProviderVerification/feature/table/cell/NoteCell';
 
 const TableBody = ({ dataSource }: { dataSource: TDataSource[]; }) => {
   return (
@@ -70,18 +71,23 @@ const TableBody = ({ dataSource }: { dataSource: TDataSource[]; }) => {
                 })) ?? []}
                 owpMatchId={event.owpMatchId}
               />
-              <ReadonlyCommonCell
-                className="remark"
+
+              <NoteCell
+                className='remark'
+                OWPMatchId={event.owpMatchId}
                 value={event.remark}
                 index={index}
-                isCanToolTip
+                isRemark={true}
               />
-              <ReadonlyCommonCell
-                className="remark__by"
+
+              <NoteCell
+                className='remark__by'
+                OWPMatchId={event.owpMatchId}
                 value={event.remarkBy}
                 index={index}
-                isCanToolTip
+                isRemark={false}
               />
+
               <td>
                 <TicketCell
                   dataSource={dataSource}
@@ -99,7 +105,6 @@ const TableBody = ({ dataSource }: { dataSource: TDataSource[]; }) => {
               <td />
             </>
           )}
-
         </tr>
       ))}
     </tbody>

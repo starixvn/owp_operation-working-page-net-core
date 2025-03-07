@@ -685,3 +685,26 @@
     margin-left: 10px;
   }
 }
+
+
+.note-cell {
+  position: absolute;
+
+  .icon-edit {
+    opacity: 0;
+  }
+
+  .note-popover {
+    right: 100%;
+    left: unset;
+    top: -20px;
+  }
+}
+
+.remark:hover,
+.remark__by:hover {
+
+  .icon-edit {
+    opacity: 1;
+  }
+}

@@ -18,7 +18,7 @@ public class SaveRemarkByHandler : IRequestHandler<SaveRemarkByRequest, Unit>
 
     public async Task<Unit> Handle(SaveRemarkByRequest request, CancellationToken cancellationToken)
     {
-        await repository.SaveRemark(request.OwpMatchId, request.RemarkBy);
+        await repository.SaveRemarkBy(request.OwpMatchId, request.RemarkBy);
         return Unit.Value;
     }
 }

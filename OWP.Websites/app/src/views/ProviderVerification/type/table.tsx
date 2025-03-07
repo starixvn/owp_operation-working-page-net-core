@@ -40,14 +40,18 @@ type TMatchCell = {
 
 type TRemarkCell = {
   className?: string;
-  event: TDataSource;
+  OWPMatchId: number;
+  value: string | null | undefined;
   index: number;
+  isRemark: boolean;
 };
 
 type TRemarkPopover = {
   hasWrite: boolean;
-  event: TDataSource;
+  OWPMatchId: number;
+  value: string | null | undefined;
   index: number;
+  isRemark: boolean;
 };
 
 type TTicketCell = {
