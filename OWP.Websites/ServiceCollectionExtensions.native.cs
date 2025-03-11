@@ -44,6 +44,7 @@ using AccountSetting.QuickMessage;
 using BackgroundWorker.Jobs;
 using EventPicking.Api;
 using Microsoft.Extensions.FileProviders;
+using Olympus.OWP.Log.Services;
 using OWP.AccountSetting.Profile;
 using OWP.PrematchAssignment.QueryAndSave;
 using Quartz;
@@ -75,6 +76,7 @@ public static class ServiceCollectionExtensions
             mc.AddProfile(new MessageManagement.AutoMapperProfile());
             mc.AddProfile(new OddsCompiler.AutoMapperProfile());
             mc.AddProfile(new NewLeagueSetting.AutoMapperProfile());
+            mc.AddProfile(new EventPicking.AutoMapperProfile());
         });
 
         var mapper = mapperConfig.CreateMapper();
@@ -101,6 +103,12 @@ public static class ServiceCollectionExtensions
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
 
+        return services;
+    }
+
+    public static IServiceCollection AddOWPLog(this IServiceCollection services)
+    {
+        services.AddScoped<LogWriterService, LogWriterServiceImp>();
         return services;
     }
 

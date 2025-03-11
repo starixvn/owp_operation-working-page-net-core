@@ -42,6 +42,7 @@ services.AddInternalServices();
 services.AddRabbitMQ();
 services.AddCarter();
 services.AddWebOptimizer();
+services.AddOWPLog();
 
 var app = builder.Build();
 
