@@ -1,23 +1,14 @@
 import { NextButton } from './Button';
-import { saveAs } from "file-saver";
-import axios, { AxiosResponse } from 'axios';
 import { TGetTemplate } from '../../type/typeNative';
+import { exportExcel } from '../../../Shared/common/ExportExcel/Helper';
 
 const GetTemplate = (props: TGetTemplate) => {
 
   const handleDownload = async () => {
     const url = "/api/ProviderVerification/get-template/ProviderVerificationUploadTemplate.xlsx";
     const fileName = "ProviderVerificationUploadTemplate.xlsx";
-    const options = {
-        url,
-        method: 'GET',
-        headers: { 'Accept': 'application/json' },
-        responseType: 'blob' as const
-      };
-    const response: AxiosResponse<Blob> = await axios.request(options);
-    const fileUrl = window.URL.createObjectURL(new Blob([response.data]));
-    saveAs(fileUrl, fileName);
-  }
+    exportExcel(url, fileName);
+  };
 
   return (
     <>

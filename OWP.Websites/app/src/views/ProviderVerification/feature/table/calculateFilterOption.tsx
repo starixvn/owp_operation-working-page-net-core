@@ -7,67 +7,67 @@ import { Option } from "../../../Shared/MultipleSelection/type";
 
 const calculateMatchNoOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource].map(x => ({
-    value: x.OWPMatchId,
-    label: buildLabelItemOption(x.MatchNo)
+    value: x.owpMatchId,
+    label: buildLabelItemOption(x.matchNo)
   })), v => v.label));
 };
 
 const calculateMatchStatusOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource].map(x => ({
-    value: x.OWPMatchId,
-    label: buildLabelItemOption(x.MatchStatus)
+    value: x.owpMatchId,
+    label: buildLabelItemOption(x.matchStatus)
   })), v => v.label));
 };
 
 const calculateKoOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource]
     .sort((first, second) =>
-      Number(new Date(first.EventDateTime)) - Number(new Date(second.EventDateTime))
+      Number(new Date(first.eventDateTime)) - Number(new Date(second.eventDateTime))
     )
     .map(x => ({
-      value: x.OWPMatchId,
-      label: formatTime(x.EventDateTime, 'minute', 'hh:mm A') ?? '(Blanks)'
+      value: x.owpMatchId,
+      label: formatTime(x.eventDateTime, 'minute', 'hh:mm A') ?? '(Blanks)'
     })), v => v.label));
 };
 
 const calculateLeagueOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource].map(x => ({
-    value: x.OWPMatchId,
-    label: x.League ?? '(Blanks)'
+    value: x.owpMatchId,
+    label: x.league ?? '(Blanks)'
   })), v => v.label));
 };
 
 const calculateMatchOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource].map(x => ({
-    value: x.OWPMatchId,
-    label: `${x.Home} -vs- ${x.Away}`
+    value: x.owpMatchId,
+    label: `${x.home} -vs- ${x.away}`
   })), v => v.label));
 };
 
 const calculateLSTBookProviderOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource].map(x => ({
-    value: x.OWPMatchId,
-    label: buildLabelItemOption(x.LstBookProvider)
+    value: x.owpMatchId,
+    label: buildLabelItemOption(x.lstBookProvider)
   })), v => v.label));
 };
 
 const calculateInhouseProviderIdOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource].map(x => ({
-    value: x.OWPMatchId,
-    label: buildLabelItemOption(x.InHouseProviderId)
+    value: x.owpMatchId,
+    label: buildLabelItemOption(x.inHouseProviderId)
   })), v => v.label));
 };
 
 const calculateRemarkOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource].map(x => ({
-    value: x.OWPMatchId,
-    label: buildLabelItemOption(x.Remark)
+    value: x.owpMatchId,
+    label: buildLabelItemOption(x.remark)
   })), v => v.label));
 };
 const calculateRemarkByOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource].map(x => ({
-    value: x.OWPMatchId,
-    label: buildLabelItemOption(x.RemarkBy)
+    value: x.owpMatchId,
+    label: buildLabelItemOption(x.remarkBy)
   })), v => v.label));
 };
 
@@ -75,7 +75,6 @@ const calculateConfirmProviderOption = () => {
   const { confirmProviderOption } = store.getState().events;
   return [...confirmProviderOption, { value: -1, label: '(Blanks)' }];
 };
-
 
 const swapBlanks = (options: Option[]) => {
   const indexBlanks = options.findIndex(o => o.label === '(Blanks)');

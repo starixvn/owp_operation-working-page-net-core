@@ -5,8 +5,9 @@ import EditIcon from "mdi-react/EditIcon";
 import { TRemarkPopover } from "../../../type/table";
 import { useAppDispatch } from "../../../app/hookNative";
 import { saveRemark, saveRemarkBy } from "../tableThunk";
+import { UncontrolledTooltip } from "reactstrap";
 
-const NotePopover = ({ hasWrite, OWPMatchId, value, index, isRemark }: TRemarkPopover) => {
+const NotePopover = ({ className, hasWrite, OWPMatchId, value, index, isRemark }: TRemarkPopover) => {
   const popupRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -52,39 +53,47 @@ const NotePopover = ({ hasWrite, OWPMatchId, value, index, isRemark }: TRemarkPo
   };
 
   const placeholderText = isRemark ? "Write a remark" : "Write a remark by";
+  const cellId = `${className}-${index}`;
 
   return (
-    <div className={`note-cell${note ? " has-note" : ""}`}>
-      {note ? (
-        <span className="icon-comment" onClick={handleOpen} id={`note-${index}`}>
-          <CommentIcon size={14} />
-        </span>
-      ) : (
-        <span className="icon-edit" onClick={handleOpen}>
-          <EditIcon size={14} />
-        </span>
-      )}
-
-      {isOpen && hasWrite && (
-        <div ref={popupRef} className="note-popover is-show">
-          <span className="close-popup" onClick={handleSaveRemark}>
-            <CloseIcon size={14} />
+    <td className={className} id={cellId}>
+      <div className={`note-cell${note ? " has-note" : ""}`}>
+        {note ? (
+          <>
+            <span className="icon-comment" onClick={handleOpen} id={`note-${index}`}>
+              <CommentIcon size={14} />
+            </span>
+            <UncontrolledTooltip target={cellId} placement="top">
+              {note}
+            </UncontrolledTooltip>
+          </>
+        ) : (
+          <span className="icon-edit" onClick={handleOpen}>
+            <EditIcon size={14} />
           </span>
+        )}
 
-          <form className="create-note" onSubmit={handleSubmit}>
-            <input
-              data-testid="note-testId"
-              className="note-textinput"
-              type="text"
-              placeholder={placeholderText}
-              defaultValue={note}
-              ref={inputRef}
-              onKeyDown={handleKeyDown}
-            />
-          </form>
-        </div>
-      )}
-    </div>
+        {isOpen && hasWrite && (
+          <div ref={popupRef} className="note-popover is-show">
+            <span className="close-popup" onClick={handleSaveRemark}>
+              <CloseIcon size={14} />
+            </span>
+
+            <form className="create-note" onSubmit={handleSubmit}>
+              <input
+                data-testid="note-testId"
+                className="note-textinput"
+                type="text"
+                placeholder={placeholderText}
+                defaultValue={note}
+                ref={inputRef}
+                onKeyDown={handleKeyDown}
+              />
+            </form>
+          </div>
+        )}
+      </div>
+    </td>
   );
 };
 

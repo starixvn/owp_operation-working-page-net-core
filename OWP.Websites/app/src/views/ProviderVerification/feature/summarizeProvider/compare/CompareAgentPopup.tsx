@@ -20,7 +20,7 @@ const CompareAgentPopup: React.FC<Props> = ({
   const { confirmProviderOption, dataSource } = useAppSelector(state => state.events);
 
   const handleCheck = async () => {
-    const dataSourceByAgent = dataSource.filter(x => x.ConfirmProvider.some(y => y.Label === agent?.label));
+    const dataSourceByAgent = dataSource.filter(x => x.agentConfirm.some(y => y.label === agent?.label));
     setResults(compareDifferent(textAreaValue, dataSourceByAgent));
   };
 

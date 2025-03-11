@@ -1,28 +1,35 @@
 import { Option } from '../../Shared/MultipleSelection/type';
 
 type TConfirmProvider = {
-  Value: number | string | null;
-  Label: string;
-  Key?: string;
-  Disabled?: boolean;
+  value: number | string | null;
+  label: string;
+  key?: string;
+  disabled?: boolean;
+};
+
+type ValidationResponse = {
+  isSuccess: boolean;
+  value: {
+    providerVerification: TDataSource;
+    sessionId: string;
+  };
 };
 
 type TDataSource = {
-  LstBookProvider?: string | null;
-  InHouseProviderId?: string | null;
-  Remark?: string | null;
-  RemarkBy?: string | null;
-  OWPMatchId: number;
-  ParentMatchId: number;
-  MatchNo: string;
-  MatchStatus: string;
-  EventDateTime: string;
-  League: string;
-  Home: string;
-  Away: string;
-  ConfirmProvider: TConfirmProvider[];
-  AgentConfirm: TConfirmProvider[];
-  RowColor: string | undefined;
+  lstBookProvider?: string | null;
+  inHouseProviderId?: string | null;
+  remark?: string | null;
+  remarkBy?: string | null;
+  owpMatchId: number;
+  parentMatchId: number;
+  matchNo: string;
+  matchStatus: string;
+  eventDateTime: string;
+  league: string;
+  home: string;
+  away: string;
+  agentConfirm: TConfirmProvider[];
+  rowColor: string | undefined;
 } & TTicketCell;
 
 type TCommonCell = {
@@ -47,6 +54,7 @@ type TRemarkCell = {
 };
 
 type TRemarkPopover = {
+  className?: string;
   hasWrite: boolean;
   OWPMatchId: number;
   value: string | null | undefined;
@@ -100,5 +108,6 @@ export {
   TColumnKey,
   TMatchCell,
   TRemark,
-  TRemarkPopover
+  TRemarkPopover,
+  ValidationResponse
 };

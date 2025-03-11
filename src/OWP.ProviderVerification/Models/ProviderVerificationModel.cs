@@ -5,6 +5,8 @@ namespace OWP.ProviderVerification.Models;
 
 public class EventModel
 {
+    private string _time;
+
     public int ?OWPMatchId { get; set; }
 
     [Cell("A2")]
@@ -13,11 +15,19 @@ public class EventModel
     [Cell("B2")]
     public string MatchStatus { get; set; }
 
-    [Cell("C2")]
     public DateTime ?EventDateTime { get; set; }
 
+    [Cell("C2")]
+    public string EventDate => EventDateTime?.Date.ToString(CultureInfo.InvariantCulture);
+
     [Cell("D2")]
-    public string KoTime { get; set; }
+    public string KoTime
+    {
+        get => _time;
+        set =>
+            _time = DateTime.TryParse(value, CultureInfo.InvariantCulture, DateTimeStyles.None, out var time)
+                ? time.ToString("hh:mm tt", CultureInfo.InvariantCulture) : value;
+    }
 
     [Cell("G2")]
     public string League { get; set; }
@@ -50,7 +60,6 @@ public class ProviderVerificationModel : EventModel
     public List<AgentConfirmOption> AgentConfirm { get; set; }
 
     public List<ProviderMatchModel> ProviderMatch { get; set; }
-
 
     public string RowColor => MatchStatus switch
     {

@@ -1,7 +1,6 @@
 import { TRemarkCell } from '../../../type/table';
 import { useAppSelector } from '../../../app/hookNative';
 import NotePopover from '../components/NotePopover';
-import { UncontrolledTooltip } from "reactstrap";
 
 const NoteCell = ({
   className,
@@ -11,23 +10,16 @@ const NoteCell = ({
   isRemark
 }: TRemarkCell) => {
   const { HasWrite } = useAppSelector(state => state.pagePolicy.permission);
-  const cellId = `${className}-${index}`;
 
   return (
-    <td className={className} id={cellId}>
-      <NotePopover
-        hasWrite={HasWrite}
-        value={value}
-        OWPMatchId={OWPMatchId}
-        index={index}
-        isRemark={isRemark}
-      />
-      {value &&
-        <UncontrolledTooltip target={cellId} placement="top">
-          {value}
-        </UncontrolledTooltip>
-      }
-    </td>
+    <NotePopover
+      className={className}
+      hasWrite={HasWrite}
+      value={value}
+      OWPMatchId={OWPMatchId}
+      index={index}
+      isRemark={isRemark}
+    />
   );
 };
 

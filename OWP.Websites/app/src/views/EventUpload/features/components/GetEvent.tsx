@@ -13,7 +13,7 @@ import { NextButton } from './Button';
 import {
   exportExcel,
   liveGameAssignmentFileName
-} from '../../../Shared/common/ExportLiveGameAssignment/Helper';
+} from '../../../Shared/common/ExportExcel/Helper';
 
 const GetEvent = () => {
   const { eventDate } = useSelector(

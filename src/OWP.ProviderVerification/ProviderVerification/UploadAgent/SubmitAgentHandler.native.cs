@@ -1,7 +1,7 @@
 ﻿
 namespace OWP.ProviderVerification.ProviderVerification.UploadAgent;
 
-public record SubmitAgentRequest(string SessionId, DateTime date) : Query<ResultT<IList<ProviderVerificationModel>>>;
+public record SubmitAgentRequest(string SessionId, DateTime Date) : Query<ResultT<IList<ProviderVerificationModel>>>;
 
 public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository repository) : QueryHandler<SubmitAgentRequest, ResultT<IList<ProviderVerificationModel>>>
 {
@@ -9,11 +9,10 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
 
     public async Task<ResultT<IList<ProviderVerificationModel>>> Handle(SubmitAgentRequest request, CancellationToken cancellationToken)
     {
-        var cacheKey = $"{Const.Const.KEY_PROVIDER_VERIFICATION}-{request.SessionId}";
-
+        var cacheKey = Utils.BuildProviderVerificationKey(request.SessionId);
         var (_, excelProviderModel) = await cache.TryGetAsync<string>(cacheKey);
         var excelProviderModels = JsonConvert.DeserializeObject<IList<ExcelProviderModel>>(excelProviderModel);
-        var compareResult = await Compare(request.date, excelProviderModels);
+        var compareResult = await Compare(request.Date, excelProviderModels);
         if (compareResult?.Any() == true)
         {
             await SaveProviderCompareInfo(request.SessionId, compareResult);
@@ -77,7 +76,7 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
         var expiredDate = DateTime.Today.AddDays(CACHE_EXPIRED_IN_DAYS);
         var absoluteTimeSpan = expiredDate - DateTime.Now;
         var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(absoluteTimeSpan);
-        var cacheKey = $"{Const.Const.KEY_CACHE_PROVIDER_VERIFICATION_DIFFERENCE}-{sessionId}";
+        var cacheKey = Utils.BuildProviderVerificationDifferenceKey(sessionId);
         var assignmentsJson = JsonConvert.SerializeObject(providerVerification);
         await cache.SetAsync(cacheKey, assignmentsJson, cachePolicy);
     }

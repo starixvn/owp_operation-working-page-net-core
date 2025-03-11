@@ -4,9 +4,9 @@ public class ExportEndpoint: ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/ProviderVerification/export/difference", async (DateTimeOffset eventDate, string sessionId, [FromServices] ISender sender) =>
+        app.MapGet("/api/ProviderVerification/export/difference", async (DateTime eventDate, string sessionId, [FromServices] ISender sender) =>
         {
-                    using var excelPackage = await sender.Send(new ExportRequest(eventDate, sessionId, "ProviderVerificationDifference.xlsx"));
+                    using var excelPackage = await sender.Send(new ExportRequest(sessionId, "ProviderVerificationDifference.xlsx"));
                     var fileName = $"ProviderVerification {eventDate:ddMMMMyyyy}.xlsx";
                     var bytes = await excelPackage.GetAsByteArrayAsync();
                     return Results.File(bytes, "application/octet-stream", fileName);
@@ -14,12 +14,12 @@ public class ExportEndpoint: ICarterModule
             ).RequireAuthorization()
             .WithName("ExportDifference")
             .ProducesProblem(StatusCodes.Status500InternalServerError)
-            .WithSummary("Export difference from infosite provider match id with agent file")
-            .WithDescription("Export difference from infosite provider match id with agent file");
+            .WithSummary("Export difference from adminsite provider match id with agent file")
+            .WithDescription("Export difference from adminsite provider match id with agent file");
 
-        app.MapGet("/api/ProviderVerification/export", async (DateTimeOffset eventDate, string sessionId, [FromServices] ISender sender) =>
+        app.MapGet("/api/ProviderVerification/export", async (DateTime eventDate, string sessionId, [FromServices] ISender sender) =>
                 {
-                    using var excelPackage = await sender.Send(new ExportRequest(eventDate, sessionId, "ProviderVerificationDifference.xlsx"));
+                    using var excelPackage = await sender.Send(new ExportRequest(sessionId, "ProviderVerificationDifference.xlsx"));
                     var fileName = $"ProviderVerification {eventDate:ddMMMMyyyy}.xlsx";
                     var bytes = await excelPackage.GetAsByteArrayAsync();
                     return Results.File(bytes, "application/octet-stream", fileName);

@@ -13,10 +13,8 @@ public class UploadAgentValidationHandler(ICache cache, IDynamicRepository dynam
 
     public async Task<ResultT<AnalyzedResult>> Handle(UploadAgentValidationRequest request, CancellationToken cancellationToken)
     {
-        
         using var package = new ExcelPackage(request.Stream);
         var worksheet = package.Workbook.Worksheets.FirstOrDefault();
-               
         var analyzer = new Analyzer();
         var rowCount = worksheet.Dimension.Rows;
         var colCount = worksheet.Dimension.Columns;
@@ -45,7 +43,7 @@ public class UploadAgentValidationHandler(ICache cache, IDynamicRepository dynam
                 property.SetValue(model, convertedValue);
             }
             analyzer.Add(model);
-            var validationResult=analyzer.Validate();
+            var validationResult = analyzer.Validate();
             if (validationResult.IsSuccess)
             { 
                 await SaveAgentUploadInfo(request.SessionId, analyzer);
@@ -55,7 +53,6 @@ public class UploadAgentValidationHandler(ICache cache, IDynamicRepository dynam
             {
                 return ResultT<AnalyzedResult>.Failure(validationResult.Errors);
             }
-
         }
 
         return ResultT<AnalyzedResult>.Success(new AnalyzedResult(request.SessionId, analyzer.Count));
@@ -66,8 +63,7 @@ public class UploadAgentValidationHandler(ICache cache, IDynamicRepository dynam
         var expiredDate = DateTime.Today.AddDays(CACHE_EXPIRED_IN_DAYS);
         var absoluteTimeSpan = expiredDate - DateTime.Now;
         var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(absoluteTimeSpan);
-        var cacheKey = $"{Const.Const.KEY_PROVIDER_VERIFICATION}-{sessionId}";
-
+        var cacheKey = Utils.BuildProviderVerificationKey(sessionId);
         var assignmentsJson = JsonConvert.SerializeObject(providerModel);
         await cache.SetAsync(cacheKey, assignmentsJson, cachePolicy);
     }

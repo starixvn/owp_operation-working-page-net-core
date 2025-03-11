@@ -2,7 +2,7 @@ import DropdownNative from '../../Shared/common/Dropdown/DropdownNative';
 import {
   exportExcel,
   liveGameAssignmentFileName
-} from '../../Shared/common/ExportLiveGameAssignment/Helper';
+} from '../../Shared/common/ExportExcel/Helper';
 import ToastrWrapper from '../../components/ToastrWrapper';
 import { useAppSelector } from '../app/hooks';
 import store from '../app/store';

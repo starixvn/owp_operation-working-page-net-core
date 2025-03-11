@@ -2,9 +2,10 @@
 
 public record AnalyzedResult(string SessionId, int OriginalRecordCount);
 
+public record AnalyzedProviderResult(string SessionId, IList<ProviderVerificationModel> ProviderVerification);
+
 public class Analyzer:  List<ExcelProviderModel>
 {
-
     public Result Validate()
     {
         var errors = new List<Error>();

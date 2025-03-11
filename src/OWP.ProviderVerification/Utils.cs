@@ -5,4 +5,9 @@ internal static class Utils
     {
         return $"{Const.Const.KEY_PROVIDER_VERIFICATION}-{sessionId}";
     }
+
+    public static string BuildProviderVerificationDifferenceKey(string sessionId)
+    {
+        return $"{Const.Const.KEY_CACHE_PROVIDER_VERIFICATION_DIFFERENCE}-{sessionId}";
+    }
 }

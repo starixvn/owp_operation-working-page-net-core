@@ -57,29 +57,29 @@ const executeFilterTable = (dataSource: TDataSource[], tableFilter: TMultipleFil
     Remark,
     RemarkBy
   } = tableFilter;
-  const result = dataSource.filter(e => MatchNo.selected.some(m => m.label === buildLabelItemOption(e.MatchNo)) //NOSONAR
-    && MatchStatus.selected.some(m => m.label === buildLabelItemOption(e.MatchStatus))
-    && Match.selected.some(m => m.label === `${e.Home} -vs- ${e.Away}`)
-    && KoTime.selected.some(m => m.label === formatTime(e.EventDateTime, 'minute', 'hh:mm A'))
-    && League.selected.some(m => m.label === e.League)
-    && LstBookProvider.selected.some(m => m.label === buildLabelItemOption(e.LstBookProvider))
-    && InHouseProviderId.selected.some(m => m.label === buildLabelItemOption(e.InHouseProviderId))
-    && Remark.selected.some(m => m.label === buildLabelItemOption(e.Remark))
-    && RemarkBy.selected.some(m => m.label === buildLabelItemOption(e.RemarkBy)));
+  const result = dataSource.filter(e => MatchNo.selected.some(m => m.label === buildLabelItemOption(e.matchNo)) //NOSONAR
+    && MatchStatus.selected.some(m => m.label === buildLabelItemOption(e.matchStatus))
+    && Match.selected.some(m => m.label === `${e.home} -vs- ${e.away}`)
+    && KoTime.selected.some(m => m.label === formatTime(e.eventDateTime, 'minute', 'hh:mm A'))
+    && League.selected.some(m => m.label === e.league)
+    && LstBookProvider.selected.some(m => m.label === buildLabelItemOption(e.lstBookProvider))
+    && InHouseProviderId.selected.some(m => m.label === buildLabelItemOption(e.inHouseProviderId))
+    && Remark.selected.some(m => m.label === buildLabelItemOption(e.remark))
+    && RemarkBy.selected.some(m => m.label === buildLabelItemOption(e.remarkBy)));
 
   return filterByConfirmProvider(result, tableFilter);
 };
 
 const filterByConfirmProvider = (dataSource: TDataSource[], tableFilter: TMultipleFilter) => {
   return dataSource.filter(e => {
-    const ConfirmProvider = e.AgentConfirm;
+    const ConfirmProvider = e.agentConfirm;
     const { selected } = tableFilter.ConfirmProvider;
     if (!ConfirmProvider.length && selected.some(s => s.label === '(Blanks)')) {
       return true;
     }
     return ConfirmProvider.some(a =>
       selected.some(s =>
-        s.label === a.Label
+        s.label === a.label
       ));
   });
 };

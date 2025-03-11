@@ -15,7 +15,6 @@ type ValidationResponse = {
   value: {
     originalRecordCount: number;
     sessionId: string;
-
   };
 };
 

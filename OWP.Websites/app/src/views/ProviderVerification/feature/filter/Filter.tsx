@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import dayjs from 'dayjs';
 import { useAppDispatch } from '../../app/hookNative';
 import { getEvents } from '../table/tableThunk';
 import FilterDate from './FilterDate';
@@ -9,11 +10,13 @@ import store from '../../app/storeNative';
 import ConfirmProvider from './ConfirmProvider';
 import EyeIcon from 'mdi-react/EyeIcon';
 import { useAppSelector } from '../../app/hookNative';
+import { exportExcel } from '../../../Shared/common/ExportExcel/Helper';
+import Utils from '../../../Shared/Utils';
 
 const Filter = () => {
   const dispatch = useAppDispatch();
-  const { dataSource } = useAppSelector(
-    state => state.events
+  const { sessionId } = useAppSelector(
+    state => state.events.validationResponse.value
   );
 
   const handleSearch = () => {
@@ -40,8 +43,14 @@ const Filter = () => {
     handleSearch();
   }, []);
 
-  const handleExport = () => {
+  const handleExport = async () => {
+    const { eventDate } = store.getState().filterState.filter;
+    const date = Utils.formatDate(eventDate);
+    const params = `eventDate=${date}&sessionId=${sessionId}`;
+    const url = `api/ProviderVerification/export?${params}`;
+    const fileName = `ProviderVerification - ${dayjs(date).format('MMDDYYYY')}.xlsx`;
 
+    exportExcel(url, fileName);
   };
 
   const handleClick = () => {
@@ -59,7 +68,7 @@ const Filter = () => {
             Search
           </button>
           <button
-            className={`button-export ${dataSource.length === 0 ? "btn-disable" : ""}`}
+            className="button-export"
             onClick={handleExport}
           >
             Export

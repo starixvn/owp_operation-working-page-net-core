@@ -11,71 +11,71 @@ const TableBody = ({ dataSource }: { dataSource: TDataSource[]; }) => {
   return (
     <tbody>
       {dataSource.map((event, index) => (
-        <tr key={event.OWPMatchId} style={{ backgroundColor: event.RowColor }}>
+        <tr key={event.owpMatchId} style={{ backgroundColor: event.rowColor }}>
           <ReadonlyCommonCell
             className='match_no'
-            value={event.MatchNo}
+            value={event.matchNo}
             index={index}
             isCanToolTip={false}
           />
 
           <ReadonlyCommonCell
             className='match_status'
-            value={event.MatchStatus}
+            value={event.matchStatus}
             index={index}
             isCanToolTip={false}
           />
 
           <ReadonlyCommonCell
             className='ko_time'
-            value={formatTime(event.EventDateTime, 'minute', 'hh:mm A')}
+            value={formatTime(event.eventDateTime, 'minute', 'hh:mm A')}
             index={index}
             isCanToolTip={false}
           />
 
           <ReadonlyCommonCell
             className='league'
-            value={event.League}
+            value={event.league}
             index={index}
             isCanToolTip={false}
           />
 
-          <MatchCell className='match' home={event.Home} away={event.Away} />
+          <MatchCell className='match' home={event.home} away={event.away} />
 
           <ReadonlyCommonCell
             className='lst-book-provider'
-            value={event.LstBookProvider}
+            value={event.lstBookProvider}
             index={index}
             isCanToolTip={true}
           />
 
           <ReadonlyCommonCell
             className='inhouse-providerId'
-            value={event.InHouseProviderId}
+            value={event.inHouseProviderId}
             index={index}
             isCanToolTip={false}
           />
 
           <ConfirmProviderCell
-            confirmProvider={event.AgentConfirm.map(a => ({
-              value: a.Value,
-              label: a.Label
+            confirmProvider={event.agentConfirm.map(a => ({
+              value: a.value,
+              label: a.label
             }))}
-            owpMatchId={event.OWPMatchId}
+            owpMatchId={event.owpMatchId}
           />
 
           <NoteCell
             className='remark'
-            OWPMatchId={event.OWPMatchId}
-            value={event.Remark}
+            OWPMatchId={event.owpMatchId}
+            value={event.remark}
             index={index}
             isRemark={true}
           />
 
           <NoteCell
             className='remark__by'
-            OWPMatchId={event.OWPMatchId}
-            value={event.RemarkBy}
+            OWPMatchId={event.owpMatchId}
+            value={event.remarkBy}
             index={index}
             isRemark={false}
           />
