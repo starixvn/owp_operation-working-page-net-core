@@ -1,7 +1,9 @@
 import { useDispatch } from 'react-redux';
-import { saveAs } from "file-saver";
-import axios, { AxiosResponse } from 'axios';
 import { setBackStep, setNextStep, setResetValidationResult } from './providerUploadSlice';
+import { exportExcel } from '../../../Shared/common/ExportExcel/Helper';
+import Utils from '../../../Shared/Utils';
+import dayjs from 'dayjs';
+import { useAppSelector } from '../../app/hooks';
 
 const BackButton = (props: { onClick?: Function; }) => {
   const { onClick } = props;
@@ -46,18 +48,18 @@ const SubmitButton = (props: { onSubmit: Function; }) => {
 };
 
 const ExportButton = () => {
+  const { upload } = useAppSelector(
+    state => state
+  );
+  const { sessionId } = upload.validationResponse.value;
+  const { eventDate } = upload;
   const handleExport = async () => {
-    const url = "/api/ProviderVerification/";
-    const fileName = "CheckDifferenceProviderId.xlsx";
-    const options = {
-      url,
-      method: 'GET',
-      headers: { 'Accept': 'application/json' },
-      responseType: 'blob' as const
-    };
-    const response: AxiosResponse<Blob> = await axios.request(options);
-    const fileUrl = window.URL.createObjectURL(new Blob([response.data]));
-    saveAs(fileUrl, fileName);
+    const date = Utils.formatDate(eventDate);
+    const params = `eventDate=${date}&sessionId=${sessionId}`;
+    const url = `api/ProviderVerification/export/difference?${params}`;
+    const fileName = `CheckDifferenceProviderId - ${dayjs(date).format('MMDDYYYY')}.xlsx`;
+
+    exportExcel(url, fileName);
   };
 
   return (

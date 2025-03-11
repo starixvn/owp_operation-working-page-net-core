@@ -19,7 +19,7 @@ public class ExportEndpoint: ICarterModule
 
         app.MapGet("/api/ProviderVerification/export", async (DateTime eventDate, string sessionId, [FromServices] ISender sender) =>
                 {
-                    using var excelPackage = await sender.Send(new ExportRequest(sessionId, "ProviderVerificationDifference.xlsx"));
+                    using var excelPackage = await sender.Send(new ExportRequest(sessionId, "ProviderVerification.xlsx"));
                     var fileName = $"ProviderVerification {eventDate:ddMMMMyyyy}.xlsx";
                     var bytes = await excelPackage.GetAsByteArrayAsync();
                     return Results.File(bytes, "application/octet-stream", fileName);

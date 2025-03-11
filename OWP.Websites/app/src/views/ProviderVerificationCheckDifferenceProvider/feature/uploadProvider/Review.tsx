@@ -1,14 +1,19 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { CheckboxMarkedCircleOutlineIcon } from 'mdi-react';
+import { useAppSelector } from '../../app/hooks';
 import { useEffect } from 'react';
-import { RootState } from '../../app/storeNative';
 import { BackButton, SubmitButton, ExportButton } from './Button';
 import { setResetValidationResult, uploadProviderThunk, submitProviderThunk, setShowTable } from './providerUploadSlice';
 import { TReview } from '../../type/typeNative';
 
 const Review = (props: TReview) => {
-  const { validationResponse, file, showTable } = useSelector((state: RootState) => state.upload);
-  const { isSuccess, value } = validationResponse;
+
+  const { upload } = useAppSelector(
+    state => state
+  );
+  const { isSuccess, value } = upload.validationResponse;
+  const { validationResponse, file, showTable, eventDate } = upload;
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -30,7 +35,7 @@ const Review = (props: TReview) => {
 
   const handleSubmit = () => {
     const { sessionId } = validationResponse.value;
-    dispatch(submitProviderThunk({ sessionId: { sessionId }, date: new Date(2025, 1, 27) }));
+    dispatch(submitProviderThunk({ sessionId: { sessionId }, date: eventDate }));
   };
 
   return (

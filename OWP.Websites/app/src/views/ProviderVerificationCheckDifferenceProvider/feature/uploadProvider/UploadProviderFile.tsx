@@ -1,18 +1,24 @@
-import { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { BackButton, NextButton } from './Button';
 import ToastrWrapper from '../../../components/ToastrWrapper';
 import { validateFile } from '../../../Shared/uploadFile/validationHelper';
 import { setFile } from './providerUploadSlice';
 import { TUploadProviderFile } from '../../type/typeNative';
+import { setEventDate } from './providerUploadSlice';
+
 
 const UPLOAD_PLACEHOLDER = 'Upload file';
 
 const UploadProviderFile = (props: TUploadProviderFile) => {
   const [textInput, setTextInput] = useState(UPLOAD_PLACEHOLDER);
   const [selectedFile, setSelectedFile] = useState<File>();
-
   const dispatch = useDispatch();
+  const date = new URL(window.location.href).searchParams.get("date");
+
+  useEffect(() => {
+    dispatch(setEventDate(date));
+  }, []);
 
   const handleOnChange = async (event: ChangeEvent<HTMLInputElement>) => {
     setTextInput(UPLOAD_PLACEHOLDER);
@@ -35,7 +41,7 @@ const UploadProviderFile = (props: TUploadProviderFile) => {
 
   return (
     <div className='upload-file'>
-      Date: <b>{new URL(window.location.href).searchParams.get('date')}</b>
+      Date: <b>{date}</b>
       <div>Upload Agent file to compare (max: 5MB)</div>
       <div className='control-field'>
         <span className='text-input-file'>{textInput}</span>

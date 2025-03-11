@@ -17,7 +17,7 @@ const uploadProviderThunk = createAsyncThunk(
 const submitProviderThunk = createAsyncThunk(
   'submit',
   async ({ date, sessionId }: { sessionId: object, date: Date; }) => {
-    const response = await axios.post(`${API_BASE_URL}/submit`, { ...sessionId, date });
+    const response = await axios.post(`${API_BASE_URL}/submit`, { sessionId, date });
 
     return response.data.value;
   });
