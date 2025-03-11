@@ -2,14 +2,13 @@
 namespace OWP.ProviderVerification.ProviderVerification.QueryProvider;
 
 public record QueryProviderVerificationRequest(DateTime EventDate, bool OnlyShowIsMismatchEvent, string ConfirmProvider, string SessionId) : Query<ResultT<AnalyzedProviderResult>>;
-public class QueryProviderVerificationHandler(ICache cache, IDynamicRepository dynamicRepository, ProviderVerificationRepository repository)
+public class QueryProviderVerificationHandler(ICache cache, ProviderVerificationRepository repository)
     : QueryHandler<QueryProviderVerificationRequest, ResultT<AnalyzedProviderResult>>
 {
     private const int CACHE_EXPIRED_IN_DAYS = 1;
 
     public async Task<ResultT<AnalyzedProviderResult>> Handle(QueryProviderVerificationRequest request, CancellationToken cancellationToken)
     {
-        var userId= session.UserId;
         var criteria = new GetProviderVerificationCriteria
         {
             EventDate = request.EventDate,
@@ -22,11 +21,9 @@ public class QueryProviderVerificationHandler(ICache cache, IDynamicRepository d
         if (providerVerification.Any())
         {
             await SaveProviderVerificationInfo(request.SessionId, providerVerification.ToList());
-            await LogDetailedPayload(DateTime.Now.ToGmt8(), "ProviderVerification", JsonConvert.SerializeObject(providerVerification));
         }
 
         return ResultT<AnalyzedProviderResult>.Success(new AnalyzedProviderResult(request.SessionId, providerVerification.ToList()));
-
     }
     private async Task SaveProviderVerificationInfo(string sessionId, IList<ProviderVerificationModel> providerModel)
     {
@@ -36,15 +33,5 @@ public class QueryProviderVerificationHandler(ICache cache, IDynamicRepository d
         var cacheKey = Utils.BuildProviderVerificationKey(sessionId);
         var assignmentsJson = JsonConvert.SerializeObject(providerModel);
         await cache.SetAsync(cacheKey, assignmentsJson, cachePolicy);
-    }
-
-    private async Task LogDetailedPayload(DateTime CreatedDate, string Action, string Payload)
-    {
-        await dynamicRepository.ExecuteAsync(new LogMonitoringCriteria()
-        {
-            CreatedDate = CreatedDate,
-            Action = Action,
-            Payload = Payload
-        });
     }
 }
