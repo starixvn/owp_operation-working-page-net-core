@@ -4,6 +4,7 @@ using OWP.ProviderVerification.ProviderVerification.UploadAgent;
 using OfficeOpenXml;
 using Fanex.Caching;
 using Fanex.Data.Repository;
+using Olympus.OWP.Log.Services;
 using OWP.Models;
 using Xunit.Asserts.Compare;
 using Error = OWP.Models.Error;
@@ -17,7 +18,8 @@ public class UploadAgentValidationHandlerTests
     {
         var cache = Substitute.For<ICache>();
         var dynamicRepository = Substitute.For<IDynamicRepository>();
-        _handler = new UploadAgentValidationHandler(cache, dynamicRepository);
+        var logWriterService= Substitute.For<LogWriterService>();
+        _handler = new UploadAgentValidationHandler(cache, dynamicRepository, logWriterService);
         ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
     }
 

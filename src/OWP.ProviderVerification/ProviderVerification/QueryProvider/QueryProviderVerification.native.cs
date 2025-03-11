@@ -9,6 +9,7 @@ public class QueryProviderVerificationHandler(ICache cache, IDynamicRepository d
 
     public async Task<ResultT<AnalyzedProviderResult>> Handle(QueryProviderVerificationRequest request, CancellationToken cancellationToken)
     {
+        var userId= session.UserId;
         var criteria = new GetProviderVerificationCriteria
         {
             EventDate = request.EventDate,
