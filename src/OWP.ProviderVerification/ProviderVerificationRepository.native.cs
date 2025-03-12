@@ -1,7 +1,4 @@
-﻿
-
-
-namespace OWP.ProviderVerification;
+﻿namespace OWP.ProviderVerification;
 
 public interface ProviderVerificationRepository
 {
@@ -42,7 +39,6 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
         IList<AgentConfirmModel> agentConfirms,
         IList<ProviderMatchModel> providerMatches)
     {
-
         var owpIds = string.Join(",", matches.Select(x => x.OWPMatchId));
         var hasTicketModel = (await dynamicRepository.FetchAsync<HasTicketModel>(new DetectEventHasTicketCriteria
         {

@@ -9,7 +9,7 @@ const NoteCell = ({
   index,
   isRemark
 }: TRemarkCell) => {
-  const { HasWrite } = useAppSelector(state => state.pagePolicy.permission);
+  const { HasWrite } = useAppSelector(state => state.providerPolicy.permission);
 
   return (
     <NotePopover

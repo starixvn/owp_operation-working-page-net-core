@@ -1,7 +1,6 @@
 ﻿using Epplus.Mapper.Extensions;
 using OfficeOpenXml.Style;
 using System.Drawing;
-using NPOI.OOXML.XSSF.UserModel;
 
 namespace OWP.ProviderVerification.ProviderVerification.Export;
 
@@ -9,16 +8,20 @@ public record ExportRequest(string SessionId, string Template) : Query<ExcelPack
 
 public class ExportHandler(ICache cache, ConfigurationService configuration) : QueryHandler<ExportRequest, ExcelPackage>
 {
-    private ExcelPackage excelPackage { get; set; }
-
+    private ExcelPackage ExcelPackage { get; set; }
     private ExcelWorksheet reportSheet;
+
+    const int START_TITLE_INDEX = 1;
+    const int START_ROW_INDEX = 3;
+    const int FONT_SIZE_TITLE = 12;
+    const int TOTAL_COLUMNS = 12;
 
     public async Task<ExcelPackage> Handle(ExportRequest request, CancellationToken cancellationToken)
     {
         LoadTemplate(request.Template);
-        BuildExcelBody(await GetProviderVerificationModelFromCache(request.SessionId));
+        BuildExcel(await GetProviderVerificationModelFromCache(request.SessionId));
         ClearTemplate();
-        return excelPackage;
+        return ExcelPackage;
     }
 
     private async Task<IList<ProviderVerificationModel>> GetProviderVerificationModelFromCache(string sessionId)
@@ -35,46 +38,61 @@ public class ExportHandler(ICache cache, ConfigurationService configuration) : Q
         var templatePath = @$"{configuration.CurrentDirectory}{Path.DirectorySeparatorChar}App_Data{Path.DirectorySeparatorChar}Templates{Path.DirectorySeparatorChar}{template}";
 
         using var stream = new FileStream(templatePath, FileMode.Open, FileAccess.Read);
-        excelPackage = new ExcelPackage(stream);
-        reportSheet = excelPackage.Workbook.Worksheets.Copy(Const.Const.TEMPLATE_NAME, Const.Const.SHEET_NAME);
+        ExcelPackage = new ExcelPackage(stream);
+        reportSheet = ExcelPackage.Workbook.Worksheets.Copy(Const.Const.TEMPLATE_NAME, Const.Const.SHEET_NAME);
     }
 
-    private void BuildExcelBody(IList<ProviderVerificationModel> model)
+    private void BuildExcel(IList<ProviderVerificationModel> model)
     {
-        reportSheet.ApplyVertical(model, 2);
+        SetExcelTitle(model[0].EventDateTime);
+        reportSheet.ApplyVertical(model, START_ROW_INDEX);
         SetColorRow(model);
     }
+
+    private void SetExcelTitle(DateTime? date)
+    {
+        string title = "Provider Verification";
+        string formattedDate = date?.ToString("MM/dd/yyyy") ?? "N/A";
+        var range = reportSheet.Cells[START_TITLE_INDEX, START_TITLE_INDEX, START_TITLE_INDEX, TOTAL_COLUMNS];
+        range.Value = $"{title} - {formattedDate}";
+        range.Style.Font.Size = FONT_SIZE_TITLE;
+    }
+
     private void SetColorRow(IList<ProviderVerificationModel> model)
     {
-        const int START_ROW_INDEX = 2;
-        string defaultColor = "#FFF";
+        const string BORDER_COLOR_HEX = "#c8ced3";
+        Color borderColor = ColorTranslator.FromHtml(BORDER_COLOR_HEX);
 
-        for (var index = START_ROW_INDEX; index < model.Count + START_ROW_INDEX; index++)
+        for (int i = 0; i < model.Count; i++)
         {
-            var hexColor = model[index - START_ROW_INDEX].RowColor;
-            string colorLineHex = "#c8ced3";
-            Color colorLine = ColorTranslator.FromHtml(colorLineHex);
-
-            if (hexColor != defaultColor)
-            {
-                Color backgroundColor = ColorTranslator.FromHtml(hexColor);
-                var range = reportSheet.Cells[index, 1, index, 12];
-                range.Style.Fill.PatternType = ExcelFillStyle.Solid;
-                range.Style.Fill.BackgroundColor.SetColor(backgroundColor);
-                range.Style.Border.Top.Style = ExcelBorderStyle.Thin;
-                range.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
-                range.Style.Border.Left.Style = ExcelBorderStyle.Thin;
-                range.Style.Border.Right.Style = ExcelBorderStyle.Thin;
-                range.Style.Border.Top.Color.SetColor(colorLine);
-                range.Style.Border.Bottom.Color.SetColor(colorLine);
-                range.Style.Border.Left.Color.SetColor(colorLine);
-                range.Style.Border.Right.Color.SetColor(colorLine);
-            }
+            int rowIndex = i + START_ROW_INDEX;
+            ApplyRowStyle(rowIndex, model[i].RowColor, borderColor, TOTAL_COLUMNS);
         }
+    }
+
+    private void ApplyRowStyle(int rowIndex, string hexColor, Color borderColor, int totalColumns)
+    {
+        Color backgroundColor = ColorTranslator.FromHtml(hexColor);
+        var range = reportSheet.Cells[rowIndex, 1, rowIndex, totalColumns];
+        range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+        range.Style.Fill.BackgroundColor.SetColor(backgroundColor);
+        ApplyBorderStyle(range, borderColor);
+        range.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+        range.Style.Font.Bold = false;
+    }
+
+    private static void ApplyBorderStyle(ExcelRange range, Color borderColor)
+    {
+        var border = range.Style.Border;
+        border.Top.Style = border.Bottom.Style = border.Left.Style = border.Right.Style = ExcelBorderStyle.Thin;
+        border.Top.Color.SetColor(borderColor);
+        border.Bottom.Color.SetColor(borderColor);
+        border.Left.Color.SetColor(borderColor);
+        border.Right.Color.SetColor(borderColor);
     }
 
     private void ClearTemplate()
     {
-        excelPackage.Workbook.Worksheets.Delete(Const.Const.TEMPLATE_NAME);
+        ExcelPackage.Workbook.Worksheets.Delete(Const.Const.TEMPLATE_NAME);
     }
 }

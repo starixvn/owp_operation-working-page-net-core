@@ -30,12 +30,11 @@ const Review = (props: TReview) => {
     } else {
       // TODO
     }
-
   };
 
   const handleSubmit = () => {
     const { sessionId } = validationResponse.value;
-    dispatch(submitProviderThunk({ sessionId: { sessionId }, date: eventDate }));
+    dispatch(submitProviderThunk({ sessionId: sessionId, date: eventDate }));
   };
 
   return (

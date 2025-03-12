@@ -15,9 +15,11 @@ import Utils from '../../../Shared/Utils';
 
 const Filter = () => {
   const dispatch = useAppDispatch();
-  const { sessionId } = useAppSelector(
-    state => state.events.validationResponse.value
+  const { dataSource, validationResponse } = useAppSelector(
+    state => state.events
   );
+  const { sessionId } = validationResponse.value;
+  const { eventDate } = store.getState().filterState.filter;
 
   const handleSearch = () => {
     const {
@@ -25,9 +27,7 @@ const Filter = () => {
         filter: { eventDate, onlyShowIsMismatchEvent, confirmProvider }
       }
     } = store.getState();
-
     const { confirmProviderOption } = store.getState().common.confirmProvider;
-
     let confirmProviderValue = confirmProvider?.length
       ? confirmProvider.map(x => x.value).join(',')
       : null;
@@ -44,7 +44,6 @@ const Filter = () => {
   }, []);
 
   const handleExport = async () => {
-    const { eventDate } = store.getState().filterState.filter;
     const date = Utils.formatDate(eventDate);
     const params = `eventDate=${date}&sessionId=${sessionId}`;
     const url = `api/ProviderVerification/export?${params}`;
@@ -54,7 +53,8 @@ const Filter = () => {
   };
 
   const handleClick = () => {
-    window.open('/CheckDifferenceProviderId');
+    window.open(`/ProviderVerification/check-difference-provider?date=${dayjs(eventDate).format('MM-DD-YYYY')}`);
+    // window.open(`http://localhost:3001/ProviderVerification/check-difference-provider?date=${dayjs(eventDate).format('MM/DD/YYYY')}`);
   };
 
   return (
@@ -67,8 +67,7 @@ const Filter = () => {
           <button className='button-submit' onClick={handleSearch}>
             Search
           </button>
-          <button
-            className="button-export"
+          <button className={`button-export ${dataSource.length === 0 ? "btn-disable" : ""}`}
             onClick={handleExport}
           >
             Export
@@ -77,7 +76,8 @@ const Filter = () => {
         </div>
       </div>
       <div className='right-control'>
-        <div className='pearl-icon' onClick={handleClick}>
+        <div className={`pearl-icon ${dataSource.length === 0 ? "btn-disable" : ""}`}
+          onClick={handleClick}>
           <EyeIcon size={30} />
         </div>
         <CompareAgent />

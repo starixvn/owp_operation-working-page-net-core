@@ -11,8 +11,7 @@ public class UploadAgentValidationHandler(ICache cache, IDynamicRepository dynam
 {
     private const int ROW_HEADER = 1;
     private const int START_ROW_CONTENT = 2;
-
-     private const int CACHE_EXPIRED_IN_DAYS = 1;
+    private const int CACHE_EXPIRED_IN_DAYS = 1;
 
     public async Task<ResultT<AnalyzedResult>> Handle(UploadAgentValidationRequest request, CancellationToken cancellationToken)
     {

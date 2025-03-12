@@ -1,12 +1,12 @@
 import { useState, ChangeEvent, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import dayjs from 'dayjs';
 import { BackButton, NextButton } from './Button';
 import ToastrWrapper from '../../../components/ToastrWrapper';
 import { validateFile } from '../../../Shared/uploadFile/validationHelper';
 import { setFile } from './providerUploadSlice';
 import { TUploadProviderFile } from '../../type/typeNative';
 import { setEventDate } from './providerUploadSlice';
-
 
 const UPLOAD_PLACEHOLDER = 'Upload file';
 
@@ -41,8 +41,8 @@ const UploadProviderFile = (props: TUploadProviderFile) => {
 
   return (
     <div className='upload-file'>
-      Date: <b>{date}</b>
-      <div>Upload Agent file to compare (max: 5MB)</div>
+      Date: <b>{dayjs(date).format('MMM DD, YYYY')}</b>
+      <div className='file-suggest'>Upload Agent file to compare (max: 5MB)</div>
       <div className='control-field'>
         <span className='text-input-file'>{textInput}</span>
         <label htmlFor='myFile' className='button-input-file'>
