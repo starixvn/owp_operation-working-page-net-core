@@ -6,6 +6,8 @@ namespace OWP.ProviderVerification.ProviderVerification.Export;
 
 public record ExportRequest(string SessionId, string Template) : Query<ExcelPackage>;
 
+public record ExportCheckDifferenceRequest(string SessionId, string Template) : Query<ExcelPackage>;
+
 public class ExportHandler(ICache cache, ConfigurationService configuration) : QueryHandler<ExportRequest, ExcelPackage>
 {
     private ExcelPackage ExcelPackage { get; set; }
@@ -24,9 +26,25 @@ public class ExportHandler(ICache cache, ConfigurationService configuration) : Q
         return ExcelPackage;
     }
 
+    public async Task<ExcelPackage> Handle(ExportCheckDifferenceRequest request, CancellationToken cancellationToken)
+    {
+        LoadTemplate(request.Template);
+        BuildExcel(await GetCheckDifferenceProviderIdModelFromCache(request.SessionId));
+        ClearTemplate();
+        return ExcelPackage;
+    }
+
     private async Task<IList<ProviderVerificationModel>> GetProviderVerificationModelFromCache(string sessionId)
     {
         var cacheKey = Utils.BuildProviderVerificationKey(sessionId);
+        var (found, providerVerificationModel) = await cache.TryGetAsync<string>(cacheKey);
+        var providerVerificationModels = JsonConvert.DeserializeObject<IList<ProviderVerificationModel>>(providerVerificationModel);
+
+        return found ? providerVerificationModels : new List<ProviderVerificationModel>();
+    }
+    private async Task<IList<ProviderVerificationModel>> GetCheckDifferenceProviderIdModelFromCache(string sessionId)
+    {
+        var cacheKey = Utils.BuildProviderVerificationDifferenceKey(sessionId);
         var (found, providerVerificationModel) = await cache.TryGetAsync<string>(cacheKey);
         var providerVerificationModels = JsonConvert.DeserializeObject<IList<ProviderVerificationModel>>(providerVerificationModel);
 
