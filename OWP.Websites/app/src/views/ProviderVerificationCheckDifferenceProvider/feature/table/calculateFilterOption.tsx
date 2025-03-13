@@ -7,7 +7,7 @@ import { Option } from "../../../Shared/MultipleSelection/type";
 
 const calculateMatchNoOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource].map(x => ({
-    value: x.OWPMatchId,
+    value: x.owpMatchId,
     label: buildLabelItemOption(x.MatchNo)
   })), v => v.label));
 };
@@ -19,35 +19,35 @@ const calculateKoOption = (dataSource: TDataSource[]) => {
     )
     .map(x => ({
       value: x.OWPMatchId,
-      label: formatTime(x.EventDateTime, 'minute', 'hh:mm A') ?? '(Blanks)'
+      label: formatTime(x.eventDateTime, 'minute', 'hh:mm A') ?? '(Blanks)'
     })), v => v.label));
 };
 
 const calculateLeagueOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource].map(x => ({
     value: x.OWPMatchId,
-    label: x.League ?? '(Blanks)'
+    label: x.league ?? '(Blanks)'
   })), v => v.label));
 };
 
 const calculateMatchOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource].map(x => ({
     value: x.OWPMatchId,
-    label: `${x.Home} -vs- ${x.Away}`
+    label: `${x.home} -vs- ${x.away}`
   })), v => v.label));
 };
 
 const calculateLSTBookProviderOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource].map(x => ({
     value: x.OWPMatchId,
-    label: buildLabelItemOption(x.LstBookProvider)
+    label: buildLabelItemOption(x.lstBookProvider)
   })), v => v.label));
 };
 
 const calculateProviderOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource].map(x => ({
     value: x.OWPMatchId,
-    label: buildLabelItemOption(x.InHouseProviderId)
+    label: buildLabelItemOption(x.inHouseProviderId)
   })), v => v.label));
 };
 

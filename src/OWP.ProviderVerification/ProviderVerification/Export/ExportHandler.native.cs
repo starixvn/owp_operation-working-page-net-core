@@ -115,7 +115,6 @@ public class ExportHandler(ICache cache, ConfigurationService configuration) : Q
     }
 }
 
-
 public class ExportCheckDifferenceHandler(ICache cache, ConfigurationService configuration) : QueryHandler<ExportCheckDifferenceRequest, ExcelPackage>
 {
     private ExcelPackage ExcelPackage { get; set; }

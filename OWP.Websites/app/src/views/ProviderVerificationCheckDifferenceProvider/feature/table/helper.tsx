@@ -42,19 +42,19 @@ const executeFilterTable = (dataSource: TDataSource[], tableFilter: TMultipleFil
     LstBookProvider,
     Provider
   } = tableFilter;
-  const result = dataSource.filter(e => MatchNo.selected.some(m => m.label === buildLabelItemOption(e.MatchNo)) //NOSONAR
-    && Match.selected.some(m => m.label === `${e.Home} -vs- ${e.Away}`)
-    && KoTime.selected.some(m => m.label === formatTime(e.EventDateTime, 'minute', 'hh:mm A'))
-    && League.selected.some(m => m.label === e.League)
-    && LstBookProvider.selected.some(m => m.label === buildLabelItemOption(e.LstBookProvider))
-    && Provider.selected.some(m => m.label === buildLabelItemOption(e.Provider)));
+  const result = dataSource.filter(e => MatchNo.selected.some(m => m.label === buildLabelItemOption(e.matchNo)) //NOSONAR
+    && Match.selected.some(m => m.label === `${e.home} -vs- ${e.away}`)
+    && KoTime.selected.some(m => m.label === formatTime(e.eventDateTime, 'minute', 'hh:mm A'))
+    && League.selected.some(m => m.label === e.league)
+    && LstBookProvider.selected.some(m => m.label === buildLabelItemOption(e.lstBookProvider))
+    && Provider.selected.some(m => m.label === buildLabelItemOption(e.provider)));
 
   return filterByConfirmProvider(result, tableFilter);
 };
 
 const filterByConfirmProvider = (dataSource: TDataSource[], tableFilter: TMultipleFilter) => {
   return dataSource.filter(e => {
-    const ConfirmProvider = e.AgentConfirm;
+    const ConfirmProvider = e.agentConfirm;
     const { selected } = tableFilter.ConfirmProvider;
     if (!ConfirmProvider.length && selected.some(s => s.label === '(Blanks)')) {
       return true;

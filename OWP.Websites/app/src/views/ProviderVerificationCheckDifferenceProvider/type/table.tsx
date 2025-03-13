@@ -16,14 +16,13 @@ type TDataSource = {
   remark?: string | null;
   remarkBy?: string | null;
   owpMatchId?: number;
-  ParentMatchId: number;
+  parentMatchId: number;
   matchNo: string;
   matchStatus: string;
   eventDateTime?: string;
   league: string;
   home: string;
   away: string;
-  confirmProvider: TConfirmProvider[];
   agentConfirm: TConfirmProvider[];
   rowColor: string | undefined;
 } & {
