@@ -7,7 +7,7 @@ namespace OWP.ProviderVerification.ProviderVerification.UploadAgent;
 
 public record UploadAgentValidationRequest(Stream Stream, string SessionId) : Query<ResultT<AnalyzedResult>>;
 
-public class UploadAgentValidationHandler(ICache cache, IDynamicRepository dynamicRepository, LogWriterService logWriterService) : QueryHandler<UploadAgentValidationRequest, ResultT<AnalyzedResult>>
+public class UploadAgentValidationHandler(ICache cache, IDynamicRepository dynamicRepository) : QueryHandler<UploadAgentValidationRequest, ResultT<AnalyzedResult>>
 {
     private const int ROW_HEADER = 1;
     private const int START_ROW_CONTENT = 2;

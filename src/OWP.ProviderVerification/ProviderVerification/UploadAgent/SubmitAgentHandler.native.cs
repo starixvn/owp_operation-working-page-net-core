@@ -38,6 +38,18 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
                          !pv.ProviderMatch.All(pm => excelProviderMatchIDs.Contains(pm.ProviderMatchId.ToString())))
             .ToList();
 
+        if (unMapProviderVerification != null)
+        {
+            string OwpMatchIds = string.Join(", ",
+                unMapProviderVerification?
+                    .Where(pv => pv.OWPMatchId.HasValue)
+                    .Select(pv => pv.OWPMatchId.Value.ToString())
+                ?? new List<string>()
+            );
+
+            await repository.UpdateIsMismatch(OwpMatchIds);
+        }
+
         var providerVerificationIds = providerVerification
             .SelectMany(pv => pv.ProviderMatch.Select(pm => pm.ProviderMatchId.ToString()))
             .ToHashSet();

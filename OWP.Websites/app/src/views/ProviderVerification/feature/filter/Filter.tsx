@@ -54,7 +54,6 @@ const Filter = () => {
 
   const handleClick = () => {
     window.open(`/ProviderVerification/check-difference-provider?date=${dayjs(eventDate).format('YYYY-MM-DD')}`, '_blank');
-    // window.open(`http://localhost:3001/ProviderVerification/check-difference-provider?date=${dayjs(eventDate).format('YYYY-MM-DD')}`, '_blank');
   };
 
   return (

@@ -11,6 +11,8 @@ public interface ProviderVerificationRepository
     Task SaveRemark(int owpMatchId, string remark);
 
     Task SaveRemarkBy(int owpMatchId, string remarkBy);
+
+    Task UpdateIsMismatch( string owpMatchIds);
 }
 
 public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
@@ -110,5 +112,11 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
             RemarkBy = remarkBy,
             OwpMatchId = owpMatchId,
             ActorId = session.UserId
+        });
+
+    public async Task UpdateIsMismatch( string owpMatchIds)
+        => await dynamicRepository.ExecuteAsync(new UpdateIsMismatchCriteria()
+        {
+            OwpMatchIds = owpMatchIds
         });
 }
