@@ -68,9 +68,9 @@ public static class RAndDColorConstant
         {UpdateTypeConstant.UPDATE_NEUTRAL, (UPDATE_COLOR, GREEN)},
         {UpdateTypeConstant.CANCEL_NEUTRAL, (CANCEL_COLOR, WHITE)},
         {UpdateTypeConstant.MATCH_SUSPENDED, (CANCEL_COLOR, WHITE)},
-        {55, (UPDATE_COLOR, GREEN)},
-        {56, (CANCEL_COLOR, WHITE)},
-        {57, (UPDATE_COLOR, GREEN)},
-        {58, (CANCEL_COLOR, WHITE)},
+        {UpdateTypeConstant.UPDATE_PROVIDER, (UPDATE_COLOR, GREEN)},
+        {UpdateTypeConstant.CANCEL_PROVIDER, (CANCEL_COLOR, WHITE)},
+        {UpdateTypeConstant.UPDATE_TOTAL_ROUND, (UPDATE_COLOR, GREEN)},
+        {UpdateTypeConstant.CANCEL_TOTAL_ROUND, (CANCEL_COLOR, WHITE)},
     }.ToImmutableDictionary();
 }

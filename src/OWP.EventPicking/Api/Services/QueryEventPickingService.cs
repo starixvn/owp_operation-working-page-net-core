@@ -171,8 +171,26 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
 
         return match.RAndDInfo
             .Where(info => !string.IsNullOrEmpty(info.Group))
-            .Any(info => condition.UpdateType.Exists(ut => ut == info.Group) &&
-                         (info.UpdateTypeId != UpdateTypeConstant.MATCH_POSTPONED || match.IsPostponed)); 
+            .Any(info => condition.UpdateType.Contains(info.Group) &&
+                         IsMatchingUpdateType(info.UpdateTypeId, match.InfoSiteMatchStatus)); 
+    }
+
+    private static bool IsMatchingUpdateType(int updateTypeId, byte? matchStatus)
+    {
+        return updateTypeId switch
+        {
+            UpdateTypeConstant.MATCH_POSTPONED => matchStatus == InfoSiteMatchStatus.Postponed,
+            UpdateTypeConstant.MATCH_CANCELLED => matchStatus == InfoSiteMatchStatus.Cancelled,
+            UpdateTypeConstant.MATCH_SUSPENDED => matchStatus == InfoSiteMatchStatus.Suspended,
+            _ => IsOtherMatch(updateTypeId)
+        };
+    }
+
+    private static bool IsOtherMatch(int updateTypeId)
+    {
+        return updateTypeId != UpdateTypeConstant.MATCH_POSTPONED &&
+               updateTypeId != UpdateTypeConstant.MATCH_CANCELLED &&
+               updateTypeId != UpdateTypeConstant.MATCH_SUSPENDED;
     }
 
     private static List<EventPickingModel> ExcludeUpdateType(List<EventPickingModel> eventPicking, IList<short> excludedUpdateTypes)
@@ -180,13 +198,15 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
         foreach (var @event in eventPicking)
         {
             var filteredRAndDInfo = @event.RAndDInfo
-                .Where(e => excludedUpdateTypes.All(t => t != e.UpdateTypeId))
+                .Where(e => !excludedUpdateTypes.Contains((short)e.UpdateTypeId))
                 .ToList();
 
-            if (!@event.IsPostponed)
+            if (@event.InfoSiteMatchStatus == InfoSiteMatchStatus.Normal)
             {
                 filteredRAndDInfo = filteredRAndDInfo
-                    .Where(r => r.UpdateTypeId != UpdateTypeConstant.MATCH_POSTPONED)
+                    .Where(r => r.UpdateTypeId != UpdateTypeConstant.MATCH_POSTPONED &&
+                                r.UpdateTypeId != UpdateTypeConstant.MATCH_CANCELLED &&
+                                r.UpdateTypeId != UpdateTypeConstant.MATCH_SUSPENDED)
                     .ToList();
             }
 
