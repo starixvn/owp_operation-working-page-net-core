@@ -53,7 +53,7 @@ const Filter = () => {
   };
 
   const handleClick = () => {
-    window.open(`/ProviderVerification/check-difference-provider?date=${dayjs(eventDate).format('YYYY-MM-DD')}`, '_blank');
+    window.open(`/ProviderVerification/check-difference-provider/${dayjs(eventDate).format('YYYY-MM-DD')}`, '_blank');
   };
 
   return (

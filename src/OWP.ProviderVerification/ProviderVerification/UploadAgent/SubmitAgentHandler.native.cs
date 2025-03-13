@@ -47,7 +47,7 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
                 ?? new List<string>()
             );
 
-            await repository.UpdateIsMismatch(OwpMatchIds);
+            await repository.UpdateIsMismatch(OwpMatchIds, date);
         }
 
         var providerVerificationIds = providerVerification

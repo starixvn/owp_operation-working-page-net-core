@@ -12,7 +12,7 @@ public interface ProviderVerificationRepository
 
     Task SaveRemarkBy(int owpMatchId, string remarkBy);
 
-    Task UpdateIsMismatch( string owpMatchIds);
+    Task UpdateIsMismatch( string owpMatchIds, DateTime date);
 }
 
 public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
@@ -114,9 +114,11 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
             ActorId = session.UserId
         });
 
-    public async Task UpdateIsMismatch( string owpMatchIds)
+    public async Task UpdateIsMismatch( string owpMatchIds, DateTime date)
         => await dynamicRepository.ExecuteAsync(new UpdateIsMismatchCriteria()
         {
-            OwpMatchIds = owpMatchIds
+            EventDate = date,
+            OwpMatchIds = owpMatchIds,
+            ActorId = session.UserId
         });
 }

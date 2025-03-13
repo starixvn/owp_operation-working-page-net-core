@@ -29,13 +29,13 @@ public class EventModel
                 ? time.ToString("hh:mm tt", CultureInfo.InvariantCulture) : value;
     }
 
-    [Cell("G2")]
+    [Cell("E2")]
     public string League { get; set; }
 
-    [Cell("E2")]
+    [Cell("F2")]
     public string Home { get; set; }
 
-    [Cell("F2")]
+    [Cell("G2")]
     public string Away { get; set; }
 
     [Cell("K2")]
@@ -58,6 +58,11 @@ public class EventModel
 public class ProviderVerificationModel : EventModel
 {
     public List<AgentConfirmOption> AgentConfirm { get; set; }
+
+    [Cell("J2")]
+    public string AgentConfirmList => AgentConfirm != null
+        ? string.Join(", ", AgentConfirm.Where(x => !string.IsNullOrEmpty(x.Label)).Select(x => x.Label))
+        : string.Empty;
 
     public List<ProviderMatchModel> ProviderMatch { get; set; }
 

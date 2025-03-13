@@ -14,7 +14,7 @@ const UploadProviderFile = (props: TUploadProviderFile) => {
   const [textInput, setTextInput] = useState(UPLOAD_PLACEHOLDER);
   const [selectedFile, setSelectedFile] = useState<File>();
   const dispatch = useDispatch();
-  const date = new URL(window.location.href).searchParams.get("date");
+  const date = window.location.pathname.split("/").pop();
 
   useEffect(() => {
     dispatch(setEventDate(date));
