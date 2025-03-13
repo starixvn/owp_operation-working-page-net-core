@@ -17,9 +17,9 @@ public class ExportEndpoint: ICarterModule
             .WithSummary("Export difference from adminsite provider match id with agent file")
             .WithDescription("Export difference from adminsite provider match id with agent file");
 
-        app.MapGet("/api/ProviderVerification/export", async (DateTime eventDate, string sessionId, [FromServices] ISender sender) =>
+        app.MapGet("/api/ProviderVerification/export", async (DateTime eventDate, bool onlyShowIsMismatchEvent, string confirmProvider, [FromServices] ISender sender) =>
                 {
-                    using var excelPackage = await sender.Send(new ExportRequest(sessionId, "ProviderVerification.xlsx"));
+                    using var excelPackage = await sender.Send(new ExportRequest(eventDate, onlyShowIsMismatchEvent, confirmProvider, "ProviderVerification.xlsx"));
                     var fileName = $"ProviderVerification {eventDate:ddMMMMyyyy}.xlsx";
                     var bytes = await excelPackage.GetAsByteArrayAsync();
                     return Results.File(bytes, "application/octet-stream", fileName);

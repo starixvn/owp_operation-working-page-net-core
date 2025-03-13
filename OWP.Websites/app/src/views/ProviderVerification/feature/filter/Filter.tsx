@@ -15,28 +15,18 @@ import Utils from '../../../Shared/Utils';
 
 const Filter = () => {
   const dispatch = useAppDispatch();
-  const { dataSource, validationResponse } = useAppSelector(
-    state => state.events
-  );
-  const { sessionId } = validationResponse.value;
-  const { eventDate } = store.getState().filterState.filter;
+  const { dataSource } = useAppSelector(state => state.events);
+  const { eventDate, onlyShowIsMismatchEvent, confirmProvider } = useAppSelector(state => state.filterState.filter);
+  const { confirmProviderOption } = useAppSelector(state => state.common.confirmProvider);
+
+  const getConfirmProviderValue = () => {
+    if (!confirmProvider?.length) return null;
+    const confirmProviderValue = confirmProvider.map(x => x.value).join(',');
+    return confirmProvider.length === confirmProviderOption.length ? null : confirmProviderValue;
+  };
 
   const handleSearch = () => {
-    const {
-      filterState: {
-        filter: { eventDate, onlyShowIsMismatchEvent, confirmProvider }
-      }
-    } = store.getState();
-    const { confirmProviderOption } = store.getState().common.confirmProvider;
-    let confirmProviderValue = confirmProvider?.length
-      ? confirmProvider.map(x => x.value).join(',')
-      : null;
-
-    if (confirmProviderValue && confirmProvider.length === confirmProviderOption.length) {
-      confirmProviderValue = null;
-    }
-
-    dispatch(getEvents({ eventDate, onlyShowIsMismatchEvent, confirmProvider: confirmProviderValue }));
+    dispatch(getEvents({ eventDate, onlyShowIsMismatchEvent, confirmProvider: getConfirmProviderValue() }));
   };
 
   useEffect(() => {
@@ -45,7 +35,12 @@ const Filter = () => {
 
   const handleExport = async () => {
     const date = Utils.formatDate(eventDate);
-    const params = `eventDate=${date}&sessionId=${sessionId}`;
+    const confirmProviderValue = getConfirmProviderValue();
+    const params = new URLSearchParams({
+      eventDate: date,
+      onlyShowIsMismatchEvent: onlyShowIsMismatchEvent.toString(),
+      ...(confirmProviderValue !== null && { confirmProvider: confirmProviderValue })
+    }).toString();
     const url = `api/ProviderVerification/export?${params}`;
     const fileName = `ProviderVerification - ${dayjs(date).format('MMDDYYYY')}.xlsx`;
 

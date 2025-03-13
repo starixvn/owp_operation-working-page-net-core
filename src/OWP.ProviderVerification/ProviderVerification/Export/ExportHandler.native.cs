@@ -4,11 +4,11 @@ using System.Drawing;
 
 namespace OWP.ProviderVerification.ProviderVerification.Export;
 
-public record ExportRequest(string SessionId, string Template) : Query<ExcelPackage>;
+public record ExportRequest(DateTime EventDate, bool OnlyShowIsMismatchEvent, string ConfirmProvider, string Template) : Query<ExcelPackage>;
 
 public record ExportCheckDifferenceRequest(string SessionId, string Template) : Query<ExcelPackage>;
 
-public class ExportHandler(ICache cache, ConfigurationService configuration) : QueryHandler<ExportRequest, ExcelPackage>
+public class ExportHandler(ICache cache, ConfigurationService configuration, ProviderVerificationRepository repository) : QueryHandler<ExportRequest, ExcelPackage>
 {
     private ExcelPackage ExcelPackage { get; set; }
     private ExcelWorksheet reportSheet;
@@ -21,7 +21,7 @@ public class ExportHandler(ICache cache, ConfigurationService configuration) : Q
     public async Task<ExcelPackage> Handle(ExportRequest request, CancellationToken cancellationToken)
     {
         LoadTemplate(request.Template);
-        BuildExcel(await GetProviderVerificationModelFromCache(request.SessionId));
+        BuildExcel(await GetProviderVerification(request));
         ClearTemplate();
         return ExcelPackage;
     }
@@ -34,13 +34,18 @@ public class ExportHandler(ICache cache, ConfigurationService configuration) : Q
         return ExcelPackage;
     }
 
-    private async Task<IList<ProviderVerificationModel>> GetProviderVerificationModelFromCache(string sessionId)
+    private async Task<IList<ProviderVerificationModel>> GetProviderVerification(ExportRequest request)
     {
-        var cacheKey = Utils.BuildProviderVerificationKey(sessionId);
-        var (found, providerVerificationModel) = await cache.TryGetAsync<string>(cacheKey);
-        var providerVerificationModels = JsonConvert.DeserializeObject<IList<ProviderVerificationModel>>(providerVerificationModel);
+        var criteria = new GetProviderVerificationCriteria
+        {
+            EventDate = request.EventDate,
+            OnlyShowIsMismatchEvent = request.OnlyShowIsMismatchEvent,
+            ConfirmProvider = request.ConfirmProvider
+        };
 
-        return found ? providerVerificationModels : new List<ProviderVerificationModel>();
+        var providerVerification = await repository.GetProviderVerification(criteria);
+
+        return providerVerification.ToList();
     }
     private async Task<IList<ProviderVerificationModel>> GetCheckDifferenceProviderIdModelFromCache(string sessionId)
     {

@@ -25,6 +25,7 @@ public class QueryProviderVerificationHandler(ICache cache, ProviderVerification
 
         return ResultT<AnalyzedProviderResult>.Success(new AnalyzedProviderResult(request.SessionId, providerVerification.ToList()));
     }
+
     private async Task SaveProviderVerificationInfo(string sessionId, IList<ProviderVerificationModel> providerModel)
     {
         var expiredDate = DateTime.Today.AddDays(CACHE_EXPIRED_IN_DAYS);
