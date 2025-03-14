@@ -4,6 +4,8 @@ public interface ProviderVerificationRepository
 {
     Task<IEnumerable<ProviderVerificationModel>> GetProviderVerification(CriteriaBase criteria);
 
+    Task<IEnumerable<ProviderVerificationDifferenceModel>> GetProviderVerificationDiff(CriteriaBase criteria);
+
     Task<IEnumerable<AgentOption>> GetAgentOptions();
 
     Task SaveAgentConfirm(int owpMatchId, string agentSelected, int actorId);
@@ -29,18 +31,39 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
 
     public async Task<IEnumerable<ProviderVerificationModel>> GetProviderVerification(CriteriaBase criteria)
     {
+        return await FetchAndMapAsync(criteria, info => info);
+    }
+
+    public async Task<IEnumerable<ProviderVerificationDifferenceModel>> GetProviderVerificationDiff(CriteriaBase criteria)
+    {
+        return await FetchAndMapAsync(criteria, info => new ProviderVerificationDifferenceModel
+        {
+            OWPMatchId = info.OWPMatchId,
+            MatchNo = info.MatchNo,
+            MatchStatus = info.MatchStatus,
+            EventDateTime = info.EventDateTime,
+            KoTime = info.KoTime,
+            League = info.League,
+            Home = info.Home,
+            Away = info.Away,
+            LstBookProvider = info.LstBookProvider,
+            InHouseProviderId = info.InHouseProviderId,
+            Remark = info.Remark,
+            RemarkBy = info.RemarkBy,
+            AgentConfirm = info.AgentConfirm,
+            ProviderMatch = info.ProviderMatch,
+            HasTicket = info.HasTicket,
+            IsRead = info.IsRead
+        });
+    }
+
+    private async Task<IList<T>> FetchAndMapAsync<T>(CriteriaBase criteria, Func<ProviderVerificationModel, T> transform)
+    {
         var result = await dynamicRepository.FetchMultipleAsync<EventModel, AgentConfirmModel, ProviderMatchModel>(criteria);
-        var matchInfo = result.Item1.ToList();
+        var matches = result.Item1.ToList();
         var agentConfirms = result.Item2.ToList();
         var providerMatches = result.Item3.ToList();
 
-        return await MappingInfo(matchInfo, agentConfirms, providerMatches);
-    }
-
-    private async Task<IList<ProviderVerificationModel>> MappingInfo(IList<EventModel> matches,
-        IList<AgentConfirmModel> agentConfirms,
-        IList<ProviderMatchModel> providerMatches)
-    {
         var owpIds = string.Join(",", matches.Select(x => x.OWPMatchId));
         var hasTicketModel = (await dynamicRepository.FetchAsync<HasTicketModel>(new DetectEventHasTicketCriteria
         {
@@ -48,9 +71,7 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
             ActorId = session.UserId
         })).ToList();
 
-        var result = new List<ProviderVerificationModel>();
-
-        foreach (var match in matches)
+        return matches.Select(match =>
         {
             var providerInfo = new ProviderVerificationModel
             {
@@ -63,17 +84,21 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
                 Home = match.Home,
                 Away = match.Away,
                 LstBookProvider = match.LstBookProvider,
-                InHouseProviderId = string.Join("/", providerMatches.Where(p => p.OWPMatchId == match.OWPMatchId).Select(p => p.ProviderMatchId)),
+                InHouseProviderId = string.Join("/", providerMatches
+                    .Where(p => p.OWPMatchId == match.OWPMatchId)
+                    .Select(p => p.ProviderMatchId)),
                 Remark = match.Remark,
                 RemarkBy = match.RemarkBy,
-                AgentConfirm = agentConfirms.Where(x => x.OwpMatchId == match.OWPMatchId).Select(y =>
-                    new AgentConfirmOption
+                AgentConfirm = agentConfirms
+                    .Where(x => x.OwpMatchId == match.OWPMatchId)
+                    .Select(y => new AgentConfirmOption
                     {
                         Label = y.AgentName,
                         Value = y.AgentId
                     }).ToList(),
                 ProviderMatch = providerMatches.Where(x => x.OWPMatchId == match.OWPMatchId).ToList()
             };
+
             var ticket = hasTicketModel.Find(x => x.ParentMatchId == match.OWPMatchId);
             if (ticket is not null)
             {
@@ -81,10 +106,8 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
                 providerInfo.IsRead = ticket.IsRead;
             }
 
-            result.Add(providerInfo);
-        }
-
-        return result;
+            return transform(providerInfo);
+        }).ToList();
     }
 
     public async Task<IEnumerable<AgentOption>> GetAgentOptions()

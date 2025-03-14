@@ -6,9 +6,9 @@ namespace OWP.ProviderVerification.ProviderVerification.Export;
 
 public record ExportRequest(DateTime EventDate, bool OnlyShowIsMismatchEvent, string ConfirmProvider, string Template) : Query<ExcelPackage>;
 
-public record ExportCheckDifferenceRequest(string SessionId, string Template) : Query<ExcelPackage>;
+public record ExportCheckDifferenceRequest(DateTime EventDate, string SessionId, string Template) : Query<ExcelPackage>;
 
-public class ExportHandler(ICache cache, ConfigurationService configuration, ProviderVerificationRepository repository) : QueryHandler<ExportRequest, ExcelPackage>
+public class ExportHandler( ConfigurationService configuration, ProviderVerificationRepository repository) : QueryHandler<ExportRequest, ExcelPackage>
 {
     private ExcelPackage ExcelPackage { get; set; }
     private ExcelWorksheet reportSheet;
@@ -26,14 +26,6 @@ public class ExportHandler(ICache cache, ConfigurationService configuration, Pro
         return ExcelPackage;
     }
 
-    public async Task<ExcelPackage> Handle(ExportCheckDifferenceRequest request, CancellationToken cancellationToken)
-    {
-        LoadTemplate(request.Template);
-        BuildExcel(await GetCheckDifferenceProviderIdModelFromCache(request.SessionId));
-        ClearTemplate();
-        return ExcelPackage;
-    }
-
     private async Task<IList<ProviderVerificationModel>> GetProviderVerification(ExportRequest request)
     {
         var criteria = new GetProviderVerificationCriteria
@@ -46,14 +38,6 @@ public class ExportHandler(ICache cache, ConfigurationService configuration, Pro
         var providerVerification = await repository.GetProviderVerification(criteria);
 
         return providerVerification.ToList();
-    }
-    private async Task<IList<ProviderVerificationModel>> GetCheckDifferenceProviderIdModelFromCache(string sessionId)
-    {
-        var cacheKey = Utils.BuildProviderVerificationDifferenceKey(sessionId);
-        var (found, providerVerificationModel) = await cache.TryGetAsync<string>(cacheKey);
-        var providerVerificationModels = JsonConvert.DeserializeObject<IList<ProviderVerificationModel>>(providerVerificationModel);
-
-        return found ? providerVerificationModels : new List<ProviderVerificationModel>();
     }
 
     private void LoadTemplate(string template)
@@ -120,7 +104,7 @@ public class ExportHandler(ICache cache, ConfigurationService configuration, Pro
     }
 }
 
-public class ExportCheckDifferenceHandler(ICache cache, ConfigurationService configuration) : QueryHandler<ExportCheckDifferenceRequest, ExcelPackage>
+public class ExportCheckDifferenceHandler(ICache cache, ConfigurationService configuration, ProviderVerificationRepository repository) : QueryHandler<ExportCheckDifferenceRequest, ExcelPackage>
 {
     private ExcelPackage ExcelPackage { get; set; }
     private ExcelWorksheet reportSheet;
@@ -133,18 +117,44 @@ public class ExportCheckDifferenceHandler(ICache cache, ConfigurationService con
     public async Task<ExcelPackage> Handle(ExportCheckDifferenceRequest request, CancellationToken cancellationToken)
     {
         LoadTemplate(request.Template);
-        BuildExcel(await GetCheckDifferenceProviderIdModelFromCache(request.SessionId));
+        BuildExcel(await GetProviderVerificationDiff(request));
         ClearTemplate();
         return ExcelPackage;
     }
 
-    private async Task<IList<ProviderVerificationModel>> GetCheckDifferenceProviderIdModelFromCache(string sessionId)
+    private async Task<IList<ProviderVerificationDifferenceModel>> GetProviderVerificationDiff(ExportCheckDifferenceRequest request)
     {
-        var cacheKey = Utils.BuildProviderVerificationDifferenceKey(sessionId);
-        var (found, providerVerificationModel) = await cache.TryGetAsync<string>(cacheKey);
-        var providerVerificationModels = JsonConvert.DeserializeObject<IList<ProviderVerificationModel>>(providerVerificationModel);
+        var criteria = new GetProviderVerificationCriteria
+        {
+            EventDate = request.EventDate,
+            OnlyShowIsMismatchEvent = true,
+            ConfirmProvider = null
+        };
 
-        return found ? providerVerificationModels : new List<ProviderVerificationModel>();
+        var providerVerificationDiff = await repository.GetProviderVerificationDiff(criteria);
+
+        var cacheKey = Utils.BuildProviderVerificationKey(request.SessionId);
+        var (_, excelProviderModel) = await cache.TryGetAsync<string>(cacheKey);
+        var excelProviderModels = JsonConvert.DeserializeObject<IList<ExcelProviderModel>>(excelProviderModel);
+        var unMapInExcel = excelProviderModels
+            .Select(e => new ProviderVerificationDifferenceModel
+            {
+                OWPMatchId = null,
+                MatchNo = string.Empty,
+                EventDateTime = null,
+                KoTime = string.Empty,
+                League = string.Empty,
+                Home = string.Empty,
+                Away = string.Empty,
+                LstBookProvider = string.Empty,
+                InHouseProviderId = string.Empty,
+                Provider = e.Provider,
+                ProviderMatchId = e.ProviderMatchID
+            });
+
+        var mergedList = providerVerificationDiff.Concat(unMapInExcel).ToList();
+
+        return mergedList;
     }
 
     private void LoadTemplate(string template)
@@ -156,7 +166,7 @@ public class ExportCheckDifferenceHandler(ICache cache, ConfigurationService con
         reportSheet = ExcelPackage.Workbook.Worksheets.Copy(Const.Const.TEMPLATE_NAME, Const.Const.SHEET_NAME);
     }
 
-    private void BuildExcel(IList<ProviderVerificationModel> model)
+    private void BuildExcel(IList<ProviderVerificationDifferenceModel> model)
     {
         SetExcelTitle(model[0].EventDateTime);
         reportSheet.ApplyVertical(model, START_ROW_INDEX);
@@ -165,14 +175,14 @@ public class ExportCheckDifferenceHandler(ICache cache, ConfigurationService con
 
     private void SetExcelTitle(DateTime? date)
     {
-        string title = "Provider Verification - Check Difference ProviderID";
+        string title = "Provider Verification - Check Difference ProviderId";
         string formattedDate = date?.ToString("MM/dd/yyyy") ?? "N/A";
         var range = reportSheet.Cells[START_TITLE_INDEX, START_TITLE_INDEX, START_TITLE_INDEX, TOTAL_COLUMNS];
         range.Value = $"{title} - {formattedDate}";
         range.Style.Font.Size = FONT_SIZE_TITLE;
     }
 
-    private void SetColorRow(IList<ProviderVerificationModel> model)
+    private void SetColorRow(IList<ProviderVerificationDifferenceModel> model)
     {
         const string BORDER_COLOR_HEX = "#c8ced3";
         Color borderColor = ColorTranslator.FromHtml(BORDER_COLOR_HEX);

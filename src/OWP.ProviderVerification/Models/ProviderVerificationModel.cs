@@ -7,7 +7,7 @@ public class EventModel
 {
     private string _time;
 
-    public int ?OWPMatchId { get; set; }
+    public int OWPMatchId { get; set; }
 
     [Cell("A2")]
     public string MatchNo { get; set; }
@@ -15,10 +15,10 @@ public class EventModel
     [Cell("B2")]
     public string MatchStatus { get; set; }
 
-    public DateTime ?EventDateTime { get; set; }
+    public DateTime EventDateTime { get; set; }
 
     [Cell("C2")]
-    public string EventDate => EventDateTime?.Date.ToString(CultureInfo.InvariantCulture);
+    public string EventDate => EventDateTime.Date.ToString(CultureInfo.InvariantCulture);
 
     [Cell("D2")]
     public string KoTime

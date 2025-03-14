@@ -8,46 +8,46 @@ import { Option } from "../../../Shared/MultipleSelection/type";
 const calculateMatchNoOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource].map(x => ({
     value: x.owpMatchId,
-    label: buildLabelItemOption(x.MatchNo)
+    label: buildLabelItemOption(x.matchNo)
+  })), v => v.label));
+};
+
+const calculateMatchStatusOption = (dataSource: TDataSource[]) => {
+  return swapBlanks(uniqBy([...dataSource].map(x => ({
+    value: x.owpMatchId,
+    label: buildLabelItemOption(x.matchStatus)
   })), v => v.label));
 };
 
 const calculateKoOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource]
     .sort((first, second) =>
-      Number(new Date(first.EventDateTime)) - Number(new Date(second.EventDateTime))
+      Number(new Date(first.eventDateTime)) - Number(new Date(second.eventDateTime))
     )
     .map(x => ({
-      value: x.OWPMatchId,
+      value: x.owpMatchId,
       label: formatTime(x.eventDateTime, 'minute', 'hh:mm A') ?? '(Blanks)'
     })), v => v.label));
 };
 
 const calculateLeagueOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource].map(x => ({
-    value: x.OWPMatchId,
+    value: x.owpMatchId,
     label: x.league ?? '(Blanks)'
   })), v => v.label));
 };
 
 const calculateMatchOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource].map(x => ({
-    value: x.OWPMatchId,
+    value: x.owpMatchId,
     label: `${x.home} -vs- ${x.away}`
   })), v => v.label));
 };
 
 const calculateLSTBookProviderOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource].map(x => ({
-    value: x.OWPMatchId,
+    value: x.owpMatchId,
     label: buildLabelItemOption(x.lstBookProvider)
-  })), v => v.label));
-};
-
-const calculateProviderOption = (dataSource: TDataSource[]) => {
-  return swapBlanks(uniqBy([...dataSource].map(x => ({
-    value: x.OWPMatchId,
-    label: buildLabelItemOption(x.inHouseProviderId)
   })), v => v.label));
 };
 
@@ -69,12 +69,13 @@ const swapBlanks = (options: Option[]) => {
 
 const helper = {
   MatchNo: (dataSource: TDataSource[]) => calculateMatchNoOption(dataSource),
+  MatchStatus: (dataSource: TDataSource[]) => calculateMatchStatusOption(dataSource),
   KoTime: (dataSource: TDataSource[]) => calculateKoOption(dataSource),
   League: (dataSource: TDataSource[]) => calculateLeagueOption(dataSource),
   Match: (dataSource: TDataSource[]) => calculateMatchOption(dataSource),
   LstBookProvider: (dataSource: TDataSource[]) => calculateLSTBookProviderOption(dataSource),
-  Provider: (dataSource: TDataSource[]) => calculateProviderOption(dataSource),
-  ConfirmProvider: (dataSource: TDataSource[]) => calculateConfirmProviderOption()
+  Provider: () => calculateConfirmProviderOption(),
+  ConfirmProvider: () => calculateConfirmProviderOption()
 };
 
 export default helper;

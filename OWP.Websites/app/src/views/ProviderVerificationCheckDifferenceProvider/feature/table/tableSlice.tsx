@@ -4,8 +4,7 @@ import {
   TColumnKey,
   TDataSource,
   TMultipleFilter,
-  TUpdateConfirmProvider,
-  TUpdateRow
+  TUpdateConfirmProvider
 } from '../../type/table';
 import { REQUEST_STATUS } from '../../../Shared/Constants';
 import type { PayloadAction } from '@reduxjs/toolkit';
@@ -29,6 +28,7 @@ const tableSlice = createSlice({
     confirmProviderOption: [] as Option[],
     multipleFilter: {
       MatchNo: buildMultipleFilterDefault(),
+      MatchStatus: buildMultipleFilterDefault(),
       KoTime: buildMultipleFilterDefault(),
       League: buildMultipleFilterDefault(),
       Match: buildMultipleFilterDefault(),
@@ -38,7 +38,7 @@ const tableSlice = createSlice({
     } as TMultipleFilter
   },
   reducers: {
-    setValue: (state, action: PayloadAction<TUpdateRow>) => {
+    setValue: (state, action: PayloadAction<{ owpMatchId: number; key: string; value: any; }>) => {
       const { owpMatchId, key, value } = action.payload;
       const event = state.dataSource.find(d => d.owpMatchId === owpMatchId);
       event && (event[key] = value);

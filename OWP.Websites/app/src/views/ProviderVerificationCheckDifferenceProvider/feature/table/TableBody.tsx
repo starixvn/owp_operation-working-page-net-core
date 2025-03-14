@@ -19,6 +19,13 @@ const TableBody = ({ dataSource }: { dataSource: TDataSource[]; }) => {
           />
 
           <ReadonlyCommonCell
+            className='match_status'
+            value={event.matchStatus}
+            index={index}
+            isCanToolTip={false}
+          />
+
+          <ReadonlyCommonCell
             className='ko_time'
             value={formatTime(event.eventDateTime, 'minute', 'hh:mm A')}
             index={index}

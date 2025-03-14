@@ -56,7 +56,7 @@ const ExportButton = () => {
   const handleExport = async () => {
     const date = Utils.formatDate(eventDate);
     const params = `eventDate=${date}&sessionId=${sessionId}`;
-    const url = `api/ProviderVerification/export/difference?${params}`;
+    const url = `${window.location.origin}/api/ProviderVerification/export/difference?${params}`;
     const fileName = `CheckDifferenceProviderId - ${dayjs(date).format('MMDDYYYY')}.xlsx`;
 
     exportExcel(url, fileName);

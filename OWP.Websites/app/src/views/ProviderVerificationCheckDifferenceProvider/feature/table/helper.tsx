@@ -8,6 +8,10 @@ const buildDefaultTableFilter = (dataSource: TDataSource[], confirmProviderOptio
     selected: helper.MatchNo(dataSource),
     isFilter: false
   };
+  tableFilter.MatchStatus = {
+    selected: helper.MatchStatus(dataSource),
+    isFilter: false
+  };
   tableFilter.KoTime = {
     selected: helper.KoTime(dataSource),
     isFilter: false
@@ -25,7 +29,7 @@ const buildDefaultTableFilter = (dataSource: TDataSource[], confirmProviderOptio
     isFilter: false
   };
   tableFilter.Provider = {
-    selected: helper.Provider(dataSource),
+    selected: [...confirmProviderOption, { value: -1, label: '(Blanks)' }],
     isFilter: false
   };
   tableFilter.ConfirmProvider = {
@@ -36,6 +40,7 @@ const buildDefaultTableFilter = (dataSource: TDataSource[], confirmProviderOptio
 
 const executeFilterTable = (dataSource: TDataSource[], tableFilter: TMultipleFilter) => {
   const { MatchNo,
+    MatchStatus,
     KoTime,
     League,
     Match,
@@ -43,6 +48,7 @@ const executeFilterTable = (dataSource: TDataSource[], tableFilter: TMultipleFil
     Provider
   } = tableFilter;
   const result = dataSource.filter(e => MatchNo.selected.some(m => m.label === buildLabelItemOption(e.matchNo)) //NOSONAR
+      && MatchStatus.selected.some(m => m.label === buildLabelItemOption(e.matchStatus))
     && Match.selected.some(m => m.label === `${e.home} -vs- ${e.away}`)
     && KoTime.selected.some(m => m.label === formatTime(e.eventDateTime, 'minute', 'hh:mm A'))
     && League.selected.some(m => m.label === e.league)
@@ -61,7 +67,7 @@ const filterByConfirmProvider = (dataSource: TDataSource[], tableFilter: TMultip
     }
     return ConfirmProvider.some(a =>
       selected.some(s =>
-        s.label === a.Label
+        s.label === a.label
       ));
   });
 };

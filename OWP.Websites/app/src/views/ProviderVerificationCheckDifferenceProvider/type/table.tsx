@@ -14,11 +14,11 @@ type TDataSource = {
   provider?: string | null;
   remark?: string | null;
   remarkBy?: string | null;
-  owpMatchId?: number;
+  owpMatchId: number | null;
   parentMatchId: number;
   matchNo: string;
   matchStatus: string;
-  eventDateTime?: string;
+  eventDateTime: string;
   league: string;
   home: string;
   away: string;
@@ -39,14 +39,6 @@ type TMatchCell = {
   away: string;
 };
 
-type TEditTableCell = {
-  owpMatchId: number;
-  columnKey: string;
-  rowIndex: number;
-  className?: string;
-  value: string | undefined;
-};
-
 type TTicketCell = {
   [key in 'HasTicket' | 'IsRead']: boolean;
 } & { rowIndex: number; dataSource: TDataSource[]; };
@@ -55,6 +47,7 @@ type TUpdateConfirmProvider = { value: TConfirmProvider[]; } & { owpMatchId: num
 
 type TColumnKey =
   | 'MatchNo'
+  | 'MatchStatus'
   | 'KoTime'
   | 'League'
   | 'Match'
@@ -77,7 +70,6 @@ export {
   TDataSource,
   TCommonCell,
   TTicketCell,
-  TEditTableCell,
   TConfirmProvider,
   TUpdateConfirmProvider,
   TMultipleColumnFilterOption,

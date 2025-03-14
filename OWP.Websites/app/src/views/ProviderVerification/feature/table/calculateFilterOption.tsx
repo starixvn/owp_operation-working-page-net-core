@@ -96,7 +96,7 @@ const helper = {
   LstBookProvider: (dataSource: TDataSource[]) => calculateLSTBookProviderOption(dataSource),
   Remark: (dataSource: TDataSource[]) => calculateRemarkOption(dataSource),
   RemarkBy: (dataSource: TDataSource[]) => calculateRemarkByOption(dataSource),
-  ConfirmProvider: (dataSource: TDataSource[]) => calculateConfirmProviderOption(),
+  ConfirmProvider: () => calculateConfirmProviderOption(),
   InHouseProviderId: (dataSource: TDataSource[]) => calculateInhouseProviderIdOption(dataSource)
 };
 

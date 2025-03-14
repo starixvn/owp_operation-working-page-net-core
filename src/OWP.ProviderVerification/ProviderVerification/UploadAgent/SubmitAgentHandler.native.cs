@@ -1,13 +1,13 @@
 ﻿
 namespace OWP.ProviderVerification.ProviderVerification.UploadAgent;
 
-public record SubmitAgentRequest(string SessionId, DateTime Date) : Query<ResultT<IList<ProviderVerificationModel>>>;
+public record SubmitAgentRequest(string SessionId, DateTime Date) : Query<ResultT<IList<ProviderVerificationDifferenceModel>>>;
 
-public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository repository) : QueryHandler<SubmitAgentRequest, ResultT<IList<ProviderVerificationModel>>>
+public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository repository) : QueryHandler<SubmitAgentRequest, ResultT<IList<ProviderVerificationDifferenceModel>>>
 {
     private const int CACHE_EXPIRED_IN_DAYS = 1;
 
-    public async Task<ResultT<IList<ProviderVerificationModel>>> Handle(SubmitAgentRequest request, CancellationToken cancellationToken)
+    public async Task<ResultT<IList<ProviderVerificationDifferenceModel>>> Handle(SubmitAgentRequest request, CancellationToken cancellationToken)
     {
         var cacheKey = Utils.BuildProviderVerificationKey(request.SessionId);
         var (_, excelProviderModel) = await cache.TryGetAsync<string>(cacheKey);
@@ -18,10 +18,10 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
             await SaveProviderCompareInfo(request.SessionId, compareResult);
         }
 
-        return ResultT<IList<ProviderVerificationModel>>.Success(compareResult);
+        return ResultT<IList<ProviderVerificationDifferenceModel>>.Success(compareResult);
     }
 
-    private async Task<IList<ProviderVerificationModel>> Compare(DateTime date, IList<ExcelProviderModel> excelProviderModels)
+    private async Task<IList<ProviderVerificationDifferenceModel>> Compare(DateTime date, IList<ExcelProviderModel> excelProviderModels)
     {
         var criteria = new GetProviderVerificationCriteria
         {
@@ -29,7 +29,7 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
             OnlyShowIsMismatchEvent = false
         };
 
-        var providerVerification = await repository.GetProviderVerification(criteria);
+        var providerVerification = await repository.GetProviderVerificationDiff(criteria);
 
         var excelProviderMatchIDs = excelProviderModels.Select(e => e.ProviderMatchID).ToHashSet();
 
@@ -62,7 +62,7 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
                 )
                 || !providerVerificationIds.Contains(e.ProviderMatchID)
             )
-            .Select(e => new ProviderVerificationModel
+            .Select(e => new ProviderVerificationDifferenceModel
             {
                 OWPMatchId = null,
                 MatchNo = string.Empty,
@@ -83,7 +83,7 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
         return unMapProviderVerification;
     }
 
-    private async Task SaveProviderCompareInfo(string sessionId, IList<ProviderVerificationModel> providerVerification)
+    private async Task SaveProviderCompareInfo(string sessionId, IList<ProviderVerificationDifferenceModel> providerVerification)
     {
         var expiredDate = DateTime.Today.AddDays(CACHE_EXPIRED_IN_DAYS);
         var absoluteTimeSpan = expiredDate - DateTime.Now;
