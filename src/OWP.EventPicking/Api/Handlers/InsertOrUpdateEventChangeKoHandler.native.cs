@@ -13,15 +13,37 @@ public class InsertOrUpdateEventChangeKoHandler(
     {
         var logs=CreateLogsChangeModels(request);
         await WriteLogForMonitor(request, "GetEventChangeGameDate");
-        await SaveLogs(logs);
+        await WriteLogForMonitor(logs,"ChangeKODate");
+        //await SaveLogs(logs);
         return Unit.Value;
     }
 
     public static IList<LoggedChangeModel> CreateLogsChangeModels(InsertOrUpdateEventChangeKoRequest request)
     {
-        var formattedNewDate = request.NewEventDate.AddHours(DefaultGmt8).ToString("MM/dd/yyyy HH:mm:ss");
-        var formattedOldDate = request.OldEventDate.AddHours(DefaultGmt8).ToString("MM/dd/yyyy HH:mm:ss");
+        var oldEventDateGmt8 = request.NewEventDate.AddHours(DefaultGmt8);
+        var newEventDateGmt8 = request.OldEventDate.AddHours(DefaultGmt8);
+
+        var formattedOldDate = oldEventDateGmt8.ToString("MM/dd/yyyy HH:mm:ss");
+        var formattedNewDate = newEventDateGmt8.ToString("MM/dd/yyyy HH:mm:ss");
         var currentDateTime = DateTime.Now.AddHours(12);
+
+        if (!IsUpdateKODate(oldEventDateGmt8, newEventDateGmt8))
+        {
+            return new List<LoggedChangeModel>()
+            {
+                new()
+                {
+                    InfoSiteMatchId = request.InfositeId,
+                    UpdateTypeId = UpdateTypeConstant.UPDATE_KO_TIME,
+                    Action = UpdateTypeConstant.UpdateType[UpdateTypeConstant.UPDATE_KO_TIME],
+                    NewValue = formattedNewDate,
+                    OldValue = formattedOldDate,
+                    UpDateTime = currentDateTime,
+                    FromService = "APIGetEventChangeGameDate"
+                }
+            };
+        }
+      
        
         return new List<LoggedChangeModel>
         {
@@ -48,7 +70,24 @@ public class InsertOrUpdateEventChangeKoHandler(
         };
     }
 
-    public async Task WriteLogForMonitor(object request, string action)
+    private bool DetectUpdateOrMoveGameDate(DateTime oldGameDate, DateTime newGameDate)
+    {
+
+    }
+
+    private static bool IsUpdateKODate(DateTime oldGameDate, DateTime newGameDate)
+    {
+        
+        var milestoneDate = oldGameDate.TimeOfDay >= new TimeSpan(12, 0, 0)
+        ? oldGameDate.Date : oldGameDate.Date.AddDays(-1);
+
+        var from = milestoneDate.AddHours(12);
+        var to = milestoneDate.AddDays(1).AddHours(12).AddSeconds(-1);
+
+        return newGameDate < from || newGameDate > to;
+    }
+
+    private async Task WriteLogForMonitor(object request, string action)
     {
         await logger.Execute(new InfoSiteLogCriteria()
         {
@@ -57,7 +96,7 @@ public class InsertOrUpdateEventChangeKoHandler(
             Payload = JsonConvert.SerializeObject(request)
         });
     }
-    public async Task SaveLogs(IList<LoggedChangeModel> logs)
+    private async Task SaveLogs(IList<LoggedChangeModel> logs)
     {
         var xml = XmlConverter.Serialize(logs);
         var criteria = new SaveLogsChangeCriteria
