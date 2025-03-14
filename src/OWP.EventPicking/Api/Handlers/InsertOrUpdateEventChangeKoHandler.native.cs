@@ -70,11 +70,6 @@ public class InsertOrUpdateEventChangeKoHandler(
         };
     }
 
-    private bool DetectUpdateOrMoveGameDate(DateTime oldGameDate, DateTime newGameDate)
-    {
-
-    }
-
     private static bool IsUpdateKODate(DateTime oldGameDate, DateTime newGameDate)
     {
         
