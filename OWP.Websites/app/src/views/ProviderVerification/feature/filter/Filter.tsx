@@ -6,7 +6,6 @@ import FilterDate from './FilterDate';
 import SummarizeProviderIcon from '../summarizeProvider/sum/SummarizeProviderIcon';
 import CompareAgent from '../summarizeProvider/compare/CompareAgentIcon';
 import MismatchEvent from './MismatchEvent';
-import store from '../../app/storeNative';
 import ConfirmProvider from './ConfirmProvider';
 import EyeIcon from 'mdi-react/EyeIcon';
 import { useAppSelector } from '../../app/hookNative';

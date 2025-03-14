@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_BASE_URL = 'api/ProviderVerification/upload-agent';
+const API_BASE_URL = `${window.location.origin}/api/ProviderVerification/upload-agent`;
 
 const uploadProviderThunk = createAsyncThunk(
   'upload',
