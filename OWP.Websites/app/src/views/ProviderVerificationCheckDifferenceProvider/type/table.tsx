@@ -1,11 +1,10 @@
 import { Option } from '../../Shared/MultipleSelection/type';
 
-type TEditTableKey = '';
 type TConfirmProvider = {
-  Value: number | string | null;
-  Label: string;
-  Key?: string;
-  Disabled?: boolean;
+  value: number | string | null;
+  label: string;
+  key?: string;
+  disabled?: boolean;
 };
 
 type TDataSource = {
@@ -25,8 +24,6 @@ type TDataSource = {
   away: string;
   agentConfirm: TConfirmProvider[];
   rowColor: string | undefined;
-} & {
-  [key in TEditTableKey]: string | undefined;
 } & TTicketCell;
 
 type TCommonCell = {
@@ -53,12 +50,6 @@ type TEditTableCell = {
 type TTicketCell = {
   [key in 'HasTicket' | 'IsRead']: boolean;
 } & { rowIndex: number; dataSource: TDataSource[]; };
-
-type TUpdateRow = {
-  owpMatchId: Required<number>;
-  key: TEditTableKey;
-  value: string | undefined;
-};
 
 type TUpdateConfirmProvider = { value: TConfirmProvider[]; } & { owpMatchId: number; };
 
@@ -87,8 +78,6 @@ export {
   TCommonCell,
   TTicketCell,
   TEditTableCell,
-  TEditTableKey,
-  TUpdateRow,
   TConfirmProvider,
   TUpdateConfirmProvider,
   TMultipleColumnFilterOption,

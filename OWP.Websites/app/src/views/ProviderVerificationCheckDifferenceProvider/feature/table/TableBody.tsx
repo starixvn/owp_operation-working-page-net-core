@@ -65,9 +65,9 @@ const TableBody = ({ dataSource }: { dataSource: TDataSource[]; }) => {
           {event.owpMatchId ? (
             <>
               <ConfirmProviderCell
-                confirmProvider={event.agentConfirm?.map(({ Value, Label }) => ({
-                  value: Value,
-                  label: Label
+                confirmProvider={event.agentConfirm?.map(({ value, label }) => ({
+                  value: value,
+                  label: label
                 })) ?? []}
                 owpMatchId={event.owpMatchId}
               />

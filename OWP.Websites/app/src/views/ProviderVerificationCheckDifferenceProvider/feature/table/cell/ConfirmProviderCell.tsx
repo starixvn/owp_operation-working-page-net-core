@@ -27,8 +27,8 @@ const ConfirmProviderCell = ({
       setConfirmProvider({
         owpMatchId,
         value: event.map((a: Option) => ({
-          Value: a.value,
-          Label: a.label
+          value: a.value,
+          label: a.label
         }))
       })
     );
