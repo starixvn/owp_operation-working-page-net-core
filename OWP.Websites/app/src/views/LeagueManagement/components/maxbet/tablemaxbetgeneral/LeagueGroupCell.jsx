@@ -62,8 +62,7 @@ const LeagueGroupCell = ({ dataSource, rowIndex }) => {
   };
 
   return (
-    /*
-        <Cell key={uuidv4()} className='league-group'>
+    <Cell key={uuidv4()} className='league-group'>
       <div className='select-wrapper-default'>
         <select
           className='browser-default'
@@ -79,11 +78,6 @@ const LeagueGroupCell = ({ dataSource, rowIndex }) => {
           })}
         </select>
       </div>
-        </Cell>
-    */
-
-    <Cell key={uuidv4()} className='league-group'>
-      {dataSource[rowIndex].GroupLabel}
     </Cell>
   );
 };
