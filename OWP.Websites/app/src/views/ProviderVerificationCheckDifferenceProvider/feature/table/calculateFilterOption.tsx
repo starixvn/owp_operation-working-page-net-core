@@ -33,14 +33,14 @@ const calculateKoOption = (dataSource: TDataSource[]) => {
 const calculateLeagueOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource].map(x => ({
     value: x.owpMatchId,
-    label: x.league ?? '(Blanks)'
+    label: buildLabelItemOption(x.league)
   })), v => v.label));
 };
 
 const calculateMatchOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource].map(x => ({
     value: x.owpMatchId,
-    label: `${x.home} -vs- ${x.away}`
+    label: x.home?.trim().length ? `${x.home} -vs- ${x.away}` : '(Blanks)'
   })), v => v.label));
 };
 
@@ -48,6 +48,14 @@ const calculateLSTBookProviderOption = (dataSource: TDataSource[]) => {
   return swapBlanks(uniqBy([...dataSource].map(x => ({
     value: x.owpMatchId,
     label: buildLabelItemOption(x.lstBookProvider)
+  })), v => v.label));
+};
+
+const calculateProviderOption = (dataSource: TDataSource[]) => {
+
+  return swapBlanks(uniqBy([...dataSource].map(x => ({
+    value: x.providerMatchId ?? '',
+    label: buildLabelItemOption(x.provider)
   })), v => v.label));
 };
 
@@ -74,7 +82,7 @@ const helper = {
   League: (dataSource: TDataSource[]) => calculateLeagueOption(dataSource),
   Match: (dataSource: TDataSource[]) => calculateMatchOption(dataSource),
   LstBookProvider: (dataSource: TDataSource[]) => calculateLSTBookProviderOption(dataSource),
-  Provider: () => calculateConfirmProviderOption(),
+  Provider: (dataSource: TDataSource[]) => calculateProviderOption(dataSource),
   ConfirmProvider: () => calculateConfirmProviderOption()
 };
 

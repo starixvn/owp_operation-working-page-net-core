@@ -29,7 +29,7 @@ const buildDefaultTableFilter = (dataSource: TDataSource[], confirmProviderOptio
     isFilter: false
   };
   tableFilter.Provider = {
-    selected: [...confirmProviderOption, { value: -1, label: '(Blanks)' }],
+    selected: helper.Provider(dataSource),
     isFilter: false
   };
   tableFilter.ConfirmProvider = {
@@ -48,12 +48,13 @@ const executeFilterTable = (dataSource: TDataSource[], tableFilter: TMultipleFil
     Provider
   } = tableFilter;
   const result = dataSource.filter(e => MatchNo.selected.some(m => m.label === buildLabelItemOption(e.matchNo)) //NOSONAR
-      && MatchStatus.selected.some(m => m.label === buildLabelItemOption(e.matchStatus))
-    && Match.selected.some(m => m.label === `${e.home} -vs- ${e.away}`)
-    && KoTime.selected.some(m => m.label === formatTime(e.eventDateTime, 'minute', 'hh:mm A'))
-    && League.selected.some(m => m.label === e.league)
+    && MatchStatus.selected.some(m => m.label === buildLabelItemOption(e.matchStatus))
+    && Match.selected.some(m => m.label === (e.home?.trim().length ? `${e.home} -vs- ${e.away}` : '(Blanks)'))
+    && KoTime.selected.some(m => m.label === (e.eventDateTime?.trim().length ? formatTime(e.eventDateTime, 'minute', 'hh:mm A') : '(Blanks)'))
+    && League.selected.some(m => m.label === buildLabelItemOption(e.league))
     && LstBookProvider.selected.some(m => m.label === buildLabelItemOption(e.lstBookProvider))
-    && Provider.selected.some(m => m.label === buildLabelItemOption(e.provider)));
+    && Provider.selected.some(m => m.label === buildLabelItemOption(e.provider))
+  );
 
   return filterByConfirmProvider(result, tableFilter);
 };
@@ -62,10 +63,10 @@ const filterByConfirmProvider = (dataSource: TDataSource[], tableFilter: TMultip
   return dataSource.filter(e => {
     const ConfirmProvider = e.agentConfirm;
     const { selected } = tableFilter.ConfirmProvider;
-    if (!ConfirmProvider.length && selected.some(s => s.label === '(Blanks)')) {
+    if (!ConfirmProvider?.length && selected.some(s => s.label === '(Blanks)')) {
       return true;
     }
-    return ConfirmProvider.some(a =>
+    return ConfirmProvider?.some(a =>
       selected.some(s =>
         s.label === a.label
       ));
@@ -73,6 +74,5 @@ const filterByConfirmProvider = (dataSource: TDataSource[], tableFilter: TMultip
 };
 
 const buildLabelItemOption = (value: string | undefined | null) => value?.trim().length ? value : '(Blanks)';
-
 
 export { buildDefaultTableFilter, executeFilterTable, buildLabelItemOption };

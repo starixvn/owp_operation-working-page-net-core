@@ -13,10 +13,6 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
         var (_, excelProviderModel) = await cache.TryGetAsync<string>(cacheKey);
         var excelProviderModels = JsonConvert.DeserializeObject<IList<ExcelProviderModel>>(excelProviderModel);
         var compareResult = await Compare(request.Date, excelProviderModels);
-        if (compareResult?.Any() == true)
-        {
-            await SaveProviderCompareInfo(request.SessionId, compareResult);
-        }
 
         return ResultT<IList<ProviderVerificationDifferenceModel>>.Success(compareResult);
     }
@@ -81,15 +77,5 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
         unMapProviderVerification.AddRange(unMapInExcel);
 
         return unMapProviderVerification;
-    }
-
-    private async Task SaveProviderCompareInfo(string sessionId, IList<ProviderVerificationDifferenceModel> providerVerification)
-    {
-        var expiredDate = DateTime.Today.AddDays(CACHE_EXPIRED_IN_DAYS);
-        var absoluteTimeSpan = expiredDate - DateTime.Now;
-        var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(absoluteTimeSpan);
-        var cacheKey = Utils.BuildProviderVerificationDifferenceKey(sessionId);
-        var assignmentsJson = JsonConvert.SerializeObject(providerVerification);
-        await cache.SetAsync(cacheKey, assignmentsJson, cachePolicy);
     }
 }
