@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from './app/hookNative';
 import Filter from './feature/filter/Filter';
 import Table from './feature/table/Table';
-import { getConfirmProvider } from './feature/table/tableThunk';
+import { getConfirmProvider, getLSTBookProvider } from './feature/table/tableThunk';
 import usePermission from '../Shared/customHook/usePermission';
 import { isEquals } from 'immutability-helper';
 import { REQUEST_STATUS, FunctionKeys } from '../Shared/Constants';
@@ -13,9 +13,12 @@ import TicketDetailBoard from '../Shared/chatBoardNew/TicketDetailBoard';
 
 const ProviderVerificationAppNative = () => {
   const dispatch = useAppDispatch();
-  const loadingConfirmProviderOption = useAppSelector(
-    state => state.common.confirmProvider.loadingConfirmProviderOption
-  );
+
+  const { loadingConfirmProviderOption, loadingLSTBookProviderOption, eventDate } = useAppSelector(state => ({
+    loadingConfirmProviderOption: state.common.confirmProvider.loadingConfirmProviderOption,
+    loadingLSTBookProviderOption: state.common.LSTBookProvider.loadingLSTBookProviderOption,
+    eventDate: state.filterState.filter.eventDate
+  }));
 
   const pagePolicy = usePermission(
     FunctionKeys.ProviderVerification,
@@ -25,6 +28,10 @@ const ProviderVerificationAppNative = () => {
   useEffect(() => {
     dispatch(getConfirmProvider());
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getLSTBookProvider({ eventDate }));
+  }, []);
 
   const ticketCenterPermissionModel = usePermission(
     FunctionKeys.TicketCenter,

@@ -872,3 +872,7 @@
 .inhouse-providerId {
   text-align: center;
 }
+
+.multi-select .select-item .item-renderer span {
+  word-break: break-word;
+}

@@ -7,6 +7,7 @@ import SummarizeProviderIcon from '../summarizeProvider/sum/SummarizeProviderIco
 import CompareAgent from '../summarizeProvider/compare/CompareAgentIcon';
 import MismatchEvent from './MismatchEvent';
 import ConfirmProvider from './ConfirmProvider';
+import LSTBookProvider from './LSTBookProvider';
 import EyeIcon from 'mdi-react/EyeIcon';
 import { useAppSelector } from '../../app/hookNative';
 import { exportExcel } from '../../../Shared/common/ExportExcel/Helper';
@@ -14,18 +15,33 @@ import Utils from '../../../Shared/Utils';
 
 const Filter = () => {
   const dispatch = useAppDispatch();
-  const { dataSource } = useAppSelector(state => state.events);
-  const { eventDate, onlyShowIsMismatchEvent, confirmProvider } = useAppSelector(state => state.filterState.filter);
-  const { confirmProviderOption } = useAppSelector(state => state.common.confirmProvider);
+  const {
+    dataSource,
+    filterState: { eventDate, onlyShowIsMismatchEvent, confirmProvider, lstBookProvider },
+    common: {
+      confirmProvider: { confirmProviderOption },
+      LSTBookProvider: { LSTBookProviderOption }
+    }
+  } = useAppSelector(state => ({
+    dataSource: state.events.dataSource,
+    filterState: state.filterState.filter,
+    common: state.common
+  }));
 
-  const getConfirmProviderValue = () => {
-    if (!confirmProvider?.length) return null;
-    const confirmProviderValue = confirmProvider.map(x => x.value).join(',');
-    return confirmProvider.length === confirmProviderOption.length ? null : confirmProviderValue;
+  const getProviderValue = (selectedProviders: any[], allProviders: any[]) => {
+    if (!selectedProviders?.length) return null;
+    const providerValue = selectedProviders.map(x => x.value).join(',');
+    return selectedProviders.length === allProviders?.length ? null : providerValue;
   };
 
+
   const handleSearch = () => {
-    dispatch(getEvents({ eventDate, onlyShowIsMismatchEvent, confirmProvider: getConfirmProviderValue() }));
+    dispatch(getEvents({
+      eventDate,
+      onlyShowIsMismatchEvent,
+      confirmProvider: getProviderValue(confirmProvider, confirmProviderOption),
+      lstBookProvider: getProviderValue(lstBookProvider, LSTBookProviderOption)
+    }));
   };
 
   useEffect(() => {
@@ -34,10 +50,13 @@ const Filter = () => {
 
   const handleExport = async () => {
     const date = Utils.formatDate(eventDate);
-    const confirmProviderValue = getConfirmProviderValue();
+    const confirmProviderValue = getProviderValue(confirmProvider, confirmProviderOption);
+    const lstBookProviderValue = getProviderValue(lstBookProvider, LSTBookProviderOption);
+
     const params = new URLSearchParams({
       eventDate: date,
       onlyShowIsMismatchEvent: onlyShowIsMismatchEvent.toString(),
+      ...(lstBookProviderValue !== null && { lstBookProvider: lstBookProviderValue }),
       ...(confirmProviderValue !== null && { confirmProvider: confirmProviderValue })
     }).toString();
     const url = `api/ProviderVerification/export?${params}`;
@@ -54,6 +73,7 @@ const Filter = () => {
     <div className='top-control'>
       <div className='left-control'>
         <FilterDate />
+        <LSTBookProvider />
         <ConfirmProvider />
         <MismatchEvent />
         <div className='filter-control btn-block'>

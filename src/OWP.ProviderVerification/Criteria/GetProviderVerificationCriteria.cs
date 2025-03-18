@@ -8,6 +8,8 @@ public class GetProviderVerificationCriteria : CriteriaBase
 
     public string ConfirmProvider { get; set; }
 
+    public string LSTBookProvider { get; set; }
+
     public override string GetSettingKey() => "OWP_ProviderVerification_Query";
 
     public override bool IsValid() => true;

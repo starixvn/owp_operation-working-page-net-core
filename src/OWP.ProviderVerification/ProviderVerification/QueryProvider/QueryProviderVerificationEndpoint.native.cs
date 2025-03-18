@@ -4,9 +4,9 @@ public class QueryProviderVerification : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/ProviderVerification/get-provider-verification", async (DateTime eventDate, bool onlyShowIsMismatchEvent, string confirmProvider, [FromServices]ISender sender) =>
+        app.MapGet("/api/ProviderVerification/get-provider-verification", async (DateTime eventDate, bool onlyShowIsMismatchEvent, string confirmProvider, string lstBookProvider, [FromServices]ISender sender) =>
         {
-            var result = await sender.Send(new QueryProviderVerificationRequest(eventDate, onlyShowIsMismatchEvent, confirmProvider, Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture)));
+            var result = await sender.Send(new QueryProviderVerificationRequest(eventDate, onlyShowIsMismatchEvent, confirmProvider, lstBookProvider, Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture)));
             return Results.Ok(result);
         }
        ).RequireAuthorization()

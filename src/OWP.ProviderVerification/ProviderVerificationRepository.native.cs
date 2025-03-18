@@ -8,6 +8,9 @@ public interface ProviderVerificationRepository
 
     Task<IEnumerable<AgentOption>> GetAgentOptions();
 
+    Task<IEnumerable<LSTBookProviderOption>> GetLSTBookOptions(DateTime eventDate);
+
+
     Task SaveAgentConfirm(int owpMatchId, string agentSelected, int actorId);
 
     Task SaveRemark(int owpMatchId, string remark);
@@ -112,6 +115,12 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
 
     public async Task<IEnumerable<AgentOption>> GetAgentOptions()
     => await dynamicRepository.FetchAsync<AgentOption>(new GetAgentOptionsCriteria());
+
+    public async Task<IEnumerable<LSTBookProviderOption>> GetLSTBookOptions(DateTime eventDate)
+        => await dynamicRepository.FetchAsync<LSTBookProviderOption>(new GetLSTBookOptionsCriteria
+            {
+                EventDate = eventDate
+            });
 
     public async Task SaveAgentConfirm(int owpMatchId, string agentSelected, int actorId)
         => await dynamicRepository.ExecuteAsync(new SaveAgentConfirmCriteria

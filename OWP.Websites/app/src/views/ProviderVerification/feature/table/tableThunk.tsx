@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { get, post } from '../../../Shared/Service/Service';
 import Utils from '../../../Shared/Utils';
-import { TOptionResponse } from '../../type/confirmProviderOption';
+import { TOptionResponse, TLSTBookOptionResponse } from '../../type/confirmProviderOption';
 
 const getUrl = (methodRoute: string) =>
   `/api/ProviderVerification/${methodRoute}`;
@@ -11,18 +11,21 @@ const getEvents = createAsyncThunk(
   async ({
     eventDate,
     onlyShowIsMismatchEvent,
-    confirmProvider
+    confirmProvider,
+    lstBookProvider
   }: {
     eventDate: Date;
     onlyShowIsMismatchEvent: boolean;
-    confirmProvider: number | string | null;
+    confirmProvider: string | null;
+    lstBookProvider: string | null;
   }) => {
     const url = getUrl('get-provider-verification');
     const response = await get({
       url,
       eventDate: Utils.formatDate(eventDate),
       onlyShowIsMismatchEvent,
-      confirmProvider
+      confirmProvider,
+      lstBookProvider
     });
     return response.data;
   }
@@ -38,6 +41,22 @@ const getConfirmProvider = createAsyncThunk(
     return (response.data as TOptionResponse[]).map(data => ({
       value: data.agentId,
       label: data.agentName
+    }));
+  }
+);
+
+const getLSTBookProvider = createAsyncThunk(
+  'provider-verification/get-lst-book-confirm',
+  async ({ eventDate }: {
+    eventDate: Date;
+  }) => {
+    const url = getUrl('get-lst-book-option');
+    const response = await get({
+      url, eventDate: eventDate
+    });
+    return (response.data as TLSTBookOptionResponse[]).map(data => ({
+      value: data.lstBookId,
+      label: data.lstBookName
     }));
   }
 );
@@ -83,5 +102,6 @@ export {
   getConfirmProvider,
   saveConfirmProvider,
   saveRemark,
-  saveRemarkBy
+  saveRemarkBy,
+  getLSTBookProvider
 };

@@ -1,7 +1,7 @@
 
 namespace OWP.ProviderVerification.ProviderVerification.QueryProvider;
 
-public record QueryProviderVerificationRequest(DateTime EventDate, bool OnlyShowIsMismatchEvent, string ConfirmProvider, string SessionId) : Query<ResultT<AnalyzedProviderResult>>;
+public record QueryProviderVerificationRequest(DateTime EventDate, bool OnlyShowIsMismatchEvent, string ConfirmProvider, string LstBookProvider, string SessionId) : Query<ResultT<AnalyzedProviderResult>>;
 public class QueryProviderVerificationHandler(ICache cache, ProviderVerificationRepository repository)
     : QueryHandler<QueryProviderVerificationRequest, ResultT<AnalyzedProviderResult>>
 {
@@ -13,7 +13,8 @@ public class QueryProviderVerificationHandler(ICache cache, ProviderVerification
         {
             EventDate = request.EventDate,
             OnlyShowIsMismatchEvent = request.OnlyShowIsMismatchEvent,
-            ConfirmProvider = request.ConfirmProvider
+            ConfirmProvider = request.ConfirmProvider,
+            LSTBookProvider = request.LstBookProvider
         };
 
         var providerVerification = await repository.GetProviderVerification(criteria);

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getConfirmProvider } from '../table/tableThunk';
+import { getConfirmProvider, getLSTBookProvider } from '../table/tableThunk';
 import { REQUEST_STATUS } from '../../../Shared/Constants';
 import { Option } from '../../../Shared/MultipleSelection/type';
 
@@ -9,6 +9,10 @@ const commonSlice = createSlice({
     confirmProvider: {
       loadingConfirmProviderOption: REQUEST_STATUS.pending,
       confirmProviderOption: [] as Option[]
+    },
+    LSTBookProvider: {
+      loadingLSTBookProviderOption: REQUEST_STATUS.pending,
+      LSTBookProviderOption: [] as Option[]
     }
   },
   reducers: {},
@@ -25,6 +29,20 @@ const commonSlice = createSlice({
       })
       .addCase(getConfirmProvider.rejected, state => {
         state.confirmProvider.loadingConfirmProviderOption =
+          REQUEST_STATUS.idle;
+      })
+
+      .addCase(getLSTBookProvider.pending, state => {
+        state.LSTBookProvider.loadingLSTBookProviderOption =
+          REQUEST_STATUS.pending;
+      })
+      .addCase(getLSTBookProvider.fulfilled, (state, { payload }) => {
+        state.LSTBookProvider.loadingLSTBookProviderOption =
+          REQUEST_STATUS.idle;
+        state.LSTBookProvider.LSTBookProviderOption = payload;
+      })
+      .addCase(getLSTBookProvider.rejected, state => {
+        state.LSTBookProvider.loadingLSTBookProviderOption =
           REQUEST_STATUS.idle;
       });
   }

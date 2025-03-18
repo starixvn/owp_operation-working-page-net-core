@@ -4,7 +4,7 @@ using System.Drawing;
 
 namespace OWP.ProviderVerification.ProviderVerification.Export;
 
-public record ExportRequest(DateTime EventDate, bool OnlyShowIsMismatchEvent, string ConfirmProvider, string Template) : Query<ExcelPackage>;
+public record ExportRequest(DateTime EventDate, bool OnlyShowIsMismatchEvent, string ConfirmProvider, string LstBookProvider, string Template) : Query<ExcelPackage>;
 
 public record ExportCheckDifferenceRequest(DateTime EventDate, string SessionId, string Template) : Query<ExcelPackage>;
 
@@ -32,7 +32,8 @@ public class ExportHandler( ConfigurationService configuration, ProviderVerifica
         {
             EventDate = request.EventDate,
             OnlyShowIsMismatchEvent = request.OnlyShowIsMismatchEvent,
-            ConfirmProvider = request.ConfirmProvider
+            ConfirmProvider = request.ConfirmProvider,
+            LSTBookProvider = request.LstBookProvider
         };
 
         var providerVerification = await repository.GetProviderVerification(criteria);
@@ -128,7 +129,8 @@ public class ExportCheckDifferenceHandler(ICache cache, ConfigurationService con
         {
             EventDate = request.EventDate,
             OnlyShowIsMismatchEvent = true,
-            ConfirmProvider = null
+            ConfirmProvider = null,
+            LSTBookProvider = null
         };
 
         var providerVerificationDiff = await repository.GetProviderVerificationDiff(criteria);

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import update from 'immutability-helper';
 import { buildDefaultFilterDateProviderVerification } from '../../../Shared/DateTime/dateTimeHelper';
-import { getConfirmProvider } from '../table/tableThunk';
+import { getConfirmProvider, getLSTBookProvider } from '../table/tableThunk';
 import { Option } from '../../../Shared/MultipleSelection/type';
 
 const filterSlice = createSlice({
@@ -10,7 +10,8 @@ const filterSlice = createSlice({
     filter: {
       eventDate: buildDefaultFilterDateProviderVerification(),
       onlyShowIsMismatchEvent: false,
-      confirmProvider: [] as Option[]
+      confirmProvider: [] as Option[],
+      lstBookProvider: [] as Option[]
     }
   },
   reducers: {
@@ -28,7 +29,10 @@ const filterSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(getConfirmProvider.fulfilled, (state, { payload }) => {
       state.filter.confirmProvider = payload;
-    });
+    })
+      .addCase(getLSTBookProvider.fulfilled, (state, { payload }) => {
+        state.filter.lstBookProvider = payload;
+      });
   }
 });
 

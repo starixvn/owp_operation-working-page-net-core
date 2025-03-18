@@ -3,6 +3,11 @@ type TOptionResponse = {
   agentName: string,
 }
 
+type TLSTBookOptionResponse = {
+  lstBookId: number,
+  lstBookName: string,
+}
+
 export {
-  TOptionResponse
+  TOptionResponse, TLSTBookOptionResponse
 };
