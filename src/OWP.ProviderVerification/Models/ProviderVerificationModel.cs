@@ -9,18 +9,18 @@ public class EventModel
 
     public int OWPMatchId { get; set; }
 
-    [Cell("A2")]
+    [Cell("A3")]
     public string MatchNo { get; set; }
 
-    [Cell("B2")]
+    [Cell("B3")]
     public string MatchStatus { get; set; }
 
     public DateTime EventDateTime { get; set; }
 
-    [Cell("C2")]
+    [Cell("C3")]
     public string EventDate => EventDateTime.Date.ToString(CultureInfo.InvariantCulture);
 
-    [Cell("D2")]
+    [Cell("D3")]
     public string KoTime
     {
         get => _time;
@@ -29,25 +29,25 @@ public class EventModel
                 ? time.ToString("hh:mm tt", CultureInfo.InvariantCulture) : value;
     }
 
-    [Cell("E2")]
+    [Cell("E3")]
     public string League { get; set; }
 
-    [Cell("F2")]
+    [Cell("F3")]
     public string Home { get; set; }
 
-    [Cell("G2")]
+    [Cell("G3")]
     public string Away { get; set; }
 
-    [Cell("K2")]
+    [Cell("K3")]
     public string Remark { get; set; }
 
-    [Cell("L2")]
+    [Cell("L3")]
     public string RemarkBy { get; set; }
 
-    [Cell("H2")]
+    [Cell("H3")]
     public string LstBookProvider { get; set; }
 
-    [Cell("I2")]
+    [Cell("I3")]
     public string InHouseProviderId { get; set; }
 
     public string ProviderMatchId { get; set; }
@@ -59,7 +59,7 @@ public class ProviderVerificationModel : EventModel
 {
     public List<AgentConfirmOption> AgentConfirm { get; set; }
 
-    [Cell("J2")]
+    [Cell("J3")]
     public string AgentConfirmList => AgentConfirm != null
         ? string.Join(", ", AgentConfirm.Where(x => !string.IsNullOrEmpty(x.Label)).Select(x => x.Label))
         : string.Empty;

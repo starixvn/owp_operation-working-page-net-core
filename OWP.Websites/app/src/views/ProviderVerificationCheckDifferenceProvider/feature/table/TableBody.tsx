@@ -98,8 +98,8 @@ const TableBody = ({ dataSource }: { dataSource: TDataSource[]; }) => {
               <td>
                 <TicketCell
                   dataSource={dataSource}
-                  HasTicket={event.HasTicket}
-                  IsRead={event.IsRead}
+                  hasTicket={event.hasTicket}
+                  isRead={event.isRead}
                   rowIndex={index}
                 />
               </td>

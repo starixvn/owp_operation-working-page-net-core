@@ -717,3 +717,152 @@
 .file-suggest {
   padding: 4px 0 8px;
 }
+
+
+// form create ticket
+.header-popup {
+  h1 {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 18.75px;
+    color: #444444;
+  }
+}
+
+.form-createTicket {
+  display: flex;
+  margin-top: 10px;
+
+  .left-form {
+    width: 95px;
+  }
+
+  .right-form {
+    flex: 1;
+
+    input {
+      width: 100%;
+    }
+
+    .MuiFormControl-marginNormal {
+      margin-top: 0;
+    }
+
+    label+.MuiInput-formControl {
+      margin-top: 35px;
+    }
+
+    .MuiInputLabel-root {
+      span {
+        display: block;
+        padding-top: 6px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+      }
+
+      font-size: 17px;
+      color: rgb(0, 0, 0);
+      width: 600px;
+    }
+
+    .league-event-selected {
+      padding-top: 6px;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      font-size: 17px;
+      color: #8c0d0d;
+      width: 600px;
+    }
+
+    .MuiInputBase-input {
+      font-size: 13px;
+      color: black;
+    }
+  }
+
+  .label {
+    margin: 10px 0 0;
+  }
+
+  span.required {
+    color: #dc3545;
+    margin-left: 5px;
+  }
+
+  input.required {
+    border-color: #dc3545;
+  }
+}
+
+.league-group {
+  display: inline;
+}
+
+.league-badge {
+  font-size: 13px;
+  font-weight: bold;
+  padding: 3px 3px;
+  background-color: #cbcbcb;
+  margin-right: 3px;
+  border-radius: 2px;
+}
+
+.league-name {
+  font-size: 13px;
+  color: black;
+}
+
+.league-event {
+  font-size: 13px;
+  color: #8c0d0d;
+}
+
+.league-time {
+  font-size: 12px;
+  color: #999;
+}
+
+.league-name-create {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  font-size: 13px;
+  margin-bottom: 0;
+  padding-top: 10px;
+  color: black;
+}
+
+.league-event-plus {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  font-size: 13px;
+  color: #8c0d0d;
+}
+
+.league-ko-time {
+  font-size: 13px;
+  color: black;
+}
+
+.btn-group-add-new {
+  .button-submit {
+    background: #2fb159;
+  }
+}
+
+.MuiFormHelperText-root.Mui-error {
+  color: #8c0d0d;
+  font-size: 13px;
+}
+
+.MuiInput-root {
+  width: 440px;
+}

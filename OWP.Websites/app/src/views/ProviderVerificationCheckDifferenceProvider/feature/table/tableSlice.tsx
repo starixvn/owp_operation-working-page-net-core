@@ -58,8 +58,8 @@ const tableSlice = createSlice({
       const { actorId, parentMatchId, userId } = action.payload;
       state.dataSource.forEach((item: TDataSource) => {
         if (item.owpMatchId === parentMatchId) {
-          item.IsRead = buildIsReadValue(actorId, userId, item.IsRead);
-          item.HasTicket = true;
+          item.isRead = buildIsReadValue(actorId, userId, item.isRead);
+          item.hasTicket = true;
         }
       });
     },

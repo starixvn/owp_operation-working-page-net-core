@@ -63,7 +63,7 @@ type TRemarkPopover = {
 };
 
 type TTicketCell = {
-  [key in 'HasTicket' | 'IsRead']: boolean;
+  [key in 'hasTicket' | 'isRead']: boolean;
 } & { rowIndex: number; dataSource: TDataSource[]; };
 
 type TUpdateConfirmProvider = { value: TConfirmProvider[]; } & { owpMatchId: number; };
