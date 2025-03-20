@@ -51,14 +51,22 @@ const TicketCellCommon = props => {
           updateDataSources={updateDataSources}
           handleOpenCreateTicket={handleOpenCreateTicket}
         />
+      ) : allowQuickAdd ? (
+        // <QuickAddTicketHandler
+        //   closeAnotherPopup={closeAnotherPopup}
+        //   data={dataSource[rowIndex]}
+        // />
+        <div className='btn-block-add-new'>
+          <div className='dropdown-list'>
+            <button className='button-submit'>Create</button>
+            <div className='dropdown-content-ticket'>
+              <li className='button-event'>Match Group Ticket</li>
+              <li className='button-event'>New Ticket </li>
+            </div>
+          </div>
+        </div>
       ) : (
         <CreateTicketHandler handleOpenCreateTicket={handleOpenCreateTicket} />
-      )}
-      {allowQuickAdd && (
-        <QuickAddTicketHandler
-          closeAnotherPopup={closeAnotherPopup}
-          data={dataSource[rowIndex]}
-        />
       )}
     </div>
   );
