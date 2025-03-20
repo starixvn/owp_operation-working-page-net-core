@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import CreateTicketHandler from '../handler/CreateTicketHandler';
 import QuickAddTicketHandler from '../handler/QuickAddTicketHandler';
 import OpenTicketListHandler from '../handler/OpenTicketListHandler';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   closePopup,
   getModelByRowIndex
@@ -29,7 +29,9 @@ const TicketCellCommon = props => {
     updateDataSources
   } = props;
 
+  const hasWrite = useSelector(state => state.pagePolicy).permission.HasWrite;
   const stableDispatch = useDispatch();
+
   const closeAnotherPopup = () => {
     stableDispatch(closePopup());
     stableDispatch(closeCreatePopup());
@@ -41,33 +43,44 @@ const TicketCellCommon = props => {
     stableDispatch(openPopupCreateTicketInLGA());
   };
 
+  const renderOpenTicketListHandler = () => (
+    <OpenTicketListHandler
+      dataSources={dataSource}
+      index={rowIndex}
+      onShowTicketList={onShowTicketList}
+      updateDataSources={updateDataSources}
+      handleOpenCreateTicket={handleOpenCreateTicket}
+    />
+  );
+
+  const renderQuickAddTicketHandler = () => (
+    <div className='btn-block-add-new'>
+      <div className='dropdown-list'>
+        <button className='button-submit'>Create</button>
+        <div className='dropdown-content-ticket'>
+          <li className='button-event'>Match Group Ticket</li>
+          <li className='button-event' onClick={handleOpenCreateTicket}>
+            New Ticket{' '}
+          </li>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderCreateTicketHandler = () => (
+    <CreateTicketHandler
+      hasWrite={hasWrite}
+      handleOpenCreateTicket={handleOpenCreateTicket}
+    />
+  );
+
   return (
     <div className='ticket-cell'>
-      {dataSource[rowIndex].HasTicket ? (
-        <OpenTicketListHandler
-          dataSources={dataSource}
-          index={rowIndex}
-          onShowTicketList={onShowTicketList}
-          updateDataSources={updateDataSources}
-          handleOpenCreateTicket={handleOpenCreateTicket}
-        />
-      ) : allowQuickAdd ? (
-        // <QuickAddTicketHandler
-        //   closeAnotherPopup={closeAnotherPopup}
-        //   data={dataSource[rowIndex]}
-        // />
-        <div className='btn-block-add-new'>
-          <div className='dropdown-list'>
-            <button className='button-submit'>Create</button>
-            <div className='dropdown-content-ticket'>
-              <li className='button-event'>Match Group Ticket</li>
-              <li className='button-event'>New Ticket </li>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <CreateTicketHandler handleOpenCreateTicket={handleOpenCreateTicket} />
-      )}
+      {dataSource[rowIndex].HasTicket
+        ? renderOpenTicketListHandler()
+        : allowQuickAdd && hasWrite
+        ? renderQuickAddTicketHandler()
+        : renderCreateTicketHandler()}
     </div>
   );
 };
