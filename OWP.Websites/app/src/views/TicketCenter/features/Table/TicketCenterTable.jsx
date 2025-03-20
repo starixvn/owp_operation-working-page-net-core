@@ -14,8 +14,9 @@ const TicketCenterTable = () => {
   };
 
   useEffect(() => {
-    window.addEventListener('resize', handleResizeBrowser);
-    return () => window.removeEventListener('resize', handleResizeBrowser);
+    const abort = new AbortController();
+    window.addEventListener('resize', handleResizeBrowser, abort);
+    return () => abort.abort();
   }, []);
 
   return <CustomTable model={model} config={tableSchema} />;

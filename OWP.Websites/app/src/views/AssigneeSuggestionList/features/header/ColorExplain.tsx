@@ -41,10 +41,10 @@ const ColorExplain = () => {
         setDisplay(!display);
       }
     }
-
-    document.addEventListener('mousedown', handleClickOutside);
+    const abort = new AbortController();
+    document.addEventListener('mousedown', handleClickOutside, abort);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      abort.abort();
     };
   }, [wrapperRef, display]);
 

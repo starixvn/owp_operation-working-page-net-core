@@ -136,10 +136,11 @@ const MessageCell = ({
           setIsOpenReactionIcon(false);
         }
       };
-      document.addEventListener('click', handleClickOutside);
+      const abort = new AbortController();
+      document.addEventListener('click', handleClickOutside, abort);
 
       return () => {
-        document.removeEventListener('click', handleClickOutside);
+        abort.abort();
       };
     }, [setIsOpenReactionIcon]);
     return (

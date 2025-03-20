@@ -28,7 +28,9 @@ const NotePopover = ({ className, hasWrite, OWPMatchId, value, index, isRemark }
   };
 
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen) {
+      return;
+    }
 
     const handleClickOutside = (e: MouseEvent) => {
       if (popupRef.current && !popupRef.current.contains(e.target as Node)) {

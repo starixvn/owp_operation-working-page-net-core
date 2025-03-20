@@ -15,9 +15,10 @@ const InfoConditionExplainIcon = () => {
         setTooltipOpen(false);
       }
     };
-    window.addEventListener('click', handleOutsideClick);
+    const abort = new AbortController();
+    window.addEventListener('click', handleOutsideClick, abort);
     return () => {
-      window.removeEventListener('click', handleOutsideClick);
+      abort.abort();
     };
   }, []);
 

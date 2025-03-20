@@ -33,8 +33,9 @@ const UserManagementTable = () => {
   };
 
   useEffect(() => {
-    window.addEventListener('resize', handleResizeBrowser);
-    return () => window.removeEventListener('resize', handleResizeBrowser);
+    const abort = new AbortController();
+    window.addEventListener('resize', handleResizeBrowser, abort);
+    return () => abort.abort();
   }, []);
 
   if (queryDataTableStatus === REQUEST_STATUS.pending) {
