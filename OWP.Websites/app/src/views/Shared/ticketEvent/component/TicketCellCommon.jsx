@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import CreateTicketHandler from '../handler/CreateTicketHandler';
+import QuickAddTicketHandler from '../handler/QuickAddTicketHandler';
 import OpenTicketListHandler from '../handler/OpenTicketListHandler';
 import { useDispatch } from 'react-redux';
 import {
@@ -12,6 +13,7 @@ import {
 } from '../../createTicketNew/createTicketBoardSliceNew';
 
 const propTypes = {
+  allowQuickAdd: PropTypes.bool,
   dataSource: PropTypes.any,
   rowIndex: PropTypes.number,
   onShowTicketList: PropTypes.func,
@@ -19,7 +21,14 @@ const propTypes = {
 };
 
 const TicketCellCommon = props => {
-  const { dataSource, rowIndex, onShowTicketList, updateDataSources } = props;
+  const {
+    allowQuickAdd,
+    dataSource,
+    rowIndex,
+    onShowTicketList,
+    updateDataSources
+  } = props;
+
   const stableDispatch = useDispatch();
   const closeAnotherPopup = () => {
     stableDispatch(closePopup());
@@ -44,6 +53,12 @@ const TicketCellCommon = props => {
         />
       ) : (
         <CreateTicketHandler handleOpenCreateTicket={handleOpenCreateTicket} />
+      )}
+      {allowQuickAdd && (
+        <QuickAddTicketHandler
+          closeAnotherPopup={closeAnotherPopup}
+          data={dataSource[rowIndex]}
+        />
       )}
     </div>
   );
