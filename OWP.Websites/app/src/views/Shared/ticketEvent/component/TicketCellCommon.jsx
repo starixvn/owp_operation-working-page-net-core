@@ -4,7 +4,8 @@ import OpenTicketListHandler from '../handler/OpenTicketListHandler';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   closePopup,
-  getModelByRowIndex
+  getModelByRowIndex,
+  getTicketDetail
 } from '../../chatBoardNew/chatBoardSlice';
 import {
   closeCreatePopup,
@@ -13,14 +14,15 @@ import {
 import { urlRequestLiveIncident } from '../../createTicketNew/const/const';
 import Service from '../../createTicketNew/Service';
 import { TicketTypeRecipientEnum } from '../../enum/TicketRecipientEnum';
-import {
-  formatRecipientModel,
-  informResult
-} from '../../createTicketNew/Helper/HelperCreateTicket';
+import { formatRecipientModel } from '../../createTicketNew/Helper/HelperCreateTicket';
 import usePermission from '../../customHook/usePermission';
 import { FunctionKeys } from '../../Constants';
 import { TICKET_TYPE } from '../../TicketCenterPrematch/const/const.json';
 import { post } from '../../Service/Service';
+import {
+  EVENT_TYPE,
+  getDetailSegmentUrlByEventType
+} from '../../TicketCenterPrematch/helper/helper';
 
 const propTypes = {
   allowQuickAdd: PropTypes.bool,
@@ -105,8 +107,23 @@ const TicketCellCommon = props => {
       url: urlRequestLiveIncident
     };
 
-    const result = await post(newAddModel);
-    informResult(result);
+    const { data } = await post(newAddModel);
+
+    const requestDetailModel = {
+      ticketId: data,
+      actorId: ActorId,
+      detailSegmentUrl: getDetailSegmentUrlByEventType(
+        EVENT_TYPE.LIVE_INCIDENT
+      ),
+      eventType: EVENT_TYPE.LIVE_INCIDENT
+    };
+
+    const actionResult = await stableDispatch(
+      getTicketDetail({
+        ...requestDetailModel,
+        isQueryMessageInLastTwoDay: true
+      })
+    );
   };
 
   const renderOpenTicketListHandler = () => (
