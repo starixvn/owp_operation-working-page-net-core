@@ -1,4 +1,5 @@
-﻿using OWP.SimpleDataApi.Services;
+﻿using OWP.SimpleDataApi.Criteria.GroupChat;
+using OWP.SimpleDataApi.Services;
 
 namespace OWP.SimpleDataApi;
 
@@ -14,6 +15,7 @@ public class SimpleCriteriaFactoryImp : SimpleCriteriaFactoryBase
         RegisterUserManagement();
         RegisterLiveGameAssignment();
         RegisterEmployeeWorkingShift();
+        RegisterGroupChat();
     }
 
     private static void RegisterEmployeeWorkingShift()
@@ -122,6 +124,10 @@ public class SimpleCriteriaFactoryImp : SimpleCriteriaFactoryBase
         CriteriaTypes.Add(ConstantApiKey.SyncUserChangeFromAdminSite, typeof(SyncUsersCriteria));
     }
 
+    private static void RegisterGroupChat()
+    {
+        CriteriaTypes.Add(ConstantApiKey.GroupChatQueryRecipients, typeof(QueryRecipientsCriteria));
+    }
     private static void RegisterLiveGameAssignment()
     {
         CriteriaTypes.Add(ConstantApiKey.GetBettypeForTradingInfo, typeof(GetBettypeForTradingInfoCriteria));

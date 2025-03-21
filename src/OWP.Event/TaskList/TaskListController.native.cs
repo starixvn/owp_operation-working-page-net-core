@@ -9,15 +9,8 @@ namespace OWP.Event.TaskList;
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]
-public class TaskListController : ControllerBase
+public class TaskListController(IMediator mediator) : ControllerBase
 {
-    private readonly IMediator mediator;
-
-    public TaskListController(IMediator mediator)
-    {
-        this.mediator = mediator;
-    }
-
     [HttpPost("task-list-table")]
     public async Task<IActionResult> TaskListTable(TaskListTableRequest request)
     {
