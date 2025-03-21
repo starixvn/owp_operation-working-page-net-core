@@ -11,7 +11,10 @@ import {
   closeCreatePopup,
   openPopupCreateTicketInLGA
 } from '../../createTicketNew/createTicketBoardSliceNew';
-import { urlRequestLiveIncident } from '../../createTicketNew/const/const';
+import {
+  RECIPIENT_TYPE,
+  urlRequestLiveIncident
+} from '../../createTicketNew/const/const';
 import Service from '../../createTicketNew/Service';
 import { formatRecipientModel } from '../../createTicketNew/Helper/HelperCreateTicket';
 import usePermission from '../../customHook/usePermission';
@@ -74,9 +77,9 @@ const TicketCellCommon = props => {
     closeAnotherPopup();
     const { OWPMatchId, League, Home, Away, EventDateTime } =
       dataSource[rowIndex];
-    const model = { owpMatchId: OWPMatchId };
-    const recipientLGA = await Service.queryAssigneesByOwpMatchId(model);
-    const reformattedArray = formatRecipientModel(recipientLGA, creatorInfo);
+
+    const recipients = await Service.queryAssigneesByParentMatchId(OWPMatchId);
+
     const newAddModel = {
       OwpMatchId: OWPMatchId,
       OwpLeagueName: League,
@@ -84,7 +87,12 @@ const TicketCellCommon = props => {
       OwpAwayName: Away,
       EventDateTimeGmt8: EventDateTime,
       CreatorId: creatorInfo.recipientId,
-      Recipients: reformattedArray,
+      Recipients: [
+        {
+          RecipientType: RECIPIENT_TYPE.INDIVIDUAL,
+          RecipientIds: recipients.map(r => r.RecipientId)
+        }
+      ],
       Message: 'Please add',
       TicketType: LIVE_INCIDENT,
       TicketTypeName: 'Live Incident',
@@ -94,7 +102,7 @@ const TicketCellCommon = props => {
       IsQuickAdd: true,
       url: urlRequestLiveIncident
     };
-
+    debugger;
     const { data } = await post(newAddModel);
 
     const requestDetailModel = {

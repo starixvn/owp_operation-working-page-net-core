@@ -493,4 +493,7 @@
     <Setting Key="OWP_InfoSite_WriteLog" SpName ="OWP_InfoSite_WriteLog" DbName="DBOWP.bodb_OWP.wsv_owp" />
     <Setting Key="OWP_InternalSystem_WriteLog" SpName ="OWP_InternalSystem_WriteLog" DbName="DBOWP.bodb_OWP.wsv_owp" />
   </Function>
+  <Function Name="GroupChat">
+    <Setting Key="OWP_QuickCreateGroupChat_QueryAllAssigneeByParentId" SpName ="OWP_QuickCreateGroupChat_QueryAllAssigneeByParentId" DbName="DBOWP.bodb_OWP.wsv_owp" />
+  </Function>
 </Functions>
