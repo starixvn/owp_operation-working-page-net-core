@@ -384,6 +384,18 @@
   }
 }
 
+.notification-dot {
+  height: 6px;
+  width: 6px;
+  background-color: red;
+  border-radius: 50%;
+  display: inline-block;
+  position: absolute;
+  top: 1px;
+  right: 18px;
+  z-index: 99;
+}
+
 .is-show-ticket {
   z-index: 1 !important;
 }
@@ -451,6 +463,11 @@
     &:hover {
       opacity: 1;
     }
+  }
+
+  .notification-dot {
+    top: 8px;
+    right: 5px;
   }
 
   .icon-message {

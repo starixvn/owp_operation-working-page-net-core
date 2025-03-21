@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import CreateTicketHandler from '../handler/CreateTicketHandler';
 import OpenTicketListHandler from '../handler/OpenTicketListHandler';
 import { useDispatch, useSelector } from 'react-redux';
+import { PlusCircleIcon, PlusIcon } from 'mdi-react';
 import {
   closePopup,
   getModelByRowIndex,
@@ -27,6 +28,7 @@ import {
   EVENT_TYPE,
   getDetailSegmentUrlByEventType
 } from '../../TicketCenterPrematch/helper/helper';
+import { IconRocket } from '../../common/icons/common-icons';
 
 const propTypes = {
   allowQuickAdd: PropTypes.bool,
@@ -142,19 +144,25 @@ const TicketCellCommon = props => {
   );
 
   const renderQuickAddTicketHandler = () => (
-    <div className='btn-block-add-new'>
-      <div className='dropdown-list'>
-        <button className='button-submit'>Create</button>
-        <div className='dropdown-content-ticket'>
-          <li className='button-event' onClick={handleQuickAddTicket}>
-            Match Group Ticket
-          </li>
-          <li className='button-event' onClick={handleOpenCreateTicket}>
-            New Ticket{' '}
-          </li>
+    <>
+      <span style={{ margin: '10px' }}>
+        <PlusCircleIcon className='icon-plus' />
+      </span>
+      <div className='popup-add-ticket'>
+        <div
+          className='button-add-ticket btn-quick'
+          onClick={handleQuickAddTicket}>
+          <IconRocket className={'mdi-icon icon-plus icon-rocket'} />
+          <span className='btn-name'>Match Group Ticket</span>
+        </div>
+        <div
+          className='button-add-ticket btn-add'
+          onClick={handleOpenCreateTicket}>
+          <PlusIcon className='icon-plus' />
+          <span className='btn-name'>New Ticket</span>
         </div>
       </div>
-    </div>
+    </>
   );
 
   const renderCreateTicketHandler = () => (
@@ -165,13 +173,13 @@ const TicketCellCommon = props => {
   );
 
   return (
-    <div className='ticket-cell'>
+    <>
       {dataSource[rowIndex].HasTicket
         ? renderOpenTicketListHandler()
         : allowQuickAdd && hasWrite
         ? renderQuickAddTicketHandler()
         : renderCreateTicketHandler()}
-    </div>
+    </>
   );
 };
 

@@ -143,7 +143,7 @@
       right: -5px;
     }
 
-    > * {
+    >* {
       margin-bottom: 5px;
     }
 
@@ -582,7 +582,7 @@
     position: relative;
     padding: 10px 0;
 
-    + .item {
+    +.item {
       border-top: 1px solid #d3d3d3;
     }
 
@@ -636,6 +636,10 @@
     font-weight: bold;
   }
 
+  .event-name {
+    color: #8c0d0d;
+  }
+
   .kick-time {
     margin-left: 10px;
   }
@@ -647,7 +651,7 @@
   .event-date {
     font-size: 1.2rem;
 
-    > span {
+    >span {
       margin-left: 10px;
     }
 
@@ -721,7 +725,7 @@
     width: 65px;
   }
 
-  > div {
+  >div {
     width: 100%;
     // margin-left: 10px;
   }
@@ -838,7 +842,7 @@
 
   .MuiFormControl-root {
     .MuiInputLabel-formControl {
-      + .MuiInput-underline {
+      +.MuiInput-underline {
         margin-top: 45px;
       }
     }
@@ -877,7 +881,7 @@
       margin-top: 0;
     }
 
-    label + .MuiInput-formControl {
+    label+.MuiInput-formControl {
       margin-top: 35px;
     }
 
@@ -1504,17 +1508,20 @@
   padding-top: 5px;
   margin-top: 5px;
 }
+
 .message-list {
   .borderAnimation {
     border: 2px solid yellow;
     animation: borderAnimation 3s forwards;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   }
+
   @keyframes borderAnimation {
     0% {
       border: 2px solid yellow;
       box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
     }
+
     100% {
       border: 2px solid transparent;
       box-shadow: none;
@@ -1664,6 +1671,7 @@
 }
 
 .message-list {
+
   .message-row.my-message,
   .message-row.others-user {
     .info-user {
@@ -1676,7 +1684,7 @@
       margin-bottom: 0px;
       top: -20px;
 
-      > div {
+      >div {
         background-color: none !important;
         border-radius: 10px !important;
         height: fit-content !important;

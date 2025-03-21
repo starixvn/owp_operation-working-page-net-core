@@ -31,7 +31,6 @@ const OpenTicketListHandler = props => {
 
   const [isOpenTicketList, setIsOpenTicketList] = useState(false);
   const iconClass = color[`${IsRead}`];
-
   useEffect(() => {
     isOpenTicketList && onShowTicketList && onShowTicketList(isOpenTicketList);
     // eslint-disable-next-line no-warning-comments
@@ -40,11 +39,14 @@ const OpenTicketListHandler = props => {
 
   return (
     <>
-      <MessageTextOutlineIcon
-        className={iconClass}
-        onClick={() => setIsOpenTicketList(true)}
-        color={iconClass}
-      />
+      <div className='icon-container'>
+        {!IsRead && <div className='notification-dot'></div>}
+        <MessageTextOutlineIcon
+          className={iconClass}
+          onClick={() => setIsOpenTicketList(true)}
+          color={iconClass}
+        />
+      </div>
       {isOpenTicketList && (
         <TicketList
           dataSources={dataSources}

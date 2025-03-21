@@ -12,23 +12,22 @@ const TicketDetailHeader = ({
   isSmallBoard,
   backToSmallTicket
 }) => {
-
-  const backIcon=isSmallBoard
-    ? <span
-    className='back__icon'
-    style={{marginRight: '5px',
-      color: 'gray'
-    }}
+  const backIcon = isSmallBoard ? (
+    <span
+      className='back__icon'
+      style={{ marginRight: '5px', color: 'gray' }}
       onClick={backToSmallTicket}>
-    <ArrowBackIcon fontSize='large'></ArrowBackIcon>
-  </span>
-  : undefined;
+      <ArrowBackIcon fontSize='large'></ArrowBackIcon>
+    </span>
+  ) : undefined;
 
   if (subject) {
-    return <div>
-      {backIcon}
-      <h3 className='text-bold h3'>#{`${ticketId} - ${subject}`}</h3>
-      </div>;
+    return (
+      <div>
+        {backIcon}
+        <h3 className='text-bold h3'>#{`${ticketId} - ${subject}`}</h3>
+      </div>
+    );
   }
 
   if (homeName) {
@@ -41,7 +40,7 @@ const TicketDetailHeader = ({
           <h3 className='text-bold'>#{`${ticketId} - ${eventName}`}</h3>
         </div>
         <div className='event-title'>
-          <span className='text-bold h3'>
+          <span className='event-name text-bold h3'>
             {' '}
             {homeName} -vs- {awayName}
           </span>
@@ -55,10 +54,12 @@ const TicketDetailHeader = ({
   }
 
   if (eventName) {
-    return <div>
-    {backIcon}
-    <h3 className='text-bold'>#{`${ticketId} - ${eventName}`}</h3>
-    </div>;
+    return (
+      <div>
+        {backIcon}
+        <h3 className='text-bold'>#{`${ticketId} - ${eventName}`}</h3>
+      </div>
+    );
   }
 
   return (
