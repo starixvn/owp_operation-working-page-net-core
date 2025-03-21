@@ -12,7 +12,9 @@ const TicketListPopupCommon = (props: TPopup) => {
     ticketList,
     handleOpenCreateTicket,
     handleOpenMessage,
-    onCloseTicketList
+    onCloseTicketList,
+    allowQuickAdd,
+    handleQuickAddTicket
   } = props;
 
   const wrapperDivRef = useRef<HTMLDivElement>(null);
@@ -43,8 +45,18 @@ const TicketListPopupCommon = (props: TPopup) => {
             onClick={() => {
               handleOpenCreateTicket();
             }}>
-            Add Ticket
+            New ticket
           </button>
+          {allowQuickAdd && (
+            <button
+              className='button-submit'
+              onClick={() => {
+                onCloseTicketList();
+                handleQuickAddTicket();
+              }}>
+              Match Group Ticket
+            </button>
+          )}
         </div>
       )}
       <table className='ticket-list-table'>

@@ -5,18 +5,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   closePopup,
   getModelByRowIndex,
-  getTicketDetail
+  getTicketDetail,
+  getTicketSubTypes
 } from '../../chatBoardNew/chatBoardSlice';
 import {
   closeCreatePopup,
   openPopupCreateTicketInLGA
 } from '../../createTicketNew/createTicketBoardSliceNew';
 import {
+  QUICK_ADD_SUBTYPE,
   RECIPIENT_TYPE,
   urlRequestLiveIncident
 } from '../../createTicketNew/const/const';
 import Service from '../../createTicketNew/Service';
-import { formatRecipientModel } from '../../createTicketNew/Helper/HelperCreateTicket';
+import { getSubTypeByType } from '../../createTicketNew/Helper/HelperCreateTicket';
 import usePermission from '../../customHook/usePermission';
 import { FunctionKeys } from '../../Constants';
 import { TICKET_TYPE } from '../../TicketCenterPrematch/const/const.json';
@@ -79,6 +81,10 @@ const TicketCellCommon = props => {
       dataSource[rowIndex];
 
     const recipients = await Service.queryAssigneesByParentMatchId(OWPMatchId);
+    const subTypesByLiveIncidentType = await getSubTypeByType(LIVE_INCIDENT);
+    const subTypeMatchGroupChat = subTypesByLiveIncidentType.find(
+      x => x.subTypeName === QUICK_ADD_SUBTYPE.MATCH_GROUP_CHAT
+    );
 
     const newAddModel = {
       OwpMatchId: OWPMatchId,
@@ -96,13 +102,13 @@ const TicketCellCommon = props => {
       Message: 'Please add',
       TicketType: LIVE_INCIDENT,
       TicketTypeName: 'Live Incident',
-      SubType: 0,
-      SubTypeName: '',
+      SubType: subTypeMatchGroupChat.subTypeId,
+      SubTypeName: subTypeMatchGroupChat.subTypeName,
       Files: [],
       IsQuickAdd: true,
       url: urlRequestLiveIncident
     };
-    debugger;
+
     const { data } = await post(newAddModel);
 
     const requestDetailModel = {
@@ -114,6 +120,7 @@ const TicketCellCommon = props => {
       eventType: EVENT_TYPE.LIVE_INCIDENT
     };
 
+    stableDispatch(getTicketSubTypes(LIVE_INCIDENT));
     stableDispatch(
       getTicketDetail({
         ...requestDetailModel,
@@ -129,6 +136,8 @@ const TicketCellCommon = props => {
       onShowTicketList={onShowTicketList}
       updateDataSources={updateDataSources}
       handleOpenCreateTicket={handleOpenCreateTicket}
+      allowQuickAdd={allowQuickAdd}
+      handleQuickAddTicket={handleQuickAddTicket}
     />
   );
 

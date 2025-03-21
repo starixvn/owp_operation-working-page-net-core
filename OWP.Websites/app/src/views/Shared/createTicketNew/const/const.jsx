@@ -28,6 +28,9 @@ const RECIPIENT_TYPE = {
   SECTION: 3,
   ASSIGNEE: 4
 };
+const QUICK_ADD_SUBTYPE = {
+  MATCH_GROUP_CHAT: 'PU01 Match Group Chat'
+};
 
 const providerCheckingSubTypeId = 1000;
 
@@ -80,6 +83,7 @@ export {
   RECIPIENT_TYPE,
   urlGetAssigneesLGA,
   BUTTON_TYPE,
+  QUICK_ADD_SUBTYPE,
   providerCheckingSubTypeId,
   recipientAssigneeDefault
 };

@@ -9,8 +9,10 @@ type TticketList = {
 
 type TPopup = {
   HasWrite: boolean;
+  allowQuickAdd: boolean;
   ticketList: Array<TticketList> | null;
   handleOpenCreateTicket: () => void;
+  handleQuickAddTicket: () => void;
   handleOpenMessage(
     event: React.ChangeEvent<HTMLTableRowElement>,
     T: TticketList

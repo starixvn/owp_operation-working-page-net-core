@@ -12,7 +12,9 @@ const propTypes = {
   index: PropTypes.number,
   onShowTicketList: PropTypes.func,
   updateDataSources: PropTypes.func,
-  handleOpenCreateTicket: PropTypes.func
+  handleOpenCreateTicket: PropTypes.func,
+  allowQuickAdd: PropTypes.bool,
+  handleQuickAddTicket: PropTypes.func
 };
 
 const OpenTicketListHandler = props => {
@@ -21,7 +23,9 @@ const OpenTicketListHandler = props => {
     index,
     onShowTicketList,
     updateDataSources,
-    handleOpenCreateTicket
+    handleOpenCreateTicket,
+    allowQuickAdd,
+    handleQuickAddTicket
   } = props;
   const { IsRead } = dataSources[index];
 
@@ -48,6 +52,8 @@ const OpenTicketListHandler = props => {
           updateDataSources={updateDataSources}
           onCloseTicketList={() => setIsOpenTicketList(false)}
           handleOpenCreateTicket={handleOpenCreateTicket}
+          allowQuickAdd={allowQuickAdd}
+          handleQuickAddTicket={handleQuickAddTicket}
         />
       )}
     </>
