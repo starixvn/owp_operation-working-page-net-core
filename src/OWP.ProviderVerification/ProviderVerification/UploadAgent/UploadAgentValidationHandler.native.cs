@@ -31,7 +31,7 @@ public class UploadAgentValidationHandler(ICache cache, IDynamicRepository dynam
         {
             var model = new ExcelProviderModel()
             {
-                Row = START_ROW_CONTENT
+                Row = row
             };
             foreach (var header in headers)
             {
@@ -44,19 +44,20 @@ public class UploadAgentValidationHandler(ICache cache, IDynamicRepository dynam
                 var convertedValue = Convert.ChangeType(cellValue, property.PropertyType);
                 property.SetValue(model, convertedValue);
             }
+
             analyzer.Add(model);
-            var validationResult = analyzer.Validate();
-            if (validationResult.IsSuccess)
-            { 
-                await SaveAgentUploadInfo(request.SessionId, analyzer);
-                await LogDetailedPayload(DateTime.Now.ToGmt8(), "UploadAgentFile",  JsonConvert.SerializeObject(analyzer));
-            }
-            else
-            {
-                return ResultT<AnalyzedResult>.Failure(validationResult.Errors);
-            }
         }
 
+        var validationResult = analyzer.Validate();
+        if (validationResult.IsSuccess)
+        {
+            await SaveAgentUploadInfo(request.SessionId, analyzer);
+            await LogDetailedPayload(DateTime.Now.ToGmt8(), "UploadAgentFile", JsonConvert.SerializeObject(analyzer));
+        }
+        else
+        {
+            return ResultT<AnalyzedResult>.Failure(validationResult.Errors);
+        }
         return ResultT<AnalyzedResult>.Success(new AnalyzedResult(request.SessionId, analyzer.Count));
     }
 

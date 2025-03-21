@@ -11,6 +11,11 @@ public class Analyzer:  List<ExcelProviderModel>
         var errors = new List<Error>();
         for (var index = 0; index < this.Count; index++)
         {
+            if (string.IsNullOrWhiteSpace(this[index].Provider) &&
+                string.IsNullOrWhiteSpace(this[index].ProviderMatchID))
+            {
+                continue;
+            }
             if (string.IsNullOrWhiteSpace(this[index].Provider))
             {
                 errors.Add(Error.Validation(ErrorCode.PROVIDER_IS_REQUIRED, "Provider is required", this[index].Row));

@@ -71,24 +71,21 @@ public class Result
 
 public sealed class ResultT<TValue> : Result
 {
-    private readonly TValue _value;
-
     private ResultT(
         TValue value
     )
     {
-        _value = value;
+        Value = value;
     }
 
     private ResultT(
         IList<Error> errors
     ) : base(errors)
     {
-        _value = default;
+        Value = default;
     }
 
-    public TValue Value =>
-        IsSuccess ? _value! : throw new InvalidOperationException("Value can not be accessed when IsSuccess is false");
+    public TValue Value { get; }
 
 
     public static ResultT<TValue> Success(TValue value) =>
