@@ -13,7 +13,6 @@ import {
 } from '../../createTicketNew/createTicketBoardSliceNew';
 import { urlRequestLiveIncident } from '../../createTicketNew/const/const';
 import Service from '../../createTicketNew/Service';
-import { TicketTypeRecipientEnum } from '../../enum/TicketRecipientEnum';
 import { formatRecipientModel } from '../../createTicketNew/Helper/HelperCreateTicket';
 import usePermission from '../../customHook/usePermission';
 import { FunctionKeys } from '../../Constants';
@@ -42,10 +41,6 @@ const TicketCellCommon = props => {
     onShowTicketList,
     updateDataSources
   } = props;
-
-  const { defaultRecipientsLGA } = useSelector(
-    state => state.createTicketBoard
-  );
 
   const hasWrite = useSelector(state => state.pagePolicy).permission.HasWrite;
   const pagePermissionModel = usePermission(
@@ -80,16 +75,8 @@ const TicketCellCommon = props => {
     const { OWPMatchId, League, Home, Away, EventDateTime } =
       dataSource[rowIndex];
     const model = { owpMatchId: OWPMatchId };
-    let recipientLGA = [];
-    if (OWPMatchId) {
-      recipientLGA = await Service.queryAssigneesByOwpMatchId(model);
-    }
-
-    const selected = defaultRecipientsLGA
-      .filter(x => x.recipientType !== TicketTypeRecipientEnum.Assignee)
-      .concat(recipientLGA);
-
-    const reformattedArray = formatRecipientModel(selected, creatorInfo);
+    const recipientLGA = await Service.queryAssigneesByOwpMatchId(model);
+    const reformattedArray = formatRecipientModel(recipientLGA, creatorInfo);
     const newAddModel = {
       OwpMatchId: OWPMatchId,
       OwpLeagueName: League,
@@ -98,12 +85,13 @@ const TicketCellCommon = props => {
       EventDateTimeGmt8: EventDateTime,
       CreatorId: creatorInfo.recipientId,
       Recipients: reformattedArray,
-      Message: 'frank',
+      Message: 'Please add',
       TicketType: LIVE_INCIDENT,
       TicketTypeName: 'Live Incident',
       SubType: 0,
       SubTypeName: '',
       Files: [],
+      IsQuickAdd: true,
       url: urlRequestLiveIncident
     };
 
@@ -118,7 +106,7 @@ const TicketCellCommon = props => {
       eventType: EVENT_TYPE.LIVE_INCIDENT
     };
 
-    const actionResult = await stableDispatch(
+    stableDispatch(
       getTicketDetail({
         ...requestDetailModel,
         isQueryMessageInLastTwoDay: true
