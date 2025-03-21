@@ -6,18 +6,18 @@ import { saveConfirmProvider } from '../tableThunk';
 
 const ConfirmProviderCell = ({
   confirmProvider,
-  owpMatchId
+  owpMatchId,
+  canEditDate
 }: {
   confirmProvider: Option[];
   owpMatchId: number;
+  canEditDate: boolean;
 }) => {
-  const confirmProviderOption = useAppSelector(
-    store => store.events.confirmProviderOption
-  );
+  const { confirmProviderOption, hasWrite } = useAppSelector(store => ({
+    confirmProviderOption: store.events.confirmProviderOption,
+    hasWrite: store.providerPolicy.permission.HasWrite,
+  }));
 
-  const hasWrite = useAppSelector(
-    store => store.providerPolicy.permission.HasWrite
-  );
   const dispatch = useAppDispatch();
 
   const handleOnChange = (event: Option[]) => {
@@ -39,7 +39,7 @@ const ConfirmProviderCell = ({
     <td>
       <span className='confirm-provider'>
         <MultiSelect
-          onChange={handleOnChange}
+          onChange={canEditDate ? handleOnChange : () => { }}
           value={confirmProvider}
           options={confirmProviderOption}
           ClearSelectedIcon={null}

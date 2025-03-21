@@ -7,7 +7,8 @@ import { useAppDispatch } from "../../../app/hookNative";
 import { saveRemark, saveRemarkBy } from "../tableThunk";
 import { UncontrolledTooltip } from "reactstrap";
 
-const NotePopover = ({ className, hasWrite, OWPMatchId, value, index, isRemark }: TRemarkPopover) => {
+
+const NotePopover = ({ className, hasWrite, OWPMatchId, value, index, isRemark, canEditDate }: TRemarkPopover) => {
   const popupRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -62,7 +63,11 @@ const NotePopover = ({ className, hasWrite, OWPMatchId, value, index, isRemark }
       <div className={`note-cell${note ? " has-note" : ""}`}>
         {note ? (
           <>
-            <span className="icon-comment" onClick={handleOpen} id={`note-${index}`}>
+            <span
+              className="icon-comment"
+              {...(canEditDate ? { onClick: handleOpen } : {})}
+              id={`note-${index}`}
+            >
               <CommentIcon size={14} />
             </span>
             <UncontrolledTooltip target={cellId} placement="top">
@@ -70,9 +75,11 @@ const NotePopover = ({ className, hasWrite, OWPMatchId, value, index, isRemark }
             </UncontrolledTooltip>
           </>
         ) : (
-          <span className="icon-edit" onClick={handleOpen}>
-            <EditIcon size={14} />
-          </span>
+          canEditDate && (
+            <span className="icon-edit" onClick={handleOpen}>
+              <EditIcon size={14} />
+            </span>
+          )
         )}
 
         {isOpen && hasWrite && (

@@ -51,6 +51,7 @@ type TRemarkCell = {
   value: string | null | undefined;
   index: number;
   isRemark: boolean;
+  canEditDate: boolean;
 };
 
 type TRemarkPopover = {
@@ -60,6 +61,7 @@ type TRemarkPopover = {
   value: string | null | undefined;
   index: number;
   isRemark: boolean;
+  canEditDate: boolean;
 };
 
 type TTicketCell = {

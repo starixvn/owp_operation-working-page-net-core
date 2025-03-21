@@ -7,7 +7,8 @@ const NoteCell = ({
   OWPMatchId,
   value,
   index,
-  isRemark
+  isRemark, 
+  canEditDate
 }: TRemarkCell) => {
   const { HasWrite } = useAppSelector(state => state.providerPolicy.permission);
 
@@ -19,6 +20,7 @@ const NoteCell = ({
       OWPMatchId={OWPMatchId}
       index={index}
       isRemark={isRemark}
+      canEditDate={canEditDate}
     />
   );
 };

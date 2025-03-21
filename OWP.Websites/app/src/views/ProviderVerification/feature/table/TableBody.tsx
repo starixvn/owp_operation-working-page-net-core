@@ -5,8 +5,14 @@ import ConfirmProviderCell from './cell/ConfirmProviderCell';
 import { TDataSource } from '../../type/table';
 import MatchCell from './cell/MatchCell';
 import NoteCell from './cell/NoteCell';
+import { useAppSelector } from "../../app/hookNative";
 
 const TableBody = ({ dataSource }: { dataSource: TDataSource[]; }) => {
+
+  const eventDate = useAppSelector(store => store.filterState.filter.eventDate);
+  const minDateEdit = new Date();
+  minDateEdit.setDate(minDateEdit.getDate() - 14);
+  const canEditDate = eventDate >= minDateEdit;
 
   return (
     <tbody>
@@ -62,6 +68,7 @@ const TableBody = ({ dataSource }: { dataSource: TDataSource[]; }) => {
               label: a.label
             }))}
             owpMatchId={event.owpMatchId}
+            canEditDate={canEditDate}
           />
 
           <NoteCell
@@ -70,6 +77,7 @@ const TableBody = ({ dataSource }: { dataSource: TDataSource[]; }) => {
             value={event.remark}
             index={index}
             isRemark={true}
+            canEditDate={canEditDate}
           />
 
           <NoteCell
@@ -78,6 +86,7 @@ const TableBody = ({ dataSource }: { dataSource: TDataSource[]; }) => {
             value={event.remarkBy}
             index={index}
             isRemark={false}
+            canEditDate={canEditDate}
           />
 
           <td>

@@ -5,8 +5,16 @@ import ConfirmProviderCell from './cell/ConfirmProviderCell';
 import { TDataSource } from '../../type/table';
 import MatchCell from './cell/MatchCell';
 import NoteCell from '../../../ProviderVerification/feature/table/cell/NoteCell';
+import { useAppSelector } from "../../app/hooks";
 
 const TableBody = ({ dataSource }: { dataSource: TDataSource[]; }) => {
+  const eventDate = new Date(
+    useAppSelector(store => store.upload.eventDate)
+  );
+  const minDateEdit = new Date();
+  minDateEdit.setDate(minDateEdit.getDate() - 14);
+  const canEditDate = eventDate >= minDateEdit;
+
   return (
     <tbody>
       {dataSource.map((event, index) => (
@@ -77,6 +85,7 @@ const TableBody = ({ dataSource }: { dataSource: TDataSource[]; }) => {
                   label: label
                 })) ?? []}
                 owpMatchId={event.owpMatchId}
+                canEditDate={canEditDate}
               />
 
               <NoteCell
@@ -85,6 +94,7 @@ const TableBody = ({ dataSource }: { dataSource: TDataSource[]; }) => {
                 value={event.remark}
                 index={index}
                 isRemark={true}
+                canEditDate={canEditDate}
               />
 
               <NoteCell
@@ -93,6 +103,7 @@ const TableBody = ({ dataSource }: { dataSource: TDataSource[]; }) => {
                 value={event.remarkBy}
                 index={index}
                 isRemark={false}
+                canEditDate={canEditDate}
               />
 
               <td>
