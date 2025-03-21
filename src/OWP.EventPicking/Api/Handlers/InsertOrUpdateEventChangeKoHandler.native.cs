@@ -55,7 +55,7 @@ public class InsertOrUpdateEventChangeKoHandler(
                     FromService = "APIGetEventChangeGameDate"
                 }
             };
-        await WriteLogForMonitor($"Ignore build log because only adjustment time from {formattedOldDate} to {newEventDateGmt8}", "ChangeKODate");
+        await WriteLogForMonitor($"{request.InfositeId} ignore build log because only adjustment time from {formattedOldDate} to {newEventDateGmt8}", "ChangeKODate");
         return new List<LoggedChangeModel>();
 
 
