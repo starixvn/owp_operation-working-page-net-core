@@ -173,13 +173,13 @@ const TicketCellCommon = props => {
   );
 
   return (
-    <>
+    <div className='ticket-cell'>
       {dataSource[rowIndex].HasTicket
         ? renderOpenTicketListHandler()
         : allowQuickAdd && hasWrite
         ? renderQuickAddTicketHandler()
         : renderCreateTicketHandler()}
-    </>
+    </div>
   );
 };
 

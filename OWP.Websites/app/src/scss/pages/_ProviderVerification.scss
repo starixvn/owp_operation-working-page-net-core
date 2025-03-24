@@ -147,18 +147,6 @@
   }
 }
 
-.notification-dot {
-  height: 6px;
-  width: 6px;
-  background-color: red;
-  border-radius: 50%;
-  display: inline-block;
-  position: absolute;
-  top: 1px;
-  right: 18px;
-  z-index: 99;
-}
-
 // form create ticket
 .header-popup {
   h1 {
@@ -520,7 +508,7 @@
     position: absolute;
     padding: 10px 0;
     right: 0;
-    width: 450px;
+    width: 550px;
     top: 10px;
     border-color: transparent;
     background: #fff;
@@ -538,11 +526,6 @@
   .ticket-list-table {
     width: 100%;
     color: #444444;
-
-    .notification-dot {
-      top: 8px;
-      right: 5px;
-    }
 
     tr {
       &:first-child {

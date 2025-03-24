@@ -921,18 +921,6 @@
   width: 80px;
 }
 
-.notification-dot {
-  height: 6px;
-  width: 6px;
-  background-color: red;
-  border-radius: 50%;
-  display: inline-block;
-  position: absolute;
-  top: 1px;
-  right: 18px;
-  z-index: 99;
-}
-
 // fix scroll bar table
 .ScrollbarLayout_main.public_Scrollbar_main {
   z-index: 1 !important;

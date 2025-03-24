@@ -824,7 +824,7 @@
   position: absolute;
   padding: 10px 0;
   left: 45px;
-  width: 450px;
+  width: 550px;
   top: 10px;
   border-color: transparent;
   background: #fff;
@@ -842,11 +842,6 @@
 .ticket-list-table {
   width: 100%;
   color: #444444;
-
-  .notification-dot {
-    top: 8px;
-    right: 5px;
-  }
 
   tr {
     &:first-child {
@@ -903,18 +898,6 @@
   .time {
     color: #828282;
   }
-}
-
-.notification-dot {
-  height: 6px;
-  width: 6px;
-  background-color: red;
-  border-radius: 50%;
-  display: inline-block;
-  position: absolute;
-  top: 1px;
-  right: 18px;
-  z-index: 99;
 }
 
 //remark-cell

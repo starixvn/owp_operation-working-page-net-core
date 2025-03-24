@@ -520,6 +520,11 @@
   }
 }
 
+.icon-container {
+  position: relative;
+  display: inline-block;
+}
+
 .notification-dot {
   height: 6px;
   width: 6px;
@@ -527,8 +532,8 @@
   border-radius: 50%;
   display: inline-block;
   position: absolute;
-  top: 1px;
-  right: 18px;
+  top: 7px;
+  right: 0;
   z-index: 99;
 }
 

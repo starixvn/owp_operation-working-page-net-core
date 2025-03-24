@@ -1158,7 +1158,7 @@ input::-ms-input-placeholder {
   position: absolute;
   padding: 10px 0;
   left: 50px;
-  width: 450px;
+  width: 550px;
   top: 10px;
   border-color: transparent;
   background: #fff;
@@ -1173,26 +1173,9 @@ input::-ms-input-placeholder {
   }
 }
 
-.notification-dot {
-  height: 6px;
-  width: 6px;
-  background-color: red;
-  border-radius: 50%;
-  display: inline-block;
-  position: absolute;
-  top: 1px;
-  right: 18px;
-  z-index: 99;
-}
-
 .ticket-list-table {
   width: 100%;
   color: #444444;
-
-  .notification-dot {
-    top: 8px;
-    right: 5px;
-  }
 
   tr {
     &:first-child {
