@@ -134,14 +134,16 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
         => await dynamicRepository.ExecuteAsync(new SaveRemarkCriteria
         {
             Remark = remark,
-            OwpMatchId = owpMatchId
+            OwpMatchId = owpMatchId,
+            ActorId = session.UserId
         });
 
     public async Task SaveRemarkBy(int owpMatchId, string remarkBy)
         => await dynamicRepository.ExecuteAsync(new SaveRemarkByCriteria
         {
             RemarkBy = remarkBy,
-            OwpMatchId = owpMatchId
+            OwpMatchId = owpMatchId,
+            ActorId = session.UserId
         });
 
     public async Task UpdateIsMismatch( string owpMatchIds, DateTime date)

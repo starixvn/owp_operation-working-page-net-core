@@ -6,6 +6,8 @@ public class SaveRemarkCriteria : NonQueryCommand
 
     public string Remark { get; set; }
 
+    public int ActorId { get; set; }
+
     public override string GetSettingKey() => "OWP_ProviderVerification_SaveRemark";
 
     public override bool IsValid() => true;
