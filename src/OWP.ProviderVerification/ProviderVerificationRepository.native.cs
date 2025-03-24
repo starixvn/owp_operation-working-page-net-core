@@ -150,6 +150,7 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
         => await dynamicRepository.ExecuteAsync(new UpdateIsMismatchCriteria()
         {
             EventDate = date,
-            OwpMatchIds = owpMatchIds
+            OwpMatchIds = owpMatchIds,
+            ActorId = session.UserId
         });
 }
