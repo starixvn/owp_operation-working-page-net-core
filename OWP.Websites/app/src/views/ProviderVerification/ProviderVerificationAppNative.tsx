@@ -14,9 +14,8 @@ import TicketDetailBoard from '../Shared/chatBoardNew/TicketDetailBoard';
 const ProviderVerificationAppNative = () => {
   const dispatch = useAppDispatch();
 
-  const { loadingConfirmProviderOption, loadingLSTBookProviderOption, eventDate } = useAppSelector(state => ({
+  const { loadingConfirmProviderOption, eventDate } = useAppSelector(state => ({
     loadingConfirmProviderOption: state.common.confirmProvider.loadingConfirmProviderOption,
-    loadingLSTBookProviderOption: state.common.LSTBookProvider.loadingLSTBookProviderOption,
     eventDate: state.filterState.filter.eventDate
   }));
 
