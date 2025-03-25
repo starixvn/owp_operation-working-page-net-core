@@ -24,8 +24,8 @@ public class InsertOrUpdateEventChangeKoHandler(
 
     public async Task<IList<LoggedChangeModel>> CreateLogsChangeModels(InsertOrUpdateEventChangeKoRequest request)
     {
-        var oldEventDateGmt8 = request.NewEventDate.AddHours(DefaultGmt8);
-        var newEventDateGmt8 = request.OldEventDate.AddHours(DefaultGmt8);
+        var oldEventDateGmt8 = request.OldEventDate.AddHours(DefaultGmt8);
+        var newEventDateGmt8 = request.NewEventDate.AddHours(DefaultGmt8);
 
         var formattedOldDate = oldEventDateGmt8.ToString("MM/dd/yyyy HH:mm:ss");
         var formattedNewDate = newEventDateGmt8.ToString("MM/dd/yyyy HH:mm:ss");
