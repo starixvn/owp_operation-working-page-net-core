@@ -35,9 +35,10 @@ const SearchableCellBody = props => {
         setIsOpening(false);
       }
     };
-    document.addEventListener('click', handelClickOutside);
+    const abort = new AbortController();
+    document.addEventListener('click', handelClickOutside, abort);
     return () => {
-      document.removeEventListener('click', handelClickOutside);
+      abort.abort();
     };
   }, [refIcon, setIsOpening]);
 

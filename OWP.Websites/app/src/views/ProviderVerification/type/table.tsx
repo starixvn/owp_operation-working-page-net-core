@@ -1,45 +1,40 @@
 import { Option } from '../../Shared/MultipleSelection/type';
 
-type TEditableKey = 'EstNote';
-type TAgentConfirm = {
-  Value: number | string | null;
-  Label: string;
-  Key?: string;
-  Disabled?: boolean;
+type TConfirmProvider = {
+  value: number | string | null;
+  label: string;
+  key?: string;
+  disabled?: boolean;
 };
 
-type TMaxbetSetting = {
-  [key in 'HandicapSetting' | 'OverUnderSetting']: {
-    MaxBet: number | undefined;
-    MaxBetToDisplay: string | undefined;
-    Spread: number | undefined;
-    SpreadToDisplay: string | undefined;
+type ValidationResponse = {
+  isSuccess: boolean;
+  value: {
+    providerVerification: TDataSource;
+    sessionId: string;
   };
 };
 
 type TDataSource = {
-  Provider?: string | null;
-  OtherProvider?: string | null;
-  RemarkEst?: string | null;
-  RemarkBy?: string | null;
-  OWPMatchId: number;
-  ParentMatchId: number;
-  MatchNo: string;
-  MatchStatus: string;
-  EventDateTime: string;
-  League: string;
-  Home: string;
-  Away: string;
-  AgentEst: string;
-  AgentConfirm: TAgentConfirm[];
-  RowColor: string | undefined;
-} & {
-    [key in TEditableKey]: string | undefined;
-  } & TTicketCell & TMaxbetSetting;
+  lstBookProvider?: string | null;
+  inHouseProviderId?: string | null;
+  remark?: string | null;
+  remarkBy?: string | null;
+  owpMatchId: number;
+  parentMatchId: number;
+  matchNo: string;
+  matchStatus: string;
+  eventDateTime: string;
+  league: string;
+  home: string;
+  away: string;
+  agentConfirm: TConfirmProvider[];
+  rowColor: string | undefined;
+} & TTicketCell;
 
 type TCommonCell = {
   className?: string;
-  value: string | null;
+  value: string | null | undefined;
   index: number;
   isCanToolTip: boolean;
 };
@@ -48,27 +43,32 @@ type TMatchCell = {
   className: string;
   home: string;
   away: string;
-}
+};
 
-type TEditableCell = {
-  owpMatchId: number;
-  columnKey: string;
-  rowIndex: number;
+type TRemarkCell = {
   className?: string;
-  value: string | undefined;
+  OWPMatchId: number;
+  value: string | null | undefined;
+  index: number;
+  isRemark: boolean;
+  canEditDate: boolean;
+};
+
+type TRemarkPopover = {
+  className?: string;
+  hasWrite: boolean;
+  OWPMatchId: number;
+  value: string | null | undefined;
+  index: number;
+  isRemark: boolean;
+  canEditDate: boolean;
 };
 
 type TTicketCell = {
-  [key in 'HasTicket' | 'IsRead']: boolean;
-} & { rowIndex: number; dataSource: TDataSource[] };
+  [key in 'hasTicket' | 'isRead']: boolean;
+} & { rowIndex: number; dataSource: TDataSource[]; };
 
-type TUpdateRow = {
-  owpMatchId: Required<number>;
-  key: TEditableKey;
-  value: string | undefined;
-};
-
-type TUpdateAgentConfirm = { value: TAgentConfirm[] } & { owpMatchId: number };
+type TUpdateConfirmProvider = { value: TConfirmProvider[]; } & { owpMatchId: number; };
 
 type TColumnKey =
   | 'MatchNo'
@@ -76,14 +76,11 @@ type TColumnKey =
   | 'KoTime'
   | 'League'
   | 'Match'
-  | 'Provider'
-  | 'AgentEst'
-  | 'Mb'
-  | 'RemarkEst'
-  | 'RemarkBy'
-  | 'AgentConfirm'
-  | 'EstNote'
-  | 'OtherProvider';
+  | 'LstBookProvider'
+  | 'InHouseProviderId'
+  | 'ConfirmProvider'
+  | 'Remark'
+  | 'RemarkBy';
 
 type TMultipleColumnFilterOption = {
   [key in TColumnKey]: Option[];
@@ -96,18 +93,23 @@ type TMultipleFilter = {
   };
 };
 
+type TRemark = {
+  Remark: string;
+  owpMatchId: number;
+};
+
 export {
   TDataSource,
   TCommonCell,
   TTicketCell,
-  TEditableCell,
-  TEditableKey,
-  TUpdateRow,
-  TMaxbetSetting,
-  TAgentConfirm,
-  TUpdateAgentConfirm,
+  TRemarkCell,
+  TConfirmProvider,
+  TUpdateConfirmProvider,
   TMultipleColumnFilterOption,
   TMultipleFilter,
   TColumnKey,
-  TMatchCell
+  TMatchCell,
+  TRemark,
+  TRemarkPopover,
+  ValidationResponse
 };

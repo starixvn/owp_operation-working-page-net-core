@@ -8,7 +8,7 @@ import {
 import { TDataSource } from '../../type/table';
 
 const summarize = (data: TDataSource[], agentOption: Option[]) => {
-  const agents = data.map(x => x.AgentConfirm.map(agent => agent.Label)).flat();
+  const agents = data.map(x => x.agentConfirm.map(agent => agent.label)).flat();
   const agentLabels = agentOption.map(x => x.label);
   const agentCounts = agentLabels.map(agentName => {
     const count = agents.filter(agent => agent === agentName).length;
@@ -39,7 +39,7 @@ const compareDifferent = (agentRawData: string, dataSource: TDataSource[]) => {
 const groupAndCountDataSource = (dataSource: TDataSource[]) => {
   const dataSourceCounts: { [key: string]: number } = {};
   dataSource.forEach(row => {
-    const formattedTime = formatTime(row.EventDateTime, 'minute', 'hh:mm A');
+    const formattedTime = formatTime(row.eventDateTime, 'minute', 'hh:mm A');
     if (formattedTime !== null) {
       dataSourceCounts[formattedTime] =
         (dataSourceCounts[formattedTime] || 0) + 1;

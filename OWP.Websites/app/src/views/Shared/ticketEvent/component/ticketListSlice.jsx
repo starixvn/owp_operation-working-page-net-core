@@ -4,7 +4,8 @@ import { basePath } from '../helper/ticketHelper';
 import { URL } from '../ticket.json';
 
 const getTicketList = createAsyncThunk('get-ticket-list', async model => {
-  const response = await axios.get(`${basePath}${URL.GET_TICKET_LIST}`, {
+  const API_BASE_URL = `${window.location.origin}${basePath}${URL.GET_TICKET_LIST}`;
+  const response = await axios.get(API_BASE_URL, {
     params: model
   });
 
@@ -22,14 +23,15 @@ const ticketListSlice = createSlice({
       state.ticketList = action.payload;
     }
   },
-  extraReducers: builder=>{
-    builder.addCase(getTicketList.pending,state => {
-      state.loading = true;
-    })
-    .addCase(getTicketList.fulfilled, (state, action) => {
-      state.ticketList = action.payload;
-      state.loading = false;
-    });
+  extraReducers: builder => {
+    builder
+      .addCase(getTicketList.pending, state => {
+        state.loading = true;
+      })
+      .addCase(getTicketList.fulfilled, (state, action) => {
+        state.ticketList = action.payload;
+        state.loading = false;
+      });
   }
 });
 

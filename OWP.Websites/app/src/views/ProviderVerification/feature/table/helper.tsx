@@ -1,23 +1,9 @@
 import { formatTime } from "../../../Shared/DateTime/dateTimeHelper";
 import { Option } from "../../../Shared/MultipleSelection/type";
-import { TDataSource, TMaxbetSetting, TMultipleFilter } from "../../type/table";
+import { TDataSource, TMultipleFilter } from "../../type/table";
 import helper from "./calculateFilterOption";
 
-const buildMaxbetItemInOption = (maxbetSetting: TMaxbetSetting) => {
-  const { HandicapSetting, OverUnderSetting } = maxbetSetting;
-  if (!HandicapSetting && !OverUnderSetting) {
-    return '(Blanks)';
-  }
-  const isDisplayHDPSetting =
-    HandicapSetting?.SpreadToDisplay ?? OverUnderSetting?.SpreadToDisplay;
-  const isHDPSpreadExisting = HandicapSetting?.SpreadToDisplay;
-  return `${HandicapSetting?.MaxBetToDisplay}${isDisplayHDPSetting ? '(' + HandicapSetting?.SpreadToDisplay : ''}
-${OverUnderSetting?.SpreadToDisplay ? (isHDPSpreadExisting ? '-' : '') + OverUnderSetting.SpreadToDisplay
-      : ''}
-  ${isDisplayHDPSetting ? ')' : ''}`;
-};
-
-const buildDefaultTableFilter = (dataSource: TDataSource[], agentConfirmOption: Option[], tableFilter: TMultipleFilter) => {
+const buildDefaultTableFilter = (dataSource: TDataSource[], confirmProviderOption: Option[], tableFilter: TMultipleFilter) => {
   tableFilter.MatchNo = {
     selected: helper.MatchNo(dataSource),
     isFilter: false
@@ -38,36 +24,24 @@ const buildDefaultTableFilter = (dataSource: TDataSource[], agentConfirmOption: 
     selected: helper.Match(dataSource),
     isFilter: false
   };
-  tableFilter.Provider = {
-    selected: helper.Provider(dataSource),
+  tableFilter.LstBookProvider = {
+    selected: helper.LstBookProvider(dataSource),
     isFilter: false
   };
-  tableFilter.OtherProvider = {
-    selected: helper.OtherProvider(dataSource),
+  tableFilter.InHouseProviderId = {
+    selected: helper.InHouseProviderId(dataSource),
     isFilter: false
   };
-  tableFilter.AgentEst = {
-    selected: helper.AgentEst(dataSource),
-    isFilter: false
-  };
-  tableFilter.Mb = {
-    selected: helper.Mb(dataSource),
-    isFilter: false
-  };
-  tableFilter.RemarkEst = {
-    selected: helper.RemarkEst(dataSource),
+  tableFilter.Remark = {
+    selected: helper.Remark(dataSource),
     isFilter: false
   };
   tableFilter.RemarkBy = {
     selected: helper.RemarkBy(dataSource),
     isFilter: false
   };
-  tableFilter.AgentConfirm = {
-    selected: [...agentConfirmOption, { value: -1, label: '(Blanks)' }],
-    isFilter: false
-  };
-  tableFilter.EstNote = {
-    selected: helper.EstNote(dataSource),
+  tableFilter.ConfirmProvider = {
+    selected: [...confirmProviderOption, { value: -1, label: '(Blanks)' }],
     isFilter: false
   };
 };
@@ -78,40 +52,34 @@ const executeFilterTable = (dataSource: TDataSource[], tableFilter: TMultipleFil
     KoTime,
     League,
     Match,
-    Provider,
-    OtherProvider,
-    AgentEst,
-    Mb,
-    RemarkEst,
-    RemarkBy,
-    EstNote
+    LstBookProvider,
+    InHouseProviderId,
+    Remark,
+    RemarkBy
   } = tableFilter;
-  const result = dataSource.filter(e => MatchNo.selected.some(m => m.label === buildLabelItemOption(e.MatchNo)) //NOSONAR
-    && MatchStatus.selected.some(m => m.label === buildLabelItemOption(e.MatchStatus))
-    && Match.selected.some(m => m.label === `${e.Home} -vs- ${e.Away}`)
-    && KoTime.selected.some(m => m.label === formatTime(e.EventDateTime, 'minute', 'hh:mm A'))
-    && League.selected.some(m => m.label === e.League)
-    && Provider.selected.some(m => m.label === buildLabelItemOption(e.Provider))
-    && OtherProvider.selected.some(m => m.label === buildLabelItemOption(e.OtherProvider))
-    && AgentEst.selected.some(m => m.label === buildLabelItemOption(e.AgentEst))
-    && Mb.selected.some(m => m.label === (buildMaxbetItemInOption({ HandicapSetting: e.HandicapSetting, OverUnderSetting: e.OverUnderSetting }) ?? '(Blanks)'))
-    && RemarkEst.selected.some(m => m.label === buildLabelItemOption(e.RemarkEst))
-    && RemarkBy.selected.some(m => m.label === buildLabelItemOption(e.RemarkBy))
-    && EstNote.selected.some(m => m.label === buildLabelItemOption(e.EstNote)));
+  const result = dataSource.filter(e => MatchNo.selected.some(m => m.label === buildLabelItemOption(e.matchNo)) //NOSONAR
+    && MatchStatus.selected.some(m => m.label === buildLabelItemOption(e.matchStatus))
+    && Match.selected.some(m => m.label === `${e.home} -vs- ${e.away}`)
+    && KoTime.selected.some(m => m.label === formatTime(e.eventDateTime, 'minute', 'hh:mm A'))
+    && League.selected.some(m => m.label === e.league)
+    && LstBookProvider.selected.some(m => m.label === buildLabelItemOption(e.lstBookProvider))
+    && InHouseProviderId.selected.some(m => m.label === buildLabelItemOption(e.inHouseProviderId))
+    && Remark.selected.some(m => m.label === buildLabelItemOption(e.remark))
+    && RemarkBy.selected.some(m => m.label === buildLabelItemOption(e.remarkBy)));
 
-  return filterByAgentConfirm(result, tableFilter);
+  return filterByConfirmProvider(result, tableFilter);
 };
 
-const filterByAgentConfirm = (dataSource: TDataSource[], tableFilter: TMultipleFilter) => {
+const filterByConfirmProvider = (dataSource: TDataSource[], tableFilter: TMultipleFilter) => {
   return dataSource.filter(e => {
-    const { AgentConfirm } = e;
-    const { selected } = tableFilter.AgentConfirm;
-    if (!AgentConfirm.length && selected.some(s => s.label === '(Blanks)')) {
+    const ConfirmProvider = e.agentConfirm;
+    const { selected } = tableFilter.ConfirmProvider;
+    if (!ConfirmProvider.length && selected.some(s => s.label === '(Blanks)')) {
       return true;
     }
-    return AgentConfirm.some(a =>
+    return ConfirmProvider.some(a =>
       selected.some(s =>
-        s.label === a.Label
+        s.label === a.label
       ));
   });
 };
@@ -119,4 +87,4 @@ const filterByAgentConfirm = (dataSource: TDataSource[], tableFilter: TMultipleF
 const buildLabelItemOption = (value: string | undefined | null) => value?.trim().length ? value : '(Blanks)';
 
 
-export { buildMaxbetItemInOption, buildDefaultTableFilter, executeFilterTable, buildLabelItemOption };
+export { buildDefaultTableFilter, executeFilterTable, buildLabelItemOption };

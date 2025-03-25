@@ -11,9 +11,10 @@ const useClickOutside = <T extends HTMLElement>(onClickOutside: () => void) => {
         onClickOutside();
       }
     };
-    document.addEventListener('mousedown', handleClickOutSide);
+    const abort = new AbortController();
+    document.addEventListener('mousedown', handleClickOutSide, abort);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutSide);
+      abort.abort();
     };
   }, [onClickOutside, filterRef]);
 

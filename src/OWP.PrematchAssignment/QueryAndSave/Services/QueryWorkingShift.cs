@@ -1,9 +1,9 @@
 ﻿using Fanex.Data.Repository;
 using Fanex.NAP.Client;
 using OWP.PrematchAssignment.Criteria;
-using OWP.PrematchAssignment.Models;
+using OWP.PrematchAssignment.QueryAndSave.Models;
 
-namespace OWP.PrematchAssignment.Services;
+namespace OWP.PrematchAssignment.QueryAndSave.Services;
 
 public interface QueryWorkingShift
 {

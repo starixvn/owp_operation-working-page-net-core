@@ -1,5 +1,5 @@
 ﻿using OWP.PrematchAssignment.Constants;
-using OWP.PrematchAssignment.Models;
+using OWP.PrematchAssignment.QueryAndSave.Models;
 
 namespace OWP.PrematchAssignment.AutoAssignment.Helper;
 

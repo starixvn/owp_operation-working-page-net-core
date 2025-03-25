@@ -1,24 +1,37 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { get, post } from '../../../Shared/Service/Service';
 import Utils from '../../../Shared/Utils';
-import { TOptionResponse } from '../../type/agentConfirmOption';
+import { TOptionResponse, TLSTBookOptionResponse } from '../../type/confirmProviderOption';
 
 const getUrl = (methodRoute: string) =>
   `/api/ProviderVerification/${methodRoute}`;
 
 const getEvents = createAsyncThunk(
   'provider-verification/get-event',
-  async (eventDate: Date) => {
+  async ({
+    eventDate,
+    onlyShowIsMismatchEvent,
+    confirmProvider,
+    lstBookProvider
+  }: {
+    eventDate: Date;
+    onlyShowIsMismatchEvent: boolean;
+    confirmProvider: string | null;
+    lstBookProvider: string | null;
+  }) => {
     const url = getUrl('get-provider-verification');
     const response = await get({
       url,
-      eventDate: Utils.formatDate(eventDate)
+      eventDate: Utils.formatDate(eventDate),
+      onlyShowIsMismatchEvent,
+      confirmProvider,
+      lstBookProvider
     });
     return response.data;
   }
 );
 
-const getAgentConfirm = createAsyncThunk(
+const getConfirmProvider = createAsyncThunk(
   'provider-verification/get-agent-confirm',
   async () => {
     const url = getUrl('get-agent-option');
@@ -32,10 +45,26 @@ const getAgentConfirm = createAsyncThunk(
   }
 );
 
-const saveAgentConfirm = createAsyncThunk(
-  'provider-verification/save-agent-confirm',
-  async (data: { owpMatchId: number; agentSelected: string }) => {
-    const url = getUrl('save-agent-confirm');
+const getLSTBookProvider = createAsyncThunk(
+  'provider-verification/get-lst-book-confirm',
+  async ({ eventDate }: {
+    eventDate: Date;
+  }) => {
+    const url = getUrl('get-lst-book-option');
+    const response = await get({
+      url, eventDate: eventDate
+    });
+    return (response.data as TLSTBookOptionResponse[]).map(data => ({
+      value: data.lstBookId,
+      label: data.lstBookName
+    }));
+  }
+);
+
+const saveConfirmProvider = createAsyncThunk(
+  'provider-verification/save-provider-confirm',
+  async (data: { owpMatchId: number; agentSelected: string | null; }) => {
+    const url = getUrl('save-provider-confirm');
     const prop = {
       url,
       ...data
@@ -44,10 +73,10 @@ const saveAgentConfirm = createAsyncThunk(
   }
 );
 
-const saveESTNote = createAsyncThunk(
-  'provider-verification/save-est-note',
-  async (data: { owpMatchId: number; estNote: string | undefined }) => {
-    const url = getUrl('save-est-note');
+const saveRemark = createAsyncThunk(
+  'provider-verification/save-remark',
+  async (data: { owpMatchId: number; remark: string | undefined; }) => {
+    const url = getUrl('save-remark');
     const prop = {
       url,
       ...data
@@ -56,10 +85,10 @@ const saveESTNote = createAsyncThunk(
   }
 );
 
-const saveESTAgent = createAsyncThunk(
-  'provider-verification/save-est-agent',
-  async (data: { owpMatchId: number; estAgent: string | undefined }) => {
-    const url = getUrl('create-est-agent');
+const saveRemarkBy = createAsyncThunk(
+  'provider-verification/save-remark-by',
+  async (data: { owpMatchId: number; remarkBy: string | undefined; }) => {
+    const url = getUrl('save-remark-by');
     const prop = {
       url,
       ...data
@@ -70,8 +99,9 @@ const saveESTAgent = createAsyncThunk(
 
 export {
   getEvents,
-  getAgentConfirm,
-  saveAgentConfirm,
-  saveESTNote,
-  saveESTAgent
+  getConfirmProvider,
+  saveConfirmProvider,
+  saveRemark,
+  saveRemarkBy,
+  getLSTBookProvider
 };

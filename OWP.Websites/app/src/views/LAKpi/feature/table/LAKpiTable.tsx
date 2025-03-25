@@ -31,8 +31,9 @@ const LAKpiTable = () => {
   };
 
   useLayoutEffect(() => {
-    window.addEventListener('resize', handleResizeBrowser);
-    return () => window.removeEventListener('resize', handleResizeBrowser);
+    const abort = new AbortController();
+    window.addEventListener('resize', handleResizeBrowser, abort);
+    return () => abort.abort();
   }, []);
 
   useEffect(() => {
@@ -44,9 +45,10 @@ const LAKpiTable = () => {
         closeFilterHeader();
       }
     };
-    document.addEventListener('mousedown', handleClickOutSide);
+    const abort = new AbortController();
+    document.addEventListener('mousedown', handleClickOutSide, abort);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutSide);
+      abort.abort();
     };
   }, [filterRef]);
 

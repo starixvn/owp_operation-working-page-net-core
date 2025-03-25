@@ -81,8 +81,9 @@ const StatusCell = props => {
         setIsOpenDropdown(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    const abort = new AbortController();
+    document.addEventListener('mousedown', handleClickOutside, abort);
+    return () => abort.abort();
   }, [dropdownRef]);
 
   return (

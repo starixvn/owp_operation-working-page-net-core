@@ -17,10 +17,10 @@ const CompareAgentPopup: React.FC<Props> = ({
   const [results, setResults] = useState<TCompareCountResult[]>([]);
   const [textAreaValue, setTextAreaValue] = useState<string>('');
 
-  const { agentConfirmOption, dataSource } = useAppSelector(state => state.events);
+  const { confirmProviderOption, dataSource } = useAppSelector(state => state.events);
 
   const handleCheck = async () => {
-    const dataSourceByAgent = dataSource.filter(x => x.AgentConfirm.some(y => y.Label === agent?.label));
+    const dataSourceByAgent = dataSource.filter(x => x.agentConfirm.some(y => y.label === agent?.label));
     setResults(compareDifferent(textAreaValue, dataSourceByAgent));
   };
 
@@ -53,10 +53,10 @@ const CompareAgentPopup: React.FC<Props> = ({
         <h3 className='title'>Check the difference with Agent File</h3>
         <span>Agent Type: </span>
         <Select
-          defaultValue={agentConfirmOption[0]}
+          defaultValue={confirmProviderOption[0]}
           className='basic-multi-select agent-select'
           classNamePrefix='select'
-          options={agentConfirmOption}
+          options={confirmProviderOption}
           onChange={selectedOption => {
             if (selectedOption !== agent) {
               setAgent(selectedOption);

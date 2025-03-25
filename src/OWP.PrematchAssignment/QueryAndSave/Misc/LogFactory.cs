@@ -1,9 +1,9 @@
-﻿using OWP.PrematchAssignment.Models;
+﻿using OWP.PrematchAssignment.QueryAndSave.Models;
 using System.Globalization;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace OWP.PrematchAssignment.Misc;
+namespace OWP.PrematchAssignment.QueryAndSave.Misc;
 
 public interface LogFactory
 {

@@ -1,0 +1,78 @@
+import { formatTime } from "../../../Shared/DateTime/dateTimeHelper";
+import { Option } from "../../../Shared/MultipleSelection/type";
+import { TDataSource, TMultipleFilter } from "../../type/table";
+import helper from "./calculateFilterOption";
+
+const buildDefaultTableFilter = (dataSource: TDataSource[], confirmProviderOption: Option[], tableFilter: TMultipleFilter) => {
+  tableFilter.MatchNo = {
+    selected: helper.MatchNo(dataSource),
+    isFilter: false
+  };
+  tableFilter.MatchStatus = {
+    selected: helper.MatchStatus(dataSource),
+    isFilter: false
+  };
+  tableFilter.KoTime = {
+    selected: helper.KoTime(dataSource),
+    isFilter: false
+  };
+  tableFilter.League = {
+    selected: helper.League(dataSource),
+    isFilter: false
+  };
+  tableFilter.Match = {
+    selected: helper.Match(dataSource),
+    isFilter: false
+  };
+  tableFilter.LstBookProvider = {
+    selected: helper.LstBookProvider(dataSource),
+    isFilter: false
+  };
+  tableFilter.Provider = {
+    selected: helper.Provider(dataSource),
+    isFilter: false
+  };
+  tableFilter.ConfirmProvider = {
+    selected: [...confirmProviderOption, { value: -1, label: '(Blanks)' }],
+    isFilter: false
+  };
+};
+
+const executeFilterTable = (dataSource: TDataSource[], tableFilter: TMultipleFilter) => {
+  const { MatchNo,
+    MatchStatus,
+    KoTime,
+    League,
+    Match,
+    LstBookProvider,
+    Provider
+  } = tableFilter;
+  const result = dataSource.filter(e => MatchNo.selected.some(m => m.label === buildLabelItemOption(e.matchNo)) //NOSONAR
+    && MatchStatus.selected.some(m => m.label === buildLabelItemOption(e.matchStatus))
+    && Match.selected.some(m => m.label === (e.home?.trim().length ? `${e.home} -vs- ${e.away}` : '(Blanks)'))
+    && KoTime.selected.some(m => m.label === (e.eventDateTime?.trim().length ? formatTime(e.eventDateTime, 'minute', 'hh:mm A') : '(Blanks)'))
+    && League.selected.some(m => m.label === buildLabelItemOption(e.league))
+    && LstBookProvider.selected.some(m => m.label === buildLabelItemOption(e.lstBookProvider))
+    && Provider.selected.some(m => m.label === buildLabelItemOption(e.provider))
+  );
+
+  return filterByConfirmProvider(result, tableFilter);
+};
+
+const filterByConfirmProvider = (dataSource: TDataSource[], tableFilter: TMultipleFilter) => {
+  return dataSource.filter(e => {
+    const ConfirmProvider = e.agentConfirm;
+    const { selected } = tableFilter.ConfirmProvider;
+    if (!ConfirmProvider?.length && selected.some(s => s.label === '(Blanks)')) {
+      return true;
+    }
+    return ConfirmProvider?.some(a =>
+      selected.some(s =>
+        s.label === a.label
+      ));
+  });
+};
+
+const buildLabelItemOption = (value: string | undefined | null) => value?.trim().length ? value : '(Blanks)';
+
+export { buildDefaultTableFilter, executeFilterTable, buildLabelItemOption };

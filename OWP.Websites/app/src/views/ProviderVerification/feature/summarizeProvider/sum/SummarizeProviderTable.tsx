@@ -6,15 +6,15 @@ import { useAppSelector } from '../../../app/hookNative';
 
 const SummarizeProviderTable = () => {
   const dispatch = useStableDispatch();
-  const { dataSource, agentConfirmOption } = useAppSelector(state => state.events);
+  const { dataSource, confirmProviderOption } = useAppSelector(state => state.events);
   const sumTable = useAppSelector(state => state.providerSum.sumTable);
 
   useEffect(() => {
     dispatch(sumProvider({
       data: dataSource,
-      agentOptions: agentConfirmOption
+      agentOptions: confirmProviderOption
     }));
-  }, [dataSource, agentConfirmOption]);
+  }, [dataSource, confirmProviderOption]);
 
   return (
     <table className='sum-provider-table'>

@@ -4,6 +4,7 @@ import DatePickerComponent from '../../../Shared/DatePickerComponent/DatePicker'
 import { useAppDispatch, useAppSelector } from '../../app/hookNative';
 import { updateFilter } from './FilterSlice';
 import { buildDefaultFilterDateProviderVerification } from '../../../Shared/DateTime/dateTimeHelper';
+import { getLSTBookProvider } from '../../feature/table/tableThunk';
 
 const FilterDate = () => {
   const dispatch = useAppDispatch();
@@ -18,6 +19,8 @@ const FilterDate = () => {
       key: 'eventDate',
       value: date
     };
+
+    dispatch(getLSTBookProvider({ eventDate: date }));
     dispatch(updateFilter(model));
   };
 

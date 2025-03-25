@@ -1,4 +1,4 @@
-﻿namespace OWP.PrematchAssignment.Misc;
+﻿namespace OWP.PrematchAssignment.QueryAndSave.Misc;
 
 public static class LogActionConst
 {

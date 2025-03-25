@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace OWP.PrematchAssignment.Models;
+namespace OWP.PrematchAssignment.QueryAndSave.Models;
 
 [XmlRoot(ElementName = "z")]
 public class UpdateRemarkLogModel

@@ -1,5 +1,5 @@
 import { isNil } from 'lodash';
-const basePath = `api/TicketEvent`;
+const basePath = `/api/TicketEvent`;
 
 const buildIsReadValue = (
   actorId: number,

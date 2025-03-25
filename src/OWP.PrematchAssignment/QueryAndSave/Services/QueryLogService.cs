@@ -1,10 +1,10 @@
 ﻿using Fanex.Data.Repository;
 using OWP.PrematchAssignment.Criteria;
-using OWP.PrematchAssignment.Handlers;
-using OWP.PrematchAssignment.Misc;
-using OWP.PrematchAssignment.Models;
+using OWP.PrematchAssignment.QueryAndSave.Handlers;
+using OWP.PrematchAssignment.QueryAndSave.Misc;
+using OWP.PrematchAssignment.QueryAndSave.Models;
 
-namespace OWP.PrematchAssignment.Services;
+namespace OWP.PrematchAssignment.QueryAndSave.Services;
 
 public interface QueryLogService
 {

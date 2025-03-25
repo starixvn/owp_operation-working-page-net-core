@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getAgentConfirm, getEvents } from './tableThunk';
+import { getConfirmProvider, getEvents } from './tableThunk';
 import {
   TColumnKey,
   TDataSource,
   TMultipleFilter,
-  TUpdateAgentConfirm,
-  TUpdateRow
+  TUpdateConfirmProvider,
+  ValidationResponse
 } from '../../type/table';
 import { REQUEST_STATUS } from '../../../Shared/Constants';
 import type { PayloadAction } from '@reduxjs/toolkit';
@@ -18,37 +18,43 @@ const buildMultipleFilterDefault = () => ({
   selected: []
 });
 
+const validationResultDefault = {
+  isSuccess: false,
+  value: {
+    providerVerification: [] as TDataSource[],
+    sessionId: '',
+  }
+} as ValidationResponse;
+
 const tableSlice = createSlice({
   name: 'tableSlice',
   initialState: {
     loadingDataTable: REQUEST_STATUS.pending,
-    loadingAgentConfirmOption: REQUEST_STATUS.pending,
+    loadingConfirmProviderOption: REQUEST_STATUS.pending,
     dataSource: [] as TDataSource[],
     dataSourceOriginal: [] as TDataSource[],
-    agentConfirmOption: [] as Option[],
+    confirmProviderOption: [] as Option[],
+    validationResponse: validationResultDefault,
     multipleFilter: {
       MatchNo: buildMultipleFilterDefault(),
       MatchStatus: buildMultipleFilterDefault(),
       KoTime: buildMultipleFilterDefault(),
       League: buildMultipleFilterDefault(),
       Match: buildMultipleFilterDefault(),
-      Mb: buildMultipleFilterDefault(),
-      Provider: buildMultipleFilterDefault(),
-      OtherProvider: buildMultipleFilterDefault(),
-      AgentEst: buildMultipleFilterDefault(),
-      RemarkEst: buildMultipleFilterDefault(),
+      LstBookProvider: buildMultipleFilterDefault(),
+      InHouseProviderId: buildMultipleFilterDefault(),
+      Remark: buildMultipleFilterDefault(),
       RemarkBy: buildMultipleFilterDefault(),
-      AgentConfirm: buildMultipleFilterDefault(),
-      EstNote: buildMultipleFilterDefault()
+      ConfirmProvider: buildMultipleFilterDefault()
     } as TMultipleFilter
   },
   reducers: {
-    setValue: (state, action: PayloadAction<TUpdateRow>) => {
+    setValue: (state, action: PayloadAction<{ owpMatchId: number; key: string; value: any; }>) => {
       const { owpMatchId, key, value } = action.payload;
-      const event = state.dataSource.find(d => d.OWPMatchId === owpMatchId);
+      const event = state.dataSource.find(d => d.owpMatchId === owpMatchId);
       event && (event[key] = value);
       const eventOriginal = state.dataSourceOriginal.find(
-        d => d.OWPMatchId === owpMatchId
+        d => d.owpMatchId === owpMatchId
       );
       eventOriginal && (eventOriginal[key] = value);
       state.multipleFilter[key] = {
@@ -62,20 +68,20 @@ const tableSlice = createSlice({
     setDataSignalR: (state, action) => {
       const { actorId, parentMatchId, userId } = action.payload;
       state.dataSource.forEach((item: TDataSource) => {
-        if (item.OWPMatchId === parentMatchId) {
-          item.IsRead = buildIsReadValue(actorId, userId, item.IsRead);
-          item.HasTicket = true;
+        if (item.owpMatchId === parentMatchId) {
+          item.isRead = buildIsReadValue(actorId, userId, item.isRead);
+          item.hasTicket = true;
         }
       });
     },
-    setAgentConfirm: (state, action: PayloadAction<TUpdateAgentConfirm>) => {
+    setConfirmProvider: (state, action: PayloadAction<TUpdateConfirmProvider>) => {
       const { owpMatchId, value } = action.payload;
-      const event = state.dataSource.find(d => d.OWPMatchId === owpMatchId);
-      event && (event.AgentConfirm = value);
+      const event = state.dataSource.find(d => d.owpMatchId === owpMatchId);
+      event && (event.agentConfirm = value);
       const eventOriginal = state.dataSourceOriginal.find(
-        d => d.OWPMatchId === owpMatchId
+        d => d.owpMatchId === owpMatchId
       );
-      eventOriginal && (eventOriginal.AgentConfirm = value);
+      eventOriginal && (eventOriginal.agentConfirm = value);
     },
     setMultipleFilter: (
       state,
@@ -104,7 +110,7 @@ const tableSlice = createSlice({
       state.dataSource = state.dataSourceOriginal;
       buildDefaultTableFilter(
         state.dataSource,
-        state.agentConfirmOption,
+        state.confirmProviderOption,
         state.multipleFilter
       );
     }
@@ -116,13 +122,14 @@ const tableSlice = createSlice({
       })
       .addCase(
         getEvents.fulfilled,
-        (state, action: PayloadAction<TDataSource[]>) => {
+        (state, { payload }) => {
           state.loadingDataTable = REQUEST_STATUS.idle;
-          state.dataSource = action.payload;
-          state.dataSourceOriginal = action.payload;
+          state.validationResponse = payload;
+          state.dataSource = payload.value.providerVerification;
+          state.dataSourceOriginal = payload.value.providerVerification;
           buildDefaultTableFilter(
             state.dataSourceOriginal,
-            state.agentConfirmOption,
+            state.confirmProviderOption,
             state.multipleFilter
           );
         }
@@ -130,15 +137,15 @@ const tableSlice = createSlice({
       .addCase(getEvents.rejected, state => {
         state.loadingDataTable = REQUEST_STATUS.idle;
       })
-      .addCase(getAgentConfirm.pending, state => {
-        state.loadingAgentConfirmOption = REQUEST_STATUS.pending;
+      .addCase(getConfirmProvider.pending, state => {
+        state.loadingConfirmProviderOption = REQUEST_STATUS.pending;
       })
-      .addCase(getAgentConfirm.fulfilled, (state, { payload }) => {
-        state.loadingAgentConfirmOption = REQUEST_STATUS.idle;
-        state.agentConfirmOption = payload;
+      .addCase(getConfirmProvider.fulfilled, (state, { payload }) => {
+        state.loadingConfirmProviderOption = REQUEST_STATUS.idle;
+        state.confirmProviderOption = payload;
       })
-      .addCase(getAgentConfirm.rejected, state => {
-        state.loadingAgentConfirmOption = REQUEST_STATUS.idle;
+      .addCase(getConfirmProvider.rejected, state => {
+        state.loadingConfirmProviderOption = REQUEST_STATUS.idle;
       });
   }
 });
@@ -147,7 +154,7 @@ const { actions, reducer } = tableSlice;
 const {
   setValue,
   setDataSignalR,
-  setAgentConfirm,
+  setConfirmProvider,
   setMultipleFilter,
   handleClearFilter,
   setDataTable
@@ -155,7 +162,7 @@ const {
 export {
   setValue,
   setDataSignalR,
-  setAgentConfirm,
+  setConfirmProvider,
   setMultipleFilter,
   handleClearFilter,
   setDataTable

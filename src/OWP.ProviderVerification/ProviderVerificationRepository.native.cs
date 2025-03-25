@@ -1,20 +1,23 @@
-﻿
-
-using Fanex.NAP.Client;
-
-namespace OWP.ProviderVerification;
+﻿namespace OWP.ProviderVerification;
 
 public interface ProviderVerificationRepository
 {
     Task<IEnumerable<ProviderVerificationModel>> GetProviderVerification(CriteriaBase criteria);
 
+    Task<IEnumerable<ProviderVerificationDifferenceModel>> GetProviderVerificationDiff(CriteriaBase criteria);
+
     Task<IEnumerable<AgentOption>> GetAgentOptions();
+
+    Task<IEnumerable<LSTBookProviderOption>> GetLSTBookOptions(DateTime eventDate);
+
 
     Task SaveAgentConfirm(int owpMatchId, string agentSelected, int actorId);
 
-    Task SaveEstNote(int owpMatchId, string estNote, int actorId);
+    Task SaveRemark(int owpMatchId, string remark);
 
-    Task SaveEstAgent(int owpMatchId, string estAgent);
+    Task SaveRemarkBy(int owpMatchId, string remarkBy);
+
+    Task UpdateIsMismatch( string owpMatchIds, DateTime date);
 }
 
 public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
@@ -31,17 +34,38 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
 
     public async Task<IEnumerable<ProviderVerificationModel>> GetProviderVerification(CriteriaBase criteria)
     {
-        var result = await dynamicRepository.FetchMultipleAsync<EventModel, AgentConfirmModel, MatchSetting>(criteria);
-        var matchInfo = result.Item1.ToList();
-        var agentConfirms = result.Item2.ToList();
-        var matchSettings = result.Item3.ToList();
-
-        return await MappingInfo(matchInfo, agentConfirms, matchSettings);
+        return await FetchAndMapAsync(criteria, info => info);
     }
 
-    private async Task<IList<ProviderVerificationModel>> MappingInfo(IList<EventModel> matches,
-        IList<AgentConfirmModel> agentConfirms, IList<MatchSetting> matchSettings)
+    public async Task<IEnumerable<ProviderVerificationDifferenceModel>> GetProviderVerificationDiff(CriteriaBase criteria)
     {
+        return await FetchAndMapAsync(criteria, info => new ProviderVerificationDifferenceModel
+        {
+            OWPMatchId = info.OWPMatchId,
+            MatchNo = info.MatchNo,
+            MatchStatus = info.MatchStatus,
+            EventDateTime = info.EventDateTime,
+            KoTime = info.KoTime,
+            League = info.League,
+            Home = info.Home,
+            Away = info.Away,
+            LstBookProvider = info.LstBookProvider,
+            InHouseProviderId = info.InHouseProviderId,
+            Remark = info.Remark,
+            RemarkBy = info.RemarkBy,
+            AgentConfirm = info.AgentConfirm,
+            ProviderMatch = info.ProviderMatch,
+            HasTicket = info.HasTicket,
+            IsRead = info.IsRead
+        });
+    }
+
+    private async Task<IList<T>> FetchAndMapAsync<T>(CriteriaBase criteria, Func<ProviderVerificationModel, T> transform)
+    {
+        var result = await dynamicRepository.FetchMultipleAsync<EventModel, AgentConfirmModel, ProviderMatchModel>(criteria);
+        var matches = result.Item1.ToList();
+        var agentConfirms = result.Item2.ToList();
+        var providerMatches = result.Item3.ToList();
 
         var owpIds = string.Join(",", matches.Select(x => x.OWPMatchId));
         var hasTicketModel = (await dynamicRepository.FetchAsync<HasTicketModel>(new DetectEventHasTicketCriteria
@@ -50,9 +74,7 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
             ActorId = session.UserId
         })).ToList();
 
-        var result = new List<ProviderVerificationModel>();
-
-        foreach (var match in matches)
+        return matches.Select(match =>
         {
             var providerInfo = new ProviderVerificationModel
             {
@@ -64,21 +86,22 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
                 League = match.League,
                 Home = match.Home,
                 Away = match.Away,
-                OtherProvider = match.OtherProvider,
-                Provider = match.Provider,
-                AgentEst = match.AgentEst,
-                RemarkEst = match.RemarkEst,
+                LstBookProvider = match.LstBookProvider,
+                InHouseProviderId = string.Join("/", providerMatches
+                    .Where(p => p.OWPMatchId == match.OWPMatchId)
+                    .Select(p => p.ProviderMatchId)),
+                Remark = match.Remark,
                 RemarkBy = match.RemarkBy,
-                EstNote = match.EstNote,
-                HandicapSetting = GetMatchSettings(matchSettings, match.OWPMatchId, (int)MajorBetType.Handicap),
-                OverUnderSetting = GetMatchSettings(matchSettings, match.OWPMatchId, (int)MajorBetType.OverUnder),
-                AgentConfirm = agentConfirms.Where(x => x.OwpMatchId == match.OWPMatchId).Select(y =>
-                    new AgentConfirmOption
+                AgentConfirm = agentConfirms
+                    .Where(x => x.OwpMatchId == match.OWPMatchId)
+                    .Select(y => new AgentConfirmOption
                     {
                         Label = y.AgentName,
                         Value = y.AgentId
-                    }).ToList()
+                    }).ToList(),
+                ProviderMatch = providerMatches.Where(x => x.OWPMatchId == match.OWPMatchId).ToList()
             };
+
             var ticket = hasTicketModel.Find(x => x.ParentMatchId == match.OWPMatchId);
             if (ticket is not null)
             {
@@ -86,19 +109,18 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
                 providerInfo.IsRead = ticket.IsRead;
             }
 
-            result.Add(providerInfo);
-        }
-
-        return result;
-    }
-
-    private static MatchSetting GetMatchSettings(IList<MatchSetting> matchSettings, int owpMatchId, int bettype)
-    {
-        return matchSettings.FirstOrDefault(x => x.OWPMatchId == owpMatchId && x.Bettype == bettype);
+            return transform(providerInfo);
+        }).ToList();
     }
 
     public async Task<IEnumerable<AgentOption>> GetAgentOptions()
     => await dynamicRepository.FetchAsync<AgentOption>(new GetAgentOptionsCriteria());
+
+    public async Task<IEnumerable<LSTBookProviderOption>> GetLSTBookOptions(DateTime eventDate)
+        => await dynamicRepository.FetchAsync<LSTBookProviderOption>(new GetLSTBookOptionsCriteria
+            {
+                EventDate = eventDate
+            });
 
     public async Task SaveAgentConfirm(int owpMatchId, string agentSelected, int actorId)
         => await dynamicRepository.ExecuteAsync(new SaveAgentConfirmCriteria
@@ -108,19 +130,27 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
             ActorId = actorId
         });
 
-    public async Task SaveEstNote(int owpMatchId, string estNote, int actorId)
-        => await dynamicRepository.ExecuteAsync(new SaveEstNoteCriteria
+    public async Task SaveRemark(int owpMatchId, string remark)
+        => await dynamicRepository.ExecuteAsync(new SaveRemarkCriteria
         {
-            EstNote = estNote,
+            Remark = remark,
             OwpMatchId = owpMatchId,
-            ActorId =  actorId
+            ActorId = session.UserId
         });
 
-    public async Task SaveEstAgent(int owpMatchId, string estAgent)
-        => await dynamicRepository.ExecuteAsync(new SaveEstAgentCriteria
+    public async Task SaveRemarkBy(int owpMatchId, string remarkBy)
+        => await dynamicRepository.ExecuteAsync(new SaveRemarkByCriteria
         {
-            EstAgent = estAgent,
+            RemarkBy = remarkBy,
             OwpMatchId = owpMatchId,
+            ActorId = session.UserId
+        });
+
+    public async Task UpdateIsMismatch( string owpMatchIds, DateTime date)
+        => await dynamicRepository.ExecuteAsync(new UpdateIsMismatchCriteria()
+        {
+            EventDate = date,
+            OwpMatchIds = owpMatchIds,
             ActorId = session.UserId
         });
 }

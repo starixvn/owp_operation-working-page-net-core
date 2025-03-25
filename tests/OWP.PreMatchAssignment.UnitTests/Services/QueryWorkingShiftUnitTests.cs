@@ -2,12 +2,12 @@
 using Fanex.NAP.Client;
 using NSubstitute;
 using OWP.PrematchAssignment.Criteria;
-using OWP.PrematchAssignment.Models;
-using OWP.PrematchAssignment.Services;
 using Xunit;
 
 namespace OWP.PreMatchAssignment.UnitTests.Services;
 
+using OWP.PrematchAssignment.QueryAndSave.Models;
+using OWP.PrematchAssignment.QueryAndSave.Services;
 using Xunit.Asserts.Compare;
 
 public class QueryWorkingShiftUnitTests

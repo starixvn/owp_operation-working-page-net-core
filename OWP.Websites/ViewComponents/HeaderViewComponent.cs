@@ -5,19 +5,9 @@ using OWP.Services;
 
 namespace OWP.Websites.ViewComponents;
 
-public class HeaderViewComponent : ViewComponent
+public class HeaderViewComponent(INapSession session, HeaderService headerService, PermissionService permissionService)
+    : ViewComponent
 {
-    private readonly INapSession session;
-    private readonly HeaderService headerService;
-    private readonly PermissionService permissionService;
-
-    public HeaderViewComponent(INapSession session, HeaderService headerService, PermissionService permissionService)
-    {
-        this.session = session;
-        this.headerService = headerService;
-        this.permissionService = permissionService;
-    }
-
     public async Task<IViewComponentResult> InvokeAsync(string title)
     {
         if (session.UserId == 0)

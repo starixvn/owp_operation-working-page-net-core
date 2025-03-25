@@ -256,6 +256,14 @@ public class HomeController(AccessCounter accessCounter) : Controller
         return View("~/wwwroot/provider-verification/server.cshtml");
     }
 
+
+    [Route(template: "ProviderVerification/check-difference-provider/{date:DateTime}")]
+    [NapAuth(FunctionKey = FunctionKeys.ProviderVerification, Policy = Constant.Policy.Read)]
+    public ActionResult ProviderVerificationCheckDifferenceProvider()
+    {
+        return View("~/wwwroot/provider-verification-check-difference-provider/server.cshtml");
+    }
+
     [Route("SmallTicket")]
     [NapAuth(FunctionKey = FunctionKeys.MyTickets, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> SmallTicketCenter()

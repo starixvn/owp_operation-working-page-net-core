@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import GetEvent from './GetEvent';
 import {
   exportExcel
-} from '../../../Shared/common/ExportLiveGameAssignment/Helper';
+} from '../../../Shared/common/ExportExcel/Helper';
 
-jest.mock('../../../Shared/common/ExportLiveGameAssignment/Helper');
+jest.mock('../../../Shared/common/ExportExcel/Helper');
 exportExcel.mockResolvedValue({});
 
 

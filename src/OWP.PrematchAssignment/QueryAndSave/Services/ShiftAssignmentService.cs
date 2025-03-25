@@ -2,12 +2,12 @@
 using OWP.Extensions;
 using OWP.PrematchAssignment.Constants;
 using OWP.PrematchAssignment.Criteria;
-using OWP.PrematchAssignment.Handlers;
-using OWP.PrematchAssignment.Helper;
-using OWP.PrematchAssignment.Models;
+using OWP.PrematchAssignment.QueryAndSave.Handlers;
+using OWP.PrematchAssignment.QueryAndSave.Helper;
+using OWP.PrematchAssignment.QueryAndSave.Models;
 using System.Globalization;
 
-namespace OWP.PrematchAssignment.Services;
+namespace OWP.PrematchAssignment.QueryAndSave.Services;
 
 public interface ShiftAssignmentService
 {

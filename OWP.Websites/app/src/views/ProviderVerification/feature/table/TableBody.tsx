@@ -1,118 +1,102 @@
 import ReadonlyCommonCell from './cell/ReadonlyCommonCell';
 import { formatTime } from '../../../Shared/DateTime/dateTimeHelper';
 import TicketCell from './cell/TicketCell';
-import AgentConfirmCell from './cell/AgentConfirmCell';
+import ConfirmProviderCell from './cell/ConfirmProviderCell';
 import { TDataSource } from '../../type/table';
-import MBCell from './cell/MBCell';
-import EstNoteCell from './cell/EstNoteCell';
 import MatchCell from './cell/MatchCell';
+import NoteCell from './cell/NoteCell';
+import { useAppSelector } from "../../app/hookNative";
 
-const TableBody = ({ dataSource }: { dataSource: TDataSource[] }) => {
+const TableBody = ({ dataSource }: { dataSource: TDataSource[]; }) => {
+
+  const eventDate = useAppSelector(store => store.filterState.filter.eventDate);
+  const minDateEdit = new Date();
+  minDateEdit.setDate(minDateEdit.getDate() - 14);
+  const canEditDate = eventDate >= minDateEdit;
+
   return (
     <tbody>
       {dataSource.map((event, index) => (
-        <tr
-          key={event.OWPMatchId}
-          style={{ backgroundColor: event.RowColor }}>
+        <tr key={event.owpMatchId} style={{ backgroundColor: event.rowColor }}>
           <ReadonlyCommonCell
             className='match_no'
-            value={event.MatchNo}
+            value={event.matchNo}
             index={index}
             isCanToolTip={false}
           />
 
           <ReadonlyCommonCell
             className='match_status'
-            value={event.MatchStatus}
+            value={event.matchStatus}
             index={index}
             isCanToolTip={false}
           />
 
           <ReadonlyCommonCell
             className='ko_time'
-            value={formatTime(event.EventDateTime, 'minute', 'hh:mm A')}
+            value={formatTime(event.eventDateTime, 'minute', 'hh:mm A')}
             index={index}
             isCanToolTip={false}
           />
 
           <ReadonlyCommonCell
             className='league'
-            value={event.League}
+            value={event.league}
             index={index}
             isCanToolTip={false}
           />
 
-          <MatchCell
-            className='match'
-            home={event.Home}
-            away={event.Away}
+          <MatchCell className='match' home={event.home} away={event.away} />
+
+          <ReadonlyCommonCell
+            className='lst-book-provider'
+            value={event.lstBookProvider}
+            index={index}
+            isCanToolTip={true}
+          />
+
+          <ReadonlyCommonCell
+            className='inhouse-providerId'
+            value={event.inHouseProviderId}
+            index={index}
+            isCanToolTip={false}
+          />
+
+          <ConfirmProviderCell
+            confirmProvider={event.agentConfirm.map(a => ({
+              value: a.value,
+              label: a.label
+            }))}
+            owpMatchId={event.owpMatchId}
+            canEditDate={canEditDate}
+          />
+
+          <NoteCell
+            className='remark'
+            OWPMatchId={event.owpMatchId}
+            value={event.remark}
+            index={index}
+            isRemark={true}
+            canEditDate={canEditDate}
+          />
+
+          <NoteCell
+            className='remark__by'
+            OWPMatchId={event.owpMatchId}
+            value={event.remarkBy}
+            index={index}
+            isRemark={false}
+            canEditDate={canEditDate}
           />
 
           <td>
             <TicketCell
               dataSource={dataSource}
-              HasTicket={event.HasTicket}
-              IsRead={event.IsRead}
+              hasTicket={event.hasTicket}
+              isRead={event.isRead}
               rowIndex={index}
             />
           </td>
-
-          <ReadonlyCommonCell
-            className='provider'
-            value={event.Provider}
-            index={index}
-            isCanToolTip={true}
-          />
-
-          <ReadonlyCommonCell
-            className='other_provider'
-            value={event.OtherProvider}
-            index={index}
-            isCanToolTip={true}
-          />
-
-          <ReadonlyCommonCell
-            index={index}
-            isCanToolTip={true}
-            className='agent'
-            value={event.AgentEst}
-          />
-
-          <td className='max__bet'>
-            <MBCell
-              HandicapSetting={event.HandicapSetting}
-              OverUnderSetting={event.OverUnderSetting}
-            />
-          </td>
-
-          <ReadonlyCommonCell
-            className='remark'
-            value={event.RemarkEst}
-            index={index}
-            isCanToolTip={true}
-          />
-
-          <ReadonlyCommonCell
-            className='remark__by'
-            value={event.RemarkBy}
-            index={index}
-            isCanToolTip={true}
-          />
-
-          <AgentConfirmCell
-            agentConfirm={event.AgentConfirm.map(a => ({
-              value: a.Value,
-              label: a.Label
-            }))}
-            owpMatchId={event.OWPMatchId}
-          />
-
-          <EstNoteCell
-            columnKey='estNote'
-            rowIndex={index}
-            value={event.EstNote}
-            owpMatchId={event.OWPMatchId}
-          />
         </tr>
       ))}
     </tbody>

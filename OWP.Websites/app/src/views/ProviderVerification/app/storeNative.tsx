@@ -7,6 +7,7 @@ import createTicketBoardReducer from '../../Shared/createTicketNew/createTicketB
 import chatBoardNew from '../../Shared/chatBoardNew/chatBoardSlice';
 import ticketListSlice from '../../Shared/ticketEvent/component/ticketListSlice';
 import signalREventTicketSlice from '../../Shared/ticketEvent/signalR/signalREventTicketSlice';
+import commonSlice from '../feature/common/commonSlice';
 
 const store = configureStore({
   reducer: {
@@ -18,7 +19,8 @@ const store = configureStore({
     ticketList: ticketListSlice,
     createTicketBoard: createTicketBoardReducer,
     chatBoard: chatBoardNew,
-    signalREventTicket: signalREventTicketSlice
+    signalREventTicket: signalREventTicketSlice,
+    common: commonSlice
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

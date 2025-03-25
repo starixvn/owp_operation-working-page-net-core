@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OWP.Constants;
 using OWP.PrematchAssignment.AutoAssignment.Handlers;
-using OWP.PrematchAssignment.Handlers;
-using OWP.PrematchAssignment.Models;
-using OWP.PrematchAssignment.Services;
+using OWP.PrematchAssignment.QueryAndSave.Handlers;
+using OWP.PrematchAssignment.QueryAndSave.Models;
+using OWP.PrematchAssignment.QueryAndSave.Services;
 using OWP.Services;
 
 namespace OWP.PrematchAssignment.QueryAndSave;

@@ -1,7 +1,9 @@
-﻿namespace OWP.PrematchAssignment.AutoAssignment.Helper;
+﻿using OWP.PrematchAssignment.AutoAssignment.Models;
+
+namespace OWP.PrematchAssignment.AutoAssignment.Helper;
 
 using OWP.PrematchAssignment.Constants;
-using OWP.PrematchAssignment.Models;
+using OWP.PrematchAssignment.QueryAndSave.Models;
 
 public static class GroupAndSortLeagueHelper
 {

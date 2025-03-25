@@ -9,9 +9,9 @@ import ColumnsFactory from './ColumnsFactory';
 import ReactDOM from 'react-dom';
 import NotePopupTableCss from '../../../Shared/NotePopupTableCss';
 import {
-    calculateColumnWidth,
-    calculateRowHeight,
-    calculateTableWidth
+  calculateColumnWidth,
+  calculateRowHeight,
+  calculateTableWidth
 } from './PrematchTableHelper';
 import useStableDispatch from '../../../Shared/customHook/useStableDispatch';
 import { resetCopyInfo } from '../copy/copySlice';
@@ -25,122 +25,172 @@ import { ASSIGNMENT_TYPE, BETTYPE } from '../../const/const';
 const { rowHeight, headerHeight } = DefaultTableStyle;
 
 const propTypes = {
-    isEditing: PropTypes.bool.isRequired,
-    isNightShift: PropTypes.bool
+  isEditing: PropTypes.bool.isRequired,
+  isNightShift: PropTypes.bool
 };
 
 const PreMatchTable = ({ isEditing, isNightShift }) => {
-    const model = useSelector(state => state.dayShift);
-    const filter = useSelector(state => state.filter);
-    const { autoMode, assignments } = useSelector(state => state.auto);
-    const tableKey = model.tableKey;
-    const data = model.entities;
-    const dataLength = data.length;
-    const tableRef = createRef();
-    const dispatch = useStableDispatch();
+  const model = useSelector(state => state.dayShift);
+  const filter = useSelector(state => state.filter);
+  const { autoMode, assignments } = useSelector(state => state.auto);
+  const tableKey = model.tableKey;
+  const data = model.entities;
+  const dataLength = data.length;
+  const tableRef = createRef();
+  const dispatch = useStableDispatch();
 
-    useEffect(() => {
-        const handleEscKey = event => {
-            if (isEqual(event.keyCode, 27)) {
-                dispatch(resetCopyInfo());
-            }
-        };
-        document.addEventListener('keydown', handleEscKey);
-
-        return () => document.removeEventListener('keydown', handleEscKey);
-    }, [dispatch]);
-
-    const handleShowNote = () => {
-        // eslint-disable-next-line no-warning-comments
-        // eslint-disable-next-line react/no-find-dom-node
-        const tableElement = ReactDOM.findDOMNode(tableRef.current);
-        NotePopupTableCss(tableElement, true);
+  useEffect(() => {
+    const handleEscKey = event => {
+      if (isEqual(event.keyCode, 27)) {
+        dispatch(resetCopyInfo());
+      }
     };
+    const abort = new AbortController();
+    document.addEventListener('keydown', handleEscKey, abort);
 
-    const submitIsToday =
-        getMMDDYYYYStringFromDateTime(filter.filterDate) ===
-        getMMDDYYYYStringFromDateTime(new Date());
+    return () => abort.abort();
+  }, [dispatch]);
 
-    const newProps = {
-        isEditing,
-        sortState: model.sortState,
-        handleShowNote,
-        handleShowTicket: handleShowNote,
-        isRedirect: submitIsToday,
-        isNightShift
-    };
+  const handleShowNote = () => {
+    // eslint-disable-next-line no-warning-comments
+    // eslint-disable-next-line react/no-find-dom-node
+    const tableElement = ReactDOM.findDOMNode(tableRef.current);
+    NotePopupTableCss(tableElement, true);
+  };
 
-    const rowClassNameGetter = index => {
-        const classNames = [];
-        dataLength > 7 && index > dataLength - 6 && classNames.push('is-last-row');
+  const submitIsToday =
+    getMMDDYYYYStringFromDateTime(filter.filterDate) ===
+    getMMDDYYYYStringFromDateTime(new Date());
 
-        return classNames.join(' ');
-    };
-    const width = window.innerWidth > 680 ? window.innerWidth - 110 : window.innerWidth;
-    const columnWidth = useMemo(
-        () => calculateColumnWidth(isEditing, width),
-        [isEditing, width]
+  const newProps = {
+    isEditing,
+    sortState: model.sortState,
+    handleShowNote,
+    handleShowTicket: handleShowNote,
+    isRedirect: submitIsToday,
+    isNightShift
+  };
+
+  const rowClassNameGetter = index => {
+    const classNames = [];
+    dataLength > 7 && index > dataLength - 6 && classNames.push('is-last-row');
+
+    return classNames.join(' ');
+  };
+  const width =
+    window.innerWidth > 680 ? window.innerWidth - 110 : window.innerWidth;
+  const columnWidth = useMemo(
+    () => calculateColumnWidth(isEditing, width),
+    [isEditing, width]
+  );
+
+  const tableWidth = width > 1700 ? calculateTableWidth(columnWidth) : width;
+
+  const tableHeight = window.innerHeight - 210;
+
+  if (isEqual(model.loading, REQUEST_STATUS.pending)) {
+    return <Loading />;
+  }
+
+  const findAssignmentByBettypeAndType = (
+    pairs,
+    bettype,
+    assignmentType,
+    isTakeOver = false
+  ) => {
+    const assignment = pairs.find(
+      a =>
+        a.Bettype === bettype &&
+        a.AssignmentType === assignmentType &&
+        a.IsTakeOver === isTakeOver
     );
 
-    const tableWidth = width > 1700 ? calculateTableWidth(columnWidth) : width;
+    return assignment ? assignment.Username : '';
+  };
 
-    const tableHeight = window.innerHeight - 210;
-
-    if (isEqual(model.loading, REQUEST_STATUS.pending)) {
-        return <Loading />;
+  let tableData = [];
+  if (autoMode) {
+    for (let index = 0; index < dataLength; index++) {
+      const league = data[index];
+      const tmpAssignments = assignments.filter(
+        item => item.PreMatchLeagueId === league.PreMatchLeagueId
+      );
+      if (!league.InfoSiteMatchId && tmpAssignments.length > 0) {
+        tableData.push({
+          ...league,
+          HDP: findAssignmentByBettypeAndType(
+            tmpAssignments,
+            BETTYPE.HDP,
+            ASSIGNMENT_TYPE.MAIN
+          ),
+          OtherHDP: findAssignmentByBettypeAndType(
+            tmpAssignments,
+            BETTYPE.HDP,
+            ASSIGNMENT_TYPE.OTHER
+          ),
+          OU: findAssignmentByBettypeAndType(
+            tmpAssignments,
+            BETTYPE.OU,
+            ASSIGNMENT_TYPE.MAIN
+          ),
+          OtherOU: findAssignmentByBettypeAndType(
+            tmpAssignments,
+            BETTYPE.OU,
+            ASSIGNMENT_TYPE.OTHER
+          ),
+          HDPTakeOver: findAssignmentByBettypeAndType(
+            tmpAssignments,
+            BETTYPE.HDP,
+            ASSIGNMENT_TYPE.MAIN,
+            true
+          ),
+          OtherHDPTakeOver: findAssignmentByBettypeAndType(
+            tmpAssignments,
+            BETTYPE.HDP,
+            ASSIGNMENT_TYPE.OTHER,
+            true
+          ),
+          OUTakeOver: findAssignmentByBettypeAndType(
+            tmpAssignments,
+            BETTYPE.OU,
+            ASSIGNMENT_TYPE.MAIN,
+            true
+          ),
+          OtherOUTakeOver: findAssignmentByBettypeAndType(
+            tmpAssignments,
+            BETTYPE.OU,
+            ASSIGNMENT_TYPE.OTHER,
+            true
+          )
+        });
+      } else {
+        tableData.push({ ...league });
+      }
     }
+  } else {
+    tableData = data;
+  }
 
-    const findAssignmentByBettypeAndType = (pairs, bettype, assignmentType, isTakeOver = false) => {
-        const assignment = pairs.find(a => a.Bettype === bettype && a.AssignmentType === assignmentType && a.IsTakeOver === isTakeOver);
+  const getRowHeight = index => calculateRowHeight(tableData[index], isEditing);
 
-        return assignment ? assignment.Username : '';
-    };
-
-    let tableData = [];
-    if (autoMode) {
-        for (let index = 0; index < dataLength; index++) {
-            const league = data[index];
-            const tmpAssignments = assignments.filter(item => item.PreMatchLeagueId === league.PreMatchLeagueId);
-            if (!league.InfoSiteMatchId && tmpAssignments.length > 0) {
-                tableData.push({
-                    ...league,
-                    HDP: findAssignmentByBettypeAndType(tmpAssignments, BETTYPE.HDP, ASSIGNMENT_TYPE.MAIN),
-                    OtherHDP: findAssignmentByBettypeAndType(tmpAssignments, BETTYPE.HDP, ASSIGNMENT_TYPE.OTHER),
-                    OU: findAssignmentByBettypeAndType(tmpAssignments, BETTYPE.OU, ASSIGNMENT_TYPE.MAIN),
-                    OtherOU: findAssignmentByBettypeAndType(tmpAssignments, BETTYPE.OU, ASSIGNMENT_TYPE.OTHER),
-                    HDPTakeOver: findAssignmentByBettypeAndType(tmpAssignments, BETTYPE.HDP, ASSIGNMENT_TYPE.MAIN, true),
-                    OtherHDPTakeOver: findAssignmentByBettypeAndType(tmpAssignments, BETTYPE.HDP, ASSIGNMENT_TYPE.OTHER, true),
-                    OUTakeOver: findAssignmentByBettypeAndType(tmpAssignments, BETTYPE.OU, ASSIGNMENT_TYPE.MAIN, true),
-                    OtherOUTakeOver: findAssignmentByBettypeAndType(tmpAssignments, BETTYPE.OU, ASSIGNMENT_TYPE.OTHER, true)
-                });
-            } else {
-                tableData.push({ ...league });
-            }
-        }
-    } else {
-        tableData = data;
-    }
-
-    const getRowHeight = index => calculateRowHeight(tableData[index], isEditing);
-
-    return (
-        <div className='table'>
-            <Table
-                ref={tableRef}
-                rowHeight={rowHeight}
-                rowsCount={dataLength}
-                key={tableKey}
-                rowHeightGetter={getRowHeight}
-                width={tableWidth}
-                height={tableHeight}
-                maxHeight={tableHeight}
-                rowClassNameGetter={rowClassNameGetter}
-                headerHeight={headerHeight}>
-                {ColumnsFactory(tableData, newProps, columnWidth)}
-            </Table>
-            <div className='total'>Total Leagues: {getTotalLeagues(tableData)}</div>
-        </div>
-    );
+  return (
+    <div className='table'>
+      <Table
+        ref={tableRef}
+        rowHeight={rowHeight}
+        rowsCount={dataLength}
+        key={tableKey}
+        rowHeightGetter={getRowHeight}
+        width={tableWidth}
+        height={tableHeight}
+        maxHeight={tableHeight}
+        rowClassNameGetter={rowClassNameGetter}
+        headerHeight={headerHeight}>
+        {ColumnsFactory(tableData, newProps, columnWidth)}
+      </Table>
+      <div className='total'>Total Leagues: {getTotalLeagues(tableData)}</div>
+    </div>
+  );
 };
 
 PreMatchTable.propTypes = propTypes;

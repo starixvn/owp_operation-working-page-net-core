@@ -17,13 +17,86 @@
   padding: 10px;
   position: relative;
 
-  .filter-control {
-    display: inline-block;
-    width: 150px;
-    margin-right: 16px;
+  .btn-disable {
+    opacity: 0.6;
+    pointer-events: none;
+  }
 
-    input {
-      background-color: transparent;
+  .left-control {
+    display: flex;
+    align-items: flex-end;
+
+    .filter-control-checkbox {
+      display: flex;
+      align-items: center;
+      margin: 0 20px;
+
+      label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      input {
+        background-color: initial;
+        cursor: default;
+        appearance: auto;
+        position: unset;
+      }
+    }
+
+    .filter-control {
+      display: inline-block;
+      width: 150px;
+      margin-right: 16px;
+
+      .multi-select .select-item[aria-selected=true] input[type=checkbox]+span:after {
+        width: 4px;
+        height: 9px;
+        border: 2px solid #fff;
+        border-left: none;
+        border-top: none;
+        content: " ";
+        position: absolute;
+        left: 6px;
+        top: 2px;
+        transform: rotatez(45deg);
+        cursor: pointer;
+        z-index: 20;
+      }
+
+      .rmsc.multi-select .dropdown-heading .dropdown-heading-dropdown-arrow {
+        display: none;
+      }
+
+      .rmsc.multi-select .dropdown-heading:after {
+        position: absolute;
+        top: 50%;
+        margin-top: -2px;
+        right: 5px;
+        content: "";
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 4px 4.5px 0 4.5px;
+        border-color: gray transparent transparent transparent;
+      }
+
+      .rmsc.multi-select .dropdown-container {
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+
+        &:focus,
+        &:focus-within {
+          outline: none;
+          box-shadow: none;
+        }
+      }
+
+      input {
+        background-color: transparent;
+      }
     }
   }
 
@@ -31,6 +104,12 @@
     position: absolute;
     right: 10px;
     bottom: 10px;
+    display: flex;
+    align-items: center;
+
+    .pearl-icon {
+      margin-right: 16px;
+    }
   }
 
   .icon-condition {
@@ -43,6 +122,10 @@
 .mdi-icon {
   cursor: pointer;
   width: 18px;
+
+  &:hover {
+    color: #1e88e5;
+  }
 
   &.icon-message {
     fill: #bdbdbd;
@@ -94,7 +177,7 @@
       margin-top: 0;
     }
 
-    label + .MuiInput-formControl {
+    label+.MuiInput-formControl {
       margin-top: 35px;
     }
 
@@ -245,6 +328,7 @@
 }
 
 .table__provider__verification {
+  position: relative;
   border-collapse: collapse;
   padding: 0;
   width: 100%;
@@ -260,13 +344,10 @@
       z-index: -1;
     }
   }
-  tbody {
-    tr:nth-child(even) {
-      background-color: #ffffff !important;
-    }
 
-    tr:nth-child(even) {
-      background-color: #f9f9f9 !important;
+  tbody {
+    tr:hover {
+      background-color: #cef3fc !important;
     }
   }
 
@@ -276,21 +357,25 @@
     text-align: left;
     border-collapse: collapse;
   }
+
   .match_no,
   .match_status,
   .ko_time,
   .max__bet {
     text-align: center !important;
   }
+
   .league {
     font-size: 13px;
   }
+
   .match {
     .home {
       color: #e21b1b;
       font-weight: 700;
       margin-bottom: 2px !important;
     }
+
     .away {
       display: block;
       color: #494848;
@@ -336,6 +421,7 @@
       }
     }
   }
+
   .agent__view,
   .est__note__view {
     max-width: 120px;
@@ -355,6 +441,7 @@
       }
     }
   }
+
   .agent__edit,
   .est__note__edit {
     max-width: 120px;
@@ -419,7 +506,7 @@
   .ticket-list-popup {
     position: absolute;
     padding: 10px 0;
-    left: 45px;
+    right: 0;
     width: 450px;
     top: 10px;
     border-color: transparent;
@@ -503,7 +590,7 @@
   font-weight: bold;
 }
 
-.agent__confirm {
+.confirm-provider {
   .rmsc {
     --rmsc-bg: transparent !important;
   }
@@ -527,7 +614,7 @@
       }
 
       .dropdown-heading-value {
-        > span {
+        >span {
           display: block;
           max-width: 130px;
           overflow: hidden;
@@ -546,6 +633,7 @@
         border-top-right-radius: 0;
       }
     }
+
     //input field
     .dropdown-container {
       height: 28px !important;
@@ -564,6 +652,7 @@
 
     .select-item {
       padding: 2px 1px;
+
       &:focus {
         background-color: transparent;
       }
@@ -574,10 +663,11 @@
       }
 
       .item-renderer {
-        input[type='checkbox'] + span {
+        input[type='checkbox']+span {
           &:before {
             margin: 2px 5px !important;
           }
+
           &:after {
             left: 6px;
             top: 2px;
@@ -739,17 +829,50 @@
   position: relative;
 }
 
-.provider,
-.other__provider,
+.lst-book-provider,
+.inhouse-providerID,
 .remark,
-.agent,
-.remark__by,
-.est__note {
+.remark__by {
   max-width: 130px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .ticket-cell span {
   margin: 0 !important;
+}
+
+.note-cell {
+  .icon-edit {
+    opacity: 0;
+  }
+
+  .note-popover {
+    right: 100%;
+    left: unset;
+  }
+}
+
+.remark,
+.remark__by {
+  position: relative;
+  overflow: visible;
+  text-align: center !important;
+}
+
+.remark:hover,
+.remark__by:hover {
+  .icon-edit {
+    opacity: 1;
+  }
+}
+
+.lst-book-provider,
+.inhouse-providerId {
+  text-align: center;
+}
+
+.multi-select .select-item .item-renderer span {
+  word-break: break-word;
 }

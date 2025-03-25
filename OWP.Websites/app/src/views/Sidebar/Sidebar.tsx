@@ -58,9 +58,10 @@ const Sidebar = (navigation: Root) => {
         !sideBarRef.current.contains(event.target as Node) &&
         document.body.classList.remove('sidebar-lg-show');
     };
-    document.addEventListener('mousedown', handleClickOutSide);
+    const abort = new AbortController();
+    document.addEventListener('mousedown', handleClickOutSide, abort);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutSide);
+      abort.abort();
     };
   }, [sideBarRef]);
   return (

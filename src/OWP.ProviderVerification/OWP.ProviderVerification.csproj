@@ -12,9 +12,13 @@
   <ItemGroup>
     <ProjectReference Include="..\OWP.RabbitMQ\OWP.RabbitMQ.csproj" />
     <ProjectReference Include="..\OWP\OWP.csproj" />
+    <PackageReference Include="EPPlus" Version="7.5.3" />
+    <PackageReference Include="Epplus.Mapper" Version="7.5.0" />
+    <PackageReference Include="Fanex.Caching" Version="2.2.8" />
     <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="Fanex.NAP.Client" Version="2.0.2" />
     <PackageReference Include="Carter" Version="9.0.0" />
+    <PackageReference Include="Olympus.OWP.Log" Version="9.0.1" />
     <PackageReference Include="Microsoft.NETCore.Targets" Version="5.0.0" PrivateAssets="all" />
   </ItemGroup>
 </Project>
