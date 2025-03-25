@@ -18,7 +18,7 @@ public class InsertOrUpdateEventChangeKoHandler(
             await WriteLogForMonitor(request, "GetEventChangeGameDate");
             await WriteLogForMonitor(logs,"ChangeKODate");
         }
-        //await SaveLogs(logs);
+        await SaveLogs(logs);
         return Unit.Value;
     }
 
@@ -55,15 +55,26 @@ public class InsertOrUpdateEventChangeKoHandler(
                     FromService = "APIGetEventChangeGameDate"
                 }
             };
-        await WriteLogForMonitor($"Ignore build log because only adjustment time from {formattedOldDate} to {newEventDateGmt8}", "ChangeKODate");
-        return new List<LoggedChangeModel>();
+        await WriteLogForMonitor($"{request.InfositeId} only adjustment time from {formattedOldDate} to {newEventDateGmt8}", "ChangeKODate");
+        return new List<LoggedChangeModel>
+        {
+            new()
+            {
+                InfoSiteMatchId = request.InfositeId,
+                UpdateTypeId = UpdateTypeConstant.UPDATE_KO_TIME,
+                Action = UpdateTypeConstant.UpdateType[UpdateTypeConstant.UPDATE_KO_TIME],
+                NewValue = formattedNewDate,
+                OldValue = formattedOldDate,
+                UpDateTime = currentDateTime,
+                FromService = "APIGetEventChangeGameDate"
+            }
+        };
 
 
     }
 
     private static bool IsMoveKODate(DateTime oldGameDate, DateTime newGameDate)
     {
-        
         var milestoneDate = oldGameDate.TimeOfDay >= new TimeSpan(12, 0, 0)
         ? oldGameDate.Date : oldGameDate.Date.AddDays(-1);
 
