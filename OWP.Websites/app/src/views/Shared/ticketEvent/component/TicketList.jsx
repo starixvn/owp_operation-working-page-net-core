@@ -28,7 +28,9 @@ const propTypes = {
   index: PropTypes.number,
   onCloseTicketList: PropTypes.func,
   updateDataSources: PropTypes.func,
-  handleOpenCreateTicket: PropTypes.func
+  handleOpenCreateTicket: PropTypes.func,
+  allowQuickAdd: PropTypes.bool,
+  handleQuickAddTicket: PropTypes.func
 };
 
 const TicketList = props => {
@@ -37,7 +39,9 @@ const TicketList = props => {
     index,
     onCloseTicketList,
     updateDataSources,
-    handleOpenCreateTicket
+    handleOpenCreateTicket,
+    allowQuickAdd,
+    handleQuickAddTicket
   } = props;
   const dataSource = dataSources[index];
   const { ticketList } = useSelector(state => state.ticketList);
@@ -118,6 +122,8 @@ const TicketList = props => {
       handleOpenCreateTicket={handleOpenCreateTicket}
       handleOpenMessage={handleOpenMessage}
       onCloseTicketList={onCloseTicketList}
+      allowQuickAdd={allowQuickAdd}
+      handleQuickAddTicket={handleQuickAddTicket}
     />
   );
 };

@@ -20,6 +20,8 @@ public class NewTicketIssueLiveIncidentRequest : NewTicketModelBase, IRequest<in
 
     public string OwpAwayName { get; set; }
 
+    public bool IsQuickAdd { get; set; }
+
     public int? EventType => (int)Enum.EventType.LiveIncident;
 
     public DateTime EventDateTimeGmt8 { get; set; }

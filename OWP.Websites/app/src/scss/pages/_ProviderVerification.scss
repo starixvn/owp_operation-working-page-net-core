@@ -345,6 +345,7 @@
     }
   }
 
+
   tbody {
     tr:hover {
       background-color: #cef3fc !important;
@@ -507,7 +508,7 @@
     position: absolute;
     padding: 10px 0;
     right: 0;
-    width: 450px;
+    width: 550px;
     top: 10px;
     border-color: transparent;
     background: #fff;
@@ -842,7 +843,6 @@
 .ticket-cell span {
   margin: 0 !important;
 }
-
 .note-cell {
   .icon-edit {
     opacity: 0;

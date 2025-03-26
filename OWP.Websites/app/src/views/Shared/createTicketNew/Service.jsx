@@ -9,6 +9,8 @@ import {
 } from './const/const';
 import { orderBy } from 'lodash';
 import { TICKET_TYPE } from '../TicketCenterPrematch/const/const.json';
+import { post } from '../Service/Service';
+import { NET_CORE_QUERY_SIMPLE_API } from '../Constants';
 
 const { EVENT_CHECKING } = TICKET_TYPE;
 
@@ -59,6 +61,15 @@ const queryAssigneesByOwpMatchId = async model => {
   return response.data;
 };
 
+const queryAssigneesByParentMatchId = async parentId => {
+  const response = await post({
+    url: NET_CORE_QUERY_SIMPLE_API,
+    apiKey: 'group-chat-query-recipients',
+    parentId
+  });
+  return response.data;
+};
+
 const getMatchInfoByAdminSiteId = async adminSiteId => {
   const response = await Axios.get(urlGetMatchInfo, {
     params: adminSiteId
@@ -72,7 +83,8 @@ const Service = {
   event,
   getSubType,
   queryAssigneesByOwpMatchId,
-  getMatchInfoByAdminSiteId
+  getMatchInfoByAdminSiteId,
+  queryAssigneesByParentMatchId
 };
 
 export default Service;

@@ -26,6 +26,8 @@ public class CreateNewTicketCriteria : CriteriaBase
 
     public int? EventType { get; set; }
 
+    public bool IsQuickAdd { get; set; }
+
     public override string GetSettingKey() => "OWP_TicketIssue_Create";
 
     public override bool IsValid()

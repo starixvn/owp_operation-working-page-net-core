@@ -118,4 +118,10 @@ public static class ConstantApiKey
     public const string EmployeeWorkingShiftDeleteNote = "employee-working-shift-delete-note";
     #endregion employeeWorkingShift
 
+    #region GroupChat
+
+    public const string GroupChatQueryRecipients = "group-chat-query-recipients";
+
+    #endregion
+
 }

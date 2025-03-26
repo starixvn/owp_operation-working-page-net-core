@@ -11,6 +11,7 @@ const TicketCell = ({ rowIndex }: CellProps) => {
   return (
     <div className='ticket-cell'>
       <TicketCellCommon
+        allowQuickAdd={true}
         dataSource={matches}
         updateDataSources={data => stableDispatch(setDataTable(data))}
         rowIndex={rowIndex}

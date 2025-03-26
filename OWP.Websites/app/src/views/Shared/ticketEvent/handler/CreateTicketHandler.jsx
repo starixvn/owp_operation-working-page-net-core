@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types';
 import { PlusCircleIcon } from 'mdi-react';
-import { useSelector } from 'react-redux';
 
 const propTypes = {
-  handleOpenCreateTicket: PropTypes.func
+  handleOpenCreateTicket: PropTypes.func,
+  hasWrite: PropTypes.bool
 };
 const CreateTicketHandler = props => {
-  const { handleOpenCreateTicket } = props;
-  const hasWrite = useSelector(state => state.pagePolicy).permission.HasWrite;
+  const { handleOpenCreateTicket, hasWrite } = props;
 
   if (!hasWrite) {
     return null;
