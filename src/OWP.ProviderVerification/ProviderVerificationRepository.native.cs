@@ -98,7 +98,7 @@ public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
                     {
                         Label = y.AgentName,
                         Value = y.AgentId
-                    }).ToList(),
+                    }).DistinctBy(a => a.Value).ToList(),
                 ProviderMatch = providerMatches.Where(x => x.OWPMatchId == match.OWPMatchId).ToList()
             };
 
