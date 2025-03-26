@@ -1,5 +1,5 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { CheckboxMarkedCircleOutlineIcon } from 'mdi-react';
+import { useDispatch } from 'react-redux';
+import { CheckboxMarkedCircleOutlineIcon, CloseCircleIcon } from 'mdi-react';
 import { useAppSelector } from '../../app/hooks';
 import { useEffect } from 'react';
 import { BackButton, SubmitButton, ExportButton } from './Button';
@@ -11,7 +11,7 @@ const Review = (props: TReview) => {
   const { upload } = useAppSelector(
     state => state
   );
-  const { isSuccess, value } = upload.validationResponse;
+  const { isSuccess, value, errors } = upload.validationResponse;
   const { validationResponse, file, showTable, eventDate } = upload;
 
   const dispatch = useDispatch();
@@ -39,14 +39,28 @@ const Review = (props: TReview) => {
 
   return (
     <>
-      {isSuccess && (
+      {isSuccess ? (
         <div className='success-info'>
           <CheckboxMarkedCircleOutlineIcon size={20} />
           <span>
             There is no failed record in the total of {value.originalRecordCount} record(s)
           </span>
         </div>
-      )}
+      ) : (
+        errors?.length > 0 && (
+          <div className="error-info">
+            <CloseCircleIcon size={20} />
+            <div className='error-info-text'>
+              {errors.map((error, index) => (
+                <span key={index}>
+                  {error.description} in row {error.row}.
+                </span>
+              ))}
+            </div>
+          </div>
+        )
+      )
+      }
       <div className='wizard-buttons'>
         {showTable && <ExportButton />}
 

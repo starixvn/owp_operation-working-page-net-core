@@ -16,6 +16,11 @@ type ValidationResponse = {
     originalRecordCount: number;
     sessionId: string;
   };
+  errors
+  : {
+    description: string;
+    row: string;
+  }[];
 };
 
 export { TGetTemplate, TUploadProviderFile, TReview, ValidationResponse };

@@ -682,6 +682,17 @@
   }
 }
 
+.error-info {
+  align-items: flex-start;
+  gap: 10px;
+
+  .error-info-text {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
 .note-cell {
   .icon-edit {
     opacity: 0;
