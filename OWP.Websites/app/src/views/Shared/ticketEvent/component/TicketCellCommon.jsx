@@ -101,7 +101,8 @@ const TicketCellCommon = props => {
           RecipientIds: recipients.map(r => r.RecipientId)
         }
       ],
-      Message: 'Please add',
+      Message:
+        'Hi all, I have just created this group chat for the live matter discussion.',
       TicketType: LIVE_INCIDENT,
       TicketTypeName: 'Live Incident',
       SubType: subTypeMatchGroupChat.subTypeId,
