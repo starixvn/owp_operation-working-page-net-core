@@ -1017,3 +1017,11 @@ JavaScript Disabled
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.14), 0 3px 4px -2px rgba(0, 0, 0, 0.2),
     0 1px 7px 0 rgba(0, 0, 0, 0.12);
 }
+
+.icon-chat {
+  width: 24px;
+  height: 24px;
+  color: #9fb0bc;
+  margin: 0 10px;
+
+}

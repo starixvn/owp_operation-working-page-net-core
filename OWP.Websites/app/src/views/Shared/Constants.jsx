@@ -119,7 +119,8 @@ export const FunctionKeys = {
   TimeRangeView: 'TimeRangeView',
   FullTimeView: 'FullTimeView',
   ProviderArrangement: 'ProviderArrangement',
-  ProviderVerification: 'ProviderVerification'
+  ProviderVerification: 'ProviderVerification',
+  RocketChat: 'QuickSearch'//'RocketChat'
 };
 
 export const REQUEST_STATUS = {
@@ -144,5 +145,5 @@ export const BettypeId = {
 };
 
 export const SpecialFilterColumn = {
-  LEAGUE: 'leagueName',
+  LEAGUE: 'leagueName'
 };

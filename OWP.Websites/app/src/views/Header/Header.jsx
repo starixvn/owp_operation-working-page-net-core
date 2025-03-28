@@ -19,6 +19,7 @@ import LogoutIcon from 'mdi-react/LogoutIcon';
 import SettingsIcon from 'mdi-react/SettingsIcon';
 import Notification from './Notification';
 import Search from './Search';
+import { IconChat } from '../Shared/common/icons/common-icons';
 
 const propTypes = {
   title: PropTypes.string.isRequired,
@@ -26,7 +27,8 @@ const propTypes = {
   logoutLink: PropTypes.string.isRequired,
   notificationSettingLink: PropTypes.string.isRequired,
   accountSettingLink: PropTypes.string.isRequired,
-  quickSearchPolicy: PropTypes.object.isRequired
+  quickSearchPolicy: PropTypes.object.isRequired,
+  rocketChatPolicy: PropTypes.object.isRequired
 };
 
 class Header extends Component {
@@ -71,7 +73,8 @@ class Header extends Component {
       logoutLink,
       notificationSettingLink,
       accountSettingLink,
-      quickSearchPolicy
+      quickSearchPolicy,
+      rocketChatPolicy
     } = this.props;
     return (
       <div>
@@ -103,6 +106,15 @@ class Header extends Component {
                   />
                 </CNavItem>
               )}
+
+              {rocketChatPolicy.HasRead && (
+                <CNavItem>
+                  <NavLink href='rocket-chat' target='_blank'>
+                    <IconChat className={'mdi-icon icon-chat'} />
+                  </NavLink>
+                </CNavItem>
+              )}
+
               <CNavItem>
                 <NavLink
                   href='Feedback'
