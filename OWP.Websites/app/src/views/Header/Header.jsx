@@ -109,7 +109,7 @@ class Header extends Component {
 
               {rocketChatPolicy.HasRead && (
                 <CNavItem>
-                  <NavLink href='rocket-chat' target='_blank'>
+                  <NavLink href='RocketChat' target='_blank'>
                     <IconChat className={'mdi-icon icon-chat'} />
                   </NavLink>
                 </CNavItem>

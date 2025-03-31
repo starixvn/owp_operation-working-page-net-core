@@ -273,7 +273,7 @@ public class HomeController(AccessCounter accessCounter) : Controller
     }
 
     [Route("RocketChat")]
-    [NapAuth(FunctionKey = FunctionKeys.RocketChat, Policy = Constant.Policy.Host)]
+    [NapAuth(FunctionKey = FunctionKeys.RocketChat, Policy = Constant.Policy.Read)]
     public ActionResult RocketChat()
     {
         return View("~/wwwroot/rocket-chat/server.cshtml");
