@@ -120,7 +120,7 @@ export const FunctionKeys = {
   FullTimeView: 'FullTimeView',
   ProviderArrangement: 'ProviderArrangement',
   ProviderVerification: 'ProviderVerification',
-  RocketChat: 'QuickSearch'//'RocketChat'
+  RocketChat: 'RocketChat'
 };
 
 export const REQUEST_STATUS = {
