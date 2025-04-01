@@ -12,17 +12,35 @@ public class InsertOrUpdateEventChangeKoHandler(
     private const int DefaultGmt8 = 8;
     public async Task<Unit> Handle(InsertOrUpdateEventChangeKoRequest request, CancellationToken cancellationToken)
     {
-        var logs=await CreateLogsChangeModels(request);
-        if (logs.Any())
+        IList<LoggedChangeModel> logs = new List<LoggedChangeModel>();
+        try
+        {
+            logs = await CreateLogsChangeModels(request);
+            await SaveLogs(logs);
+            await UpdateEventDateTime(request);
+            return Unit.Value;
+        }
+        catch(Exception e)
+        {
+            await WriteLogForMonitor(e, "GetEventChangeGameDate_Ex");
+            throw;
+        }
+        finally
         {
             await WriteLogForMonitor(request, "GetEventChangeGameDate");
-            await WriteLogForMonitor(logs,"ChangeKODate");
+            await WriteLogForMonitor(logs, "ChangeKODate");
         }
-        await SaveLogs(logs);
-        return Unit.Value;
     }
 
-    public async Task<IList<LoggedChangeModel>> CreateLogsChangeModels(InsertOrUpdateEventChangeKoRequest request)
+    private async Task UpdateEventDateTime(InsertOrUpdateEventChangeKoRequest request)
+    {
+        await repository.ExecuteAsync(new UpdateEventDateTimeCriteria
+        {
+            InfoSiteId = request.InfositeId,
+            NewEventDate = request.NewEventDate.AddHours(DefaultGmt8)
+        });
+    }
+    private async Task<IList<LoggedChangeModel>> CreateLogsChangeModels(InsertOrUpdateEventChangeKoRequest request)
     {
         var oldEventDateGmt8 = request.OldEventDate.AddHours(DefaultGmt8);
         var newEventDateGmt8 = request.NewEventDate.AddHours(DefaultGmt8);
@@ -32,6 +50,7 @@ public class InsertOrUpdateEventChangeKoHandler(
         var currentDateTime = DateTime.Now.AddHours(12);
 
         if (IsMoveKODate(oldEventDateGmt8, newEventDateGmt8))
+        {
             return new List<LoggedChangeModel>
             {
                 new()
@@ -55,6 +74,7 @@ public class InsertOrUpdateEventChangeKoHandler(
                     FromService = "APIGetEventChangeGameDate"
                 }
             };
+        }
         await WriteLogForMonitor($"{request.InfositeId} only adjustment time from {formattedOldDate} to {newEventDateGmt8}", "ChangeKODate");
         return new List<LoggedChangeModel>
         {
