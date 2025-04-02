@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import AuthorizeService from '../Authorize/Service';
-import Loading from '../components/Loading';
 import { FunctionKeys } from '../Shared/Constants';
 
 export default function RocketChatNative() {
