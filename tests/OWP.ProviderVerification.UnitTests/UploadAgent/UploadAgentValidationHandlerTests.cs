@@ -19,7 +19,7 @@ public class UploadAgentValidationHandlerTests
         var cache = Substitute.For<ICache>();
         var dynamicRepository = Substitute.For<IDynamicRepository>();
         var logWriterService= Substitute.For<LogWriterService>();
-        _handler = new UploadAgentValidationHandler(cache, dynamicRepository, logWriterService);
+        _handler = new UploadAgentValidationHandler(cache, dynamicRepository);
         ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
     }
 
