@@ -3,6 +3,7 @@ import NumericTextbox from 'react-numeric-textbox';
 import { useAppDispatch } from '../../app/hooks';
 import { setValueMaxbetSpread } from '../eventPickingTableSlice/reducer';
 import { handleCheckButton } from '../../helper/filterHelper';
+import ToastrWrapper from '../../../components/ToastrWrapper';
 
 const MaxbetEditableCell = ({
   maxBet,
@@ -23,6 +24,11 @@ const MaxbetEditableCell = ({
   const dispatch = useAppDispatch();
   const inputRef = createRef<HTMLInputElement>();
   const handleBlur = () => {
+    const valueInput = Number(inputRef?.current?.value);
+    if (!isNaN(valueInput) && valueInput >= 100) {
+      ToastrWrapper.showWarning(<span>Please enter a MaxBet value that is less than 3 digits!</span>);
+    }
+
     const valueNumber =
       typeof inputRef?.current?.value === 'number'
         ? (inputRef?.current?.value as number) * 1000
@@ -69,7 +75,7 @@ const MaxbetEditableCell = ({
             format=''
             name='maxbet'
             onBlur={handleBlur}
-            onChange={v => {
+            onChange={(v: number) => {
               newValue = v;
             }}
           />
