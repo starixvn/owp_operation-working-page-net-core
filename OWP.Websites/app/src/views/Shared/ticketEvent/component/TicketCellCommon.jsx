@@ -19,7 +19,11 @@ import {
   urlRequestLiveIncident
 } from '../../createTicketNew/const/const';
 import Service from '../../createTicketNew/Service';
-import { getSubTypeByType } from '../../createTicketNew/Helper/HelperCreateTicket';
+import {
+  formatRecipientModel,
+  getRecipientDefaultBySubType,
+  getSubTypeByType
+} from '../../createTicketNew/Helper/HelperCreateTicket';
 import usePermission from '../../customHook/usePermission';
 import { FunctionKeys } from '../../Constants';
 import { TICKET_TYPE } from '../../TicketCenterPrematch/const/const.json';
@@ -87,6 +91,11 @@ const TicketCellCommon = props => {
     const subTypeMatchGroupChat = subTypesByLiveIncidentType.find(
       x => x.subTypeName === QUICK_ADD_SUBTYPE.MATCH_GROUP_CHAT
     );
+    const recipientsBySubType = await getRecipientDefaultBySubType(2016);
+    const Recipients = formatRecipientModel(
+      recipients.concat(recipientsBySubType),
+      creatorInfo
+    );
 
     const newAddModel = {
       OwpMatchId: OWPMatchId,
@@ -95,12 +104,7 @@ const TicketCellCommon = props => {
       OwpAwayName: Away,
       EventDateTimeGmt8: EventDateTime,
       CreatorId: creatorInfo.recipientId,
-      Recipients: [
-        {
-          RecipientType: RECIPIENT_TYPE.INDIVIDUAL,
-          RecipientIds: recipients.map(r => r.RecipientId)
-        }
-      ],
+      Recipients,
       Message:
         'Hi all, I have just created this group chat for the live matter discussion.',
       TicketType: LIVE_INCIDENT,
