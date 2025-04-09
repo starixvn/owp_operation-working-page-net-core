@@ -72,30 +72,28 @@ const TicketListPopupCommon = (props: TPopup) => {
                   color={color(x.IsRead)}
                 />
               </td>
-              <td>#{x.TicketId}</td>
-              <td>
-                <div className='line-subtype' id={`subtype-${x.TicketId}`}>
-                  {x.SubtypeName?.length > SUB_TYPE_MAX_LENGTH
-                    ? x.SubtypeName.substring(0, SUB_TYPE_MAX_LENGTH) + '...'
-                    : x.SubtypeName}
+              <td className='ticket-info'>
+                <div className='event-name'>{x.Home} -vs- {x.Away}</div>
+                <div className='event-date'>
+                  {Utils.formatDateTimeDisplay(x.LatestCreatedDate)}
                 </div>
-                {x.SubtypeName?.length > SUB_TYPE_MAX_LENGTH && (
-                  <UncontrolledTooltip
-                    placement='bottom'
-                    target={`subtype-${x.TicketId}`}>
-                    {x.SubtypeName}
-                  </UncontrolledTooltip>
+                {x.SubtypeName && (
+                  <>
+                    <div className='line-subtype' id={`subtype-${x.TicketId}`}>
+                      <span className='tag' />
+                      {x.SubtypeName.length > SUB_TYPE_MAX_LENGTH
+                        ? x.SubtypeName.substring(0, SUB_TYPE_MAX_LENGTH) + '...'
+                        : x.SubtypeName}
+                    </div>
+                    {x.SubtypeName.length > SUB_TYPE_MAX_LENGTH && (
+                      <UncontrolledTooltip
+                        placement='bottom'
+                        target={`subtype-${x.TicketId}`}>
+                        {x.SubtypeName}
+                      </UncontrolledTooltip>
+                    )}
+                  </>
                 )}
-              </td>
-              <td>
-                <div className='line-message'>
-                  <span className='username'>{x.LatestUsername}</span>
-                  <span className='time'>
-                    {' '}
-                    - {Utils.formatDateTimeString(x.LatestCreatedDate)} :{' '}
-                  </span>
-                  {x.LatestMessage}
-                </div>
               </td>
             </tr>
           ))}

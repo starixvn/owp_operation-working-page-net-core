@@ -13,4 +13,9 @@ public class TicketListModel
     public string SubtypeName { get; set; }
 
     public bool IsRead { get; set; }
+
+    public string Home { get; set; }
+
+    public string Away { get; set; }
+
 }

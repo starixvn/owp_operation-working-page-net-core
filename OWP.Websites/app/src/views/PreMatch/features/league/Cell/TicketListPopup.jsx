@@ -28,7 +28,7 @@ import {
   updatedIconIssueMatchRow
 } from '../shiftSlice/shiftSlice';
 import { useSelector } from 'react-redux';
-import TicketListPopupCommon from '../../../../Shared/ticketList/TicketListPopupCommon';
+import TicketListPopupCommon from './TicketListPopupCommon';
 import { openNewChattingTab } from '../../../../Shared/Utils';
 
 const propTypes = {

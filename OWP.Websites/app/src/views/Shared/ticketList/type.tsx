@@ -5,6 +5,8 @@ type TticketList = {
   LatestUsername: Required<string>;
   LatestCreatedDate: Required<Date>;
   LatestMessage: string;
+  Home: string;
+  Away: string;
 };
 
 type TPopup = {

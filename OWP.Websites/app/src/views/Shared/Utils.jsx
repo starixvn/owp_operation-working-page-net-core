@@ -28,6 +28,8 @@ const formatDateTime = date => dayjs(date).format('MM/DD/YYYY hh:ss A');
 
 const formatDateTimeString = date => dayjs(date).format('MM/DD/YYYY hh:mm A');
 
+const formatDateTimeDisplay = date => dayjs(date).format('MMM D, YYYY h:mm A');
+
 const formatDateTimeCreateDate = date =>
   dayjs(date).add(12, 'h').format('MM/DD/YYYY hh:mm A');
 
@@ -243,6 +245,7 @@ const Utils = {
   formatDate,
   formatDateTime,
   formatDateTimeString,
+  formatDateTimeDisplay,
   formatDateTimeCreateDate,
   formatDateTimeGMT8,
   formatTime,
