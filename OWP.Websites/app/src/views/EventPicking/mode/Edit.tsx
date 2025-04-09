@@ -2,7 +2,7 @@ import { useAppDispatch } from '../app/hooks';
 import store from '../app/store';
 import { editEventPickings } from '../table/eventPickingTableSlice/eventSliceThunkNative';
 
-const Edit = ({ onSetMode }: { onSetMode: () => void }) => {
+const Edit = ({ onSetMode }: { onSetMode: () => void; }) => {
   const dispatch = useAppDispatch();
   const { permission } = store.getState().pagePolicy;
 
@@ -14,7 +14,7 @@ const Edit = ({ onSetMode }: { onSetMode: () => void }) => {
 
   return permission.HasWrite ? (
     <button className='button-submit' onClick={handleEdit}>
-      Edit
+      Edit MB
     </button>
   ) : (
     <></>
