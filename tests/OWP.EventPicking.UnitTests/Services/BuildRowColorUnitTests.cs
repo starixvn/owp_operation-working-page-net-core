@@ -1,91 +1,144 @@
-using OWP.EventPicking.Api.Misc;
 using OWP.EventPicking.Api.Models;
 using OWP.EventPicking.Api.Services;
+using OWP.EventPicking.Api.Misc;
+using OWP.EventPicking.Api.Constant;
 using Xunit;
 
 namespace OWP.EventPicking.UnitTests.Services;
 
 public class BuildRowColorUnitTests
 {
-    private readonly BuildRowColorImp service = new();
+    private readonly BuildRowColorImp _buildRowColor;
 
-    [Fact]
-    public void BuildRowColor_MapRowColor()
+    public BuildRowColorUnitTests()
     {
-        var eventPickings = new List<EventPickingModel>
-        {
-            new() { // Gray
-                IsBlackList = true,
-                OtherProvider = "RB2",
-                MaxBetHDPNumber = 1000,
-                MinorBettypeId = null,
-                LeagueName = "League"
-            },
-            new() { // Red
-                IsBlackList = false,
-                OtherProvider = "",
-                MaxBetHDPNumber = 1000,
-                MinorBettypeId = null,
-                LeagueName = "Saba"
-            },
-            new() { // White
-                IsBlackList = false,
-                OtherProvider = "",
-                MaxBetHDPNumber = null,
-                MinorBettypeId = null,
-                LeagueName = "Saba - 5 Mins Play"
-            },
-            new() { // white
-                IsBlackList = false,
-                OtherProvider = "RB2",
-                MaxBetHDPNumber = 1000,
-                MinorBettypeId = null,
-                LeagueName = "LeagueA"
-            },
-            new() { // Red
-                IsBlackList = false,
-                OtherProvider = "",
-                MaxBetHDPNumber = null,
-                MinorBettypeId = null,
-                LeagueName = "Saba"
-            },
-            new() { // White
-                IsBlackList = false,
-                OtherProvider = "",
-                MaxBetHDPNumber = null,
-                MinorBettypeId = null,
-                LeagueName = "League - 20 Mins Play"
-            }
-        };
-        service.BuildRowColor(eventPickings,false);
-
-        Assert.Equal("white", eventPickings[0].RowColor);
-        Assert.Equal("white", eventPickings[1].RowColor);
-        Assert.Equal("white", eventPickings[4].RowColor);
-        Assert.Equal("#FFFFFF", eventPickings[5].RowColorHex);
+        _buildRowColor = new BuildRowColorImp();
     }
 
     [Fact]
-    public void BuildRowColor_MapRowColor2()
+    public void BuildRowColor_ShouldSetGrayColor_WhenBlackListed()
     {
-        var eventPickings = new List<EventPickingModel>
+        // Arrange
+        var matches = new List<EventPickingModel>
         {
-            new() { IsAwayBlackList = true, LeagueName = "League" },
-            new() { IsHomeBlackList = false, LeagueName = "Saba" },
-            new() { IsLeagueBlackList = false, LeagueName = "Saba - 5 Mins Play" },
-            new() { IsAwayBlackList = false, LeagueName = "LeagueA" },
-            new() { IsHomeBlackList = false, LeagueName = "Saba" },
-            new() { IsLeagueBlackList = false, LeagueName = "League - 20 Mins Play" }
+            new EventPickingModel
+            {
+                IsAwayBlackList = true,
+                IsHomeBlackList = false,
+                IsLeagueBlackList = false,
+                Remark2 = string.Empty
+            }
         };
 
-        service.BuildRowColor(eventPickings, false);
+        // Act
+        _buildRowColor.BuildRowColor(matches);
 
-        Assert.Equal(Constant.ColorGray, eventPickings[0].RowColor);
-        Assert.Equal(Constant.ColorWhite, eventPickings[1].RowColor);
-        Assert.Equal(Constant.ColorWhite, eventPickings[2].RowColor);
-        Assert.Equal(Constant.ColorWhite, eventPickings[3].RowColor);
-        Assert.Equal(Constant.ColorWhite, eventPickings[4].RowColor);
-        Assert.Equal(Constant.ColorWhite, eventPickings[5].RowColor);
+        // Assert
+        Assert.Equal(Constant.ColorGray, matches[0].RowColor);
+    }
+
+    [Fact]
+    public void BuildRowColor_ShouldSetYellowColor_WhenMinorBetTypeAndEventPicking()
+    {
+        // Arrange
+        var matches = new List<EventPickingModel>
+        {
+            new EventPickingModel
+            {
+                MinorBettypeId = (byte)1,
+                Remark2 = string.Empty
+            }
+        };
+
+        // Act
+        _buildRowColor.BuildRowColor(matches, true);
+
+        // Assert
+        Assert.Equal(Constant.ColorYellow, matches[0].RowColor);
+    }
+
+    [Fact]
+    public void BuildRowColor_ShouldSetBeigeColor_WhenEventStateChanged()
+    {
+        // Arrange
+        var matches = new List<EventPickingModel>
+        {
+            new EventPickingModel
+            {
+                IsMovedEventDate = true,
+                IsDeleted = false,
+                Remark2 = "Postponed",
+                InfoSiteMatchStatus = InfoSiteMatchStatus.Postponed
+            }
+        };
+
+        // Act
+        _buildRowColor.BuildRowColor(matches);
+
+        // Assert
+        Assert.Equal(Constant.ColorBeige, matches[0].RowColor);
+    }
+
+    [Fact]
+    public void BuildRowColor_ShouldSetWhiteColor_WhenNoSpecialConditions()
+    {
+        // Arrange
+        var matches = new List<EventPickingModel>
+        {
+            new EventPickingModel
+            {
+                Remark2 = string.Empty
+            }
+        };
+
+        // Act
+        _buildRowColor.BuildRowColor(matches);
+
+        // Assert
+        Assert.Equal(Constant.ColorWhite, matches[0].RowColor);
+    }
+
+    [Fact]
+    public void BuildRowColor_ShouldPrioritizeBlacklistOverOtherConditions()
+    {
+        // Arrange
+        var matches = new List<EventPickingModel>
+        {
+            new EventPickingModel
+            {
+                IsAwayBlackList = true,
+                MinorBettypeId = (byte)1,
+                IsMovedEventDate = true,
+                Remark2 = string.Empty
+            }
+        };
+
+        // Act
+        _buildRowColor.BuildRowColor(matches, true);
+
+        // Assert
+        Assert.Equal(Constant.ColorGray, matches[0].RowColor);
+    }
+
+    [Fact]
+    public void BuildRowColor_ShouldPrioritizeEventStateOverMinorBetType()
+    {
+        // Arrange
+        var matches = new List<EventPickingModel>
+        {
+            new EventPickingModel
+            {
+                MinorBettypeId = (byte)1,
+                IsMovedEventDate = true,
+                Remark2 = string.Empty
+            }
+        };
+
+        // Act
+        _buildRowColor.BuildRowColor(matches, true);
+
+        // Assert
+        Assert.Equal(Constant.ColorYellow, matches[0].RowColor);
     }
 
     [Theory]

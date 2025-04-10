@@ -16,19 +16,21 @@ public class BuildProviderUnitTests
     [Fact]
     public async Task Build_Always_ReturnCorrectProvider()
     {
+        // Arrange
         repository.GetProviderArrangement().Returns(MockProviderManagement());
         var matches = MockMatches();
         var service = new BuildProviderImp(repository);
 
+        // Act
         await service.Build(matches);
 
-        Assert.Equal("", matches[0].Provider);
-        Assert.Equal("rb2", matches[1].Provider);
-        Assert.Equal("FC", matches[2].Provider);
-        Assert.Equal("RB2TV", matches[3].Provider);
-        Assert.Equal("abcRB2TVdef", matches[4].Provider);
-        Assert.Equal("abcRB2aabbTV", matches[5].Provider);
+        // Assert
+        Assert.Equal("TV", matches[0].Provider);
+        Assert.Equal("TV/RB2", matches[1].Provider); 
+        Assert.Equal("RB2", matches[2].Provider);
+        Assert.Equal(null, matches[3].Provider); 
     }
+
 
 
     public List<string> MockProviderManagement() => ["RB2", "BG", "SM", "RTS", "BET", "FC"];
@@ -38,34 +40,35 @@ public class BuildProviderUnitTests
         [
             new EventPickingModel
             {
-                OtherProvider = ""
+                TV = "SomeTV",
+                Channel = null,
+                Iptv = null,
+                Provider = null
             },
 
             new EventPickingModel
             {
-                OtherProvider = "rb2/ok/oke"
+                TV = "SomeTV",
+                Channel = null,
+                Iptv = null,
+                Provider = "RB2"
             },
 
             new EventPickingModel
             {
-                OtherProvider = "FC/FCTV"
-
+                TV = null,
+                Channel = null,
+                Iptv = null,
+                Provider = "RB2"
             },
 
             new EventPickingModel
             {
-                OtherProvider = "RB2TV"
+                TV = null,
+                Channel = null,
+                Iptv = null,
+                Provider = null
             },
-
-            new EventPickingModel
-            {
-                OtherProvider = "abcRB2TVdef/aaa"
-            },
-
-            new EventPickingModel
-            {
-                OtherProvider = "abcRB2aabbTV/aaa"
-            }
         ];
 
 }

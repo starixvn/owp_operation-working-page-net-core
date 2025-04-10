@@ -1,5 +1,5 @@
 ﻿namespace OWP.ProviderVerification;
-internal static class Utils
+public static class Utils
 {
     public static string BuildProviderVerificationKey(string sessionId)
     {
