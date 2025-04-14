@@ -1,5 +1,4 @@
 ﻿using OWP.EventPicking.Api.Helper;
-using OWP.EventPicking.Api.Models;
 
 // ReSharper disable ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
 

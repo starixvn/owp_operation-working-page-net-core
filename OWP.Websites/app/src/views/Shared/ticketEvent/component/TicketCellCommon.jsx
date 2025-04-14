@@ -19,7 +19,11 @@ import {
   urlRequestLiveIncident
 } from '../../createTicketNew/const/const';
 import Service from '../../createTicketNew/Service';
-import { getSubTypeByType } from '../../createTicketNew/Helper/HelperCreateTicket';
+import {
+  formatRecipientModel,
+  getRecipientDefaultBySubType,
+  getSubTypeByType
+} from '../../createTicketNew/Helper/HelperCreateTicket';
 import usePermission from '../../customHook/usePermission';
 import { FunctionKeys } from '../../Constants';
 import { TICKET_TYPE } from '../../TicketCenterPrematch/const/const.json';
@@ -49,13 +53,9 @@ const TicketCellCommon = props => {
     updateDataSources
   } = props;
 
-  const hasWrite = useSelector(state => state.pagePolicy).permission.HasWrite;
-  const pagePermissionModel = usePermission(
-    FunctionKeys.TicketCenter,
-    'pagePolicy'
-  );
-  const { permission } = pagePermissionModel;
-  const { Username, ActorId } = permission;
+  const { permission } = useSelector(state => state.pagePolicy);
+  const { Username, ActorId, HasWrite } = permission;
+
   const creatorInfo = {
     groupName: null,
     nickName: Username,
@@ -87,6 +87,11 @@ const TicketCellCommon = props => {
     const subTypeMatchGroupChat = subTypesByLiveIncidentType.find(
       x => x.subTypeName === QUICK_ADD_SUBTYPE.MATCH_GROUP_CHAT
     );
+    const recipientsBySubType = await getRecipientDefaultBySubType(2016);
+    const Recipients = formatRecipientModel(
+      recipients.concat(recipientsBySubType),
+      creatorInfo
+    );
 
     const newAddModel = {
       OwpMatchId: OWPMatchId,
@@ -95,12 +100,7 @@ const TicketCellCommon = props => {
       OwpAwayName: Away,
       EventDateTimeGmt8: EventDateTime,
       CreatorId: creatorInfo.recipientId,
-      Recipients: [
-        {
-          RecipientType: RECIPIENT_TYPE.INDIVIDUAL,
-          RecipientIds: recipients.map(r => r.RecipientId)
-        }
-      ],
+      Recipients,
       Message:
         'Hi all, I have just created this group chat for the live matter discussion.',
       TicketType: LIVE_INCIDENT,
@@ -168,7 +168,7 @@ const TicketCellCommon = props => {
 
   const renderCreateTicketHandler = () => (
     <CreateTicketHandler
-      hasWrite={hasWrite}
+      hasWrite={HasWrite}
       handleOpenCreateTicket={handleOpenCreateTicket}
     />
   );
@@ -177,7 +177,7 @@ const TicketCellCommon = props => {
     <div className='ticket-cell'>
       {dataSource[rowIndex].HasTicket
         ? renderOpenTicketListHandler()
-        : allowQuickAdd && hasWrite
+        : allowQuickAdd && HasWrite
         ? renderQuickAddTicketHandler()
         : renderCreateTicketHandler()}
     </div>

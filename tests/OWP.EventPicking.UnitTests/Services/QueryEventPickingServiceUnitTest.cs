@@ -58,7 +58,7 @@ public class QueryEventPickingServiceImpTests
                 RowColor = "Red",
                 Provider = "yes",
                 OtherProvider = "yes",
-                RAndDInfo = [new() { UpdateTypeId = 1 }]
+                RAndDInfo = [new() { UpdateTypeId = 1, Group = "1"}]
             }
         };
 
@@ -176,7 +176,7 @@ public class QueryEventPickingServiceImpTests
                     Provider = "yes",
                     OtherProvider = "yes",
                     OWPLeagueId = 1,
-                    RAndDInfo = [new RAndDInfo { UpdateTypeId = 1 }]
+                    RAndDInfo = [new RAndDInfo { UpdateTypeId = 1, Group = "1"}]
                 },
                 new EventPickingRequest
                 {
@@ -266,7 +266,7 @@ public class QueryEventPickingServiceImpTests
 
                     UpdateType = ["1"]
                 },
-                true
+                false
         ];
 
         // Test case 5: Condition 3, UpdateType is null in request
@@ -280,7 +280,7 @@ public class QueryEventPickingServiceImpTests
                     Provider = "yes",
                     OtherProvider = "yes",
                     OWPLeagueId = 1,
-                    RAndDInfo = []
+                    RAndDInfo = [new RAndDInfo { Group = "1" }]
                 },
                 new EventPickingRequest
                 {
@@ -292,7 +292,7 @@ public class QueryEventPickingServiceImpTests
 
                     UpdateType = [null]
                 },
-                true
+                false
         ];
 
         // Test case 6: Condition 3, no RAndDInfos and UpdateType contains null
