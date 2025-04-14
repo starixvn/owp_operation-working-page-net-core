@@ -65,12 +65,14 @@ const TicketListPopupCommon = (props: TPopup) => {
             <tr
               key={`${x.TicketId}-${index}`}
               onClick={e => handleOpenMessage(e, x)}>
-              <td>
-                {!x.IsRead && <div className='notification-dot'></div>}
-                <MessageTextOutlineIcon
-                  className={color(x.IsRead)}
-                  color={color(x.IsRead)}
-                />
+              <td >
+                <div className='icon-container'>
+                  {!x.IsRead && <div className='notification-dot'></div>}
+                  <MessageTextOutlineIcon
+                    className={color(x.IsRead)}
+                    color={color(x.IsRead)}
+                  />
+                </div>
               </td>
               <td className='ticket-info'>
                 <div className='event-name'>{x.Home} -vs- {x.Away}</div>
