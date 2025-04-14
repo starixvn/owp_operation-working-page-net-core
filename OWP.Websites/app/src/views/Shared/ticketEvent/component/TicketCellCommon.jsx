@@ -53,13 +53,9 @@ const TicketCellCommon = props => {
     updateDataSources
   } = props;
 
-  const hasWrite = useSelector(state => state.pagePolicy).permission.HasWrite;
-  const pagePermissionModel = usePermission(
-    FunctionKeys.TicketCenter,
-    'pagePolicy'
-  );
-  const { permission } = pagePermissionModel;
-  const { Username, ActorId } = permission;
+  const { permission } = useSelector(state => state.pagePolicy);
+  const { Username, ActorId, HasWrite } = permission;
+
   const creatorInfo = {
     groupName: null,
     nickName: Username,
@@ -172,7 +168,7 @@ const TicketCellCommon = props => {
 
   const renderCreateTicketHandler = () => (
     <CreateTicketHandler
-      hasWrite={hasWrite}
+      hasWrite={HasWrite}
       handleOpenCreateTicket={handleOpenCreateTicket}
     />
   );
@@ -181,7 +177,7 @@ const TicketCellCommon = props => {
     <div className='ticket-cell'>
       {dataSource[rowIndex].HasTicket
         ? renderOpenTicketListHandler()
-        : allowQuickAdd && hasWrite
+        : allowQuickAdd && HasWrite
         ? renderQuickAddTicketHandler()
         : renderCreateTicketHandler()}
     </div>
