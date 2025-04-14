@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import AuthorizeService from '../Authorize/Service';
 import { FunctionKeys } from '../Shared/Constants';
+import { PROD_URL, LOCAL_URL } from './Const.json';
 
-export default function RocketChatNative() {
+const RocketChatNative = () => {
   const [authToken, setAuthToken] = useState(null);
   const [error, setError] = useState(null);
   const iframeRef = useRef(null);
@@ -10,8 +11,10 @@ export default function RocketChatNative() {
   useEffect(() => {
     const fetchPolicyAndLoginToRC = async () => {
       const policy = await AuthorizeService.authorize(FunctionKeys.RocketChat);
+      const chatUrl =
+        process.env.NODE_ENV === 'production' ? PROD_URL : LOCAL_URL;
       if (policy?.Username) {
-        const response = await fetch('https://chat.nexdev.net/api/v1/login', {
+        const response = await fetch(`${chatUrl}/api/v1/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -36,7 +39,9 @@ export default function RocketChatNative() {
 
   useEffect(() => {
     if (authToken && iframeRef.current) {
-      iframeRef.current.src = `https://chat.nexdev.net/home?resumeToken=${authToken}`;
+      const chatUrl =
+        process.env.NODE_ENV === 'production' ? PROD_URL : LOCAL_URL;
+      iframeRef.current.src = `${chatUrl}/home?resumeToken=${authToken}`;
     }
   }, [authToken]);
 
@@ -54,4 +59,6 @@ export default function RocketChatNative() {
       style={{ border: 'none' }}
     />
   );
-}
+};
+
+export default RocketChatNative;
