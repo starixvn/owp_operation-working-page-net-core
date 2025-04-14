@@ -7,6 +7,7 @@ type TticketList = {
   LatestMessage: string;
   Home: string;
   Away: string;
+  EventDate: Required<Date>;
 };
 
 type TPopup = {

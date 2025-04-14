@@ -18,4 +18,5 @@ public class TicketListModel
 
     public string Away { get; set; }
 
+    public DateTime EventDate { get; set; }
 }

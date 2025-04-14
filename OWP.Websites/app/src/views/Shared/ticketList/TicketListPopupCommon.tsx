@@ -75,7 +75,7 @@ const TicketListPopupCommon = (props: TPopup) => {
               <td className='ticket-info'>
                 <div className='event-name'>{x.Home} -vs- {x.Away}</div>
                 <div className='event-date'>
-                  {Utils.formatDateTimeDisplay(x.LatestCreatedDate)}
+                  {Utils.formatDateTimeDisplay(x.EventDate)}
                 </div>
                 {x.SubtypeName && (
                   <>
