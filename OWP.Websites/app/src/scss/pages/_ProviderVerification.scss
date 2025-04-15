@@ -527,23 +527,28 @@
     width: 100%;
     color: #444444;
 
+    .icon-new-tab:hover {
+      cursor: pointer;
+      color: #1e88e5;
+    }
+
     .ticket-info {
       text-align: left;
-  
+
       .event-name {
         font-size: 14px;
         font-weight: 500;
         color: #8c0d0d;
       }
-  
+
       .event-date {
         margin-top: 0;
         font-weight: 600;
       }
-  
+
       .line-subtype {
         color: #6a6a6a;
-  
+
         .tag {
           background: #92ccff;
           border-radius: 1px 0 0 1px;
@@ -554,7 +559,7 @@
           text-decoration: none;
           margin-right: 3px !important;
         }
-  
+
         .tag::after {
           background: #fff;
           border-bottom: 4px solid transparent;
@@ -884,6 +889,7 @@
 .ticket-cell span {
   margin: 0 !important;
 }
+
 .note-cell {
   .icon-edit {
     opacity: 0;

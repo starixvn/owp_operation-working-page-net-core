@@ -215,7 +215,7 @@ const openNewChattingTab = (actorId, ticketId, eventType) => {
   window.open(
     `SmallChatting?actorId=${actorId}&eventType=${eventType}&ticketId=${ticketId}`,
     `${ticketId}`,
-    `toolbar=yes,scrollbars=yes,resizable=yes,top=${top},left=${left},width=500,height=700`
+    `toolbar=yes,scrollbars=yes,resizable=yes,top=${top},left=${left},width=515,height=700`
   );
 };
 

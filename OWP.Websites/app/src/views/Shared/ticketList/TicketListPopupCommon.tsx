@@ -3,6 +3,10 @@ import Utils from '../Utils';
 import { UncontrolledTooltip } from 'reactstrap';
 import { MessageTextOutlineIcon } from 'mdi-react';
 import { TPopup } from './type';
+import IconOpenNewTab from '../IconCustom/IconOpenNewTab';
+import {
+  EVENT_TYPE
+} from '../TicketCenterPrematch/helper/helper';
 
 const SUB_TYPE_MAX_LENGTH = 50;
 
@@ -96,6 +100,11 @@ const TicketListPopupCommon = (props: TPopup) => {
                     )}
                   </>
                 )}
+              </td>
+              <td>
+                <IconOpenNewTab
+                  eventType={EVENT_TYPE.LIVE_INCIDENT}
+                  ticketId={x.TicketId}></IconOpenNewTab>
               </td>
             </tr>
           ))}
