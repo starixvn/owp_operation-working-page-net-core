@@ -5,45 +5,34 @@ import { FunctionKeys } from '../Shared/Constants';
 
 export default function RocketChatNative() {
   const [authToken, setAuthToken] = useState(null);
-  const [policy, setPolicy] = useState(null);
+  const [error, setError] = useState(null);
   const iframeRef = useRef(null);
 
   useEffect(() => {
-    const fetchPolicy = async () => {
-      try {
-        const policy = await AuthorizeService.authorize(
-          FunctionKeys.RocketChat
-        );
-        setPolicy(policy);
-      } catch (error) {
-        console.error('Error fetching authorization policy:', error);
-      }
-    };
-
-    fetchPolicy();
-  }, []);
-
-  useEffect(() => {
-    const loginRocketChat = async () => {
-      try {
+    const fetchPolicyAndLoginToRC = async () => {
+      const policy = await AuthorizeService.authorize(FunctionKeys.RocketChat);
+      if (policy?.Username) {
         const response = await fetch('https://chat.nexdev.net/api/v1/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username: 'CCSABBY', password: 'password' })
+          body: JSON.stringify({
+            username: policy.Username,
+            password: 'password'
+          })
         });
 
         if (!response.ok) {
-          throw new Error('Failed to log in to Rocket.Chat');
+          setError('Failed to log in to Rocket.Chat');
         }
 
         const { data } = await response.json();
         setAuthToken(data.authToken);
-      } catch (error) {
-        console.error('Error logging in to Rocket.Chat:', error);
+      } else {
+        setError('Policy not found');
       }
     };
 
-    loginRocketChat();
+    fetchPolicyAndLoginToRC();
   }, []);
 
   useEffect(() => {
@@ -52,8 +41,8 @@ export default function RocketChatNative() {
     }
   }, [authToken]);
 
-  if (!policy?.HasRead) {
-    return <Loading />;
+  if (error) {
+    return <div>{error}</div>;
   }
 
   return (
@@ -62,6 +51,7 @@ export default function RocketChatNative() {
       width='100%'
       height='890'
       title='Rocket.Chat'
+      allow='microphone'
       style={{ border: 'none' }}
     />
   );

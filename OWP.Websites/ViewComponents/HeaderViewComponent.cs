@@ -21,7 +21,8 @@ public class HeaderViewComponent(INapSession session, HeaderService headerServic
             Header = await headerService.Query(),
             HasDetailInformationPermission =
                 permissionService.HasRight(FunctionKeys.DetailsInformation, Constant.Policy.Read),
-            HasQuickSearchPermission = permissionService.HasRight(FunctionKeys.QuickSearch, Constant.Policy.Read)
+            HasQuickSearchPermission = permissionService.HasRight(FunctionKeys.QuickSearch, Constant.Policy.Read),
+            HasRocketChatPermission = permissionService.HasRight(FunctionKeys.RocketChat, Constant.Policy.Read)
         };
 
         ViewBag.Title = title;
