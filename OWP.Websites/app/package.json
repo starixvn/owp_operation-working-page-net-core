@@ -24,8 +24,9 @@
     "build-batch-5": "npm run build:prematch-report & npm run build:match-count-live-report & npm run build:os-league-setting & npm run build:event-upload",
     "build-batch-6": "npm run build:event-picking & npm run build:provider-arrangement & npm run build:assignee-suggestion & npm run build:la-kpi",
     "build-batch-7": "npm run build:feedback & npm run build:user-management & npm run build:event-assignment-new & npm run build:small-chatting",
-    "build-batch-8": "npm run build:welcome & npm run build:provider-verification & npm run build:provider-verification-check-difference-provider & npm run build:rocket-chat & npm run build:small-ticket-center & npm run build:account-setting",
-    "build-all": "npm run build-batch-0 & npm run build-batch-1 & npm run build-batch-2 & npm run build-batch-3 & npm run build-batch-4 & npm run build-batch-5 & npm run build-batch-6 & npm run build-batch-7 & npm run build-batch-8",
+    "build-batch-8": "npm run build:welcome & npm run build:provider-verification & npm run build:provider-verification-check-difference-provider & npm run build:small-ticket-center & npm run build:account-setting",
+    "build-all-local": "npm run build:rocket-chat-local & npm run build-batch-0 & npm run build-batch-1 & npm run build-batch-2 & npm run build-batch-3 & npm run build-batch-4 & npm run build-batch-5 & npm run build-batch-6 & npm run build-batch-7 & npm run build-batch-8",
+    "build-all-prod": "npm run build:rocket-chat-prod & npm run build-batch-0 & npm run build-batch-1 & npm run build-batch-2 & npm run build-batch-3 & npm run build-batch-4 & npm run build-batch-5 & npm run build-batch-6 & npm run build-batch-7 & npm run build-batch-8",
     "build-related-popup-ticket": "npm run build:task-list & npm run build:live-game-list & npm run build:live-game-assignment & npm run build:event-assignment-new & npm run build:ticket-center & npm run build:day-shift-assignment & npm run build:night-shift-assignment",
     "build:syncRound": "npm run build:task-list & npm run build:live-game-assignment & npm run build:live-game-list & npm run build:detail-information & npm run build:day-shift-assignment & npm run build:night-shift-assignment & npm run build:event-picking",
     "start:account-setting": "set NODE_APP=account-setting & vite",
@@ -98,8 +99,9 @@
     "build:welcome": "set NODE_APP=welcome & vite build",
     "start:provider-verification-check-difference-provider": "set NODE_APP=provider-verification-check-difference-provider & vite",
     "build:provider-verification-check-difference-provider": "set NODE_APP=provider-verification-check-difference-provider & vite build",
-    "start:rocket-chat": "set NODE_APP=rocket-chat & vite",
-    "build:rocket-chat": "set NODE_APP=rocket-chat & vite build"
+    "start:rocket-chat": "set NODE_APP=rocket-chat & vite --mode development",
+    "build:rocket-chat-local": "set NODE_APP=rocket-chat & vite build --mode development",
+    "build:rocket-chat-prod": "set NODE_APP=rocket-chat & vite build --mode production"
   },
   "dependencies": {
     "@charkour/react-reactions": "^0.11.0",
