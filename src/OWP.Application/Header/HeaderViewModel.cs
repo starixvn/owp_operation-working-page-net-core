@@ -9,4 +9,6 @@ public class HeaderViewModel
     public bool HasDetailInformationPermission { get; set; }
 
     public bool HasQuickSearchPermission { get; set; }
+
+    public bool HasRocketChatPermission { get; set; }
 }

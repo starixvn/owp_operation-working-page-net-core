@@ -34,24 +34,35 @@ class Layout extends Component {
     setAxiosInterceptors();
 
     (async () => {
-      const [header, detailInformationPolicy, quickSearchPolicy] =
-        await axios.all([
-          HeaderService.query(this.props.title),
-          AuthorizeService.authorize(FunctionKeys.DetailsInformation),
-          AuthorizeService.authorize(FunctionKeys.QuickSearch)
-        ]);
+      const [
+        header,
+        detailInformationPolicy,
+        quickSearchPolicy,
+        rocketChatPolicy
+      ] = await axios.all([
+        HeaderService.query(this.props.title),
+        AuthorizeService.authorize(FunctionKeys.DetailsInformation),
+        AuthorizeService.authorize(FunctionKeys.QuickSearch),
+        AuthorizeService.authorize(FunctionKeys.RocketChat)
+      ]);
       this.setState({
         isLoading: false,
         header,
         detailInformationPolicy,
-        quickSearchPolicy
+        quickSearchPolicy,
+        rocketChatPolicy
       });
     })();
   }
 
   render() {
-    const { isLoading, header, detailInformationPolicy, quickSearchPolicy } =
-      this.state;
+    const {
+      isLoading,
+      header,
+      detailInformationPolicy,
+      quickSearchPolicy,
+      rocketChatPolicy
+    } = this.state;
     if (isLoading) {
       return <Loading />;
     }
@@ -77,6 +88,7 @@ class Layout extends Component {
             notificationSettingLink={notificationSettingLink}
             accountSettingLink={accountSettingPath}
             quickSearchPolicy={quickSearchPolicy}
+            rocketChatPolicy={rocketChatPolicy}
           />
           <div className='cd-cover-layer' />
           <div className='app-body'>

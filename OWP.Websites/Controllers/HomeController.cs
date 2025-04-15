@@ -271,4 +271,11 @@ public class HomeController(AccessCounter accessCounter) : Controller
         await accessCounter.UpdateCounter("SmallTicket");
         return View("~/wwwroot/small-ticket-center/server.cshtml");
     }
+
+    [Route("OWPChat")]
+    [NapAuth(FunctionKey = FunctionKeys.RocketChat, Policy = Constant.Policy.Read)]
+    public ActionResult RocketChat()
+    {
+        return View("~/wwwroot/rocket-chat/server.cshtml");
+    }
 }

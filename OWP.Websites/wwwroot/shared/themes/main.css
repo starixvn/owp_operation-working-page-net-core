@@ -2949,3 +2949,14 @@ select.browser-default {
       display: none; }
       .tabs-content .tab.active {
         display: block; }
+a.nav-link.rocket-chat {
+    width: 24px;
+    color: #9fb0bc;
+    margin: 0 15px;
+    display: inline-block;
+}
+
+    a.nav-link.rocket-chat .icon-chat {
+        vertical-align: middle;
+        padding-top: 5px;
+    }
