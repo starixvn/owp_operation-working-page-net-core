@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import AuthorizeService from '../Authorize/Service';
 import { FunctionKeys } from '../Shared/Constants';
+import { PROD_URL, LOCAL_URL } from './Const.json';
 
 const RocketChatNative = () => {
   const [authToken, setAuthToken] = useState(null);
@@ -10,10 +11,7 @@ const RocketChatNative = () => {
   useEffect(() => {
     const fetchPolicyAndLoginToRC = async () => {
       const policy = await AuthorizeService.authorize(FunctionKeys.RocketChat);
-
-      const chatUrl = process.env.NODE_CHAT_SERVER_URL;
-      console.log('chatUrl', chatUrl);
-
+      const chatUrl = process.env === 'production' ? PROD_URL : LOCAL_URL;
       if (policy?.Username) {
         const response = await fetch(`${chatUrl}/api/v1/login`, {
           method: 'POST',
@@ -40,7 +38,8 @@ const RocketChatNative = () => {
 
   useEffect(() => {
     if (authToken && iframeRef.current) {
-      const chatUrl = process.env.NODE_CHAT_SERVER_URL;
+      const chatUrl =
+        process.env.NODE_ENV === 'production' ? PROD_URL : LOCAL_URL;
       iframeRef.current.src = `${chatUrl}/home?resumeToken=${authToken}`;
     }
   }, [authToken]);
