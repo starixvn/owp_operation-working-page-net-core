@@ -92,7 +92,7 @@ const getConfigTicketsTab = containerWidth => {
     sortFunc: sort,
     tableWidth: bonusWidth,
     onRowClick: async (event, rowIndex) => {
-      if (event?.target?.className?.includes('icon-new-tab')) {
+      if (event?.target?.closest('.icon-new-tab')) {
         return;
       }
       const { pagePolicy, eventChecking } = store.getState();

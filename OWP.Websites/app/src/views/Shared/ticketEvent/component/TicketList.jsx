@@ -49,6 +49,10 @@ const TicketList = props => {
   const { permission } = useSelector(state => state.pagePolicy);
   const stableDispatch = useDispatch();
   const handleOpenMessage = async (event, ticket) => {
+    if (event?.target?.closest('.icon-new-tab')) {
+      return;
+    }
+
     const { TicketId } = ticket;
     const requestDetailModel = {
       ticketId: TicketId,
@@ -58,6 +62,7 @@ const TicketList = props => {
       ),
       eventType: EVENT_TYPE.LIVE_INCIDENT
     };
+
     if (event.altKey) {
       openNewChattingTab(
         permission.ActorId,
