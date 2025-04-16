@@ -5,9 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { PlusCircleIcon, PlusIcon } from 'mdi-react';
 import {
   closePopup,
-  getModelByRowIndex,
-  getTicketDetail,
-  getTicketSubTypes
+  getModelByRowIndex
 } from '../../chatBoardNew/chatBoardSlice';
 import {
   closeCreatePopup,
@@ -15,7 +13,6 @@ import {
 } from '../../createTicketNew/createTicketBoardSliceNew';
 import {
   QUICK_ADD_SUBTYPE,
-  RECIPIENT_TYPE,
   urlRequestLiveIncident
 } from '../../createTicketNew/const/const';
 import Service from '../../createTicketNew/Service';
@@ -24,15 +21,11 @@ import {
   getRecipientDefaultBySubType,
   getSubTypeByType
 } from '../../createTicketNew/Helper/HelperCreateTicket';
-import usePermission from '../../customHook/usePermission';
-import { FunctionKeys } from '../../Constants';
 import { TICKET_TYPE } from '../../TicketCenterPrematch/const/const.json';
 import { post } from '../../Service/Service';
-import {
-  EVENT_TYPE,
-  getDetailSegmentUrlByEventType
-} from '../../TicketCenterPrematch/helper/helper';
+import { EVENT_TYPE } from '../../TicketCenterPrematch/helper/helper';
 import { IconRocket } from '../../common/icons/common-icons';
+import { openNewChattingTab } from '../../Utils';
 
 const propTypes = {
   allowQuickAdd: PropTypes.bool,
@@ -114,22 +107,7 @@ const TicketCellCommon = props => {
 
     const { data } = await post(newAddModel);
 
-    const requestDetailModel = {
-      ticketId: data,
-      actorId: ActorId,
-      detailSegmentUrl: getDetailSegmentUrlByEventType(
-        EVENT_TYPE.LIVE_INCIDENT
-      ),
-      eventType: EVENT_TYPE.LIVE_INCIDENT
-    };
-
-    stableDispatch(getTicketSubTypes(LIVE_INCIDENT));
-    stableDispatch(
-      getTicketDetail({
-        ...requestDetailModel,
-        isQueryMessageInLastTwoDay: true
-      })
-    );
+    openNewChattingTab(ActorId, data, EVENT_TYPE.LIVE_INCIDENT);
   };
 
   const renderOpenTicketListHandler = () => (
