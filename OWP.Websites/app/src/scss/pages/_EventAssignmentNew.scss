@@ -411,6 +411,11 @@
   width: 100%;
   color: #444444;
 
+  .icon-new-tab:hover {
+    cursor: pointer;
+    color: #1e88e5;
+  }
+
   .ticket-info {
     text-align: left;
 

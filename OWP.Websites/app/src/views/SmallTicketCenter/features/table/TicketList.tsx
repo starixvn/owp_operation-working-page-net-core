@@ -9,7 +9,7 @@ const TicketList = () => {
     state => state?.pagePolicy?.permission?.ActorId
   );
   const handleOnClick = (event, ticketId: number, ticketType: number) => {
-    if (event?.target?.className?.includes('icon-new-tab')) {
+    if (event?.target?.closest('.icon-new-tab')) {
       return;
     }
     openCurrentChattingTab(actorId, ticketId, ticketType);
