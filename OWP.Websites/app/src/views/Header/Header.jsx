@@ -19,7 +19,11 @@ import LogoutIcon from 'mdi-react/LogoutIcon';
 import SettingsIcon from 'mdi-react/SettingsIcon';
 import Notification from './Notification';
 import Search from './Search';
-import { IconChat, IconSearchAccount } from '../Shared/common/icons/common-icons';
+import SearchAccountChat from './SearchAccountChat';
+import {
+  IconChat,
+  IconSearchAccount
+} from '../Shared/common/icons/common-icons';
 
 const propTypes = {
   title: PropTypes.string.isRequired,
@@ -36,10 +40,13 @@ class Header extends Component {
     super(props);
 
     this.state = {
-      isVisibleSearchArea: false
+      isVisibleSearchArea: false,
+      isSearchAccountChat: false
     };
 
     this.handleVisibleSearchArea = this.handleVisibleSearchArea.bind(this);
+    this.handleSearchAccountChat = this.handleSearchAccountChat.bind(this);
+    this.handleAccountSelect = this.handleAccountSelect.bind(this);
     this.toggleSideBar = this.toggleSideBar.bind(this);
   }
 
@@ -54,6 +61,19 @@ class Header extends Component {
     this.setState({
       ...this.state,
       isVisibleSearchArea: isVisible
+    });
+  }
+
+  handleSearchAccountChat(isSearch) {
+    this.setState({
+      isSearchAccountChat: isSearch
+    });
+  }
+
+  handleAccountSelect(account) {
+    console.log('Selected account:', account);
+    this.setState({
+      isSearchAccountChat: false
     });
   }
 
@@ -95,6 +115,13 @@ class Header extends Component {
                 </div>
               </CNavItem>
             </CHeaderNav>
+
+            <SearchAccountChat
+              isSearch={this.state.isSearchAccountChat}
+              onAccountSelect={this.handleAccountSelect}
+              handleSearch={this.handleSearchAccountChat}
+            />
+
             <CHeaderNav>
               {quickSearchPolicy.HasRead && (
                 <CNavItem>
@@ -110,7 +137,10 @@ class Header extends Component {
               {rocketChatPolicy.HasRead && (
                 <>
                   <CNavItem>
-                    <NavLink href='#' className='rocket-chat menu-search-account'>
+                    <NavLink
+                      href='#'
+                      className='rocket-chat menu-search-account'
+                      onClick={() => this.handleSearchAccountChat(true)}>
                       <IconSearchAccount className={'icon-search-account'} />
                     </NavLink>
                   </CNavItem>
