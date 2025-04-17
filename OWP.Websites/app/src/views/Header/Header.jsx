@@ -19,7 +19,7 @@ import LogoutIcon from 'mdi-react/LogoutIcon';
 import SettingsIcon from 'mdi-react/SettingsIcon';
 import Notification from './Notification';
 import Search from './Search';
-import { IconChat } from '../Shared/common/icons/common-icons';
+import { IconChat, IconSearchAccount } from '../Shared/common/icons/common-icons';
 
 const propTypes = {
   title: PropTypes.string.isRequired,
@@ -108,11 +108,18 @@ class Header extends Component {
               )}
 
               {rocketChatPolicy.HasRead && (
-                <CNavItem>
-                  <NavLink href='OWPChat'>
-                    <IconChat className={'icon-chat'} />
-                  </NavLink>
-                </CNavItem>
+                <>
+                  <CNavItem>
+                    <NavLink href='#' className='rocket-chat menu-search-account'>
+                      <IconSearchAccount className={'icon-search-account'} />
+                    </NavLink>
+                  </CNavItem>
+                  <CNavItem>
+                    <NavLink href='OWPChat' className='rocket-chat'>
+                      <IconChat className={'icon-chat'} />
+                    </NavLink>
+                  </CNavItem>
+                </>
               )}
 
               <CNavItem>
