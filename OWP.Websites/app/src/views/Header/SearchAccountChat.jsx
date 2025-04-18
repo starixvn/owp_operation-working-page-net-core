@@ -13,7 +13,7 @@ const SearchAccountChat = ({ isSearch, onAccountSelect, handleSearch }) => {
   const inputRef = useRef(null);
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = event => {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
         handleSearch?.(false);
         setSearchKeyword('');
@@ -33,15 +33,16 @@ const SearchAccountChat = ({ isSearch, onAccountSelect, handleSearch }) => {
   }, [isSearch]);
 
   const debouncedSearch = useCallback(
-    debounce(async (value) => {
+    debounce(async value => {
       setIsLoading(true);
       try {
         const users = await UserService.getAll();
         const mainAccounts = users.filter(user => !user.IsSecondAccount);
         const filtered = value
-          ? mainAccounts.filter(user => 
-              (user.UserName?.toLowerCase()?.includes(value.toLowerCase()) ||
-               user.NickName?.toLowerCase()?.includes(value.toLowerCase()))
+          ? mainAccounts.filter(
+              user =>
+                user.UserName?.toLowerCase()?.includes(value.toLowerCase()) ||
+                user.NickName?.toLowerCase()?.includes(value.toLowerCase())
             )
           : [];
         setFilteredAccounts(filtered);
@@ -55,13 +56,13 @@ const SearchAccountChat = ({ isSearch, onAccountSelect, handleSearch }) => {
     []
   );
 
-  const handleSearchInput = (event) => {
+  const handleSearchInput = event => {
     const value = event.target.value.trim();
     setSearchKeyword(value);
     debouncedSearch(value);
   };
 
-  const handleAccountClick = (account) => {
+  const handleAccountClick = account => {
     onAccountSelect?.(account);
     setSearchKeyword('');
     setFilteredAccounts([]);
@@ -88,34 +89,37 @@ const SearchAccountChat = ({ isSearch, onAccountSelect, handleSearch }) => {
       </div>
 
       {searchKeyword && (
-        <div className='area-account search-dropdown' style={{ maxHeight: '400px', overflowY: 'auto' }}>
-          {isLoading ? (
-            <div className='search-item loading'>
-              <span>Searching...</span>
-            </div>
-          ) : filteredAccounts.length > 0 ? (
-            filteredAccounts.map(account => (
-              <div
-                className='search-item'
-                key={account.UserId}
-                onClick={() => handleAccountClick(account)}>
-                <span className='user-icon'>
-                  <AccountCircleIcon size={24} />
-                </span>
-                <div className='user-info'>
-                  <div className='user-name'>{account.UserName}</div>
-                  {account.NickName && (
-                    <div className='user-nickname'>{account.NickName}</div>
-                  )}
-                </div>
+        <>
+          <div className='pseudo-classes' />
+          <div className='area-account search-dropdown'>
+            {isLoading ? (
+              <div className='search-item loading'>
+                <span>Searching...</span>
               </div>
-            ))
-          ) : (
-            <div className='search-item no-results'>
-              <span>No results found</span>
-            </div>
-          )}
-        </div>
+            ) : filteredAccounts.length > 0 ? (
+              filteredAccounts.map(account => (
+                <div
+                  className='search-item'
+                  key={account.UserId}
+                  onClick={() => handleAccountClick(account)}>
+                  <span className='user-icon'>
+                    <AccountCircleIcon size={24} />
+                  </span>
+                  <div className='user-info'>
+                    <div className='user-name'>{account.UserName}</div>
+                    {account.NickName && (
+                      <div className='user-nickname'>{account.NickName}</div>
+                    )}
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className='search-item no-results'>
+                <span>No results found</span>
+              </div>
+            )}
+          </div>
+        </>
       )}
     </div>
   );

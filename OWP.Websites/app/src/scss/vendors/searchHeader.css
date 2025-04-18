@@ -1037,13 +1037,23 @@ JavaScript Disabled
   width: 320px;
   top: 5px;
   right: 248px;
-  z-index: 10;
+  z-index: 12;
   border-radius: 20px;
   background-color: #fff;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   padding: 8px 12px 8px 36px;
   display: flex;
   align-items: center;
+}
+
+.pseudo-classes {
+  position: absolute;
+  top: 30px;
+  right: 248px;
+  width: 320px;
+  height: 20px;
+  background: #fff;
+  z-index: 10;
 }
 
 .search-account-chat-container .form-control {
@@ -1079,7 +1089,8 @@ JavaScript Disabled
   background-color: #fff;
   border-radius: 0 0 12px 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  overflow: hidden;
+  overflow: auto;
+  max-height: 80vh;
 }
 
 .search-item {
