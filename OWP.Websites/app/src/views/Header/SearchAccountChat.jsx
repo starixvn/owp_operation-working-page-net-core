@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import SearchIcon from 'mdi-react/SearchIcon';
 import AccountCircleIcon from 'mdi-react/AccountCircleIcon';
 import UserService from '../Shared/User/UserService';
+import { debounce } from 'lodash';
 
 const SearchAccountChat = ({ isSearch, onAccountSelect, handleSearch }) => {
   const [searchKeyword, setSearchKeyword] = useState('');
@@ -24,27 +25,32 @@ const SearchAccountChat = ({ isSearch, onAccountSelect, handleSearch }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [handleSearch]);
 
-  const handleSearchInput = async (event) => {
-    const value = event.target.value;
+  const debouncedSearch = useCallback(
+    debounce(async (value) => {
+      setIsLoading(true);
+      try {
+        const users = await UserService.getAll();
+        const filtered = value
+          ? users.filter(user => 
+              (user.UserName?.toLowerCase()?.includes(value.toLowerCase()) ||
+               user.NickName?.toLowerCase()?.includes(value.toLowerCase()))
+            )
+          : [];
+        setFilteredAccounts(filtered);
+      } catch (error) {
+        console.error('Error filtering users:', error);
+        setFilteredAccounts([]);
+      } finally {
+        setIsLoading(false);
+      }
+    }, 300),
+    []
+  );
+
+  const handleSearchInput = (event) => {
+    const value = event.target.value.trim();
     setSearchKeyword(value);
-    setIsLoading(true);
-
-    try {
-      const users = await UserService.getUserFromCached();
-      const filtered = value
-        ? users.filter(user => 
-            (user.UserName?.toLowerCase()?.includes(value.toLowerCase()) ||
-             user.NickName?.toLowerCase()?.includes(value.toLowerCase()))
-          )
-        : [];
-
-      setFilteredAccounts(filtered);
-    } catch (error) {
-      console.error('Error fetching users:', error);
-      setFilteredAccounts([]);
-    } finally {
-      setIsLoading(false);
-    }
+    debouncedSearch(value);
   };
 
   const handleAccountClick = (account) => {
