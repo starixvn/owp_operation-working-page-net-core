@@ -10,6 +10,7 @@ const SearchAccountChat = ({ isSearch, onAccountSelect, handleSearch }) => {
   const [filteredAccounts, setFilteredAccounts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const searchRef = useRef(null);
+  const inputRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -25,13 +26,20 @@ const SearchAccountChat = ({ isSearch, onAccountSelect, handleSearch }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [handleSearch]);
 
+  useEffect(() => {
+    if (isSearch && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isSearch]);
+
   const debouncedSearch = useCallback(
     debounce(async (value) => {
       setIsLoading(true);
       try {
-        const users = await UserService.dataSourceUsersFromServer();
+        const users = await UserService.getAll();
+        const mainAccounts = users.filter(user => !user.IsSecondAccount);
         const filtered = value
-          ? users.filter(user => 
+          ? mainAccounts.filter(user => 
               (user.UserName?.toLowerCase()?.includes(value.toLowerCase()) ||
                user.NickName?.toLowerCase()?.includes(value.toLowerCase()))
             )
@@ -68,6 +76,7 @@ const SearchAccountChat = ({ isSearch, onAccountSelect, handleSearch }) => {
           <SearchIcon size={26} />
         </div>
         <input
+          ref={inputRef}
           type='text'
           className='form-control'
           placeholder='Search by account name or nickname'
@@ -79,7 +88,7 @@ const SearchAccountChat = ({ isSearch, onAccountSelect, handleSearch }) => {
       </div>
 
       {searchKeyword && (
-        <div className='area-account search-dropdown'>
+        <div className='area-account search-dropdown' style={{ maxHeight: '400px', overflowY: 'auto' }}>
           {isLoading ? (
             <div className='search-item loading'>
               <span>Searching...</span>
