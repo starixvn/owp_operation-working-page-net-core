@@ -1032,11 +1032,16 @@ JavaScript Disabled
   margin: 0 10px;
 }
 /* search account chat container */
+.area-search {
+  position: relative;
+  width: 320px;
+  top: -25px;
+  right: -100px;
+}
+
 .search-account-chat-container {
   position: absolute;
-  width: 320px;
-  top: 5px;
-  right: 248px;
+  width: 100%;
   z-index: 12;
   border-radius: 20px;
   background-color: #fff;
@@ -1048,10 +1053,9 @@ JavaScript Disabled
 
 .pseudo-classes {
   position: absolute;
-  top: 30px;
-  right: 248px;
-  width: 320px;
-  height: 20px;
+  top: 28px;
+  width: 100%;
+  height: 18px;
   background: #fff;
   z-index: 10;
 }
@@ -1081,16 +1085,16 @@ JavaScript Disabled
 }
 
 .area-account.search-dropdown {
-  padding-top: 20px;
+  padding-top: 10px;
   position: absolute;
-  top: 32px;
-  right: 248px;
-  width: 320px;
+  top: 46px;
+  width: 100%;
   background-color: #fff;
   border-radius: 0 0 12px 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   overflow: auto;
   max-height: 80vh;
+  z-index: 11;
 }
 
 .search-item {

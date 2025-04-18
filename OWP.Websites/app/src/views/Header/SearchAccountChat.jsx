@@ -71,7 +71,7 @@ const SearchAccountChat = ({ isSearch, onAccountSelect, handleSearch }) => {
   if (!isSearch) return null;
 
   return (
-    <div ref={searchRef}>
+    <div className='area-search' ref={searchRef}>
       <div className='search-account-chat-container'>
         <div className='search-icon'>
           <SearchIcon size={26} />
