@@ -1,52 +1,40 @@
-import React, { Component } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import SearchIcon from 'mdi-react/SearchIcon';
 import AccountCircleIcon from 'mdi-react/AccountCircleIcon';
 
-class SearchAccountChat extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      searchKeyword: '',
-      filteredAccounts: [],
-      isLoading: false
+const SearchAccountChat = ({ isSearch, onAccountSelect, handleSearch }) => {
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [filteredAccounts, setFilteredAccounts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const searchRef = useRef(null);
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
     };
+  }, []);
 
-    this.searchRef = React.createRef();
-    this.handleSearch = this.handleSearch.bind(this);
-    this.handleAccountClick = this.handleAccountClick.bind(this);
-    this.handleClickOutside = this.handleClickOutside.bind(this);
-  }
-
-  componentDidMount() {
-    document.addEventListener('mousedown', this.handleClickOutside);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClickOutside);
-  }
-
-  handleClickOutside(event) {
+  const handleClickOutside = (event) => {
     if (
-      this.searchRef.current &&
-      !this.searchRef.current.contains(event.target)
+      searchRef.current &&
+      !searchRef.current.contains(event.target)
     ) {
       // If click is outside search area
-      const { handleSearch } = this.props;
       if (handleSearch) {
         handleSearch(false);
       }
-      this.setState({
-        searchKeyword: '',
-        filteredAccounts: [],
-        isLoading: false
-      });
+      setSearchKeyword('');
+      setFilteredAccounts([]);
+      setIsLoading(false);
     }
-  }
+  };
 
-  handleSearch(event) {
+  const handleSearchInput = (event) => {
     const value = event.target.value;
-    this.setState({ searchKeyword: value, isLoading: true });
+    setSearchKeyword(value);
+    setIsLoading(true);
 
     // Mock data - replace with actual API call
     const mockAccounts = [
@@ -65,76 +53,67 @@ class SearchAccountChat extends Component {
         )
       : [];
 
-    this.setState({
-      filteredAccounts: filtered,
-      isLoading: false
-    });
-  }
+    setFilteredAccounts(filtered);
+    setIsLoading(false);
+  };
 
-  handleAccountClick(account) {
-    if (this.props.onAccountSelect) {
-      this.props.onAccountSelect(account);
+  const handleAccountClick = (account) => {
+    if (onAccountSelect) {
+      onAccountSelect(account);
     }
-    this.setState({
-      searchKeyword: '',
-      filteredAccounts: []
-    });
-  }
+    setSearchKeyword('');
+    setFilteredAccounts([]);
+  };
 
-  render() {
-    const { isSearch } = this.props;
-    const { searchKeyword, filteredAccounts, isLoading } = this.state;
+  if (!isSearch) return null;
 
-    if (!isSearch) return null;
-
-    return (
-      <div ref={this.searchRef}>
-        <div className='search-account-chat-container'>
-          <div className='search-icon'>
-            <SearchIcon size={26} />
-          </div>
-          <input
-            type='text'
-            className='form-control'
-            placeholder='Search by account name or nickname'
-            spellCheck='false'
-            value={searchKeyword}
-            onChange={this.handleSearch}
-            autoComplete='off'
-          />
+  return (
+    <div ref={searchRef}>
+      <div className='search-account-chat-container'>
+        <div className='search-icon'>
+          <SearchIcon size={26} />
         </div>
-
-        {searchKeyword && (
-          <div className='area-account search-dropdown'>
-            {isLoading ? (
-              <div className='search-item loading'>
-                <span>Searching...</span>
-              </div>
-            ) : filteredAccounts.length > 0 ? (
-              filteredAccounts.map(account => (
-                <div
-                  className='search-item'
-                  key={account.id}
-                  onClick={() => this.handleAccountClick(account)}>
-                  <span className='user-icon'>
-                    <AccountCircleIcon size={24} />
-                  </span>
-                  <div className='user-info'>
-                    <div className='user-name'>{account.name}</div>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className='search-item no-results'>
-                <span>No results found</span>
-              </div>
-            )}
-          </div>
-        )}
+        <input
+          type='text'
+          className='form-control'
+          placeholder='Search by account name or nickname'
+          spellCheck='false'
+          value={searchKeyword}
+          onChange={handleSearchInput}
+          autoComplete='off'
+        />
       </div>
-    );
-  }
-}
+
+      {searchKeyword && (
+        <div className='area-account search-dropdown'>
+          {isLoading ? (
+            <div className='search-item loading'>
+              <span>Searching...</span>
+            </div>
+          ) : filteredAccounts.length > 0 ? (
+            filteredAccounts.map(account => (
+              <div
+                className='search-item'
+                key={account.id}
+                onClick={() => handleAccountClick(account)}>
+                <span className='user-icon'>
+                  <AccountCircleIcon size={24} />
+                </span>
+                <div className='user-info'>
+                  <div className='user-name'>{account.name}</div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className='search-item no-results'>
+              <span>No results found</span>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
 
 SearchAccountChat.propTypes = {
   isSearch: PropTypes.bool.isRequired,

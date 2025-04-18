@@ -6,7 +6,7 @@ import {
   CNavItem
 } from '@coreui/react';
 import PropTypes from 'prop-types';
-import { Component } from 'react';
+import { useState } from 'react';
 import {
   DropdownItem,
   DropdownMenu,
@@ -35,185 +35,164 @@ const propTypes = {
   rocketChatPolicy: PropTypes.object.isRequired
 };
 
-class Header extends Component {
-  constructor(props) {
-    super(props);
+const Header = ({
+  title,
+  username,
+  logoutLink,
+  notificationSettingLink,
+  accountSettingLink,
+  quickSearchPolicy,
+  rocketChatPolicy
+}) => {
+  const [isVisibleSearchArea, setIsVisibleSearchArea] = useState(false);
+  const [isSearchAccountChat, setIsSearchAccountChat] = useState(false);
 
-    this.state = {
-      isVisibleSearchArea: false,
-      isSearchAccountChat: false
-    };
-
-    this.handleVisibleSearchArea = this.handleVisibleSearchArea.bind(this);
-    this.handleSearchAccountChat = this.handleSearchAccountChat.bind(this);
-    this.handleAccountSelect = this.handleAccountSelect.bind(this);
-    this.toggleSideBar = this.toggleSideBar.bind(this);
-  }
-
-  handleVisibleSearchArea(isVisible) {
+  const handleVisibleSearchArea = (isVisible) => {
     if (isVisible) {
       document.body.classList.add('is-open-search');
-      this.toggleSideBar(false);
+      toggleSideBar(false);
     } else {
       document.body.classList.remove('is-open-search');
     }
 
-    this.setState({
-      ...this.state,
-      isVisibleSearchArea: isVisible
-    });
-  }
+    setIsVisibleSearchArea(isVisible);
+  };
 
-  handleSearchAccountChat(isSearch) {
-    this.setState({
-      isSearchAccountChat: isSearch
-    });
-  }
+  const handleSearchAccountChat = (isSearch) => {
+    setIsSearchAccountChat(isSearch);
+  };
 
-  handleAccountSelect(account) {
+  const handleAccountSelect = (account) => {
     console.log('Selected account:', account);
-    this.setState({
-      isSearchAccountChat: false
-    });
-  }
+    setIsSearchAccountChat(false);
+  };
 
-  toggleSideBar(open = true) {
+  const toggleSideBar = (open = true) => {
     const body = document.body;
     if (body.className === '' && open) {
       document.body.classList.add('sidebar-lg-show');
     } else {
       document.body.classList.remove('sidebar-lg-show');
     }
-  }
+  };
 
-  render() {
-    const {
-      title,
-      username,
-      logoutLink,
-      notificationSettingLink,
-      accountSettingLink,
-      quickSearchPolicy,
-      rocketChatPolicy
-    } = this.props;
-    return (
-      <div>
-        <CHeader className='cd-main-header animate-search fixed header-wrapper'>
-          <CContainer fluid>
-            <CHeaderNav className='d-md-flex me-auto'>
-              <CNavItem>
-                <button
-                  type='button'
-                  className='navbar-toggler'
-                  onClick={() => this.toggleSideBar()}>
-                  <span className='navbar-toggler-icon'></span>
-                </button>
-              </CNavItem>
-              <CNavItem>
-                <div className='page-title'>
-                  <span className='active'>{title}</span>
-                </div>
-              </CNavItem>
-            </CHeaderNav>
+  return (
+    <div>
+      <CHeader className='cd-main-header animate-search fixed header-wrapper'>
+        <CContainer fluid>
+          <CHeaderNav className='d-md-flex me-auto'>
+            <CNavItem>
+              <button
+                type='button'
+                className='navbar-toggler'
+                onClick={() => toggleSideBar()}>
+                <span className='navbar-toggler-icon'></span>
+              </button>
+            </CNavItem>
+            <CNavItem>
+              <div className='page-title'>
+                <span className='active'>{title}</span>
+              </div>
+            </CNavItem>
+          </CHeaderNav>
 
-            <SearchAccountChat
-              isSearch={this.state.isSearchAccountChat}
-              onAccountSelect={this.handleAccountSelect}
-              handleSearch={this.handleSearchAccountChat}
-            />
+          <SearchAccountChat
+            isSearch={isSearchAccountChat}
+            onAccountSelect={handleAccountSelect}
+            handleSearch={handleSearchAccountChat}
+          />
 
-            <CHeaderNav>
-              {quickSearchPolicy.HasRead && (
-                <CNavItem>
-                  <NavLink
-                    data-testid='search'
-                    href='#'
-                    className='cd-search-trigger cd-text-replace'
-                    onClick={() => this.handleVisibleSearchArea(true)}
-                  />
-                </CNavItem>
-              )}
-
-              {rocketChatPolicy.HasRead && (
-                <>
-                  <CNavItem>
-                    <NavLink
-                      href='#'
-                      className='rocket-chat menu-search-account'
-                      onClick={() => this.handleSearchAccountChat(true)}>
-                      <IconSearchAccount className={'icon-search-account'} />
-                    </NavLink>
-                  </CNavItem>
-                  <CNavItem>
-                    <NavLink href='OWPChat' className='rocket-chat'>
-                      <IconChat className={'icon-chat'} />
-                    </NavLink>
-                  </CNavItem>
-                </>
-              )}
-
+          <CHeaderNav>
+            {quickSearchPolicy.HasRead && (
               <CNavItem>
                 <NavLink
-                  href='Feedback'
-                  className='cd-feedback'
-                  target='_blank'
+                  data-testid='search'
+                  href='#'
+                  className='cd-search-trigger cd-text-replace'
+                  onClick={() => handleVisibleSearchArea(true)}
                 />
               </CNavItem>
-              <CNavItem>
-                <Notification />
-              </CNavItem>
-              <CNavItem>
-                <CDropdownHeader direction='down' className='user-profile'>
-                  <UncontrolledDropdown>
-                    <DropdownToggle nav>
-                      <span className='user-name'>{username}</span>
-                      <span className='icon-account'>
-                        <AccountIcon size={16} />
-                      </span>
-                    </DropdownToggle>
-                    <DropdownMenu right>
-                      <DropdownItem href={notificationSettingLink}>
-                        <span className='icon-setting'>
-                          <SettingsIcon size={14} />
-                        </span>{' '}
-                        Notification Setting
-                      </DropdownItem>
-                      <DropdownItem href={accountSettingLink}>
-                        <span className='icon-logout'>
-                          <AccountIcon size={14} />
-                        </span>{' '}
-                        Account Setting
-                      </DropdownItem>
-                      <DropdownItem href={logoutLink}>
-                        <span className='icon-logout'>
-                          <LogoutIcon size={14} />
-                        </span>{' '}
-                        Logout
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </UncontrolledDropdown>
-                </CDropdownHeader>
-              </CNavItem>
-            </CHeaderNav>
-          </CContainer>
-        </CHeader>
-        {quickSearchPolicy.HasRead && (
-          <Search
-            isVisible={this.state.isVisibleSearchArea}
-            handleVisibleSearchArea={this.handleVisibleSearchArea}
-          />
-        )}
-        <div
-          className={
-            'cd-cover-layer ' +
-            (this.state.isVisibleSearchArea ? 'search-form-visible' : '')
-          }
-          onClick={() => this.handleVisibleSearchArea(false)}
+            )}
+
+            {rocketChatPolicy.HasRead && (
+              <>
+                <CNavItem>
+                  <NavLink
+                    href='#'
+                    className='rocket-chat menu-search-account'
+                    onClick={() => handleSearchAccountChat(true)}>
+                    <IconSearchAccount className='icon-search-account' />
+                  </NavLink>
+                </CNavItem>
+                <CNavItem>
+                  <NavLink href='OWPChat' className='rocket-chat'>
+                    <IconChat className='icon-chat' />
+                  </NavLink>
+                </CNavItem>
+              </>
+            )}
+
+            <CNavItem>
+              <NavLink
+                href='Feedback'
+                className='cd-feedback'
+                target='_blank'
+              />
+            </CNavItem>
+            <CNavItem>
+              <Notification />
+            </CNavItem>
+            <CNavItem>
+              <CDropdownHeader direction='down' className='user-profile'>
+                <UncontrolledDropdown>
+                  <DropdownToggle nav>
+                    <span className='user-name'>{username}</span>
+                    <span className='icon-account'>
+                      <AccountIcon size={16} />
+                    </span>
+                  </DropdownToggle>
+                  <DropdownMenu right>
+                    <DropdownItem href={notificationSettingLink}>
+                      <span className='icon-setting'>
+                        <SettingsIcon size={14} />
+                      </span>{' '}
+                      Notification Setting
+                    </DropdownItem>
+                    <DropdownItem href={accountSettingLink}>
+                      <span className='icon-logout'>
+                        <AccountIcon size={14} />
+                      </span>{' '}
+                      Account Setting
+                    </DropdownItem>
+                    <DropdownItem href={logoutLink}>
+                      <span className='icon-logout'>
+                        <LogoutIcon size={14} />
+                      </span>{' '}
+                      Logout
+                    </DropdownItem>
+                  </DropdownMenu>
+                </UncontrolledDropdown>
+              </CDropdownHeader>
+            </CNavItem>
+          </CHeaderNav>
+        </CContainer>
+      </CHeader>
+      {quickSearchPolicy.HasRead && (
+        <Search
+          isVisible={isVisibleSearchArea}
+          handleVisibleSearchArea={handleVisibleSearchArea}
         />
-      </div>
-    );
-  }
-}
+      )}
+      <div
+        className={
+          'cd-cover-layer ' +
+          (isVisibleSearchArea ? 'search-form-visible' : '')
+        }
+        onClick={() => handleVisibleSearchArea(false)}
+      />
+    </div>
+  );
+};
 
 Header.propTypes = propTypes;
 export default Header;
