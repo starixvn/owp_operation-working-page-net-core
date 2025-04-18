@@ -1033,10 +1033,10 @@ JavaScript Disabled
 }
 /* search account chat container */
 .search-account-chat-container {
-  position: relative;
+  position: absolute;
   width: 320px;
-  top: -2px;
-  right: -100px;
+  top: 5px;
+  right: 248px;
   z-index: 10;
   border-radius: 20px;
   background-color: #fff;

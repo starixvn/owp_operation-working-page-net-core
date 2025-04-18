@@ -29,7 +29,7 @@ const SearchAccountChat = ({ isSearch, onAccountSelect, handleSearch }) => {
     debounce(async (value) => {
       setIsLoading(true);
       try {
-        const users = await UserService.getAll();
+        const users = await UserService.dataSourceUsersFromServer();
         const filtered = value
           ? users.filter(user => 
               (user.UserName?.toLowerCase()?.includes(value.toLowerCase()) ||
