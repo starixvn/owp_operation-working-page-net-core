@@ -129,7 +129,7 @@ const Header = ({
                   </NavLink>
                 </CNavItem>
                 <CNavItem>
-                  <NavLink href='OWPChat' className='rocket-chat'>
+                  <NavLink href='/OWPChat' className='rocket-chat'>
                     <IconChat className='icon-chat' />
                   </NavLink>
                 </CNavItem>
