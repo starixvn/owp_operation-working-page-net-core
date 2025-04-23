@@ -1023,5 +1023,125 @@ JavaScript Disabled
   height: 24px;
   color: #9fb0bc;
   margin: 0 10px;
-
 }
+
+.icon-search-account {
+  width: 26px;
+  height: 26px;
+  color: #9fb0bc;
+  margin: 0 10px;
+}
+/* search account chat container */
+.area-search {
+  position: relative;
+  width: 320px;
+  top: -25px;
+  right: -100px;
+}
+
+.search-account-chat-container {
+  position: absolute;
+  width: 100%;
+  z-index: 12;
+  border-radius: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  padding: 8px 12px 8px 36px;
+  display: flex;
+  align-items: center;
+}
+
+.pseudo-classes {
+  position: absolute;
+  top: 28px;
+  width: 100%;
+  height: 18px;
+  background: #fff;
+  z-index: 10;
+}
+
+.search-account-chat-container .form-control {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 14px;
+  background-color: transparent;
+}
+
+.search-account-chat-container .form-control:focus {
+  box-shadow: none;
+}
+
+.search-account-chat-container .search-icon {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #aaa;
+}
+
+.search-account-chat-container .search-icon .mdi-icon {
+  width: 100%;
+}
+
+.area-account.search-dropdown {
+  padding-top: 10px;
+  position: absolute;
+  top: 46px;
+  width: 100%;
+  background-color: #fff;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  overflow: auto;
+  max-height: 80vh;
+  z-index: 11;
+}
+
+.search-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.search-item:hover {
+  background-color: #d5e7fb;
+}
+
+.search-item .user-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin-right: 12px;
+  color: #666;
+}
+
+.search-item .user-info {
+  flex: 1;
+}
+
+.search-item .user-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 2px;
+  word-break: break-all;
+}
+
+.search-item.loading,
+.search-item.no-results {
+  color: #666;
+  font-size: 14px;
+  justify-content: center;
+  padding: 16px;
+  cursor: default;
+}
+
+.search-item.loading:hover,
+.search-item.no-results:hover {
+  background-color: transparent;
+}
+

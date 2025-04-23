@@ -22,5 +22,8 @@
     "@commitlint/config-conventional": "^13.1.0",
     "husky": "^7.0.2",
     "typescript": "^5.5.3"
+  },
+  "dependencies": {
+    "crypto-js": "^4.2.0"
   }
 }
