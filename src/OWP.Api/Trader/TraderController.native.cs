@@ -13,9 +13,14 @@ public class TraderController(IMediator mediator) : ControllerBase
 {
     [HttpPost]
     [Produces("application/json")]
-    public async Task<IActionResult> GetMaxbet(List<MatchRequest> matches)
+    public async Task<IActionResult> GetMaxbet(Request request)
     {
-        var result = await mediator.Send(new TraderRequest { matches = matches });
+        var result = await mediator.Send(new TraderRequest
+        {
+            Matches = request.Matches,
+            FromDate = request.FromDate,
+            ToDate = request.ToDate
+        });
 
         return Ok(result);
     }

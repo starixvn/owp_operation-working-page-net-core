@@ -11,7 +11,9 @@ namespace OWP.Api.Trader.Handlers;
 
 public class TraderRequest : IRequest<IEnumerable<TraderMatch>>
 {
-    public List<MatchRequest> matches { get; set; }
+    public List<MatchRequest> Matches { get; set; }
+    public DateTime? FromDate { get; set; }
+    public DateTime? ToDate { get; set; }
 }
 
 public class GetTraderHandler(IDynamicRepository dynamicRepository)
@@ -19,8 +21,8 @@ public class GetTraderHandler(IDynamicRepository dynamicRepository)
 {
     public async Task<IEnumerable<TraderMatch>> Handle(TraderRequest request, CancellationToken cancellationToken)
     {
-        var owpMatchRequest = MapSubtypeToBettype(request.matches);
-        var owpAssignments = await GetTradersByAdminsiteMatchIds(owpMatchRequest.ToList());
+        var owpMatchRequest = MapSubtypeToBettype(request.Matches);
+        var owpAssignments = await GetTradersByAdminsiteMatchIds(owpMatchRequest.ToList(), request.FromDate, request.ToDate);
 
         return owpAssignments
             .GroupBy(x => x.MatchId)
@@ -75,11 +77,13 @@ public class GetTraderHandler(IDynamicRepository dynamicRepository)
         return subtype == 0 ? null : MinorBettype.GetMinorBettypeIdBySubtype(subtypeSpecial);
     }
 
-    public async Task<List<OWPAssignment>> GetTradersByAdminsiteMatchIds(IEnumerable<OWPMatchRequest> matches)
+    public async Task<List<OWPAssignment>> GetTradersByAdminsiteMatchIds(IEnumerable<OWPMatchRequest> matches,DateTime? fromDate, DateTime? toDate)
     {
         var criteria = new GetTraderByAdminsiteMatchIdsCriteria
         {
-            MatchesJson = JsonConvert.SerializeObject(matches)
+            MatchesJson = JsonConvert.SerializeObject(matches),
+            FromDate = fromDate,
+            ToDate = toDate
         };
 
         return (await dynamicRepository.FetchAsync<OWPAssignment>(criteria)).ToList();

@@ -1,5 +1,12 @@
 ﻿namespace OWP.Api.Trader.Model;
 
+public class Request
+{
+    public DateTime? FromDate { get; set; }
+    public DateTime? ToDate { get; set; }
+    public List<MatchRequest> Matches { get; set; }
+}
+
 public class MatchRequest
 {
     public int MatchId { get; set; }
