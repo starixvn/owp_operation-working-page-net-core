@@ -49,6 +49,7 @@ using Olympus.OWP.Log.Services;
 using OWP.AccountSetting.Profile;
 using OWP.PrematchAssignment.QueryAndSave;
 using Quartz;
+using System.Net.Http;
 using WorkingShift.SyncWorkingShift;
 
 public static class ServiceCollectionExtensions
@@ -315,6 +316,22 @@ public static class ServiceCollectionExtensions
         });
 
         return app;
+    }
+
+    public static IServiceCollection AddSectionHttpClientOWPChat(this IServiceCollection services, IConfiguration configuration)
+    {
+        
+        services.AddHttpClient("OWPChat", client =>
+        {
+            var chatUrl = configuration["ChatServer:Url"];
+            var adminToken = configuration["ChatServer:AdminToken"];
+            var adminId = configuration["ChatServer:AdminUserId"];
+            client.BaseAddress = new Uri(chatUrl);
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+            client.DefaultRequestHeaders.Add("X-Auth-Token", adminToken);
+            client.DefaultRequestHeaders.Add("X-User-Id", adminId);
+        });
+        return services;
     }
 
     public static IServiceCollection AddWebOptimizer(this IServiceCollection services)

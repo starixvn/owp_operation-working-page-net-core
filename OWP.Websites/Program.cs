@@ -2,7 +2,9 @@ using Fanex.Data;
 using Fanex.Logging;
 using Newtonsoft.Json;
 using ONEbook.UM.DependencyInjection;
+using OWP.Api.Chat;
 using OWP.Services;
+using OWP.Websites;
 using OWP.Websites.Controllers;
 using ILogger = Fanex.Logging.ILogger;
 
@@ -41,6 +43,7 @@ services.AddAutoMapper();
 services.AddInternalServices();
 services.AddRabbitMQ();
 services.AddCarter();
+services.AddSectionHttpClientOWPChat(configuration);
 services.AddWebOptimizer();
 services.AddOWPLog();
 
