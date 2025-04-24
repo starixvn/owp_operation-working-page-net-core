@@ -1,8 +1,14 @@
 import { TBody } from '../../type/TTaskListTable';
 import RowContent from './RowContent';
+import { useAppSelector } from '../../app/hooks';
 
 const TableBody = (props: TBody) => {
   const { dataSources, hasDetailInformationPermission } = props;
+
+  const firstMatchCheckedIsSaba = useAppSelector(
+    state => state.taskList.matchesSelected[0]?.IsSaba
+  );
+
   if (!dataSources.length) {
     return (
       <tr>
@@ -18,7 +24,8 @@ const TableBody = (props: TBody) => {
           key={`match-info-${rowIndex}-${dataSource.OWPMatchId}`}
           hasDetailPermission={hasDetailInformationPermission}
           dataSource={dataSource}
-          rowIndex={rowIndex}></RowContent>
+          rowIndex={rowIndex}
+          firstMatchCheckedIsSaba={firstMatchCheckedIsSaba}></RowContent>
       ))}
     </>
   );

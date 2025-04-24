@@ -23,9 +23,15 @@ type Props = {
   rowIndex: number;
   dataSource: DataSource;
   hasDetailPermission: boolean;
+  firstMatchCheckedIsSaba: boolean;
 };
 
-const RowContent = ({ rowIndex, dataSource, hasDetailPermission }: Props) => {
+const RowContent = ({
+  rowIndex,
+  dataSource,
+  hasDetailPermission,
+  firstMatchCheckedIsSaba
+}: Props) => {
   const { Rowspan } = dataSource;
   const [isHovering, setIsHovering] = useState(false);
 
@@ -73,7 +79,12 @@ const RowContent = ({ rowIndex, dataSource, hasDetailPermission }: Props) => {
         onMouseOver={handleMouseOver}
         onMouseOut={handleMouseOut}>
         <td rowSpan={Rowspan}>
-          <NoCell dataSource={dataSource} rowIndex={rowIndex} />
+          <NoCell
+            hasDetailInformationPermission={hasDetailPermission}
+            dataSource={dataSource}
+            rowIndex={rowIndex}
+            firstMatchCheckedIsSaba={firstMatchCheckedIsSaba}
+          />
         </td>
         <td rowSpan={Rowspan}>
           <KOTimeCellFactory dataSource={dataSource} rowIndex={rowIndex} />

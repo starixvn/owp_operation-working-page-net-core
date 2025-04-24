@@ -11,6 +11,7 @@ const taskListSlice = createSlice({
   name: 'taskList/taskListSlice',
   initialState: {
     queryTaskListLoading: REQUEST_STATUS.idle,
+    matchesSelected: defaultEntities,
     matchesOriginal: defaultEntities,
     matches: defaultEntities,
     userId: 0 as number,
@@ -32,6 +33,12 @@ const taskListSlice = createSlice({
     },
     setDataTable: (state, action) => {
       state.matches = action.payload;
+    },
+    setMatchesSelected: (state, action) => {
+      const { match, isAdded } = action.payload;
+      state.matchesSelected = isAdded
+        ? [...state.matchesSelected, match]
+        : state.matchesSelected.filter(s => s.OWPMatchId !== match.OWPMatchId);
     },
 
     setDataSignalR: (state, action) => {
@@ -93,7 +100,9 @@ const taskListSlice = createSlice({
       .addCase(updateReadyStatusThunk.fulfilled, (state, { payload }) => {
         const { rowIndex, readyTime } = payload;
         const matchTarget = state.matches[rowIndex];
-        const matchOrigin = state.matchesOriginal.find(x => x.OWPMatchId === matchTarget.OWPMatchId);
+        const matchOrigin = state.matchesOriginal.find(
+          x => x.OWPMatchId === matchTarget.OWPMatchId
+        );
         matchTarget.IsReady = true;
         matchTarget.ReadyDateTimeDisplay = readyTime;
         if (matchOrigin) {
@@ -113,7 +122,8 @@ const {
   handleHideCompleteMatches,
   openPopupDetail,
   closePopupDetail,
-  setRefreshModel
+  setRefreshModel,
+  setMatchesSelected
 } = actions;
 export {
   setUserId,
@@ -123,7 +133,8 @@ export {
   handleShowUnreadMessage,
   openPopupDetail,
   closePopupDetail,
-  setRefreshModel
+  setRefreshModel,
+  setMatchesSelected
 };
 
 export default reducer;

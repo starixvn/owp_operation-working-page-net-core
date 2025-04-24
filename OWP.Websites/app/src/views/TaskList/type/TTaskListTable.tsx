@@ -25,6 +25,7 @@ interface DataSource extends KOTimeProps, PesOrFiFa {
   MatchNo: string;
   MatchStatus: string;
   IsTodayEvent: boolean;
+  IsSaba: boolean;
   League: Required<string>;
   LeagueGroup: string;
   WatchBet: string;
@@ -139,6 +140,7 @@ type CellProps = {
   hasDetailInformationPermission?: boolean;
   dataLength?: number;
   rowSpan?: number;
+  firstMatchCheckedIsSaba?: boolean;
 };
 
 type OtherProductProps = {
