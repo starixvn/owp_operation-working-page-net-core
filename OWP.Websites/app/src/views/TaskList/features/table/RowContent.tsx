@@ -23,7 +23,7 @@ type Props = {
   rowIndex: number;
   dataSource: DataSource;
   hasDetailPermission: boolean;
-  firstMatchCheckedIsSaba: boolean;
+  firstMatchCheckedIsSaba?: boolean;
 };
 
 const RowContent = ({

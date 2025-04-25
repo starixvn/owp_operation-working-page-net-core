@@ -10,7 +10,7 @@ type colSpanType = {
 };
 
 const TableHeader = (props: THeader) => {
-  const { hasDetailInformationPermission } = props;
+  const { hasDetailInformationPermission, firstMatchCheckedIsSaba } = props;
   const colSpanObject: colSpanType = {
     'FT Trader': 3,
     'Other Product Trader': 3,
@@ -31,6 +31,7 @@ const TableHeader = (props: THeader) => {
           />
           {isShowDropdownAction && (
             <DropdownActionHeader
+              firstMatchCheckedIsSaba={firstMatchCheckedIsSaba}
               closePopup={() => setIsDropdownAction(false)}
               refValue={ref}
             />

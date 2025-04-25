@@ -1,13 +1,12 @@
 import { TBody } from '../../type/TTaskListTable';
 import RowContent from './RowContent';
-import { useAppSelector } from '../../app/hooks';
 
 const TableBody = (props: TBody) => {
-  const { dataSources, hasDetailInformationPermission } = props;
-
-  const firstMatchCheckedIsSaba = useAppSelector(
-    state => state.taskList.matchesSelected[0]?.IsSaba
-  );
+  const {
+    dataSources,
+    hasDetailInformationPermission,
+    firstMatchCheckedIsSaba
+  } = props;
 
   if (!dataSources.length) {
     return (

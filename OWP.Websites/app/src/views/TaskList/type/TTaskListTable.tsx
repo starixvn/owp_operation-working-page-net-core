@@ -171,6 +171,7 @@ type ColumnSchema = Column & {
 type TBody = {
   dataSources: Required<Readonly<Array<DataSource>>>;
   hasDetailInformationPermission: boolean;
+  firstMatchCheckedIsSaba?: boolean;
 };
 
 type TQueryTaskList = {
