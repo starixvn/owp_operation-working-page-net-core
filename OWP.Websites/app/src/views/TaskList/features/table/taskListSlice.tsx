@@ -40,7 +40,9 @@ const taskListSlice = createSlice({
         ? [...state.matchesSelected, match]
         : state.matchesSelected.filter(s => s.OWPMatchId !== match.OWPMatchId);
     },
-
+    resetMatchesSelected: state => {
+      state.matchesSelected = [];
+    },
     setDataSignalR: (state, action) => {
       const { actorId, parentMatchId } = action.payload;
       state.matches.forEach(item => {
@@ -123,7 +125,8 @@ const {
   openPopupDetail,
   closePopupDetail,
   setRefreshModel,
-  setMatchesSelected
+  setMatchesSelected,
+  resetMatchesSelected
 } = actions;
 export {
   setUserId,
@@ -134,7 +137,8 @@ export {
   openPopupDetail,
   closePopupDetail,
   setRefreshModel,
-  setMatchesSelected
+  setMatchesSelected,
+  resetMatchesSelected
 };
 
 export default reducer;

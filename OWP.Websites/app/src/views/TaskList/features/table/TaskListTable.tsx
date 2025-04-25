@@ -7,9 +7,8 @@ import { useSelector } from 'react-redux';
 import { selectDataTaskList } from '../selector/selector';
 
 const TaskListTable = () => {
-  const { matches, loading, hasDetailInformationPermission } = useSelector(
-    selectDataTaskList
-  );
+  const { matches, loading, hasDetailInformationPermission } =
+    useSelector(selectDataTaskList);
 
   if (isEqual(loading, REQUEST_STATUS.pending)) {
     return <Loading />;
@@ -19,7 +18,9 @@ const TaskListTable = () => {
     <>
       <table>
         <tbody>
-          <TableHeader />
+          <TableHeader
+            hasDetailInformationPermission={hasDetailInformationPermission}
+          />
           <TableBody
             hasDetailInformationPermission={hasDetailInformationPermission}
             dataSources={matches}

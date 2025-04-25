@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import { Suspense, useState, lazy } from 'react';
+import { useDispatch } from 'react-redux';
 import Loading from '../../components/Loading';
 import { FunctionKeys } from '../../Shared/Constants';
 import usePermission from '../../Shared/customHook/usePermission';
@@ -14,6 +15,7 @@ import { buildGoToMyTicketLink } from '../../Shared/TicketCenterPrematch/helper/
 import PopupDetail from '../features/component/PopupDetail';
 import { TTab } from '../type/TabType';
 import { isEqual } from 'lodash';
+import { resetMatchesSelected } from '../features/table/taskListSlice';
 
 const TabToday = lazy(() => import('../today/TabToday'));
 const TabYesterDay = lazy(() => import('../yesterday/TabYesterday'));
@@ -23,6 +25,7 @@ const TAB_YESTERDAY: TTab = 'TAB_YESTERDAY';
 
 const TabSwitcher = () => {
   const [activeTab, setActiveTab] = useState<TTab>(TAB_TODAY);
+  const dispatch = useDispatch();
   const { today, yesterday } = getHeaderDateTime();
   const pagePermissionModel = usePermission(
     FunctionKeys.TicketCenter,
@@ -62,12 +65,18 @@ const TabSwitcher = () => {
         <ul className='tab-task-list'>
           <li
             className={`${isEqual(TAB_TODAY, activeTab) && 'active'}`}
-            onClick={() => setActiveTab(TAB_TODAY)}>
+            onClick={() => {
+              setActiveTab(TAB_TODAY);
+              dispatch(resetMatchesSelected());
+            }}>
             Today ({dayjs(today).format('MMM DD')})
           </li>
           <li
             className={`${isEqual(TAB_YESTERDAY, activeTab) && 'active'}`}
-            onClick={() => setActiveTab(TAB_YESTERDAY)}>
+            onClick={() => {
+              setActiveTab(TAB_YESTERDAY);
+              dispatch(resetMatchesSelected());
+            }}>
             Yesterday ({dayjs(yesterday).format('MMM DD')})
           </li>
 

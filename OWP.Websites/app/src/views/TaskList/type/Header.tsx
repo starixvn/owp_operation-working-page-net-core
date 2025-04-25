@@ -1,5 +1,6 @@
 type THeader = {
   refreshComponent?: JSX.Element;
+  hasDetailInformationPermission?: boolean;
 };
 type RefreshModel = {
   filterDate: Date | undefined;
