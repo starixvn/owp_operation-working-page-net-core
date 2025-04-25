@@ -1,22 +1,38 @@
+import ToastrWrapper from '../../../components/ToastrWrapper';
+import { RootState } from '../../app/storeNative';
+import { useAppSelector } from '../../app/hooks';
+
 type TDropdownActionHeader = {
   refValue: React.RefObject<HTMLDivElement>;
+  closePopup: () => void;
 };
 
-const DropdownActionHeader = ({ refValue }: TDropdownActionHeader) => {
-  const handleOpenPopup = (key: string) => {
-    console.log(key);
+const DropdownActionHeader = ({
+  refValue,
+  closePopup
+}: TDropdownActionHeader) => {
+  const matchesSelected = useAppSelector(
+    (state: RootState) => state.taskList.matchesSelected
+  );
+
+  const handleOpenLink = (key: string) => {
+    closePopup();
+    if (matchesSelected.length === 0) {
+      ToastrWrapper.showInfo(<span>No match has been selected!</span>);
+      return;
+    }
   };
 
   return (
     <div className='dropdown-action is-show' ref={refValue}>
       <li
         className='add-special-product'
-        onClick={() => handleOpenPopup('Saba Batch')}>
+        onClick={() => handleOpenLink('Saba Batch')}>
         Saba Batch
       </li>
       <li
         className='remove-special-product'
-        onClick={() => handleOpenPopup('RT3 Batch')}>
+        onClick={() => handleOpenLink('RT3 Batch')}>
         RT3 Batch
       </li>
     </div>

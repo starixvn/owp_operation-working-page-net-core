@@ -29,7 +29,12 @@ const TableHeader = (props: THeader) => {
             colorDropdown='black'
             handleOnClick={() => setIsDropdownAction(true)}
           />
-          {isShowDropdownAction && <DropdownActionHeader refValue={ref} />}
+          {isShowDropdownAction && (
+            <DropdownActionHeader
+              closePopup={() => setIsDropdownAction(false)}
+              refValue={ref}
+            />
+          )}
         </div>
       );
     }
