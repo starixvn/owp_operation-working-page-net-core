@@ -10,7 +10,7 @@ public class GetTraderByAdminsiteMatchIdsCriteria : CriteriaBase
 
     public DateTime? ToDate { get; set; }
 
-    public override string GetSettingKey() => "OWP_TraderApi_GetTraderByAdminsiteMatchIds";
+    public override string GetSettingKey() => "OWP_TraderApi_GetTraderByAdminsiteMatchIds_xtest";
 
     public override bool IsValid() => true;
 }
