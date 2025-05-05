@@ -2,7 +2,12 @@ import { TBody } from '../../type/TTaskListTable';
 import RowContent from './RowContent';
 
 const TableBody = (props: TBody) => {
-  const { dataSources, hasDetailInformationPermission } = props;
+  const {
+    dataSources,
+    hasDetailInformationPermission,
+    firstMatchCheckedIsSaba
+  } = props;
+
   if (!dataSources.length) {
     return (
       <tr>
@@ -18,7 +23,8 @@ const TableBody = (props: TBody) => {
           key={`match-info-${rowIndex}-${dataSource.OWPMatchId}`}
           hasDetailPermission={hasDetailInformationPermission}
           dataSource={dataSource}
-          rowIndex={rowIndex}></RowContent>
+          rowIndex={rowIndex}
+          firstMatchCheckedIsSaba={firstMatchCheckedIsSaba}></RowContent>
       ))}
     </>
   );

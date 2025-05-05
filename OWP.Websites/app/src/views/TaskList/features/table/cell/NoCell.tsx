@@ -1,9 +1,35 @@
-import { UncontrolledTooltip } from 'reactstrap';
+import { UncontrolledTooltip, Input } from 'reactstrap';
 import { CellProps } from '../../../type/TTaskListTable';
 import AbsencePersonIcon from '../../../../../assets/svg-element/AbsencePersonIcon';
+import useStableDispatch from '../../../../Shared/customHook/useStableDispatch';
+import { useAppSelector } from '../../../app/hooks';
+import { setMatchesSelected } from '../taskListSlice';
+import { useState } from 'react';
+import ToastrWrapper from '../../../../components/ToastrWrapper';
 
-const NoCell = ({ rowIndex, dataSource }: CellProps) => {
-  const { MatchNo, MatchStatus, IsShowAbsenceIcon } = dataSource;
+const NoCell = ({
+  hasDetailInformationPermission,
+  rowIndex,
+  dataSource,
+  firstMatchCheckedIsSaba
+}: CellProps) => {
+  const {
+    MatchNo,
+    MatchStatus,
+    IsShowAbsenceIcon,
+    IsAllowedToViewDetail,
+    AdminSiteId,
+    OWPMatchId,
+    IsSaba
+  } = dataSource;
+  const dispatch = useStableDispatch();
+
+  const isSelected = useAppSelector(state =>
+    state.taskList.matchesSelected.some(x => x.OWPMatchId === OWPMatchId)
+  );
+
+  const [isChecked, setIsChecked] = useState(isSelected);
+
   const renderIcon = () => {
     const classNames: { [key: string]: string } = {
       'Live': 'live',
@@ -39,10 +65,56 @@ const NoCell = ({ rowIndex, dataSource }: CellProps) => {
     );
   };
 
+  const handleSelectedChanged = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (event?.target?.checked) {
+      if (
+        firstMatchCheckedIsSaba !== undefined &&
+        firstMatchCheckedIsSaba !== IsSaba
+      ) {
+        ToastrWrapper.showWarning(
+          <span>Please choose only one: SABA or Real matches!</span>
+        );
+        setIsChecked(false);
+        return;
+      }
+    }
+
+    setIsChecked(event?.target?.checked);
+
+    dispatch(
+      setMatchesSelected({
+        match: dataSource,
+        isAdded: event?.target?.checked
+      })
+    );
+  };
+
+  const renderCheckbox = () => {
+    if (
+      !hasDetailInformationPermission ||
+      !IsAllowedToViewDetail ||
+      !Boolean(AdminSiteId)
+    ) {
+      return null;
+    }
+
+    return (
+      <Input
+        type='checkbox'
+        className='check-by-lst'
+        checked={isChecked}
+        onChange={handleSelectedChanged}
+      />
+    );
+  };
+
   return (
     <div className='no-cell'>
       {IsShowAbsenceIcon && <AbsencePersonIcon />}
       {MatchNo && <span>{MatchNo}</span>}
+      {renderCheckbox()}
       {renderIcon()}
     </div>
   );
