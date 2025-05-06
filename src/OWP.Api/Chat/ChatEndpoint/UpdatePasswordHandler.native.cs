@@ -48,8 +48,6 @@ public class UpdatePasswordHandler(
                     {
                         Error.Failure(ErrorCode.Error,"Failed to update password",null)
                     });
-
-                
             }
             await LogDetailedPayload(DateTime.Now.ToGmt8(), "Update_OWPChat_UserInfo_Success", JsonConvert.SerializeObject(response));
 

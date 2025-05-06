@@ -497,4 +497,7 @@
   <Function Name="GroupChat">
     <Setting Key="OWP_QuickCreateGroupChat_QueryAllAssigneeByParentId" SpName ="OWP_QuickCreateGroupChat_QueryAllAssigneeByParentId" DbName="DBOWP.bodb_OWP.wsv_owp" />
   </Function>
+  <Function Name="SyncUser">
+    <Setting Key="OWP_UserInsert" SpName ="OWP_UserInsert" DbName="DBOWP.bodb_OWP.wsv_owp" />
+  </Function>
 </Functions>
