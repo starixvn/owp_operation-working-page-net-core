@@ -16,7 +16,7 @@ const RocketChatNative = () => {
         width='100%'
         height='100%'
         title='Rocket.Chat'
-        allow='microphone'
+        allow='microphone; clipboard-write; clipboard-read'
         style={{ border: 'none' }}
         src={
           authToken
