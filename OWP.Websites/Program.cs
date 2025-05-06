@@ -59,6 +59,7 @@ app.UseRouting();
 app.UseCookiePolicy();
 app.UseSession();
 app.UseMiddleware<ErrorHandler>();
+app.UseMiddleware<ChangePasswordMiddleWare>();
 
 app.UseAuthentication();
 app.UseAuthorization();

@@ -3,19 +3,8 @@ using ILogger = Fanex.Logging.ILogger;
 
 namespace OWP.Websites.CrossCuttingConcern;
 
-public class ErrorHandler
+public class ErrorHandler(RequestDelegate next, ILogger logger, IConfiguration configuration)
 {
-    private readonly RequestDelegate next;
-    private readonly ILogger logger;
-    public IConfiguration Configuration { get; }
-
-    public ErrorHandler(RequestDelegate next, ILogger logger, IConfiguration configuration)
-    {
-        this.next = next;
-        this.logger = logger;
-        Configuration = configuration;
-    }
-
     public async Task InvokeAsync(HttpContext context)
     {
         try
@@ -46,7 +35,7 @@ public class ErrorHandler
 
         await context.Response.WriteAsync(exception.Message);
 
-        var env = Configuration.GetSection("Fanex.NAP.Client:Environment").Value;
+        var env = configuration.GetSection("Fanex.NAP.Client:Environment").Value;
 
         if (!env.Equals("LIVE", StringComparison.CurrentCultureIgnoreCase))
         {
