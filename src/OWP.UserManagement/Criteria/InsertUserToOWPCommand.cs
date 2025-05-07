@@ -1,6 +1,6 @@
 ﻿using Fanex.Data.Repository;
 
-namespace OWP.Api.Chat.Criteria;
+namespace OWP.UserManagement.Criteria;
 public class InsertUserToOWPCommand(int userId) : NonQueryCommand
 {
     public int UserId { get; set; } = userId;

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace OWP.UserManagement.Models;
-internal class SyncUserModel
+﻿namespace OWP.UserManagement.Models;
+public class SyncUserModel
 {
+    public int UserId { get; set; }
+
+    public string Username { get; set; }
 }

@@ -1,10 +1,14 @@
-﻿namespace OWP.Websites.CrossCuttingConcern;
+﻿using MediatR;
+
+namespace OWP.Websites.CrossCuttingConcern;
 
 using System.Text;
 using Fanex.NAP.SignIn.Models;
 using Newtonsoft.Json;
 
-public class ChangePasswordMiddleWare(RequestDelegate next)
+public class ChangePasswordMiddleWare(RequestDelegate next,
+    [FromServices] INapSession session,
+    [FromServices] ISender sender)
 {
     public async Task InvokeAsync(HttpContext context)
     {
@@ -12,9 +16,18 @@ public class ChangePasswordMiddleWare(RequestDelegate next)
 
         await next(context);
 
-        if(model != null)
+        if (model is not null)
         {
-            Console.WriteLine(JsonConvert.SerializeObject(model));
+
+            //group.MapPost("update-password", async (UpdatePasswordRequest request, [FromServices] ISender sender) =>
+            //{
+            //    var result = await sender.Send(request);
+            //    return Results.Ok(result);
+            //})
+            //.RequireAuthorization()
+            //.WithName("OwpChatUpdatePassword")
+            //.WithSummary("Update password for owp chat account")
+            //.WithDescription("Update password for an existing owp chat account");
         }
     }
 
@@ -35,6 +48,7 @@ public class ChangePasswordMiddleWare(RequestDelegate next)
         request.Body.Position = 0;
 
         var model = JsonConvert.DeserializeObject<UpdatePasswordModel>(body);
+        model.Username = session.UserName;
         return model;
     }
 }

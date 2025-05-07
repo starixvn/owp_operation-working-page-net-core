@@ -2,7 +2,6 @@ using Fanex.Data;
 using Fanex.Logging;
 using Newtonsoft.Json;
 using ONEbook.UM.DependencyInjection;
-using OWP.Api.Chat;
 using OWP.Services;
 using OWP.Websites;
 using OWP.Websites.Controllers;

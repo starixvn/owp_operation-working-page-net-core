@@ -168,6 +168,7 @@
     <ProjectReference Include="..\src\OWP.AccountSetting\OWP.AccountSetting.csproj" />
     <ProjectReference Include="..\src\OWP.Api\OWP.Api.csproj" />
     <ProjectReference Include="..\src\OWP.BackgroundWorker\OWP.BackgroundWorker.csproj" />
+    <ProjectReference Include="..\src\OWP.ChatServer\OWP.ChatServer.csproj" />
     <ProjectReference Include="..\src\OWP.EventPicking\OWP.EventPicking.csproj" />
     <ProjectReference Include="..\src\OWP.Event\OWP.Event.csproj" />
     <ProjectReference Include="..\src\OWP.FileUpload\OWP.FileUpload.csproj" />
