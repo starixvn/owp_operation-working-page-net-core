@@ -12,15 +12,17 @@ const STORAGE_KEYS = {
 
 const getEncryptionKey = () => {
   const domain = window.location.hostname;
-  return CryptoJS.SHA256(`${domain}_${import.meta.env.VITE_CHAT_SEVER_URL}`).toString();
+  return CryptoJS.SHA256(
+    `${domain}_${import.meta.env.VITE_CHAT_SEVER_URL}`
+  ).toString();
 };
 
-const encryptData = (data) => {
+const encryptData = data => {
   const key = getEncryptionKey();
   return CryptoJS.AES.encrypt(JSON.stringify(data), key).toString();
 };
 
-const decryptData = (encryptedData) => {
+const decryptData = encryptedData => {
   try {
     const key = getEncryptionKey();
     const bytes = CryptoJS.AES.decrypt(encryptedData, key);
@@ -62,7 +64,7 @@ const clearStorage = () => {
 };
 
 const storeAuth = ({ token, username, userId }) => {
-  const expiry = new Date().getTime() + (24 * 60 * 60 * 1000);
+  const expiry = new Date().getTime() + 24 * 60 * 60 * 1000;
   localStorage.setItem(STORAGE_KEYS.TOKEN, encryptData(token));
   localStorage.setItem(STORAGE_KEYS.USERNAME, encryptData(username));
   localStorage.setItem(STORAGE_KEYS.USER_ID, encryptData(userId));
@@ -86,13 +88,13 @@ const verifyToken = async (token, userId, chatUrl) => {
   }
 };
 
-const loginToRocketChat = async (username, chatUrl) => {
+const loginToRocketChat = async (username, password, chatUrl) => {
   const response = await fetch(`${chatUrl}/api/v1/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       username,
-      password: 'password'
+      password
     })
   });
 
@@ -107,6 +109,7 @@ const loginToRocketChat = async (username, chatUrl) => {
 const handleReLogin = async (policy, chatUrl) => {
   const { token: newToken, userId: newUserId } = await loginToRocketChat(
     policy.Username,
+    policy.RowPassword,
     chatUrl
   );
   storeAuth({
@@ -127,8 +130,10 @@ const useRocketChat = () => {
       setLoading(true);
       try {
         const chatUrl = import.meta.env.VITE_CHAT_SEVER_URL;
-        const policy = await AuthorizeService.authorize(FunctionKeys.RocketChat);
-
+        const policy = await AuthorizeService.authorize(
+          FunctionKeys.RocketChat
+        );
+        debugger;
         if (!policy?.Username) {
           throw new Error('Rocket.Chat policy not found');
         }
@@ -142,8 +147,16 @@ const useRocketChat = () => {
           return;
         }
 
-        if (storedAuth?.token && storedAuth?.userId && storedAuth?.username === policy.Username) {
-          const isValid = await verifyToken(storedAuth.token, storedAuth.userId, chatUrl);
+        if (
+          storedAuth?.token &&
+          storedAuth?.userId &&
+          storedAuth?.username === policy.Username
+        ) {
+          const isValid = await verifyToken(
+            storedAuth.token,
+            storedAuth.userId,
+            chatUrl
+          );
           if (isValid) {
             setAuthToken(storedAuth.token);
             return;

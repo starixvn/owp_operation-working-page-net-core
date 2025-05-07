@@ -43,6 +43,7 @@ const query = async title => {
   return {
     username: data.Username,
     logoutLink: Utils.resolveUrl(data.LogoutPath),
+    changePasswordPath: Utils.resolveUrl(data.ChangePasswordPath),
     notificationSettingLink: Utils.resolveUrl(data.NotificationSettingPath),
     accountSettingPath: Utils.resolveUrl(data.AccountSettingPath),
     navigation: transformNavigation(data.Menus, title)

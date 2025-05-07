@@ -9,7 +9,6 @@ using Newtonsoft.Json;
 
 public class ChangePasswordMiddleWare(RequestDelegate next,
     [FromServices] INapSession session,
-    [FromServices] ISender sender,
     [FromServices] IServiceProvider serviceProvider)
 {
     public async Task InvokeAsync(HttpContext context)

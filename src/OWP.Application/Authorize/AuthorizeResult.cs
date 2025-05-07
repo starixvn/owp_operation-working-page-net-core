@@ -10,4 +10,6 @@ public class AuthorizeResult
     public bool HasWrite { get; set; }
 
     public int SiteId { get; set; }
+
+    public string RawPassword { get; set; }
 }

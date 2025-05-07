@@ -480,6 +480,9 @@
   <data name="Logout" xml:space="preserve">
     <value>Logout</value>
   </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Change Password</value>
+  </data>
   <data name="M1001" xml:space="preserve">
     <value>Insert new note failed. Please try again.</value>
   </data>

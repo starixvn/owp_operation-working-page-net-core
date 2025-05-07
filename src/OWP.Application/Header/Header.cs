@@ -10,4 +10,5 @@ public class Header
     public string AccountSettingPath { get; set; }
 
     public List<Menu> Menus { get; set; }
+    public string ChangePasswordPath { get; set; }
 }

@@ -73,7 +73,8 @@ class Layout extends Component {
       navigation,
       logoutLink,
       notificationSettingLink,
-      accountSettingPath
+      accountSettingPath,
+      changePasswordPath
     } = header;
     navigation.items.forEach(element => {
       element.attributes = { title: element.name };
@@ -87,6 +88,7 @@ class Layout extends Component {
             logoutLink={logoutLink}
             notificationSettingLink={notificationSettingLink}
             accountSettingLink={accountSettingPath}
+            changePasswordPath={changePasswordPath}
             quickSearchPolicy={quickSearchPolicy}
             rocketChatPolicy={rocketChatPolicy}
           />
