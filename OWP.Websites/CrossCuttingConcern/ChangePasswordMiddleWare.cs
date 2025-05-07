@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using OWP.ChatServer.Handler;
 
 namespace OWP.Websites.CrossCuttingConcern;
 
@@ -8,7 +9,8 @@ using Newtonsoft.Json;
 
 public class ChangePasswordMiddleWare(RequestDelegate next,
     [FromServices] INapSession session,
-    [FromServices] ISender sender)
+    [FromServices] ISender sender,
+    [FromServices] IServiceProvider serviceProvider)
 {
     public async Task InvokeAsync(HttpContext context)
     {
@@ -18,16 +20,9 @@ public class ChangePasswordMiddleWare(RequestDelegate next,
 
         if (model is not null)
         {
-
-            //group.MapPost("update-password", async (UpdatePasswordRequest request, [FromServices] ISender sender) =>
-            //{
-            //    var result = await sender.Send(request);
-            //    return Results.Ok(result);
-            //})
-            //.RequireAuthorization()
-            //.WithName("OwpChatUpdatePassword")
-            //.WithSummary("Update password for owp chat account")
-            //.WithDescription("Update password for an existing owp chat account");
+            using var scope = serviceProvider.CreateScope();
+            var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+            await mediator.Send(new UpdatePasswordRequest(session.UserName, model.RawUserPwd));
         }
     }
 

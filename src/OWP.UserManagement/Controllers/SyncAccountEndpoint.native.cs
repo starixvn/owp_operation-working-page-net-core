@@ -19,7 +19,7 @@ public class OwpAccountantEndpoint : ICarterModule
         group.MapPost("create-account", async (SyncUserModel request, [FromServices] ISender sender) =>
         {
             var result = await sender.Send(new AccountOwpCreatorRequest(request.UserId));
-            if (result.Value=="OK")
+            if (result.IsSuccess)
             {
                 await sender.Send(new AccountRocketChatCreatorRequest(request.Username));
             }

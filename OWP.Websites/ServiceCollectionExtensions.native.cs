@@ -47,7 +47,9 @@ using EventPicking.Api;
 using Microsoft.Extensions.FileProviders;
 using Olympus.OWP.Log.Services;
 using OWP.AccountSetting.Profile;
+using OWP.ChatServer.Handler;
 using OWP.PrematchAssignment.QueryAndSave;
+using OWP.UserManagement.Controllers;
 using Quartz;
 using System.Net.Http;
 using WorkingShift.SyncWorkingShift;
@@ -228,6 +230,8 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(ProfileController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(QuickMessageController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.Load("OWP.ProviderVerification")));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(UserManagementController).GetTypeInfo().Assembly));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(UpdatePasswordHandler).GetTypeInfo().Assembly));
         return services;
     }
 
