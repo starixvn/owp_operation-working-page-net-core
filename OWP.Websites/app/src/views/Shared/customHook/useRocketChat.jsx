@@ -35,7 +35,9 @@ const decryptData = encryptedData => {
 
 const getStoredAuth = () => {
   const encryptedExpiry = localStorage.getItem(STORAGE_KEYS.EXPIRY);
-  if (!encryptedExpiry) return null;
+  if (!encryptedExpiry) {
+    return null;
+  }
 
   const expiry = decryptData(encryptedExpiry);
   if (!expiry || new Date().getTime() > parseInt(expiry)) {
@@ -109,7 +111,7 @@ const loginToRocketChat = async (username, password, chatUrl) => {
 const handleReLogin = async (policy, chatUrl) => {
   const { token: newToken, userId: newUserId } = await loginToRocketChat(
     policy.Username,
-    policy.RowPassword,
+    policy.RawPassword,
     chatUrl
   );
   storeAuth({
