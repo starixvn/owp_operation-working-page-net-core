@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using Fanex.Data.Repository;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +28,7 @@ public class AccountCreatorHandler(
         try
         {
             env = configuration.GetSection("Fanex.NAP.Client:Environment").Value;
-           
+
             using var client = httpClientFactory.CreateClient("OWPChat");
 
             var userData = new
@@ -59,7 +60,12 @@ public class AccountCreatorHandler(
         catch (Exception exception)
         {
             await LogDetailedPayload(DateTime.Now.ToGmt8(), "CreateOWPChatAccount_Exception",
-                JsonConvert.SerializeObject(new {exception, env}));
+                JsonConvert.SerializeObject(new { exception, env }));
+        }
+        finally
+        {
+            await LogDetailedPayload(DateTime.Now.ToGmt8(), "CreateOWPChatAccount_User",
+                JsonConvert.SerializeObject(new { request.Username, env }));
         }
         return Unit.Value;
     }

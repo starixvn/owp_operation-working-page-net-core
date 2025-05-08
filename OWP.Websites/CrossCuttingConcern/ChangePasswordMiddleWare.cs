@@ -13,16 +13,9 @@ public class ChangePasswordMiddleWare(RequestDelegate next,
 {
     public async Task InvokeAsync(HttpContext context)
     {
-        var model = await HandleChangePassword(context);
+       await HandleChangePassword(context);
 
-        await next(context);
-
-        if (model is not null)
-        {
-            using var scope = serviceProvider.CreateScope();
-            var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-            await mediator.Send(new UpdatePasswordRequest(session.UserName, model.RawUserPwd));
-        }
+       await next(context);
     }
 
     public async Task<UpdatePasswordModel> HandleChangePassword(HttpContext context)
@@ -43,6 +36,9 @@ public class ChangePasswordMiddleWare(RequestDelegate next,
 
         var model = JsonConvert.DeserializeObject<UpdatePasswordModel>(body);
         model.Username = session.UserName;
+        using var scope = serviceProvider.CreateScope();
+        var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+        await mediator.Send(new UpdatePasswordRequest(session.UserName, model.RawUserPwd));
         return model;
     }
 }
