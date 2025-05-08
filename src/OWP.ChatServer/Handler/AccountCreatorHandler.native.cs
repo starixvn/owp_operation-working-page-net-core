@@ -33,7 +33,7 @@ public class AccountCreatorHandler(
             var userData = new
             {
                 username = request.Username,
-                password = "*#*#1234aa*#*#",
+                password = "password",
                 email = $"{request.Username}@example.com",
                 name = request.Username,
                 roles = new[] { "user" }

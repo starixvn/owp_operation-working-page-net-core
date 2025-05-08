@@ -23,7 +23,10 @@ public class OwpAccountantEndpoint : ICarterModule
             {
                 await sender.Send(new AccountRocketChatCreatorRequest(request.Username));
             }
-            return result.Value;
+
+            return result.IsSuccess
+                ? "OK"
+                : result.Errors.FirstOrDefault().Description;
         }).AllowAnonymous()
         .WithName("OwpAccountCreator")
         .WithSummary("Create account owp chat, account owp")
