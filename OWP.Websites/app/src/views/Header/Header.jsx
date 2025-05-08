@@ -173,17 +173,17 @@ const Header = ({
                       </span>{' '}
                       Account Setting
                     </DropdownItem>
-                    <DropdownItem href={logoutLink}>
-                      <span className='icon-logout'>
-                        <LogoutIcon size={14} />
-                      </span>{' '}
-                      Logout
-                    </DropdownItem>
                     <DropdownItem href={changePasswordPath}>
                       <span className='change-password'>
                         <KeyChangeIcon size={14} />
                       </span>{' '}
                       Change Password
+                    </DropdownItem>
+                    <DropdownItem href={logoutLink}>
+                      <span className='icon-logout'>
+                        <LogoutIcon size={14} />
+                      </span>{' '}
+                      Logout
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
