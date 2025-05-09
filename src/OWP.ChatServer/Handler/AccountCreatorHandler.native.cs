@@ -1,18 +1,19 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
+using System.Text.Json;
 using Fanex.Data.Repository;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Olympus.OWP.Log.Criteria;
+using OWP.ChatServer.Criteria;
 using OWP.CQRS;
 using OWP.Extensions;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace OWP.ChatServer.Handler;
 
-public record AccountRocketChatCreatorRequest(string Username) : Command<Unit>;
+public record AccountRocketChatCreatorRequest(int UserId, string Username) : Command<Unit>;
 
 
 public class AccountCreatorHandler(
@@ -45,17 +46,8 @@ public class AccountCreatorHandler(
                     Encoding.UTF8,
                     "application/json"),
                 cancellationToken);
-            var responseBody = await response.Content.ReadAsStringAsync(cancellationToken);
 
-            var action = !response.IsSuccessStatusCode
-                ? "CreateOWPChatAccount_Fail"
-                : "CreateOWPChatAccount_Success";
-
-            await LogDetailedPayload(DateTime.Now.ToGmt8(), action, JsonConvert.SerializeObject(new
-            {
-                responseBody,
-                env
-            }));
+            await HandleResponse(response, request.UserId, cancellationToken);
         }
         catch (Exception exception)
         {
@@ -68,6 +60,47 @@ public class AccountCreatorHandler(
                 JsonConvert.SerializeObject(new { request.Username, env }));
         }
         return Unit.Value;
+    }
+
+    private async Task HandleResponse(
+        HttpResponseMessage response,
+        int UserId, CancellationToken cancellationToken)
+    {
+        var env = configuration.GetSection("Fanex.NAP.Client:Environment").Value;
+
+        var responseBody = await response.Content.ReadAsStringAsync(cancellationToken);
+
+        var action = "CreateOWPChatAccount_Fail";
+        if (response.IsSuccessStatusCode)
+        {
+            using var document = JsonDocument.Parse(responseBody);
+            var root = document.RootElement;
+
+            var chatUserId = root.GetProperty("user").GetProperty("_id").GetString();
+            await UpdateChatUserId(JsonSerializer.Serialize(new List<object>()
+            {
+                new
+                {
+                    UserId,
+                    ChatUserId = chatUserId,
+                }
+            }));
+            action= "CreateOWPChatAccount_Success";
+        }
+
+        await LogDetailedPayload(DateTime.Now.ToGmt8(), action, JsonConvert.SerializeObject(new
+        {
+            responseBody,
+            env
+        }));
+    }
+
+    private async Task UpdateChatUserId(string userJson)
+    {
+        await dynamicRepository.ExecuteAsync(new ChatUserInfoCriteria()
+        {
+            UserJson = userJson
+        });
     }
 
     private async Task LogDetailedPayload(DateTime CreatedDate, string Action, string Payload)

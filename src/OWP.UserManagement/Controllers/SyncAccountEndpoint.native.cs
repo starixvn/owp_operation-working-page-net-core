@@ -21,7 +21,7 @@ public class OwpAccountantEndpoint : ICarterModule
             var result = await sender.Send(new AccountOwpCreatorRequest(request));
             if (result.IsSuccess)
             {
-                await sender.Send(new AccountRocketChatCreatorRequest(request.Username));
+                await sender.Send(new AccountRocketChatCreatorRequest(request.UserId,request.Username));
             }
 
             return result.IsSuccess
