@@ -13,12 +13,16 @@ public class ChangePasswordMiddleWare(RequestDelegate next,
 {
     public async Task InvokeAsync(HttpContext context)
     {
-       await HandleChangePassword(context);
-
+        var updatePasswordInfo=await GetNewPassword(context);
        await next(context);
+       if (updatePasswordInfo is not null)
+       {
+           await HandleChangePassword(updatePasswordInfo);
+       }
+
     }
 
-    public async Task<UpdatePasswordModel> HandleChangePassword(HttpContext context)
+    private static async Task<UpdatePasswordModel> GetNewPassword(HttpContext context)
     {
         var request = context.Request;
         if (request.Method != HttpMethods.Post || request.Path.Value != "/Auth/ChangePassword")
@@ -35,6 +39,11 @@ public class ChangePasswordMiddleWare(RequestDelegate next,
         request.Body.Position = 0;
 
         var model = JsonConvert.DeserializeObject<UpdatePasswordModel>(body);
+        return model;
+       
+    }
+    public async Task<UpdatePasswordModel> HandleChangePassword(UpdatePasswordModel model)
+    {
         model.Username = session.UserName;
         using var scope = serviceProvider.CreateScope();
         var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
