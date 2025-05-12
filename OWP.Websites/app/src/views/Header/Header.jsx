@@ -50,7 +50,7 @@ const Header = ({
 }) => {
   const [isVisibleSearchArea, setIsVisibleSearchArea] = useState(false);
   const [isSearchAccountChat, setIsSearchAccountChat] = useState(false);
-  const { authToken } = useRocketChat();
+  const { authToken, error } = useRocketChat();
   const handleVisibleSearchArea = isVisible => {
     if (isVisible) {
       document.body.classList.add('is-open-search');
@@ -67,6 +67,10 @@ const Header = ({
   };
 
   const handleAccountSelect = account => {
+    if (error?.hasError && error?.statusCode === 401) {
+      window.location.href = '/OWPChat';
+      return;
+    }
     if (account && account.UserName) {
       const chatUrl = `${import.meta.env.VITE_CHAT_SEVER_URL}/direct/${
         account.UserName

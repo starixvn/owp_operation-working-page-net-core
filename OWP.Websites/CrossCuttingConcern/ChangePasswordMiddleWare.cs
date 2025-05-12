@@ -52,6 +52,7 @@ public class ChangePasswordMiddleWare(RequestDelegate next,
         }
         catch(Exception ex)
         {
+
             // TODO
         }
         finally
