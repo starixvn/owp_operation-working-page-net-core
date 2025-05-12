@@ -90,7 +90,6 @@ const verifyToken = async (token, userId, chatUrl) => {
   }
 };
 
-// TODO
 const loginToRocketChat = async (username, password, chatUrl) => {
   const response = await fetch(`${chatUrl}/api/v1/login`, {
     method: 'POST',
@@ -147,7 +146,7 @@ const handleReLogin = async (policy, chatUrl) => {
   };
 };
 
-const loginWithTokenFromStore = async () => {
+const loginWithTokenFromStore = async (policy, chatUrl) => {
   const storedAuth = getStoredAuth();
 
   if (
@@ -192,7 +191,7 @@ const useRocketChat = () => {
           FunctionKeys.RocketChat
         );
 
-        let loginResult = await loginWithTokenFromStore();
+        let loginResult = await loginWithTokenFromStore(policy, chatUrl);
         if (!loginResult.hasError) {
           setAuthToken(loginResult.token);
           setError(null);
