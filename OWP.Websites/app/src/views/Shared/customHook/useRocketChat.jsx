@@ -3,6 +3,12 @@ import AuthorizeService from '../../Authorize/Service';
 import { FunctionKeys } from '../Constants';
 import CryptoJS from 'crypto-js';
 
+type TError = {
+  hasError: boolean,
+  statusCode: number,
+  errorMessage: string
+};
+
 const STORAGE_KEYS = {
   TOKEN: 'rc_token',
   USERNAME: 'rc_username',
@@ -90,41 +96,97 @@ const verifyToken = async (token, userId, chatUrl) => {
   }
 };
 
+// TODO
 const loginToRocketChat = async (username, password, chatUrl) => {
   const response = await fetch(`${chatUrl}/api/v1/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       username,
-      password
+      password: '123'
     })
   });
 
+  if (response.status === 401) {
+    return {
+      token: null,
+      userId: null,
+      hasError: true,
+      errorMessage: 'Unauthorized',
+      statusCode: response.status
+    };
+  }
   if (!response.ok) {
-    throw new Error('Failed to log in to Rocket.Chat');
+    return { token: null, userId: null, hasError: true };
   }
 
   const { data } = await response.json();
-  return { token: data.authToken, userId: data.userId };
+  return {
+    token: data.authToken,
+    userId: data.userId,
+    hasError: false,
+    statusCode: response.status
+  };
 };
 
 const handleReLogin = async (policy, chatUrl) => {
-  const { token: newToken, userId: newUserId } = await loginToRocketChat(
-    policy.Username,
-    policy.RawPassword,
-    chatUrl
-  );
-  storeAuth({
-    token: newToken,
-    username: policy.Username,
-    userId: newUserId
-  });
-  return newToken;
+  const { token, userId, statusCode, hasError, errorMessage } =
+    await loginToRocketChat(policy.Username, policy.RawPassword, chatUrl);
+  if (!hasError) {
+    storeAuth({
+      token,
+      username: policy.Username,
+      userId
+    });
+
+    return {
+      token,
+      statusCode,
+      hasError,
+      errorMessage
+    };
+  }
+  return {
+    hasError: true,
+    statusCode: 401,
+    errorMessage: 'Session is invalid. The login is being reprocessed...'
+  };
+};
+
+const loginWithTokenFromStore = async () => {
+  const storedAuth = getStoredAuth();
+
+  if (
+    storedAuth?.token &&
+    storedAuth?.userId &&
+    storedAuth?.username === policy.Username
+  ) {
+    const isValid = await verifyToken(
+      storedAuth.token,
+      storedAuth.userId,
+      chatUrl
+    );
+    if (isValid) {
+      return {
+        hasError: false,
+        statusCode: 200,
+        errorMessage: null,
+        token: storedAuth.token
+      };
+    }
+  }
+
+  clearStorage();
+  return {
+    hasError: true,
+    statusCode: 401,
+    errorMessage: 'Session is invalid. The login is being reprocessed...'
+  };
 };
 
 const useRocketChat = () => {
   const [authToken, setAuthToken] = useState(null);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState < TError > null;
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -135,52 +197,28 @@ const useRocketChat = () => {
         const policy = await AuthorizeService.authorize(
           FunctionKeys.RocketChat
         );
-        debugger;
-        if (!policy?.Username) {
-          throw new Error('Rocket.Chat policy not found');
-        }
 
-        const storedAuth = getStoredAuth();
-        if (!storedAuth) {
-          setError('Phiên làm việc đã hết hạn. Đang đăng nhập lại...');
-          const newToken = await handleReLogin(policy, chatUrl);
-          setAuthToken(newToken);
+        let loginResult = await loginWithTokenFromStore();
+        if (!loginResult.hasError) {
+          setAuthToken(loginResult.token);
           setError(null);
           return;
         }
 
-        if (
-          storedAuth?.token &&
-          storedAuth?.userId &&
-          storedAuth?.username === policy.Username
-        ) {
-          const isValid = await verifyToken(
-            storedAuth.token,
-            storedAuth.userId,
-            chatUrl
-          );
-          if (isValid) {
-            setAuthToken(storedAuth.token);
-            return;
-          }
-          setError('Token không hợp lệ. Đang đăng nhập lại...');
-          clearStorage();
+        loginResult = await handleReLogin(policy, chatUrl);
+        if (!loginResult.hasError) {
+          setAuthToken(loginResult.token);
+          setError(null);
+          return;
         }
-
-        const newToken = await handleReLogin(policy, chatUrl);
-        setAuthToken(newToken);
-        setError(null);
-      } catch (err) {
-        console.error(err);
-        setError(err.message);
-        clearStorage();
+        setError(loginResult);
       } finally {
         setLoading(false);
       }
     };
 
     authenticate();
-  }, []);
+  }, [setAuthToken, setError]);
 
   return { authToken, error, loading };
 };
