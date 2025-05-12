@@ -3,12 +3,6 @@ import AuthorizeService from '../../Authorize/Service';
 import { FunctionKeys } from '../Constants';
 import CryptoJS from 'crypto-js';
 
-type TError = {
-  hasError: boolean,
-  statusCode: number,
-  errorMessage: string
-};
-
 const STORAGE_KEYS = {
   TOKEN: 'rc_token',
   USERNAME: 'rc_username',
@@ -103,7 +97,7 @@ const loginToRocketChat = async (username, password, chatUrl) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       username,
-      password: '123'
+      password
     })
   });
 
@@ -186,7 +180,7 @@ const loginWithTokenFromStore = async () => {
 
 const useRocketChat = () => {
   const [authToken, setAuthToken] = useState(null);
-  const [error, setError] = useState < TError > null;
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
