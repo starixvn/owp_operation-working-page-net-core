@@ -97,7 +97,7 @@ public class AccountCreatorHandler(
 
     private async Task UpdateChatUserId(string userJson)
     {
-        await dynamicRepository.ExecuteAsync(new ChatUserInfoCriteria()
+        await dynamicRepository.ExecuteAsync(new UpdateChatUserInfoCriteria()
         {
             UserJson = userJson
         });

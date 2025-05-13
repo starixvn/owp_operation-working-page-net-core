@@ -91,7 +91,7 @@ public class ChangePasswordMiddleWare(RequestDelegate next,
         model.Username = session.UserName;
         using var scope = serviceProvider.CreateScope();
         var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-        await mediator.Send(new UpdatePasswordRequest(session.UserName, model.RawUserPwd));
+        await mediator.Send(new UpdatePasswordRequest(session.UserId, session.UserName, model.RawUserPwd));
 
     }
 }

@@ -7,11 +7,12 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Olympus.OWP.Log.Criteria;
+using OWP.ChatServer.Criteria;
 using OWP.Extensions;
 
 namespace OWP.ChatServer.Handler;
 
-public record UpdatePasswordRequest(string Username, string NewPassword) : Command<Unit>;
+public record UpdatePasswordRequest(int UserId, string Username, string NewPassword) : Command<Unit>;
 
 public class UpdatePasswordHandler(
     [FromServices]IHttpClientFactory httpClientFactory,
@@ -21,7 +22,8 @@ public class UpdatePasswordHandler(
     public async Task<Unit> Handle(
         UpdatePasswordRequest request, CancellationToken cancellationToken)
     {
-        var env = string.Empty; 
+        var env = string.Empty;
+        var response= new HttpResponseMessage();
         try
         {
             env = configuration.GetSection("Fanex.NAP.Client:Environment").Value;
@@ -41,27 +43,34 @@ public class UpdatePasswordHandler(
                 JsonSerializer.Serialize(updateData),
                 Encoding.UTF8,
                 "application/json");
-            await LogDetailedPayload(DateTime.Now.ToGmt8(), "Update_OWPChat_UserInfo", JsonConvert.SerializeObject(updateData));
+            await LogDetailedPayload(DateTime.Now.ToGmt8(), "Update_OWPChat_UserInfo",
+                JsonConvert.SerializeObject(updateData));
 
-            var response = await client.PostAsync("users.update", content, cancellationToken);
+            response = await client.PostAsync("users.update", content, cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            await LogDetailedPayload(DateTime.Now.ToGmt8(), "UpdateOWPChatPassword_Exception",
+                JsonConvert.SerializeObject(new
+                {
+                    ex,
+                    env
+                }));
+        }
+        finally
+        {
+            var action = "Update_OWPChat_UserInfo_Fail";
             var responseBody = await response.Content.ReadAsStringAsync(cancellationToken);
 
-            var action = !response.IsSuccessStatusCode
-                ? "Update_OWPChat_UserInfo_Fail"
-                : "Update_OWPChat_UserInfo_Success";
+            if (response.IsSuccessStatusCode)
+            {
+                action = "Update_OWPChat_UserInfo_Success";
+                await MarkUserUpdatePassword(request.UserId);
+            }
 
             await LogDetailedPayload(DateTime.Now.ToGmt8(), action, JsonConvert.SerializeObject(new
             {
                 responseBody,
-                env
-            }));
-
-        }
-        catch (Exception ex)
-        {
-            await LogDetailedPayload(DateTime.Now.ToGmt8(), "UpdateOWPChatPassword_Exception", JsonConvert.SerializeObject(new
-            {
-                ex,
                 env
             }));
         }
@@ -79,12 +88,10 @@ public class UpdatePasswordHandler(
                 await LogDetailedPayload(DateTime.Now.ToGmt8(), "Get_OWPChat_UserId_Fail", JsonConvert.SerializeObject(responseBody));
                 return string.Empty;
             }
-            else
-            {
-                dynamic result = JsonConvert.DeserializeObject(responseBody);
-                await LogDetailedPayload(DateTime.Now.ToGmt8(), "Get_OWPChat_UserId_OK", JsonConvert.SerializeObject(new { result.user }));
-                return result.user._id;
-            }
+
+            dynamic result = JsonConvert.DeserializeObject(responseBody);
+            await LogDetailedPayload(DateTime.Now.ToGmt8(), "Get_OWPChat_UserId_OK", JsonConvert.SerializeObject(new { result.user }));
+            return result.user._id;
         }
         catch (Exception e)
         {
@@ -92,7 +99,13 @@ public class UpdatePasswordHandler(
             return string.Empty;
         }
     }
-
+    private async Task MarkUserUpdatePassword(int userId)
+    {
+        await dynamicRepository.ExecuteAsync(new MarkUserUpdatePasswordCriteria()
+        {
+           UserId = userId
+        });
+    }
     private async Task LogDetailedPayload(DateTime CreatedDate, string Action, string Payload)
     {
         await dynamicRepository.ExecuteAsync(new OwpLogCriteria()

@@ -2,7 +2,7 @@
 
 namespace OWP.ChatServer.Criteria
 {
-    public class ChatUserInfoCriteria : INonQueryCommand
+    public class UpdateChatUserInfoCriteria : INonQueryCommand
     {
         public string UserJson { get; set; }
 
