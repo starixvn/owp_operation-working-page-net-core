@@ -59,14 +59,10 @@ public class UpdatePasswordHandler(
         }
         finally
         {
-            var action = "Update_OWPChat_UserInfo_Fail";
+            var action = !response.IsSuccessStatusCode
+            ?"Update_OWPChat_UserInfo_Fail"
+            : "Update_OWPChat_UserInfo_Success";
             var responseBody = await response.Content.ReadAsStringAsync(cancellationToken);
-
-            if (response.IsSuccessStatusCode)
-            {
-                action = "Update_OWPChat_UserInfo_Success";
-                await MarkUserUpdatePassword(request.UserId);
-            }
 
             await LogDetailedPayload(DateTime.Now.ToGmt8(), action, JsonConvert.SerializeObject(new
             {
@@ -99,13 +95,7 @@ public class UpdatePasswordHandler(
             return string.Empty;
         }
     }
-    private async Task MarkUserUpdatePassword(int userId)
-    {
-        await dynamicRepository.ExecuteAsync(new MarkUserUpdatePasswordCriteria()
-        {
-           UserId = userId
-        });
-    }
+   
     private async Task LogDetailedPayload(DateTime CreatedDate, string Action, string Payload)
     {
         await dynamicRepository.ExecuteAsync(new OwpLogCriteria()
