@@ -1,17 +1,17 @@
-﻿using MediatR;
-using Org.BouncyCastle.Asn1.Ocsp;
+﻿using Fanex.Data.Repository;
+using MediatR;
 using OWP.ChatServer.Handler;
-
 namespace OWP.Websites.CrossCuttingConcern;
-
 using System.Text;
 using System.Text.Json;
 using Fanex.NAP.SignIn.Models;
 using Newtonsoft.Json;
+using OWP.ChatServer.Criteria;
 
 public class ChangePasswordMiddleWare(RequestDelegate next,
     [FromServices] INapSession session,
-    [FromServices] IServiceProvider serviceProvider)
+    [FromServices] IServiceProvider serviceProvider,
+    [FromServices] IConfiguration configuration)
 {
     public async Task InvokeAsync(HttpContext context)
     {
@@ -22,9 +22,15 @@ public class ChangePasswordMiddleWare(RequestDelegate next,
            && context.Request.Path.Value == "/Auth/ChangePassword")
         {
             var errorMessage = await ReadResponseData(context);
+            if (string.IsNullOrWhiteSpace(errorMessage)
+                && configuration.GetValue<bool>("ChatServer:EnableFuncUpdatePassword"))
+            {
+                await HandleChangePasswordOnChatServer(updatePasswordInfo);
+            }
+
             if (string.IsNullOrWhiteSpace(errorMessage))
             {
-                await HandleChangePassword(updatePasswordInfo);
+                await MarkUserUpdatePassword(session.UserId);
             }
             return;
         }
@@ -86,7 +92,19 @@ public class ChangePasswordMiddleWare(RequestDelegate next,
         return model;
        
     }
-    public async Task HandleChangePassword(UpdatePasswordModel model)
+
+    private async Task MarkUserUpdatePassword(int userId)
+    {
+        using var scope = serviceProvider.CreateScope();
+        var dynamicRepository = scope.ServiceProvider.GetRequiredService<IDynamicRepository>();
+
+        await dynamicRepository.ExecuteAsync(new MarkUserUpdatePasswordCriteria
+        {
+            UserId = userId
+        });
+    }
+
+    private async Task HandleChangePasswordOnChatServer(UpdatePasswordModel model)
     {
         model.Username = session.UserName;
         using var scope = serviceProvider.CreateScope();
