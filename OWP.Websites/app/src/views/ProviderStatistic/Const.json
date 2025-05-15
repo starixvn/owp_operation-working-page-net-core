@@ -1,0 +1,16 @@
+{
+  "dateRangeDefault": 30,
+  "dateRangeValid": 365,
+  "time": 86400000,
+  "exportReport": "export",
+  "VIEW_BY_OPTION": [
+    {
+      "label": "Day",
+      "value": "Day"
+    },
+    {
+      "label": "League",
+      "value": "League"
+    }
+  ]
+}

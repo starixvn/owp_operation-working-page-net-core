@@ -46,54 +46,52 @@ const Filter = () => {
   };
 
   return (
-    <>
-      <div className='top-control'>
-        <div className='left-control'>
-          <div className='filter-control calendar'>
-            <div className='label'>From Date</div>
-            <DatePicker
-              onChange={date => date && setFromDate(date)}
-              selected={fromDate}
-              maxDate={toDate}
-              dateFormat='MMM dd, yyyy'
-              ref={fromDatePicker}
-              className='from-date-picker'
-            />
-            <span
-              className='icon-calendar'
-              id='icon-calendar-from-date'
-              onClick={() => fromDatePicker?.current?.setOpen(true)}>
-              <CalendarIcon size={14} />
-            </span>
-          </div>
-          <div className='filter-control calendar'>
-            <div className='label'>To Date</div>
-            <DatePicker
-              onChange={date => date && setToDate(date)}
-              minDate={fromDate}
-              selected={toDate}
-              dateFormat='MMM dd, yyyy'
-              ref={toDatePicker}
-              className='to-date-picker'
-            />
-            <span
-              className='icon-calendar'
-              id='icon-calendar-to-date'
-              onClick={() => toDatePicker?.current?.setOpen(true)}>
-              <CalendarIcon size={14} />
-            </span>
-          </div>
-          <div className='filter-control btn-block'>
-            <button className='button-submit' onClick={handleSearch}>
-              Search
-            </button>
-            <button className='button-export' onClick={handleExport}>
-              Export
-            </button>
-          </div>
+    <div className='top-control'>
+      <div className='left-control'>
+        <div className='filter-control calendar'>
+          <div className='label'>From Date</div>
+          <DatePicker
+            onChange={date => date && setFromDate(date)}
+            selected={fromDate}
+            maxDate={toDate}
+            dateFormat='MMM dd, yyyy'
+            ref={fromDatePicker}
+            className='from-date-picker'
+          />
+          <span
+            className='icon-calendar'
+            id='icon-calendar-from-date'
+            onClick={() => fromDatePicker?.current?.setOpen(true)}>
+            <CalendarIcon size={14} />
+          </span>
+        </div>
+        <div className='filter-control calendar'>
+          <div className='label'>To Date</div>
+          <DatePicker
+            onChange={date => date && setToDate(date)}
+            minDate={fromDate}
+            selected={toDate}
+            dateFormat='MMM dd, yyyy'
+            ref={toDatePicker}
+            className='to-date-picker'
+          />
+          <span
+            className='icon-calendar'
+            id='icon-calendar-to-date'
+            onClick={() => toDatePicker?.current?.setOpen(true)}>
+            <CalendarIcon size={14} />
+          </span>
+        </div>
+        <div className='filter-control btn-block'>
+          <button className='button-submit' onClick={handleSearch}>
+            Search
+          </button>
+          <button className='button-export' onClick={handleExport}>
+            Export
+          </button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

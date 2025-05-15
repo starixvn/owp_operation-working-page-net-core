@@ -502,4 +502,7 @@
     <Setting Key="OWP_UpdateChatUserId" SpName ="OWP_UpdateChatUserId" DbName="DBOWP.bodb_OWP.wsv_owp" />
     <Setting Key="OWP_MarkUserUpdatePassword" SpName ="OWP_MarkUserUpdatePassword" DbName="DBOWP.bodb_OWP.wsv_owp" />
   </Function>
+  <Function Name="ProviderStatistic">
+    <Setting Key="OWP_ProviderStatistic_SumByDay" SpName ="OWP_ProviderStatistic_SumByDay" DbName="DBOWP.bodb_OWP.wsv_owp" />
+  </Function>
 </Functions>
