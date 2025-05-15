@@ -43,6 +43,7 @@ COPY ./src/OWP.TicketCenter/OWP.TicketCenter.csproj ./src/OWP.TicketCenter/
 COPY ./src/OWP.TicketSetting/OWP.TicketSetting.csproj ./src/OWP.TicketSetting/
 COPY ./src/OWP.UserManagement/OWP.UserManagement.csproj ./src/OWP.UserManagement/
 COPY ./src/OWP.WorkingShift/OWP.WorkingShift.csproj ./src/OWP.WorkingShift/
+COPY ./src/OWP.ChatServer/OWP.ChatServer.csproj ./src/OWP.ChatServer/
 COPY ./src/OWP/OWP.csproj ./src/OWP/
 COPY ./OWP.Websites/OWP.Websites.csproj ./OWP.Websites/
 

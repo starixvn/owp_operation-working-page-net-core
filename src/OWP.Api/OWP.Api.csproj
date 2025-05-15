@@ -7,9 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="12.4.1" />
+    <PackageReference Include="Olympus.OWP.Log" Version="9.0.1" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\OWP\OWP.csproj" />
   </ItemGroup>

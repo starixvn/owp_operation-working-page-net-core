@@ -1,12 +1,35 @@
 import React, { useRef } from 'react';
 import useRocketChat from '../Shared/customHook/useRocketChat';
+import LoginRocketChatFailIcon from '../../assets/svg-element/LoginRocketChatFailIcon';
 
 const RocketChatNative = () => {
   const iframeRef = useRef(null);
   const { authToken, error } = useRocketChat();
 
-  if (error) {
-    return <div>{error}</div>;
+  if (error?.hasError && error?.statusCode === 401) {
+    return (
+      <div className='rocket-chat-native-container' style={{}}>
+        <div className='body' style={{}}>
+          <div className='body-content' style={{}}>
+            <LoginRocketChatFailIcon />
+            <div className='title' style={{}}>
+              Oooops!!
+            </div>
+            <div className='description' style={{}}>
+              Failed to log in to OWP Chat.
+            </div>
+            <div className='description' style={{}}>
+              Please reset your password and log in to OWP again.
+            </div>
+            <div className='command' style={{}}>
+              <a className='button' style={{}} href='/Auth/ChangePassword'>
+                Change password
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (

@@ -7,8 +7,12 @@
   <ItemGroup>
     <PackageReference Include="EPPlus" Version="7.5.3" />
     <PackageReference Include="Epplus.Mapper" Version="7.5.0" />
+    <PackageReference Include="Carter" Version="9.0.0" />
+    <PackageReference Include="Olympus.OWP.Log" Version="9.0.1" />
+
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\OWP.ChatServer\OWP.ChatServer.csproj" />
     <ProjectReference Include="..\OWP\OWP.csproj" />
   </ItemGroup>
 </Project>

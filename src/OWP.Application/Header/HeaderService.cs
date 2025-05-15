@@ -31,6 +31,7 @@ public class HeaderServiceImp : HeaderService
             LogoutPath = configuration.GetSection("AuthSettings:LogoutPath").Value,
             NotificationSettingPath = configuration.GetSection("ProfileSettings:NotificationSettingPath").Value,
             AccountSettingPath = configuration.GetSection("ProfileSettings:AccountSettingPath").Value,
+            ChangePasswordPath = configuration.GetSection("AuthSettings:ChangePasswordPath").Value,
             Menus = menus
         };
         return Task.FromResult(header);

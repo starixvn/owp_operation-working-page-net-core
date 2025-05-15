@@ -17,6 +17,7 @@ import {
 import AccountIcon from 'mdi-react/AccountIcon';
 import LogoutIcon from 'mdi-react/LogoutIcon';
 import SettingsIcon from 'mdi-react/SettingsIcon';
+import KeyChangeIcon from 'mdi-react/KeyChangeIcon';
 import Notification from './Notification';
 import Search from './Search';
 import SearchAccountChat from './SearchAccountChat';
@@ -33,7 +34,8 @@ const propTypes = {
   notificationSettingLink: PropTypes.string.isRequired,
   accountSettingLink: PropTypes.string.isRequired,
   quickSearchPolicy: PropTypes.object.isRequired,
-  rocketChatPolicy: PropTypes.object.isRequired
+  rocketChatPolicy: PropTypes.object.isRequired,
+  changePasswordPath: PropTypes.string.isRequired
 };
 
 const Header = ({
@@ -41,14 +43,15 @@ const Header = ({
   username,
   logoutLink,
   notificationSettingLink,
+  changePasswordPath,
   accountSettingLink,
   quickSearchPolicy,
   rocketChatPolicy
 }) => {
   const [isVisibleSearchArea, setIsVisibleSearchArea] = useState(false);
   const [isSearchAccountChat, setIsSearchAccountChat] = useState(false);
-  const { authToken } = useRocketChat();
-  const handleVisibleSearchArea = (isVisible) => {
+  const { authToken, error } = useRocketChat();
+  const handleVisibleSearchArea = isVisible => {
     if (isVisible) {
       document.body.classList.add('is-open-search');
       toggleSideBar(false);
@@ -59,13 +62,19 @@ const Header = ({
     setIsVisibleSearchArea(isVisible);
   };
 
-  const handleSearchAccountChat = (isSearch) => {
+  const handleSearchAccountChat = isSearch => {
     setIsSearchAccountChat(isSearch);
   };
 
-  const handleAccountSelect = (account) => {
+  const handleAccountSelect = account => {
+    if (error?.hasError && error?.statusCode === 401) {
+      window.location.href = '/OWPChat';
+      return;
+    }
     if (account && account.UserName) {
-      const chatUrl = `${import.meta.env.VITE_CHAT_SEVER_URL}/direct/${account.UserName}${authToken ? `?resumeToken=${authToken}` : ''}`;
+      const chatUrl = `${import.meta.env.VITE_CHAT_SEVER_URL}/direct/${
+        account.UserName
+      }${authToken ? `?resumeToken=${authToken}` : ''}`;
       window.open(chatUrl, '_blank');
     }
     setIsSearchAccountChat(false);
@@ -163,10 +172,16 @@ const Header = ({
                       Notification Setting
                     </DropdownItem>
                     <DropdownItem href={accountSettingLink}>
-                      <span className='icon-logout'>
+                      <span className='account-setting'>
                         <AccountIcon size={14} />
                       </span>{' '}
                       Account Setting
+                    </DropdownItem>
+                    <DropdownItem href={changePasswordPath}>
+                      <span className='change-password'>
+                        <KeyChangeIcon size={14} />
+                      </span>{' '}
+                      Change Password
                     </DropdownItem>
                     <DropdownItem href={logoutLink}>
                       <span className='icon-logout'>
@@ -189,8 +204,7 @@ const Header = ({
       )}
       <div
         className={
-          'cd-cover-layer ' +
-          (isVisibleSearchArea ? 'search-form-visible' : '')
+          'cd-cover-layer ' + (isVisibleSearchArea ? 'search-form-visible' : '')
         }
         onClick={() => handleVisibleSearchArea(false)}
       />

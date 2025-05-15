@@ -47,8 +47,11 @@ using EventPicking.Api;
 using Microsoft.Extensions.FileProviders;
 using Olympus.OWP.Log.Services;
 using OWP.AccountSetting.Profile;
+using OWP.ChatServer.Handler;
 using OWP.PrematchAssignment.QueryAndSave;
+using OWP.UserManagement.Controllers;
 using Quartz;
+using System.Net.Http;
 using WorkingShift.SyncWorkingShift;
 
 public static class ServiceCollectionExtensions
@@ -227,6 +230,8 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(ProfileController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(QuickMessageController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.Load("OWP.ProviderVerification")));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(UserManagementController).GetTypeInfo().Assembly));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(UpdatePasswordHandler).GetTypeInfo().Assembly));
         return services;
     }
 
@@ -315,6 +320,22 @@ public static class ServiceCollectionExtensions
         });
 
         return app;
+    }
+
+    public static IServiceCollection AddSectionHttpClientOWPChat(this IServiceCollection services, IConfiguration configuration)
+    {
+        
+        services.AddHttpClient("OWPChat", client =>
+        {
+            var chatUrl = configuration["ChatServer:Url"];
+            var adminToken = configuration["ChatServer:AdminToken"];
+            var adminId = configuration["ChatServer:AdminUserId"];
+            client.BaseAddress = new Uri(chatUrl);
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+            client.DefaultRequestHeaders.Add("X-Auth-Token", adminToken);
+            client.DefaultRequestHeaders.Add("X-User-Id", adminId);
+        });
+        return services;
     }
 
     public static IServiceCollection AddWebOptimizer(this IServiceCollection services)

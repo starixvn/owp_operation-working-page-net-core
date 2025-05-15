@@ -3,6 +3,7 @@ using Fanex.Logging;
 using Newtonsoft.Json;
 using ONEbook.UM.DependencyInjection;
 using OWP.Services;
+using OWP.Websites;
 using OWP.Websites.Controllers;
 using ILogger = Fanex.Logging.ILogger;
 
@@ -41,6 +42,7 @@ services.AddAutoMapper();
 services.AddInternalServices();
 services.AddRabbitMQ();
 services.AddCarter();
+services.AddSectionHttpClientOWPChat(configuration);
 services.AddWebOptimizer();
 services.AddOWPLog();
 
@@ -55,6 +57,7 @@ app.UseRouting();
 
 app.UseCookiePolicy();
 app.UseSession();
+app.UseMiddleware<ChangePasswordMiddleWare>();
 app.UseMiddleware<ErrorHandler>();
 
 app.UseAuthentication();
