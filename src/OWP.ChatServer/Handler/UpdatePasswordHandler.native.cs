@@ -44,7 +44,7 @@ public class UpdatePasswordHandler(
                 Encoding.UTF8,
                 "application/json");
             await LogDetailedPayload(DateTime.Now.ToGmt8(), "Update_OWPChat_UserInfo",
-                JsonConvert.SerializeObject(updateData));
+                userId);
 
             response = await client.PostAsync("users.update", content, cancellationToken);
         }
