@@ -50,13 +50,16 @@
       width: 150px;
       margin-right: 16px;
 
-      .multi-select .select-item[aria-selected=true] input[type=checkbox]+span:after {
+      .multi-select
+        .select-item[aria-selected='true']
+        input[type='checkbox']
+        + span:after {
         width: 4px;
         height: 9px;
         border: 2px solid #fff;
         border-left: none;
         border-top: none;
-        content: " ";
+        content: ' ';
         position: absolute;
         left: 6px;
         top: 2px;
@@ -74,7 +77,7 @@
         top: 50%;
         margin-top: -2px;
         right: 5px;
-        content: "";
+        content: '';
         width: 0;
         height: 0;
         border-style: solid;
@@ -177,7 +180,7 @@
       margin-top: 0;
     }
 
-    label+.MuiInput-formControl {
+    label + .MuiInput-formControl {
       margin-top: 35px;
     }
 
@@ -298,6 +301,8 @@
 .table-wrap {
   overflow: auto;
   margin-top: 10px;
+  position: relative;
+  min-height: 650px;
 
   thead {
     position: sticky;
@@ -317,11 +322,6 @@
     border-right: 1px solid #c8ced3;
   }
 
-  td {
-    box-shadow: inset 1px -1px #c8ced3;
-    padding: 3px 5px !important;
-  }
-
   th {
     box-shadow: inset 1px 1px #c8ced3, 0 1px #c8ced3;
   }
@@ -335,6 +335,8 @@
   height: 100%;
   color: #494848;
   font-size: 11.5px;
+  border: 1px solid #e0e0e0;
+  table-layout: fixed;
 
   thead {
     background: #e3e3e3 !important;
@@ -345,18 +347,14 @@
     }
   }
 
-
   tbody {
     tr:hover {
       background-color: #cef3fc !important;
     }
-  }
 
-  th,
-  td {
-    box-shadow: inset 1px -1px #c8ced3;
-    text-align: left;
-    border-collapse: collapse;
+    td {
+      width: inherit;
+    }
   }
 
   .match_no,
@@ -629,6 +627,40 @@
       color: #828282;
     }
   }
+
+  .table-row {
+    display: table;
+    width: 100%;
+    height: 40px;
+    border-bottom: 1px solid #e0e0e0;
+
+    &.table-row-content {
+      display: table-row;
+    }
+  }
+
+  .table-cell {
+    display: table-cell;
+    padding: 8px;
+    vertical-align: middle;
+    border-right: 1px solid #e0e0e0;
+
+    &:last-child {
+      border-right: none;
+    }
+  }
+
+  .table-content-wrapper {
+    position: relative;
+    height: 100%;
+  }
+
+  .table-virtual-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
 }
 
 .total-record {
@@ -661,7 +693,7 @@
       }
 
       .dropdown-heading-value {
-        >span {
+        > span {
           display: block;
           max-width: 130px;
           overflow: hidden;
@@ -710,7 +742,7 @@
       }
 
       .item-renderer {
-        input[type='checkbox']+span {
+        input[type='checkbox'] + span {
           &:before {
             margin: 2px 5px !important;
           }
