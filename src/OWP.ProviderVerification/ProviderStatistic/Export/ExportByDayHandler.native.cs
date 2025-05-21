@@ -1,9 +1,11 @@
 ﻿
 using Epplus.Mapper.Extensions;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Table;
 using OWP.Constants;
 using OWP.ProviderVerification.ProviderStatistic.Criteria;
 using OWP.ProviderVerification.ProviderStatistic.Models;
+using System;
 using System.Drawing;
 
 namespace OWP.ProviderVerification.ProviderStatistic.Export;
@@ -14,6 +16,7 @@ public class ExportByDayHandler(ConfigurationService configuration, IDynamicRepo
 {
     private ExcelPackage ExcelPackage { get; set; }
     private ExcelWorksheet reportSheet;
+    const int START_ROW_TITLE_INDEX = 3;
     const int START_ROW_INDEX = 4;
     const int TOTAL_COLUMNS = 14;
 
@@ -25,16 +28,19 @@ public class ExportByDayHandler(ConfigurationService configuration, IDynamicRepo
         LoadTemplate(request.Template);
         BuildExcel(request.FromDate, request.ToDate, providerStatistic);
         ClearTemplate();
+
         return ExcelPackage;
     }
 
     private void BuildExcel(DateTime FromDate, DateTime ToDate, IList<ProviderStatisticInfoByDay> model)
     {
-        SetExcelTitle(FromDate, ToDate);
+        //SetExcelTitle(FromDate, ToDate);
         reportSheet.ApplyVertical(model, START_ROW_INDEX);
         SetColorRow(model);
         SetGrandTotal(model);
-        reportSheet.Cells[3, 1].Value = "Day";
+        reportSheet.Cells[START_ROW_TITLE_INDEX, 1].Value = "Day";
+        //reportSheet.Cells[1, 2, 1, 2].AutoFilter = true;
+        //reportSheet.Cells[2, 2, 2, 2].AutoFilter = true;
     }
 
     private void SetGrandTotal(IList<ProviderStatisticInfoByDay> model)
