@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import dayjs from 'dayjs';
 import Select from 'react-select';
 import DatePicker, { ReactDatePicker } from 'react-datepicker';
 import CalendarIcon from 'mdi-react/CalendarIcon';
@@ -9,8 +10,7 @@ import {
   toDateDefault,
   fromDateDefault
 } from '../../helper/helper';
-import { exportReport, VIEW_BY_OPTION } from '../../Const.json';
-import dayjs from 'dayjs';
+import { VIEW_BY_OPTION } from '../../Const.json';
 import { Option } from 'react-multi-select-component';
 import Utils from '../../../Shared/Utils';
 import { exportExcel } from '../../../Shared/common/ExportExcel/Helper';
@@ -23,6 +23,27 @@ const Filter = () => {
   const [toDate, setToDate] = useState<Date>(toDateDefault);
   const [viewBy, setViewBy] = useState<Option>(VIEW_BY_OPTION[0]);
 
+  const isByDayView = (viewByValue: string): boolean =>
+    viewByValue === VIEW_BY_OPTION[0].value;
+
+  const getExportURL = (viewByValue: string): string =>
+    buildRequestURL(isByDayView(viewByValue) ? 'export/by-day' : 'export/by-league');
+
+  const getExportParams = (fromDate: Date, toDate: Date): string =>
+    new URLSearchParams({
+      fromDate: Utils.formatDate(fromDate),
+      toDate: Utils.formatDate(toDate)
+    }).toString();
+
+  const getExportFileName = (viewByValue: string, fromDate: Date, toDate: Date): string => {
+    const formattedFrom = dayjs(fromDate).format('YYYY-MM-DD');
+    const formattedTo = dayjs(toDate).format('YYYY-MM-DD');
+
+    return isByDayView(viewByValue)
+      ? `Monthly_Total_Summaries_${formattedFrom}_to_${formattedTo}.xlsx`
+      : `Soccer_Provider_Usage_Summaries_By_Leagues_${formattedFrom}_to_${formattedTo}.xlsx`;
+  };
+
   const handleExport = () => {
     if (validDateRange(fromDate, toDate)) {
       ToastrWrapper.showError(
@@ -30,18 +51,14 @@ const Filter = () => {
       );
       return;
     }
-    const url = viewBy.value === VIEW_BY_OPTION[0].value
-      ? buildRequestURL('export/by-day')
-      : buildRequestURL('export/by-league');
 
-    const params = new URLSearchParams({
-      fromDate: Utils.formatDate(fromDate),
-      toDate: Utils.formatDate(toDate)
-    }).toString();
+    const url = getExportURL(viewBy.value);
+    const params = getExportParams(fromDate, toDate);
+    const fileName = getExportFileName(viewBy.value, fromDate, toDate);
 
-    exportExcel(`${url}?${params}`, `ProviderStatistic - ${dayjs(fromDate).format('MMDDYYYY')}.xlsx`);
-
+    exportExcel(`${url}?${params}`, fileName);
   };
+
 
   return (
     <div className='top-control'>

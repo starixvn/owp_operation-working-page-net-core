@@ -3,7 +3,7 @@ import { isEqual } from 'lodash';
 
 const store = configureStore({
   reducer: {
-
+    // some: someReducer,
   },
   devTools: !isEqual(process.env.NODE_ENV, 'production')
 });

@@ -13,7 +13,7 @@ public class ProviderStatisticInfo
     public int? Bg { get; set; }
 
     [Cell("D4")]
-    public int? Betrada { get; set; }
+    public int? Betradar { get; set; }
 
     [Cell("E4")]
     public int? Img { get; set; }
@@ -44,6 +44,4 @@ public class ProviderStatisticInfo
 
     [Cell("N4")]
     public int? Total { get; set; }
-
-    public DateTime EventDate { get; set; }
 }
