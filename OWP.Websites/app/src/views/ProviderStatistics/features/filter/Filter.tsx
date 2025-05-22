@@ -97,8 +97,8 @@ const Filter = () => {
           <DatePicker
             onChange={date => date && setToDate(date)}
             minDate={fromDate}
-            maxDate={toDate}
-            selected={maxDate}
+            maxDate={maxDate}
+            selected={toDate}
             dateFormat='MMM dd, yyyy'
             ref={toDatePicker}
             className='to-date-picker'
