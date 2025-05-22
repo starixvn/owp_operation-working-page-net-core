@@ -1,7 +1,7 @@
 import { createRoot } from 'react-dom/client';
 import Layout from '../views/Layout';
 import '../scss/pages/_ProviderStatistic.scss';
-import ProviderStatisticNative from '../views/ProviderStatistic/ProviderStatisticNative';
+import ProviderStatisticNative from '../views/ProviderStatistics/ProviderStatisticNative';
 
 const container = document.getElementById('root');
 const root = createRoot(container);

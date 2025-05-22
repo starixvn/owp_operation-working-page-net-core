@@ -32,8 +32,8 @@
     "build-batch-6:prod": "npm run build:event-picking:prod & npm run build:provider-arrangement:prod & npm run build:assignee-suggestion:prod & npm run build:la-kpi:prod",
     "build-batch-7:dev": "npm run build:feedback:dev & npm run build:user-management:dev & npm run build:event-assignment-new:dev & npm run build:small-chatting:dev",
     "build-batch-7:prod": "npm run build:feedback:prod & npm run build:user-management:prod & npm run build:event-assignment-new:prod & npm run build:small-chatting:prod",
-    "build-batch-8:dev": "npm run build:welcome:dev & npm run build:provider-verification:dev & npm run build:provider-verification-check-difference-provider:dev & npm run build:small-ticket-center:dev & npm run build:account-setting:dev & npm run build:provider-statistic-local:dev",
-    "build-batch-8:prod": "npm run build:welcome:prod & npm run build:provider-verification:prod & npm run build:provider-verification-check-difference-provider:prod & npm run build:small-ticket-center:prod & npm run build:account-setting:prod & npm run build:provider-statistic-prod:prod",
+    "build-batch-8:dev": "npm run build:welcome:dev & npm run build:provider-verification:dev & npm run build:provider-verification-check-difference-provider:dev & npm run build:small-ticket-center:dev & npm run build:account-setting:dev & npm run build:provider-statistics-local:dev",
+    "build-batch-8:prod": "npm run build:welcome:prod & npm run build:provider-verification:prod & npm run build:provider-verification-check-difference-provider:prod & npm run build:small-ticket-center:prod & npm run build:account-setting:prod & npm run build:provider-statistics-prod:prod",
     "build-all-dev": "npm run build:rocket-chat-local & npm run build-batch-0:dev & npm run build-batch-1:dev & npm run build-batch-2:dev & npm run build-batch-3:dev & npm run build-batch-4:dev & npm run build-batch-5:dev & npm run build-batch-6:dev & npm run build-batch-7:dev & npm run build-batch-8:dev",
     "build-all-prod": "npm run build:rocket-chat-prod & npm run build-batch-0:prod & npm run build-batch-1:prod & npm run build-batch-2:prod & npm run build-batch-3:prod & npm run build-batch-4:prod & npm run build-batch-5:prod & npm run build-batch-6:prod & npm run build-batch-7:prod & npm run build-batch-8:prod",
     "build-related-popup-ticket": "npm run build:task-list & npm run build:live-game-list & npm run build:live-game-assignment & npm run build:event-assignment-new & npm run build:ticket-center & npm run build:day-shift-assignment & npm run build:night-shift-assignment",
@@ -146,9 +146,9 @@
     "start:rocket-chat": "set NODE_APP=rocket-chat & vite --mode development",
     "build:rocket-chat-local": "set NODE_APP=rocket-chat & vite build --mode development",
     "build:rocket-chat-prod": "set NODE_APP=rocket-chat & vite build --mode production",
-    "start:provider-statistic": "set NODE_APP=provider-statistic & vite --mode development",
-    "build:provider-statistic-local": "set NODE_APP=provider-statistic & vite build --mode development",
-    "build:provider-statistic-prod": "set NODE_APP=provider-statistic & vite build --mode production"
+    "start:provider-statistics": "set NODE_APP=provider-statistics & vite --mode development",
+    "build:provider-statistics-local": "set NODE_APP=provider-statistics & vite build --mode development",
+    "build:provider-statistics-prod": "set NODE_APP=provider-statistics & vite build --mode production"
   },
   "dependencies": {
     "@charkour/react-reactions": "^0.11.0",

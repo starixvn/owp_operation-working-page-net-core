@@ -14,7 +14,7 @@ const validDateRange = (fromDate: Date, toDate: Date) => {
 
 const getKeyValue = <T, K extends keyof T>(obj: T, key: K): T[K] => obj[key];
 
-const buildRequestURL = (key: string) => `/api/ProviderStatistic/${key}`;
+const buildRequestURL = (key: string) => `/api/ProviderStatistics/${key}`;
 
 export {
   getKeyValue,

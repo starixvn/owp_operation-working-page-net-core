@@ -256,6 +256,12 @@ public class HomeController(AccessCounter accessCounter) : Controller
         return View("~/wwwroot/provider-verification/server.cshtml");
     }
 
+    [Route("ProviderStatistics")]
+    [NapAuth(FunctionKey = FunctionKeys.ProviderVerification, Policy = Constant.Policy.Read)]
+    public ActionResult ProviderStatistics()
+    {
+        return View("~/wwwroot/provider-statistics/server.cshtml");
+    }
 
     [Route(template: "ProviderVerification/check-difference-provider/{date:DateTime}")]
     [NapAuth(FunctionKey = FunctionKeys.ProviderVerification, Policy = Constant.Policy.Read)]

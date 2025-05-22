@@ -1,43 +1,46 @@
-﻿using Epplus.Mapper.Extensions;
+﻿
+using Epplus.Mapper.Extensions;
 using OfficeOpenXml.Style;
-using OWP.ProviderVerification.ProviderStatistic.Criteria;
-using OWP.ProviderVerification.ProviderStatistic.Models;
-using System.Drawing;
 using OWP.Constants;
+using OWP.ProviderVerification.ProviderStatistics.Criteria;
+using OWP.ProviderVerification.ProviderStatistics.Models;
+using System.Drawing;
 
-namespace OWP.ProviderVerification.ProviderStatistic.Export;
+namespace OWP.ProviderVerification.ProviderStatistics.Export;
 
-public record ExportByLeagueRequest(DateTime FromDate, DateTime ToDate, string Template) : Query<ExcelPackage>;
+public record ExportByDayRequest(DateTime FromDate, DateTime ToDate, string Template) : Query<ExcelPackage>;
 
-public class ExportByLeagueHandler(ConfigurationService configuration, IDynamicRepository repository) : QueryHandler<ExportByLeagueRequest, ExcelPackage>
+public class ExportByDayHandler(ConfigurationService configuration, IDynamicRepository repository) : QueryHandler<ExportByDayRequest, ExcelPackage>
 {
     private ExcelPackage ExcelPackage { get; set; }
     private ExcelWorksheet reportSheet;
+    const int START_ROW_TITLE_INDEX = 3;
     const int START_ROW_INDEX = 4;
     const int TOTAL_COLUMNS = 14;
 
-    public async Task<ExcelPackage> Handle(ExportByLeagueRequest request, CancellationToken cancellationToken)
+    public async Task<ExcelPackage> Handle(ExportByDayRequest request, CancellationToken cancellationToken)
     {
         var provider = await GetProviderFromDb(request);
-        var providerStatistic = CalculateProviderStatistic(provider);
+        var providerStatistic= CalculateProviderStatistic(provider);
 
         LoadTemplate(request.Template);
         BuildExcel(request.FromDate, request.ToDate, providerStatistic);
         ClearTemplate();
+
         return ExcelPackage;
     }
 
-    private void BuildExcel(DateTime FromDate, DateTime ToDate, IList<ProviderStatisticInfoByLeague> model)
+    private void BuildExcel(DateTime FromDate, DateTime ToDate, IList<ProviderStatisticInfoByDay> model)
     {
-        SetExcelTitle(FromDate, ToDate);
+        //SetExcelTitle(FromDate, ToDate);
         reportSheet.ApplyVertical(model, START_ROW_INDEX);
         SetColorRow(model);
         SetGrandTotal(model);
-        reportSheet.Cells[3, 1].Value = "League";
-        reportSheet.Column(1).AutoFit();
+        reportSheet.Cells[START_ROW_TITLE_INDEX, 1].Value = "Day";
+        reportSheet.View.FreezePanes(START_ROW_INDEX, 2);
     }
 
-    private void SetGrandTotal(IList<ProviderStatisticInfoByLeague> model)
+    private void SetGrandTotal(IList<ProviderStatisticInfoByDay> model)
     {
         if (model == null || model.Count == 0) return;
         var totalRow = START_ROW_INDEX + model.Count;
@@ -73,17 +76,16 @@ public class ExportByLeagueHandler(ConfigurationService configuration, IDynamicR
 
         var cellToDate = reportSheet.Cells[2, 2];
         cellToDate.Value = $"{formattedToDate}";
-
     }
 
-    private void SetColorRow(IList<ProviderStatisticInfoByLeague> model)
+    private void SetColorRow(IList<ProviderStatisticInfoByDay> model)
     {
         const string BORDER_COLOR_HEX = "#000";
         Color borderColor = ColorTranslator.FromHtml(BORDER_COLOR_HEX);
 
-        for (var i = 0; i < model.Count + 1; i++)
+        for (int i = 0; i < model.Count + 1; i++)
         {
-            var rowIndex = i + START_ROW_INDEX;
+            int rowIndex = i + START_ROW_INDEX;
             ApplyRowStyle(rowIndex, borderColor, TOTAL_COLUMNS);
         }
     }
@@ -114,7 +116,6 @@ public class ExportByLeagueHandler(ConfigurationService configuration, IDynamicR
         using var stream = new FileStream(templatePath, FileMode.Open, FileAccess.Read);
         ExcelPackage = new ExcelPackage(stream);
         reportSheet = ExcelPackage.Workbook.Worksheets.Copy(Const.Const.SHEET_NAME, Const.Const.SHEET_PROVIDER_STATISTIC_NAME);
-
     }
 
     private void ClearTemplate()
@@ -122,60 +123,63 @@ public class ExportByLeagueHandler(ConfigurationService configuration, IDynamicR
         ExcelPackage.Workbook.Worksheets.Delete(Const.Const.SHEET_NAME);
     }
 
-    private async Task<IList<ProviderStatisticDbByLeague>> GetProviderFromDb(ExportByLeagueRequest request)
+    private async Task<IList<ProviderStatisticDbByDay>> GetProviderFromDb(ExportByDayRequest request)
     {
-        return (await repository.FetchAsync<ProviderStatisticDbByLeague>(new SumProviderByLeagueCriteria
+        return (await repository.FetchAsync<ProviderStatisticDbByDay>(new SumProviderByDayCriteria
         {
             FromDate = request.FromDate,
             ToDate = request.ToDate
         })).ToList();
     }
 
-    private static IList<ProviderStatisticInfoByLeague> CalculateProviderStatistic(IList<ProviderStatisticDbByLeague> providerSource)
+    private static IList<ProviderStatisticInfoByDay> CalculateProviderStatistic(IList<ProviderStatisticDbByDay> providerSource)
     {
-        var groupedByLeague = providerSource
-            .GroupBy(x => x.OWPLeagueId);
+        var providerMapEventDate = providerSource
+            .GroupBy(x => x.EventDate)
+            .ToDictionary(x => x.Key, x => x);
 
-        var providerStatistic = groupedByLeague.Select(group =>
-        {
-            var agentLookup = group.ToDictionary(x => x.AgentId, x => x.Count);
-
-            int GetCount(int agentId) => agentLookup.TryGetValue(agentId, out var count) ? count : 0;
-
-            var gv365 = GetCount(AgentIds._365gv);
-            var betradar = GetCount(AgentIds.Betradar);
-            var bg = GetCount(AgentIds.Bg);
-            var fc = GetCount(AgentIds.Fc);
-            var img = GetCount(AgentIds.Img);
-            var rb2 = GetCount(AgentIds.Rb2);
-            var rts = GetCount(AgentIds.Rts);
-            var slr = GetCount(AgentIds.Slr);
-            var woo = GetCount(AgentIds.Woo);
-            var streaming = GetCount(AgentIds.Streaming);
-            var cancel = GetCount(AgentIds.Cancel);
-
-            var totalMatches = gv365 + betradar + bg + fc + img + rb2 + rts + slr + woo + streaming;
-            var total = totalMatches + cancel;
-
-            return new ProviderStatisticInfoByLeague
+        var providerStatistic = providerMapEventDate.Select(provider =>
             {
-                _365Gv = gv365,
-                Betradar = betradar,
-                Bg = bg,
-                Fc = fc,
-                Img = img,
-                Rb2 = rb2,
-                Rts = rts,
-                Slr = slr,
-                Woo = woo,
-                Streaming = streaming,
-                CancelMatches = cancel,
-                TotalMatches = totalMatches,
-                Total = total,
-                LeagueOrDay = group.First().LeagueName
-            };
-        }).OrderBy(x => x.LeagueOrDay)
-        .ToList();
+                var agentCounts = provider.Value.ToDictionary(x => x.AgentId, x => x.Count);
+
+                int GetCount(int agentId) => agentCounts.TryGetValue(agentId, out var count) ? count : 0;
+
+                var _365gv = GetCount(AgentIds._365gv);
+                var betradar = GetCount(AgentIds.Betradar);
+                var bg = GetCount(AgentIds.Bg);
+                var fc = GetCount(AgentIds.Fc);
+                var img = GetCount(AgentIds.Img);
+                var rb2 = GetCount(AgentIds.Rb2);
+                var rts = GetCount(AgentIds.Rts);
+                var slr = GetCount(AgentIds.Slr);
+                var woo = GetCount(AgentIds.Woo);
+                var streaming = GetCount(AgentIds.Streaming);
+                var cancel = GetCount(AgentIds.Cancel);
+
+                var totalMatches = _365gv + betradar + bg + fc + img + rb2 + rts + slr + woo + streaming;
+                var total = totalMatches + cancel;
+
+                return new ProviderStatisticInfoByDay
+                {
+                    _365Gv = _365gv,
+                    Betradar = betradar,
+                    Bg = bg,
+                    Fc = fc,
+                    Img = img,
+                    Rb2 = rb2,
+                    Rts = rts,
+                    Slr = slr,
+                    Woo = woo,
+                    Streaming = streaming,
+                    CancelMatches = cancel,
+                    TotalMatches = totalMatches,
+                    Total = total,
+                    EventDate = provider.Key,
+                    LeagueOrDay = provider.Key.ToString("MMM-dd (ddd)")
+                };
+            })
+            .OrderBy(p => p.EventDate)
+            .ToList();
 
         return providerStatistic;
     }

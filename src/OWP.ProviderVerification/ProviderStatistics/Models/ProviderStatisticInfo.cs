@@ -1,6 +1,6 @@
 ﻿using Epplus.Mapper.Annotations;
 
-namespace OWP.ProviderVerification.ProviderStatistic.Models;
+namespace OWP.ProviderVerification.ProviderStatistics.Models;
 public class ProviderStatisticInfo
 {
     [Cell("A4")]

@@ -7,7 +7,7 @@ const ProviderStatisticNative = () => {
   return (
     <Provider store={store}>
       <div className='body-content'>
-        <OWPBody className='provider-statistic'>
+        <OWPBody className='provider-statistics'>
           <Filter />
         </OWPBody>
       </div>

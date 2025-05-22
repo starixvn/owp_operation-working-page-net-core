@@ -1,10 +1,10 @@
-﻿namespace OWP.ProviderVerification.ProviderStatistic.Export;
+﻿namespace OWP.ProviderVerification.ProviderStatistics.Export;
 
 public class ExportEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/ProviderStatistic/export/by-day", async (DateTime fromDate, DateTime toDate, [FromServices] ISender sender) =>
+        app.MapGet("/api/ProviderStatistics/export/by-day", async (DateTime fromDate, DateTime toDate, [FromServices] ISender sender) =>
         {
             using var excelPackage = await sender.Send(new ExportByDayRequest(fromDate, toDate, "ProviderStatistic.xlsx"));
             var fileName = $"Monthly_Total_Summaries_{fromDate:yyyyMMMMdd}_to_{toDate:yyyyMMMMdd}.xlsx";
@@ -17,7 +17,7 @@ public class ExportEndpoint : ICarterModule
             .WithSummary("Export provider statistic by day")
             .WithDescription("Export provider statistic by day");
 
-        app.MapGet("/api/ProviderStatistic/export/by-league", async (DateTime fromDate, DateTime toDate, [FromServices] ISender sender) =>
+        app.MapGet("/api/ProviderStatistics/export/by-league", async (DateTime fromDate, DateTime toDate, [FromServices] ISender sender) =>
         {
             using var excelPackage = await sender.Send(new ExportByLeagueRequest(fromDate, toDate, "ProviderStatistic.xlsx"));
             var fileName = $"Soccer_Provider_Usage_Summaries_By_Leagues_{fromDate:yyyyMMMMdd}_to_{toDate:yyyyMMMMdd}.xlsx";

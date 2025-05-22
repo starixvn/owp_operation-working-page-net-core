@@ -1,4 +1,4 @@
-﻿namespace OWP.ProviderVerification.ProviderStatistic.Criteria;
+﻿namespace OWP.ProviderVerification.ProviderStatistics.Criteria;
 public class SumProviderByDayCriteria: SumProviderCriteria
 {
     public override string GetSettingKey()=> "OWP_ProviderStatistic_SumByDay";

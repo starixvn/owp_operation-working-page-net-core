@@ -34,7 +34,8 @@
             { MenuItems.TicketTypeSettings, "icon-ticket-type-recipient" },
             { MenuItems.OSLiveGameAssignment, "icon-event-checking" },
             { MenuItems.OSBasketballMaxBet, "icon-event-checking" },
-            { MenuItems.ProviderVerification, "icon-provider-verification" }
+            { MenuItems.ProviderVerification, "icon-provider-verification" },
+            { MenuItems.ProviderStatistics, "icon-file-chart" }
         };
             return dictionary;
         }

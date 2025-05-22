@@ -1,4 +1,4 @@
-﻿namespace OWP.ProviderVerification.ProviderStatistic.Criteria;
+﻿namespace OWP.ProviderVerification.ProviderStatistics.Criteria;
 public abstract class SumProviderCriteria: CriteriaBase
 {
    public DateTime FromDate { get; set; }
