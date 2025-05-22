@@ -14,6 +14,7 @@ import { VIEW_BY_OPTION } from '../../Const.json';
 import { Option } from 'react-multi-select-component';
 import Utils from '../../../Shared/Utils';
 import { exportExcel } from '../../../Shared/common/ExportExcel/Helper';
+import { buildDefaultFilterDateProviderVerification } from '../../../Shared/DateTime/dateTimeHelper';
 
 const Filter = () => {
   const toDatePicker = useRef<ReactDatePicker>(null);
@@ -59,6 +60,7 @@ const Filter = () => {
     exportExcel(`${url}?${params}`, fileName);
   };
 
+  const maxDate = buildDefaultFilterDateProviderVerification();
 
   return (
     <div className='top-control'>
@@ -70,7 +72,7 @@ const Filter = () => {
             className='basic-multi-select'
             classNamePrefix='select'
             options={VIEW_BY_OPTION}
-            onChange={value => setViewBy(value)}
+            onChange={(value: Option) => setViewBy(value)}
           />
         </div>
         <div className='filter-control calendar'>
@@ -95,7 +97,8 @@ const Filter = () => {
           <DatePicker
             onChange={date => date && setToDate(date)}
             minDate={fromDate}
-            selected={toDate}
+            maxDate={toDate}
+            selected={maxDate}
             dateFormat='MMM dd, yyyy'
             ref={toDatePicker}
             className='to-date-picker'

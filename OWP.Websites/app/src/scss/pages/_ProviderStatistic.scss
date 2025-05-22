@@ -17,10 +17,14 @@
     .filter-control {
       display: inline-block;
       width: 150px;
-      margin-right: 16px;
+      margin-right: 20px;
 
       input {
         background-color: transparent;
+      }
+
+      .basic-multi-select .select__control {
+        height: 26px;
       }
     }
 

@@ -32,12 +32,14 @@ public class ExportByDayHandler(ConfigurationService configuration, IDynamicRepo
 
     private void BuildExcel(DateTime FromDate, DateTime ToDate, IList<ProviderStatisticInfoByDay> model)
     {
-        //SetExcelTitle(FromDate, ToDate);
+        SetExcelTitle(FromDate, ToDate);
         reportSheet.ApplyVertical(model, START_ROW_INDEX);
         SetColorRow(model);
         SetGrandTotal(model);
         reportSheet.Cells[START_ROW_TITLE_INDEX, 1].Value = "Day";
-        reportSheet.View.FreezePanes(START_ROW_INDEX, 2);
+        reportSheet.View.FreezePanes(START_ROW_INDEX, 1);
+        reportSheet.Column(1).Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+        reportSheet.Column(1).AutoFit();
     }
 
     private void SetGrandTotal(IList<ProviderStatisticInfoByDay> model)
@@ -49,7 +51,6 @@ public class ExportByDayHandler(ConfigurationService configuration, IDynamicRepo
 
         reportSheet.Cells[totalRow, 1].Value = "Grand Total";
         reportSheet.Cells[totalRow, 1].Style.Font.Bold = true;
-        reportSheet.Cells[totalRow, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
         var grandTotalRange = reportSheet.Cells[totalRow, 1, totalRow, TOTAL_COLUMNS];
         grandTotalRange.Style.Fill.PatternType = ExcelFillStyle.Solid;
@@ -68,14 +69,12 @@ public class ExportByDayHandler(ConfigurationService configuration, IDynamicRepo
 
     private void SetExcelTitle(DateTime FromDate, DateTime ToDate)
     {
-        var formattedFromDate = FromDate.ToString("yyyy-MM-dd");
-        var formattedToDate = ToDate.ToString("yyyy-MM-dd");
-
-        var cellFromDate = reportSheet.Cells[1, 2];
-        cellFromDate.Value = $"{formattedFromDate}";
-
-        var cellToDate = reportSheet.Cells[2, 2];
-        cellToDate.Value = $"{formattedToDate}";
+        var title = "Monthly Provider Summary";
+        var formattedFromDate = FromDate.ToString("MM/dd/yyyy");
+        var formattedToDate = ToDate.ToString("MM/dd/yyyy");
+        var range = reportSheet.Cells[1, 1, 2, TOTAL_COLUMNS];
+        range.Merge = true;
+        range.Value = $"{title} - From {formattedFromDate} to {formattedToDate}";
     }
 
     private void SetColorRow(IList<ProviderStatisticInfoByDay> model)
@@ -175,7 +174,7 @@ public class ExportByDayHandler(ConfigurationService configuration, IDynamicRepo
                     TotalMatches = totalMatches,
                     Total = total,
                     EventDate = provider.Key,
-                    LeagueOrDay = provider.Key.ToString("MMM-dd (ddd)")
+                    LeagueOrDay = provider.Key.ToString("ddd, MMM d, yyyy")
                 };
             })
             .OrderBy(p => p.EventDate)

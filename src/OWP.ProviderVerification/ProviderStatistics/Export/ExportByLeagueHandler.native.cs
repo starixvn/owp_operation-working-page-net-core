@@ -66,14 +66,12 @@ public class ExportByLeagueHandler(ConfigurationService configuration, IDynamicR
 
     private void SetExcelTitle(DateTime FromDate, DateTime ToDate)
     {
-        var formattedFromDate = FromDate.ToString("yyyy-MM-dd");
-        var formattedToDate = ToDate.ToString("yyyy-MM-dd");
-
-        var cellFromDate = reportSheet.Cells[1, 2];
-        cellFromDate.Value = $"{formattedFromDate}";
-
-        var cellToDate = reportSheet.Cells[2, 2];
-        cellToDate.Value = $"{formattedToDate}";
+        var title = "Soccer Provider Usage Summaries by League";
+        var formattedFromDate = FromDate.ToString("MM/dd/yyyy");
+        var formattedToDate = ToDate.ToString("MM/dd/yyyy");
+        var range = reportSheet.Cells[1, 1, 2, TOTAL_COLUMNS];
+        range.Merge = true;
+        range.Value = $"{title} - From {formattedFromDate} to {formattedToDate}";
     }
 
     private void SetColorRow(IList<ProviderStatisticInfoByLeague> model)
