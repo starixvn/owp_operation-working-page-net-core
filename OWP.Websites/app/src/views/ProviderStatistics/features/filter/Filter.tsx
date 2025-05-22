@@ -14,7 +14,10 @@ import { VIEW_BY_OPTION } from '../../Const.json';
 import { Option } from 'react-multi-select-component';
 import Utils from '../../../Shared/Utils';
 import { exportExcel } from '../../../Shared/common/ExportExcel/Helper';
-import { buildDefaultFilterDateProviderVerification } from '../../../Shared/DateTime/dateTimeHelper';
+import {
+  buildTimeRangeForFromDate,
+  buildDefaultFilterDateProviderVerification
+} from '../../../Shared/DateTime/dateTimeHelper';
 
 const Filter = () => {
   const toDatePicker = useRef<ReactDatePicker>(null);
@@ -46,13 +49,6 @@ const Filter = () => {
   };
 
   const handleExport = () => {
-    if (validDateRange(fromDate, toDate)) {
-      ToastrWrapper.showError(
-        <h4>Please select date range within 365 days</h4>
-      );
-      return;
-    }
-
     const url = getExportURL(viewBy.value);
     const params = getExportParams(fromDate, toDate);
     const fileName = getExportFileName(viewBy.value, fromDate, toDate);
@@ -60,7 +56,8 @@ const Filter = () => {
     exportExcel(`${url}?${params}`, fileName);
   };
 
-  const maxDate = buildDefaultFilterDateProviderVerification();
+  const minFromDate = buildTimeRangeForFromDate(toDate);
+  const maxToDate = buildDefaultFilterDateProviderVerification();
 
   return (
     <div className='top-control'>
@@ -80,6 +77,7 @@ const Filter = () => {
           <DatePicker
             onChange={date => date && setFromDate(date)}
             selected={fromDate}
+            minDate={minFromDate.minFromDate}
             maxDate={toDate}
             dateFormat='MMM dd, yyyy'
             ref={fromDatePicker}
@@ -97,7 +95,7 @@ const Filter = () => {
           <DatePicker
             onChange={date => date && setToDate(date)}
             minDate={fromDate}
-            maxDate={maxDate}
+            maxDate={maxToDate}
             selected={toDate}
             dateFormat='MMM dd, yyyy'
             ref={toDatePicker}

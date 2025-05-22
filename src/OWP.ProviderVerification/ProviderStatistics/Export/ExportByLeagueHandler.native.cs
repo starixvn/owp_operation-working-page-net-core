@@ -136,7 +136,10 @@ public class ExportByLeagueHandler(ConfigurationService configuration, IDynamicR
 
         var providerStatistic = groupedByLeague.Select(group =>
         {
-            var agentLookup = group.ToDictionary(x => x.AgentId, x => x.Count);
+            var agentLookup = group
+                .GroupBy(x => x.AgentId)
+                .ToDictionary(g => g.Key, g => g.Count());
+
 
             int GetCount(int agentId) => agentLookup.TryGetValue(agentId, out var count) ? count : 0;
 
