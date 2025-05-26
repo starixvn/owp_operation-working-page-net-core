@@ -7,6 +7,9 @@
     <CodeAnalysisRuleSet>..\..\.sonarlint\nap-owp-netcorecsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Const\Const.cs.orig" />
+  </ItemGroup>
+  <ItemGroup>
     <AdditionalFiles Include="..\..\.sonarlint\nap-owp-netcore\CSharp\SonarLint.xml" Link="SonarLint.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -20,5 +23,8 @@
     <PackageReference Include="Carter" Version="9.0.0" />
     <PackageReference Include="Olympus.OWP.Log" Version="9.0.1" />
     <PackageReference Include="Microsoft.NETCore.Targets" Version="5.0.0" PrivateAssets="all" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ProviderVerification\Export\" />
   </ItemGroup>
 </Project>

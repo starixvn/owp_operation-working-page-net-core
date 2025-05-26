@@ -80,7 +80,9 @@ namespace OWP.Constants
 
 				public const string ProviderVerification = "Provider Verification";
 
-				public const string RecipientGroup = "Recipient Group";
+                public const string ProviderStatistics = "Provider Statistics";
+
+                public const string RecipientGroup = "Recipient Group";
 
 				public const string Reports = "Reports";
 
@@ -95,5 +97,4 @@ namespace OWP.Constants
 				public const string WorkingShiftManagement = "Working Shift Management";
 
 			}
-	 
 }

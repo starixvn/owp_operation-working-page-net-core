@@ -1,0 +1,37 @@
+.provider-statistics-body {
+  padding: 10px;
+
+  .top-control {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 10px;
+  }
+
+  .top-control {
+    position: relative;
+
+    .filter-control {
+      display: inline-block;
+      width: 150px;
+      margin-right: 20px;
+
+      input {
+        background-color: transparent;
+      }
+
+      .basic-multi-select .select__control {
+        height: 26px;
+      }
+    }
+
+    .right-control {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+    }
+  }
+}

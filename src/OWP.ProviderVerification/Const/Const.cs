@@ -9,4 +9,6 @@ public static class Const
     public const string TEMPLATE_NAME = "Provider";
 
     public const string SHEET_NAME = "Report";
+
+    public const string SHEET_PROVIDER_STATISTIC_NAME = "Summaries";
 }
