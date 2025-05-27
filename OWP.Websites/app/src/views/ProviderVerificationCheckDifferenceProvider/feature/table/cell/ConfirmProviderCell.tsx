@@ -42,7 +42,7 @@ const ConfirmProviderCell = ({
           value={confirmProvider}
           options={confirmProviderOption}
           ClearSelectedIcon={null}
-          className='multi-select'
+          className={`multi-select ${!canEditDate ? 'checkbox-disable' : ''}`}
           hasSelectAll
           disabled={!hasWrite}
           labelledBy='Select...'

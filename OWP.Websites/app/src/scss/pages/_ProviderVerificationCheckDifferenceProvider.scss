@@ -923,3 +923,7 @@
 .MuiInput-root {
   width: 440px;
 }
+
+.confirm-provider .multi-select.checkbox-disable .select-item .item-renderer input[type=checkbox]+span:before {
+  opacity: 0.5;
+}

@@ -17,7 +17,7 @@ interface TableBodyProps {
 const TableBody = ({ dataSource, virtualizer }: TableBodyProps) => {
   const eventDate = useAppSelector(store => store.filterState.filter.eventDate);
   const minDateEdit = new Date();
-  minDateEdit.setDate(minDateEdit.getDate() - 14);
+  minDateEdit.setMonth(minDateEdit.getMonth() - 1);
   const canEditDate = eventDate >= minDateEdit;
 
   return (
@@ -32,9 +32,8 @@ const TableBody = ({ dataSource, virtualizer }: TableBodyProps) => {
                 top: 0,
                 left: 0,
                 right: 0,
-                transform: `translateY(${
-                  virtualizer.getVirtualItems()[0]?.start ?? 0
-                }px)`
+                transform: `translateY(${virtualizer.getVirtualItems()[0]?.start ?? 0
+                  }px)`
               }}>
               {virtualizer.getVirtualItems().map(virtualRow => {
                 const event = dataSource[virtualRow.index];
