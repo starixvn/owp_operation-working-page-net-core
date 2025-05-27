@@ -19,7 +19,7 @@ public class ChangePasswordMiddleWare(RequestDelegate next,
 
         if(updatePasswordInfo is not null 
            && context.Request.Method == HttpMethods.Post
-           && context.Request.Path.Value == "/Auth/ChangePassword")
+           && context.Request.Path.Value is "/Auth/ChangePassword" or "/Auth/FirstLoginFlow")
         {
             var errorMessage = await ReadResponseData(context);
             if (string.IsNullOrWhiteSpace(errorMessage)
