@@ -1,15 +1,15 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import Filter from './Filter';
 import * as exportHelper from '../../../Shared/common/ExportExcel/Helper';
 import { VIEW_BY_OPTION } from '../../Const.json';
+import dayjs from 'dayjs';
 
-// Mock exportExcel to track calls
 jest.mock('../../../Shared/common/ExportExcel/Helper', () => ({
   exportExcel: jest.fn(),
 }));
 
-// Mock helper functions if needed
 jest.mock('../../../Shared/DateTime/dateTimeHelper', () => ({
   buildTimeRangeForFromDate: jest.fn(() => ({
     minFromDate: new Date('2023-01-01'),
@@ -18,25 +18,50 @@ jest.mock('../../../Shared/DateTime/dateTimeHelper', () => ({
 }));
 
 describe('Filter component', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('renders View By dropdown and Export button', () => {
     render(<Filter />);
     expect(screen.getByText('View By')).toBeInTheDocument();
     expect(screen.getByText('Export')).toBeInTheDocument();
   });
 
-  it('calls exportExcel with correct params on Export click', () => {
-    render(<Filter />);
+  it('should export with "by-day" URL and file name when viewBy is "By Day"', () => {
+    const exportSpy = jest.spyOn(exportHelper, 'exportExcel').mockResolvedValue();
 
-    // Click export button
+    render(<Filter />);
     fireEvent.click(screen.getByText('Export'));
 
-    // Assert exportExcel was called
-    expect(exportHelper.exportExcel).toHaveBeenCalledTimes(1);
+    expect(exportSpy).toHaveBeenCalled();
 
-    const [calledUrl, calledFileName] = (exportHelper.exportExcel as jest.Mock).mock.calls[0];
+    const [calledUrl, fileName] = exportSpy.mock.calls[0];
 
-    expect(calledUrl).toMatch(/export\/by-day/);
-    expect(calledFileName).toMatch(/Monthly_Total_Summaries_/);
+    expect(calledUrl).toContain('export/by-day');
+    expect(fileName).toContain('Monthly_Total_Summaries_');
+  });
+
+  it('should export with "by-league" URL and file name when viewBy is "By League"', async () => {
+    const exportSpy = jest.spyOn(exportHelper, 'exportExcel').mockResolvedValue();
+
+    render(<Filter />);
+
+    const select = screen.getByText('Day');
+    fireEvent.mouseDown(select);
+
+    await waitFor(() => {
+      expect(screen.getByText('League')).toBeInTheDocument();
+    });
+    fireEvent.click(screen.getByText('League'));
+    fireEvent.click(screen.getByText('Export'));
+
+    expect(exportSpy).toHaveBeenCalled();
+
+    const [calledUrl, fileName] = exportSpy.mock.calls[0];
+
+    expect(calledUrl).toContain('export/by-league');
+    expect(fileName).toContain('Soccer_Provider_Usage_Summaries_By_Leagues');
   });
 
   it('changes View By selection', () => {
@@ -50,4 +75,69 @@ describe('Filter component', () => {
 
     expect(screen.getByText(VIEW_BY_OPTION[1].label)).toBeInTheDocument();
   });
+
+  it('should update fromDate when a new date is selected', async () => {
+    const { container } = render(<Filter />);
+    const user = userEvent.setup();
+
+    const fromDateInput = container.querySelector('input.from-date-picker') as HTMLInputElement;
+    if (!fromDateInput) throw new Error('Input not found');
+
+    await user.click(fromDateInput);
+
+    const targetDate = dayjs().subtract(5, 'day');
+    const dayToSelect = targetDate.date().toString();
+
+    const dayButton = screen.getByText(dayToSelect);
+    await user.click(dayButton);
+    const expectedFormatted = dayjs(targetDate)
+      .subtract(1, 'month')
+      .format('MMM DD, YYYY');
+
+    expect(fromDateInput.value).toBe(expectedFormatted);
+  });
+
+  it('should update toDate when a new date is selected', async () => {
+    const { container } = render(<Filter />);
+    const user = userEvent.setup();
+
+    const toDateInput = container.querySelector('input.to-date-picker') as HTMLInputElement;
+    if (!toDateInput) throw new Error('Input not found');
+
+    await user.click(toDateInput);
+
+    const targetDate = dayjs().subtract(5, 'day');
+    const dayToSelect = targetDate.date().toString();
+
+    const dayButton = screen.getByText(dayToSelect);
+    await user.click(dayButton);
+    const expectedFormatted = dayjs(targetDate).format('MMM DD, YYYY');
+
+    expect(toDateInput.value).toBe(expectedFormatted);
+  });
+
+  it('should open datepicker from date when calendar icon is clicked', async () => {
+    const { container } = render(<Filter />);
+    const user = userEvent.setup();
+
+    const calendarIcon = container.querySelector('#icon-calendar-from-date') as HTMLElement;
+    expect(calendarIcon).toBeInTheDocument();
+
+    await user.click(calendarIcon);
+
+    expect(container.querySelector('.react-datepicker')).toBeInTheDocument();
+  });
+
+  it('should open datepicker to date when calendar icon is clicked', async () => {
+    const { container } = render(<Filter />);
+    const user = userEvent.setup();
+
+    const calendarIcon = container.querySelector('#icon-calendar-to-date') as HTMLElement;
+    expect(calendarIcon).toBeInTheDocument();
+
+    await user.click(calendarIcon);
+
+    expect(container.querySelector('.react-datepicker')).toBeInTheDocument();
+  });
+
 });
