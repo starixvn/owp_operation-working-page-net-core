@@ -1,5 +1,3 @@
-using Fanex.Data.Repository;
-
 namespace OWP.EventPicking.Api.Criteria;
 
 public class UpdateConfirmedMatchCriteria : NonQueryCommand
@@ -9,6 +7,8 @@ public class UpdateConfirmedMatchCriteria : NonQueryCommand
     public string ModifiedBy { get; set; }
 
     public bool Confirmed { get; set; }
+
+    public DateTime ConfirmedAt { get; set; }
 
     public override string GetSettingKey() => "OWP_EventPicking_UpdateConfirmed";
 

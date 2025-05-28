@@ -3,12 +3,16 @@ import store from '../app/store';
 import ToastrWrapper from '../../components/ToastrWrapper';
 import Spinner from '../../components/Spinner';
 import updateConfirmedThunk from '../table/updateConfirmedThunkNative';
+import { convertToGMT8String } from './confirmedHelper';
 
 const exportAndConfirmAllEvent = async exportCallback => {
   const { param } = store.getState().filter;
   const confirmResult = await ToastrWrapper.confirm(
     MESSAGE.EXPORT_AND_CONFIRM_ALL
   );
+  const { lastSearchTime } = store.getState().filter;
+  const gmt8TimeStr = convertToGMT8String(lastSearchTime);
+
   if (confirmResult.value) {
     Spinner.show();
     const { entities } = store.getState().eventPickingTable;
@@ -20,7 +24,8 @@ const exportAndConfirmAllEvent = async exportCallback => {
       await store.dispatch(
         updateConfirmedThunk({
           infoSiteMatchIds,
-          confirmed: true
+          confirmed: true,
+          confirmedAt: gmt8TimeStr || ''
         })
       );
     }

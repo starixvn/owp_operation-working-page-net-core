@@ -1,8 +1,7 @@
 type TConfirmed = {
-  infoSiteMatchIds: Array<number>,
-  confirmed: boolean
-}
-
-export {
-  TConfirmed
+  infoSiteMatchIds: Array<number>;
+  confirmed: boolean;
+  confirmedAt: string;
 };
+
+export { TConfirmed };

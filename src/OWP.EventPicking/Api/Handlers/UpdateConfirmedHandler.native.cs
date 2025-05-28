@@ -1,5 +1,4 @@
 using Fanex.NAP.Client;
-using OWP.EventPicking.Api.Criteria;
 
 namespace OWP.EventPicking.Api.Handlers;
 
@@ -8,6 +7,8 @@ public class UpdateConfirmedRequest : IRequest<Unit>
     public string InfoSiteMatchIds { get; set; }
 
     public bool Confirmed { get; set; }
+
+    public DateTime ConfirmedAt { get; set; }
 }
 
 public class UpdateConfirmedHandler : IRequestHandler<UpdateConfirmedRequest, Unit>
@@ -28,7 +29,8 @@ public class UpdateConfirmedHandler : IRequestHandler<UpdateConfirmedRequest, Un
         {
             InfoSiteMatchIds = request.InfoSiteMatchIds,
             ModifiedBy = session.UserName,
-            Confirmed = request.Confirmed
+            Confirmed = request.Confirmed,
+            ConfirmedAt = request.ConfirmedAt
         });
         return Unit.Value;
     }

@@ -31,6 +31,7 @@ const filterSlice = createSlice({
   initialState: {
     leagues: [] as Option[],
     updateTypes: [] as Option[],
+    lastSearchTime: null as Date | null,
     param: {
       [DATE]: Utils.formatDate(new Date()),
       [FILTER_MATCH]: FILTER_MATCH_OPTIONS.map(m => m.value),
@@ -54,6 +55,9 @@ const filterSlice = createSlice({
     },
     setPeriod: (state, action: { payload: TPeriodFilter }) => {
       state.param[PERIOD.KEY] = action.payload;
+    },
+    setLastSearchTime: (state, action: { payload: Date }) => {
+      state.lastSearchTime = action.payload;
     }
   },
   extraReducers: builder => {
@@ -65,6 +69,6 @@ const filterSlice = createSlice({
 });
 
 const { reducer, actions } = filterSlice;
-const { setFilter, setPeriod } = actions;
-export { setFilter, setPeriod };
+const { setFilter, setPeriod, setLastSearchTime } = actions;
+export { setFilter, setPeriod, setLastSearchTime };
 export default reducer;
