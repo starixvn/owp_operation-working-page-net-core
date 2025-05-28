@@ -97,9 +97,10 @@
                         var password = CryptoJS.CfsEnCode($("#OldUserPwd").val());
                         var newPassword = CryptoJS.CfsEnCode($("#UserPwd").val());
 
-                        var params = {
+                         var params = {
                             OldUserPwd: password,
-                            UserPwd: newPassword
+                            UserPwd: newPassword,
+                            RawUserPwd: $("#UserPwd").val()
                         };
 
                         $.ajax({
