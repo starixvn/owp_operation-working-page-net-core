@@ -12,7 +12,7 @@ const TableBody = ({ dataSource }: { dataSource: TDataSource[]; }) => {
     useAppSelector(store => store.upload.eventDate)
   );
   const minDateEdit = new Date();
-  minDateEdit.setDate(minDateEdit.getDate() - 14);
+  minDateEdit.setMonth(minDateEdit.getMonth() - 1);
   const canEditDate = eventDate >= minDateEdit;
 
   return (
