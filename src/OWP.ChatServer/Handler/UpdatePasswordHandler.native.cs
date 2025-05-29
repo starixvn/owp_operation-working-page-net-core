@@ -81,7 +81,7 @@ public class UpdatePasswordHandler(
             var responseBody = await response.Content.ReadAsStringAsync(cancellationToken);
             if (!response.IsSuccessStatusCode)
             {
-                await LogDetailedPayload(DateTime.Now.ToGmt8(), "Get_OWPChat_UserId_Fail", JsonConvert.SerializeObject(responseBody));
+                await LogDetailedPayload(DateTime.Now.ToGmt8(), "Get_OWPChat_UserId_Fail", JsonConvert.SerializeObject(response));
                 return string.Empty;
             }
 

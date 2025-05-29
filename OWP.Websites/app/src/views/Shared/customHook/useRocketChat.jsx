@@ -90,9 +90,6 @@ const verifyToken = async (token, userId, chatUrl) => {
   }
 };
 
-const loginToRocketChatWithDefaultPassword = async (username, chatUrl) =>
-  await loginToRocketChat(username, 'password', chatUrl);
-
 const loginToRocketChat = async (username, password, chatUrl) => {
   const response = await fetch(`${chatUrl}/api/v1/login`, {
     method: 'POST',
@@ -113,7 +110,12 @@ const loginToRocketChat = async (username, password, chatUrl) => {
     };
   }
   if (!response.ok) {
-    return { token: null, userId: null, hasError: true };
+    return {
+      token: null,
+      userId: null,
+      hasError: true,
+      statusCode: response.status
+    };
   }
 
   const { data } = await response.json();
@@ -126,20 +128,9 @@ const loginToRocketChat = async (username, password, chatUrl) => {
 };
 
 const handleReLogin = async (policy, chatUrl) => {
-  let { token, userId, statusCode, hasError, errorMessage } =
+  const { token, userId, statusCode, hasError, errorMessage } =
     await loginToRocketChat(policy.Username, policy.RawPassword, chatUrl);
 
-  if (statusCode === 401) {
-    const result = await loginToRocketChatWithDefaultPassword(
-      policy.Username,
-      chatUrl
-    );
-    token = result.token;
-    userId = result.userId;
-    statusCode = result.statusCode;
-    hasError = result.hasError;
-    errorMessage = result.errorMessage;
-  }
   if (!hasError) {
     storeAuth({
       token,
@@ -156,8 +147,8 @@ const handleReLogin = async (policy, chatUrl) => {
   }
   return {
     hasError: true,
-    statusCode: 401,
-    errorMessage: 'Session is invalid. The login is being reprocessed...',
+    statusCode,
+    errorMessage,
     token: null
   };
 };

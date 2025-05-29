@@ -17,9 +17,7 @@ public class ChangePasswordMiddleWare(RequestDelegate next,
     {
         var updatePasswordInfo=await GetNewPassword(context);
 
-        if(updatePasswordInfo is not null 
-           && context.Request.Method == HttpMethods.Post
-           && context.Request.Path.Value == "/Auth/ChangePassword")
+        if(updatePasswordInfo is not null)
         {
             var errorMessage = await ReadResponseData(context);
             if (string.IsNullOrWhiteSpace(errorMessage)
@@ -75,11 +73,11 @@ public class ChangePasswordMiddleWare(RequestDelegate next,
     private static async Task<UpdatePasswordModel> GetNewPassword(HttpContext context)
     {
         var request = context.Request;
-        if (request.Method != HttpMethods.Post || request.Path.Value != "/Auth/ChangePassword")
+        if (request.Method != HttpMethods.Post ||
+            context.Request.Path.Value is not ("/Auth/ChangePassword" or "/Auth/FirstLoginFlow"))
         {
             return null;
         }
-
         request.EnableBuffering();
         using var reader = new StreamReader(
             context.Request.Body,
@@ -90,7 +88,7 @@ public class ChangePasswordMiddleWare(RequestDelegate next,
 
         var model = JsonConvert.DeserializeObject<UpdatePasswordModel>(body);
         return model;
-       
+
     }
 
     private async Task MarkUserUpdatePassword(int userId)
