@@ -1,12 +1,16 @@
 import { getEventPickings } from '../table/eventPickingTableSlice/eventSliceThunkNative';
 import store from '../app/store';
 import { useAppDispatch } from '../app/hooks';
+import { setLastSearchTime } from './slice/filterSlice';
 
 const Command = () => {
   const dispatch = useAppDispatch();
 
   const handleSearch = () => {
     const { param } = store.getState().filter;
+    const now = new Date();
+
+    dispatch(setLastSearchTime(now.getTime()));
     dispatch(getEventPickings(param));
   };
 

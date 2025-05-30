@@ -9,6 +9,8 @@ const exportAndConfirmAllEvent = async exportCallback => {
   const confirmResult = await ToastrWrapper.confirm(
     MESSAGE.EXPORT_AND_CONFIRM_ALL
   );
+  const { lastSearchTime } = store.getState().filter;
+
   if (confirmResult.value) {
     Spinner.show();
     const { entities } = store.getState().eventPickingTable;
@@ -20,7 +22,8 @@ const exportAndConfirmAllEvent = async exportCallback => {
       await store.dispatch(
         updateConfirmedThunk({
           infoSiteMatchIds,
-          confirmed: true
+          confirmed: true,
+          timestampConfirm: lastSearchTime
         })
       );
     }

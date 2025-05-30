@@ -1,5 +1,4 @@
 using Fanex.NAP.Client;
-using OWP.EventPicking.Api.Criteria;
 
 namespace OWP.EventPicking.Api.Handlers;
 
@@ -8,6 +7,8 @@ public class UpdateConfirmedRequest : IRequest<Unit>
     public string InfoSiteMatchIds { get; set; }
 
     public bool Confirmed { get; set; }
+
+    public long TimestampConfirm { get; set; }
 }
 
 public class UpdateConfirmedHandler : IRequestHandler<UpdateConfirmedRequest, Unit>
@@ -24,11 +25,16 @@ public class UpdateConfirmedHandler : IRequestHandler<UpdateConfirmedRequest, Un
 
     public async Task<Unit> Handle(UpdateConfirmedRequest request, CancellationToken cancellationToken)
     {
+        var utcTime = DateTimeOffset.FromUnixTimeMilliseconds(request.TimestampConfirm);
+        var gmt8Zone = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+        var gmt8Time = TimeZoneInfo.ConvertTime(utcTime, gmt8Zone).DateTime;
+
         await repository.UpdateConfirmed(new UpdateConfirmedMatchCriteria
         {
             InfoSiteMatchIds = request.InfoSiteMatchIds,
             ModifiedBy = session.UserName,
-            Confirmed = request.Confirmed
+            Confirmed = request.Confirmed,
+            ConfirmedAt = gmt8Time
         });
         return Unit.Value;
     }

@@ -11,18 +11,22 @@ const propTypes = {
 
 const CheckedByLstCell = props => {
   const { rowIndex, dataSource } = props;
-  const { isCheck, infoSiteMatchId, isChildMatch, isMovedEventDate } = dataSource[rowIndex];
+  const { isCheck, infoSiteMatchId, isChildMatch, isMovedEventDate } =
+    dataSource[rowIndex];
 
   const { permission } = store.getState().pagePolicy;
   const dispatch = useStableDispatch();
 
   const handleSelectedChanged = async event => {
     const value = event.target.checked;
+    const { lastSearchTime } = store.getState().filter;
+
     if (value) {
       await dispatch(
         updateConfirmedThunk({
           confirmed: value,
-          infoSiteMatchIds: [infoSiteMatchId]
+          infoSiteMatchIds: [infoSiteMatchId],
+          timestampConfirm: lastSearchTime
         })
       );
     }

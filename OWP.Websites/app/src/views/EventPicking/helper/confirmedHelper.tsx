@@ -9,17 +9,20 @@ import { ChangeEvent } from 'react';
 const updateConfirmAllEvent = async (event: ChangeEvent<HTMLInputElement>) => {
   const { checked } = event.target;
   const { entities } = store.getState().eventPickingTable;
+  const { lastSearchTime } = store.getState().filter;
+
   if (checked && entities.length) {
     const confirmResult = await ToastrWrapper.confirm(MESSAGE.CONFIRM_ALL);
     if (confirmResult.value) {
       Spinner.show();
-      const infoSiteMatchIds = (entities as TDataSource[]).filter(match => !match.isMovedEventDate).map(
-        element => element.infoSiteMatchId
-      );
+      const infoSiteMatchIds = (entities as TDataSource[])
+        .filter(match => !match.isMovedEventDate)
+        .map(element => element.infoSiteMatchId);
       await store.dispatch(
         updateConfirmedThunk({
           infoSiteMatchIds,
-          confirmed: checked
+          confirmed: checked,
+          timestampConfirm: lastSearchTime
         })
       );
       Spinner.hide();
