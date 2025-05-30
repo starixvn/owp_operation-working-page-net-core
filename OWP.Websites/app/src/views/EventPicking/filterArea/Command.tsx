@@ -9,11 +9,8 @@ const Command = () => {
   const handleSearch = () => {
     const { param } = store.getState().filter;
     const now = new Date();
-    const gmt8Time = new Date(
-      now.toLocaleString('en-US', { timeZone: 'Asia/Taipei' })
-    );
 
-    dispatch(setLastSearchTime(gmt8Time));
+    dispatch(setLastSearchTime(now.getTime()));
     dispatch(getEventPickings(param));
   };
 

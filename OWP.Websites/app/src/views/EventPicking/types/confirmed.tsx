@@ -1,7 +1,7 @@
 type TConfirmed = {
   infoSiteMatchIds: Array<number>;
   confirmed: boolean;
-  confirmedAt: string;
+  timestampConfirm: number;
 };
 
 export { TConfirmed };

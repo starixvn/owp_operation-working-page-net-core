@@ -8,7 +8,7 @@ public class UpdateConfirmedRequest : IRequest<Unit>
 
     public bool Confirmed { get; set; }
 
-    public DateTime ConfirmedAt { get; set; }
+    public long TimestampConfirm { get; set; }
 }
 
 public class UpdateConfirmedHandler : IRequestHandler<UpdateConfirmedRequest, Unit>
@@ -25,12 +25,16 @@ public class UpdateConfirmedHandler : IRequestHandler<UpdateConfirmedRequest, Un
 
     public async Task<Unit> Handle(UpdateConfirmedRequest request, CancellationToken cancellationToken)
     {
+        var utcTime = DateTimeOffset.FromUnixTimeMilliseconds(request.TimestampConfirm);
+        var gmt8Zone = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+        var gmt8Time = TimeZoneInfo.ConvertTime(utcTime, gmt8Zone).DateTime;
+
         await repository.UpdateConfirmed(new UpdateConfirmedMatchCriteria
         {
             InfoSiteMatchIds = request.InfoSiteMatchIds,
             ModifiedBy = session.UserName,
             Confirmed = request.Confirmed,
-            ConfirmedAt = request.ConfirmedAt
+            ConfirmedAt = gmt8Time
         });
         return Unit.Value;
     }

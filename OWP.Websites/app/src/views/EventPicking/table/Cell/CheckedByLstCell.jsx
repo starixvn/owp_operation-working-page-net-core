@@ -3,7 +3,6 @@ import store from '../../app/store';
 import { Input } from 'reactstrap';
 import updateConfirmedThunk from '../updateConfirmedThunkNative';
 import useStableDispatch from '../../../Shared/customHook/useStableDispatch';
-import { convertToGMT8String } from '../../helper/confirmedHelper';
 
 const propTypes = {
   dataSource: PropTypes.array.isRequired,
@@ -21,14 +20,13 @@ const CheckedByLstCell = props => {
   const handleSelectedChanged = async event => {
     const value = event.target.checked;
     const { lastSearchTime } = store.getState().filter;
-    const gmt8TimeStr = convertToGMT8String(lastSearchTime);
 
     if (value) {
       await dispatch(
         updateConfirmedThunk({
           confirmed: value,
           infoSiteMatchIds: [infoSiteMatchId],
-          confirmedAt: gmt8TimeStr
+          timestampConfirm: lastSearchTime
         })
       );
     }

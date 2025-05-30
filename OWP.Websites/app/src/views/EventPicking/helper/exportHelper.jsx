@@ -3,7 +3,6 @@ import store from '../app/store';
 import ToastrWrapper from '../../components/ToastrWrapper';
 import Spinner from '../../components/Spinner';
 import updateConfirmedThunk from '../table/updateConfirmedThunkNative';
-import { convertToGMT8String } from './confirmedHelper';
 
 const exportAndConfirmAllEvent = async exportCallback => {
   const { param } = store.getState().filter;
@@ -11,7 +10,6 @@ const exportAndConfirmAllEvent = async exportCallback => {
     MESSAGE.EXPORT_AND_CONFIRM_ALL
   );
   const { lastSearchTime } = store.getState().filter;
-  const gmt8TimeStr = convertToGMT8String(lastSearchTime);
 
   if (confirmResult.value) {
     Spinner.show();
@@ -25,7 +23,7 @@ const exportAndConfirmAllEvent = async exportCallback => {
         updateConfirmedThunk({
           infoSiteMatchIds,
           confirmed: true,
-          confirmedAt: gmt8TimeStr || ''
+          timestampConfirm: lastSearchTime
         })
       );
     }
