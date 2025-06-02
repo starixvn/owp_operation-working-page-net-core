@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OWP\OWP.csproj" />
+    <PackageReference Include="Carter" Version="9.0.0" />
     <PackageReference Include="Olympus.OWP.Log" Version="9.0.1" />
   </ItemGroup>
 
