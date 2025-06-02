@@ -53,14 +53,14 @@ public class UpdateUserNameHandler(
                     JsonSerializer.Serialize(updateData),
                     Encoding.UTF8,
                     "application/json");
-                await LogDetailedPayload(DateTime.Now.ToGmt8(), "[Update_Username]Update_OWPChat_UserInfo",
+                await LogDetailedPayload(DateTime.Now.ToGmt8(), "[Update_Username]Update_OWPChat_Username",
                     userId);
 
                 response = await client.PostAsync("users.update", content, cancellationToken);
             }
             catch (Exception ex)
             {
-                await LogDetailedPayload(DateTime.Now.ToGmt8(), "[Update_Username]UpdateOWPChatPassword_Exception",
+                await LogDetailedPayload(DateTime.Now.ToGmt8(), "[Update_Username]UpdateOWPChatUsername_Exception",
                     JsonSerializer.Serialize(new
                     {
                         ex.Message,
@@ -70,8 +70,8 @@ public class UpdateUserNameHandler(
             finally
             {
                 var action = !response.IsSuccessStatusCode
-                    ? "[Update_Username]Update_OWPChat_UserInfo_Fail"
-                    : "[Update_Username]Update_OWPChat_UserInfo_Success";
+                    ? "[Update_Username]Update_OWPChat_Username_Fail"
+                    : "[Update_Username]Update_OWPChat_Username_Success";
                 var responseBody = await response.Content.ReadAsStringAsync(cancellationToken);
 
                 await LogDetailedPayload(DateTime.Now.ToGmt8(), action, JsonSerializer.Serialize(new
