@@ -37,7 +37,20 @@ const Header = (props: THeader) => {
           <CreateTicketButton buttonType='live-game' />
         )}
       </div>
-      {props.refreshComponent}
+      <div className='filter '>
+        {props.refreshComponent}
+        <div className='filter-control'>
+          <span>Keyword </span>
+          <input
+            className='input-field'
+          //value={value}
+          //onChange={handleChangeUserFilter}
+          />
+        </div>
+        <button className='button-submit' >
+          Search
+        </button>
+      </div>
     </div>
   );
 };
