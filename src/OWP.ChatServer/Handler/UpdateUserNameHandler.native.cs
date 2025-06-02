@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Net;
+using System.Text;
 using Fanex.Data.Repository;
 using MediatR;
 using Microsoft.Extensions.Configuration;
@@ -33,6 +34,12 @@ public class UpdateUserNameHandler(
 
                 var userId = await GetUserIdOfChatServerByUserName(client, updateUserNameInfo.OldUsername, cancellationToken);
 
+                if (string.IsNullOrWhiteSpace(userId))
+                {
+                    response.StatusCode = HttpStatusCode.BadRequest;
+                    response.Content = new StringContent($"UserId not found for username: {updateUserNameInfo.OldUsername}");
+                    throw new Exception($"UserId not found for username: {updateUserNameInfo.OldUsername}");
+                }
                 var updateData = new
                 {
                     userId,
@@ -56,7 +63,7 @@ public class UpdateUserNameHandler(
                 await LogDetailedPayload(DateTime.Now.ToGmt8(), "[Update_Username]UpdateOWPChatPassword_Exception",
                     JsonSerializer.Serialize(new
                     {
-                        ex,
+                        ex.Message,
                         env
                     }));
             }
