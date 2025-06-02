@@ -82,6 +82,32 @@ const taskListSlice = createSlice({
     },
     setRefreshModel: (state, action) => {
       state.refreshModel = action.payload;
+    },
+    filterByKeyword: (state, action) => {
+      const keyword = action.payload.toLowerCase();
+      if (!keyword) {
+        state.matches = filterMatchByCriteria(state.matchesOriginal)(state.isShowUnreadMsg)(state.isHideCompletedMatches);
+        return;
+      }
+      const filteredMatches = state.matchesOriginal.filter(match =>
+        match.MatchNo?.toLowerCase().includes(keyword) ||
+        match.Home?.toLowerCase().includes(keyword) ||
+        match.Away?.toLowerCase().includes(keyword) ||
+        match.League?.toLowerCase().includes(keyword) ||
+        match.Round?.toLowerCase().includes(keyword) ||
+        match.Division?.toLowerCase().includes(keyword) ||
+        match.IPTV?.toLowerCase().includes(keyword) ||
+        match.Provider?.toLowerCase().includes(keyword) ||
+        match.Remark?.toLowerCase().includes(keyword) ||
+        match.Channel?.toLowerCase().includes(keyword) ||
+        match.TeamRound?.toLowerCase().includes(keyword) ||
+        match.MatchCode?.toLowerCase().includes(keyword) ||
+        match.WatchBet?.toLowerCase().includes(keyword) ||
+        match.OtherProvider?.toLowerCase().includes(keyword) ||
+        match.NoOfHDP?.toLowerCase().includes(keyword) ||
+        match.KickOffTime?.toLowerCase().includes(keyword)
+      );
+      state.matches = filterMatchByCriteria(filteredMatches)(state.isShowUnreadMsg)(state.isHideCompletedMatches);
     }
   },
   extraReducers: builder => {
@@ -126,7 +152,8 @@ const {
   closePopupDetail,
   setRefreshModel,
   setMatchesSelected,
-  resetMatchesSelected
+  resetMatchesSelected,
+  filterByKeyword
 } = actions;
 export {
   setUserId,
@@ -138,7 +165,8 @@ export {
   closePopupDetail,
   setRefreshModel,
   setMatchesSelected,
-  resetMatchesSelected
+  resetMatchesSelected,
+  filterByKeyword
 };
 
 export default reducer;

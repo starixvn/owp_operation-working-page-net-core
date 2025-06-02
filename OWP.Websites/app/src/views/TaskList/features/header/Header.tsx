@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import CreateTicketButton from '../../../Shared/createTicketNew/CreateTicketButton';
 
@@ -6,7 +7,8 @@ import Checkbox from '../component/Checkbox';
 import { selectDataTaskList } from '../selector/selector';
 import {
   handleShowUnreadMessage,
-  handleHideCompleteMatches
+  handleHideCompleteMatches,
+  filterByKeyword
 } from '../table/taskListSlice';
 import useStableDispatch from './../../../Shared/customHook/useStableDispatch';
 
@@ -16,7 +18,24 @@ const Header = (props: THeader) => {
     isShowUnreadMsg,
     ticketPermission
   } = useSelector(selectDataTaskList);
+
   const dispatch = useStableDispatch();
+  const [keyWord, setKeyWord] = useState('');
+
+  const handleChangeKeyWord = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setKeyWord(event.target.value);
+  };
+
+  const handleSearch = () => {
+    dispatch(filterByKeyword(keyWord));
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
 
   return (
     <div className='header'>
@@ -37,19 +56,17 @@ const Header = (props: THeader) => {
           <CreateTicketButton buttonType='live-game' />
         )}
       </div>
-      <div className='filter '>
+      <div className='filter'>
         {props.refreshComponent}
         <div className='filter-control'>
-          <span>Keyword </span>
           <input
             className='input-field'
-          //value={value}
-          //onChange={handleChangeUserFilter}
+            placeholder='Search by keyword'
+            value={keyWord}
+            onChange={handleChangeKeyWord}
+            onKeyDown={handleKeyDown}
           />
         </div>
-        <button className='button-submit' >
-          Search
-        </button>
       </div>
     </div>
   );
