@@ -24,6 +24,7 @@ const Header = (props: THeader) => {
 
   const handleChangeKeyWord = (event: React.ChangeEvent<HTMLInputElement>) => {
     setKeyWord(event.target.value);
+    dispatch(filterByKeyword(event.target.value));
   };
 
   const handleSearch = () => {
@@ -35,7 +36,6 @@ const Header = (props: THeader) => {
       handleSearch();
     }
   };
-
 
   return (
     <div className='header'>
