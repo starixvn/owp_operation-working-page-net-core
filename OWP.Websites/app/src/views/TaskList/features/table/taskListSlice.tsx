@@ -85,27 +85,55 @@ const taskListSlice = createSlice({
     },
     filterByKeyword: (state, action) => {
       const keyword = action.payload.toLowerCase();
+      const keywordUpper = action.payload.toUpperCase();
       if (!keyword) {
         state.matches = filterMatchByCriteria(state.matchesOriginal)(state.isShowUnreadMsg)(state.isHideCompletedMatches);
         return;
       }
       const filteredMatches = state.matchesOriginal.filter(match =>
-        match.MatchNo?.toLowerCase().includes(keyword) ||
-        match.Home?.toLowerCase().includes(keyword) ||
-        match.Away?.toLowerCase().includes(keyword) ||
-        match.League?.toLowerCase().includes(keyword) ||
-        match.Round?.toLowerCase().includes(keyword) ||
-        match.Division?.toLowerCase().includes(keyword) ||
-        match.IPTV?.toLowerCase().includes(keyword) ||
-        match.Provider?.toLowerCase().includes(keyword) ||
-        match.Remark?.toLowerCase().includes(keyword) ||
-        match.Channel?.toLowerCase().includes(keyword) ||
-        match.TeamRound?.toLowerCase().includes(keyword) ||
-        match.MatchCode?.toLowerCase().includes(keyword) ||
-        match.WatchBet?.toLowerCase().includes(keyword) ||
-        match.OtherProvider?.toLowerCase().includes(keyword) ||
-        match.NoOfHDP?.toLowerCase().includes(keyword) ||
-        match.KickOffTime?.toLowerCase().includes(keyword)
+        String(match.MatchNo || '').toLowerCase().includes(keyword) ||
+        String(match.KickOffTimeDisplay || '').toLowerCase().includes(keyword) ||
+        String(match.InfoSiteTimeDisplay || '').toLowerCase().includes(keyword) ||
+        String(match.OtherTimeDisplay || '').toLowerCase().includes(keyword) ||
+        String(match.EventDateDisplay || '').toLowerCase().includes(keyword) ||
+        String(match.League || '').toLowerCase().includes(keyword) ||
+        String(match.LeagueGroup || '').toLowerCase().includes(keyword) ||
+        match.MatchOffers?.some(offer => String(offer.MatchOfferValue || '').toLowerCase().includes(keyword)) ||
+        String(match.NoOfHDP || '').trim().replace(' ', '').toLowerCase().includes(keyword) ||
+        String(match.Home || '').toLowerCase().includes(keyword) ||
+        String(match.Away || '').toLowerCase().includes(keyword) ||
+        String(match.Remark || '').toLowerCase().includes(keyword) ||
+        String(match.Round || '').toLowerCase().includes(keyword) ||
+        String(match.TeamRound || '').toLowerCase().includes(keyword) ||
+        String(match.Division || '').toLowerCase().includes(keyword) ||
+        String(match.IPTV || '').toLowerCase().includes(keyword) ||
+        String(match.IPTVCopy || '').toLowerCase().includes(keyword) ||
+        String(match.Provider || '').toLowerCase().includes(keyword) ||
+        String(match.WatchBet || '').toLowerCase().includes(keyword) ||
+        String(match.OtherProvider || '').toLowerCase().includes(keyword) ||
+        String(match.MatchSetting?.Handicap?.MaxbetSpreadToDisplay || '').toUpperCase().includes(keywordUpper) ||
+        String(match.MatchSetting?.Handicap1st?.MaxbetSpreadToDisplay || '').toUpperCase().includes(keywordUpper) ||
+        String(match.MatchSetting?.OverUnder?.MaxbetSpreadToDisplay || '').toUpperCase().includes(keywordUpper) ||
+        String(match.MatchSetting?.OverUnder1st?.MaxbetSpreadToDisplay || '').toUpperCase().includes(keywordUpper) ||
+        String(match.MatchSetting?.OneXTwo?.MaxbetSpreadToDisplay || '').toUpperCase().includes(keywordUpper) ||
+        String(match.MatchSetting?.OneXTwo1st?.MaxbetSpreadToDisplay || '').toUpperCase().includes(keywordUpper) ||
+        String(match.MatchSetting?.Specific15Mins?.MaxbetSpreadToDisplay || '').toUpperCase().includes(keywordUpper) ||
+        String(match.MatchSetting?.Specific10Mins?.MaxbetSpreadToDisplay || '').toUpperCase().includes(keywordUpper) ||
+        String(match.MatchSetting?.FastMarket?.MaxbetSpreadToDisplay || '').toUpperCase().includes(keywordUpper) ||
+        match.Assignment?.Handicap?.some(trader => String(trader.Username || '').toLowerCase().includes(keyword)) ||
+        match.Assignment?.Handicap1st?.some(trader => String(trader.Username || '').toLowerCase().includes(keyword)) ||
+        match.Assignment?.OverUnder?.some(trader => String(trader.Username || '').toLowerCase().includes(keyword)) ||
+        match.Assignment?.OverUnder1st?.some(trader => String(trader.Username || '').toLowerCase().includes(keyword)) ||
+        match.Assignment?.OneXTwo?.some(trader => String(trader.Username || '').toLowerCase().includes(keyword)) ||
+        match.Assignment?.OneXTwo1st?.some(trader => String(trader.Username || '').toLowerCase().includes(keyword)) ||
+        match.Assignment?.Specific15Mins?.some(trader => String(trader.Username || '').toLowerCase().includes(keyword)) ||
+        match.Assignment?.Specific10Mins?.some(trader => String(trader.Username || '').toLowerCase().includes(keyword)) ||
+        match.Assignment?.FastMarket?.some(trader => String(trader.Username || '').toLowerCase().includes(keyword)) ||
+        match.Assignment?.LA?.some(trader => String(trader.Username || '').toLowerCase().includes(keyword)) ||
+        match.Assignment?.LAOthers?.some(trader => String(trader.Username || '').toLowerCase().includes(keyword)) ||
+        match.Televisions?.some(tv =>
+          String(tv.TVCode || '').toLowerCase().includes(keyword)
+        )
       );
       state.matches = filterMatchByCriteria(filteredMatches)(state.isShowUnreadMsg)(state.isHideCompletedMatches);
     }
@@ -170,3 +198,4 @@ export {
 };
 
 export default reducer;
+
