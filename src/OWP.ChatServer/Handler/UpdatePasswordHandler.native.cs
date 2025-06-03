@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Olympus.OWP.Log.Criteria;
 using OWP.ChatServer.Criteria;
 using OWP.Extensions;
+using System.Net;
 
 namespace OWP.ChatServer.Handler;
 
@@ -30,6 +31,12 @@ public class UpdatePasswordHandler(
             using var client = httpClientFactory.CreateClient("OWPChat");
 
             var userId = await GetUserIdOfChatServerByUserName(client, request.Username, cancellationToken);
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                response.StatusCode = HttpStatusCode.BadRequest;
+                response.Content = new StringContent($"UserId not found for username: {request.Username}");
+                throw new Exception($"UserId not found for username: {request.Username}");
+            }
             var updateData = new
             {
                 userId,
@@ -53,7 +60,7 @@ public class UpdatePasswordHandler(
             await LogDetailedPayload(DateTime.Now.ToGmt8(), "UpdateOWPChatPassword_Exception",
                 JsonConvert.SerializeObject(new
                 {
-                    ex,
+                    ex.Message,
                     env
                 }));
         }

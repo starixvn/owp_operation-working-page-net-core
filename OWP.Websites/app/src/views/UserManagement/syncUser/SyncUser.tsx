@@ -5,6 +5,7 @@ import UserDetail from './UserDetail';
 import { confirmSyncUserEnum } from '../type';
 import ToastrWrapper from '../../components/ToastrWrapper';
 import store from '../app/useStoreNative';
+import axios from 'axios';
 
 const SyncUser = () => {
   const [displayUserDetail, setDisplayUserDetail] = useState(false);
@@ -32,6 +33,7 @@ const SyncUser = () => {
         url: buildQuerySimpleApi(),
         apiKey: 'sync-user-change-from-admin-site'
       });
+      await axios.post('/api/owp/chat/update-user-name', userDetail);
       ToastrWrapper.showInfo("Sync users successful");
     }
     setDisplayUserDetail(false);
