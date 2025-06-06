@@ -315,10 +315,6 @@
     }
   }
 
-  tr {
-    border-right: 1px solid #c8ced3;
-  }
-
   th {
     box-shadow: inset 1px 1px #c8ced3, 0 1px #c8ced3;
   }
@@ -332,11 +328,14 @@
   height: 100%;
   color: #494848;
   font-size: 11.5px;
-  border: 1px solid #e0e0e0;
   table-layout: fixed;
 
   thead {
     background: #e3e3e3 !important;
+
+    th:last-child {
+      border-right: 1px solid #c8ced3;
+    }
 
     tr {
       height: 35px;
@@ -642,8 +641,8 @@
     vertical-align: middle;
     border-right: 1px solid #e0e0e0;
 
-    &:last-child {
-      border-right: none;
+    &:first-child {
+      border-left: 1px solid #e0e0e0;
     }
   }
 
