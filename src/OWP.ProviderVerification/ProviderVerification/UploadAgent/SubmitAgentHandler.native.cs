@@ -5,7 +5,6 @@ public record SubmitAgentRequest(string SessionId, DateTime Date) : Query<Result
 
 public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository repository) : QueryHandler<SubmitAgentRequest, ResultT<IList<ProviderVerificationDifferenceModel>>>
 {
-    private const int CACHE_EXPIRED_IN_DAYS = 1;
 
     public async Task<ResultT<IList<ProviderVerificationDifferenceModel>>> Handle(SubmitAgentRequest request, CancellationToken cancellationToken)
     {
@@ -30,9 +29,31 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
         var excelProviderMatchIDs = excelProviderModels.Select(e => e.ProviderMatchID).ToHashSet();
 
         var unMapProviderVerification = providerVerification
-            .Where(pv => pv.ProviderMatch == null || pv.ProviderMatch.Count == 0 ||
-                         !pv.ProviderMatch.All(pm => excelProviderMatchIDs.Contains(pm.ProviderMatchId.ToString())))
+            .Where(pv =>
+            {
+                bool noProviderMatch = pv.ProviderMatch == null || pv.ProviderMatch.Count == 0;
+
+                bool notAllMatchesInExcel = !noProviderMatch &&
+                                            !pv.ProviderMatch.All(pm => excelProviderMatchIDs.Contains(pm.ProviderMatchId.ToString()));
+
+                bool leagueContainsSabaAndCancelStatus =
+                    !string.IsNullOrEmpty(pv.League) &&
+                    pv.League.IndexOf("saba", StringComparison.OrdinalIgnoreCase) >= 0 &&
+                    string.Equals(pv.MatchStatus, "cancel", StringComparison.OrdinalIgnoreCase) &&
+                    string.Equals(pv.LstBookProvider, "cancel", StringComparison.OrdinalIgnoreCase);
+
+                bool cancelStatusWithEmptyInHouseAndAgentConfirmCancel =
+                    string.Equals(pv.MatchStatus, "cancel", StringComparison.OrdinalIgnoreCase) &&
+                    string.IsNullOrEmpty(pv.InHouseProviderId) &&
+                    string.Equals(pv.AgentConfirmList, "cancel", StringComparison.OrdinalIgnoreCase);
+
+                return noProviderMatch
+                       || notAllMatchesInExcel
+                       || leagueContainsSabaAndCancelStatus
+                       || cancelStatusWithEmptyInHouseAndAgentConfirmCancel;
+            })
             .ToList();
+
 
         if (unMapProviderVerification != null)
         {

@@ -20,18 +20,8 @@ public interface ProviderVerificationRepository
     Task UpdateIsMismatch( string owpMatchIds, DateTime date);
 }
 
-public class ProviderVerificationRepositoryImp : ProviderVerificationRepository
+public class ProviderVerificationRepositoryImp(IDynamicRepository dynamicRepository, INapSession session) : ProviderVerificationRepository
 {
-    private readonly IDynamicRepository dynamicRepository;
-
-    private readonly INapSession session;
-
-    public ProviderVerificationRepositoryImp(IDynamicRepository dynamicRepository, INapSession session)
-    {
-        this.dynamicRepository = dynamicRepository;
-        this.session = session;
-    }
-
     public async Task<IEnumerable<ProviderVerificationModel>> GetProviderVerification(CriteriaBase criteria)
     {
         return await FetchAndMapAsync(criteria, info => info);
