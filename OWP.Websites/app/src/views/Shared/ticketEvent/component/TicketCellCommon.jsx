@@ -27,7 +27,6 @@ import { post } from '../../Service/Service';
 import { EVENT_TYPE } from '../../TicketCenterPrematch/helper/helper';
 import { IconRocket } from '../../common/icons/common-icons';
 import { openNewChattingTab } from '../../Utils';
-import useRocketChat from '../../customHook/useRocketChat';
 
 const propTypes = {
   allowQuickAdd: PropTypes.bool,
@@ -45,9 +44,9 @@ const TicketCellCommon = props => {
     dataSource,
     rowIndex,
     onShowTicketList,
-    updateDataSources
+    updateDataSources,
+    authToken
   } = props;
-  const { authToken, error } = useRocketChat();
   const { permission } = useSelector(state => state.pagePolicy);
   const { Username, ActorId, HasWrite } = permission;
 
@@ -126,16 +125,21 @@ const TicketCellCommon = props => {
       Provider
     } = dataSource[rowIndex];
 
-    const recipients = await Service.queryAssigneesByParentMatchId(OWPMatchId);
-    const userNames = recipients.map(item => item.userName);
-    const koTime = `K.O Time: ${KickOffTimeDisplay}`;
-    const leagueCopy = `League: ${League}`;
-    const match = `Match: ${Home} -vs- ${Away}`;
-    const matchId = `Match ID: ${AdminSiteId ?? ''}`;
-    const iptv = `TV/IPTV: ${IPTVCopy ?? ''} `;
-    const providerCopy = `Provider: ${Provider ?? ''}`;
+    const replyMessage = `
+  K.O Time: ${KickOffTimeDisplay}
+  League: ${League}
+  Match: ${Home} -vs- ${Away}
+  Match ID: ${AdminSiteId ?? ''}
+  TV/IPTV: ${IPTVCopy ?? ''}
+  Provider: ${Provider ?? ''}
+    `.trim();
 
     try {
+      const recipients = await Service.queryAssigneesByParentMatchId(
+        OWPMatchId
+      );
+      const userNames = recipients.map(item => item.userName);
+
       const response = await fetch(
         `${import.meta.env.VITE_CHAT_SEVER_URL}/api/v1/rooms.createDiscussion`,
         {
@@ -150,19 +154,34 @@ const TicketCellCommon = props => {
             t_name: `${KickOffTimeDisplay} - ${Home} -vs- ${Away}`,
             users: userNames,
             topic: 'Live Soccer',
-            reply: `${koTime}\n${leagueCopy}\n${match}\n${matchId}\n${iptv}\n${providerCopy}`
+            reply: replyMessage
           })
         }
       );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to create discussion');
+      }
+
       const data = await response.json();
+
       const width = window.innerWidth / 2;
       const height = window.innerHeight / 2;
       const left = (window.innerWidth - width) / 2;
       const top = (window.innerHeight - height) / 2;
 
-      const chatUrl = `${import.meta.env.VITE_CHAT_SEVER_URL}/group/${
+      const baseUrl = `${import.meta.env.VITE_CHAT_SEVER_URL}/group/${
         data.discussion.rid
-      }${authToken ? `?resumeToken=${authToken}` : ''}&layout=embedded`;
+      }`;
+      const params = new URLSearchParams({
+        layout: 'embedded'
+      });
+      if (authToken) {
+        params.set('resumeToken', authToken);
+      }
+
+      const chatUrl = `${baseUrl}?${params.toString()}`;
 
       window.open(
         chatUrl,
@@ -170,7 +189,7 @@ const TicketCellCommon = props => {
         `toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=${width},height=${height},top=${top},left=${left}`
       );
 
-      return response.ok;
+      return true;
     } catch (err) {
       console.error('Create discussion failed:', err);
       return false;

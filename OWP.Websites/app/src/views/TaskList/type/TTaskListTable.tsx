@@ -141,6 +141,7 @@ type CellProps = {
   dataLength?: number;
   rowSpan?: number;
   firstMatchCheckedIsSaba?: boolean;
+  authToken: string;
 };
 
 type OtherProductProps = {

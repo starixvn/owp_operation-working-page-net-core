@@ -1,3 +1,4 @@
+import useRocketChat from '../../../Shared/customHook/useRocketChat';
 import { TBody } from '../../type/TTaskListTable';
 import RowContent from './RowContent';
 
@@ -7,7 +8,7 @@ const TableBody = (props: TBody) => {
     hasDetailInformationPermission,
     firstMatchCheckedIsSaba
   } = props;
-
+  const { authToken } = useRocketChat();
   if (!dataSources.length) {
     return (
       <tr>
@@ -24,7 +25,9 @@ const TableBody = (props: TBody) => {
           hasDetailPermission={hasDetailInformationPermission}
           dataSource={dataSource}
           rowIndex={rowIndex}
-          firstMatchCheckedIsSaba={firstMatchCheckedIsSaba}></RowContent>
+          firstMatchCheckedIsSaba={firstMatchCheckedIsSaba}
+          authToken={authToken ?? ''}
+        ></RowContent>
       ))}
     </>
   );

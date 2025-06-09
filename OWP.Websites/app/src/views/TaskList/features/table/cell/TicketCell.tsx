@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { selectDataTaskList } from '../../selector/selector';
 import { CellProps } from '../../../type/TTaskListTable';
 
-const TicketCell = ({ rowIndex }: CellProps) => {
+const TicketCell = ({ rowIndex, authToken }: CellProps) => {
   const { matches } = useAppSelector(selectDataTaskList);
   const stableDispatch = useAppDispatch();
 
@@ -15,6 +15,7 @@ const TicketCell = ({ rowIndex }: CellProps) => {
         dataSource={matches}
         updateDataSources={data => stableDispatch(setDataTable(data))}
         rowIndex={rowIndex}
+        authToken={authToken ?? ''}
       />
     </div>
   );
