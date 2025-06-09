@@ -33,9 +33,10 @@ public class UpdatePasswordHandler(
             var userId = await GetUserIdOfChatServerByUserName(client, request.Username, cancellationToken);
             if (string.IsNullOrWhiteSpace(userId))
             {
+                var errorMessage= $"UserId not found for username: {request.Username}. Maybe account admin not be authorize, or user not exists, search OWPLogs with action=Get_OWPChat_UserId_Fail, Get_OWPChat_UserId_Exception to see more information";
                 response.StatusCode = HttpStatusCode.BadRequest;
-                response.Content = new StringContent($"UserId not found for username: {request.Username}");
-                throw new Exception($"UserId not found for username: {request.Username}");
+                response.Content = new StringContent(errorMessage);
+                throw new Exception(errorMessage);
             }
             var updateData = new
             {
