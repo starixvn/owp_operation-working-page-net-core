@@ -27,6 +27,7 @@ import { post } from '../../Service/Service';
 import { EVENT_TYPE } from '../../TicketCenterPrematch/helper/helper';
 import { IconRocket } from '../../common/icons/common-icons';
 import { openNewChattingTab } from '../../Utils';
+import useRocketChat from '../../customHook/useRocketChat';
 
 const propTypes = {
   allowQuickAdd: PropTypes.bool,
@@ -46,7 +47,7 @@ const TicketCellCommon = props => {
     onShowTicketList,
     updateDataSources
   } = props;
-
+  const { authToken, error } = useRocketChat();
   const { permission } = useSelector(state => state.pagePolicy);
   const { Username, ActorId, HasWrite } = permission;
 
@@ -159,9 +160,9 @@ const TicketCellCommon = props => {
       const left = (window.innerWidth - width) / 2;
       const top = (window.innerHeight - height) / 2;
 
-      const chatUrl = `${
-        import.meta.env.VITE_CHAT_SEVER_URL
-      }/group/${data.discussion.rid}?layout=embedded`;
+      const chatUrl = `${import.meta.env.VITE_CHAT_SEVER_URL}/group/${
+        data.discussion.rid
+      }${authToken ? `?resumeToken=${authToken}` : ''}&layout=embedded`;
 
       window.open(
         chatUrl,
