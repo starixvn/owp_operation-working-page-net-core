@@ -21,6 +21,7 @@ type TPopup = {
     T: TticketList
   ): void;
   onCloseTicketList: () => void;
+  handleCreateDiscussionRC: () => void;
 };
 
 export { TPopup, TticketList };

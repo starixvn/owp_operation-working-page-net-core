@@ -14,7 +14,8 @@ const propTypes = {
   updateDataSources: PropTypes.func,
   handleOpenCreateTicket: PropTypes.func,
   allowQuickAdd: PropTypes.bool,
-  handleQuickAddTicket: PropTypes.func
+  handleQuickAddTicket: PropTypes.func,
+  handleCreateDiscussionRC: PropTypes.func
 };
 
 const OpenTicketListHandler = props => {
@@ -25,7 +26,8 @@ const OpenTicketListHandler = props => {
     updateDataSources,
     handleOpenCreateTicket,
     allowQuickAdd,
-    handleQuickAddTicket
+    handleQuickAddTicket,
+    handleCreateDiscussionRC
   } = props;
   const { IsRead } = dataSources[index];
 
@@ -56,6 +58,7 @@ const OpenTicketListHandler = props => {
           handleOpenCreateTicket={handleOpenCreateTicket}
           allowQuickAdd={allowQuickAdd}
           handleQuickAddTicket={handleQuickAddTicket}
+          handleCreateDiscussionRC={handleCreateDiscussionRC}
         />
       )}
     </>

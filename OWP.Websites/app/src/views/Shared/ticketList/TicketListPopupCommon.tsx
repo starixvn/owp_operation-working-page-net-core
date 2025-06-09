@@ -4,9 +4,7 @@ import { UncontrolledTooltip } from 'reactstrap';
 import { MessageTextOutlineIcon } from 'mdi-react';
 import { TPopup } from './type';
 import IconOpenNewTab from '../IconCustom/IconOpenNewTab';
-import {
-  EVENT_TYPE
-} from '../TicketCenterPrematch/helper/helper';
+import { EVENT_TYPE } from '../TicketCenterPrematch/helper/helper';
 
 const SUB_TYPE_MAX_LENGTH = 50;
 
@@ -18,7 +16,8 @@ const TicketListPopupCommon = (props: TPopup) => {
     handleOpenMessage,
     onCloseTicketList,
     allowQuickAdd,
-    handleQuickAddTicket
+    handleQuickAddTicket,
+    handleCreateDiscussionRC
   } = props;
 
   const wrapperDivRef = useRef<HTMLDivElement>(null);
@@ -44,6 +43,26 @@ const TicketListPopupCommon = (props: TPopup) => {
     <div className='ticket-list-popup is-show' ref={wrapperDivRef}>
       {HasWrite && (
         <div className='button'>
+          {allowQuickAdd && (
+            <>
+              <button
+                className='button-submit'
+                onClick={() => {
+                  onCloseTicketList();
+                  handleCreateDiscussionRC();
+                }}>
+                OWPChat Discussion
+              </button>
+              <button
+                className='button-submit'
+                onClick={() => {
+                  onCloseTicketList();
+                  handleQuickAddTicket();
+                }}>
+                Match Group Ticket
+              </button>
+            </>
+          )}
           <button
             className='button-submit'
             onClick={() => {
@@ -51,16 +70,6 @@ const TicketListPopupCommon = (props: TPopup) => {
             }}>
             New ticket
           </button>
-          {allowQuickAdd && (
-            <button
-              className='button-submit'
-              onClick={() => {
-                onCloseTicketList();
-                handleQuickAddTicket();
-              }}>
-              Match Group Ticket
-            </button>
-          )}
         </div>
       )}
       <table className='ticket-list-table'>
@@ -69,7 +78,7 @@ const TicketListPopupCommon = (props: TPopup) => {
             <tr
               key={`${x.TicketId}-${index}`}
               onClick={e => handleOpenMessage(e, x)}>
-              <td >
+              <td>
                 <div className='icon-container'>
                   {!x.IsRead && <div className='notification-dot'></div>}
                   <MessageTextOutlineIcon
@@ -79,7 +88,9 @@ const TicketListPopupCommon = (props: TPopup) => {
                 </div>
               </td>
               <td className='ticket-info'>
-                <div className='event-name'>{x.Home} -vs- {x.Away}</div>
+                <div className='event-name'>
+                  {x.Home} -vs- {x.Away}
+                </div>
                 <div className='event-date'>
                   {Utils.formatDateTimeDisplay(x.EventDate)}
                 </div>
@@ -88,7 +99,8 @@ const TicketListPopupCommon = (props: TPopup) => {
                     <div className='line-subtype' id={`subtype-${x.TicketId}`}>
                       <span className='tag' />
                       {x.SubtypeName.length > SUB_TYPE_MAX_LENGTH
-                        ? x.SubtypeName.substring(0, SUB_TYPE_MAX_LENGTH) + '...'
+                        ? x.SubtypeName.substring(0, SUB_TYPE_MAX_LENGTH) +
+                          '...'
                         : x.SubtypeName}
                     </div>
                     {x.SubtypeName.length > SUB_TYPE_MAX_LENGTH && (

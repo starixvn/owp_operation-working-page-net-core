@@ -9,6 +9,7 @@ import {
 } from '../../chatBoardNew/chatBoardSlice';
 import {
   closeCreatePopup,
+  closePopupCreateTicketInLGA,
   openPopupCreateTicketInLGA
 } from '../../createTicketNew/createTicketBoardSliceNew';
 import {
@@ -62,6 +63,7 @@ const TicketCellCommon = props => {
   const closeAnotherPopup = () => {
     stableDispatch(closePopup());
     stableDispatch(closeCreatePopup());
+    stableDispatch(closePopupCreateTicketInLGA());
   };
 
   const handleOpenCreateTicket = () => {
@@ -110,6 +112,70 @@ const TicketCellCommon = props => {
     openNewChattingTab(ActorId, data, EVENT_TYPE.LIVE_INCIDENT);
   };
 
+  const handleCreateDiscussionRC = async () => {
+    closeAnotherPopup();
+    const {
+      OWPMatchId,
+      League,
+      Home,
+      Away,
+      KickOffTimeDisplay,
+      AdminSiteId,
+      IPTVCopy,
+      Provider
+    } = dataSource[rowIndex];
+
+    const recipients = await Service.queryAssigneesByParentMatchId(OWPMatchId);
+    const userNames = recipients.map(item => item.userName);
+    const koTime = `K.O Time: ${KickOffTimeDisplay}`;
+    const leagueCopy = `League: ${League}`;
+    const match = `Match: ${Home} -vs- ${Away}`;
+    const matchId = `Match ID: ${AdminSiteId ?? ''}`;
+    const iptv = `TV/IPTV: ${IPTVCopy ?? ''} `;
+    const providerCopy = `Provider: ${Provider ?? ''}`;
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_CHAT_SEVER_URL}/api/v1/rooms.createDiscussion`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Auth-Token': import.meta.env.VITE_OWP_BOT_TOKEN,
+            'X-User-Id': import.meta.env.VITE_OWP_BOT_ID
+          },
+          body: JSON.stringify({
+            prid: import.meta.env.VITE_LA_TODAY_MATCH_CHANNEL_ID,
+            t_name: `${KickOffTimeDisplay} - ${Home} -vs- ${Away}`,
+            users: userNames,
+            topic: 'Live Soccer',
+            reply: `${koTime}\n${leagueCopy}\n${match}\n${matchId}\n${iptv}\n${providerCopy}`
+          })
+        }
+      );
+      const data = await response.json();
+      const width = window.innerWidth / 2;
+      const height = window.innerHeight / 2;
+      const left = (window.innerWidth - width) / 2;
+      const top = (window.innerHeight - height) / 2;
+
+      const chatUrl = `${
+        import.meta.env.VITE_CHAT_SEVER_URL
+      }/group/${data.discussion.rid}?layout=embedded`;
+
+      window.open(
+        chatUrl,
+        '_blank',
+        `toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=${width},height=${height},top=${top},left=${left}`
+      );
+
+      return response.ok;
+    } catch (err) {
+      console.error('Create discussion failed:', err);
+      return false;
+    }
+  };
+
   const renderOpenTicketListHandler = () => (
     <OpenTicketListHandler
       dataSources={dataSource}
@@ -119,6 +185,7 @@ const TicketCellCommon = props => {
       handleOpenCreateTicket={handleOpenCreateTicket}
       allowQuickAdd={allowQuickAdd}
       handleQuickAddTicket={handleQuickAddTicket}
+      handleCreateDiscussionRC={handleCreateDiscussionRC}
     />
   );
 
@@ -128,6 +195,12 @@ const TicketCellCommon = props => {
         <PlusCircleIcon className='icon-plus' />
       </span>
       <div className='popup-add-ticket'>
+        <div
+          className='button-add-ticket btn-quick'
+          onClick={handleCreateDiscussionRC}>
+          <IconRocket className={'mdi-icon icon-plus icon-rocket'} />
+          <span className='btn-name'>OWPChat Discussion</span>
+        </div>
         <div
           className='button-add-ticket btn-quick'
           onClick={handleQuickAddTicket}>
