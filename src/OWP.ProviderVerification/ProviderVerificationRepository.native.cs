@@ -5,7 +5,6 @@ public interface ProviderVerificationRepository
     Task<IEnumerable<ProviderVerificationModel>> GetProviderVerification(CriteriaBase criteria);
 
     Task<IEnumerable<ProviderVerificationDifferenceModel>> GetProviderVerificationDiff(CriteriaBase criteria);
-
     Task<IEnumerable<AgentOption>> GetAgentOptions();
 
     Task<IEnumerable<LSTBookProviderOption>> GetLSTBookOptions(DateTime eventDate);
@@ -77,9 +76,11 @@ public class ProviderVerificationRepositoryImp(IDynamicRepository dynamicReposit
                 Home = match.Home,
                 Away = match.Away,
                 LstBookProvider = match.LstBookProvider,
-                InHouseProviderId = string.Join("/", providerMatches
-                    .Where(p => p.OWPMatchId == match.OWPMatchId)
-                    .Select(p => p.ProviderMatchId)),
+                InHouseProviderId = string.Equals(match.MatchStatus, "cancel", StringComparison.OrdinalIgnoreCase)
+                    ? null
+                    : string.Join("/", providerMatches
+                        .Where(p => p.OWPMatchId == match.OWPMatchId)
+                        .Select(p => p.ProviderMatchId)),
                 Remark = match.Remark,
                 RemarkBy = match.RemarkBy,
                 AgentConfirm = agentConfirms
