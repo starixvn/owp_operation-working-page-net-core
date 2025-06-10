@@ -172,7 +172,7 @@ const TicketCellCommon = props => {
       const top = (window.innerHeight - height) / 2;
 
       const baseUrl = `${import.meta.env.VITE_CHAT_SEVER_URL}/group/${
-        data.discussion.rid
+        data.discussion.name
       }`;
       const params = new URLSearchParams({
         layout: 'embedded'
