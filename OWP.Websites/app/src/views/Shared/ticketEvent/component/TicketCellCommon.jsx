@@ -25,7 +25,7 @@ import {
 import { TICKET_TYPE } from '../../TicketCenterPrematch/const/const.json';
 import { post } from '../../Service/Service';
 import { EVENT_TYPE } from '../../TicketCenterPrematch/helper/helper';
-import { IconRocket } from '../../common/icons/common-icons';
+import { IconRocket, IconRocketChat } from '../../common/icons/common-icons';
 import { openNewChattingTab } from '../../Utils';
 import { createDiscussionThunk } from '../../../TaskList/features/table/tableThunk';
 
@@ -198,8 +198,8 @@ const TicketCellCommon = props => {
         <div
           className='button-add-ticket btn-quick'
           onClick={handleCreateDiscussionRC}>
-          <IconRocket className={'mdi-icon icon-plus icon-rocket'} />
-          <span className='btn-name'>OWPChat Discussion</span>
+          <IconRocketChat className={'mdi-icon icon-plus icon-rocket'} />
+          <span className='btn-name'>OWP Chat Discussion</span>
         </div>
         <div
           className='button-add-ticket btn-quick'

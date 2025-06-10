@@ -5,6 +5,7 @@ import { MessageTextOutlineIcon } from 'mdi-react';
 import { TPopup } from './type';
 import IconOpenNewTab from '../IconCustom/IconOpenNewTab';
 import { EVENT_TYPE } from '../TicketCenterPrematch/helper/helper';
+import { IconRocketChat } from '../common/icons/common-icons';
 
 const SUB_TYPE_MAX_LENGTH = 50;
 
@@ -51,7 +52,7 @@ const TicketListPopupCommon = (props: TPopup) => {
                   onCloseTicketList();
                   handleCreateDiscussionRC();
                 }}>
-                OWPChat Discussion
+                OWP Chat Discussion
               </button>
               <button
                 className='button-submit'
@@ -81,10 +82,11 @@ const TicketListPopupCommon = (props: TPopup) => {
               <td>
                 <div className='icon-container'>
                   {!x.IsRead && <div className='notification-dot'></div>}
-                  <MessageTextOutlineIcon
+                  {/* <MessageTextOutlineIcon
                     className={color(x.IsRead)}
                     color={color(x.IsRead)}
-                  />
+                  /> */}
+                  <IconRocketChat className={'mdi-icon icon-message'} />
                 </div>
               </td>
               <td className='ticket-info'>
@@ -100,7 +102,7 @@ const TicketListPopupCommon = (props: TPopup) => {
                       <span className='tag' />
                       {x.SubtypeName.length > SUB_TYPE_MAX_LENGTH
                         ? x.SubtypeName.substring(0, SUB_TYPE_MAX_LENGTH) +
-                          '...'
+                        '...'
                         : x.SubtypeName}
                     </div>
                     {x.SubtypeName.length > SUB_TYPE_MAX_LENGTH && (
