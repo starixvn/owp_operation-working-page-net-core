@@ -3,7 +3,7 @@ namespace OWP.ProviderVerification.ProviderVerification.UploadAgent;
 
 public record SubmitAgentRequest(string SessionId, DateTime Date) : Query<ResultT<IList<ProviderVerificationDifferenceModel>>>;
 
-public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository repository, INapSession currentSession) : QueryHandler<SubmitAgentRequest, ResultT<IList<ProviderVerificationDifferenceModel>>>
+public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository repository) : QueryHandler<SubmitAgentRequest, ResultT<IList<ProviderVerificationDifferenceModel>>>
 {
     public async Task<ResultT<IList<ProviderVerificationDifferenceModel>>> Handle(SubmitAgentRequest request, CancellationToken cancellationToken)
     {
@@ -30,35 +30,33 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
         var unMapProviderVerification = providerVerification
             .Where(pv =>
             {
-                bool noProviderMatch = pv.ProviderMatch == null || pv.ProviderMatch.Count == 0;
+                var noProviderMatch = pv.ProviderMatch == null || pv.ProviderMatch.Count == 0;
 
-                bool notAllMatchesInExcel = !noProviderMatch &&
-                                            !pv.ProviderMatch.All(pm => excelProviderMatchIDs.Contains(pm.ProviderMatchId.ToString()));
+                var notAllMatchesInExcel = !noProviderMatch &&
+                                           !pv.ProviderMatch.All(pm => excelProviderMatchIDs.Contains(pm.ProviderMatchId.ToString()));
 
-                bool leagueContainsSabaAndCancelStatus =
-                    !string.IsNullOrEmpty(pv.League) &&
-                    pv.League.Contains("saba", StringComparison.OrdinalIgnoreCase) &&
-                    string.Equals(pv.MatchStatus, "cancel", StringComparison.OrdinalIgnoreCase) &&
-                    pv.LstBookProvider?.Contains("cancel", StringComparison.OrdinalIgnoreCase) == true;
+                var leagueContainsSabaAndCancelStatus = IsSabaLeagueWithCancelStatus(pv);
 
-                bool cancelStatusWithEmptyInHouseAndAgentConfirmCancel =
-                    string.Equals(pv.MatchStatus, "cancel", StringComparison.OrdinalIgnoreCase) &&
-                    string.IsNullOrEmpty(pv.InHouseProviderId) &&
-                    pv.AgentConfirmList?.Contains("cancel", StringComparison.OrdinalIgnoreCase) == true;
+                var cancelStatusWithEmptyInHouseAndAgentConfirmCancel = IsCancelWithEmptyAdminSiteAndAgentConfirmCancel(pv);
 
-                bool isSuspendedOrPostponedMapAgentFile = IsSuspendedOrPostponedMapAgentFile(pv, excelProviderMatchIDs);
+                var isSuspendedOrPostponedMapAgentFile = IsSuspendedOrPostponedMapAgentFile(pv, excelProviderMatchIDs);
+
+                var listAdminSiteProviderName = string.Join(", ", pv.ProviderMatch.Select(p => p.InhouseProviderName));
+
+                var isLSTBookAndAdminSiteDiff = CompareLSTBookAndAdminSiteProvider(listAdminSiteProviderName, pv.AgentConfirmList);
 
                 return noProviderMatch
                        || notAllMatchesInExcel
                        || !leagueContainsSabaAndCancelStatus
                        || !cancelStatusWithEmptyInHouseAndAgentConfirmCancel
-                       || isSuspendedOrPostponedMapAgentFile;
+                       || isSuspendedOrPostponedMapAgentFile
+                       || isLSTBookAndAdminSiteDiff;
             })
             .ToList();
 
         if (unMapProviderVerification.Count > 0)
         {
-            string OwpMatchIds = string.Join(", ",
+            var OwpMatchIds = string.Join(", ",
                 unMapProviderVerification
                     .Where(pv => pv.OWPMatchId.HasValue)
                     .Select(pv => pv.OWPMatchId.Value.ToString())
@@ -105,5 +103,26 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
         return (pv.MatchStatus == "Postponed" || pv.MatchStatus == "Suspended") &&
                !string.IsNullOrEmpty(pv.InHouseProviderId) &&
                pv.ProviderMatch.Any(pm => excelProviderMatchIDs.Contains(pm.ProviderMatchId.ToString()));
+    }
+
+    private static bool CompareLSTBookAndAdminSiteProvider(string lstBook, string adminSiteProvider)
+    {
+        var listLSTBook = lstBook.Split(',').Select(x => x.Trim().ToLowerInvariant()).OrderBy(x => x).ToList();
+        var listAdminSiteProvider = adminSiteProvider.Split(',').Select(x => x.Trim().ToLowerInvariant()).OrderBy(x => x).ToList();
+        return listLSTBook.SequenceEqual(listAdminSiteProvider);
+    }
+
+    private static bool IsSabaLeagueWithCancelStatus(ProviderVerificationDifferenceModel pv)
+    {
+        return !string.IsNullOrEmpty(pv.League) &&
+               pv.League.Contains("saba", StringComparison.OrdinalIgnoreCase) &&
+               string.Equals(pv.MatchStatus, "cancel", StringComparison.OrdinalIgnoreCase) &&
+               pv.LstBookProvider?.Contains("cancel", StringComparison.OrdinalIgnoreCase) == true;
+    }
+    private static bool IsCancelWithEmptyAdminSiteAndAgentConfirmCancel(ProviderVerificationDifferenceModel pv)
+    {
+        return string.Equals(pv.MatchStatus, "cancel", StringComparison.OrdinalIgnoreCase) &&
+               string.IsNullOrEmpty(pv.InHouseProviderId) &&
+               pv.AgentConfirmList?.Contains("cancel", StringComparison.OrdinalIgnoreCase) == true;
     }
 }
