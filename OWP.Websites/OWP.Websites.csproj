@@ -207,4 +207,9 @@
 			<DependentUpon>appsettings.json</DependentUpon>
 		</Content>
 	</ItemGroup>
+	<ItemGroup>
+	  <Content Update="appsettings - Copy.KLDR.json">
+	    <DependentUpon>appsettings.json</DependentUpon>
+	  </Content>
+	</ItemGroup>
 </Project>
