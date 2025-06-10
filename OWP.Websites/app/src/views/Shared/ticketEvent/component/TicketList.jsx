@@ -31,7 +31,8 @@ const propTypes = {
   handleOpenCreateTicket: PropTypes.func,
   allowQuickAdd: PropTypes.bool,
   handleQuickAddTicket: PropTypes.func,
-  handleCreateDiscussionRC: PropTypes.func
+  handleCreateDiscussionRC: PropTypes.func,
+  authToken: PropTypes.string
 };
 
 const TicketList = props => {
@@ -43,7 +44,8 @@ const TicketList = props => {
     handleOpenCreateTicket,
     allowQuickAdd,
     handleQuickAddTicket,
-    handleCreateDiscussionRC
+    handleCreateDiscussionRC,
+    authToken
   } = props;
   const dataSource = dataSources[index];
   const { ticketList } = useSelector(state => state.ticketList);
@@ -132,6 +134,7 @@ const TicketList = props => {
       allowQuickAdd={allowQuickAdd}
       handleQuickAddTicket={handleQuickAddTicket}
       handleCreateDiscussionRC={handleCreateDiscussionRC}
+      authToken={authToken}
     />
   );
 };

@@ -18,7 +18,8 @@ const TicketListPopupCommon = (props: TPopup) => {
     onCloseTicketList,
     allowQuickAdd,
     handleQuickAddTicket,
-    handleCreateDiscussionRC
+    handleCreateDiscussionRC,
+    authToken
   } = props;
 
   const wrapperDivRef = useRef<HTMLDivElement>(null);
@@ -78,15 +79,18 @@ const TicketListPopupCommon = (props: TPopup) => {
           {ticketList?.map((x, index) => (
             <tr
               key={`${x.TicketId}-${index}`}
-              onClick={e => handleOpenMessage(e, x)}>
+              onClick={e => (x.IsRC === true ? null : handleOpenMessage(e, x))}>
               <td>
                 <div className='icon-container'>
                   {!x.IsRead && <div className='notification-dot'></div>}
-                  {/* <MessageTextOutlineIcon
-                    className={color(x.IsRead)}
-                    color={color(x.IsRead)}
-                  /> */}
-                  <IconRocketChat className={'mdi-icon icon-message'} />
+                  {x.IsRC ? (
+                    <IconRocketChat className={'mdi-icon icon-message'} />
+                  ) : (
+                    <MessageTextOutlineIcon
+                      className={color(x.IsRead)}
+                      color={color(x.IsRead)}
+                    />
+                  )}
                 </div>
               </td>
               <td className='ticket-info'>
@@ -102,7 +106,7 @@ const TicketListPopupCommon = (props: TPopup) => {
                       <span className='tag' />
                       {x.SubtypeName.length > SUB_TYPE_MAX_LENGTH
                         ? x.SubtypeName.substring(0, SUB_TYPE_MAX_LENGTH) +
-                        '...'
+                          '...'
                         : x.SubtypeName}
                     </div>
                     {x.SubtypeName.length > SUB_TYPE_MAX_LENGTH && (
@@ -118,7 +122,10 @@ const TicketListPopupCommon = (props: TPopup) => {
               <td>
                 <IconOpenNewTab
                   eventType={EVENT_TYPE.LIVE_INCIDENT}
-                  ticketId={x.TicketId}></IconOpenNewTab>
+                  ticketId={x.TicketId}
+                  isRC={x.IsRC}
+                  discussionName={x.DiscussionName}
+                  authToken={authToken}></IconOpenNewTab>
               </td>
             </tr>
           ))}

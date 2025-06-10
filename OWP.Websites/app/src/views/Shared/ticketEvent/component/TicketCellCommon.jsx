@@ -186,6 +186,7 @@ const TicketCellCommon = props => {
       allowQuickAdd={allowQuickAdd}
       handleQuickAddTicket={handleQuickAddTicket}
       handleCreateDiscussionRC={handleCreateDiscussionRC}
+      authToken={authToken}
     />
   );
 
