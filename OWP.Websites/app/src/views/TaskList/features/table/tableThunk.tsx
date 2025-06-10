@@ -5,9 +5,15 @@ import {
   TQueryTaskList,
   TResponseReadyStatus,
   TResponseTable,
-  TUpdateReadyStatus
+  TUpdateReadyStatus,
+  TResponseDiscussion,
+  TQueryDiscussion
 } from '../../type/TTaskListTable';
-import { TASK_LIST_URL, UPDATE_TRADE_STATUS } from '../const/url.json';
+import {
+  TASK_LIST_URL,
+  UPDATE_TRADE_STATUS,
+  CREATE_RC_DISCUSSION
+} from '../const/url.json';
 import { buildRequestURL } from '../utils/utils';
 
 const taskListThunk = createAsyncThunk<TResponseTable, TQueryTaskList>(
@@ -22,6 +28,21 @@ const taskListThunk = createAsyncThunk<TResponseTable, TQueryTaskList>(
     return response.data as TResponseTable;
   }
 );
+
+const createDiscussionThunk = createAsyncThunk<
+  TResponseDiscussion,
+  TQueryDiscussion
+>('taskListThunk/createDiscussion', async (props: TQueryDiscussion) => {
+  const { t_name, reply, users } = props;
+  const model = {
+    url: buildRequestURL(CREATE_RC_DISCUSSION),
+    t_name,
+    reply,
+    users
+  };
+  const response = await post(model);
+  return response.data;
+});
 
 const updateReadyStatusThunk = createAsyncThunk<
   TResponseReadyStatus,
@@ -38,4 +59,4 @@ const updateReadyStatusThunk = createAsyncThunk<
     rowIndex
   };
 });
-export { taskListThunk, updateReadyStatusThunk };
+export { taskListThunk, updateReadyStatusThunk, createDiscussionThunk };

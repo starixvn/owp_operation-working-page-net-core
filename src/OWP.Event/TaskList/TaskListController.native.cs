@@ -22,4 +22,8 @@ public class TaskListController(IMediator mediator) : ControllerBase
     [HttpPost("update-trade-status")]
     public async Task<string> UpdateReadyTradeStatus(UpdateReadyTradeStatusRequest request)
         => await mediator.Send(request);
+
+    [HttpPost("create-rc-discussion")]
+    public async Task<string> CreateDiscussion(CreateDiscussionRequest request)
+        => await mediator.Send(request);
 }

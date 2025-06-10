@@ -27,6 +27,7 @@ import { post } from '../../Service/Service';
 import { EVENT_TYPE } from '../../TicketCenterPrematch/helper/helper';
 import { IconRocket } from '../../common/icons/common-icons';
 import { openNewChattingTab } from '../../Utils';
+import { createDiscussionThunk } from '../../../TaskList/features/table/tableThunk';
 
 const propTypes = {
   allowQuickAdd: PropTypes.bool,
@@ -126,13 +127,13 @@ const TicketCellCommon = props => {
     } = dataSource[rowIndex];
 
     const replyMessage = `
-  K.O Time: ${KickOffTimeDisplay}
-  League: ${League}
-  Match: ${Home} -vs- ${Away}
-  Match ID: ${AdminSiteId ?? ''}
-  TV/IPTV: ${IPTVCopy ?? ''}
-  Provider: ${Provider ?? ''}
-    `.trim();
+      K.O Time: ${KickOffTimeDisplay}
+      League: ${League}
+      Match: ${Home} -vs- ${Away}
+      Match ID: ${AdminSiteId ?? ''}
+      TV/IPTV: ${IPTVCopy ?? ''}
+      Provider: ${Provider ?? ''}
+        `.trim();
 
     try {
       const recipients = await Service.queryAssigneesByParentMatchId(
@@ -140,40 +141,22 @@ const TicketCellCommon = props => {
       );
       const userNames = recipients.map(item => item.userName);
 
-      const response = await fetch(
-        `${import.meta.env.VITE_CHAT_SEVER_URL}/api/v1/rooms.createDiscussion`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Auth-Token': import.meta.env.VITE_OWP_BOT_TOKEN,
-            'X-User-Id': import.meta.env.VITE_OWP_BOT_ID
-          },
-          body: JSON.stringify({
-            prid: import.meta.env.VITE_LA_TODAY_MATCH_CHANNEL_ID,
-            t_name: `${KickOffTimeDisplay} - ${Home} -vs- ${Away}`,
-            users: userNames,
-            topic: 'Live Soccer',
-            reply: replyMessage
-          })
-        }
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to create discussion');
-      }
-
-      const data = await response.json();
+      const discussionName = await stableDispatch(
+        createDiscussionThunk({
+          t_name: `${KickOffTimeDisplay} - ${Home} -vs- ${Away}`,
+          reply: replyMessage,
+          users: userNames
+        })
+      ).unwrap();
 
       const width = window.innerWidth / 2;
       const height = window.innerHeight / 2;
       const left = (window.innerWidth - width) / 2;
       const top = (window.innerHeight - height) / 2;
 
-      const baseUrl = `${import.meta.env.VITE_CHAT_SEVER_URL}/group/${
-        data.discussion.name
-      }`;
+      const baseUrl = `${
+        import.meta.env.VITE_CHAT_SEVER_URL
+      }/group/${discussionName}`;
       const params = new URLSearchParams({
         layout: 'embedded'
       });
@@ -188,11 +171,8 @@ const TicketCellCommon = props => {
         '_blank',
         `toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=${width},height=${height},top=${top},left=${left}`
       );
-
-      return true;
     } catch (err) {
       console.error('Create discussion failed:', err);
-      return false;
     }
   };
 
