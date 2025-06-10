@@ -116,13 +116,11 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
     {
         return !string.IsNullOrEmpty(pv.League) &&
                pv.League.Contains("saba", StringComparison.OrdinalIgnoreCase) &&
-               string.Equals(pv.MatchStatus, "cancel", StringComparison.OrdinalIgnoreCase) &&
                pv.LstBookProvider?.Contains("cancel", StringComparison.OrdinalIgnoreCase) == true;
     }
     private static bool IsCancelWithEmptyAdminSiteAndAgentConfirmCancel(ProviderVerificationDifferenceModel pv)
     {
         return string.Equals(pv.MatchStatus, "cancel", StringComparison.OrdinalIgnoreCase) &&
-               string.IsNullOrEmpty(pv.InHouseProviderId) &&
                pv.AgentConfirmList?.Contains("cancel", StringComparison.OrdinalIgnoreCase) == true;
     }
 }
