@@ -58,7 +58,7 @@ const TableBody = ({ dataSource }: { dataSource: TDataSource[]; }) => {
 
           <ReadonlyCommonCell
             className='inhouse-providerId'
-            value={event.matchStatus.toLowerCase() === 'cancel' ? '' : event.inHouseProviderId}
+            value={event.matchStatus?.toLowerCase() === 'cancel' ? '' : event.inHouseProviderId}
             index={index}
             isCanToolTip={false}
           />
