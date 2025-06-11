@@ -53,7 +53,7 @@ const TicketListPopupCommon = (props: TPopup) => {
                   onCloseTicketList();
                   handleCreateDiscussionRC();
                 }}>
-                OWP Chat Discussion
+                Match Group Discussion (RC)
               </button>
               <button
                 className='button-submit'

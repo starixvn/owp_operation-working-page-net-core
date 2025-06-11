@@ -28,6 +28,7 @@ import { EVENT_TYPE } from '../../TicketCenterPrematch/helper/helper';
 import { IconRocket, IconRocketChat } from '../../common/icons/common-icons';
 import { openNewChattingTab } from '../../Utils';
 import { createDiscussionThunk } from '../../../TaskList/features/table/tableThunk';
+import { setDataSignalR } from '../../../TaskList/features/table/taskListSlice';
 
 const propTypes = {
   allowQuickAdd: PropTypes.bool,
@@ -172,6 +173,13 @@ const TicketCellCommon = props => {
         '_blank',
         `toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=${width},height=${height},top=${top},left=${left}`
       );
+
+      stableDispatch(
+        setDataSignalR({
+          actorId: creatorInfo.recipientId,
+          parentMatchId: OWPMatchId
+        })
+      );
     } catch (err) {
       console.error('Create discussion failed:', err);
     }
@@ -201,7 +209,7 @@ const TicketCellCommon = props => {
           className='button-add-ticket btn-quick'
           onClick={handleCreateDiscussionRC}>
           <IconRocketChat className={'mdi-icon icon-plus icon-rocket'} />
-          <span className='btn-name'>OWP Chat Discussion</span>
+          <span className='btn-name'>Match Group Discussion</span>
         </div>
         <div
           className='button-add-ticket btn-quick'
