@@ -35,8 +35,6 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
                 var notAllMatchesInExcel = !noProviderMatch &&
                                            !pv.ProviderMatch.All(pm => excelProviderMatchIDs.Contains(pm.ProviderMatchId.ToString()));
 
-                var matchCancelAndConfirmProviderCancel = IsMatchCancelAndConfirmProviderCancel(pv);
-
                 var isSuspendedOrPostponedMapAgentFile = IsSuspendedOrPostponedMapAgentFile(pv, excelProviderMatchIDs);
 
                 var listAdminSiteProviderName = string.Join(", ", pv.ProviderMatch.Select(p => p.InhouseProviderName));
@@ -45,14 +43,13 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
 
                 return noProviderMatch
                        || notAllMatchesInExcel
-                       || !matchCancelAndConfirmProviderCancel
                        || isSuspendedOrPostponedMapAgentFile
                        || isLSTBookAndAdminSiteDiff;
             })
             .ToList();
 
         var unMapProviderVerificationFinal = unMapProviderVerification
-            .Where(pv => !IsSabaLeagueWithCancelStatus(pv))
+            .Where(pv => !IsSabaLeagueWithCancelStatus(pv) || !IsMatchCancelAndConfirmProviderCancel(pv))
             .ToList();
 
         if (unMapProviderVerificationFinal.Count > 0)
