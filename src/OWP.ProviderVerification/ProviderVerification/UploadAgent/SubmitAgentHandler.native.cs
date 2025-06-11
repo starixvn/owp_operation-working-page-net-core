@@ -49,7 +49,7 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
             .ToList();
 
         var unMapProviderVerificationFinal = unMapProviderVerification
-            .Where(pv => !IsSabaLeagueWithCancelStatus(pv) || !IsMatchCancelAndConfirmProviderCancel(pv))
+            .Where(pv => !(IsSabaLeagueWithCancelStatus(pv) || IsMatchCancelAndConfirmProviderCancel(pv)))
             .ToList();
 
         if (unMapProviderVerificationFinal.Count > 0)
