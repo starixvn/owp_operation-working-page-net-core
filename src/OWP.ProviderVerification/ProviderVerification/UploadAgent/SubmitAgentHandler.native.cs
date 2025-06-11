@@ -35,9 +35,7 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
                 var notAllMatchesInExcel = !noProviderMatch &&
                                            !pv.ProviderMatch.All(pm => excelProviderMatchIDs.Contains(pm.ProviderMatchId.ToString()));
 
-                var leagueContainsSabaAndCancelStatus = IsSabaLeagueWithCancelStatus(pv);
-
-                var cancelStatusWithEmptyInHouseAndAgentConfirmCancel = IsCancelWithEmptyAdminSiteAndAgentConfirmCancel(pv);
+                var matchCancelAndConfirmProviderCancel = IsMatchCancelAndConfirmProviderCancel(pv);
 
                 var isSuspendedOrPostponedMapAgentFile = IsSuspendedOrPostponedMapAgentFile(pv, excelProviderMatchIDs);
 
@@ -47,14 +45,17 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
 
                 return noProviderMatch
                        || notAllMatchesInExcel
-                       || !leagueContainsSabaAndCancelStatus
-                       || !cancelStatusWithEmptyInHouseAndAgentConfirmCancel
+                       || !matchCancelAndConfirmProviderCancel
                        || isSuspendedOrPostponedMapAgentFile
                        || isLSTBookAndAdminSiteDiff;
             })
             .ToList();
 
-        if (unMapProviderVerification.Count > 0)
+        var unMapProviderVerificationFinal = unMapProviderVerification
+            .Where(pv => !IsSabaLeagueWithCancelStatus(pv))
+            .ToList();
+
+        if (unMapProviderVerificationFinal.Count > 0)
         {
             var OwpMatchIds = string.Join(", ",
                 unMapProviderVerification
@@ -93,9 +94,9 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
             })
             .ToList();
 
-        unMapProviderVerification.AddRange(unMapInExcel);
+        unMapProviderVerificationFinal.AddRange(unMapInExcel);
 
-        return unMapProviderVerification;
+        return unMapProviderVerificationFinal;
     }
 
     private static bool IsSuspendedOrPostponedMapAgentFile(ProviderVerificationDifferenceModel pv, HashSet<string> excelProviderMatchIDs)
@@ -118,9 +119,10 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
                pv.League.Contains("saba", StringComparison.OrdinalIgnoreCase) &&
                pv.LstBookProvider?.Contains("cancel", StringComparison.OrdinalIgnoreCase) == true;
     }
-    private static bool IsCancelWithEmptyAdminSiteAndAgentConfirmCancel(ProviderVerificationDifferenceModel pv)
+
+    private static bool IsMatchCancelAndConfirmProviderCancel(ProviderVerificationDifferenceModel pv)
     {
-        return string.Equals(pv.MatchStatus, "cancel", StringComparison.OrdinalIgnoreCase) &&
+        return string.Equals(pv.MatchStatus, "Cancel", StringComparison.OrdinalIgnoreCase) &&
                pv.AgentConfirmList?.Contains("cancel", StringComparison.OrdinalIgnoreCase) == true;
     }
 }
