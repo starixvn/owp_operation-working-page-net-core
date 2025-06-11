@@ -133,7 +133,7 @@
         <Setting Key="OWP_OtherProvider_GetSuggestion" SpName="OWP_OtherProvider_GetSuggestion" DbName="DBOWP.bodb_OWP.wsv_owp" />
     </Function>
     <Function Name="TaskScheduling">
-        <Setting Key="OWP_TaskList_GetEventsByDay" SpName="OWP_TaskList_GetEventsByDay" DbName="DBOWP.bodb_OWP.wsv_owp" />
+        <Setting Key="OWP_TaskList_GetEventsByDay" SpName="OWP_TaskList_GetEventsByDay_xtest" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_MatchNoteViewUpdate" SpName="OWP_MatchNoteViewUpdate" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_TaskList_GetAdminSiteMatchId" SpName="OWP_TaskList_GetAdminSiteMatchId" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_TaskList_GetMinorMatchByMatchId" SpName="OWP_TaskList_GetMinorMatchByMatchId" DbName="DBOWP.bodb02.wsv_nap" />
@@ -144,7 +144,7 @@
         <Setting Key="OWP_TicketCenter_GetRecipient" SpName="OWP_TicketCenter_GetRecipient" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_TicketCenter_NewTicket_GetEvent" SpName="OWP_TicketCenter_NewTicket_GetEvent" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_TicketCenter_GetTicketType" SpName="OWP_TicketCenter_GetTicketType" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_TicketIssue_Create" SpName="OWP_TicketIssue_Create" DbName="DBOWP.bodb_OWP.wsv_owp" />
+        <Setting Key="OWP_TicketIssue_Create" SpName="OWP_TicketIssue_Create_xtest" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_TicketIssueMessage_Create" SpName="OWP_TicketIssueMessage_Create" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_TicketIssue_AddManyRecipient" SpName="OWP_TicketIssue_AddManyRecipient" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_TicketIssue_AddSingleRecipient" SpName="OWP_TicketIssue_AddSingleRecipient" DbName="DBOWP.bodb_OWP.wsv_owp" />
@@ -197,7 +197,7 @@
     </Function>
     <Function Name="TicketEvent">
         <Setting Key="OWP_TicketEvent_GetAssigneesByOwpMatchId" SpName="OWP_TicketEvent_GetAssigneesByOwpMatchId" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_TicketEvent_GetTicketByOwpMatchId" SpName="OWP_TicketEvent_GetTicketByOwpMatchId" DbName="DBOWP.bodb_OWP.wsv_owp" />
+        <Setting Key="OWP_TicketEvent_GetTicketByOwpMatchId" SpName="OWP_TicketEvent_GetTicketByOwpMatchId_xtest" DbName="DBOWP.bodb_OWP.wsv_owp" />
     </Function>
     <Function Name="FileUpload">
         <Setting Key="OWP_FileUpload_Upload" SpName="OWP_FileUpload_Upload" DbName="DBOWP.bodb_OWP.wsv_owp" />

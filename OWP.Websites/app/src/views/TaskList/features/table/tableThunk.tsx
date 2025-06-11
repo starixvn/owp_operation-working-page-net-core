@@ -33,12 +33,13 @@ const createDiscussionThunk = createAsyncThunk<
   TResponseDiscussion,
   TQueryDiscussion
 >('taskListThunk/createDiscussion', async (props: TQueryDiscussion) => {
-  const { t_name, reply, users } = props;
+  const { t_name, reply, users, owpMatchId } = props;
   const model = {
     url: buildRequestURL(CREATE_RC_DISCUSSION),
     t_name,
     reply,
-    users
+    users,
+    owpMatchId
   };
   const response = await post(model);
   return response.data;

@@ -11,15 +11,18 @@ public class CreateDiscussionRequest : IRequest<string>
     public string T_Name { get; set; }
     public List<string> Users { get; set; }
     public string Reply { get; set; }
+    public int? OwpMatchId { get; set; }
 }
 
 public class CreateDiscussionHandler : IRequestHandler<CreateDiscussionRequest, string>
 {
+    private readonly TaskListRepository _taskListRepository;
     private readonly HttpClient _httpClient;
     private readonly IConfiguration _configuration;
 
-    public CreateDiscussionHandler(HttpClient httpClient, IConfiguration configuration)
+    public CreateDiscussionHandler(TaskListRepository taskListRepository, HttpClient httpClient, IConfiguration configuration)
     {
+        _taskListRepository = taskListRepository;
         _httpClient = httpClient;
         _configuration = configuration;
     }
@@ -61,7 +64,11 @@ public class CreateDiscussionHandler : IRequestHandler<CreateDiscussionRequest, 
         }
 
         var resultObj = JsonSerializer.Deserialize<CreateDiscussionResponse>(responseBody);
-        return resultObj?.Discussion?.Name ?? string.Empty;
+        var discussionName = resultObj?.Discussion?.Name;
+
+        await _taskListRepository.CreateTicketForRCDiscussion(request.OwpMatchId, discussionName);
+
+        return discussionName ?? string.Empty;
     }
 }
 

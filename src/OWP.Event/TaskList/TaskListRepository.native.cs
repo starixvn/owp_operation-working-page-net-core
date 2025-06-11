@@ -13,6 +13,8 @@ public interface TaskListRepository
     public Task<DateTime> UpdateTradeStatus(int matchId);
 
     Task<List<int>> GetCompletedMatchFromMainDb(string matchInfoJson);
+
+    Task<int> CreateTicketForRCDiscussion(int? owpMatchId, string discussionName);
 }
 
 public class TaskListRepositoryImp : TaskListRepository
@@ -58,5 +60,19 @@ public class TaskListRepositoryImp : TaskListRepository
         };
 
         return (await dynamicRepository.FetchAsync<int>(criteria)).ToList();
+    }
+
+    public async Task<int> CreateTicketForRCDiscussion(int? owpMatchId, string discussionName)
+    {
+        var criteria = new CreateTicketForRCDiscussionCriteria()
+        {
+            OwpMatchId = owpMatchId,
+            TicketType = 0,
+            IsRC = true,
+            DiscussionName = discussionName,
+            ChannelRC = "LA_Today_Match"
+        };
+
+        return (await dynamicRepository.FetchAsync<int>(criteria)).FirstOrDefault();
     }
 }

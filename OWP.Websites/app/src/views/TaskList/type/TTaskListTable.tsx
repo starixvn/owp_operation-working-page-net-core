@@ -180,6 +180,7 @@ type TQueryTaskList = {
 };
 
 type TQueryDiscussion = {
+  owpMatchId: Required<Readonly<number>>;
   t_name: Required<Readonly<string>>;
   reply: Required<Readonly<string>>;
   users: Required<Readonly<Array<string>>>;

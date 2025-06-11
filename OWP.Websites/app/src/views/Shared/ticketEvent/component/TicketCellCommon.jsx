@@ -145,7 +145,8 @@ const TicketCellCommon = props => {
         createDiscussionThunk({
           t_name: `${KickOffTimeDisplay} - ${Home} -vs- ${Away}`,
           reply: replyMessage,
-          users: userNames
+          users: userNames,
+          owpMatchId: OWPMatchId
         })
       ).unwrap();
 
