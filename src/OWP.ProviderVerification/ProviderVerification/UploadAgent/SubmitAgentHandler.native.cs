@@ -55,7 +55,7 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
         if (unMapProviderVerificationFinal.Count > 0)
         {
             var OwpMatchIds = string.Join(", ",
-                unMapProviderVerification
+                unMapProviderVerificationFinal
                     .Where(pv => pv.OWPMatchId.HasValue)
                     .Select(pv => pv.OWPMatchId.Value.ToString())
             );
