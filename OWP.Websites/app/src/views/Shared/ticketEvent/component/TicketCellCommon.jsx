@@ -9,6 +9,7 @@ import {
 } from '../../chatBoardNew/chatBoardSlice';
 import {
   closeCreatePopup,
+  closePopupCreateTicketInLGA,
   openPopupCreateTicketInLGA
 } from '../../createTicketNew/createTicketBoardSliceNew';
 import {
@@ -24,8 +25,10 @@ import {
 import { TICKET_TYPE } from '../../TicketCenterPrematch/const/const.json';
 import { post } from '../../Service/Service';
 import { EVENT_TYPE } from '../../TicketCenterPrematch/helper/helper';
-import { IconRocket } from '../../common/icons/common-icons';
+import { IconRocket, IconRocketChat } from '../../common/icons/common-icons';
 import { openNewChattingTab } from '../../Utils';
+import { createDiscussionThunk } from '../../../TaskList/features/table/tableThunk';
+import { setDataSignalR } from '../../../TaskList/features/table/taskListSlice';
 
 const propTypes = {
   allowQuickAdd: PropTypes.bool,
@@ -43,9 +46,9 @@ const TicketCellCommon = props => {
     dataSource,
     rowIndex,
     onShowTicketList,
-    updateDataSources
+    updateDataSources,
+    authToken
   } = props;
-
   const { permission } = useSelector(state => state.pagePolicy);
   const { Username, ActorId, HasWrite } = permission;
 
@@ -62,6 +65,7 @@ const TicketCellCommon = props => {
   const closeAnotherPopup = () => {
     stableDispatch(closePopup());
     stableDispatch(closeCreatePopup());
+    stableDispatch(closePopupCreateTicketInLGA());
   };
 
   const handleOpenCreateTicket = () => {
@@ -110,6 +114,77 @@ const TicketCellCommon = props => {
     openNewChattingTab(ActorId, data, EVENT_TYPE.LIVE_INCIDENT);
   };
 
+  const handleCreateDiscussionRC = async () => {
+    closeAnotherPopup();
+    const {
+      OWPMatchId,
+      League,
+      Home,
+      Away,
+      KickOffTimeDisplay,
+      AdminSiteId,
+      IPTVCopy,
+      Provider
+    } = dataSource[rowIndex];
+
+    const replyMessage = `
+      K.O Time: ${KickOffTimeDisplay}
+      League: ${League}
+      Match: ${Home} -vs- ${Away}
+      Match ID: ${AdminSiteId ?? ''}
+      TV/IPTV: ${IPTVCopy ?? ''}
+      Provider: ${Provider ?? ''}
+        `.trim();
+
+    try {
+      const recipients = await Service.queryAssigneesByParentMatchId(
+        OWPMatchId
+      );
+      const userNames = recipients.map(item => item.userName);
+
+      const discussionName = await stableDispatch(
+        createDiscussionThunk({
+          t_name: `${KickOffTimeDisplay} - ${Home} -vs- ${Away}`,
+          reply: replyMessage,
+          users: userNames,
+          owpMatchId: OWPMatchId
+        })
+      ).unwrap();
+
+      const width = window.innerWidth / 2;
+      const height = window.innerHeight / 2;
+      const left = (window.innerWidth - width) / 2;
+      const top = (window.innerHeight - height) / 2;
+
+      const baseUrl = `${
+        import.meta.env.VITE_CHAT_SEVER_URL
+      }/group/${discussionName}`;
+      const params = new URLSearchParams({
+        layout: 'embedded'
+      });
+      if (authToken) {
+        params.set('resumeToken', authToken);
+      }
+
+      const chatUrl = `${baseUrl}?${params.toString()}`;
+
+      window.open(
+        chatUrl,
+        '_blank',
+        `toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=${width},height=${height},top=${top},left=${left}`
+      );
+
+      stableDispatch(
+        setDataSignalR({
+          actorId: creatorInfo.recipientId,
+          parentMatchId: OWPMatchId
+        })
+      );
+    } catch (err) {
+      console.error('Create discussion failed:', err);
+    }
+  };
+
   const renderOpenTicketListHandler = () => (
     <OpenTicketListHandler
       dataSources={dataSource}
@@ -119,6 +194,8 @@ const TicketCellCommon = props => {
       handleOpenCreateTicket={handleOpenCreateTicket}
       allowQuickAdd={allowQuickAdd}
       handleQuickAddTicket={handleQuickAddTicket}
+      handleCreateDiscussionRC={handleCreateDiscussionRC}
+      authToken={authToken}
     />
   );
 
@@ -128,6 +205,12 @@ const TicketCellCommon = props => {
         <PlusCircleIcon className='icon-plus' />
       </span>
       <div className='popup-add-ticket'>
+        <div
+          className='button-add-ticket btn-quick'
+          onClick={handleCreateDiscussionRC}>
+          <IconRocketChat className={'mdi-icon icon-plus icon-rocket'} />
+          <span className='btn-name'>Match Group Discussion</span>
+        </div>
         <div
           className='button-add-ticket btn-quick'
           onClick={handleQuickAddTicket}>

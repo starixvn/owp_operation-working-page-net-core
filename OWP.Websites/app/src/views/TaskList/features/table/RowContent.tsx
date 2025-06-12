@@ -24,13 +24,15 @@ type Props = {
   dataSource: DataSource;
   hasDetailPermission: boolean;
   firstMatchCheckedIsSaba?: boolean;
+  authToken: string;
 };
 
 const RowContent = ({
   rowIndex,
   dataSource,
   hasDetailPermission,
-  firstMatchCheckedIsSaba
+  firstMatchCheckedIsSaba,
+  authToken
 }: Props) => {
   const { Rowspan } = dataSource;
   const [isHovering, setIsHovering] = useState(false);
@@ -100,7 +102,11 @@ const RowContent = ({
           />
         </td>
         <td rowSpan={Rowspan}>
-          <TicketCell dataSource={dataSource} rowIndex={rowIndex} />
+          <TicketCell
+            dataSource={dataSource}
+            rowIndex={rowIndex}
+            authToken={authToken}
+          />
         </td>
         <td rowSpan={Rowspan}>
           <RemarkCell dataSource={dataSource} rowIndex={rowIndex} />

@@ -4,9 +4,8 @@ import { UncontrolledTooltip } from 'reactstrap';
 import { MessageTextOutlineIcon } from 'mdi-react';
 import { TPopup } from './type';
 import IconOpenNewTab from '../IconCustom/IconOpenNewTab';
-import {
-  EVENT_TYPE
-} from '../TicketCenterPrematch/helper/helper';
+import { EVENT_TYPE } from '../TicketCenterPrematch/helper/helper';
+import { IconRocketChat } from '../common/icons/common-icons';
 
 const SUB_TYPE_MAX_LENGTH = 50;
 
@@ -18,7 +17,9 @@ const TicketListPopupCommon = (props: TPopup) => {
     handleOpenMessage,
     onCloseTicketList,
     allowQuickAdd,
-    handleQuickAddTicket
+    handleQuickAddTicket,
+    handleCreateDiscussionRC,
+    authToken
   } = props;
 
   const wrapperDivRef = useRef<HTMLDivElement>(null);
@@ -44,6 +45,26 @@ const TicketListPopupCommon = (props: TPopup) => {
     <div className='ticket-list-popup is-show' ref={wrapperDivRef}>
       {HasWrite && (
         <div className='button'>
+          {allowQuickAdd && (
+            <>
+              <button
+                className='button-submit'
+                onClick={() => {
+                  onCloseTicketList();
+                  handleCreateDiscussionRC();
+                }}>
+                Match Group Discussion (RC)
+              </button>
+              <button
+                className='button-submit'
+                onClick={() => {
+                  onCloseTicketList();
+                  handleQuickAddTicket();
+                }}>
+                Match Group Ticket
+              </button>
+            </>
+          )}
           <button
             className='button-submit'
             onClick={() => {
@@ -51,16 +72,6 @@ const TicketListPopupCommon = (props: TPopup) => {
             }}>
             New ticket
           </button>
-          {allowQuickAdd && (
-            <button
-              className='button-submit'
-              onClick={() => {
-                onCloseTicketList();
-                handleQuickAddTicket();
-              }}>
-              Match Group Ticket
-            </button>
-          )}
         </div>
       )}
       <table className='ticket-list-table'>
@@ -68,18 +79,24 @@ const TicketListPopupCommon = (props: TPopup) => {
           {ticketList?.map((x, index) => (
             <tr
               key={`${x.TicketId}-${index}`}
-              onClick={e => handleOpenMessage(e, x)}>
-              <td >
+              onClick={e => (x.IsRC === true ? null : handleOpenMessage(e, x))}>
+              <td>
                 <div className='icon-container'>
                   {!x.IsRead && <div className='notification-dot'></div>}
-                  <MessageTextOutlineIcon
-                    className={color(x.IsRead)}
-                    color={color(x.IsRead)}
-                  />
+                  {x.IsRC ? (
+                    <IconRocketChat className={'mdi-icon icon-message'} />
+                  ) : (
+                    <MessageTextOutlineIcon
+                      className={color(x.IsRead)}
+                      color={color(x.IsRead)}
+                    />
+                  )}
                 </div>
               </td>
               <td className='ticket-info'>
-                <div className='event-name'>{x.Home} -vs- {x.Away}</div>
+                <div className='event-name'>
+                  {x.Home} -vs- {x.Away}
+                </div>
                 <div className='event-date'>
                   {Utils.formatDateTimeDisplay(x.EventDate)}
                 </div>
@@ -88,7 +105,8 @@ const TicketListPopupCommon = (props: TPopup) => {
                     <div className='line-subtype' id={`subtype-${x.TicketId}`}>
                       <span className='tag' />
                       {x.SubtypeName.length > SUB_TYPE_MAX_LENGTH
-                        ? x.SubtypeName.substring(0, SUB_TYPE_MAX_LENGTH) + '...'
+                        ? x.SubtypeName.substring(0, SUB_TYPE_MAX_LENGTH) +
+                          '...'
                         : x.SubtypeName}
                     </div>
                     {x.SubtypeName.length > SUB_TYPE_MAX_LENGTH && (
@@ -104,7 +122,10 @@ const TicketListPopupCommon = (props: TPopup) => {
               <td>
                 <IconOpenNewTab
                   eventType={EVENT_TYPE.LIVE_INCIDENT}
-                  ticketId={x.TicketId}></IconOpenNewTab>
+                  ticketId={x.TicketId}
+                  isRC={x.IsRC}
+                  discussionName={x.DiscussionName}
+                  authToken={authToken}></IconOpenNewTab>
               </td>
             </tr>
           ))}

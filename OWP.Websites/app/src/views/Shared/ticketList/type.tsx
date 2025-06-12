@@ -8,6 +8,8 @@ type TticketList = {
   Home: string;
   Away: string;
   EventDate: Required<Date>;
+  IsRC: boolean;
+  DiscussionName: string;
 };
 
 type TPopup = {
@@ -21,6 +23,8 @@ type TPopup = {
     T: TticketList
   ): void;
   onCloseTicketList: () => void;
+  handleCreateDiscussionRC: () => void;
+  authToken: string;
 };
 
 export { TPopup, TticketList };

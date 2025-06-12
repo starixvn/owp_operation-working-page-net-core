@@ -141,6 +141,7 @@ type CellProps = {
   dataLength?: number;
   rowSpan?: number;
   firstMatchCheckedIsSaba?: boolean;
+  authToken: string;
 };
 
 type OtherProductProps = {
@@ -178,6 +179,13 @@ type TQueryTaskList = {
   eventDateTime: Required<Readonly<Date>>;
 };
 
+type TQueryDiscussion = {
+  owpMatchId: Required<Readonly<number>>;
+  t_name: Required<Readonly<string>>;
+  reply: Required<Readonly<string>>;
+  users: Required<Readonly<Array<string>>>;
+};
+
 type TabProps = {
   eventDate: Date;
   userId: number;
@@ -200,6 +208,7 @@ type TResponseTable = {
   ToDay: string;
   Yesterday: string;
 };
+type TResponseDiscussion = string;
 type PopupState = {
   matchId: number | undefined;
   isOpen: boolean;
@@ -223,5 +232,7 @@ export {
   TResponseReadyStatus,
   OtherProductProps,
   ModelSpecialProduct,
-  PopupState
+  PopupState,
+  TResponseDiscussion,
+  TQueryDiscussion
 };

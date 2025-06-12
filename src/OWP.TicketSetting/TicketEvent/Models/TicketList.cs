@@ -19,4 +19,6 @@ public class TicketListModel
     public string Away { get; set; }
 
     public DateTime EventDate { get; set; }
+    public bool IsRC { get; set; }
+    public string DiscussionName { get; set; }
 }
