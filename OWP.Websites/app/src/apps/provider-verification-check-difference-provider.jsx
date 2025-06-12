@@ -4,14 +4,13 @@ import CheckDiffDifferenceProviderNative from './../views/ProviderVerificationCh
 import '../scss/components/_chatboard.scss';
 import '../scss/pages/_ProviderVerificationCheckDifferenceProvider.scss';
 import '../scss/pages/_multipleFilter.scss';
-//import '../scss/pages/_popupEditor.scss';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
 
 root.render(
-  <Layout
-    view={<CheckDiffDifferenceProviderNative />}
-    title='Check Difference ProviderId'
-  />
+    <Layout
+        view={<CheckDiffDifferenceProviderNative />}
+        title='Check Difference Provider'
+    />
 );

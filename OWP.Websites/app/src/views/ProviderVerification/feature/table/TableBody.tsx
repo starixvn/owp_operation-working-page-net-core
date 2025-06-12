@@ -107,7 +107,7 @@ const TableBody = ({ dataSource, virtualizer }: TableBodyProps) => {
                           {header.HEADER_KEY === 'InHouseProviderId' && (
                             <ReadonlyCommonCell
                               className='inhouse-providerId'
-                              value={event.inHouseProviderId}
+                              value={event.matchStatus?.toLowerCase() === 'cancel' ? '' : event.inHouseProviderId}
                               index={virtualRow.index}
                               isCanToolTip={false}
                             />
