@@ -105,7 +105,16 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
 
     private static bool CompareLSTBookAndAdminSiteProvider(string lstBook, string adminSiteProvider)
     {
-        var listLSTBook = lstBook.Split(',').Select(x => x.Trim().ToLowerInvariant()).OrderBy(x => x).ToList();
+        var listLSTBook = lstBook
+            .Split(',')
+            .Select(x =>
+            {
+                var item = x.Trim().ToLowerInvariant();
+                return item == "bet" ? "betradar" : item;
+            })
+            .OrderBy(x => x)
+            .ToList();
+
         var listAdminSiteProvider = adminSiteProvider.Split(',').Select(x => x.Trim().ToLowerInvariant()).OrderBy(x => x).ToList();
         return listLSTBook.SequenceEqual(listAdminSiteProvider);
     }
