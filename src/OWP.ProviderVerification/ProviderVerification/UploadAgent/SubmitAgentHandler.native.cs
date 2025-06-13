@@ -39,7 +39,7 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
 
                 var listAdminSiteProviderName = string.Join(", ", pv.ProviderMatch.Select(p => p.InhouseProviderName));
 
-                var isLSTBookAndAdminSiteDiff = CompareLSTBookAndAdminSiteProvider(listAdminSiteProviderName, pv.AgentConfirmList);
+                var isLSTBookAndAdminSiteDiff = !CompareLSTBookAndAdminSiteProvider(listAdminSiteProviderName, pv.AgentConfirmList);
 
                 return noProviderMatch
                        || notAllMatchesInExcel
