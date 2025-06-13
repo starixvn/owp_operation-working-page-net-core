@@ -6,6 +6,8 @@ public static class Const
     
     public const string KEY_CACHE_PROVIDER_VERIFICATION_DIFFERENCE = "OWP-PROVIDER-VERIFICATION-DIFFERENCE";
 
+    public const string KEY_CACHE_FILE_AGENT_UNMAP = "OWP-PROVIDER-VERIFICATION-FILE-AGENT-UNMAP";
+
     public const string TEMPLATE_NAME = "Provider";
 
     public const string SHEET_NAME = "Report";
