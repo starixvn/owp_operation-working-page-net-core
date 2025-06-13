@@ -1,7 +1,4 @@
-﻿
-
-using Olympus.OWP.Log.Criteria;
-using Olympus.OWP.Log.Services;
+﻿using Olympus.OWP.Log.Criteria;
 
 namespace OWP.ProviderVerification.ProviderVerification.UploadAgent;
 
@@ -20,6 +17,16 @@ public class UploadAgentValidationHandler(ICache cache, IDynamicRepository dynam
         var analyzer = new Analyzer();
         var rowCount = worksheet.Dimension.Rows;
         var colCount = worksheet.Dimension.Columns;
+
+        if (colCount != 2 ||
+            !string.Equals(worksheet.Cells[1, 1].Text?.Trim(), "Provider", StringComparison.OrdinalIgnoreCase) ||
+            !string.Equals(worksheet.Cells[1, 2].Text?.Trim(), "ProviderMatchID", StringComparison.OrdinalIgnoreCase))
+        {
+            return ResultT<AnalyzedResult>.Failure(new List<Error>
+            {
+                Error.Failure(ErrorCode.PROVIDER_TEMPLATE_REQUIRED, "The uploaded file doesn’t match the template", row: null)
+            });
+        }
 
         var headers = new Dictionary<string, int>();
         for (var col = ROW_HEADER; col <= colCount; col++)
@@ -73,7 +80,7 @@ public class UploadAgentValidationHandler(ICache cache, IDynamicRepository dynam
 
     private async Task LogDetailedPayload(DateTime CreatedDate, string Action, string Payload)
     {
-        await dynamicRepository.ExecuteAsync(new OwpLogCriteria()
+        await dynamicRepository.ExecuteAsync(new OwpLogCriteria
         {
             CreatedDate = CreatedDate,
             Action = Action,
