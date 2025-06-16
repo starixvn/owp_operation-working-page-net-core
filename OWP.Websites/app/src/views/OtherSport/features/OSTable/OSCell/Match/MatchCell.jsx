@@ -3,7 +3,10 @@ import { Button } from 'reactstrap';
 import { TooltipText } from '../../../../../Shared/common/Tooltip';
 import Utils from '../../../../../Shared/Utils';
 import { formatTime } from '../../../../../Shared/DateTime/dateTimeHelper';
-import { getLeagueIdFromAdminSite } from '../../../../services/Service';
+import {
+  getLeagueIdFromAdminSite,
+  getTradingLinkInfo
+} from '../../../../services/Service';
 const propTypes = {
   dataSource: PropTypes.array.isRequired,
   rowIndex: PropTypes.number.isRequired
@@ -28,35 +31,47 @@ export const MatchCell = props => {
 
   const tradingLinkItem = {
     'Badminton': () =>
-      `http://live.oneops.net:9080/AllInOneView/Trader?matchid=${adminsiteMatchId}&range=L`,
-    'Baseball': () =>
-      `http://live.oneops.net:9030/Os/Index?matchid=${adminsiteMatchId}&range=L`,
+      `/AllInOneView/Trader?matchid=${adminsiteMatchId}&range=L`,
+    'Baseball': () => `/Os/Index?matchid=${adminsiteMatchId}&range=L`,
     'Basketball': () =>
-      `http://live.oneops.net/Market/LinkInfoSite.aspx?type=BasketballAIO&page=Control&marketType=Live&range=L&matchid=${adminsiteMatchId}&bettype=20`,
-    'Cricket': () =>
-      `http://live.oneops.net:9050/AllInOneView/Trader?matchid=${adminsiteMatchId}&range=L`,
-    'Darts': () =>
-      `http://live.oneops.net:9030/Os/Index?matchid=${adminsiteMatchId}&range=L`,
-    'Football': () =>
-      `http://live.oneops.net:9030/Os/Index?matchid=${adminsiteMatchId}&range=L`,
-    'Field Hockey': () =>
-      `http://live.oneops.net:9030/Os/Index?matchid=${adminsiteMatchId}&range=L`,
-    'Handball': () =>
-      `http://live.oneops.net:9030/Os/Index?matchid=${adminsiteMatchId}&range=L`,
-    'Ice Hockey': () =>
-      `http://live.oneops.net:9030/Os/Index?matchid=${adminsiteMatchId}&range=L`,
-    'Netball': () =>
-      `http://live.oneops.net:9030/Os/Index?matchid=${adminsiteMatchId}&range=L `,
-    'Snooker': () =>
-      `http://live.oneops.net:9030/Os/Index?matchid=${adminsiteMatchId}&range=L`,
-    'Pool': () =>
-      `http://live.oneops.net:9030/Os/Index?matchid=${adminsiteMatchId}&range=L`,
-    'Table Tennis': () =>
-      `http://live.oneops.net:9030/Os/Index?matchid=${adminsiteMatchId}&range=L`,
+      `/Market/LinkInfoSite.aspx?type=BasketballAIO&page=Control&marketType=Live&range=L&matchid=${adminsiteMatchId}&bettype=20`,
+    'Cricket': () => `/AllInOneView/Trader?matchid=${adminsiteMatchId}&range=L`,
+    'Darts': () => `/Os/Index?matchid=${adminsiteMatchId}&range=L`,
+    'Football': () => `/Os/Index?matchid=${adminsiteMatchId}&range=L`,
+    'Field Hockey': () => `/Os/Index?matchid=${adminsiteMatchId}&range=L`,
+    'Handball': () => `/Os/Index?matchid=${adminsiteMatchId}&range=L`,
+    'Ice Hockey': () => `/Os/Index?matchid=${adminsiteMatchId}&range=L`,
+    'Netball': () => `/Os/Index?matchid=${adminsiteMatchId}&range=L `,
+    'Snooker': () => `/Os/Index?matchid=${adminsiteMatchId}&range=L`,
+    'Pool': () => `/Os/Index?matchid=${adminsiteMatchId}&range=L`,
+    'Table Tennis': () => `/Os/Index?matchid=${adminsiteMatchId}&range=L`,
     'Tennis': leagueId =>
-      `http://live.oneops.net/Live/ThirdPartyAllInOne_TennisDetail.aspx?matchid=${adminsiteMatchId}&leagueID=${leagueId}&range=L`,
+      `/Live/ThirdPartyAllInOne_TennisDetail.aspx?matchid=${adminsiteMatchId}&leagueID=${leagueId}&range=L`,
     'Volleyball': () =>
-      `http://live.oneops.net:9030/VolleyballAIO/Index?matchid=${adminsiteMatchId}&range=L`
+      `/VolleyballAIO/Index?matchid=${adminsiteMatchId}&range=L`
+  };
+
+  const buildAdminSiteUrl = async (sport, adminSiteLeagueId) => {
+    const adminSiteUrlInfo = await getTradingLinkInfo();
+
+    const url = tradingLinkItem[sport](adminSiteLeagueId);
+    let domain = adminSiteUrlInfo.general;
+    switch (sport.toLowerCase()) {
+      case 'badminton':
+        domain = adminSiteUrlInfo.badminton;
+        break;
+      case 'cricket':
+        domain = adminSiteUrlInfo.cricket;
+        break;
+      case 'basketball':
+        domain = adminSiteUrlInfo.basketball;
+        break;
+      case 'tennis':
+        domain = adminSiteUrlInfo.tennis;
+        break;
+    }
+
+    return `${domain}${url}`;
   };
 
   const dateTimeFormated = formatTime(dateTime, 'minute', 'MMM DD - hh:mm A');
@@ -81,7 +96,8 @@ export const MatchCell = props => {
     if (sport === 'Tennis') {
       adminSiteLeagueId = await getLeagueIdFromAdminSite(adminsiteMatchId);
     }
-    const url = tradingLinkItem[sport](adminSiteLeagueId);
+
+    const url = await buildAdminSiteUrl(sport, adminSiteLeagueId);
     window.open(url, `${adminsiteMatchId}`);
   };
 

@@ -1,6 +1,9 @@
 import { post, get } from '../../Shared/Service/Service';
 import { updateOfferLive, getAdminSiteLeagueId } from '../otherSport.json';
-import { netCoreURLOtherSport } from '../const/Constants';
+import {
+  netCoreURLOtherSport,
+  netCoreURLConfiguration
+} from '../const/Constants';
 
 const saveEditOfferLive = async rest => {
   const url = `${netCoreURLOtherSport}/${updateOfferLive}`;
@@ -18,4 +21,9 @@ const getLeagueIdFromAdminSite = async adminSiteMatchId => {
   return res.data;
 };
 
-export { saveEditOfferLive, getLeagueIdFromAdminSite };
+const getTradingLinkInfo = async () => {
+  const url = `${netCoreURLConfiguration}/get/LiveOpsUrl`;
+  const res = await get({ url });
+  return res.data;
+};
+export { saveEditOfferLive, getLeagueIdFromAdminSite, getTradingLinkInfo };
