@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { openNewChattingTab } from '../Utils';
 import { UncontrolledTooltip } from 'reactstrap';
 import { useRef } from 'react';
+import { getServerUrl } from '../RcChat/Service';
 
 type Props = {
   ticketId: number;
@@ -12,15 +13,14 @@ type Props = {
   isRC: boolean;
 };
 
-const openDiscussion = (discussionName: string, authToken: string) => {
+const openDiscussion = async (discussionName: string, authToken: string) => {
   const width = window.innerWidth / 2;
   const height = window.innerHeight / 2;
   const left = (window.innerWidth - width) / 2;
   const top = (window.innerHeight - height) / 2;
 
-  const baseUrl = `${
-    import.meta.env.VITE_CHAT_SEVER_URL
-  }/group/${discussionName}`;
+  const baseUrl = `${await getServerUrl()
+    }/group/${discussionName}`;
   const params = new URLSearchParams({
     layout: 'embedded'
   });

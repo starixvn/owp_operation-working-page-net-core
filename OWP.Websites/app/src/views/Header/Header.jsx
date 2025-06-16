@@ -26,6 +26,8 @@ import {
   IconSearchAccount
 } from '../Shared/common/icons/common-icons';
 import useRocketChat from '../Shared/customHook/useRocketChat';
+import Spinner from '../components/Spinner';
+import { getServerUrl } from '../Shared/RcChat/Service';
 
 const propTypes = {
   title: PropTypes.string.isRequired,
@@ -50,7 +52,7 @@ const Header = ({
 }) => {
   const [isVisibleSearchArea, setIsVisibleSearchArea] = useState(false);
   const [isSearchAccountChat, setIsSearchAccountChat] = useState(false);
-  const { authToken, error } = useRocketChat();
+  const { authToken, error, chatUrl } = useRocketChat();
   const handleVisibleSearchArea = isVisible => {
     if (isVisible) {
       document.body.classList.add('is-open-search');
@@ -72,10 +74,10 @@ const Header = ({
       return;
     }
     if (account && account.UserName) {
-      const chatUrl = `${import.meta.env.VITE_CHAT_SEVER_URL}/direct/${
-        account.UserName
-      }${authToken ? `?resumeToken=${authToken}` : ''}`;
-      window.open(chatUrl, '_blank');
+      const rcChatUrl = `${chatUrl}/direct/${account.UserName}${
+        authToken ? `?resumeToken=${authToken}` : ''
+      }`;
+      window.open(rcChatUrl, '_blank');
     }
     setIsSearchAccountChat(false);
   };
