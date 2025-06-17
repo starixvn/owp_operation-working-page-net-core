@@ -10,4 +10,9 @@ public static class Utils
     {
         return $"{Const.Const.KEY_CACHE_PROVIDER_VERIFICATION_DIFFERENCE}-{sessionId}";
     }
+
+    public static string BuildFileAgentUnmapKey(string sessionId)
+    {
+        return $"{Const.Const.KEY_CACHE_FILE_AGENT_UNMAP}-{sessionId}";
+    }
 }

@@ -135,7 +135,7 @@ public class ExportCheckDifferenceHandler(ICache cache, ConfigurationService con
 
         var providerVerificationDiff = await repository.GetProviderVerificationDiff(criteria);
 
-        var cacheKey = Utils.BuildProviderVerificationKey(request.SessionId);
+        var cacheKey = Utils.BuildFileAgentUnmapKey(request.SessionId);
         var (_, excelProviderModel) = await cache.TryGetAsync<string>(cacheKey);
         var excelProviderModels = JsonConvert.DeserializeObject<IList<ExcelProviderModel>>(excelProviderModel);
         var unMapInExcel = excelProviderModels

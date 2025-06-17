@@ -18,6 +18,7 @@ type ValidationResponse = {
   };
   errors
   : {
+    code: number;
     description: string;
     row: string;
   }[];

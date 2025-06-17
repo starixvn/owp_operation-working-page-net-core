@@ -5,17 +5,19 @@ public record SubmitAgentRequest(string SessionId, DateTime Date) : Query<Result
 
 public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository repository) : QueryHandler<SubmitAgentRequest, ResultT<IList<ProviderVerificationDifferenceModel>>>
 {
+    private const int CACHE_EXPIRED_IN_DAYS = 1;
+
     public async Task<ResultT<IList<ProviderVerificationDifferenceModel>>> Handle(SubmitAgentRequest request, CancellationToken cancellationToken)
     {
         var cacheKey = Utils.BuildProviderVerificationKey(request.SessionId);
         var (_, excelProviderModel) = await cache.TryGetAsync<string>(cacheKey);
         var excelProviderModels = JsonConvert.DeserializeObject<IList<ExcelProviderModel>>(excelProviderModel);
-        var compareResult = await Compare(request.Date, excelProviderModels);
+        var compareResult = await Compare(request.Date, excelProviderModels, request.SessionId);
 
         return ResultT<IList<ProviderVerificationDifferenceModel>>.Success(compareResult);
     }
 
-    private async Task<IList<ProviderVerificationDifferenceModel>> Compare(DateTime date, IList<ExcelProviderModel> excelProviderModels)
+    private async Task<IList<ProviderVerificationDifferenceModel>> Compare(DateTime date, IList<ExcelProviderModel> excelProviderModels, string sessionId)
     {
         var criteria = new GetProviderVerificationCriteria
         {
@@ -39,7 +41,7 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
 
                 var listAdminSiteProviderName = string.Join(", ", pv.ProviderMatch.Select(p => p.InhouseProviderName));
 
-                var isLSTBookAndAdminSiteDiff = CompareLSTBookAndAdminSiteProvider(listAdminSiteProviderName, pv.AgentConfirmList);
+                var isLSTBookAndAdminSiteDiff = !CompareLSTBookAndAdminSiteProvider(listAdminSiteProviderName, pv.AgentConfirmList);
 
                 return noProviderMatch
                        || notAllMatchesInExcel
@@ -91,9 +93,21 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
             })
             .ToList();
 
+        await SaveAgentFileUnmapInfo(sessionId, unMapInExcel);
+
         unMapProviderVerificationFinal.AddRange(unMapInExcel);
 
         return unMapProviderVerificationFinal;
+    }
+
+    private async Task SaveAgentFileUnmapInfo(string sessionId, IList<ProviderVerificationDifferenceModel> providerModel)
+    {
+        var expiredDate = DateTime.Today.AddDays(CACHE_EXPIRED_IN_DAYS);
+        var absoluteTimeSpan = expiredDate - DateTime.Now;
+        var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(absoluteTimeSpan);
+        var cacheKey = Utils.BuildFileAgentUnmapKey(sessionId);
+        var assignmentsJson = JsonConvert.SerializeObject(providerModel);
+        await cache.SetAsync(cacheKey, assignmentsJson, cachePolicy);
     }
 
     private static bool IsSuspendedOrPostponedMapAgentFile(ProviderVerificationDifferenceModel pv, HashSet<string> excelProviderMatchIDs)
@@ -105,7 +119,16 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
 
     private static bool CompareLSTBookAndAdminSiteProvider(string lstBook, string adminSiteProvider)
     {
-        var listLSTBook = lstBook.Split(',').Select(x => x.Trim().ToLowerInvariant()).OrderBy(x => x).ToList();
+        var listLSTBook = lstBook
+            .Split(',')
+            .Select(x =>
+            {
+                var item = x.Trim().ToLowerInvariant();
+                return item == "bet" ? "betradar" : item;
+            })
+            .OrderBy(x => x)
+            .ToList();
+
         var listAdminSiteProvider = adminSiteProvider.Split(',').Select(x => x.Trim().ToLowerInvariant()).OrderBy(x => x).ToList();
         return listLSTBook.SequenceEqual(listAdminSiteProvider);
     }

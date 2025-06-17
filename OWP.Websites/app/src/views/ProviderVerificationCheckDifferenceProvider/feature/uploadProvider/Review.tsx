@@ -53,7 +53,9 @@ const Review = (props: TReview) => {
             <div className='error-info-text'>
               {errors.map((error, index) => (
                 <span key={index}>
-                  {error.description} in row {error.row}.
+                  {error.code === 1003
+                    ? error.description
+                    : `${error.description} in row ${error.row}`}
                 </span>
               ))}
             </div>
