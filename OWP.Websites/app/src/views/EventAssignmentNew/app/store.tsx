@@ -10,7 +10,7 @@ import createMultiplePolicySlice from '../../Shared/permission/multiplePolicySli
 import chatBoardNew from '../../Shared/chatBoardNew/chatBoardSlice';
 import createTicketBoardReducer from '../../Shared/createTicketNew/createTicketBoardSliceNew';
 import signalREventTicketSlice from '../../Shared/ticketEvent/signalR/signalREventTicketSlice';
-
+import tradingPageInfoSlice from '../../Shared/tradingPage/tradingPageInfoSlice';
 const store = configureStore({
   reducer: {
     eventAssignmentTable: eventAssignmentTableSlice,
@@ -23,7 +23,8 @@ const store = configureStore({
     newEvent: newEventSlice,
     eventDetail: eventDetailSlice,
     createTicketBoard: createTicketBoardReducer,
-    signalREventTicket: signalREventTicketSlice
+    signalREventTicket: signalREventTicketSlice,
+    tradingPageInfo: tradingPageInfoSlice
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

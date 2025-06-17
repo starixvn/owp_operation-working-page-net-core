@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { Suspense, useState, lazy } from 'react';
+import { Suspense, useState, lazy, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Loading from '../../components/Loading';
 import { FunctionKeys } from '../../Shared/Constants';
@@ -16,6 +16,7 @@ import PopupDetail from '../features/component/PopupDetail';
 import { TTab } from '../type/TabType';
 import { isEqual } from 'lodash';
 import { resetMatchesSelected } from '../features/table/taskListSlice';
+import useQueryTradingInfo from '../../Shared/customHook/useQueryTradingInfo';
 
 const TabToday = lazy(() => import('../today/TabToday'));
 const TabYesterDay = lazy(() => import('../yesterday/TabYesterday'));
@@ -24,6 +25,7 @@ const TAB_TODAY: TTab = 'TAB_TODAY';
 const TAB_YESTERDAY: TTab = 'TAB_YESTERDAY';
 
 const TabSwitcher = () => {
+  useQueryTradingInfo();
   const [activeTab, setActiveTab] = useState<TTab>(TAB_TODAY);
   const dispatch = useDispatch();
   const { today, yesterday } = getHeaderDateTime();

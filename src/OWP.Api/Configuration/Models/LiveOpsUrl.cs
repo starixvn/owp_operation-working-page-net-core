@@ -21,5 +21,7 @@ public class OsUrls
 [Serializable]
 public class SoccerUrls
 {
-    public string Saba { get; set; }
+    public string LaTradingPage { get; set; }
+
+    public string TradingPage { get; set; }
 }

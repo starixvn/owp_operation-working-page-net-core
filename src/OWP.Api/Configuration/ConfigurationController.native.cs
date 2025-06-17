@@ -13,10 +13,18 @@ public class ConfigurationController(IConfiguration configuration) : ControllerB
     
 
     [HttpGet]
-    [Route("get/{key}")]
+    [Route("os/get")]
     [Produces("application/json")]
-    public async Task<IActionResult> GetAdminSiteOsUrls(string key)
+    public async Task<IActionResult> GetAdminSiteOsUrls()
     {
         return Ok(configuration.GetSection("LiveOpsUrl:Os").Get<OsUrls>());
+    }
+
+    [HttpGet]
+    [Route("soccer/get")]
+    [Produces("application/json")]
+    public async Task<IActionResult> GetAdminSitSoccerUrls()
+    {
+        return Ok(configuration.GetSection("LiveOpsUrl:Soccer").Get<SoccerUrls>());
     }
 }

@@ -8,7 +8,9 @@ const propTypes = {
   isFantasy: PropTypes.bool.isRequired,
   className: PropTypes.string,
   minorBettypeId: PropTypes.number,
-  league: PropTypes.string
+  league: PropTypes.string,
+  laTradingPage: PropTypes.string,
+  tradingPage: PropTypes.string
 };
 
 const EventPopup = props => {
@@ -18,7 +20,9 @@ const EventPopup = props => {
     isFantasy,
     className,
     minorBettypeId,
-    league
+    league,
+    laTradingPage,
+    tradingPage
   } = props;
 
   const leaguesUseSabaLink = [
@@ -38,9 +42,8 @@ const EventPopup = props => {
     const isUseSabaLink = leaguesUseSabaLink.includes(league);
 
     const baseUrl = isUseSabaLink
-      ? 'http://live.oneops.net:805/Live/OddsControl_Saba.aspx'
-      : 'http://live.oneops.net:805/Live/OddsControl.aspx';
-
+      ? `${laTradingPage}/Live/OddsControl_Saba.aspx`
+      : `${laTradingPage}/Live/OddsControl.aspx`;
     return `${baseUrl}?matchid=${adminSiteId}&type=s`;
   };
 
@@ -50,7 +53,7 @@ const EventPopup = props => {
   };
 
   const renderFantasySubItem = () => {
-    const tradingPageUrl = `http://live.oneops.net/FantasyRobot/FantasyRobotControl.aspx?MatchId=${adminSiteId}`;
+    const tradingPageUrl = `${tradingPage}/FantasyRobot/FantasyRobotControl.aspx?MatchId=${adminSiteId}`;
     return (
       <li>
         <ul className='fantasy-item'>
@@ -71,12 +74,12 @@ const EventPopup = props => {
     minorBettypeId === BettypeId.noOfCorners;
 
   const renderOtherMatchSubItem = () => {
-    const tradingPageMlUrl = `http://live.oneops.net/TradingAutomation/MLRobotControl.aspx?MatchId=${adminSiteId}`;
-    const tradingPageRt2Url = `http://live.oneops.net/RobotTrader2/RobotTraderController.aspx?MatchId=${adminSiteId}`;
-    const tradingPageCornersRt3Url = `http://live.oneops.net/RobotTrader3/Robot3ChildMatchControl.aspx?MatchId=${adminSiteId}&rbtVer=7`;
-    const tradingPageRt3Url = `http://live.oneops.net/RobotTrader3/RobotTrader3Control.aspx?MatchId=${adminSiteId}`;
-    const tradingPageStmUrl = `http://live.oneops.net/FutsalRobot/FutsalRobotControl.aspx?MatchId=${adminSiteId}`;
-    const tradingPageLsport = `http://live.oneops.net/TradingAutomation/MLRobotLSportControl.aspx?MatchId=${adminSiteId}`;
+    const tradingPageMlUrl = `${tradingPage}/TradingAutomation/MLRobotControl.aspx?MatchId=${adminSiteId}`;
+    const tradingPageRt2Url = `${tradingPage}/RobotTrader2/RobotTraderController.aspx?MatchId=${adminSiteId}`;
+    const tradingPageCornersRt3Url = `${tradingPage}/RobotTrader3/Robot3ChildMatchControl.aspx?MatchId=${adminSiteId}&rbtVer=7`;
+    const tradingPageRt3Url = `${tradingPage}/RobotTrader3/RobotTrader3Control.aspx?MatchId=${adminSiteId}`;
+    const tradingPageStmUrl = `${tradingPage}/FutsalRobot/FutsalRobotControl.aspx?MatchId=${adminSiteId}`;
+    const tradingPageLsport = `${tradingPage}/TradingAutomation/MLRobotLSportControl.aspx?MatchId=${adminSiteId}`;
     const rt3Url =
       minorBettypeId === BettypeId.noOfCorners
         ? tradingPageCornersRt3Url

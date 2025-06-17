@@ -22,7 +22,7 @@ const getLeagueIdFromAdminSite = async adminSiteMatchId => {
 };
 
 const getTradingLinkInfo = async () => {
-  const url = `${netCoreURLConfiguration}/get/LiveOpsUrl`;
+  const url = `${netCoreURLConfiguration}/os/get`;
   const res = await get({ url });
   return res.data;
 };
