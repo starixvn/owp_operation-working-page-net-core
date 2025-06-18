@@ -101,7 +101,11 @@
     "start:rocket-chat": "set NODE_APP=rocket-chat & vite",
     "build:rocket-chat": "set NODE_APP=rocket-chat & vite build",
     "start:provider-statistics": "set NODE_APP=provider-statistics & vite",
-    "build:provider-statistics": "set NODE_APP=provider-statistics & vite build"
+    "build:provider-statistics": "set NODE_APP=provider-statistics & vite build",
+    "build:provider-statistics:prod": "set NODE_APP=provider-statistics & vite build --mode production",
+    "start:team-management": "set NODE_APP=team-management & vite --mode development",
+    "build:team-management:dev": "set NODE_APP=team-management & vite build --mode development",
+    "build:team-management:prod": "set NODE_APP=team-management & vite build --mode production"
   },
   "dependencies": {
     "@charkour/react-reactions": "^0.11.0",

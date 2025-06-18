@@ -284,4 +284,11 @@ public class HomeController(AccessCounter accessCounter) : Controller
     {
         return View("~/wwwroot/rocket-chat/server.cshtml");
     }
+
+    [Route("TeamManagement")]
+    [NapAuth(FunctionKey = FunctionKeys.LeagueManagement, Policy = Constant.Policy.Read)]
+    public ActionResult TeamManagement()
+    {
+        return View("~/wwwroot/team-management/server.cshtml");
+    }
 }
