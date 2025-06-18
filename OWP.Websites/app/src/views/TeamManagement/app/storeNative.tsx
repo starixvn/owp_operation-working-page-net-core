@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { isEqual } from 'lodash';
+import filterReducer from '../features/filter/FilterSlice';
+import teamsReducer from '../features/table/tableSlice';
+
 
 const store = configureStore({
   reducer: {
-    // some: someReducer,
-  },
-  devTools: !isEqual(process.env.NODE_ENV, 'production')
+    teams: teamsReducer,
+    filterState: filterReducer
+  }
 });
 
 export type RootState = ReturnType<typeof store.getState>;

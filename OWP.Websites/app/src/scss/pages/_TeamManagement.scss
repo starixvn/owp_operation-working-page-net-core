@@ -1,0 +1,244 @@
+.team-management-body {
+  padding: 0 10px;
+}
+
+.top-control {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 10px;
+  position: relative;
+
+  .left-control {
+    display: flex;
+    align-items: flex-end;
+
+    .filter-control-checkbox {
+      display: flex;
+      align-items: center;
+      margin: 0 20px;
+
+      label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      input {
+        background-color: initial;
+        cursor: default;
+        appearance: auto;
+        position: unset;
+      }
+    }
+
+    .filter-control {
+      display: inline-block;
+      width: 150px;
+      margin-right: 16px;
+
+      .multi-select .select-item[aria-selected='true'] input[type='checkbox']+span:after {
+        width: 4px;
+        height: 9px;
+        border: 2px solid #fff;
+        border-left: none;
+        border-top: none;
+        content: ' ';
+        position: absolute;
+        left: 6px;
+        top: 2px;
+        transform: rotatez(45deg);
+        cursor: pointer;
+        z-index: 20;
+      }
+
+      .rmsc.multi-select .dropdown-heading .dropdown-heading-dropdown-arrow {
+        display: none;
+      }
+
+      .rmsc.multi-select .dropdown-heading:after {
+        position: absolute;
+        top: 50%;
+        margin-top: -2px;
+        right: 5px;
+        content: '';
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 4px 4.5px 0 4.5px;
+        border-color: gray transparent transparent transparent;
+      }
+
+      .rmsc.multi-select .dropdown-container {
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+
+        &:focus,
+        &:focus-within {
+          outline: none;
+          box-shadow: none;
+        }
+      }
+
+      input {
+        background-color: transparent;
+      }
+    }
+  }
+}
+
+.table-wrap {
+  overflow: auto;
+  margin-top: 10px;
+  position: relative;
+  min-height: 650px;
+
+  thead {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    box-shadow: inset 1px -1px #c8ced3, inset 1px 1px #c8ced3;
+    text-align: center;
+  }
+
+  tbody {
+    th {
+      position: sticky;
+      left: 0;
+    }
+  }
+
+  th {
+    box-shadow: inset 1px 1px #c8ced3, 0 1px #c8ced3;
+  }
+}
+
+.table-team-management {
+  position: relative;
+  border-collapse: collapse;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  color: #494848;
+  font-size: 13px;
+  table-layout: fixed;
+
+  thead {
+    // background: #e3e3e3 !important; #4e73df 
+    background-color: #7691ab !important;
+    color: white;
+
+    th:last-child {
+      border-right: 1px solid #c8ced3;
+    }
+
+    tr {
+      height: 35px;
+      z-index: -1;
+    }
+  }
+
+  .team-row {
+    background-color: #f8f9fa;
+    border-left: 2px solid #007bff;
+  }
+
+  tbody {
+    tr:hover {
+      background-color: #cef3fc !important;
+    }
+
+    td {
+      width: inherit;
+    }
+  }
+
+  .table-row {
+    display: table;
+    width: 100%;
+    height: 40px;
+    border-bottom: 1px solid #e0e0e0;
+
+    &.table-row-content {
+      display: table-row;
+    }
+  }
+
+  .table-cell {
+    display: table-cell;
+    padding: 0 8px;
+    vertical-align: middle;
+    border-right: 1px solid #e0e0e0;
+  }
+
+  .table-content-wrapper {
+    position: relative;
+    height: 100%;
+  }
+
+  .table-virtual-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
+.total-record {
+  padding: 10px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.league-header-row {
+  background-color: #f5f5f5;
+  border-bottom: 2px solid #ddd;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #d0d0d0;
+  }
+
+  .expand-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 8px;
+    color: #007bff;
+    font-weight: bold;
+    padding: 2px 4px;
+    border-radius: 3px;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: #f0f0f0;
+    }
+  }
+
+  .league-header-content {
+    display: flex;
+    align-items: center;
+    color: #333;
+    font-size: 15px;
+  }
+}
+
+.team-row {
+  .table-cell {
+    border-right: 1px solid #e0e0e0;
+  }
+
+  &:hover {
+    background-color: #e9ecef;
+  }
+}
+
+.league-group-container {
+  margin-bottom: 3px;
+}
