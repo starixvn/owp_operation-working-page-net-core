@@ -197,7 +197,7 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
     {
         foreach (var @event in eventPicking)
         {
-            var filteredRAndDInfo = @event.RAndDInfo
+            var filteredRAndDInfo = @event.RAndDInfo?
                 .Where(e => !excludedUpdateTypes.Contains((short)e.UpdateTypeId))
                 .ToList();
 
