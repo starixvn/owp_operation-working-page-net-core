@@ -1,12 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import filterReducer from '../features/filter/FilterSlice';
 import leaguesReducer from '../features/table/tableSlice';
-
 
 const store = configureStore({
   reducer: {
     leagues: leaguesReducer,
-    filterState: filterReducer
   }
 });
 

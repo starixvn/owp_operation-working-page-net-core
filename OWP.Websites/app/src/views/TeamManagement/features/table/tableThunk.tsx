@@ -2,26 +2,26 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { get } from '../../../Shared/Service/Service';
 
 const getUrl = (methodRoute: string) =>
-  `/api/TeamManagement/${methodRoute}`;
+  `/api/team-management/${methodRoute}`;
 
 const getLeagues = createAsyncThunk(
-  'team-management/get-leagues',
+  'team-management/get-info',
   async ({
+    teamName,
     leagueName,
-    leagueGroup,
-    teamName
+    leagueGroup
   }: {
+    teamName: string | null;
     leagueName: string | null;
     leagueGroup: number;
-    teamName: string | null;
 
   }) => {
-    const url = getUrl('get-team-management');
+    const url = getUrl('get-info');
     const response = await get({
       url,
+      teamName,
       leagueName,
-      leagueGroup,
-      teamName
+      leagueGroup
     });
     return response.data;
   }

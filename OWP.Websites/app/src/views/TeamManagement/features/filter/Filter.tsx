@@ -14,9 +14,9 @@ const Filter = () => {
 
   const handleSearch = () => {
     dispatch(getLeagues({
+      teamName,
       leagueName,
-      leagueGroup: selectedLeagueGroup.value,
-      teamName
+      leagueGroup: selectedLeagueGroup.value
     }));
   };
 
@@ -35,6 +35,17 @@ const Filter = () => {
   return (
     <div className='top-control'>
       <div className='left-control'>
+        <div className='filter-control'>
+          <div className='label'>Team Name</div>
+          <Input
+            type='text'
+            name='team'
+            className='input-field'
+            value={teamName}
+            onChange={handleChangeTeam}
+          />
+        </div>
+
         <div className='filter-control'>
           <div className='label'>League Name</div>
           <Input
@@ -57,16 +68,7 @@ const Filter = () => {
           />
         </div>
 
-        <div className='filter-control'>
-          <div className='label'>Team Name</div>
-          <Input
-            type='text'
-            name='team'
-            className='input-field'
-            value={teamName}
-            onChange={handleChangeTeam}
-          />
-        </div>
+
 
         <div className='filter-control btn-block'>
           <button className='button-submit' onClick={handleSearch}>
