@@ -17,6 +17,20 @@ const TableBody = ({ virtualizer, flattenedRows }: TableBodyProps) => {
     dispatch(toggleLeagueExpansion(leagueId));
   };
 
+  if (!flattenedRows || flattenedRows.length === 0) {
+    return (
+      <tbody>
+        <tr>
+          <td colSpan={2} className="no-data-cell">
+            <div className="no-data-content">
+              No data
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    );
+  }
+
   return (
     <tbody>
       <tr style={{ height: `${virtualizer.getTotalSize()}px` }}>
