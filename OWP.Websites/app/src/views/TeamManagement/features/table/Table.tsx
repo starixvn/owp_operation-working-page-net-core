@@ -11,14 +11,14 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 const ROW_HEIGHT = 40;
 
 const Table = () => {
-  const { dataSource, loadingDataTable } = useAppSelector(
-    state => state.teams
+  const { leagues, loadingDataTable } = useAppSelector(
+    state => state.leagues
   );
   const { maxHeight, maxWidth } = useLayoutTable();
   const parentRef = useRef<HTMLDivElement>(null);
 
   const rowVirtualizer = useVirtualizer({
-    count: dataSource.length,
+    count: leagues.length,
     getScrollElement: () => parentRef.current,
     estimateSize: () => ROW_HEIGHT,
     overscan: 5
@@ -40,10 +40,10 @@ const Table = () => {
         }}>
         <table className='table-team-management'>
           <TableHeader />
-          <TableBody dataSource={dataSource} virtualizer={rowVirtualizer} />
+          <TableBody dataSource={leagues} virtualizer={rowVirtualizer} />
         </table>
       </div>
-      <div className='total-record'>Total record: {dataSource.length}</div>
+      <div className='total-record'>Total record: {leagues.length}</div>
     </>
   );
 };

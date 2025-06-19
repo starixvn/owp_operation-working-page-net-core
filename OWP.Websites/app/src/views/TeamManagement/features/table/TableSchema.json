@@ -2,26 +2,14 @@
   "TABLE_HEADER": [
     {
       "HEADER_KEY": "No",
-      "HEADER_NAME": "No #",
+      "HEADER_NAME": "No.",
       "WIDTH": "10%",
       "IS_FILTER": false
     },
     {
-      "HEADER_KEY": "League",
-      "HEADER_NAME": "League",
-      "WIDTH": "25%",
-      "IS_FILTER": false
-    },
-    {
       "HEADER_KEY": "Team",
-      "HEADER_NAME": "Team",
-      "WIDTH": "25%",
-      "IS_FILTER": false
-    },
-    {
-      "HEADER_KEY": "LeagueGroup",
-      "HEADER_NAME": "League Group",
-      "WIDTH": "40%",
+      "HEADER_NAME": "Team Name",
+      "WIDTH": "90%",
       "IS_FILTER": false
     }
   ]

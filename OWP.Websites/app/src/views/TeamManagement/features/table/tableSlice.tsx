@@ -1,284 +1,99 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getTeams } from './tableThunk';
-import { TDataSource } from '../../type/table';
+import { getLeagues } from './tableThunk';
+import { TLeague } from '../../type/table';
 import { REQUEST_STATUS } from '../../../Shared/Constants';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-// New type for hierarchical data
-type TLeagueGroup = {
-  leagueId: number;
-  league: string;
-  leagueGroup: string;
-  leagueGroupId: number;
-  isExpanded: boolean;
-  teams: TDataSource[];
-};
 
 const tableSlice = createSlice({
   name: 'tableSlice',
   initialState: {
     loadingDataTable: REQUEST_STATUS.idle,
-    dataSource: [] as TDataSource[],
-    leagueGroups: [
+    // leagues: [] as TLeague[],
+    leagues: [
       {
         leagueId: 1,
-        league: 'Premier League',
-        leagueGroup: 'England',
+        leagueName: 'Premier League',
+        leagueGroupName: 'England',
         leagueGroupId: 1,
         isExpanded: false,
         teams: [
-          {
-            no: '1',
-            leagueId: 1,
-            league: 'Premier League',
-            teamId: 101,
-            team: 'Manchester United',
-            leagueGroup: 'England',
-            leagueGroupId: 1
-          },
-          {
-            no: '2',
-            leagueId: 1,
-            league: 'Premier League',
-            teamId: 102,
-            team: 'Liverpool',
-            leagueGroup: 'England',
-            leagueGroupId: 1
-          },
-          {
-            no: '3',
-            leagueId: 1,
-            league: 'Premier League',
-            teamId: 103,
-            team: 'Arsenal',
-            leagueGroup: 'England',
-            leagueGroupId: 1
-          },
-          {
-            no: '4',
-            leagueId: 1,
-            league: 'Premier League',
-            teamId: 104,
-            team: 'Chelsea',
-            leagueGroup: 'England',
-            leagueGroupId: 1
-          },
-          {
-            no: '5',
-            leagueId: 1,
-            league: 'Premier League',
-            teamId: 105,
-            team: 'Manchester City',
-            leagueGroup: 'England',
-            leagueGroupId: 1
-          }
+          { teamId: 101, teamName: 'Manchester United' },
+          { teamId: 102, teamName: 'Liverpool' },
+          { teamId: 103, teamName: 'Arsenal' },
+          { teamId: 104, teamName: 'Chelsea' },
+          { teamId: 105, teamName: 'Manchester City' }
         ]
       },
       {
         leagueId: 2,
-        league: 'La Liga',
-        leagueGroup: 'Spain',
+        leagueName: 'La Liga',
+        leagueGroupName: 'Spain',
         leagueGroupId: 2,
         isExpanded: false,
         teams: [
-          {
-            no: '6',
-            leagueId: 2,
-            league: 'La Liga',
-            teamId: 201,
-            team: 'Real Madrid',
-            leagueGroup: 'Spain',
-            leagueGroupId: 2
-          },
-          {
-            no: '7',
-            leagueId: 2,
-            league: 'La Liga',
-            teamId: 202,
-            team: 'Barcelona',
-            leagueGroup: 'Spain',
-            leagueGroupId: 2
-          },
-          {
-            no: '8',
-            leagueId: 2,
-            league: 'La Liga',
-            teamId: 203,
-            team: 'Atletico Madrid',
-            leagueGroup: 'Spain',
-            leagueGroupId: 2
-          },
-          {
-            no: '9',
-            leagueId: 2,
-            league: 'La Liga',
-            teamId: 204,
-            team: 'Sevilla',
-            leagueGroup: 'Spain',
-            leagueGroupId: 2
-          }
+          { teamId: 201, teamName: 'Real Madrid' },
+          { teamId: 202, teamName: 'Barcelona' },
+          { teamId: 203, teamName: 'Atletico Madrid' },
+          { teamId: 204, teamName: 'Sevilla' }
         ]
       },
       {
         leagueId: 3,
-        league: 'Bundesliga',
-        leagueGroup: 'Germany',
+        leagueName: 'Bundesliga',
+        leagueGroupName: 'Germany',
         leagueGroupId: 3,
         isExpanded: false,
         teams: [
-          {
-            no: '10',
-            leagueId: 3,
-            league: 'Bundesliga',
-            teamId: 301,
-            team: 'Bayern Munich',
-            leagueGroup: 'Germany',
-            leagueGroupId: 3
-          },
-          {
-            no: '11',
-            leagueId: 3,
-            league: 'Bundesliga',
-            teamId: 302,
-            team: 'Borussia Dortmund',
-            leagueGroup: 'Germany',
-            leagueGroupId: 3
-          },
-          {
-            no: '12',
-            leagueId: 3,
-            league: 'Bundesliga',
-            teamId: 303,
-            team: 'RB Leipzig',
-            leagueGroup: 'Germany',
-            leagueGroupId: 3
-          },
-          {
-            no: '13',
-            leagueId: 3,
-            league: 'Bundesliga',
-            teamId: 304,
-            team: 'Bayer Leverkusen',
-            leagueGroup: 'Germany',
-            leagueGroupId: 3
-          }
+          { teamId: 301, teamName: 'Bayern Munich' },
+          { teamId: 302, teamName: 'Borussia Dortmund' },
+          { teamId: 303, teamName: 'RB Leipzig' },
+          { teamId: 304, teamName: 'Bayer Leverkusen' }
         ]
       },
       {
         leagueId: 4,
-        league: 'Serie A',
-        leagueGroup: 'Italy',
+        leagueName: 'Serie A',
+        leagueGroupName: 'Italy',
         leagueGroupId: 4,
         isExpanded: false,
         teams: [
-          {
-            no: '14',
-            leagueId: 4,
-            league: 'Serie A',
-            teamId: 401,
-            team: 'Juventus',
-            leagueGroup: 'Italy',
-            leagueGroupId: 4
-          },
-          {
-            no: '15',
-            leagueId: 4,
-            league: 'Serie A',
-            teamId: 402,
-            team: 'AC Milan',
-            leagueGroup: 'Italy',
-            leagueGroupId: 4
-          },
-          {
-            no: '16',
-            leagueId: 4,
-            league: 'Serie A',
-            teamId: 403,
-            team: 'Inter Milan',
-            leagueGroup: 'Italy',
-            leagueGroupId: 4
-          },
-          {
-            no: '17',
-            leagueId: 4,
-            league: 'Serie A',
-            teamId: 404,
-            team: 'Napoli',
-            leagueGroup: 'Italy',
-            leagueGroupId: 4
-          },
-          {
-            no: '18',
-            leagueId: 4,
-            league: 'Serie A',
-            teamId: 405,
-            team: 'Roma',
-            leagueGroup: 'Italy',
-            leagueGroupId: 4
-          }
+          { teamId: 401, teamName: 'Juventus' },
+          { teamId: 402, teamName: 'AC Milan' },
+          { teamId: 403, teamName: 'Inter Milan' },
+          { teamId: 404, teamName: 'Napoli' },
+          { teamId: 405, teamName: 'Roma' }
         ]
       },
       {
         leagueId: 5,
-        league: 'Ligue 1',
-        leagueGroup: 'France',
+        leagueName: 'Ligue 1',
+        leagueGroupName: 'France',
         leagueGroupId: 5,
         isExpanded: false,
         teams: [
-          {
-            no: '19',
-            leagueId: 5,
-            league: 'Ligue 1',
-            teamId: 501,
-            team: 'Paris Saint-Germain',
-            leagueGroup: 'France',
-            leagueGroupId: 5
-          },
-          {
-            no: '20',
-            leagueId: 5,
-            league: 'Ligue 1',
-            teamId: 502,
-            team: 'Marseille',
-            leagueGroup: 'France',
-            leagueGroupId: 5
-          },
-          {
-            no: '21',
-            leagueId: 5,
-            league: 'Ligue 1',
-            teamId: 503,
-            team: 'Lyon',
-            leagueGroup: 'France',
-            leagueGroupId: 5
-          },
-          {
-            no: '22',
-            leagueId: 5,
-            league: 'Ligue 1',
-            teamId: 504,
-            team: 'Monaco',
-            leagueGroup: 'France',
-            leagueGroupId: 5
-          }
+          { teamId: 501, teamName: 'Paris Saint-Germain' },
+          { teamId: 502, teamName: 'Marseille' },
+          { teamId: 503, teamName: 'Lyon' },
+          { teamId: 504, teamName: 'Monaco' }
         ]
       }
-    ] as TLeagueGroup[]
+    ] as TLeague[]
   },
   reducers: {
     setValue: (state, action: PayloadAction<{ leagueId: number; key: string; value: any; }>) => {
       const { leagueId, key, value } = action.payload;
-      const league = state.dataSource.find(d => d.leagueId === leagueId);
+      const league = state.leagues.find(d => d.leagueId === leagueId);
       league && ((league as any)[key] = value);
     },
 
     setDataTable: (state, action) => {
-      state.dataSource = action.payload;
+      state.leagues = action.payload;
     },
 
     toggleLeagueExpansion: (state, action: PayloadAction<number>) => {
       const leagueId = action.payload;
-      const leagueGroup = state.leagueGroups.find(lg => lg.leagueId === leagueId);
+      const leagueGroup = state.leagues.find(lg => lg.leagueId === leagueId);
       if (leagueGroup) {
         leagueGroup.isExpanded = !leagueGroup.isExpanded;
       }
@@ -286,17 +101,17 @@ const tableSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(getTeams.pending, state => {
+      .addCase(getLeagues.pending, state => {
         state.loadingDataTable = REQUEST_STATUS.pending;
       })
       .addCase(
-        getTeams.fulfilled,
+        getLeagues.fulfilled,
         (state, { payload }) => {
           state.loadingDataTable = REQUEST_STATUS.idle;
-          state.dataSource = payload;
+          state.leagues = payload;
         }
       )
-      .addCase(getTeams.rejected, state => {
+      .addCase(getLeagues.rejected, state => {
         state.loadingDataTable = REQUEST_STATUS.idle;
       });
   }

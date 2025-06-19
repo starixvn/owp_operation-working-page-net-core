@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import filterReducer from '../features/filter/FilterSlice';
-import teamsReducer from '../features/table/tableSlice';
+import leaguesReducer from '../features/table/tableSlice';
 
 
 const store = configureStore({
   reducer: {
-    teams: teamsReducer,
+    leagues: leaguesReducer,
     filterState: filterReducer
   }
 });

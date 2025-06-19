@@ -1,11 +1,15 @@
-type TDataSource = {
-  no: string;
+type TLeague = {
   leagueId: number;
-  league: string;
-  teamId: number;
-  team: string;
-  leagueGroup: string;
+  leagueName: string;
+  leagueGroupName: string;
   leagueGroupId: number;
+  isExpanded: boolean;
+  teams: TTeam[];
+};
+
+type TTeam = {
+  teamId: number;
+  teamName: string;
 };
 
 type TCommonCell = {
@@ -16,6 +20,7 @@ type TCommonCell = {
 };
 
 export {
-  TDataSource,
-  TCommonCell
+  TLeague,
+  TCommonCell,
+  TTeam
 };

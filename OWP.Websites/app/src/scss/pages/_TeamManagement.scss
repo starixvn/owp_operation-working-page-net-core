@@ -16,71 +16,18 @@
     display: flex;
     align-items: flex-end;
 
-    .filter-control-checkbox {
-      display: flex;
-      align-items: center;
-      margin: 0 20px;
-
-      label {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-      }
-
-      input {
-        background-color: initial;
-        cursor: default;
-        appearance: auto;
-        position: unset;
-      }
-    }
-
     .filter-control {
       display: inline-block;
-      width: 150px;
-      margin-right: 16px;
+      width: 180px;
+      margin-right: 26px;
 
-      .multi-select .select-item[aria-selected='true'] input[type='checkbox']+span:after {
-        width: 4px;
-        height: 9px;
-        border: 2px solid #fff;
-        border-left: none;
-        border-top: none;
-        content: ' ';
-        position: absolute;
-        left: 6px;
-        top: 2px;
-        transform: rotatez(45deg);
-        cursor: pointer;
-        z-index: 20;
-      }
+      .basic-multi-select {
+        .select__menu {
+          z-index: 3;
+        }
 
-      .rmsc.multi-select .dropdown-heading .dropdown-heading-dropdown-arrow {
-        display: none;
-      }
-
-      .rmsc.multi-select .dropdown-heading:after {
-        position: absolute;
-        top: 50%;
-        margin-top: -2px;
-        right: 5px;
-        content: '';
-        width: 0;
-        height: 0;
-        border-style: solid;
-        border-width: 4px 4.5px 0 4.5px;
-        border-color: gray transparent transparent transparent;
-      }
-
-      .rmsc.multi-select .dropdown-container {
-        border: 0;
-        border-radius: 0;
-        background: transparent;
-
-        &:focus,
-        &:focus-within {
-          outline: none;
-          box-shadow: none;
+        .select__control {
+          height: 28px;
         }
       }
 
@@ -96,6 +43,15 @@
   margin-top: 10px;
   position: relative;
   min-height: 650px;
+  border-radius: 8px;
+
+  th {
+    box-shadow: inset -1px 0 #c8ced3, 2px 0 4px rgba(0, 0, 0, 0.1) !important;
+
+    &:last-child {
+      box-shadow: none !important;
+    }
+  }
 
   thead {
     position: sticky;
@@ -127,41 +83,110 @@
   font-size: 13px;
   table-layout: fixed;
 
-  thead {
-    // background: #e3e3e3 !important; #4e73df 
-    background-color: #7691ab !important;
+  thead th {
+    background-color: #4e73df;
     color: white;
-
-    th:last-child {
-      border-right: 1px solid #c8ced3;
-    }
-
-    tr {
-      height: 35px;
-      z-index: -1;
-    }
+    font-weight: 600;
+    padding: 8px 10px;
   }
+
+  // thead {
+  //   // background: #e3e3e3 !important; #4e73df 
+  //   background-color: #7691ab !important;
+  //   color: white;
+
+  //   th:last-child {
+  //     border-right: 1px solid #c8ced3;
+  //   }
+
+  //   tr {
+  //     height: 35px;
+  //     z-index: -1;
+  //   }
+  // }
 
   .team-row {
-    background-color: #f8f9fa;
-    border-left: 2px solid #007bff;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-left: 3px solid #007bff;
+    border-radius: 0 8px 8px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin: 2px 0;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0, 123, 255, 0.1), transparent);
+    }
+
+    .table-cell {
+      border-right: 1px solid rgba(224, 224, 224, 0.6);
+      padding: 6px 8px;
+      position: relative;
+      transition: all 0.2s ease;
+    }
+
+    &:hover {
+      background: linear-gradient(135deg, #f8f9ff 0%, #e3f2fd 100%);
+      box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+      transform: translateY(-1px);
+      border-left-color: #0056b3;
+
+      .table-cell {
+        border-right-color: rgba(0, 123, 255, 0.2);
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 3px;
+        height: 100%;
+        background: linear-gradient(180deg, #007bff, #0056b3);
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+      }
+    }
+
+    &:nth-child(even) {
+      background: linear-gradient(135deg, #fafbfc 0%, #f1f3f4 100%);
+
+      &:hover {
+        background: linear-gradient(135deg, #f0f4ff 0%, #e1f5fe 100%);
+      }
+    }
+
+    // Active/selected state
+    &.active {
+      background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+      border-left-color: #1976d2;
+      box-shadow: 0 4px 12px rgba(25, 118, 210, 0.2);
+
+      .table-cell {
+        border-right-color: rgba(25, 118, 210, 0.3);
+      }
+    }
+
+    // Focus state for accessibility
+    &:focus-within {
+      outline: 2px solid #007bff;
+      outline-offset: -2px;
+    }
   }
 
-  tbody {
-    tr:hover {
-      background-color: #cef3fc !important;
-    }
-
-    td {
-      width: inherit;
-    }
+  .league-container:not(:last-child) {
+    border-bottom: 1px solid #e0e0e0;
   }
 
   .table-row {
     display: table;
     width: 100%;
-    height: 40px;
-    border-bottom: 1px solid #e0e0e0;
 
     &.table-row-content {
       display: table-row;
@@ -170,9 +195,7 @@
 
   .table-cell {
     display: table-cell;
-    padding: 0 8px;
     vertical-align: middle;
-    border-right: 1px solid #e0e0e0;
   }
 
   .table-content-wrapper {
@@ -195,14 +218,8 @@
 }
 
 .league-header-row {
-  background-color: #f5f5f5;
-  border-bottom: 2px solid #ddd;
-  cursor: pointer;
+  background-color: #f2f6fc;
   transition: background-color 0.2s ease;
-
-  &:hover {
-    background-color: #d0d0d0;
-  }
 
   .expand-button {
     background: none;
@@ -215,10 +232,6 @@
     padding: 2px 4px;
     border-radius: 3px;
     transition: background-color 0.2s;
-
-    &:hover {
-      background-color: #f0f0f0;
-    }
   }
 
   .league-header-content {
@@ -226,19 +239,12 @@
     align-items: center;
     color: #333;
     font-size: 15px;
-  }
-}
+    background-color: #f2f6fc;
+    color: #2e59d9;
+    padding: 6px 8px;
 
-.team-row {
-  .table-cell {
-    border-right: 1px solid #e0e0e0;
+    &:hover {
+      background-color: #d6e4f9;
+    }
   }
-
-  &:hover {
-    background-color: #e9ecef;
-  }
-}
-
-.league-group-container {
-  margin-bottom: 3px;
 }

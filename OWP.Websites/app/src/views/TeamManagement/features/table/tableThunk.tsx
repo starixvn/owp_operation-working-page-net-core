@@ -4,22 +4,29 @@ import { get } from '../../../Shared/Service/Service';
 const getUrl = (methodRoute: string) =>
   `/api/TeamManagement/${methodRoute}`;
 
-const getTeams = createAsyncThunk(
-  'team-management/get-team',
+const getLeagues = createAsyncThunk(
+  'team-management/get-leagues',
   async ({
-    leagueGroup
+    leagueName,
+    leagueGroup,
+    teamName
   }: {
-    leagueGroup: string | null;
+    leagueName: string | null;
+    leagueGroup: number;
+    teamName: string | null;
+
   }) => {
     const url = getUrl('get-team-management');
     const response = await get({
       url,
-      leagueGroup
+      leagueName,
+      leagueGroup,
+      teamName
     });
     return response.data;
   }
 );
 
 export {
-  getTeams
+  getLeagues
 };
