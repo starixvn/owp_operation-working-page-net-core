@@ -300,6 +300,9 @@
         <Setting Key="OWP_LeagueManagement_GetTeamInfo" SpName="OWP_LeagueManagement_GetTeamInfo" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_LeagueManagement_GetLinkLeagueAndTeam" SpName="OWP_LeagueManagement_GetLinkLeagueAndTeam" DbName="DBOWP.bodb_OWP.wsv_owp" />
     </Function>
+    <Function Name="TeamManagement">
+        <Setting Key="OWP_TeamManagement_GetInfoTeam" SpName="OWP_TeamManagement_GetInfoTeam" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+    </Function>
     <Function Name="MaxbetSetting">
         <Setting Key="OWP_MaxbetSetting_Update" SpName="OWP_MaxbetSetting_Update" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_MaxbetSetting_Get" SpName="OWP_MaxbetSetting_Get" DbName="DBOWP.bodb_OWP.wsv_owp" />

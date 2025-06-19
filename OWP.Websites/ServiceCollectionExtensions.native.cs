@@ -38,6 +38,7 @@ using OWP.TicketSetting.TicketTypeRecipient;
 using StackExchange.Redis;
 using System.Reflection;
 using OWP.ProviderVerification.ProviderVerification.QueryProvider;
+using OWP.TeamManagement;
 
 namespace OWP.Websites;
 
@@ -196,6 +197,7 @@ public static class ServiceCollectionExtensions
         services.AddMessageManagementService();
         services.AddOddsCompilerService();
         services.AddNotificationSetting();
+        services.AddTeamManagementService();
         return services;
     }
 
@@ -219,6 +221,7 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(LAReportController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(TraderReportController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(LeagueApiController).GetTypeInfo().Assembly));
+        services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(TeamApiController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(TicketEventController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(AssignmentUploadingApiController).GetTypeInfo().Assembly));
         services.AddMediatR(x => x.RegisterServicesFromAssemblies(typeof(Event.TaskList.TaskListController).GetTypeInfo().Assembly));
