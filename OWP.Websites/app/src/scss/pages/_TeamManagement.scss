@@ -87,28 +87,11 @@
     background-color: #4e73df;
     color: white;
     font-weight: 600;
-    padding: 8px 10px;
+    padding: 6px 8px;
   }
-
-  // thead {
-  //   // background: #e3e3e3 !important; #4e73df 
-  //   background-color: #7691ab !important;
-  //   color: white;
-
-  //   th:last-child {
-  //     border-right: 1px solid #c8ced3;
-  //   }
-
-  //   tr {
-  //     height: 35px;
-  //     z-index: -1;
-  //   }
-  // }
 
   .team-row {
     background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-    border-left: 3px solid #007bff;
-    border-radius: 0 8px 8px 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     margin: 2px 0;
@@ -127,7 +110,7 @@
 
     .table-cell {
       border-right: 1px solid rgba(224, 224, 224, 0.6);
-      padding: 6px 8px;
+      padding: 2px 8px;
       position: relative;
       transition: all 0.2s ease;
     }
@@ -162,7 +145,6 @@
       }
     }
 
-    // Active/selected state
     &.active {
       background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
       border-left-color: #1976d2;
@@ -173,7 +155,6 @@
       }
     }
 
-    // Focus state for accessibility
     &:focus-within {
       outline: 2px solid #007bff;
       outline-offset: -2px;
@@ -202,13 +183,6 @@
     position: relative;
     height: 100%;
   }
-
-  .table-virtual-content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-  }
 }
 
 .total-record {
@@ -220,6 +194,7 @@
 .league-header-row {
   background-color: #f2f6fc;
   transition: background-color 0.2s ease;
+  border-bottom: 1px solid #e0e0e0;
 
   .expand-button {
     background: none;
@@ -238,10 +213,10 @@
     display: flex;
     align-items: center;
     color: #333;
-    font-size: 15px;
+    font-size: 13px;
     background-color: #f2f6fc;
     color: #2e59d9;
-    padding: 6px 8px;
+    padding: 5px 8px;
 
     &:hover {
       background-color: #d6e4f9;

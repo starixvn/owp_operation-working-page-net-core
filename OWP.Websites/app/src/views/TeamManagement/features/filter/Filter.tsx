@@ -36,7 +36,7 @@ const Filter = () => {
     <div className='top-control'>
       <div className='left-control'>
         <div className='filter-control'>
-          <div className='label'>Team Name</div>
+          <div className='label'>Team</div>
           <Input
             type='text'
             name='team'
@@ -47,7 +47,7 @@ const Filter = () => {
         </div>
 
         <div className='filter-control'>
-          <div className='label'>League Name</div>
+          <div className='label'>League</div>
           <Input
             type='text'
             name='league'

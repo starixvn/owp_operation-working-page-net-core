@@ -4,11 +4,11 @@ import { REQUEST_STATUS } from '../../../Shared/Constants';
 import Loading from '../../../components/Loading';
 import TableHeader from './TableHeader';
 import useLayoutTable from '../../../Shared/customHook/useLayoutTable';
-import { useRef } from 'react';
+import { useRef, useMemo } from 'react';
 import TableBody from './TableBody';
 import { useVirtualizer } from '@tanstack/react-virtual';
 
-const ROW_HEIGHT = 40;
+const ROW_HEIGHT = 36;
 
 const Table = () => {
   const { leagues, loadingDataTable } = useAppSelector(
@@ -17,8 +17,43 @@ const Table = () => {
   const { maxHeight, maxWidth } = useLayoutTable();
   const parentRef = useRef<HTMLDivElement>(null);
 
+  const totalRows = useMemo(() => {
+    return leagues.reduce((total, league) => {
+      let leagueRows = 1;
+      if (league.IsExpanded) {
+        leagueRows += league.Teams.length;
+      }
+      return total + leagueRows;
+    }, 0);
+  }, [leagues]);
+
+  const flattenedRows = useMemo(() => {
+    const rows: Array<{ type: 'league' | 'team', leagueIndex: number, teamIndex?: number, data: any; }> = [];
+
+    leagues.forEach((league, leagueIndex) => {
+      rows.push({
+        type: 'league',
+        leagueIndex,
+        data: league
+      });
+
+      if (league.IsExpanded) {
+        league.Teams.forEach((team, teamIndex) => {
+          rows.push({
+            type: 'team',
+            leagueIndex,
+            teamIndex,
+            data: team
+          });
+        });
+      }
+    });
+
+    return rows;
+  }, [leagues]);
+
   const rowVirtualizer = useVirtualizer({
-    count: leagues.length,
+    count: totalRows,
     getScrollElement: () => parentRef.current,
     estimateSize: () => ROW_HEIGHT,
     overscan: 5
@@ -41,10 +76,14 @@ const Table = () => {
         {!isEquals(loadingDataTable, 'first-time') &&
           <table className='table-team-management'>
             <TableHeader />
-            <TableBody dataSource={leagues} virtualizer={rowVirtualizer} />
+            <TableBody
+              dataSource={leagues}
+              virtualizer={rowVirtualizer}
+              flattenedRows={flattenedRows}
+            />
           </table>}
       </div>
-      <div className='total-record'>Total record: {leagues.length}</div>
+      <div className='total-record'>Total record: {totalRows}</div>
     </>
   );
 };
