@@ -6,12 +6,11 @@ import { useAppDispatch } from '../../app/hookNative';
 import { toggleLeagueExpansion } from './tableSlice';
 
 interface TableBodyProps {
-  dataSource: TLeague[];
   virtualizer: Virtualizer<HTMLDivElement, Element>;
   flattenedRows: Array<{ type: 'league' | 'team', leagueIndex: number, teamIndex?: number, data: any; }>;
 }
 
-const TableBody = ({ dataSource, virtualizer, flattenedRows }: TableBodyProps) => {
+const TableBody = ({ virtualizer, flattenedRows }: TableBodyProps) => {
   const dispatch = useAppDispatch();
 
   const handleToggleLeague = (leagueId: number) => {

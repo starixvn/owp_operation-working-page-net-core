@@ -77,13 +77,12 @@ const Table = () => {
           <table className='table-team-management'>
             <TableHeader />
             <TableBody
-              dataSource={leagues}
               virtualizer={rowVirtualizer}
               flattenedRows={flattenedRows}
             />
           </table>}
       </div>
-      <div className='total-record'>Total record: {totalRows}</div>
+      <div className='total-record'>Total record: {leagues.length}</div>
     </>
   );
 };
