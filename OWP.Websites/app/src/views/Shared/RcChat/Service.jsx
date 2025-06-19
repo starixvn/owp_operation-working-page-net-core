@@ -8,16 +8,8 @@ const getServerInfo = async () => {
 };
 
 const getServerUrl = async () => {
-  const cachedUrl = localStorage.getItem('chatServerUrl');
-
-  if (cachedUrl) {
-    return cachedUrl;
-  }
-
   const serverInfo = await getServerInfo();
   const url = serverInfo.url;
-
-  localStorage.setItem('chatServerUrl', url);
 
   return url;
 };
