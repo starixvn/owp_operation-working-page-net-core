@@ -4,7 +4,7 @@ import LoginRocketChatFailIcon from '../../assets/svg-element/LoginRocketChatFai
 
 const RocketChatNative = () => {
   const iframeRef = useRef(null);
-  const { authToken, error } = useRocketChat();
+  const { authToken, error, chatUrl } = useRocketChat();
 
   if (error?.hasError && error?.statusCode === 401) {
     return (
@@ -41,13 +41,7 @@ const RocketChatNative = () => {
         title='Rocket.Chat'
         allow='microphone; clipboard-write; clipboard-read'
         style={{ border: 'none' }}
-        src={
-          authToken
-            ? `${
-                import.meta.env.VITE_CHAT_SEVER_URL
-              }/home?resumeToken=${authToken}`
-            : ''
-        }
+        src={authToken ? `${chatUrl}/home?resumeToken=${authToken}` : ''}
       />
     </div>
   );

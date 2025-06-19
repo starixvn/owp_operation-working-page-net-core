@@ -1,5 +1,7 @@
+import { useEffect, useState } from 'react';
 import { useAppSelector } from '../../app/hooks';
 import { RootState } from '../../app/storeNative';
+import { get } from '../../../Shared/Service/Service';
 
 type TDropdownActionHeader = {
   refValue: React.RefObject<HTMLDivElement>;
@@ -17,14 +19,14 @@ interface ActionConfig {
 }
 
 const BASE_URLS = {
-  Saba: 'http://live.oneops.net/SabaTrader/SabaMultipleControl.aspx',
-  RT3: 'http://live.oneops.net/RobotTrader3/Robot3MulControl.aspx'
+  Saba: '/SabaTrader/SabaMultipleControl.aspx',
+  RT3: '/RobotTrader3/Robot3MulControl.aspx'
 } as const;
 
-const useActionConfigs = (firstMatchCheckedIsSaba?: boolean) => {
+const useActionConfigs = (tradingPageUrl: string, firstMatchCheckedIsSaba?: boolean) => {
   return {
     Saba: {
-      url: BASE_URLS.Saba,
+      url: `${tradingPageUrl}${BASE_URLS.Saba}`,
       paramName: 'MatchIds',
       label: 'Saba Batch',
       isDisabled:
@@ -32,7 +34,7 @@ const useActionConfigs = (firstMatchCheckedIsSaba?: boolean) => {
         firstMatchCheckedIsSaba === false
     },
     RT3: {
-      url: BASE_URLS.RT3,
+      url: `${tradingPageUrl}${BASE_URLS.RT3}`,
       paramName: 'matchID',
       label: 'RT3 Batch',
       isDisabled:
@@ -72,7 +74,10 @@ const DropdownActionHeader = ({
   const matchesSelected = useAppSelector(
     (state: RootState) => state.taskList.matchesSelected
   );
-  const actionConfigs = useActionConfigs(firstMatchCheckedIsSaba);
+
+  const [tradingUrl, setTradingUrl] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(true);
+  const actionConfigs = useActionConfigs(tradingUrl, firstMatchCheckedIsSaba);
   const buildUrl = useUrlBuilder();
 
   const handleOpenLink = (key: ActionKey) => {
@@ -84,6 +89,19 @@ const DropdownActionHeader = ({
     closePopup();
   };
 
+  useEffect(() => {
+    (async () => {
+      const url = `/api/Configuration/soccer/get`;
+      const response = await get({ url });
+      const { tradingPage } = response.data;
+      setTradingUrl(tradingPage);
+      setLoading(false);
+    })();
+  }, []);
+
+  if (loading) {
+    return null;
+  }
   return (
     <div className='dropdown-action is-show' ref={refValue}>
       {Object.entries(actionConfigs).map(([key, config]) => (

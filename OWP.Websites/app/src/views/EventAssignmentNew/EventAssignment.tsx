@@ -17,8 +17,9 @@ import queryDataTableThunk from './table/queryDataTableThunk';
 import queryFilterOptionsThunk from './filter/queryFilterOptionsThunk';
 import NewSpecialEvent from './newEvent/NewSpecialEvent';
 import EventDetail from './eventDetail/EventDetail';
-
+import useQueryTradingInfo from '../Shared/customHook/useQueryTradingInfo';
 const EventAssignment = () => {
+  useQueryTradingInfo();
   const stableDispatch = useAppDispatch();
   const loading = useAppSelector(
     state => state.policy.loading,

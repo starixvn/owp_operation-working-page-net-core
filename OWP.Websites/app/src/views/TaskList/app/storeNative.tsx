@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { isEqual } from 'lodash';
 import taskListReducer from '../features/table/taskListSlice';
 import createTicketBoardReducer from '../../Shared/createTicketNew/createTicketBoardSliceNew';
 import chatBoardReducer from '../../Shared/chatBoardNew/chatBoardSlice';
 import createMultiplePolicySlice from '../../Shared/permission/multiplePolicySlice';
 import ticketListSlice from '../../Shared/ticketEvent/component/ticketListSlice';
 import signalREventTicketSlice from '../../Shared/ticketEvent/signalR/signalREventTicketSlice';
+import tradingPageInfoSlice from '../../Shared/tradingPage/tradingPageInfoSlice';
 
 const store = configureStore({
   reducer: {
@@ -14,7 +14,8 @@ const store = configureStore({
     createTicketBoard: createTicketBoardReducer,
     pagePolicy: createMultiplePolicySlice('pagePolicy'),
     ticketList: ticketListSlice,
-    signalREventTicket: signalREventTicketSlice
+    signalREventTicket: signalREventTicketSlice,
+    tradingPageInfo: tradingPageInfoSlice
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

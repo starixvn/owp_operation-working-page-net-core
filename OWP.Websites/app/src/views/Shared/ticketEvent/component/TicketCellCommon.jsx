@@ -29,6 +29,7 @@ import { IconRocket, IconRocketChat } from '../../common/icons/common-icons';
 import { openNewChattingTab } from '../../Utils';
 import { createDiscussionThunk } from '../../../TaskList/features/table/tableThunk';
 import { setDataSignalR } from '../../../TaskList/features/table/taskListSlice';
+import { getServerUrl } from '../../RcChat/Service';
 
 const propTypes = {
   allowQuickAdd: PropTypes.bool,
@@ -156,9 +157,7 @@ const TicketCellCommon = props => {
       const left = (window.innerWidth - width) / 2;
       const top = (window.innerHeight - height) / 2;
 
-      const baseUrl = `${
-        import.meta.env.VITE_CHAT_SEVER_URL
-      }/group/${discussionName}`;
+      const baseUrl = `${await getServerUrl()}/group/${discussionName}`;
       const params = new URLSearchParams({
         layout: 'embedded'
       });

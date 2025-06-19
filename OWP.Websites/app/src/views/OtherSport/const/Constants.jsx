@@ -1,3 +1,3 @@
 const netCoreURLOtherSport = `/api/OtherSport`;
-
-export { netCoreURLOtherSport };
+const netCoreURLConfiguration = `/api/Configuration`;
+export { netCoreURLOtherSport, netCoreURLConfiguration };

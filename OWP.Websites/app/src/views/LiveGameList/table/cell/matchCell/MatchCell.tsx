@@ -6,6 +6,7 @@ import useStableDispatch from '../../../../Shared/customHook/useStableDispatch';
 import { openPopupDetail } from '../../tableSlice/tableSlice';
 import { two, three } from '../../../LiveGameListConst.json';
 import { AppContext } from '../../../../Shared/Context';
+import store from '../../../app/storeNative';
 
 const MatchCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
   const {
@@ -23,6 +24,7 @@ const MatchCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
     MinorBettypeId
   } = dataSource[rowIndex];
 
+  const { laTradingPage, tradingPage } = store.getState().tradingPageInfo.info;
   const dispatch = useStableDispatch();
   const dataLength = dataSource.length;
   const threeLastRow = [dataLength - 1, dataLength - two, dataLength - three];
@@ -50,37 +52,37 @@ const MatchCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
   };
 
   return (
-    <>
-      <div className='match-cell'>
-        <div onClick={handleOpenLiveDetail} className='open-live-detail'>
-          <p className='home-team'>{Home}</p>
-          <p className='away-team'>{Away}</p>
-        </div>
-        {MatchCode && <p className='match-code'> {MatchCode}</p>}
-        <div className='list-button'>
-          {AdminSiteId > 0 && (
-            <>
-              <Button className='button-link-trader' id={`Event${rowIndex}`}>
-                <span className='icon-link'></span>
-              </Button>
-              <EventPopup
-                className={className}
-                adminSiteId={AdminSiteId}
-                isFantasy={IsFantasy}
-                rowIndex={rowIndex}
-                minorBettypeId={MinorBettypeId}
-                league={League}
-              />
-            </>
-          )}
-          <>
-            <Button className='btn-copy-content' onClick={handleToCopy}>
-              <span className='icon-content_copy'></span>
-            </Button>
-          </>
-        </div>
+    <div className='match-cell'>
+      <div onClick={handleOpenLiveDetail} className='open-live-detail'>
+        <p className='home-team'>{Home}</p>
+        <p className='away-team'>{Away}</p>
       </div>
-    </>
+      {MatchCode && <p className='match-code'> {MatchCode}</p>}
+      <div className='list-button'>
+        {AdminSiteId > 0 && (
+          <>
+            <Button className='button-link-trader' id={`Event${rowIndex}`}>
+              <span className='icon-link'></span>
+            </Button>
+            <EventPopup
+              className={className}
+              adminSiteId={AdminSiteId}
+              isFantasy={IsFantasy}
+              rowIndex={rowIndex}
+              minorBettypeId={MinorBettypeId}
+              league={League}
+              laTradingPage={laTradingPage}
+              tradingPage={tradingPage}
+            />
+          </>
+        )}
+        <>
+          <Button className='btn-copy-content' onClick={handleToCopy}>
+            <span className='icon-content_copy'></span>
+          </Button>
+        </>
+      </div>
+    </div>
   );
 };
 

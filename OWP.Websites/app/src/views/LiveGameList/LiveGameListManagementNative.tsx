@@ -13,8 +13,8 @@ import { setUserId } from './table/tableSlice/tableSlice';
 import { useDispatch } from 'react-redux';
 import PopupDetail from './component/PopupDetail';
 
-import { useSelector } from 'react-redux';
-import { RootState } from './app/storeNative';
+import useQueryTradingInfo from '../Shared/customHook/useQueryTradingInfo';
+
 import LiveGameListTable from './table/LiveGameListTable';
 
 type CreatorInfo = {
@@ -26,6 +26,7 @@ type CreatorInfo = {
 };
 
 const LiveGameListManagementNative = () => {
+  useQueryTradingInfo();
   const stableDispatch = useDispatch();
 
   const pagePermissionModel = usePermission(

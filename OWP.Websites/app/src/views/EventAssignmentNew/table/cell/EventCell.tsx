@@ -9,6 +9,7 @@ import { setNewEventInfo } from '../../newEvent/newEventSlice';
 import { setDetailEventInfo } from '../../eventDetail/eventDetailSlice';
 
 const EventCell = (props: TCellModel) => {
+  const { laTradingPage, tradingPage } = store.getState().tradingPageInfo.info;
   const dispatch = useAppDispatch();
   const {
     policy: {
@@ -85,6 +86,8 @@ const EventCell = (props: TCellModel) => {
             rowIndex={rowIndex}
             minorBettypeId={event.MinorBettypeId}
             league={event.League}
+            laTradingPage={laTradingPage}
+            tradingPage={tradingPage}
           />
         </>
       )}

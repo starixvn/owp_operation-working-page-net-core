@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import AuthorizeService from '../../Authorize/Service';
 import { FunctionKeys } from '../Constants';
 import CryptoJS from 'crypto-js';
+import { getServerUrl } from '../RcChat/Service';
 
 const STORAGE_KEYS = {
   TOKEN: 'rc_token',
@@ -10,21 +11,20 @@ const STORAGE_KEYS = {
   EXPIRY: 'rc_expiry'
 };
 
-const getEncryptionKey = () => {
+const getEncryptionKey = async () => {
   const domain = window.location.hostname;
-  return CryptoJS.SHA256(
-    `${domain}_${import.meta.env.VITE_CHAT_SEVER_URL}`
-  ).toString();
+  const chatUrl = await getServerUrl();
+  return CryptoJS.SHA256(`${domain}_${chatUrl}`).toString();
 };
 
-const encryptData = data => {
-  const key = getEncryptionKey();
+const encryptData = async data => {
+  const key = await getEncryptionKey();
   return CryptoJS.AES.encrypt(JSON.stringify(data), key).toString();
 };
 
-const decryptData = encryptedData => {
+const decryptData = async encryptedData => {
   try {
-    const key = getEncryptionKey();
+    const key = await getEncryptionKey();
     const bytes = CryptoJS.AES.decrypt(encryptedData, key);
     return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
   } catch (error) {
@@ -33,13 +33,13 @@ const decryptData = encryptedData => {
   }
 };
 
-const getStoredAuth = () => {
+const getStoredAuth = async () => {
   const encryptedExpiry = localStorage.getItem(STORAGE_KEYS.EXPIRY);
   if (!encryptedExpiry) {
     return null;
   }
 
-  const expiry = decryptData(encryptedExpiry);
+  const expiry = await decryptData(encryptedExpiry);
   if (!expiry || new Date().getTime() > parseInt(expiry)) {
     clearStorage();
     return null;
@@ -55,9 +55,9 @@ const getStoredAuth = () => {
   }
 
   return {
-    token: decryptData(encryptedToken),
-    username: decryptData(encryptedUsername),
-    userId: decryptData(encryptedUserId)
+    token: await decryptData(encryptedToken),
+    username: await decryptData(encryptedUsername),
+    userId: await decryptData(encryptedUserId)
   };
 };
 
@@ -65,12 +65,15 @@ const clearStorage = () => {
   Object.values(STORAGE_KEYS).forEach(key => localStorage.removeItem(key));
 };
 
-const storeAuth = ({ token, username, userId }) => {
+const storeAuth = async ({ token, username, userId }) => {
   const expiry = new Date().getTime() + 24 * 60 * 60 * 1000;
-  localStorage.setItem(STORAGE_KEYS.TOKEN, encryptData(token));
-  localStorage.setItem(STORAGE_KEYS.USERNAME, encryptData(username));
-  localStorage.setItem(STORAGE_KEYS.USER_ID, encryptData(userId));
-  localStorage.setItem(STORAGE_KEYS.EXPIRY, encryptData(expiry.toString()));
+  localStorage.setItem(STORAGE_KEYS.TOKEN, await encryptData(token));
+  localStorage.setItem(STORAGE_KEYS.USERNAME, await encryptData(username));
+  localStorage.setItem(STORAGE_KEYS.USER_ID, await encryptData(userId));
+  localStorage.setItem(
+    STORAGE_KEYS.EXPIRY,
+    await encryptData(expiry.toString())
+  );
 };
 
 const verifyToken = async (token, userId, chatUrl) => {
@@ -132,7 +135,7 @@ const handleReLogin = async (policy, chatUrl) => {
     await loginToRocketChat(policy.Username, policy.RawPassword, chatUrl);
 
   if (!hasError) {
-    storeAuth({
+    await storeAuth({
       token,
       username: policy.Username,
       userId
@@ -154,7 +157,7 @@ const handleReLogin = async (policy, chatUrl) => {
 };
 
 const loginWithTokenFromStore = async (policy, chatUrl) => {
-  const storedAuth = getStoredAuth();
+  const storedAuth = await getStoredAuth();
 
   if (
     storedAuth?.token &&
@@ -188,12 +191,12 @@ const useRocketChat = () => {
   const [authToken, setAuthToken] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-
+  const [chatUrl, setChatUrl] = useState(null);
   useEffect(() => {
     const authenticate = async () => {
       setLoading(true);
       try {
-        const chatUrl = import.meta.env.VITE_CHAT_SEVER_URL;
+        const chatUrl = await getServerUrl();
         const policy = await AuthorizeService.authorize(
           FunctionKeys.RocketChat
         );
@@ -202,6 +205,7 @@ const useRocketChat = () => {
         if (!loginResult.hasError) {
           setAuthToken(loginResult.token);
           setError(null);
+          setChatUrl(chatUrl);
           return;
         }
 
@@ -209,9 +213,11 @@ const useRocketChat = () => {
         if (!loginResult.hasError) {
           setAuthToken(loginResult.token);
           setError(null);
+          setChatUrl(chatUrl);
           return;
         }
         setError(loginResult);
+        setChatUrl(chatUrl);
       } finally {
         setLoading(false);
       }
@@ -220,7 +226,7 @@ const useRocketChat = () => {
     authenticate();
   }, [setAuthToken, setError]);
 
-  return { authToken, error, loading };
+  return { authToken, error, loading, chatUrl };
 };
 
 export default useRocketChat;

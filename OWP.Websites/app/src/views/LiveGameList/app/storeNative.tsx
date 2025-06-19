@@ -5,6 +5,7 @@ import eventReducer from '../table/tableSlice/tableSlice';
 import createMultiplePolicySlice from '../../Shared/permission/multiplePolicySlice';
 import ticketListSlice from '../../Shared/ticketEvent/component/ticketListSlice';
 import signalREventTicketSlice from '../../Shared/ticketEvent/signalR/signalREventTicketSlice';
+import tradingPageInfoSlice from '../../Shared/tradingPage/tradingPageInfoSlice';
 
 import { isEqual } from 'lodash';
 
@@ -15,7 +16,8 @@ const store = configureStore({
     ticketList: ticketListSlice,
     signalREventTicket: signalREventTicketSlice,
     pagePolicy: createMultiplePolicySlice('pagePolicy'),
-    events: eventReducer
+    events: eventReducer,
+    tradingPageInfo: tradingPageInfoSlice
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

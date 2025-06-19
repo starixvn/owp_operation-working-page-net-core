@@ -6,6 +6,7 @@ import { AppContext } from '../../../../Shared/Context';
 import useStableDispatch from '../../../../Shared/customHook/useStableDispatch';
 import { openPopupDetail } from '../taskListSlice';
 import { two, three } from '../../const/TableSchema.json';
+import store from '../../../app/storeNative';
 
 const MatchContainLinkDetailCell = (props: CellProps) => {
   const { rowIndex } = props;
@@ -23,6 +24,8 @@ const MatchContainLinkDetailCell = (props: CellProps) => {
     IsAllowedToViewDetail,
     OWPMatchId
   } = props.dataSource;
+  const { laTradingPage, tradingPage } = store.getState().tradingPageInfo.info;
+
   const { detailInformationPolicy } = useContext(AppContext);
   const dispatch = useStableDispatch();
   const dataLength = props.dataLength ?? 0;
@@ -73,6 +76,8 @@ const MatchContainLinkDetailCell = (props: CellProps) => {
           rowIndex={rowIndex}
           minorBettypeId={MinorBettypeId}
           league={League}
+          laTradingPage={laTradingPage}
+          tradingPage={tradingPage}
         />
       </>
     );
