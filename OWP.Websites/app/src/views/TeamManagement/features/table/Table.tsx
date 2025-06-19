@@ -38,10 +38,11 @@ const Table = () => {
           maxWidth,
           overflow: 'auto'
         }}>
-        <table className='table-team-management'>
-          <TableHeader />
-          <TableBody dataSource={leagues} virtualizer={rowVirtualizer} />
-        </table>
+        {!isEquals(loadingDataTable, 'first-time') &&
+          <table className='table-team-management'>
+            <TableHeader />
+            <TableBody dataSource={leagues} virtualizer={rowVirtualizer} />
+          </table>}
       </div>
       <div className='total-record'>Total record: {leagues.length}</div>
     </>

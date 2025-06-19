@@ -14,9 +14,9 @@ const Filter = () => {
 
   const handleSearch = () => {
     dispatch(getLeagues({
-      teamName,
-      leagueName,
-      leagueGroup: selectedLeagueGroup.value
+      TeamName: teamName,
+      LeagueName: leagueName,
+      LeagueGroupId: selectedLeagueGroup.value
     }));
   };
 

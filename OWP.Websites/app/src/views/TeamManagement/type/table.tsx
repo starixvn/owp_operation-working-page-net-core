@@ -1,15 +1,15 @@
 type TLeague = {
-  leagueId: number;
-  leagueName: string;
-  leagueGroupName: string;
-  leagueGroupId: number;
-  isExpanded: boolean;
-  teams: TTeam[];
+  LeagueId: number;
+  LeagueName: string;
+  LeagueGroupName: string;
+  LeagueGroupId: number;
+  IsExpanded: boolean;
+  Teams: TTeam[];
 };
 
 type TTeam = {
-  teamId: number;
-  teamName: string;
+  TeamId: number;
+  TeamName: string;
 };
 
 type TCommonCell = {

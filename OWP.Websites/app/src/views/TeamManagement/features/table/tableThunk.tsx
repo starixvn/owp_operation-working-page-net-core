@@ -7,21 +7,21 @@ const getUrl = (methodRoute: string) =>
 const getLeagues = createAsyncThunk(
   'team-management/get-info',
   async ({
-    teamName,
-    leagueName,
-    leagueGroup
+    TeamName,
+    LeagueName,
+    LeagueGroupId
   }: {
-    teamName: string | null;
-    leagueName: string | null;
-    leagueGroup: number;
+    TeamName: string | null;
+    LeagueName: string | null;
+    LeagueGroupId: number;
 
   }) => {
     const url = getUrl('get-info');
     const response = await get({
       url,
-      teamName,
-      leagueName,
-      leagueGroup
+      TeamName,
+      LeagueName,
+      LeagueGroupId
     });
     return response.data;
   }

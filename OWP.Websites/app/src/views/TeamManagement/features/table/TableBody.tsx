@@ -31,7 +31,7 @@ const TableBody = ({ dataSource, virtualizer }: TableBodyProps) => {
                 <div key={leagueIndex} className="league-container">
                   <div
                     className='table-row league-header-row'
-                    onClick={() => handleToggleLeague(league.leagueId)}
+                    onClick={() => handleToggleLeague(league.LeagueId)}
                     style={{ cursor: 'pointer' }}
                   >
                     <div className='table-cell'>
@@ -39,22 +39,22 @@ const TableBody = ({ dataSource, virtualizer }: TableBodyProps) => {
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            handleToggleLeague(league.leagueId);
+                            handleToggleLeague(league.LeagueId);
                           }}
                           className='expand-button'
                         >
-                          {league.isExpanded ? '▼' : '▶'}
+                          {league.IsExpanded ? '▼' : '▶'}
                         </button>
                         <span>
-                          {league.leagueName} ({league.leagueGroupName})
+                          {league.LeagueName} ({league.LeagueGroupName})
                         </span>
                       </div>
                     </div>
                   </div>
 
-                  {league.isExpanded && league.teams.map((team, teamIndex: number) => (
+                  {league.IsExpanded && league.Teams.map((team, teamIndex: number) => (
                     <div
-                      key={`${league.leagueId}-${team.teamId}`}
+                      key={`${league.LeagueId}-${team.TeamId}`}
                       className='table-row team-row'>
                       {tableSchema.TABLE_HEADER.map((header, idx) => (
                         <div
@@ -74,7 +74,7 @@ const TableBody = ({ dataSource, virtualizer }: TableBodyProps) => {
                           {header.HEADER_KEY === 'Team' && (
                             <ReadonlyCommonCell
                               className='col_team'
-                              value={team.teamName}
+                              value={team.TeamName}
                               index={teamIndex}
                               isCanToolTip={false}
                             />
