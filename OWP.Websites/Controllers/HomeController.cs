@@ -286,7 +286,7 @@ public class HomeController(AccessCounter accessCounter) : Controller
     }
 
     [Route("TeamManagement")]
-    [NapAuth(FunctionKey = FunctionKeys.LeagueManagement, Policy = Constant.Policy.Read)]
+    [NapAuth(FunctionKey = FunctionKeys.TeamManagement, Policy = Constant.Policy.Read)]
     public ActionResult TeamManagement()
     {
         return View("~/wwwroot/team-management/server.cshtml");
