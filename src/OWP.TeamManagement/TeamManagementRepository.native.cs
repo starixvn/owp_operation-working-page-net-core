@@ -42,8 +42,11 @@ public class TeamManagementRepositoryImp(IDynamicRepository dynamicRepository) :
                     {
                         TeamId = tg.Key,
                         TeamName = tg.First().TeamName
-                    }).ToList()
+                    })
+                    .OrderBy(t => t.TeamName) 
+                    .ToList()
             })
+            .OrderBy(l => l.LeagueName)
             .ToList();
 
         return leagues;
