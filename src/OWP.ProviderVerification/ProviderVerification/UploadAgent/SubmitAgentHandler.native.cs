@@ -122,7 +122,7 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
 
     private static bool IsCancelHaveInHouseProviderId(ProviderVerificationDifferenceModel pv)
     {
-        return pv.MatchStatus == "Cancel" && !string.IsNullOrEmpty(pv.InHouseProviderId);
+        return pv.MatchStatus == "Cancel" && HasProviderMatch(pv.ProviderMatch);
     }
 
     private static bool CompareLSTBookAndAdminSiteProvider(string lstBook, string adminSiteProvider)
@@ -152,6 +152,11 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
     {
         return string.Equals(pv.MatchStatus, "Cancel", StringComparison.OrdinalIgnoreCase) &&
                pv.AgentConfirmList?.Contains("cancel", StringComparison.OrdinalIgnoreCase) == true &&
-               string.IsNullOrEmpty(pv.InHouseProviderId);
+               !HasProviderMatch(pv.ProviderMatch);
+    }
+
+    private static bool HasProviderMatch(List<ProviderMatchModel> providerMatch)
+    {
+        return providerMatch?.Any() == true;
     }
 }
