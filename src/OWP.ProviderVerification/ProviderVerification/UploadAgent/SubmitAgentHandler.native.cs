@@ -1,5 +1,4 @@
-﻿
-namespace OWP.ProviderVerification.ProviderVerification.UploadAgent;
+﻿namespace OWP.ProviderVerification.ProviderVerification.UploadAgent;
 
 public record SubmitAgentRequest(string SessionId, DateTime Date) : Query<ResultT<IList<ProviderVerificationDifferenceModel>>>;
 
@@ -41,12 +40,16 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
 
                 var listAdminSiteProviderName = string.Join(", ", pv.ProviderMatch.Select(p => p.InhouseProviderName));
 
-                var isLSTBookAndAdminSiteDiff = !CompareLSTBookAndAdminSiteProvider(listAdminSiteProviderName, pv.AgentConfirmList);
+                var isLSTBookAndAdminSiteDiff =
+                    !CompareLSTBookAndAdminSiteProvider(listAdminSiteProviderName, pv.AgentConfirmList);
+
+                var isCancelHaveInHouseProviderId = IsCancelHaveInHouseProviderId(pv);
 
                 return noProviderMatch
                        || notAllMatchesInExcel
                        || isSuspendedOrPostponedMapAgentFile
-                       || isLSTBookAndAdminSiteDiff;
+                       || isLSTBookAndAdminSiteDiff
+                       || isCancelHaveInHouseProviderId;
             })
             .ToList();
 
@@ -117,6 +120,11 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
                pv.ProviderMatch.Any(pm => excelProviderMatchIDs.Contains(pm.ProviderMatchId.ToString()));
     }
 
+    private static bool IsCancelHaveInHouseProviderId(ProviderVerificationDifferenceModel pv)
+    {
+        return pv.MatchStatus == "Cancel" && !string.IsNullOrEmpty(pv.InHouseProviderId);
+    }
+
     private static bool CompareLSTBookAndAdminSiteProvider(string lstBook, string adminSiteProvider)
     {
         var listLSTBook = lstBook
@@ -143,6 +151,7 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
     private static bool IsMatchCancelAndConfirmProviderCancel(ProviderVerificationDifferenceModel pv)
     {
         return string.Equals(pv.MatchStatus, "Cancel", StringComparison.OrdinalIgnoreCase) &&
-               pv.AgentConfirmList?.Contains("cancel", StringComparison.OrdinalIgnoreCase) == true;
+               pv.AgentConfirmList?.Contains("cancel", StringComparison.OrdinalIgnoreCase) == true &&
+               string.IsNullOrEmpty(pv.InHouseProviderId);
     }
 }
