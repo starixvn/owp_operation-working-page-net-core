@@ -170,6 +170,7 @@ namespace OWP.Constants
 
         public const string RocketChat = "RocketChat";
 
+        public const string TeamManagement = "TeamManagement";
     }
 
 }

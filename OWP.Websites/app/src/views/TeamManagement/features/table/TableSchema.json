@@ -1,0 +1,16 @@
+{
+  "TABLE_HEADER": [
+    {
+      "HEADER_KEY": "No",
+      "HEADER_NAME": "No.",
+      "WIDTH": "8%",
+      "IS_FILTER": false
+    },
+    {
+      "HEADER_KEY": "Team",
+      "HEADER_NAME": "Team Name",
+      "WIDTH": "92%",
+      "IS_FILTER": false
+    }
+  ]
+}

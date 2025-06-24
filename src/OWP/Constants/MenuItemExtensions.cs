@@ -35,7 +35,8 @@
             { MenuItems.OSLiveGameAssignment, "icon-event-checking" },
             { MenuItems.OSBasketballMaxBet, "icon-event-checking" },
             { MenuItems.ProviderVerification, "icon-provider-verification" },
-            { MenuItems.ProviderStatistics, "icon-file-chart" }
+            { MenuItems.ProviderStatistics, "icon-file-chart" },
+            { MenuItems.TeamManagement, "icon-account-multiple" }
         };
             return dictionary;
         }

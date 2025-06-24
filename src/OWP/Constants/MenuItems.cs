@@ -96,5 +96,6 @@ namespace OWP.Constants
 
 				public const string WorkingShiftManagement = "Working Shift Management";
 
-			}
+                public const string TeamManagement = "Team Management";
+    }
 }

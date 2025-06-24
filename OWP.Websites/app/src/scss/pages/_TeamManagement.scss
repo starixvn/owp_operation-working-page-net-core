@@ -1,0 +1,240 @@
+.team-management-body {
+  padding: 0 10px;
+}
+
+.top-control {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 10px;
+  position: relative;
+
+  .left-control {
+    display: flex;
+    align-items: flex-end;
+
+    .filter-control {
+      display: inline-block;
+      width: 180px;
+      margin-right: 26px;
+
+      .basic-multi-select {
+        .select__menu {
+          z-index: 3;
+        }
+
+        .select__control {
+          height: 28px;
+        }
+      }
+
+      input {
+        background-color: transparent;
+      }
+    }
+  }
+}
+
+.table-wrap {
+  overflow: auto;
+  margin-top: 10px;
+  position: relative;
+  min-height: 650px;
+  border-radius: 8px;
+
+  th {
+    box-shadow: inset -1px 0 #c8ced3, 2px 0 4px rgba(0, 0, 0, 0.1) !important;
+
+    &:last-child {
+      box-shadow: none !important;
+    }
+  }
+
+  thead {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    box-shadow: inset 1px -1px #c8ced3, inset 1px 1px #c8ced3;
+    text-align: center;
+  }
+
+  tbody {
+    th {
+      position: sticky;
+      left: 0;
+    }
+  }
+
+  th {
+    box-shadow: inset 1px 1px #c8ced3, 0 1px #c8ced3;
+  }
+}
+
+.table-team-management {
+  position: relative;
+  border-collapse: collapse;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  color: #494848;
+  font-size: 13px;
+  table-layout: fixed;
+
+  thead th {
+    background-color: #4e73df;
+    color: white;
+    font-weight: 600;
+    padding: 6px 8px;
+  }
+
+  .team-row {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin: 2px 0;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0, 123, 255, 0.1), transparent);
+    }
+
+    .table-cell {
+      border-right: 1px solid rgba(224, 224, 224, 0.6);
+      padding: 2px 8px;
+      position: relative;
+      transition: all 0.2s ease;
+    }
+
+    &:hover {
+      background: linear-gradient(135deg, #f8f9ff 0%, #e3f2fd 100%);
+      box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+      transform: translateY(-1px);
+      border-left-color: #0056b3;
+
+      .table-cell {
+        border-right-color: rgba(0, 123, 255, 0.2);
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 3px;
+        height: 100%;
+        background: linear-gradient(180deg, #007bff, #0056b3);
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+      }
+    }
+
+    &:nth-child(even) {
+      background: linear-gradient(135deg, #fafbfc 0%, #f1f3f4 100%);
+
+      &:hover {
+        background: linear-gradient(135deg, #f0f4ff 0%, #e1f5fe 100%);
+      }
+    }
+
+    &.active {
+      background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+      border-left-color: #1976d2;
+      box-shadow: 0 4px 12px rgba(25, 118, 210, 0.2);
+
+      .table-cell {
+        border-right-color: rgba(25, 118, 210, 0.3);
+      }
+    }
+
+    &:focus-within {
+      outline: 2px solid #007bff;
+      outline-offset: -2px;
+    }
+  }
+
+  .league-container:not(:last-child) {
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .table-row {
+    display: table;
+    width: 100%;
+
+    &.table-row-content {
+      display: table-row;
+    }
+  }
+
+  .table-cell {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  .table-content-wrapper {
+    position: relative;
+    height: 100%;
+  }
+}
+
+.total-record {
+  padding: 10px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.league-header-row {
+  background-color: #f2f6fc;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #e0e0e0;
+
+  .expand-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 8px;
+    color: #007bff;
+    font-weight: bold;
+    padding: 2px 4px;
+    border-radius: 3px;
+    transition: background-color 0.2s;
+  }
+
+  .league-header-content {
+    display: flex;
+    align-items: center;
+    color: #333;
+    font-size: 13px;
+    background-color: #f2f6fc;
+    color: #2e59d9;
+    padding: 5px 8px;
+
+    &:hover {
+      background-color: #d6e4f9;
+    }
+  }
+}
+
+.no-data-cell {
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  padding: 12px;
+
+  .no-data-content {
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+}
