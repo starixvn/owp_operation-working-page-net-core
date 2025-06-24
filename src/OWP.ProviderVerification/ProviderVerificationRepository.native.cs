@@ -5,10 +5,10 @@ public interface ProviderVerificationRepository
     Task<IEnumerable<ProviderVerificationModel>> GetProviderVerification(CriteriaBase criteria);
 
     Task<IEnumerable<ProviderVerificationDifferenceModel>> GetProviderVerificationDiff(CriteriaBase criteria);
+
     Task<IEnumerable<AgentOption>> GetAgentOptions();
 
     Task<IEnumerable<LSTBookProviderOption>> GetLSTBookOptions(DateTime eventDate);
-
 
     Task SaveAgentConfirm(int owpMatchId, string agentSelected, int actorId);
 
