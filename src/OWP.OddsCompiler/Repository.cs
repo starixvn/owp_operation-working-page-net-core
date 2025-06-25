@@ -13,6 +13,7 @@ using Fanex.NAP.Client;
 using InfoSiteTimeModel = OWP.OddsCompiler.Models.InfoSiteTimeModel;
 using OWP.RabbitMQ;
 using OWP.RabbitMQ.Constants;
+using System.Globalization;
 
 namespace OWP.OddsCompiler;
 public interface Repository
@@ -300,7 +301,7 @@ public class RepositoryImp(IDynamicRepository dynamicRepository,
         await dynamicRepository.ExecuteAsync(criteria);
 
         await notificationService.Notify(criteria.SessionId);
-        await messageClient.SendMessage(new { criteria.SessionId }, RoutingKey.OddsCompiler);
+        
         return new ResultDataObject
         {
             Code = 0,
@@ -335,8 +336,10 @@ public class RepositoryImp(IDynamicRepository dynamicRepository,
 
     private async Task<ResultDataObject> SendOddsCompilerNotificationWithBettype(OddsCompilerNotificationModel model)
     {
+        var sessionId = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
         var criteria = new SendOddsCompilerNotificationCriteria
         {
+            SessionId = sessionId,
             ActorId = currentSession.UserId,
             OWPMatchId = model.OWPMatchId,
             AssigneeIds = model.AssigneeIds,
@@ -345,7 +348,8 @@ public class RepositoryImp(IDynamicRepository dynamicRepository,
         };
 
         await dynamicRepository.ExecuteAsync(criteria);
-        await notificationService.Notify(criteria.SessionId);
+        await notificationService.Notify(sessionId);
+        await messageClient.SendMessage(new { SessionId= sessionId }, RoutingKey.OddsCompiler);
         return new ResultDataObject
         {
             Code = 0,
