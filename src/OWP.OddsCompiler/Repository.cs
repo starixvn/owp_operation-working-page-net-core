@@ -11,6 +11,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Fanex.NAP.Client;
 using InfoSiteTimeModel = OWP.OddsCompiler.Models.InfoSiteTimeModel;
+using OWP.RabbitMQ;
+using OWP.RabbitMQ.Constants;
 
 namespace OWP.OddsCompiler;
 public interface Repository
@@ -28,21 +30,12 @@ public interface Repository
     Task<IEnumerable<ReferenceResource>> GetResourceByName(string name);
 }
 
-public class RepositoryImp : Repository
+public class RepositoryImp(IDynamicRepository dynamicRepository,
+    INapSession currentSession,
+    OldNotificationService notificationService,
+    MessageClient messageClient) : Repository
 {
-    private readonly IDynamicRepository dynamicRepository;
-    private readonly INapSession currentSession;
-    private readonly OldNotificationService notificationService;
-
-    public RepositoryImp(IDynamicRepository dynamicRepository,
-        INapSession currentSession,
-        OldNotificationService notificationService)
-    {
-        this.dynamicRepository = dynamicRepository;
-        this.currentSession = currentSession;
-        this.notificationService = notificationService;
-    }
-
+   
     public async Task<ResultDataObject> SaveMarket(MarketUpdateModel model)
     {
         var criteria = new UpdateMarketOddCompilerCriteria
@@ -307,6 +300,7 @@ public class RepositoryImp : Repository
         await dynamicRepository.ExecuteAsync(criteria);
 
         await notificationService.Notify(criteria.SessionId);
+        await messageClient.SendMessage(new { criteria.SessionId }, RoutingKey.OddsCompiler);
         return new ResultDataObject
         {
             Code = 0,
