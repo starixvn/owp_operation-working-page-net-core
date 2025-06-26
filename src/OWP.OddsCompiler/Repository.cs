@@ -11,6 +11,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Fanex.NAP.Client;
 using InfoSiteTimeModel = OWP.OddsCompiler.Models.InfoSiteTimeModel;
+using OWP.RabbitMQ;
+using OWP.RabbitMQ.Constants;
+using System.Globalization;
 
 namespace OWP.OddsCompiler;
 public interface Repository
@@ -28,21 +31,12 @@ public interface Repository
     Task<IEnumerable<ReferenceResource>> GetResourceByName(string name);
 }
 
-public class RepositoryImp : Repository
+public class RepositoryImp(IDynamicRepository dynamicRepository,
+    INapSession currentSession,
+    OldNotificationService notificationService,
+    MessageClient messageClient) : Repository
 {
-    private readonly IDynamicRepository dynamicRepository;
-    private readonly INapSession currentSession;
-    private readonly OldNotificationService notificationService;
-
-    public RepositoryImp(IDynamicRepository dynamicRepository,
-        INapSession currentSession,
-        OldNotificationService notificationService)
-    {
-        this.dynamicRepository = dynamicRepository;
-        this.currentSession = currentSession;
-        this.notificationService = notificationService;
-    }
-
+   
     public async Task<ResultDataObject> SaveMarket(MarketUpdateModel model)
     {
         var criteria = new UpdateMarketOddCompilerCriteria
@@ -307,6 +301,7 @@ public class RepositoryImp : Repository
         await dynamicRepository.ExecuteAsync(criteria);
 
         await notificationService.Notify(criteria.SessionId);
+        
         return new ResultDataObject
         {
             Code = 0,
@@ -341,8 +336,10 @@ public class RepositoryImp : Repository
 
     private async Task<ResultDataObject> SendOddsCompilerNotificationWithBettype(OddsCompilerNotificationModel model)
     {
+        var sessionId = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
         var criteria = new SendOddsCompilerNotificationCriteria
         {
+            SessionId = sessionId,
             ActorId = currentSession.UserId,
             OWPMatchId = model.OWPMatchId,
             AssigneeIds = model.AssigneeIds,
@@ -351,7 +348,8 @@ public class RepositoryImp : Repository
         };
 
         await dynamicRepository.ExecuteAsync(criteria);
-        await notificationService.Notify(criteria.SessionId);
+        await notificationService.Notify(sessionId);
+        await messageClient.SendMessage(new { SessionId= sessionId }, RoutingKey.OddsCompiler);
         return new ResultDataObject
         {
             Code = 0,

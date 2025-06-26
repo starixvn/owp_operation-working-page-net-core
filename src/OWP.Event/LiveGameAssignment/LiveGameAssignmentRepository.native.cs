@@ -15,6 +15,7 @@ using OWP.Services;
 using Services;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -170,6 +171,7 @@ public class LiveGameAssignmentRepositoryImp : LiveGameAssignmentRepository
 
     private async Task<ResultDataObject> EditEventWithInputMainMatch(EditMatchViewModel model)
     {
+        var sessionId  = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
         var criteria = new EditMainMatchCriteria
         {
             ActorId = session.UserId,
@@ -178,7 +180,8 @@ public class LiveGameAssignmentRepositoryImp : LiveGameAssignmentRepository
             HomeName = model.HomeName,
             KickOffTime = model.KOTime,
             LeagueName = model.LeagueName,
-            OWPMatchId = model.OWPMatchId
+            OWPMatchId = model.OWPMatchId,
+            SessionId = sessionId
         };
 
         await dynamicRepository.ExecuteAsync(criteria);
@@ -186,12 +189,13 @@ public class LiveGameAssignmentRepositoryImp : LiveGameAssignmentRepository
         {
             Code = criteria.ErrCode,
             Message = criteria.ErrMsg,
-            Data = criteria.SessionId
+            Data = sessionId
         };
     }
 
     private async Task<ResultDataObject> EditEventWithInputMainMatchToMinorMatch(EditMatchViewModel model, ValidateToEditEventModel validateToEditEventModel)
     {
+        var sessionId = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
         var criteria = new EditMainMatchToMinorMatchCriteria
         {
             ParentMatchId = validateToEditEventModel.ParentMatchId,
@@ -201,7 +205,8 @@ public class LiveGameAssignmentRepositoryImp : LiveGameAssignmentRepository
             AwayName = model.AwayName,
             HomeName = model.HomeName,
             LeagueName = model.LeagueName,
-            OWPMatchId = model.OWPMatchId
+            OWPMatchId = model.OWPMatchId,
+            SessionId = sessionId
         };
 
         await dynamicRepository.ExecuteAsync(criteria);
@@ -209,7 +214,7 @@ public class LiveGameAssignmentRepositoryImp : LiveGameAssignmentRepository
         {
             Code = criteria.ErrCode,
             Message = criteria.ErrMsg,
-            Data = criteria.SessionId
+            Data = sessionId
         };
     }
 

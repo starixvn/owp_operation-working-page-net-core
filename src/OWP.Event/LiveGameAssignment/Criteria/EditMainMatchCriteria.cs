@@ -20,7 +20,7 @@ public class EditMainMatchCriteria : NonQueryCommand
 
     public int ActorId { get; set; }
 
-    public string SessionId { get; private set; } = Guid.NewGuid().ToString("D", CultureInfo.InvariantCulture);
+    public string SessionId { get; set; }
 
     public int ErrCode { get; set; }
 
