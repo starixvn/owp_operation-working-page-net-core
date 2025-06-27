@@ -24,9 +24,8 @@ const TableHeader = (props: PropsTableHeader) => {
         <th className='username' rowSpan={2}>
           <span>Username</span>
           <span
-            className={`icon-filter ${
-              props.isActiveIconFilter ? 'active' : ''
-            }`}
+            className={`icon-filter ${props.isActiveIconFilter ? 'active' : ''
+              }`}
             onClick={props.openFilterHeader}>
             <FilterIcon size={14} />
           </span>
@@ -58,6 +57,9 @@ const TableHeader = (props: PropsTableHeader) => {
             </th>
             <th rowSpan={2} className='reward-column'>
               Reward
+            </th>
+            <th rowSpan={2} className='reward-column'>
+              Apply Condition
             </th>
             <th rowSpan={2} className='history-column'>
               History

@@ -98,6 +98,7 @@ type DataSource = {
   gapWithTarget: Required<TTotalGameInfo>;
   achievedGames: Required<TTotalGameInfo>;
   reward: number;
+  applyCondition: string;
   isAlmostWinTarget: boolean;
 };
 

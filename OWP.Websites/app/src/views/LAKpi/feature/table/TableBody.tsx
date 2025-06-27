@@ -19,15 +19,15 @@ const TableBody = (props: {
           {props.isGap ? (
             <>
               <td
-                className={`${item.isAlmostWinTarget ? 'almost-target' : ''} ${
-                  item.progress === 'Fail' ? 'fail-progress' : ''
-                }`}>
+                className={`${item.isAlmostWinTarget ? 'almost-target' : ''} ${item.progress === 'Fail' ? 'fail-progress' : ''
+                  }`}>
                 {item.progress}
               </td>
               <td>{item.target}</td>
               <TableBodyTotalGame {...item.gapWithTarget} />
               <TableBodyTotalGame {...item.achievedGames} />
               <td>{item.reward}</td>
+              <td>{item.applyCondition}</td>
               <td>
                 <HistoryCell userId={item.userId} userName={item.userName} />
               </td>
