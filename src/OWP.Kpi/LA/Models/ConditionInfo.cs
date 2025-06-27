@@ -17,6 +17,8 @@ public class ConditionInfo
 
     public Condition ConditionSecond { get; set; }
 
+    public Condition ConditionThird { get; set; }
+
     public Condition TargetCondition { get; set; }
 
     public string TimeRange { get; set; }

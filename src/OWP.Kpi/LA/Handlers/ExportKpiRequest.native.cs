@@ -15,24 +15,11 @@ using System.Drawing;
 
 namespace OWP.Kpi.LA.Handlers;
 public class ExportKpiRequest : QueryModel, IRequest<ExcelPackage>;
-public class ExportKpiHandler : IRequestHandler<ExportKpiRequest, ExcelPackage>, IDisposable
+public class ExportKpiHandler(KpiService kpiService, ConfigurationService configurationService, IMapper mapper) : IRequestHandler<ExportKpiRequest, ExcelPackage>, IDisposable
 {
     private ExcelPackage excelPackage;
 
     private ExcelWorksheet reportSheet;
-
-    private readonly KpiService kpiService;
-
-    private readonly ConfigurationService configurationService;
-
-    private readonly IMapper mapper;
-
-    public ExportKpiHandler(KpiService kpiService, ConfigurationService configurationService, IMapper mapper)
-    {
-        this.kpiService = kpiService;
-        this.configurationService = configurationService;
-        this.mapper = mapper;
-    }
 
     public async Task<ExcelPackage> Handle(ExportKpiRequest request, CancellationToken cancellationToken)
     {

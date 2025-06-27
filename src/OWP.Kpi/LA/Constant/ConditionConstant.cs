@@ -16,13 +16,21 @@ public static class ConditionConstant
             LevelId = 1,
             ConditionFirst = new Condition
             {
-                TotalVirtualMultipleMatches = 2050
+                TotalVirtualMultipleMatches = 2050,
             },
+            ConditionSecond = new Condition
+            {
+                TotalVirtualMultipleMatches = 2050,
+            },
+            ConditionThird = new Condition
+                {
+                    MultipleMatches = 1800
+                },
             TimeRange = "Last 1 year",
             Reward = "5%",
             TargetCondition = new Condition
             {
-                VirtualMatches = 2000 ,
+                VirtualMatches = 2000,
                 MultipleMatches = 50
             }
         },
@@ -33,6 +41,7 @@ public static class ConditionConstant
             LevelId = 2,
             ConditionFirst = new Condition { VirtualMatches = 3600, MultipleMatches = 500 },
             ConditionSecond = new Condition { VirtualMatches = 3200, MultipleMatches = 800 },
+            ConditionThird = new Condition { VirtualMatches = 0, MultipleMatches = 3200 },
             TimeRange = LAST_TWO_YEAR,
             Reward = "10%",
             TargetCondition = new Condition
@@ -48,6 +57,7 @@ public static class ConditionConstant
             LevelId = 3,
             ConditionFirst = new Condition { VirtualMatches = 3600, MultipleMatches = 500, SpecialProducts = 15 },
             ConditionSecond = new Condition { VirtualMatches = 3200, MultipleMatches = 800, SpecialProducts = 15 },
+            ConditionThird = new Condition { VirtualMatches = 0, MultipleMatches = 3000, SpecialProducts = 15 },
             TimeRange = LAST_TWO_YEAR,
             Reward = "15%",
             TargetCondition = new Condition {VirtualMatches = 3200, MultipleMatches = 500, SpecialProducts = 15}
@@ -59,6 +69,7 @@ public static class ConditionConstant
             LevelId = 4,
             ConditionFirst = new Condition { VirtualMatches = 2800, MultipleMatches = 600, SpecialProducts = 15, FiveMajorLeagues = 15, MultipleProducts = 350},
             ConditionSecond = new Condition { VirtualMatches = 2500, MultipleMatches = 800, SpecialProducts = 15, FiveMajorLeagues = 15, MultipleProducts = 450},
+            ConditionThird = new Condition { VirtualMatches = 0, MultipleMatches = 2800, SpecialProducts = 15, FiveMajorLeagues = 15, MultipleProducts = 450},
             TimeRange = LAST_TWO_YEAR,
             Reward = "20%",
             TargetCondition = new Condition { VirtualMatches = 2500, MultipleMatches = 600, SpecialProducts = 15, FiveMajorLeagues = 15,MultipleProducts = 350}
@@ -70,6 +81,7 @@ public static class ConditionConstant
             LevelId = 5,
             ConditionFirst = new Condition { VirtualMatches = 2800, MultipleMatches = 600, SpecialProducts = 15, FiveMajorLeagues =  15, MultipleProducts = 450},
             ConditionSecond = new Condition { VirtualMatches = 2500, MultipleMatches = 800, SpecialProducts = 15, FiveMajorLeagues = 15, MultipleProducts = 550},
+            ConditionThird = new Condition { VirtualMatches = 0, MultipleMatches = 2600, SpecialProducts = 15, FiveMajorLeagues = 15, MultipleProducts = 550},
             TimeRange = LAST_TWO_YEAR,
             Reward = "25%",
             TargetCondition = new Condition { VirtualMatches = 2500, MultipleMatches = 600, SpecialProducts = 15, FiveMajorLeagues = 15,MultipleProducts = 450}
