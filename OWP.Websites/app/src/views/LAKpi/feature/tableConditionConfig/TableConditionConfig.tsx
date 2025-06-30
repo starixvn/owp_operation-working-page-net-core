@@ -38,7 +38,7 @@ const TableConditionConfig = () => {
                     <span>{x.conditionSecond.totalVirtualMultipleMatches}</span>
                   </td>
                   <td>
-                    <span>Multiple Matches = </span>
+                    <span>Multiple Matches {`>= `} </span>
                     <span>{x.conditionThird.multipleMatches}</span>
                   </td>
                 </>
