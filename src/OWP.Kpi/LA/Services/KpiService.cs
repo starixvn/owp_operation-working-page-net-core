@@ -37,7 +37,9 @@ public class KpiServiceImp(Repository repository, IMapper mapper) : KpiService
             kpi.GapWithTarget = CalculateGapHelper.CalculateGap(kpi.TargetId, kpi.AchievedGames);
             kpi.Progress = progress;
             kpi.Reward = Array.Find(ConditionConstant.ConditionInfos, x => x.Progress == progress)?.Reward;
-            kpi.ApplyCondition=string.Empty;
+
+            var targetConditionInfos = ConditionConstant.ConditionInfos.FirstOrDefault(x => x.LevelId == kpi.TargetId);
+            kpi.ApplyCondition = ProgressHelper.CalculateApplyCondition(targetConditionInfos, kpi.AchievedGames);
         }
     }
 }
