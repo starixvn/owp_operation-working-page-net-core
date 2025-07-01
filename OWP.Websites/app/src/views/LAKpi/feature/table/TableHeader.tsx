@@ -58,7 +58,7 @@ const TableHeader = (props: PropsTableHeader) => {
             <th rowSpan={2} className='reward-column'>
               Reward
             </th>
-            <th rowSpan={2} className='reward-column'>
+            <th rowSpan={2} className='apply-condition-column'>
               Apply Condition
             </th>
             <th rowSpan={2} className='history-column'>
