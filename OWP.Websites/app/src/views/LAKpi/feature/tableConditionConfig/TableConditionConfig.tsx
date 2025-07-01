@@ -60,7 +60,7 @@ const TableConditionConfig = () => {
         <p className='note-content'>
           <span className='box-note'></span>
           <span className='text-note'>
-            Win the average of two conditions, almost win the target level
+            Win the average of three conditions, almost win the target level
           </span>
         </p>
       </div>
