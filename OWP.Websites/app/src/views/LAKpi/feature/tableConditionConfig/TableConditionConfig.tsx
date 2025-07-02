@@ -10,7 +10,10 @@ const TableConditionConfig = () => {
         <thead>
           <tr>
             <th>Level</th>
-            <th>Condition</th>
+            <th>Product</th>
+            <th>Condition 1</th>
+            <th>Condition 2</th>
+            <th>Condition 3</th>
             <th>Time range</th>
             <th>Reward</th>
           </tr>
@@ -20,17 +23,30 @@ const TableConditionConfig = () => {
             <tr key={uniqueId()}>
               <td>{x.level}</td>
               {index === 0 ? (
-                <td className='condition-column'>
-                  <div className='condition-element-new-level'>
-                    <span>Virtual Matches + Multiple Matches</span>
-                    <span>{`>=`}</span>
+                <>
+                  <td className='condition-column-title'>
+                    <div className='condition-element'>
+                      <span>Virtual Matches + Multiple Matches</span>
+                    </div>
+                  </td>
+                  <td>
+                    <span>{`>= `}</span>
                     <span>{x.conditionFirst.totalVirtualMultipleMatches}</span>
-                  </div>
-                </td>
+                  </td>
+                  <td>
+                    <span>{`>= `}</span>
+                    <span>{x.conditionSecond.totalVirtualMultipleMatches}</span>
+                  </td>
+                  <td>
+                    <span>Multiple Matches {`>= `} </span>
+                    <span>{x.conditionThird.multipleMatches}</span>
+                  </td>
+                </>
               ) : (
                 <ConditionColumn
                   conditionFirst={x.conditionFirst}
                   conditionSecond={x.conditionSecond}
+                  conditionThird={x.conditionThird}
                 />
               )}
               <td>{x.timeRange}</td>
@@ -44,7 +60,7 @@ const TableConditionConfig = () => {
         <p className='note-content'>
           <span className='box-note'></span>
           <span className='text-note'>
-            Win the average of two conditions, almost win the target level
+            Win the average of three conditions, almost win the target level
           </span>
         </p>
       </div>

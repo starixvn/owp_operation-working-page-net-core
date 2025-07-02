@@ -28,4 +28,6 @@ public class KpiInfoViewModel
     public string Progress { get; set; }
 
     public string Reward { get; set; }
+
+    public string ApplyCondition { get; set; }
 }

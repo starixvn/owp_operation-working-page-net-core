@@ -11,17 +11,8 @@ public interface KpiService
     Task<IList<KpiInfoViewModel>> BuildKpiInfo(QueryModel request, bool isGap);
 }
 
-public class KpiServiceImp : KpiService
+public class KpiServiceImp(Repository repository, IMapper mapper) : KpiService
 {
-    private readonly Repository repository;
-    private readonly IMapper mapper;
-
-    public KpiServiceImp(Repository repository, IMapper mapper)
-    {
-        this.repository = repository;
-        this.mapper = mapper;
-    }
-
     public async Task<IList<KpiInfoViewModel>> BuildKpiInfo(QueryModel request, bool isGap)
     {
         var kpiData = await repository.GetKpiInfo(request);
@@ -46,6 +37,9 @@ public class KpiServiceImp : KpiService
             kpi.GapWithTarget = CalculateGapHelper.CalculateGap(kpi.TargetId, kpi.AchievedGames);
             kpi.Progress = progress;
             kpi.Reward = Array.Find(ConditionConstant.ConditionInfos, x => x.Progress == progress)?.Reward;
+
+            var targetConditionInfos = ConditionConstant.ConditionInfos.FirstOrDefault(x => x.LevelId == kpi.TargetId);
+            kpi.ApplyCondition = ProgressHelper.CalculateApplyCondition(targetConditionInfos, kpi.AchievedGames);
         }
     }
 }

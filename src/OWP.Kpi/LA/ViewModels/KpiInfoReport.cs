@@ -50,6 +50,9 @@ public class KpiInfoReport
     public double AchievedMultipleProducts { get; set; }
 
     [Cell("P3")]
-    public string Reward { get; set; }
+    public string Reward { get; set; } 
+    
+    [Cell("Q3")]
+    public string ApplyCondition { get; set; }
 
 }

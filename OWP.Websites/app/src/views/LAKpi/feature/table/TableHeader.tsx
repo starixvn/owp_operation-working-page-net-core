@@ -24,9 +24,8 @@ const TableHeader = (props: PropsTableHeader) => {
         <th className='username' rowSpan={2}>
           <span>Username</span>
           <span
-            className={`icon-filter ${
-              props.isActiveIconFilter ? 'active' : ''
-            }`}
+            className={`icon-filter ${props.isActiveIconFilter ? 'active' : ''
+              }`}
             onClick={props.openFilterHeader}>
             <FilterIcon size={14} />
           </span>
@@ -51,13 +50,16 @@ const TableHeader = (props: PropsTableHeader) => {
               />
             </th>
             <th className='gap-matches' colSpan={5}>
-              The gap to win the average of two conditions
+              The gap to win the average of three conditions
             </th>
             <th colSpan={5} className='achieved-matches'>
               Achieved matches
             </th>
             <th rowSpan={2} className='reward-column'>
               Reward
+            </th>
+            <th rowSpan={2} className='apply-condition-column'>
+              Apply Condition
             </th>
             <th rowSpan={2} className='history-column'>
               History

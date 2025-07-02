@@ -85,6 +85,7 @@ type TLog = {
 
 interface TTotalGameConditionInfo extends TTotalGameInfo {
   totalVirtualMultipleMatches: number;
+  MultipleMatches: number;
 }
 
 type DataSource = {
@@ -97,6 +98,7 @@ type DataSource = {
   gapWithTarget: Required<TTotalGameInfo>;
   achievedGames: Required<TTotalGameInfo>;
   reward: number;
+  applyCondition: string;
   isAlmostWinTarget: boolean;
 };
 
@@ -105,6 +107,7 @@ type TCondition = {
   level: string;
   conditionFirst: TTotalGameConditionInfo;
   conditionSecond: TTotalGameConditionInfo;
+  conditionThird: TTotalGameConditionInfo;
   timeRange: string;
   reward: string;
 };
