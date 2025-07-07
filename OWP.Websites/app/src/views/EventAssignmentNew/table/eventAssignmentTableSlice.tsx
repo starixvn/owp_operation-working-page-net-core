@@ -23,11 +23,21 @@ const eventAssignmentTableSlice = createSlice({
     syncOffVRByUser: '',
     filterState: [],
     entitiesOriginal: [],
+    matchesSelected: [],
     entities: [],
     isShowUnreadMsg: false,
     loading: REQUEST_STATUS.pending
   } as TQueryLiveGameAssignment,
   reducers: {
+    setMatchesSelected: (state, action) => {
+      const { match, isAdded } = action.payload;
+      state.matchesSelected = isAdded
+        ? [...state.matchesSelected, match]
+        : state.matchesSelected.filter(s => s.OWPMatchId !== match.OWPMatchId);
+    },
+    resetMatchesSelected: state => {
+      state.matchesSelected = [];
+    },
     onUpdatedAssignment: (state, action: PayloadAction<TUpdateAssignment>) => {
       const { assignment, bettypeName, rowIndex } = action.payload;
       if (assignment && bettypeName) {
@@ -127,7 +137,9 @@ const {
   onClearFilter,
   setDataTable,
   setDataSignalR,
-  handleShowUnreadMessage
+  handleShowUnreadMessage,
+  setMatchesSelected,
+  resetMatchesSelected,
 } = actions;
 
 export {
@@ -137,6 +149,8 @@ export {
   onClearFilter,
   setDataTable,
   setDataSignalR,
-  handleShowUnreadMessage
+  handleShowUnreadMessage,
+  setMatchesSelected,
+  resetMatchesSelected,
 };
 export default reducer;

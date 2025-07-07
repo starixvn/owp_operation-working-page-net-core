@@ -1,9 +1,14 @@
 import { TCellModel } from '../../type/type';
 import AbsencePersonIcon from '../../../../assets/svg-element/AbsencePersonIcon';
-import { UncontrolledTooltip } from 'reactstrap';
+import { UncontrolledTooltip, Input } from 'reactstrap';
 import { isEqual } from 'lodash';
 import { MATCH_STATUS } from '../../const.json';
 import { LinkIcon, LinkOffIcon } from 'mdi-react';
+import { useAppDispatch } from '../../app/hooks';
+import ToastrWrapper from '../../../components/ToastrWrapper';
+import store from '../../app/store';
+import { useState } from 'react';
+import { setMatchesSelected } from '../eventAssignmentTableSlice';
 
 const { LIVE, IN_PLAY, POSTPONED } = MATCH_STATUS;
 
@@ -15,8 +20,18 @@ const NoCell = (props: TCellModel) => {
     MatchStatus,
     InfoSiteMatchId,
     IsInfoSiteLinked,
-    IsLiveStatusSynchronized
+    IsLiveStatusSynchronized,
+    OWPMatchId,
+    IsAllowedToViewDetail,
+    AdminSiteId
   } = dataSource[rowIndex];
+
+  const dispatch = useAppDispatch();
+
+  const isSelected = store.getState().eventAssignmentTable.matchesSelected.some(
+    x => x.OWPMatchId === OWPMatchId);
+
+  const [isChecked, setIsChecked] = useState(isSelected);
 
   const renderInfoSiteLinked = () => {
     if (
@@ -33,6 +48,54 @@ const NoCell = (props: TCellModel) => {
     );
   };
 
+  const handleSelectedChanged = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { IsSaBa } = dataSource[rowIndex];
+    const { matchesSelected } = store.getState().eventAssignmentTable;
+    if (event?.target?.checked &&
+      matchesSelected.length && matchesSelected.some(x => x.IsSaBa !== IsSaBa)) {
+      ToastrWrapper.showWarning(
+        <span>Please choose only one: SABA or Real matches!</span>
+      );
+      setIsChecked(false);
+      return;
+    }
+
+    setIsChecked(event?.target?.checked);
+
+    dispatch(
+      setMatchesSelected({
+        match: dataSource[rowIndex],
+        isAdded: event?.target?.checked
+      })
+    );
+  };
+
+  const renderCheckbox = () => {
+    const {
+      policy: {
+        entities: { detailInformationPolicy }
+      }
+    } = store.getState();
+    if (
+      !detailInformationPolicy.HasRead ||
+      !IsAllowedToViewDetail ||
+      !AdminSiteId
+    ) {
+      return null;
+    }
+
+    return (
+      <Input
+        type='checkbox'
+        className='check-by-lst'
+        checked={isChecked}
+        onChange={handleSelectedChanged}
+      />
+    );
+  };
+
   return (
     <div className='match-no'>
       {IsShowAbsenceIcon && <AbsencePersonIcon />}
@@ -44,6 +107,7 @@ const NoCell = (props: TCellModel) => {
         InfositeId: {InfoSiteMatchId}
       </UncontrolledTooltip>
 
+      {renderCheckbox()}
       {!isEqual(MatchStatus, LIVE) && (
         <>
           <span

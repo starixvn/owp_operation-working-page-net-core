@@ -62,7 +62,9 @@ const NoCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
   ) => {
     const { IsSaba } = dataSource[rowIndex];
     const { matchesSelected } = store.getState().events;
-    if (matchesSelected.length && matchesSelected.some(x => x.IsSaba !== IsSaba)) {
+    if (
+      event?.target?.checked &&
+      matchesSelected.length && matchesSelected.some(x => x.IsSaba !== IsSaba)) {
       ToastrWrapper.showWarning(
         <span>Please choose only one: SABA or Real matches!</span>
       );
