@@ -24,4 +24,13 @@ public class SoccerUrls
     public string LaTradingPage { get; set; }
 
     public string TradingPage { get; set; }
+
+    public List<ServerInfo> Servers { get; set; } = new List<ServerInfo>();
+}
+
+[Serializable]
+public class ServerInfo
+{
+    public string Name { get; set; }
+    public string Url { get; set; }
 }
