@@ -9,7 +9,16 @@ import { setNewEventInfo } from '../../newEvent/newEventSlice';
 import { setDetailEventInfo } from '../../eventDetail/eventDetailSlice';
 
 const EventCell = (props: TCellModel) => {
-  const { laTradingPage, tradingPage } = store.getState().tradingPageInfo.info;
+  const { laTradingPage, tradingPage, servers } = store.getState().tradingPageInfo.info as {
+    laTradingPage: string;
+    tradingPage: string;
+    servers: {
+      Name: string;
+      Url: string;
+      LAPort: number;
+      TradingPort: number | null;
+    }[];
+  };
   const dispatch = useAppDispatch();
   const {
     policy: {
@@ -88,6 +97,7 @@ const EventCell = (props: TCellModel) => {
             league={event.League}
             laTradingPage={laTradingPage}
             tradingPage={tradingPage}
+            servers={servers}
           />
         </>
       )}
