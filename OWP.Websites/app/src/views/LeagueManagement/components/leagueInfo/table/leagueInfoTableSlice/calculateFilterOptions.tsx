@@ -50,20 +50,18 @@ const buildTvOptions = () => {
 const buildConditionOptions = (first: TCondition[][], second: TCondition[]) => {
   const options: Option[] = uniqBy(
     [...second]
-      .sort((a, b) =>
-        (a?.value || '').localeCompare(b?.value || '')
-      )
+      .sort((a, b) => (a?.value || '').localeCompare(b?.value || ''))
       .map(
         o =>
-        ({
-          value: o?.value?.length > 0 ? o.value : null,
-          label:
-            o?.value?.length > 0
-              ? o.type === 'Contains'
-                ? `*${o.value}*`
-                : o.value
-              : null
-        } as Option)
+          ({
+            value: o?.value?.length > 0 ? o.value : null,
+            label:
+              o?.value?.length > 0
+                ? o.type === 'Contains'
+                  ? `*${o.value}*`
+                  : o.value
+                : null
+          } as Option)
       ),
     i => i.label
   );
@@ -120,7 +118,10 @@ const buildMaxBetWeekdayNoHDPGroupOptions = (entities: TDataSource[]) =>
     uniqBy(
       [...entities].map(o => ({
         value: o.wD_NoOfHDP_Show ?? null,
-        label: o.wD_NoOfHDP_Show.length ? o.wD_NoOfHDP_Show : '(Blanks)'
+        label:
+          o.maxbetWK_HDP_Show && o.maxbetWK_HDP_Show.length
+            ? o.maxbetWK_HDP_Show
+            : '(Blanks)'
       })),
       i => i.label
     )
@@ -136,7 +137,10 @@ const buildMaxBetWeekendHDPGroupOptions = (entities: TDataSource[]) =>
         )
         .map(o => ({
           value: o.maxbetWK_HDP_Show ?? null,
-          label: o.maxbetWK_HDP_Show.length ? o.maxbetWK_HDP_Show : '(Blanks)'
+          label:
+            o.maxbetWK_HDP_Show && o.maxbetWK_HDP_Show.length
+              ? o.maxbetWK_HDP_Show
+              : '(Blanks)'
         })),
       i => i.label
     )
@@ -146,7 +150,10 @@ const buildMaxBetWeekendNoHDPGroupOptions = (entities: TDataSource[]) =>
     uniqBy(
       [...entities].map(o => ({
         value: o.wK_NoOfHDP_Show ?? null,
-        label: o.wK_NoOfHDP_Show.length ? o.wK_NoOfHDP_Show : '(Blanks)'
+        label:
+          o.wK_NoOfHDP_Show && o.wK_NoOfHDP_Show.length
+            ? o.wK_NoOfHDP_Show
+            : '(Blanks)'
       })),
       i => i.label
     )
@@ -157,7 +164,7 @@ const buildLSTNoteOptions = (entities: TDataSource[]) =>
     uniqBy(
       [...entities].map(o => ({
         value: o.lstNote ?? null,
-        label: o.lstNote.length ? o.lstNote : '(Blanks)'
+        label: o.lstNote && o.lstNote.length ? o.lstNote : '(Blanks)'
       })),
       i => i.label
     )
@@ -167,7 +174,7 @@ const buildRemark2Options = (entities: TDataSource[]) =>
     uniqBy(
       [...entities].map(o => ({
         value: o.remark2 ?? null,
-        label: o.remark2.length ? o.remark2 : '(Blanks)'
+        label: o.remark2 && o.remark2.length ? o.remark2 : '(Blanks)'
       })),
       i => i.label
     )
@@ -177,7 +184,7 @@ const buildCommentOptions = (entities: TDataSource[]) =>
     uniqBy(
       [...entities].map(o => ({
         value: o.comment ?? null,
-        label: o.comment.length ? o.comment : '(Blanks)'
+        label: o.comment && o.comment.length ? o.comment : '(Blanks)'
       })),
       i => i.label
     )

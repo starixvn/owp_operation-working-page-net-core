@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const CommentCell = ({ className = '', value = '' }) => {
   const uuidKey = `${className}_${uuidv4()}`;
-  const comments = value.split('\n');
+  const comments = (value || '').split('\n');
 
   return (
     <td className={className}>
