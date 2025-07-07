@@ -22,9 +22,18 @@ const MatchContainLinkDetailCell = (props: CellProps) => {
     IsFantasy,
     MinorBettypeId,
     IsAllowedToViewDetail,
-    OWPMatchId
+    OWPMatchId,
   } = props.dataSource;
-  const { laTradingPage, tradingPage } = store.getState().tradingPageInfo.info;
+  const { laTradingPage, tradingPage, servers } = store.getState().tradingPageInfo.info as {
+    laTradingPage: string;
+    tradingPage: string;
+    servers: {
+      Name: string;
+      Url: string;
+      LAPort: number;
+      TradingPort: number | null;
+    }[];
+  };
 
   const { detailInformationPolicy } = useContext(AppContext);
   const dispatch = useStableDispatch();
@@ -78,6 +87,7 @@ const MatchContainLinkDetailCell = (props: CellProps) => {
           league={League}
           laTradingPage={laTradingPage}
           tradingPage={tradingPage}
+          servers={servers}
         />
       </>
     );

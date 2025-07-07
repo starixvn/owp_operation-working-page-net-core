@@ -27,7 +27,7 @@ const EventPopup = props => {
     league,
     laTradingPage,
     tradingPage,
-    servers
+    servers = []
   } = props;
 
   const leaguesUseSabaLink = [

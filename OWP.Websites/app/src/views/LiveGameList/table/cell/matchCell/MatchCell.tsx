@@ -24,7 +24,16 @@ const MatchCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
     MinorBettypeId
   } = dataSource[rowIndex];
 
-  const { laTradingPage, tradingPage } = store.getState().tradingPageInfo.info;
+  const { laTradingPage, tradingPage, servers } = store.getState().tradingPageInfo.info as {
+    laTradingPage: string;
+    tradingPage: string;
+    servers: {
+      Name: string;
+      Url: string;
+      LAPort: number;
+      TradingPort: number | null;
+    }[];
+  };
   const dispatch = useStableDispatch();
   const dataLength = dataSource.length;
   const threeLastRow = [dataLength - 1, dataLength - two, dataLength - three];
@@ -73,6 +82,7 @@ const MatchCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
               league={League}
               laTradingPage={laTradingPage}
               tradingPage={tradingPage}
+              servers={servers}
             />
           </>
         )}
