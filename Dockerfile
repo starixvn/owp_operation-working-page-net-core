@@ -38,14 +38,16 @@ COPY ./src/OWP/OWP.csproj ./src/OWP/
 COPY ./OWP.Websites/OWP.Websites.csproj ./OWP.Websites/
 
 RUN dotnet nuget add source https://nuget.nexdev.net/api/v2
-RUN dotnet restore -v n -r linux-x64 ./OWP.Websites/OWP.Websites.csproj
+RUN --mount=type=cache,target=/root/.nuget/packages \
+    dotnet restore -v n -r linux-x64 ./OWP.Websites/OWP.Websites.csproj
 
 COPY ./.sonarlint/. ./.sonarlint
 COPY ./src/. ./src/
 COPY ./OWP.Websites ./OWP.Websites
 
 WORKDIR /src/OWP.Websites
-RUN dotnet publish -r linux-x64 --self-contained false -c Release -o /app
+RUN --mount=type=cache,target=/root/.nuget/packages \
+    dotnet publish -r linux-x64 --self-contained false -c Release -o /app
 
 FROM hub.nexdev.net/base/dotnet/core/aspnet:9.0-alpine AS base
 
