@@ -18,6 +18,7 @@ import { FunctionKeys, MatchStatuses } from '../../Shared/Constants';
 import { useSelector } from 'react-redux';
 import {
   filterByUnReadTicket,
+  resetMatchesSelected,
   setRefreshModel
 } from '../table/tableSlice/tableSlice';
 import ToastrWrapper from '../../components/ToastrWrapper';
@@ -88,6 +89,7 @@ const Filter = () => {
       };
       dispatch(getEvents(model));
       dispatch(setRefreshModel(model));
+      dispatch(resetMatchesSelected());
     }
   };
 

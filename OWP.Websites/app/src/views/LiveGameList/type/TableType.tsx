@@ -33,6 +33,8 @@ type CellModel = {
 type CellProps = {
   dataSource: Required<Array<MatchInfo>>;
   rowIndex: Required<number>;
+  firstMatchCheckedIsSaba?: boolean;
+
 };
 
 interface TicketCellProps extends CellProps {
@@ -182,6 +184,7 @@ interface MatchInfo {
   InfoSiteTime: string;
   InfoSiteTimeDisplay: string;
   IsShowAbsenceIcon: boolean;
+  IsSaba: boolean;
 }
 interface FilterAllColumn {
   [x: string]: string;
