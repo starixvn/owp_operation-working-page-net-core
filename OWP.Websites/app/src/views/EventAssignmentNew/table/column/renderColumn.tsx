@@ -80,7 +80,6 @@ const renderColumn = (
         />
         : <FilterHeader
           key={col.COLUMN_KEY}
-          isFirstColumn={false}
           name={col.NAME}
           title={col.HEADER_NAME}
           keyword={filterState.find(x => x.columnKey === col.COLUMN_KEY)?.keyword ?? ''}

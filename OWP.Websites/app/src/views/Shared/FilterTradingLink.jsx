@@ -53,7 +53,6 @@ const FilterTradingLink = ({
   const actionConfigs = useActionConfigs(firstMatchCheckedIsSaba);
 
   const ref = useClickOutside(() => setIsDropdownAction(false));
-
   useEffect(() => {
     const fetchData = async () => {
       const url = `/api/Configuration/soccer/get`;
@@ -113,9 +112,8 @@ const FilterTradingLink = ({
               {Object.entries(actionConfigs).map(([key, config]) => (
                 <li
                   key={key}
-                  className={`${
-                    config.isDisabled ? 'disable-menu-option' : ''
-                  }`}
+                  className={`${config.isDisabled ? 'disable-menu-option' : ''
+                    }`}
                   onClick={() =>
                     !config.isDisabled && handleOpenLink(tradingUrl, key)
                   }>
