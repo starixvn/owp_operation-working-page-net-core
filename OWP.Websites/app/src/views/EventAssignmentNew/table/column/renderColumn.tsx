@@ -5,7 +5,7 @@ import { TDataTable } from '../../type/type';
 import { onClearFilter, onColumnFilter } from '.././eventAssignmentTableSlice';
 import store from '../../app/store';
 import { TABLE } from '../../const.json';
-import RenderHeaderDropdown from './renderHeaderDropdown';
+import FilterTradingLink from '../../../Shared/FilterTradingLink';
 const {
   HEADER: {
     MATCH_NO,
@@ -66,7 +66,7 @@ const renderColumn = (
     header={col.IS_CAN_FILTER
       ?
       (col.COLUMN_KEY === MATCH_NO.COLUMN_KEY
-        ? <RenderHeaderDropdown
+        ? <FilterTradingLink
           firstMatchCheckedIsSaba={firstMatchCheckedIsSaba}
           matchesSelected={matchesSelected}
           name={col.NAME}

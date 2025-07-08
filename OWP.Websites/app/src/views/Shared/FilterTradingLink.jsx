@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import DropdownIcon from '../../../../assets/svg-element/DropdownIcon';
-import useClickOutside from '../../../Shared/customHook/useClickOutside';
+import PropTypes from 'prop-types';
+import DropdownIcon from '../../assets/svg-element/DropdownIcon';
+import useClickOutside from './customHook/useClickOutside';
 import FilterIcon from 'mdi-react/FilterIcon';
 import CloseIcon from 'mdi-react/CloseIcon';
 import { Button, Collapse } from 'reactstrap';
-import { TDataTable } from '../../type/type';
-import { get } from '../../../Shared/Service/Service';
+import { get } from './Service/Service';
 import { ChevronUpIcon, ChevronDownIcon } from 'mdi-react';
 
 const BASE_URLS = {
   Saba: '/SabaTrader/SabaMultipleControl.aspx',
   RT3: '/RobotTrader3/Robot3MulControl.aspx'
-} as const;
+};
 
-type ActionKey = 'Saba' | 'RT3';
-
-const useActionConfigs = (firstMatchCheckedIsSaba: boolean) => {
+const useActionConfigs = firstMatchCheckedIsSaba => {
   return {
     Saba: {
       path: BASE_URLS.Saba,
@@ -33,21 +31,10 @@ const useActionConfigs = (firstMatchCheckedIsSaba: boolean) => {
         firstMatchCheckedIsSaba === undefined ||
         firstMatchCheckedIsSaba === true
     }
-  } as const;
+  };
 };
 
-type RenderHeaderDropdownProps = {
-  name: string;
-  title: string;
-  keyword: string;
-  onClear: (name: string) => void;
-  onSubmit: (name: string, keyword: string) => void;
-  clearFilterTitle?: string;
-  firstMatchCheckedIsSaba: boolean;
-  matchesSelected: TDataTable;
-};
-
-const RenderHeaderDropdown = ({
+const FilterTradingLink = ({
   name,
   title,
   keyword,
@@ -56,29 +43,30 @@ const RenderHeaderDropdown = ({
   clearFilterTitle = 'Clear All Filters',
   firstMatchCheckedIsSaba,
   matchesSelected
-}: RenderHeaderDropdownProps) => {
+}) => {
   const [isShowDropdownAction, setIsDropdownAction] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [value, setValue] = useState(keyword || '');
-  const [tradingUrl, setTradingUrl] = useState<string>('');
-  const [servers, setServers] = useState<any[]>([]);
-  const [openServerType, setOpenServerType] = useState<string | null>(null);
+  const [tradingUrl, setTradingUrl] = useState('');
+  const [servers, setServers] = useState([]);
+  const [openServerType, setOpenServerType] = useState(null);
   const actionConfigs = useActionConfigs(firstMatchCheckedIsSaba);
 
-  const ref = useClickOutside<HTMLDivElement>(() => setIsDropdownAction(false));
+  const ref = useClickOutside(() => setIsDropdownAction(false));
 
   useEffect(() => {
-    (async () => {
+    const fetchData = async () => {
       const url = `/api/Configuration/soccer/get`;
       const response = await get({ url });
       const { tradingPage, servers } = response.data;
       setTradingUrl(tradingPage);
       setServers(servers);
-    })();
+    };
+    fetchData();
   }, []);
 
   const onHandleClickOpen = () => setIsOpen(!isOpen);
-  const onHandleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => setValue(event.target.value);
+  const onHandleTextChange = event => setValue(event.target.value);
   const onHandleClearTextFilter = () => {
     setIsOpen(false);
     setValue('');
@@ -88,11 +76,11 @@ const RenderHeaderDropdown = ({
     setIsOpen(false);
     onSubmit(name, value);
   };
-  const onKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const onKeyPress = event => {
     if (event.key === 'Enter') { onHandleClickSubmit(); }
   };
 
-  const handleOpenLink = (baseUrl: string, key: ActionKey) => {
+  const handleOpenLink = (baseUrl, key) => {
     const matchIds = matchesSelected.map(match => match.AdminSiteId).join(',');
     const config = actionConfigs[key];
     const url = `${baseUrl}${config.path}?${config.paramName}=${matchIds}`;
@@ -105,7 +93,7 @@ const RenderHeaderDropdown = ({
     setIsOpen(false);
   };
 
-  const handleToggle = (type: string) => {
+  const handleToggle = type => {
     setOpenServerType(openServerType === type ? null : type);
   };
 
@@ -124,7 +112,7 @@ const RenderHeaderDropdown = ({
                 <li
                   key={key}
                   className={`${config.isDisabled ? 'disable-menu-option' : ''}`}
-                  onClick={() => !config.isDisabled && handleOpenLink(tradingUrl, key as ActionKey)}
+                  onClick={() => !config.isDisabled && handleOpenLink(tradingUrl, key)}
                 >
                   <div>
                     <span>{config.label}</span>
@@ -148,7 +136,7 @@ const RenderHeaderDropdown = ({
                             <a
                               rel="noopener noreferrer"
                               target="_blank"
-                              onClick={() => handleOpenLink(server.url, key as ActionKey)}
+                              onClick={() => handleOpenLink(server.url, key)}
                             >
                               {server.name}
                             </a>
@@ -201,4 +189,19 @@ const RenderHeaderDropdown = ({
   );
 };
 
-export default RenderHeaderDropdown; 
+FilterTradingLink.propTypes = {
+  name: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  keyword: PropTypes.string.isRequired,
+  onClear: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  clearFilterTitle: PropTypes.string,
+  firstMatchCheckedIsSaba: PropTypes.bool.isRequired,
+  matchesSelected: PropTypes.arrayOf(
+    PropTypes.shape({
+      AdminSiteId: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    })
+  ).isRequired
+};
+
+export default FilterTradingLink; 
