@@ -25,7 +25,10 @@ const BASE_URLS = {
   RT3: '/RobotTrader3/Robot3MulControl.aspx'
 } as const;
 
-const useActionConfigs = (tradingPageUrl: string, firstMatchCheckedIsSaba?: boolean) => {
+const useActionConfigs = (
+  tradingPageUrl: string,
+  firstMatchCheckedIsSaba?: boolean
+) => {
   return {
     Saba: {
       url: `${tradingPageUrl}${BASE_URLS.Saba}`,
@@ -81,7 +84,9 @@ const DropdownActionHeader = ({
   const handleServerLink = (serverUrl: string, key: ActionKey) => {
     const matchIds = matchesSelected.map(match => match.AdminSiteId).join(',');
     const config = actionConfigs[key];
-    const url = `${serverUrl}${config.url.split(tradingUrl)[1]}?${config.paramName}=${matchIds}`;
+    const url = `${serverUrl}${config.url.split(tradingUrl)[1]}?${
+      config.paramName
+    }=${matchIds}`;
     window.open(url, '_blank');
     closePopup();
   };
@@ -113,8 +118,9 @@ const DropdownActionHeader = ({
           <li
             key={key}
             className={`${config.isDisabled ? 'disable-menu-option' : ''}`}
-            onClick={() => !config.isDisabled && handleOpenLink(key as ActionKey)}
-          >
+            onClick={() =>
+              !config.isDisabled && handleOpenLink(key as ActionKey)
+            }>
             <div>
               <span>{config.label}</span>
               {!config.isDisabled && (
@@ -123,9 +129,12 @@ const DropdownActionHeader = ({
                     e.stopPropagation();
                     handleToggle(key as ActionKey);
                   }}
-                  style={{ cursor: 'pointer' }}
-                >
-                  {openServerType === key ? <ChevronUpIcon size={16} /> : <ChevronDownIcon size={16} />}
+                  style={{ cursor: 'pointer' }}>
+                  {openServerType === key ? (
+                    <ChevronUpIcon size={16} />
+                  ) : (
+                    <ChevronDownIcon size={16} />
+                  )}
                 </span>
               )}
             </div>
@@ -135,10 +144,12 @@ const DropdownActionHeader = ({
                   {servers.map((server, idx) => (
                     <li key={server.name || idx}>
                       <a
-                        rel="noopener noreferrer"
-                        target="_blank"
-                        onClick={() => handleServerLink(server.url, key as ActionKey)}
-                      >
+                        rel='noopener noreferrer'
+                        target='_blank'
+                        onClick={e => {
+                          e.stopPropagation();
+                          handleServerLink(server.url, key as ActionKey);
+                        }}>
                         {server.name}
                       </a>
                     </li>
