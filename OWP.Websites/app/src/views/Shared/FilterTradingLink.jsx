@@ -77,7 +77,9 @@ const FilterTradingLink = ({
     onSubmit(name, value);
   };
   const onKeyPress = event => {
-    if (event.key === 'Enter') { onHandleClickSubmit(); }
+    if (event.key === 'Enter') {
+      onHandleClickSubmit();
+    }
   };
 
   const handleOpenLink = (baseUrl, key) => {
@@ -106,14 +108,17 @@ const FilterTradingLink = ({
           handleOnClick={handleOpenDropdown}
         />
         {isShowDropdownAction && (
-          <div className="dropdown-action is-show" ref={ref}>
+          <div className='dropdown-action is-show' ref={ref}>
             <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
               {Object.entries(actionConfigs).map(([key, config]) => (
                 <li
                   key={key}
-                  className={`${config.isDisabled ? 'disable-menu-option' : ''}`}
-                  onClick={() => !config.isDisabled && handleOpenLink(tradingUrl, key)}
-                >
+                  className={`${
+                    config.isDisabled ? 'disable-menu-option' : ''
+                  }`}
+                  onClick={() =>
+                    !config.isDisabled && handleOpenLink(tradingUrl, key)
+                  }>
                   <div>
                     <span>{config.label}</span>
                     {!config.isDisabled && (
@@ -122,22 +127,29 @@ const FilterTradingLink = ({
                           e.stopPropagation();
                           handleToggle(config.label);
                         }}
-                        style={{ cursor: 'pointer' }}
-                      >
-                        {openServerType === config.label ? <ChevronUpIcon size={16} /> : <ChevronDownIcon size={16} />}
+                        style={{ cursor: 'pointer' }}>
+                        {openServerType === config.label ? (
+                          <ChevronUpIcon size={16} />
+                        ) : (
+                          <ChevronDownIcon size={16} />
+                        )}
                       </span>
                     )}
                   </div>
                   {!config.isDisabled && (
-                    <Collapse isOpen={openServerType === config.label} className='server-list'>
-                      <ul >
+                    <Collapse
+                      isOpen={openServerType === config.label}
+                      className='server-list'>
+                      <ul>
                         {servers.map((server, idx) => (
-                          <li key={server.name || idx} >
+                          <li key={server.name || idx}>
                             <a
-                              rel="noopener noreferrer"
-                              target="_blank"
-                              onClick={() => handleOpenLink(server.url, key)}
-                            >
+                              rel='noopener noreferrer'
+                              target='_blank'
+                              onClick={e => {
+                                e.stopPropagation();
+                                handleOpenLink(server.url, key);
+                              }}>
                               {server.name}
                             </a>
                           </li>
@@ -171,9 +183,7 @@ const FilterTradingLink = ({
               onChange={onHandleTextChange}
               onKeyPress={onKeyPress}
             />
-            <span
-              className='clear-all'
-              onClick={onHandleClearTextFilter}>
+            <span className='clear-all' onClick={onHandleClearTextFilter}>
               {clearFilterTitle}
             </span>
             <Button
@@ -204,4 +214,4 @@ FilterTradingLink.propTypes = {
   ).isRequired
 };
 
-export default FilterTradingLink; 
+export default FilterTradingLink;
