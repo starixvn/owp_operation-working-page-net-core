@@ -20,12 +20,13 @@ const {
 const EventAssignmentTable = () => {
   const tableRef = useRef(null);
   const dispatch = useAppDispatch();
-  const { entities, loading } = useAppSelector(state => state.eventAssignmentTable);
+  const { entities, loading, matchesSelected } = useAppSelector(state => state.eventAssignmentTable);
   const {
     filter: {
       filterState: { selectedDate }
     }
   } = store.getState();
+
 
   useEffect(() => {
     dispatch(setAllowAddEvent(selectedDate));
@@ -54,7 +55,7 @@ const EventAssignmentTable = () => {
         height={window.innerHeight - 170}
         maxHeight={MAX_HEIGHT}
         headerHeight={HEADER_HEIGHT}>
-        {renderColumn(entities, handleShowPopup)}
+        {renderColumn(entities, handleShowPopup, matchesSelected)}
       </Table>
       <div className='total'>Total records:{entities.length}</div>
     </div>

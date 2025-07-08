@@ -5,6 +5,7 @@ import { TDataTable } from '../../type/type';
 import { onClearFilter, onColumnFilter } from '.././eventAssignmentTableSlice';
 import store from '../../app/store';
 import { TABLE } from '../../const.json';
+import RenderHeaderDropdown from './renderHeaderDropdown';
 const {
   HEADER: {
     MATCH_NO,
@@ -32,9 +33,12 @@ const {
 
 const renderColumn = (
   dataSource: TDataTable,
-  onShowPopup: (show: boolean) => void) => {
+  onShowPopup: (show: boolean) => void,
+  matchesSelected: TDataTable
+) => {
   const { getState, dispatch } = store;
   const { filterState } = getState().eventAssignmentTable;
+  const firstMatchCheckedIsSaba = matchesSelected[0]?.IsSaBa;
   return [
     MATCH_NO,
     KO_TIME,
@@ -61,17 +65,31 @@ const renderColumn = (
     columnKey={col.COLUMN_KEY}
     header={col.IS_CAN_FILTER
       ?
-      <FilterHeader
-        key={col.COLUMN_KEY}
-        name={col.NAME}
-        title={col.HEADER_NAME}
-        keyword={filterState.find(x => x.columnKey === col.COLUMN_KEY)?.keyword ?? ''}
-        onClear={() => dispatch(onClearFilter())}
-        onSubmit={(columnKey: string, keyword: string) => dispatch(onColumnFilter({
-          columnKey,
-          keyword
-        }))}
-      />
+      (col.COLUMN_KEY === MATCH_NO.COLUMN_KEY
+        ? <RenderHeaderDropdown
+          firstMatchCheckedIsSaba={firstMatchCheckedIsSaba}
+          matchesSelected={matchesSelected}
+          name={col.NAME}
+          title={col.HEADER_NAME}
+          keyword={filterState.find(x => x.columnKey === col.COLUMN_KEY)?.keyword ?? ''}
+          onClear={() => dispatch(onClearFilter())}
+          onSubmit={(columnKey: string, keyword: string) => dispatch(onColumnFilter({
+            columnKey,
+            keyword
+          }))}
+        />
+        : <FilterHeader
+          key={col.COLUMN_KEY}
+          isFirstColumn={false}
+          name={col.NAME}
+          title={col.HEADER_NAME}
+          keyword={filterState.find(x => x.columnKey === col.COLUMN_KEY)?.keyword ?? ''}
+          onClear={() => dispatch(onClearFilter())}
+          onSubmit={(columnKey: string, keyword: string) => dispatch(onColumnFilter({
+            columnKey,
+            keyword
+          }))}
+        />)
       : col.HEADER_NAME
     }
     width={col.WIDTH}
@@ -87,6 +105,5 @@ const renderColumn = (
     }
   />);
 };
-
 
 export default renderColumn;
