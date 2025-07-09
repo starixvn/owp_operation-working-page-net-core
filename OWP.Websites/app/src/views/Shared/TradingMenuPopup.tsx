@@ -24,6 +24,8 @@ const propTypes = {
   matchesSelected: PropTypes.array
 };
 
+const defaultPort = 80;
+
 const BASE_URLS = {
   Saba: '/SabaTrader/SabaMultipleControl.aspx',
   RT3: '/RobotTrader3/Robot3MulControl.aspx'
@@ -73,21 +75,22 @@ const createMenuTitle = (label: string, href: string, disabled: boolean) => (
   </span>
 );
 
-const createSubMenuItems = () => [
-  <Menu.Item key='0-1'>
-    <a
-      href='https://www.antgroup.com'
-      target='_blank'
-      rel='noopener noreferrer'>
-      1st sub item
-    </a>
-  </Menu.Item>,
-  <Menu.Item key='0-2'>
-    <a href='https://www.aliyun.com' target='_blank' rel='noopener noreferrer'>
-      2nd sub item
-    </a>
-  </Menu.Item>
-];
+const createSubMenuItems = (
+  servers: any[],
+  getSubMenuLink: (serverUrl: string, port: number, key: ActionKey) => string,
+  key: ActionKey
+) =>
+  servers.map((server, index) => (
+    <Menu.Item key={`server-${index}`}>
+      <a
+        href={getSubMenuLink(server.url, server.tradingPort, key)}
+        target='_blank'
+        rel='noopener noreferrer'>
+        {server.name}
+      </a>
+    </Menu.Item>
+  ));
+
 const buildUrl = (config: ActionConfig, matchIds: string) => {
   const url = new URL(config.url);
   url.searchParams.append(config.paramName, matchIds);
@@ -96,7 +99,9 @@ const buildUrl = (config: ActionConfig, matchIds: string) => {
 
 const createMenu = (
   actionConfigs: Record<string, ActionConfig>,
-  getMenuLink: (key: ActionKey) => string
+  getMenuLink: (key: ActionKey) => string,
+  getSubMenuLink: (serverUrl: string, port: number, key: ActionKey) => string,
+  servers: any[]
 ) => (
   <Menu mode='vertical' triggerSubMenuAction='click'>
     {Object.entries(actionConfigs).map(([key, config], index) => (
@@ -109,7 +114,7 @@ const createMenu = (
             getMenuLink(key as ActionKey),
             config.isDisabled
           )}>
-          {createSubMenuItems()}
+          {createSubMenuItems(servers, getSubMenuLink, key as ActionKey)}
         </Menu.SubMenu>
         {index < Object.keys(actionConfigs).length - 1 && <Menu.Divider />}
       </React.Fragment>
@@ -121,6 +126,7 @@ const TradingMenuPopup = (props: TTradingMenuPopup) => {
   const { firstMatchCheckedIsSaba, matchesSelected } = props;
   const [tradingUrl, setTradingUrl] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
+  const [servers, setServers] = useState<any[]>([]);
 
   const actionConfigs = useActionConfigs(tradingUrl, firstMatchCheckedIsSaba);
   const getMenuLink = (key: ActionKey) => {
@@ -128,14 +134,24 @@ const TradingMenuPopup = (props: TTradingMenuPopup) => {
     const config = actionConfigs[key];
     return buildUrl(config, matchIds);
   };
+  const getSubMenuLink = (serverUrl: string, port: number, key: ActionKey) => {
+    const matchIds = matchesSelected.map(match => match.AdminSiteId).join(',');
+    const config = actionConfigs[key];
+    serverUrl = port !== defaultPort ? `${serverUrl}:${port}` : serverUrl;
+    const url = `${serverUrl}${config.url.split(tradingUrl)[1]}?${
+      config.paramName
+    }=${matchIds}`;
+    return url;
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const url = `/api/Configuration/soccer/get`;
         const response = await get({ url });
-        const { tradingPage } = response.data;
+        const { tradingPage, servers } = response.data;
         setTradingUrl(tradingPage);
+        setServers(servers);
       } catch (error) {
         console.error('Error fetching trading URL:', error);
       } finally {
@@ -149,7 +165,7 @@ const TradingMenuPopup = (props: TTradingMenuPopup) => {
     return null;
   }
 
-  const menu = createMenu(actionConfigs, getMenuLink);
+  const menu = createMenu(actionConfigs, getMenuLink, getSubMenuLink, servers);
 
   return (
     <Dropdown dropdownRender={() => menu} trigger={['click']}>
