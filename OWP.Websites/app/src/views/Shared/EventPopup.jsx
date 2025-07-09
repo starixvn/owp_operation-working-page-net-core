@@ -79,8 +79,8 @@ const EventPopup = props => {
         <span style={{ marginLeft: 6, cursor: 'pointer' }} onClick={toggleLaCollapse}>
           {laCollapseOpen ? <ChevronUpIcon size={16} /> : <ChevronDownIcon size={16} />}
         </span>
-        <Collapse isOpen={laCollapseOpen}>
-          <ul style={{ margin: 0, paddingLeft: 16 }}>
+        <Collapse isOpen={laCollapseOpen} className='la-collapse'>
+          <ul>
             {servers.map((server, idx) => (
               <li key={server.name} style={{ listStyle: 'disc' }}>
                 <a
