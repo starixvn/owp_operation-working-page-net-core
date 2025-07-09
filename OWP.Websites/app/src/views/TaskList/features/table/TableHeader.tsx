@@ -4,6 +4,9 @@ import { TABLE_HEADER } from '../const/TableSchema.json';
 import useClickOutside from '../../../Shared/customHook/useClickOutside';
 import DropdownActionHeader from './DropdownActionHeader';
 import { THeader } from '../../type/Header';
+import TradingMenuPopup from '../../../Shared/TradingMenuPopup';
+import { useAppSelector } from '../../app/hooks';
+import { RootState } from '../../app/storeNative';
 
 type colSpanType = {
   [key: string]: number;
@@ -20,9 +23,18 @@ const TableHeader = (props: THeader) => {
 
   const [isShowDropdownAction, setIsDropdownAction] = useState(false);
   const ref = useClickOutside<HTMLDivElement>(() => setIsDropdownAction(false));
+  const matchesSelected = useAppSelector(
+    (state: RootState) => state.taskList.matchesSelected
+  );
 
   const renderDropdown = (index: number) => {
     if (index === 0 && hasDetailInformationPermission) {
+      //   return (
+      //     <TradingMenuPopup
+      //       firstMatchCheckedIsSaba={firstMatchCheckedIsSaba}
+      //       matchesSelected={matchesSelected}
+      //     />
+      //   );
       return (
         <div className='dropdown-wrap'>
           <DropdownIcon
