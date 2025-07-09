@@ -13,6 +13,8 @@ const BASE_URLS = {
   RT3: '/RobotTrader3/Robot3MulControl.aspx'
 };
 
+const defaultPort = 80;
+
 const useActionConfigs = firstMatchCheckedIsSaba => {
   return {
     Saba: {
@@ -81,9 +83,10 @@ const FilterTradingLink = ({
     }
   };
 
-  const handleOpenLink = (baseUrl, key) => {
+  const handleOpenLink = (baseUrl, port, key) => {
     const matchIds = matchesSelected.map(match => match.AdminSiteId).join(',');
     const config = actionConfigs[key];
+    baseUrl = port !== defaultPort ? `${baseUrl}:${port}` : baseUrl;
     const url = `${baseUrl}${config.path}?${config.paramName}=${matchIds}`;
     window.open(url, '_blank');
     setIsDropdownAction(false);
@@ -115,7 +118,7 @@ const FilterTradingLink = ({
                   className={`${config.isDisabled ? 'disable-menu-option' : ''
                     }`}
                   onClick={() =>
-                    !config.isDisabled && handleOpenLink(tradingUrl, key)
+                    !config.isDisabled && handleOpenLink(tradingUrl, defaultPort, key)
                   }>
                   <div>
                     <span>{config.label}</span>
@@ -146,7 +149,7 @@ const FilterTradingLink = ({
                               target='_blank'
                               onClick={e => {
                                 e.stopPropagation();
-                                handleOpenLink(server.url, key);
+                                handleOpenLink(server.url, server.tradingPort, key);
                               }}>
                               {server.name}
                             </a>

@@ -20,6 +20,8 @@ interface ActionConfig {
   isDisabled?: boolean;
 }
 
+const defaultPort = 80;
+
 const BASE_URLS = {
   Saba: '/SabaTrader/SabaMultipleControl.aspx',
   RT3: '/RobotTrader3/Robot3MulControl.aspx'
@@ -81,12 +83,12 @@ const DropdownActionHeader = ({
     closePopup();
   };
 
-  const handleServerLink = (serverUrl: string, key: ActionKey) => {
+  const handleServerLink = (serverUrl: string, port: number, key: ActionKey) => {
     const matchIds = matchesSelected.map(match => match.AdminSiteId).join(',');
     const config = actionConfigs[key];
-    const url = `${serverUrl}${config.url.split(tradingUrl)[1]}?${
-      config.paramName
-    }=${matchIds}`;
+    serverUrl = port !== defaultPort ? `${serverUrl}:${port}` : serverUrl;
+    const url = `${serverUrl}${config.url.split(tradingUrl)[1]}?${config.paramName
+      }=${matchIds}`;
     window.open(url, '_blank');
     closePopup();
   };
@@ -148,7 +150,7 @@ const DropdownActionHeader = ({
                         target='_blank'
                         onClick={e => {
                           e.stopPropagation();
-                          handleServerLink(server.url, key as ActionKey);
+                          handleServerLink(server.url, server.tradingPort, key as ActionKey);
                         }}>
                         {server.name}
                       </a>
