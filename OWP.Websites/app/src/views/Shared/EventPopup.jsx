@@ -137,7 +137,7 @@ const EventPopup = props => {
       </span>
       <Collapse isOpen={openType === type}>
         <ul style={{ margin: 0, paddingLeft: 16 }}>
-          {servers.map((server, idx) => (
+          {servers?.map((server, idx) => (
             <li key={server.name} style={{ listStyle: 'disc' }}>
               <a
                 href={getTradingPageUrl(server.url, path, server.tradingPort)}
