@@ -18,20 +18,25 @@
   padding-bottom: 10px;
   border-bottom: 1px solid #d3d3d3;
   margin-bottom: 10px;
+
   .col {
     display: flex;
   }
+
   .right {
     align-content: center;
     margin-left: 20px;
+
     div {
       color: #808080;
     }
   }
+
   .button-submit {
     margin-left: 0;
     margin-bottom: 10px;
     height: 28px;
+
     svg {
       margin-left: 3px;
     }
@@ -44,21 +49,27 @@
     background-color: transparent;
     color: #444444;
   }
+
   .head {
     display: flex;
+
     button.plus-icon {
       margin-top: -8px;
     }
   }
+
   table {
     thead {
       font-weight: 700;
+
       .shortcut-col {
         width: 180px !important;
       }
+
       .message-col {
         width: 500px;
       }
+
       .action-col {
         text-align: center;
       }
@@ -72,6 +83,7 @@
         border-radius: 2px;
         height: 30px;
       }
+
       td {
         input {
           border: 1px solid #d3d3d3;
@@ -79,27 +91,33 @@
           border-radius: 3px;
           height: 30px;
         }
+
         input:focus-visible {
           outline: none;
           border: 1px solid #1da1f2;
         }
       }
+
       .shortcut-cell,
       .message-cell,
       .action-cell {
         align-items: center;
       }
+
       .shortcut-cell {
         display: flex;
+
         input {
           border-left: none;
           border-radius: 0px 3px 3px 0px;
           margin-left: -1px;
         }
+
         input:focus-visible {
           outline: none;
           border-left: none;
         }
+
         .shortcut-value {
           margin-left: 4px;
           text-align: center;
@@ -120,18 +138,22 @@
           cursor: pointer;
           transition: 0.2s ease all;
         }
+
         .edit-action:hover {
           background-color: #ffa861;
           color: #fff;
         }
+
         .delete-action:hover {
           background-color: #ff4c48;
           color: #fff;
         }
+
         .save-action:hover {
           background-color: #30b059;
           color: #fff;
         }
+
         .cancel-action:hover {
           background-color: #555;
           color: #fff;
@@ -147,4 +169,34 @@
       }
     }
   }
+}
+
+.admin-server-setting {
+  margin-top: 20px;
+
+  .head {
+    display: flex;
+  }
+
+  .server-setting-content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-top: 10px;
+
+    label {
+      font-weight: 700;
+    }
+
+    .server-select {
+      width: 160px;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+
+  }
+
+
 }

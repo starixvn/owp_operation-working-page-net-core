@@ -28,5 +28,22 @@ public class ProfileController : ControllerBase
 
         return Ok();
     }
+
+    [HttpGet("get-user-setting-server")]
+    public async Task<IActionResult> GetUserSettingServer()
+    {
+        var request = new GetUserSettingByKeyRequest { Key = "AdminServerSetting" };
+        var result = await mediator.Send(request);
+        return Ok(result);
+    }
+
+    [HttpPost("update-user-setting-server")]
+    public async Task<IActionResult> UpdateUserSettingServer(UpdateUserSettingRequest request)
+    {
+        request.Key = "AdminServerSetting";
+        await mediator.Send(request);
+        return Ok();
+    }
+
 }
 

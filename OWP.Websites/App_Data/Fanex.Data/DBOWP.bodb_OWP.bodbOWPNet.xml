@@ -431,6 +431,8 @@
         <Setting Key="OWP_AccountSetting_SaveUserProfile" SpName ="OWP_AccountSetting_SaveUserProfile" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_AccountSetting_SaveQuickMessage" SpName ="OWP_AccountSetting_SaveQuickMessage" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_AccountSetting_DeleteQuickMessage" SpName ="OWP_AccountSetting_DeleteQuickMessage" DbName="DBOWP.bodb_OWP.wsv_owp" />
+        <Setting Key="OWP_UserSetting_GetByUserKey" SpName ="OWP_UserSetting_GetByUserKey" DbName="DBOWP.bodb_OWP.wsv_owp" />
+        <Setting Key="OWP_UserSetting_Update" SpName ="OWP_UserSetting_Update" DbName="DBOWP.bodb_OWP.wsv_owp" />
     </Function>
     <Function Name="WorkingShift">
         <Setting Key="OWP_EmployeeWorkingShift_Upload" SpName="OWP_EmployeeWorkingShift_Upload" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>

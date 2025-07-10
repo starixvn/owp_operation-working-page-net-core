@@ -31,6 +31,7 @@ public class SoccerUrls
 [Serializable]
 public class ServerInfo
 {
+    public int Id { get; set; }
     public string Name { get; set; }
     public string Url { get; set; }
     public int LAPort { get; set; }
