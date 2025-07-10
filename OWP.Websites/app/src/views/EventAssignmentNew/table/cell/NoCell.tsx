@@ -4,7 +4,7 @@ import { UncontrolledTooltip, Input } from 'reactstrap';
 import { isEqual } from 'lodash';
 import { MATCH_STATUS } from '../../const.json';
 import { LinkIcon, LinkOffIcon } from 'mdi-react';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import ToastrWrapper from '../../../components/ToastrWrapper';
 import store from '../../app/store';
 import { useState } from 'react';
@@ -31,7 +31,6 @@ const NoCell = (props: TCellModel) => {
   const isSelected = store.getState().eventAssignmentTable.matchesSelected.some(
     x => x.OWPMatchId === OWPMatchId);
 
-  const [isChecked, setIsChecked] = useState(isSelected);
 
   const renderInfoSiteLinked = () => {
     if (
@@ -58,11 +57,8 @@ const NoCell = (props: TCellModel) => {
       ToastrWrapper.showWarning(
         <span>Please choose only one: SABA or Real matches!</span>
       );
-      setIsChecked(false);
       return;
     }
-
-    setIsChecked(event?.target?.checked);
 
     dispatch(
       setMatchesSelected({
@@ -90,7 +86,7 @@ const NoCell = (props: TCellModel) => {
       <Input
         type='checkbox'
         className='check-by-lst'
-        checked={isChecked}
+        checked={isSelected}
         onChange={handleSelectedChanged}
       />
     );
