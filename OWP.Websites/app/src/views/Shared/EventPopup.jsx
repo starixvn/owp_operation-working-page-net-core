@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
-import { UncontrolledPopover, PopoverBody, Button, Collapse } from 'reactstrap';
+import { UncontrolledPopover, PopoverBody} from 'reactstrap';
 import { BettypeId } from './Constants';
-import React, { useState } from 'react';
-import { ChevronUpIcon, ChevronDownIcon } from 'mdi-react';
 
 const defaultPort = 80;
 const propTypes = {
@@ -14,7 +12,7 @@ const propTypes = {
   league: PropTypes.string,
   laTradingPage: PropTypes.string,
   tradingPage: PropTypes.string,
-  servers: PropTypes.array
+  serverSetting: PropTypes.object
 };
 
 const EventPopup = props => {
@@ -27,28 +25,29 @@ const EventPopup = props => {
     league,
     laTradingPage,
     tradingPage,
-    servers = []
+    serverSetting
   } = props;
 
   const leaguesUseSabaLink = [
     'SABA ELITE FRIENDLY Virtual PES 23 - PENALTY SHOOTOUTS',
     'SABA ELITE FRIENDLY Virtual PES 21 - 5 Mins Play'
-  ];
-
-  const [laCollapseOpen, setLaCollapseOpen] = useState(false);
-  const toggleLaCollapse = () => setLaCollapseOpen(!laCollapseOpen);
-
-  const [openType, setOpenType] = useState(null);
-  const handleToggle = type => {
-    setOpenType(openType === type ? null : type);
-  };
-
-  const getLaControllerHref = (league, adminSiteId, url) => {
+    ];
+    
+  const getLaControllerHref = (
+    league,
+    adminSiteId,
+    laTradingPage,
+    serverSetting
+  ) => {
     const isUseSabaLink = leaguesUseSabaLink.includes(league);
-
+    const url =
+      serverSetting === undefined
+        ? laTradingPage
+        : getServiceWithPort(serverSetting.url, serverSetting.laPort);
     const baseUrl = isUseSabaLink
       ? `${url}/Live/OddsControl_Saba.aspx`
       : `${url}/Live/OddsControl.aspx`;
+
     return `${baseUrl}?matchid=${adminSiteId}&type=s`;
   };
 
@@ -60,43 +59,18 @@ const EventPopup = props => {
   };
 
   const renderLaControllerCollapse = () => {
-    if (!servers || servers.length === 0) {
-      return null;
-    }
     return (
       <li>
         <a
-          href={getLaControllerHref(league, adminSiteId, laTradingPage)}
+          href={getLaControllerHref(
+            league,
+            adminSiteId,
+            laTradingPage,
+            serverSetting
+          )}
           style={{ cursor: 'pointer', display: 'inline-flex' }}>
           LA Controller
         </a>
-        <span
-          style={{ marginLeft: 6, cursor: 'pointer' }}
-          onClick={toggleLaCollapse}>
-          {laCollapseOpen ? (
-            <ChevronUpIcon size={16} />
-          ) : (
-            <ChevronDownIcon size={16} />
-          )}
-        </span>
-        <Collapse isOpen={laCollapseOpen} className='la-collapse'>
-          <ul>
-            {servers.map((server, idx) => (
-              <li key={server.name} style={{ listStyle: 'disc' }}>
-                <a
-                  href={getLaControllerHref(
-                    league,
-                    adminSiteId,
-                    getServiceWithPort(server.url, server.laPort)
-                  )}
-                  rel='noopener noreferrer'
-                  target='_blank'>
-                  {server.name}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </Collapse>
       </li>
     );
   };
@@ -116,8 +90,11 @@ const EventPopup = props => {
     );
   };
 
-  const getTradingPageUrl = (baseUrl, path, port) => {
-    baseUrl = getServiceWithPort(baseUrl, port);
+  const getTradingPageUrl = (baseUrl, path, serverSetting) => {
+    baseUrl =
+      serverSetting === undefined
+        ? getServiceWithPort(baseUrl, defaultPort)
+        : getServiceWithPort(serverSetting.url, serverSetting.tradingPort);
     const url = `${baseUrl}/${path}`;
     return url;
   };
@@ -129,7 +106,7 @@ const EventPopup = props => {
   const renderTradingTypeCollapse = (type, path) => (
     <li>
       <a
-        href={getTradingPageUrl(tradingPage, path, defaultPort)}
+        href={getTradingPageUrl(tradingPage, path, serverSetting)}
         style={{
           cursor: 'pointer',
           display: 'inline-flex',
@@ -137,27 +114,6 @@ const EventPopup = props => {
         }}>
         {type}
       </a>
-      <span style={{ marginLeft: 6 }} onClick={() => handleToggle(type)}>
-        {openType === type ? (
-          <ChevronUpIcon size={16} />
-        ) : (
-          <ChevronDownIcon size={16} />
-        )}
-      </span>
-      <Collapse isOpen={openType === type}>
-        <ul style={{ margin: 0, paddingLeft: 16 }}>
-          {servers?.map((server, idx) => (
-            <li key={server.name} style={{ listStyle: 'disc' }}>
-              <a
-                href={getTradingPageUrl(server.url, path, server.tradingPort)}
-                rel='noopener noreferrer'
-                target='_blank'>
-                {server.name}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </Collapse>
     </li>
   );
 

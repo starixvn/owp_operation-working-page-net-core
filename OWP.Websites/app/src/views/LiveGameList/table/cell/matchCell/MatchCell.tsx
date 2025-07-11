@@ -24,14 +24,16 @@ const MatchCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
     MinorBettypeId
   } = dataSource[rowIndex];
 
-  const { laTradingPage, tradingPage, servers } = store.getState().tradingPageInfo.info as {
+  const { laTradingPage, tradingPage, servers } = store.getState()
+    .tradingPageInfo.info as {
     laTradingPage: string;
     tradingPage: string;
-    servers: {
-      Name: string;
-      Url: string;
-      LAPort: number;
-      TradingPort: number | null;
+      servers: {
+      id: number;
+      name: string;
+      url: string;
+      laPort: number;
+      tradingPort: number | null;
     }[];
   };
   const dispatch = useStableDispatch();
@@ -60,6 +62,8 @@ const MatchCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
     window.executeCopy(kickOffTime, league, match, matchNo, iptv, provider);
   };
 
+  const serverSetting = servers.find(server => server.id === 0);
+
   return (
     <div className='match-cell'>
       <div onClick={handleOpenLiveDetail} className='open-live-detail'>
@@ -82,7 +86,7 @@ const MatchCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
               league={League}
               laTradingPage={laTradingPage}
               tradingPage={tradingPage}
-              servers={servers}
+              serverSetting={serverSetting}
             />
           </>
         )}

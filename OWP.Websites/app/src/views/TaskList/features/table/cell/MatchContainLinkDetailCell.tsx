@@ -22,16 +22,18 @@ const MatchContainLinkDetailCell = (props: CellProps) => {
     IsFantasy,
     MinorBettypeId,
     IsAllowedToViewDetail,
-    OWPMatchId,
+    OWPMatchId
   } = props.dataSource;
-  const { laTradingPage, tradingPage, servers } = store.getState().tradingPageInfo.info as {
+  const { laTradingPage, tradingPage, servers } = store.getState()
+    .tradingPageInfo.info as {
     laTradingPage: string;
     tradingPage: string;
     servers: {
-      Name: string;
-      Url: string;
-      LAPort: number;
-      TradingPort: number | null;
+      id: number;
+      name: string;
+      url: string;
+      laPort: number;
+      tradingPort: number | null;
     }[];
   };
 
@@ -72,6 +74,8 @@ const MatchContainLinkDetailCell = (props: CellProps) => {
       dispatch(openPopupDetail(OWPMatchId));
   };
 
+  const serverSetting = servers.find(server => server.id === 0);
+
   const renderLinkIcon = () => {
     return (
       <>
@@ -87,7 +91,7 @@ const MatchContainLinkDetailCell = (props: CellProps) => {
           league={League}
           laTradingPage={laTradingPage}
           tradingPage={tradingPage}
-          servers={servers}
+          serverSetting={serverSetting}
         />
       </>
     );
