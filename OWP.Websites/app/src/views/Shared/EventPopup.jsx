@@ -43,14 +43,6 @@ const EventPopup = props => {
     setOpenType(openType === type ? null : type);
   };
 
-  const renderItem = (baseUrl, path, value) => (
-    <li>
-      <a href={getTradingPageUrl(baseUrl, path)} rel='noopener noreferrer' target='_blank'>
-        {value}
-      </a>
-    </li>
-  );
-
   const getLaControllerHref = (league, adminSiteId, url) => {
     const isUseSabaLink = leaguesUseSabaLink.includes(league);
 
@@ -68,26 +60,37 @@ const EventPopup = props => {
   };
 
   const renderLaControllerCollapse = () => {
-    if (!servers || servers.length === 0) { return null; }
+    if (!servers || servers.length === 0) {
+      return null;
+    }
     return (
       <li>
-        <a href={getLaControllerHref(league, adminSiteId, laTradingPage)}
-          style={{ cursor: 'pointer', display: 'inline-flex' }}
-        >
+        <a
+          href={getLaControllerHref(league, adminSiteId, laTradingPage)}
+          style={{ cursor: 'pointer', display: 'inline-flex' }}>
           LA Controller
         </a>
-        <span style={{ marginLeft: 6, cursor: 'pointer' }} onClick={toggleLaCollapse}>
-          {laCollapseOpen ? <ChevronUpIcon size={16} /> : <ChevronDownIcon size={16} />}
+        <span
+          style={{ marginLeft: 6, cursor: 'pointer' }}
+          onClick={toggleLaCollapse}>
+          {laCollapseOpen ? (
+            <ChevronUpIcon size={16} />
+          ) : (
+            <ChevronDownIcon size={16} />
+          )}
         </span>
         <Collapse isOpen={laCollapseOpen} className='la-collapse'>
           <ul>
             {servers.map((server, idx) => (
               <li key={server.name} style={{ listStyle: 'disc' }}>
                 <a
-                  href={getLaControllerHref(league, adminSiteId, getServiceWithPort(server.url, server.laPort))}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
+                  href={getLaControllerHref(
+                    league,
+                    adminSiteId,
+                    getServiceWithPort(server.url, server.laPort)
+                  )}
+                  rel='noopener noreferrer'
+                  target='_blank'>
                   {server.name}
                 </a>
               </li>
@@ -103,17 +106,15 @@ const EventPopup = props => {
     return (
       <li>
         <ul className='fantasy-item'>
-          {renderItem(tradingPageUrl, 'Fantasy')}
+          <li>
+            <a href={tradingPageUrl} rel='noopener noreferrer' target='_blank'>
+              Fantasy
+            </a>
+          </li>
         </ul>
       </li>
     );
   };
-
-  const renderTradingItem = () => (
-    <li>
-      <span>Live Trading</span>
-    </li>
-  );
 
   const getTradingPageUrl = (baseUrl, path, port) => {
     baseUrl = getServiceWithPort(baseUrl, port);
@@ -127,13 +128,21 @@ const EventPopup = props => {
 
   const renderTradingTypeCollapse = (type, path) => (
     <li>
-      <a href={getTradingPageUrl(tradingPage, path, defaultPort)}
-        style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center' }}
-      >
+      <a
+        href={getTradingPageUrl(tradingPage, path, defaultPort)}
+        style={{
+          cursor: 'pointer',
+          display: 'inline-flex',
+          alignItems: 'center'
+        }}>
         {type}
       </a>
       <span style={{ marginLeft: 6 }} onClick={() => handleToggle(type)}>
-        {openType === type ? <ChevronUpIcon size={16} /> : <ChevronDownIcon size={16} />}
+        {openType === type ? (
+          <ChevronUpIcon size={16} />
+        ) : (
+          <ChevronDownIcon size={16} />
+        )}
       </span>
       <Collapse isOpen={openType === type}>
         <ul style={{ margin: 0, paddingLeft: 16 }}>
@@ -141,9 +150,8 @@ const EventPopup = props => {
             <li key={server.name} style={{ listStyle: 'disc' }}>
               <a
                 href={getTradingPageUrl(server.url, path, server.tradingPort)}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
+                rel='noopener noreferrer'
+                target='_blank'>
                 {server.name}
               </a>
             </li>
@@ -168,10 +176,12 @@ const EventPopup = props => {
     return (
       <li>
         <ul className='fantasy-item'>
-          {!isCornersMatch && renderTradingTypeCollapse('ML', tradingPageMlPath)}
+          {!isCornersMatch &&
+            renderTradingTypeCollapse('ML', tradingPageMlPath)}
           {renderTradingTypeCollapse('RT2', tradingPageRt2Path)}
           {renderTradingTypeCollapse('RT3', rt3Path)}
-          {!isCornersMatch && renderTradingTypeCollapse('STM', tradingPageStmPath)}
+          {!isCornersMatch &&
+            renderTradingTypeCollapse('STM', tradingPageStmPath)}
           {renderTradingTypeCollapse('Lsport', tradingPageLsportPath)}
         </ul>
       </li>
@@ -188,7 +198,9 @@ const EventPopup = props => {
         <ul className='menu'>
           {renderLaControllerCollapse()}
           <div className='vline'></div>
-          {renderTradingItem()}
+          <li>
+            <span>Live Trading</span>
+          </li>
           {isFantasy ? renderFantasySubItem() : renderOtherMatchSubItem()}
         </ul>
       </PopoverBody>
