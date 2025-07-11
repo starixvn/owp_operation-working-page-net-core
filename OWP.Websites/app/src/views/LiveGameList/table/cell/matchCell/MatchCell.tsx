@@ -28,7 +28,7 @@ const MatchCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
     .tradingPageInfo.info as {
     laTradingPage: string;
     tradingPage: string;
-      servers: {
+    servers: {
       id: number;
       name: string;
       url: string;
@@ -36,6 +36,7 @@ const MatchCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
       tradingPort: number | null;
     }[];
   };
+  const serverSetingId = store.getState().tradingPageInfo.serverSetingId;
   const dispatch = useStableDispatch();
   const dataLength = dataSource.length;
   const threeLastRow = [dataLength - 1, dataLength - two, dataLength - three];
@@ -62,7 +63,7 @@ const MatchCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
     window.executeCopy(kickOffTime, league, match, matchNo, iptv, provider);
   };
 
-  const serverSetting = servers.find(server => server.id === 0);
+  const serverSetting = servers.find(server => server.id === serverSetingId);
 
   return (
     <div className='match-cell'>

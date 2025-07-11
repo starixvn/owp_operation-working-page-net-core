@@ -1,11 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getSoccerTradingPageInfo } from './getTradingPageInfoThunk';
+import {
+  getSoccerTradingPageInfo,
+  getUserSettingServer
+} from './getTradingPageInfoThunk';
 import { REQUEST_STATUS } from '../Constants';
 
 const tradingPageInfoSlice = createSlice({
   name: 'tradingPageInfoSlice',
   initialState: {
-    info: {}
+    info: {},
+    serverSetingId: 0
   },
   reducers: {},
   extraReducers: builder => {
@@ -16,6 +20,9 @@ const tradingPageInfoSlice = createSlice({
       .addCase(getSoccerTradingPageInfo.fulfilled, (state, { payload }) => {
         state.info = payload;
         state.queryTradingPage = REQUEST_STATUS.idle;
+      })
+      .addCase(getUserSettingServer.fulfilled, (state, { payload }) => {
+        state.serverSetingId = payload;
       });
   }
 });

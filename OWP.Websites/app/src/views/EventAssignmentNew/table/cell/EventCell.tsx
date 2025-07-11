@@ -21,6 +21,7 @@ const EventCell = (props: TCellModel) => {
       tradingPort: number | null;
     }[];
   };
+  const serverSetingId = store.getState().tradingPageInfo.serverSetingId;
   const dispatch = useAppDispatch();
   const {
     policy: {
@@ -53,7 +54,7 @@ const EventCell = (props: TCellModel) => {
   const className = threeLastRow.some(i => i === rowIndex)
     ? 'last-popup'
     : null;
-  const serverSetting = servers.find(server => server.id === 0);
+  const serverSetting = servers.find(server => server.id === serverSetingId);
 
   return (
     <div className='table-cell' key={`Event${rowIndex}`}>

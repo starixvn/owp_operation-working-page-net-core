@@ -36,6 +36,7 @@ const MatchContainLinkDetailCell = (props: CellProps) => {
       tradingPort: number | null;
     }[];
   };
+  const serverSetingId = store.getState().tradingPageInfo.serverSetingId;
 
   const { detailInformationPolicy } = useContext(AppContext);
   const dispatch = useStableDispatch();
@@ -74,7 +75,7 @@ const MatchContainLinkDetailCell = (props: CellProps) => {
       dispatch(openPopupDetail(OWPMatchId));
   };
 
-  const serverSetting = servers.find(server => server.id === 0);
+  const serverSetting = servers.find(server => server.id === serverSetingId);
 
   const renderLinkIcon = () => {
     return (
