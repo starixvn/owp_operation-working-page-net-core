@@ -21,7 +21,7 @@ const queryAdminServerSettingThunk = createAsyncThunk<TServer[]>(
 const saveAdminServerSettingThunk = createAsyncThunk<void, { value: number }>(
   'adminServerSetting/saveServer',
   async model => {
-    const response = await post({ url: `/api/AccountSetting/Profile/update-user-setting-server`, ...model });
+    const response = await post({ url: `/api/AccountSetting/UserSetting/update-user-setting-server`, ...model });
     return response.data;
   }
 );
@@ -29,7 +29,7 @@ const saveAdminServerSettingThunk = createAsyncThunk<void, { value: number }>(
 const querySelectedAdminServerThunk = createAsyncThunk<number, void>(
   'adminServerSetting/getServer',
   async () => {
-    const response = await get({ url: `/api/AccountSetting/Profile/get-user-setting-server` });
+    const response = await get({ url: `/api/AccountSetting/UserSetting/get-user-setting-server` });
     return response.data || 0;
   }
 );

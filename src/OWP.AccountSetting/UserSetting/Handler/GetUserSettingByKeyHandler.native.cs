@@ -1,9 +1,9 @@
 using Fanex.Data.Repository;
 using Fanex.NAP.Client;
 using MediatR;
-using OWP.AccountSetting.Profile.Criteria;
+using OWP.AccountSetting.UserSetting.Criteria;
 
-namespace OWP.AccountSetting.Profile.Handler;
+namespace OWP.AccountSetting.UserSetting.Handler;
 
 public class GetUserSettingByKeyRequest : IRequest<string>
 {
