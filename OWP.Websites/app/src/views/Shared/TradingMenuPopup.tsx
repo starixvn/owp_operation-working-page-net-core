@@ -120,18 +120,19 @@ const TradingMenuPopup = (props: TTradingMenuPopup) => {
         const response = await get({ url });
         const { tradingPage, servers } = response.data;
 
-        //get api return  serverSettingId
-        const serverSettingId = 'Server 203';
+        const serverSettingId = await get({ url: `/api/AccountSetting/UserSetting/get-user-setting-server` });
         const serverSetting = servers.find(
-          (server: any) => server.name === serverSettingId
+          (server: any) => server.id === serverSettingId.data
         );
+
+        console.log(serverSetting, servers, serverSettingId);
 
         setTradingUrl(
           serverSetting === undefined
             ? tradingPage
             : serverSetting.port !== defaultPort
-            ? `${serverSetting.url}:${serverSetting.tradingPort}`
-            : serverSetting.url
+              ? `${serverSetting.url}:${serverSetting.tradingPort}`
+              : serverSetting.url
         );
       } catch (error) {
         console.error('Error fetching trading URL:', error);
@@ -151,7 +152,7 @@ const TradingMenuPopup = (props: TTradingMenuPopup) => {
   return (
     <Dropdown dropdownRender={() => menu} trigger={['click']}>
       <a onClick={e => e.preventDefault()}>
-        <DropdownIcon colorDropdown='black' handleOnClick={() => {}} />
+        <DropdownIcon colorDropdown='black' handleOnClick={() => { }} />
       </a>
     </Dropdown>
   );
