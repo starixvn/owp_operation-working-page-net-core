@@ -34,6 +34,7 @@ const EditSettingSlice = createSlice({
     hasTv: false,
     hasIpTv: false,
     remark: '',
+    oldLeagueGroupId: 0,
     round: [] as Array<TCondition>,
     division: [] as Array<TCondition>
   },
@@ -63,6 +64,7 @@ const EditSettingSlice = createSlice({
       state.league = league;
       state.owpLeagueId = owpLeagueId;
       state.leagueGroupId = leagueGroupId;
+      state.oldLeagueGroupId = leagueGroupId;
       state.leagueGroup = leagueGroup;
       state.spread = spread;
       state.maxbetWD_HDP = maxbetWD_HDP;
@@ -106,7 +108,6 @@ const EditSettingSlice = createSlice({
     },
     updateExpression: (state, action: PayloadAction<ConditionPayLoad>) => {
       const { key, property, value, index } = action.payload;
-
       if (key === 'type' && (value === 'Contains' || value === 'Equals')) {
         state[property][index].type = value;
       }
