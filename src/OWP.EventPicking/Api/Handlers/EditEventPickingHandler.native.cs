@@ -6,17 +6,13 @@ namespace OWP.EventPicking.Api.Handlers;
 
 public class EditEventPickingRequest : EventPickingRequest, IRequest<EventPickingResult>;
 
-public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, EventPickingResult>
+public class EditEventPickingHandler(
+    QueryEventPickingService service, 
+    Repository repository,
+    PullMainLeagueService pullMainLeagueService,
+    MapMainLeagueForEventService mainLeagueForEventMapper,
+    LeagueSettingForClubFriendlyBuilder leagueSettingForClubFriendly) : IRequestHandler<EditEventPickingRequest, EventPickingResult>
 {
-    private readonly QueryEventPickingService service;
-
-    private readonly Repository repository;
-
-    public EditEventPickingHandler(QueryEventPickingService service, Repository repository)
-    {
-        this.service = service;
-        this.repository = repository;
-    }
 
     public async Task<EventPickingResult> Handle(EditEventPickingRequest request, CancellationToken cancellationToken)
     {
@@ -33,6 +29,9 @@ public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, 
             ProcessLeagueSettingsForMatch(leagueSettingByLeagueId, match);
         }
 
+        var mainLeague=await pullMainLeagueService.GetMainLeague(mainMatches.FilteredMatches, cancellationToken);
+        mainLeagueForEventMapper.Execute(mainMatches.FilteredMatches, mainLeague);
+        leagueSettingForClubFriendly.Build(mainMatches.FilteredMatches, cancellationToken);
         return new EventPickingResult
         {
             MatchesByDate = mainMatches.MatchesByDate,

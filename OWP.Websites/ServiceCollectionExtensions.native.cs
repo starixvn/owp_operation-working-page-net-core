@@ -327,6 +327,7 @@ public static class ServiceCollectionExtensions
         return app;
     }
 
+    
     public static IServiceCollection AddSectionHttpClientOWPChat(this IServiceCollection services, IConfiguration configuration)
     {
         
@@ -339,6 +340,17 @@ public static class ServiceCollectionExtensions
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             client.DefaultRequestHeaders.Add("X-Auth-Token", adminToken);
             client.DefaultRequestHeaders.Add("X-User-Id", adminId);
+        });
+        return services;
+    } 
+    
+    public static IServiceCollection AddSectionHttpClientInfosite(this IServiceCollection services, IConfiguration configuration)
+    {
+        
+        services.AddHttpClient("Infosite", client =>
+        {
+            var chatUrl = configuration["InfoSiteSettings:InfositeAPI"];
+            client.BaseAddress = new Uri(chatUrl);
         });
         return services;
     }
