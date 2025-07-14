@@ -108,7 +108,9 @@ const buildMaxBetWeekdayHDPGroupOptions = (entities: TDataSource[]) =>
         .map(o => ({
           value: o.maxbetWD_HDP_Show ?? null,
           label:
-            o.maxbetWD_HDP_Show.length > 0 ? o.maxbetWD_HDP_Show : '(Blanks)'
+            o.maxbetWD_HDP_Show && o.maxbetWD_HDP_Show.length > 0
+              ? o.maxbetWD_HDP_Show
+              : '(Blanks)'
         })),
       i => i.label
     )
