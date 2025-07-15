@@ -86,13 +86,13 @@ public class EditEventPickingHandler(
         }
         if (selectedHomeLeagueSetting != null && selectedAwayLeagueSetting != null)
         {
-            var homeMaxbet = IsWeekend(match.EventDateTime) ? selectedHomeLeagueSetting.MaxbetWK_HDP_Value : selectedHomeLeagueSetting.MaxbetWD_HDP_Value;
-            var homeSpreadHdp = selectedHomeLeagueSetting.Spread_HDP_Value;
-            var homeSpreadOu = selectedHomeLeagueSetting.Spread_OU_Value;
+            var homeMaxbet = GetMaxbet(selectedHomeLeagueSetting, match);
+            var homeSpreadHdp = selectedHomeLeagueSetting.Spread_HDP_Value ?? 0;
+            var homeSpreadOu = selectedHomeLeagueSetting.Spread_OU_Value ?? 0;
 
-            var awayMaxbet = IsWeekend(match.EventDateTime) ? selectedAwayLeagueSetting.MaxbetWK_HDP_Value : selectedAwayLeagueSetting.MaxbetWD_HDP_Value;
-            var awaySpreadHdp = selectedAwayLeagueSetting.Spread_HDP_Value;
-            var awaySpreadOu = selectedAwayLeagueSetting.Spread_OU_Value;
+            var awayMaxbet = GetMaxbet(selectedAwayLeagueSetting, match);
+            var awaySpreadHdp = selectedAwayLeagueSetting.Spread_HDP_Value ?? 0;
+            var awaySpreadOu = selectedAwayLeagueSetting.Spread_OU_Value ?? 0;
 
             var (finalMaxbet, finalSpreadHdp, finalSpreadOu) = CalculateFinalMBAndSpread(homeMaxbet, awayMaxbet, homeSpreadHdp, awaySpreadHdp, homeSpreadOu, awaySpreadOu);
 
@@ -103,6 +103,18 @@ public class EditEventPickingHandler(
                 match.SpreadOu = finalSpreadOu;
                 match.IsReferenceLeagueManagement = true;
             }
+        }
+    }
+
+    private decimal GetMaxbet(LeagueSettingInfoSender leagueSetting, EventPickingModel match)
+    {
+        if (IsWeekend(match.EventDateTime))
+        {
+            return leagueSetting.MaxbetWK_HDP_Value ?? 0;
+        }
+        else
+        {
+            return leagueSetting.MaxbetWD_HDP_Value ?? 0;
         }
     }
     private LeagueSettingInfoSender ProcessLeagueSettingsForMatch(List<LeagueSettingInfoSender> leagueSettingByLeagueId, EventPickingModel match)
@@ -203,7 +215,6 @@ public class EditEventPickingHandler(
         return roundConditions && divisionConditions;
     }
 
-
     private static IList<string> GetValueContains(IList<Condition> conditions)
         => conditions.Where(x => x.Type == "Contains").Select(x => x.Value).ToList();
 
@@ -216,6 +227,7 @@ public class EditEventPickingHandler(
         var isWeekend = eventDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday;
         return isWeekend;
     }
+
 
     private static (decimal finalMaxbet, decimal finalSpreadHdp, decimal finalSpreadOu) CalculateFinalMBAndSpread(
         decimal homeMaxbet, decimal awayMaxbet, decimal homeSpreadHdp, decimal awaySpreadHdp, decimal homeSpreadOu, decimal awaySpreadOu)
