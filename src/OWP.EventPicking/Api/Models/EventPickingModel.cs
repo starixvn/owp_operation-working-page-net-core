@@ -44,7 +44,7 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
     public string AwayMainLeague { get; set; }
 
 
-    [JsonIgnore] public bool IsClubFriendlyLeague => LeagueGroup.Contains("Club Friendly");
+    [JsonIgnore] public bool IsClubFriendlyLeague => LeagueName.ToLower() == "club friendly";
 
     public List<string> InfoSiteBlackList
     {

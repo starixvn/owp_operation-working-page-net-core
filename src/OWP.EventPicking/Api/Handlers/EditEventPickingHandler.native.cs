@@ -7,12 +7,21 @@ namespace OWP.EventPicking.Api.Handlers;
 public class EditEventPickingRequest : EventPickingRequest, IRequest<EventPickingResult>;
 
 public class EditEventPickingHandler(
-    QueryEventPickingService service, 
+    QueryEventPickingService service,
     Repository repository,
     PullMainLeagueService pullMainLeagueService,
     MapMainLeagueForEventService mainLeagueForEventMapper,
     LeagueSettingForClubFriendlyBuilder leagueSettingForClubFriendly) : IRequestHandler<EditEventPickingRequest, EventPickingResult>
 {
+
+    private readonly IList<string> FiveMajorLeague = new List<string>()
+    {
+        "*ENGLISH PREMIER LEAGUE",
+        "*GERMANY-BUNDESLIGA I",
+        "*ITALY SERIE A",
+        "*SPAIN PRIMERA LALIGA",
+        "FRANCE LIGUE 1"
+    };
 
     public async Task<EventPickingResult> Handle(EditEventPickingRequest request, CancellationToken cancellationToken)
     {
@@ -22,40 +31,67 @@ public class EditEventPickingHandler(
 
         var leagueSetting = (await repository.QueryLeagueSetting()).ToList();
 
+        var clubFriendlyMatches = matchFiltered.Where(x => x.IsClubFriendlyLeague).ToList();
+        //var mainLeague = await pullMainLeagueService.GetMainLeague(matchFiltered, cancellationToken);
+        var mainLeague = new List<main_league_info>
+        {
+            new() { teamName = "Slaven Koprivnica", mainLeague = "WORLD CUP 2026 ASIA QUALIFIERS" },
+            new() { teamName = "ETO FC Gyor", mainLeague = "WORLD CUP 2026 ASIA QUALIFIERS" },
+            new() { teamName = "NK Varazdin", mainLeague = "VIETNAM V LEAGUE 2" },
+            new() { teamName = "Zorya Lugansk", mainLeague = "VIETNAM V LEAGUE 1" },
+            new() { teamName = "FC Oleksandria", mainLeague = "USA USSF DIVISION 2 PRO LEAGUE" },
+            new() { teamName = "Slaven Koprivnica", mainLeague = "US OPEN CUP" }
+        };
+        mainLeagueForEventMapper.Execute(matchFiltered, mainLeague);
+
         foreach (var match in matchFiltered)
         {
-            var leagueSettingByLeagueId = leagueSetting.Where(x => x.OWPLeagueId == match.OWPLeagueId).ToList();
+            if (match.IsClubFriendlyLeague &&
+            !(FiveMajorLeague.Contains(match.HomeMainLeague) && FiveMajorLeague.Contains(match.AwayMainLeague)))
+            {
+                var homeLeagueSettingByLeagueId = leagueSetting.Where(x => x.League == match.HomeMainLeague).ToList();
+                var awayLeagueSettingByLeagueId = leagueSetting.Where(x => x.League == match.AwayMainLeague).ToList();
+                if (homeLeagueSettingByLeagueId.Count > 0)
+                {
+                    var homeSetting = ProcessLeagueSettingsForMatch(homeLeagueSettingByLeagueId, match);
+                }
+                if (awayLeagueSettingByLeagueId.Count > 0)
+                {
+                    var awaySetting = ProcessLeagueSettingsForMatch(awayLeagueSettingByLeagueId, match);
+                }
+            }
+            else
+            {
+                var leagueSettingByLeagueId = leagueSetting.Where(x => x.OWPLeagueId == match.OWPLeagueId).ToList();
+                ProcessLeagueSettingsForMatch(leagueSettingByLeagueId, match);
+            }
 
-            ProcessLeagueSettingsForMatch(leagueSettingByLeagueId, match);
+
         }
 
-        var mainLeague=await pullMainLeagueService.GetMainLeague(mainMatches.FilteredMatches, cancellationToken);
-        mainLeagueForEventMapper.Execute(mainMatches.FilteredMatches, mainLeague);
-        leagueSettingForClubFriendly.Build(mainMatches.FilteredMatches, cancellationToken);
+        leagueSettingForClubFriendly.Build(matchFiltered, leagueSetting, cancellationToken);
         return new EventPickingResult
         {
             MatchesByDate = mainMatches.MatchesByDate,
             FilteredMatches = matchFiltered
         };
     }
-
-    private void ProcessLeagueSettingsForMatch(List<LeagueSettingInfoSender> leagueSettingByLeagueId, EventPickingModel match)
+    private LeagueSettingInfoSender ProcessLeagueSettingsForMatch(List<LeagueSettingInfoSender> leagueSettingByLeagueId, EventPickingModel match)
     {
         switch (leagueSettingByLeagueId.Count)
         {
             case 0:
                 match.IsShowCheckButton = false;
-                break;
+                return null;
             case 1:
                 SuggestionValue(match, leagueSettingByLeagueId.First());
-                break;
+                return leagueSettingByLeagueId.First();
             default:
-                HandleMappingForMultipleSettings(match, leagueSettingByLeagueId);
-                break;
+                return HandleMappingForMultipleSettings(match, leagueSettingByLeagueId);
         }
     }
 
-    private void HandleMappingForMultipleSettings(EventPickingModel match, IList<LeagueSettingInfoSender> leagueSettingByLeagueId)
+    private LeagueSettingInfoSender HandleMappingForMultipleSettings(EventPickingModel match, IList<LeagueSettingInfoSender> leagueSettingByLeagueId)
     {
         var leagueIsMappingWithCondition = leagueSettingByLeagueId
             .Where(league => CheckMatchValidMappingWithLeagueManagement(match, league)).ToList();
@@ -63,8 +99,15 @@ public class EditEventPickingHandler(
         if (leagueIsMappingWithCondition.Count == 1)
         {
             SuggestionValue(match, leagueIsMappingWithCondition.First());
+            return leagueIsMappingWithCondition.First();
         }
+        else
+        {
+            return leagueSettingByLeagueId.First();
+        }
+
     }
+
 
     private void SuggestionValue(EventPickingModel match, LeagueSettingInfoSender league)
     {

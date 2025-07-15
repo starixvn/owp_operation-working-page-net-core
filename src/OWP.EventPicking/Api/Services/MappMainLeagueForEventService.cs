@@ -8,7 +8,7 @@ public class MapMainLeagueForEventServiceImp: MapMainLeagueForEventService
 {
     public void Execute(IList<EventPickingModel> eventPicking, IList<main_league_info> mainLeagueInfo)
     {
-        foreach (var @event in eventPicking)
+        foreach (var @event in eventPicking.Where(x => x.IsClubFriendlyLeague).ToList())
         {
             var (homeMainLeague, awayMainLeague) = GetMainLeague(@event.HomeName, @event.AwayName, mainLeagueInfo);
             @event.HomeMainLeague = homeMainLeague;

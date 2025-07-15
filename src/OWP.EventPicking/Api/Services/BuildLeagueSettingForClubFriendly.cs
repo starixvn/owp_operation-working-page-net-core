@@ -2,9 +2,9 @@
 
 public interface LeagueSettingForClubFriendlyBuilder
 {
-    Task Build(IList<EventPickingModel> mainEvents, CancellationToken cancellationToken);
+    Task Build(IList<EventPickingModel> mainEvents, IEnumerable<LeagueSettingInfoSender> ListSettings, CancellationToken cancellationToken);
 }
-public class LeagueSettingForClubFriendlyBuilderImp: LeagueSettingForClubFriendlyBuilder
+public class LeagueSettingForClubFriendlyBuilderImp : LeagueSettingForClubFriendlyBuilder
 {
     private readonly IList<string> FiveMajorLeague = new List<string>()
     {
@@ -15,9 +15,9 @@ public class LeagueSettingForClubFriendlyBuilderImp: LeagueSettingForClubFriendl
         "FRANCE LIGUE 1"
     };
 
-    public async Task Build(IList<EventPickingModel> mainEvents, CancellationToken cancellationToken)
+    public async Task Build(IList<EventPickingModel> mainEvents, IEnumerable<LeagueSettingInfoSender> ListSettings, CancellationToken cancellationToken)
     {
-        var events= GetMatchesClubFriendlyIgnore5MajorLeague(mainEvents);
+        var events = GetMatchesClubFriendlyIgnore5MajorLeague(mainEvents);
         await BuildLeagueSetting(events, cancellationToken);
     }
 
@@ -26,7 +26,7 @@ public class LeagueSettingForClubFriendlyBuilderImp: LeagueSettingForClubFriendl
     => matches.Where(x => x.IsClubFriendlyLeague
         && !(FiveMajorLeague.Contains(x.HomeMainLeague) && FiveMajorLeague.Contains(x.AwayMainLeague)))
        .ToList();
-    
+
 
     private async Task BuildLeagueSetting(IList<EventPickingModel> events, CancellationToken cancellationToken)
     {
