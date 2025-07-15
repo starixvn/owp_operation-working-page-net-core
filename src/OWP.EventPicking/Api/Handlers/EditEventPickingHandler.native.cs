@@ -49,16 +49,7 @@ public class EditEventPickingHandler(
             if (match.IsClubFriendlyLeague &&
             !(FiveMajorLeague.Contains(match.HomeMainLeague) && FiveMajorLeague.Contains(match.AwayMainLeague)))
             {
-                var homeLeagueSettingByLeagueId = leagueSetting.Where(x => x.League == match.HomeMainLeague).ToList();
-                var awayLeagueSettingByLeagueId = leagueSetting.Where(x => x.League == match.AwayMainLeague).ToList();
-                if (homeLeagueSettingByLeagueId.Count > 0)
-                {
-                    var homeSetting = ProcessLeagueSettingsForMatch(homeLeagueSettingByLeagueId, match);
-                }
-                if (awayLeagueSettingByLeagueId.Count > 0)
-                {
-                    var awaySetting = ProcessLeagueSettingsForMatch(awayLeagueSettingByLeagueId, match);
-                }
+                ProcessLeagueSettingsForClubFriendlyMatch(leagueSetting, match);
             }
             else
             {
@@ -75,6 +66,44 @@ public class EditEventPickingHandler(
             MatchesByDate = mainMatches.MatchesByDate,
             FilteredMatches = matchFiltered
         };
+    }
+
+    private void ProcessLeagueSettingsForClubFriendlyMatch(List<LeagueSettingInfoSender> leagueSetting, EventPickingModel match)
+    {
+        if (match.IsSync || match.ChildMatchId is not null) return;
+
+        var homeLeagueSettingByLeagueId = leagueSetting.Where(x => x.League == match.HomeMainLeague).ToList();
+        var awayLeagueSettingByLeagueId = leagueSetting.Where(x => x.League == match.AwayMainLeague).ToList();
+        var selectedHomeLeagueSetting = new LeagueSettingInfoSender();
+        var selectedAwayLeagueSetting = new LeagueSettingInfoSender();
+        if (homeLeagueSettingByLeagueId.Count > 0)
+        {
+            selectedHomeLeagueSetting = ProcessLeagueSettingsForMatch(homeLeagueSettingByLeagueId, match);
+        }
+        if (awayLeagueSettingByLeagueId.Count > 0)
+        {
+            selectedAwayLeagueSetting = ProcessLeagueSettingsForMatch(awayLeagueSettingByLeagueId, match);
+        }
+        if (selectedHomeLeagueSetting != null && selectedAwayLeagueSetting != null)
+        {
+            var homeMaxbet = IsWeekend(match.EventDateTime) ? selectedHomeLeagueSetting.MaxbetWK_HDP_Value : selectedHomeLeagueSetting.MaxbetWD_HDP_Value;
+            var homeSpreadHdp = selectedHomeLeagueSetting.Spread_HDP_Value;
+            var homeSpreadOu = selectedHomeLeagueSetting.Spread_OU_Value;
+
+            var awayMaxbet = IsWeekend(match.EventDateTime) ? selectedAwayLeagueSetting.MaxbetWK_HDP_Value : selectedAwayLeagueSetting.MaxbetWD_HDP_Value;
+            var awaySpreadHdp = selectedAwayLeagueSetting.Spread_HDP_Value;
+            var awaySpreadOu = selectedAwayLeagueSetting.Spread_OU_Value;
+
+            var (finalMaxbet, finalSpreadHdp, finalSpreadOu) = CalculateFinalMBAndSpread(homeMaxbet, awayMaxbet, homeSpreadHdp, awaySpreadHdp, homeSpreadOu, awaySpreadOu);
+
+            if (finalMaxbet > 0)
+            {
+                match.MaxbetHdp = finalMaxbet;
+                match.SpreadHdp = finalSpreadHdp;
+                match.SpreadOu = finalSpreadOu;
+                match.IsReferenceLeagueManagement = true;
+            }
+        }
     }
     private LeagueSettingInfoSender ProcessLeagueSettingsForMatch(List<LeagueSettingInfoSender> leagueSettingByLeagueId, EventPickingModel match)
     {
@@ -186,6 +215,99 @@ public class EditEventPickingHandler(
         var eventDate = DateTime.SpecifyKind(eventDateTime, DateTimeKind.Utc).AddHours(-4);
         var isWeekend = eventDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday;
         return isWeekend;
+    }
+
+    private static (decimal finalMaxbet, decimal finalSpreadHdp, decimal finalSpreadOu) CalculateFinalMBAndSpread(
+        decimal homeMaxbet, decimal awayMaxbet, decimal homeSpreadHdp, decimal awaySpreadHdp, decimal homeSpreadOu, decimal awaySpreadOu)
+    {
+        // Rule 1: Home & Away MB >= 25K
+        if (homeMaxbet >= 25000 && awayMaxbet >= 25000)
+        {
+            return (15000, 0.10m, 0.12m);
+        }
+
+        // Rule 2: Home MB = Away MB = xK, where x ∈ [13K-24K]
+        if (homeMaxbet == awayMaxbet && homeMaxbet >= 13000 && homeMaxbet <= 24000)
+        {
+            return (12000, 0.10m, 0.12m);
+        }
+
+        // Rule 3 & 4: Home MB = Away MB = 12K AND Home & Away Spread <= 10%-12%
+        if (homeMaxbet == awayMaxbet && homeMaxbet == 12000)
+        {
+            var averageSpread = (homeSpreadHdp + homeSpreadOu + awaySpreadHdp + awaySpreadOu) / 4;
+
+            if (averageSpread <= 0.12m)
+            {
+                return (12000, 0.10m, 0.12m);
+            }
+            else
+            {
+                return (6000, 0.16m, 0.18m);
+            }
+        }
+
+        // Rule 5: Home MB = Away MB = yK, where y ∈ [6K-11K]
+        if (homeMaxbet == awayMaxbet && homeMaxbet >= 6000 && homeMaxbet <= 11000)
+        {
+            return (6000, 0.16m, 0.18m);
+        }
+
+        // Rule 6: Home & Away MB <= 5K AND MB Home ≠ MB Away
+        if (homeMaxbet <= 5000 && awayMaxbet <= 5000 && homeMaxbet != awayMaxbet)
+        {
+            var higherMaxbet = Math.Max(homeMaxbet, awayMaxbet);
+            var (higherSpreadHdp, higherSpreadOu) = CompareAverageSpread(homeSpreadHdp, homeSpreadOu, awaySpreadHdp, awaySpreadOu, useHigher: true);
+
+            return (higherMaxbet, higherSpreadHdp, higherSpreadOu);
+        }
+
+        // Rule 7: Home MB = Away MB = zK, where z ∈ [2K-5K]
+        if (homeMaxbet == awayMaxbet && homeMaxbet >= 2000 && homeMaxbet <= 5000)
+        {
+            var (lowerSpreadHdp, lowerSpreadOu) = CompareAverageSpread(homeSpreadHdp, homeSpreadOu, awaySpreadHdp, awaySpreadOu, useHigher: false);
+
+            return (homeMaxbet, lowerSpreadHdp, lowerSpreadOu);
+        }
+
+        // Rule 8 & 9: When MB Home ≠ MB Away. Use the higher MB to evaluate.
+        if (homeMaxbet != awayMaxbet)
+        {
+            var higherMaxbet = Math.Max(homeMaxbet, awayMaxbet);
+
+            // Rule 8: Higher MB > 12K
+            if (higherMaxbet > 12000)
+            {
+                return (12000, 0.10m, 0.12m);
+            }
+
+            // Rule 9: Higher MB <= 12K
+            else
+            {
+                return (6000, 0.16m, 0.18m);
+            }
+        }
+
+        return (0, 0, 0);
+    }
+
+    private static (decimal spreadHdp, decimal spreadOu) CompareAverageSpread(decimal homeSpreadHdp, decimal homeSpreadOu, decimal awaySpreadHdp, decimal awaySpreadOu, bool useHigher = true)
+    {
+        var homeAverageSpread = (homeSpreadHdp + homeSpreadOu) / 2;
+        var awayAverageSpread = (awaySpreadHdp + awaySpreadOu) / 2;
+
+        bool shouldUseHome = useHigher ?
+            homeAverageSpread > awayAverageSpread :
+            homeAverageSpread < awayAverageSpread;
+
+        if (shouldUseHome)
+        {
+            return (homeSpreadHdp, homeSpreadOu);
+        }
+        else
+        {
+            return (awaySpreadHdp, awaySpreadOu);
+        }
     }
 
 }
