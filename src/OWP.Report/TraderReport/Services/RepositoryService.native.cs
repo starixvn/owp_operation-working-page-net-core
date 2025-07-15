@@ -10,15 +10,8 @@ public interface RepositoryService
     Task<IEnumerable<ReportModel>> GetLstReportDataByDate(QueryModel queryModel);
 }
 
-public class RepositoryServiceImp : RepositoryService
+public class RepositoryServiceImp(IDynamicRepository dynamicRepository) : RepositoryService
 {
-    private readonly IDynamicRepository dynamicRepository;
-
-    public RepositoryServiceImp(IDynamicRepository dynamicRepository)
-    {
-        this.dynamicRepository = dynamicRepository;
-    }
-
     public async Task<IEnumerable<ReportModel>> GetLstReportDataByDate(QueryModel queryModel)
     {
         var criteria = new GetTraderReportCriteria
@@ -27,6 +20,7 @@ public class RepositoryServiceImp : RepositoryService
             ToDate = queryModel.ToDate
         };
 
-        return await dynamicRepository.FetchAsync<ReportModel>(criteria);
+        var reportInfo= await dynamicRepository.FetchAsync<ReportModel>(criteria);
+        return reportInfo ?? new List<ReportModel>();
     }
 }
