@@ -47,6 +47,7 @@ using BackgroundWorker.Jobs;
 using EventPicking.Api;
 using Microsoft.Extensions.FileProviders;
 using Olympus.OWP.Log.Services;
+using ONEbook.UM.Filters;
 using OWP.AccountSetting.Profile;
 using OWP.ChatServer.Handler;
 using OWP.PrematchAssignment.QueryAndSave;
@@ -101,6 +102,7 @@ public static class ServiceCollectionExtensions
         });
         services.AddControllersWithViews(options =>
             {
+                options.Filters.Add(new ServiceFilterAttribute(typeof(CheckUMFilterAttribute)));
                 options.Filters.Add(new SessionAuthorizeAttribute());
             })
             .AddNewtonsoftJson(options =>

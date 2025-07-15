@@ -74,4 +74,8 @@ app.MapHub<TicketCenterNotifyHubImp>("/ticketCenterNotifyHub");
 app.MapHub<PreMatchNotifyHubImp>("/preMatchNotifyHub");
 
 ThreadPool.SetMinThreads(100, 100);
+
+
+var logger = app.Services.GetRequiredService<ILogger>();
+await logger.InfoAsync("Environment: " + configuration["Environment"]);
 await app.RunAsync();
