@@ -104,6 +104,22 @@ public class EditEventPickingHandler(
                 match.IsReferenceLeagueManagement = true;
             }
         }
+        CalculateNoHDPClubFriendLy(match);
+    }
+
+    private void CalculateNoHDPClubFriendLy(EventPickingModel match)
+    {
+        var maxbetHdp = match.MaxbetHdp;
+
+        var noOfHDP = maxbetHdp switch
+        {
+            >= 2000 and <= 4000 => "2 lines",
+            >= 5000 and <= 8000 => string.Empty,
+            >= 10000 and <= 60000 => IsPeakHour(match.EventDateTime) ? string.Empty : "3+3 Lines",
+            _ => match.NoOfHDP
+        };
+
+        match.NoOfHDP = noOfHDP;
     }
 
     private decimal GetMaxbet(LeagueSettingInfoSender leagueSetting, EventPickingModel match)
@@ -220,11 +236,18 @@ public class EditEventPickingHandler(
 
     private static bool IsWeekend(DateTime eventDateTime)
     {
-        var eventDate = DateTime.SpecifyKind(eventDateTime, DateTimeKind.Utc).AddHours(-4);
+        var eventDate = DateTime.SpecifyKind(eventDateTime, DateTimeKind.Utc).AddHours(-12);
         var isWeekend = eventDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday;
         return isWeekend;
     }
 
+    private static bool IsPeakHour(DateTime eventDateTime)
+    {
+        var time = eventDateTime.TimeOfDay;
+        return IsWeekend(eventDateTime)
+            ? time >= TimeSpan.FromHours(20) || time <= TimeSpan.FromHours(4.5)
+            : time >= TimeSpan.FromHours(2) && time <= TimeSpan.FromHours(4.5);
+    }
 
     private static (decimal finalMaxbet, decimal finalSpreadHdp, decimal finalSpreadOu) CalculateFinalMBAndSpread(
         decimal homeMaxbet, decimal awayMaxbet, decimal homeSpreadHdp, decimal awaySpreadHdp, decimal homeSpreadOu, decimal awaySpreadOu)
