@@ -36,11 +36,11 @@ public class EditEventPickingHandler(
         //var mainLeague = await pullMainLeagueService.GetMainLeague(matchFiltered, cancellationToken);
         var mainLeague = new List<main_league_info>
         {
-            new() { teamName = "Slaven Koprivnica", mainLeague = "UAFA ARAB NATIONS CUP" },
-            new() { teamName = "ETO FC Gyor", mainLeague = "" },
-            new() { teamName = "NK Varazdin", mainLeague = "" },
-            new() { teamName = "Zorya Lugansk", mainLeague = "UEFA YOUTH LEAGUE" },
-            new() { teamName = "FC Oleksandria", mainLeague = "QATAR SHEIKH JASSIM CUP" }
+             new() { teamName = "Slaven Koprivnica", mainLeague = "YEMEN SUPER CUP" },
+            new() { teamName = "ETO FC Gyor", mainLeague = "TUNISIAN SUPER CUP" },
+            new() { teamName = "NK Varazdin", mainLeague = "YEMEN PRESIDENT CUP" },
+            new() { teamName = "Zorya Lugansk", mainLeague = "UZBEKISTAN PRO LEAGUE B" },
+            new() { teamName = "FC Oleksandria", mainLeague = "VIETNAM V LEAGUE 1" }
             //new() { teamName = "Slaven Koprivnica", mainLeague = "US OPEN CUP" }
         };
         mainLeagueForEventMapper.Execute(matchFiltered, mainLeague);
@@ -89,11 +89,10 @@ public class EditEventPickingHandler(
         if (selectedHomeLeagueSetting != null && selectedAwayLeagueSetting != null)
         {
             var homeMaxbet = GetMaxbet(selectedHomeLeagueSetting, match);
-            var awayMaxbet = GetMaxbet(selectedAwayLeagueSetting, match);
             var homeSpreadHdp = selectedHomeLeagueSetting.Spread_HDP_Value ?? 0;
             var homeSpreadOu = selectedHomeLeagueSetting.Spread_OU_Value ?? 0;
 
-
+            var awayMaxbet = GetMaxbet(selectedAwayLeagueSetting, match);
             var awaySpreadHdp = selectedAwayLeagueSetting.Spread_HDP_Value ?? 0;
             var awaySpreadOu = selectedAwayLeagueSetting.Spread_OU_Value ?? 0;
 
