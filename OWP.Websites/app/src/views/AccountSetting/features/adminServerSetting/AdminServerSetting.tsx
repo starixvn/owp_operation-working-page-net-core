@@ -18,7 +18,7 @@ const AdminServerSetting = () => {
 
   const options = servers.map(server => ({
     value: server.id,
-    label: server.id === 0 ? server.name : server.id,
+    label: server.name,
     url: server.url
   }));
 
