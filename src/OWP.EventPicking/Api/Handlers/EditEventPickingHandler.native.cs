@@ -1,3 +1,4 @@
+using NPOI.SS.Formula.Functions;
 using OWP.EventPicking.Api.Middleware.Models;
 using OWP.EventPicking.Api.Models;
 using OWP.EventPicking.Api.Services;
@@ -35,11 +36,11 @@ public class EditEventPickingHandler(
         //var mainLeague = await pullMainLeagueService.GetMainLeague(matchFiltered, cancellationToken);
         var mainLeague = new List<main_league_info>
         {
-            new() { teamName = "Slaven Koprivnica", mainLeague = "YEMEN SUPER CUP" },
-            new() { teamName = "ETO FC Gyor", mainLeague = "TUNISIAN SUPER CUP" },
-            new() { teamName = "NK Varazdin", mainLeague = "YEMEN PRESIDENT CUP" },
-            new() { teamName = "Zorya Lugansk", mainLeague = "UZBEKISTAN PRO LEAGUE B" },
-            new() { teamName = "FC Oleksandria", mainLeague = "VIETNAM V LEAGUE 1" }
+            new() { teamName = "Slaven Koprivnica", mainLeague = "UAFA ARAB NATIONS CUP" },
+            new() { teamName = "ETO FC Gyor", mainLeague = "" },
+            new() { teamName = "NK Varazdin", mainLeague = "" },
+            new() { teamName = "Zorya Lugansk", mainLeague = "UEFA YOUTH LEAGUE" },
+            new() { teamName = "FC Oleksandria", mainLeague = "QATAR SHEIKH JASSIM CUP" }
             //new() { teamName = "Slaven Koprivnica", mainLeague = "US OPEN CUP" }
         };
         mainLeagueForEventMapper.Execute(matchFiltered, mainLeague);
@@ -72,8 +73,8 @@ public class EditEventPickingHandler(
     {
         if (match.IsSync || match.ChildMatchId is not null) return;
 
-        var homeLeagueSettingByLeagueId = leagueSetting.Where(x => x.League.Trim() == match.HomeMainLeague).ToList();
-        var awayLeagueSettingByLeagueId = leagueSetting.Where(x => x.League.Trim() == match.AwayMainLeague).ToList();
+        var homeLeagueSettingByLeagueId = leagueSetting.Where(x => x.League.Trim() == match.HomeMainLeague && GetMaxbet(x, match) != null).ToList();
+        var awayLeagueSettingByLeagueId = leagueSetting.Where(x => x.League.Trim() == match.AwayMainLeague && GetMaxbet(x, match) != null).ToList();
         LeagueSettingInfoSender selectedHomeLeagueSetting = null;
         LeagueSettingInfoSender selectedAwayLeagueSetting = null;
         if (homeLeagueSettingByLeagueId.Count > 0)
@@ -84,17 +85,19 @@ public class EditEventPickingHandler(
         {
             selectedAwayLeagueSetting = ProcessLeagueSettingsForMatch(awayLeagueSettingByLeagueId, match);
         }
+        
         if (selectedHomeLeagueSetting != null && selectedAwayLeagueSetting != null)
         {
             var homeMaxbet = GetMaxbet(selectedHomeLeagueSetting, match);
+            var awayMaxbet = GetMaxbet(selectedAwayLeagueSetting, match);
             var homeSpreadHdp = selectedHomeLeagueSetting.Spread_HDP_Value ?? 0;
             var homeSpreadOu = selectedHomeLeagueSetting.Spread_OU_Value ?? 0;
 
-            var awayMaxbet = GetMaxbet(selectedAwayLeagueSetting, match);
+
             var awaySpreadHdp = selectedAwayLeagueSetting.Spread_HDP_Value ?? 0;
             var awaySpreadOu = selectedAwayLeagueSetting.Spread_OU_Value ?? 0;
 
-            var (finalMaxbet, finalSpreadHdp, finalSpreadOu) = CalculateFinalMBAndSpread(homeMaxbet, awayMaxbet, homeSpreadHdp, awaySpreadHdp, homeSpreadOu, awaySpreadOu);
+            var (finalMaxbet, finalSpreadHdp, finalSpreadOu) = CalculateFinalMBAndSpread(homeMaxbet!.Value, awayMaxbet!.Value, homeSpreadHdp, awaySpreadHdp, homeSpreadOu, awaySpreadOu);
 
             if (finalMaxbet > 0)
             {
@@ -102,9 +105,10 @@ public class EditEventPickingHandler(
                 match.SpreadHdp = finalSpreadHdp;
                 match.SpreadOu = finalSpreadOu;
                 match.IsReferenceLeagueManagement = true;
+                CalculateNoHDPClubFriendLy(match);
             }
         }
-        CalculateNoHDPClubFriendLy(match);
+        
     }
 
     private void CalculateNoHDPClubFriendLy(EventPickingModel match)
@@ -122,15 +126,15 @@ public class EditEventPickingHandler(
         match.NoOfHDP = noOfHDP;
     }
 
-    private decimal GetMaxbet(LeagueSettingInfoSender leagueSetting, EventPickingModel match)
+    private decimal? GetMaxbet(LeagueSettingInfoSender leagueSetting, EventPickingModel match)
     {
         if (IsWeekend(match.EventDateTime))
         {
-            return leagueSetting.MaxbetWK_HDP_Value ?? 0;
+            return leagueSetting.MaxbetWK_HDP_Value;
         }
         else
         {
-            return leagueSetting.MaxbetWD_HDP_Value ?? 0;
+            return leagueSetting.MaxbetWD_HDP_Value;
         }
     }
     private LeagueSettingInfoSender ProcessLeagueSettingsForMatch(List<LeagueSettingInfoSender> leagueSettingByLeagueId, EventPickingModel match)
