@@ -35,12 +35,12 @@ public class EditEventPickingHandler(
         //var mainLeague = await pullMainLeagueService.GetMainLeague(matchFiltered, cancellationToken);
         var mainLeague = new List<main_league_info>
         {
-            new() { teamName = "Slaven Koprivnica", mainLeague = "WORLD CUP 2026 ASIA QUALIFIERS" },
-            new() { teamName = "ETO FC Gyor", mainLeague = "WORLD CUP 2026 ASIA QUALIFIERS" },
-            new() { teamName = "NK Varazdin", mainLeague = "VIETNAM V LEAGUE 2" },
-            new() { teamName = "Zorya Lugansk", mainLeague = "VIETNAM V LEAGUE 1" },
-            new() { teamName = "FC Oleksandria", mainLeague = "USA USSF DIVISION 2 PRO LEAGUE" },
-            new() { teamName = "Slaven Koprivnica", mainLeague = "US OPEN CUP" }
+            new() { teamName = "Slaven Koprivnica", mainLeague = "YEMEN SUPER CUP" },
+            new() { teamName = "ETO FC Gyor", mainLeague = "TUNISIAN SUPER CUP" },
+            new() { teamName = "NK Varazdin", mainLeague = "YEMEN PRESIDENT CUP" },
+            new() { teamName = "Zorya Lugansk", mainLeague = "UZBEKISTAN PRO LEAGUE B" },
+            new() { teamName = "FC Oleksandria", mainLeague = "VIETNAM V LEAGUE 1" }
+            //new() { teamName = "Slaven Koprivnica", mainLeague = "US OPEN CUP" }
         };
         mainLeagueForEventMapper.Execute(matchFiltered, mainLeague);
 
@@ -72,10 +72,10 @@ public class EditEventPickingHandler(
     {
         if (match.IsSync || match.ChildMatchId is not null) return;
 
-        var homeLeagueSettingByLeagueId = leagueSetting.Where(x => x.League == match.HomeMainLeague).ToList();
-        var awayLeagueSettingByLeagueId = leagueSetting.Where(x => x.League == match.AwayMainLeague).ToList();
-        var selectedHomeLeagueSetting = new LeagueSettingInfoSender();
-        var selectedAwayLeagueSetting = new LeagueSettingInfoSender();
+        var homeLeagueSettingByLeagueId = leagueSetting.Where(x => x.League.Trim() == match.HomeMainLeague).ToList();
+        var awayLeagueSettingByLeagueId = leagueSetting.Where(x => x.League.Trim() == match.AwayMainLeague).ToList();
+        LeagueSettingInfoSender selectedHomeLeagueSetting = null;
+        LeagueSettingInfoSender selectedAwayLeagueSetting = null;
         if (homeLeagueSettingByLeagueId.Count > 0)
         {
             selectedHomeLeagueSetting = ProcessLeagueSettingsForMatch(homeLeagueSettingByLeagueId, match);
@@ -142,10 +142,7 @@ public class EditEventPickingHandler(
             SuggestionValue(match, leagueIsMappingWithCondition.First());
             return leagueIsMappingWithCondition.First();
         }
-        else
-        {
-            return leagueSettingByLeagueId.First();
-        }
+        return leagueIsMappingWithCondition.FirstOrDefault();
 
     }
 
