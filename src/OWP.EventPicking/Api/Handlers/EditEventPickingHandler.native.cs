@@ -296,9 +296,16 @@ public class EditEventPickingHandler(
         if (homeMaxbet <= 5000 && awayMaxbet <= 5000 && homeMaxbet != awayMaxbet)
         {
             var higherMaxbet = Math.Max(homeMaxbet, awayMaxbet);
-            var (higherSpreadHdp, higherSpreadOu) = CompareAverageSpread(homeSpreadHdp, homeSpreadOu, awaySpreadHdp, awaySpreadOu, useHigher: true);
+            var selectedSpreadHdp = homeSpreadHdp;
+            var selectedSpreadOu = homeSpreadOu;
+            if (higherMaxbet == awayMaxbet)
+            {
+                selectedSpreadHdp = awaySpreadHdp;
+                selectedSpreadOu = awaySpreadOu;
 
-            return (higherMaxbet, higherSpreadHdp, higherSpreadOu);
+            }
+
+            return (higherMaxbet, selectedSpreadHdp, selectedSpreadOu);
         }
 
         // Rule 7: Home MB = Away MB = zK, where z ∈ [2K-5K]
