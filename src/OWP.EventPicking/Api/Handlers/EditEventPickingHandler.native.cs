@@ -33,15 +33,19 @@ public class EditEventPickingHandler(
         var leagueSetting = (await repository.QueryLeagueSetting()).ToList();
 
         var clubFriendlyMatches = matchFiltered.Where(x => x.IsClubFriendlyLeague).ToList();
-        //var mainLeague = await pullMainLeagueService.GetMainLeague(matchFiltered, cancellationToken);
+        //var mainLeague = await pullMainLeagueService.GetMainLeague(clubFriendlyMatches, cancellationToken);
         var mainLeague = new List<main_league_info>
         {
-             new() { teamName = "Slaven Koprivnica", mainLeague = "YEMEN SUPER CUP" },
-            new() { teamName = "ETO FC Gyor", mainLeague = "TUNISIAN SUPER CUP" },
-            new() { teamName = "NK Varazdin", mainLeague = "YEMEN PRESIDENT CUP" },
-            new() { teamName = "Zorya Lugansk", mainLeague = "UZBEKISTAN PRO LEAGUE B" },
-            new() { teamName = "FC Oleksandria", mainLeague = "VIETNAM V LEAGUE 1" }
-            //new() { teamName = "Slaven Koprivnica", mainLeague = "US OPEN CUP" }
+             new() { teamName = "FK Arsenal Dzyarzhynsk", mainLeague = "BELARUS PREMIER LEAGUE" },
+            new() { teamName = "Widzew Lodz (N)", mainLeague = "POLAND EKSTRAKLASA" },
+            new() { teamName = "FK Spartak Subotica (N)", mainLeague = "SERBIA SUPER LEAGUE" },
+            new() { teamName = "FC Magdeburg", mainLeague = "GERMANY BUNDESLIGA 2" },
+            new() { teamName = "Slovan Duslo Sala", mainLeague = "SLOVAKIA LIGA 3" },
+            new() { teamName = "FC Neftekhimik Nizhnekamsk", mainLeague = "RUSSIA FIRST LEAGUE" },
+            new() { teamName = "Piast Gliwice", mainLeague = "POLAND EKSTRAKLASA" },
+            new() { teamName = "FK Novi Pazar", mainLeague = "SERBIA SUPER LEAGUE" },
+            new() { teamName = "Zurich", mainLeague = "SWITZERLAND SUPER LEAGUE" },
+            new() { teamName = "ViOn Zlate Moravce", mainLeague = "SLOVAKIA 2ND DIVISION" }
         };
         mainLeagueForEventMapper.Execute(matchFiltered, mainLeague);
 
