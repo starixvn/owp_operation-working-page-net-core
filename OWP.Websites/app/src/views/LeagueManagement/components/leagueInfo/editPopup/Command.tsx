@@ -6,6 +6,7 @@ import { setFocusSettingId } from '../table/leagueInfoTableSlice/reducer';
 import { updateSettingService } from '../service/service';
 import { AxiosError } from 'axios';
 import { TExpectedResponseType } from '../component/Type';
+import { message } from '../../../constants/Const';
 
 const Command = (props: { closePopup: Function }) => {
   const { closePopup } = props;
@@ -16,6 +17,7 @@ const Command = (props: { closePopup: Function }) => {
       league,
       owpLeagueId,
       leagueGroupId,
+      oldLeagueGroupId,
       leagueGroup,
       spread,
       maxbetWD_HDP,
@@ -36,6 +38,19 @@ const Command = (props: { closePopup: Function }) => {
 
   const handleSave = async () => {
     try {
+      if (oldLeagueGroupId !== leagueGroupId) {
+        const confirmResult = await ToastrWrapper.show({
+          type: 'warning',
+          html: message.changeLeagueGroup,
+          showCloseButton: true,
+          showCancelButton: true
+        });
+
+        if (!confirmResult.value) {
+          return;
+        }
+      }
+
       const response = await updateSettingService({
         leagueSettingId,
         league,
@@ -76,6 +91,7 @@ const Command = (props: { closePopup: Function }) => {
       }
     }
   };
+
   return (
     <div className='list-btn'>
       <button className='btn-cancel' onClick={() => closePopup()}>
