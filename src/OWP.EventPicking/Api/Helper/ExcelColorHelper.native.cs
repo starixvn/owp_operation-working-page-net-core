@@ -102,7 +102,12 @@ public static class ExcelColorHelper
 
     private static void AddRenewMatchRemarks(EventPickingModel match, StringBuilder remarkBuilder)
     {
-        foreach (var info in match.RAndDInfo.Where(info => info.UpdateTypeId == UpdateTypeConstant.RENEW_MATCH))
+        var rAndDInfos = match.RAndDInfo?.Where(info => info.UpdateTypeId == UpdateTypeConstant.RENEW_MATCH);
+
+        if (rAndDInfos == null)
+            return;
+
+        foreach (var info in rAndDInfos)
         {
             remarkBuilder.Insert(0, info.OldValue switch
             {

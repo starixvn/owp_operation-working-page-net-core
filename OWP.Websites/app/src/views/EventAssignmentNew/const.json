@@ -27,7 +27,7 @@
         "FIXED": true,
         "NAME": "MatchNo",
         "HEADER_NAME": "No#",
-        "WIDTH": 60,
+        "WIDTH": 80,
         "IS_CAN_FILTER": true
       },
       "KO_TIME": {

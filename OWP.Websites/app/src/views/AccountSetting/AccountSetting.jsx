@@ -3,13 +3,14 @@ import { OWPPage } from '../Shared/common/OWP/OPWPage';
 import ProfilePicture from './features/profile/ProfilePicture';
 import QuickMessage from './features/quickMessage/QuickMessage';
 import store from './app/store';
-
+import AdminServerSetting from './features/adminServerSetting/AdminServerSetting';
 const AccountSetting = () => {
   return (
     <Provider store={store}>
       <OWPPage className='account-setting'>
         <ProfilePicture />
         <QuickMessage />
+        <AdminServerSetting />
       </OWPPage>
     </Provider>
   );

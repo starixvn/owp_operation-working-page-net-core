@@ -56,6 +56,7 @@ type TDataSource = {
   TeamRound: string;
   Remark: string;
   IsFantasy: boolean;
+  IsSaBa: boolean;
   MinorBettypeId: number;
   MatchCode: string;
   NoOfHDPId: number | null;
@@ -161,6 +162,7 @@ type TQueryLiveGameAssignment = {
   filterState: Array<TColumnFilter>;
   loading: string;
   entities: TDataTable;
+  matchesSelected: TDataTable,
   entitiesOriginal: TDataTable;
   isShowUnreadMsg: boolean;
 };

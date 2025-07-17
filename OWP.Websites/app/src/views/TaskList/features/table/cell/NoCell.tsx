@@ -68,17 +68,15 @@ const NoCell = ({
   const handleSelectedChanged = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    if (event?.target?.checked) {
-      if (
-        firstMatchCheckedIsSaba !== undefined &&
-        firstMatchCheckedIsSaba !== IsSaba
-      ) {
-        ToastrWrapper.showWarning(
-          <span>Please choose only one: SABA or Real matches!</span>
-        );
-        setIsChecked(false);
-        return;
-      }
+    if (event?.target?.checked &&
+      firstMatchCheckedIsSaba !== undefined &&
+      firstMatchCheckedIsSaba !== IsSaba
+    ) {
+      ToastrWrapper.showWarning(
+        <span>Please choose only one: SABA or Real matches!</span>
+      );
+      setIsChecked(false);
+      return;
     }
 
     setIsChecked(event?.target?.checked);

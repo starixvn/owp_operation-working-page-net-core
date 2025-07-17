@@ -1,11 +1,15 @@
 import { useEffect } from 'react';
 import useStableDispatch from './useStableDispatch';
-import { getSoccerTradingPageInfo } from '../tradingPage/getTradingPageInfoThunk';
+import {
+  getSoccerTradingPageInfo,
+  getUserSettingServer
+} from '../tradingPage/getTradingPageInfoThunk';
 
 const useGetSoccerTradingPageInfo = () => {
   const dispatch = useStableDispatch();
   useEffect(() => {
     dispatch(getSoccerTradingPageInfo());
+    dispatch(getUserSettingServer());
   }, []);
 };
 

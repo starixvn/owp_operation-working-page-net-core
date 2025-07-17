@@ -10,4 +10,13 @@ const getSoccerTradingPageInfo = createAsyncThunk(
   }
 );
 
-export { getSoccerTradingPageInfo };
+const getUserSettingServer = createAsyncThunk(
+  'getUserSettingServer',
+  async () => {
+    const url = `/api/AccountSetting/UserSetting/get-user-setting-server`;
+    const res = await get({ url });
+    return res.data || 0;
+  }
+);
+
+export { getSoccerTradingPageInfo, getUserSettingServer };

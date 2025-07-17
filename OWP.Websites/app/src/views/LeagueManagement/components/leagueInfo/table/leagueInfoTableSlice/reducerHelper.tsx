@@ -87,45 +87,44 @@ const executeFilterTable = (
     Remark2,
     Comment
   } = tableFilter;
-
   const result = dataSource.filter(e => //NOSONAR
-    League_Group.selected.some(
+    (!League_Group.isFilter || League_Group.selected.some(
       m => m.label === buildLabelItemOption(e.leagueGroup)
-    ) &&
-    League.selected.some(m => m.label === buildLabelItemOption(e.league)) &&
-    Tv.selected.some(
+    )) &&
+    (!League.isFilter || League.selected.some(m => m.label === buildLabelItemOption(e.league))) &&
+    (!Tv.isFilter || Tv.selected.some(
       m =>
         m.label === buildLabelTvOption(e.condition.hasTv, e.condition.hasIpTv)
-    ) &&
-    Round.selected.some(m =>
+    )) &&
+    (!Round.isFilter || Round.selected.some(m =>
       buildLabelItemForCondition(e.condition.round, m.label)
-    ) &&
-    League_Division.selected.some(m =>
+    )) &&
+    (!League_Division.isFilter || League_Division.selected.some(m =>
       buildLabelItemForCondition(e.condition.division, m.label)
-    ) &&
-    Remark.selected.some(
+    )) &&
+    (!Remark.isFilter || Remark.selected.some(
       m => m.label === buildLabelItemOption(e.condition.remark)
-    ) &&
-    Spread_HDP_OU.selected.some(
+    )) &&
+    (!Spread_HDP_OU.isFilter || Spread_HDP_OU.selected.some(
       m => m.label === buildLabelItemOption(e.spreadShow)
-    ) &&
-    MB_WD_HDP.selected.some(
+    )) &&
+    (!MB_WD_HDP.isFilter || MB_WD_HDP.selected.some(
       m => m.label === buildLabelItemOption(e.maxbetWD_HDP_Show)
-    ) &&
-    MB_WD_NO_HDP.selected.some(
+    )) &&
+    (!MB_WD_NO_HDP.isFilter || MB_WD_NO_HDP.selected.some(
       m => m.label === buildLabelItemOption(e.wD_NoOfHDP_Show)
-    ) &&
-    MB_WK_HDP.selected.some(
+    )) &&
+    (!MB_WK_HDP.isFilter || MB_WK_HDP.selected.some(
       m => m.label === buildLabelItemOption(e.maxbetWK_HDP_Show)
-    ) &&
-    MB_WK_NO_HDP.selected.some(
+    )) &&
+    (!MB_WK_NO_HDP.isFilter || MB_WK_NO_HDP.selected.some(
       m => m.label === buildLabelItemOption(e.wK_NoOfHDP_Show)
-    ) &&
-    LST_Note.selected.some(
+    )) &&
+    (!LST_Note.isFilter || LST_Note.selected.some(
       m => m.label === buildLabelItemOption(e.lstNote)
-    ) &&
-    Remark2.selected.some(m => m.label === buildLabelItemOption(e.remark2)) &&
-    Comment.selected.some(m => m.label === buildLabelItemOption(e.comment))
+    )) &&
+    (!Remark2.isFilter || Remark2.selected.some(m => m.label === buildLabelItemOption(e.remark2))) &&
+    (!Comment.isFilter || Comment.selected.some(m => m.label === buildLabelItemOption(e.comment)))
   );
   return result;
 };

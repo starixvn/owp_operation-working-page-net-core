@@ -1,9 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import reducer from '../features/quickMessage/slice/quickMessageSlice';
-
+import adminServerSettingReducer from '../features/adminServerSetting/slice/adminServerSettingSlice';
 const store = configureStore({
   reducer: {
-    quickMessageSlice: reducer
+    quickMessageSlice: reducer,
+    adminServerSettingSlice: adminServerSettingReducer
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware({
     serializableCheck: false

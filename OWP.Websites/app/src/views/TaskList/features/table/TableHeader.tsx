@@ -1,9 +1,8 @@
-import { useState } from 'react';
-import DropdownIcon from '../../../../assets/svg-element/DropdownIcon';
 import { TABLE_HEADER } from '../const/TableSchema.json';
-import useClickOutside from '../../../Shared/customHook/useClickOutside';
-import DropdownActionHeader from './DropdownActionHeader';
 import { THeader } from '../../type/Header';
+import TradingMenuPopup from '../../../Shared/TradingMenuPopup';
+import { useAppSelector } from '../../app/hooks';
+import { RootState } from '../../app/storeNative';
 
 type colSpanType = {
   [key: string]: number;
@@ -17,26 +16,17 @@ const TableHeader = (props: THeader) => {
     '1H Trader': 2,
     'default': 1
   };
-
-  const [isShowDropdownAction, setIsDropdownAction] = useState(false);
-  const ref = useClickOutside<HTMLDivElement>(() => setIsDropdownAction(false));
+  const matchesSelected = useAppSelector(
+    (state: RootState) => state.taskList.matchesSelected
+  );
 
   const renderDropdown = (index: number) => {
     if (index === 0 && hasDetailInformationPermission) {
       return (
-        <div className='dropdown-wrap'>
-          <DropdownIcon
-            colorDropdown='black'
-            handleOnClick={() => setIsDropdownAction(true)}
-          />
-          {isShowDropdownAction && (
-            <DropdownActionHeader
-              firstMatchCheckedIsSaba={firstMatchCheckedIsSaba}
-              closePopup={() => setIsDropdownAction(false)}
-              refValue={ref}
-            />
-          )}
-        </div>
+        <TradingMenuPopup
+          firstMatchCheckedIsSaba={firstMatchCheckedIsSaba}
+          matchesSelected={matchesSelected}
+        />
       );
     }
     return null;

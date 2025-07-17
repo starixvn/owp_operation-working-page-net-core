@@ -4,6 +4,7 @@ import ToastrWrapper from '../../components/ToastrWrapper';
 import Service from '../service/Service';
 import queryDataTableThunk from '../table/queryDataTableThunk';
 import Utils from '../../Shared/Utils';
+import { resetMatchesSelected } from '../table/eventAssignmentTableSlice';
 
 const ButtonGroupFilter = () => {
   const dispatch = useAppDispatch();
@@ -25,6 +26,7 @@ const ButtonGroupFilter = () => {
       selectedSyncOffVRIsValid
     ) {
       dispatch(queryDataTableThunk());
+      dispatch(resetMatchesSelected());
     } else {
       !selectedMatchStatusIsValid &&
         ToastrWrapper.showError('Please select at least one match status');

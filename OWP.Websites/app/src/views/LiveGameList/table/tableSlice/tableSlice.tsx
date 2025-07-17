@@ -26,6 +26,7 @@ const tableSlice = createSlice({
   name: 'EventInformation',
   initialState: {
     valueFilterAllColumn: {} as FilterAllColumn,
+    matchesSelected: [] as MatchInfo[],
     columnKeyFilterCurrent: '',
     isShowFilterHeader: false,
     loading: REQUEST_STATUS.idle,
@@ -45,6 +46,15 @@ const tableSlice = createSlice({
     refreshModel: {} as RefreshModel
   },
   reducers: {
+    setMatchesSelected: (state, action) => {
+      const { match, isAdded } = action.payload;
+      state.matchesSelected = isAdded
+        ? [...state.matchesSelected, match]
+        : state.matchesSelected.filter(s => s.OWPMatchId !== match.OWPMatchId);
+    },
+    resetMatchesSelected: state => {
+      state.matchesSelected = [];
+    },
     setValueFilter: (state, action) => {
       const { valueFilterAllColumn } = state;
       state.valueFilterAllColumn = pushOrUpdateObject(
@@ -178,7 +188,9 @@ const {
   openPopupDetail,
   setRefreshModel,
   closePopupDetail,
-  sortFunc
+  sortFunc,
+  setMatchesSelected,
+  resetMatchesSelected,
 } = actions;
 export {
   setValueFilter,
@@ -192,6 +204,8 @@ export {
   openPopupDetail,
   setRefreshModel,
   closePopupDetail,
-  sortFunc
+  sortFunc,
+  setMatchesSelected,
+  resetMatchesSelected,
 };
 export default reducer;

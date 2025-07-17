@@ -10,7 +10,7 @@ namespace OWP.Api.Maxbet;
 [AllowAnonymous]
 public class ConfigurationController(IConfiguration configuration) : ControllerBase
 {
-    
+
 
     [HttpGet]
     [Route("os/get")]
@@ -25,6 +25,9 @@ public class ConfigurationController(IConfiguration configuration) : ControllerB
     [Produces("application/json")]
     public async Task<IActionResult> GetAdminSitSoccerUrls()
     {
-        return Ok(configuration.GetSection("LiveOpsUrl:Soccer").Get<SoccerUrls>());
+        var soccerUrls = configuration.GetSection("LiveOpsUrl:Soccer").Get<SoccerUrls>();
+        var servers = configuration.GetSection("LiveOpsUrl:Servers").Get<List<ServerInfo>>();
+        soccerUrls.Servers = servers;
+        return Ok(soccerUrls);
     }
 }

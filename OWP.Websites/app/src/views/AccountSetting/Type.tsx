@@ -6,4 +6,12 @@ type TQuickMessage = {
   message: string;
 };
 
-export { TQuickMessage };
+type TServer = {
+  id: number;
+  name: string;
+  url: string;
+  tradingPort: number;
+  laport: number;
+};
+
+export { TQuickMessage, TServer };

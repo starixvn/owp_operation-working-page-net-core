@@ -2,7 +2,7 @@
   "TABLE_HEADER": [
     {
       "headerName": "No #",
-      "size": 3,
+      "size": 4,
       "isFilter": true
     },
     {

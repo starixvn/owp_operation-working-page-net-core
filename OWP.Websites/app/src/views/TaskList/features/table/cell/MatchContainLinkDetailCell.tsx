@@ -24,7 +24,19 @@ const MatchContainLinkDetailCell = (props: CellProps) => {
     IsAllowedToViewDetail,
     OWPMatchId
   } = props.dataSource;
-  const { laTradingPage, tradingPage } = store.getState().tradingPageInfo.info;
+  const { laTradingPage, tradingPage, servers } = store.getState()
+    .tradingPageInfo.info as {
+    laTradingPage: string;
+    tradingPage: string;
+    servers: {
+      id: number;
+      name: string;
+      url: string;
+      laPort: number;
+      tradingPort: number | null;
+    }[];
+  };
+  const serverSetingId = store.getState().tradingPageInfo.serverSetingId;
 
   const { detailInformationPolicy } = useContext(AppContext);
   const dispatch = useStableDispatch();
@@ -63,6 +75,8 @@ const MatchContainLinkDetailCell = (props: CellProps) => {
       dispatch(openPopupDetail(OWPMatchId));
   };
 
+  const serverSetting = servers.find(server => server.id === serverSetingId);
+
   const renderLinkIcon = () => {
     return (
       <>
@@ -78,6 +92,7 @@ const MatchContainLinkDetailCell = (props: CellProps) => {
           league={League}
           laTradingPage={laTradingPage}
           tradingPage={tradingPage}
+          serverSetting={serverSetting}
         />
       </>
     );

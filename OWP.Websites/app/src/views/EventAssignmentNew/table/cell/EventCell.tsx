@@ -9,7 +9,19 @@ import { setNewEventInfo } from '../../newEvent/newEventSlice';
 import { setDetailEventInfo } from '../../eventDetail/eventDetailSlice';
 
 const EventCell = (props: TCellModel) => {
-  const { laTradingPage, tradingPage } = store.getState().tradingPageInfo.info;
+  const { laTradingPage, tradingPage, servers } = store.getState()
+    .tradingPageInfo.info as {
+    laTradingPage: string;
+    tradingPage: string;
+    servers: {
+      id: number;
+      name: string;
+      url: string;
+      laPort: number;
+      tradingPort: number | null;
+    }[];
+  };
+  const serverSetingId = store.getState().tradingPageInfo.serverSetingId;
   const dispatch = useAppDispatch();
   const {
     policy: {
@@ -42,6 +54,7 @@ const EventCell = (props: TCellModel) => {
   const className = threeLastRow.some(i => i === rowIndex)
     ? 'last-popup'
     : null;
+  const serverSetting = servers.find(server => server.id === serverSetingId);
 
   return (
     <div className='table-cell' key={`Event${rowIndex}`}>
@@ -88,6 +101,7 @@ const EventCell = (props: TCellModel) => {
             league={event.League}
             laTradingPage={laTradingPage}
             tradingPage={tradingPage}
+            serverSetting={serverSetting}
           />
         </>
       )}
