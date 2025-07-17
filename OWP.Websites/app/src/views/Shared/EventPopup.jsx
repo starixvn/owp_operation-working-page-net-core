@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { UncontrolledPopover, PopoverBody} from 'reactstrap';
+import { UncontrolledPopover, PopoverBody } from 'reactstrap';
 import { BettypeId } from './Constants';
 
 const defaultPort = 80;
@@ -31,8 +31,8 @@ const EventPopup = props => {
   const leaguesUseSabaLink = [
     'SABA ELITE FRIENDLY Virtual PES 23 - PENALTY SHOOTOUTS',
     'SABA ELITE FRIENDLY Virtual PES 21 - 5 Mins Play'
-    ];
-    
+  ];
+
   const getLaControllerHref = (
     league,
     adminSiteId,
@@ -68,6 +68,8 @@ const EventPopup = props => {
             laTradingPage,
             serverSetting
           )}
+          target='_blank'
+          rel='noopener noreferrer'
           style={{ cursor: 'pointer', display: 'inline-flex' }}>
           LA Controller
         </a>
@@ -107,6 +109,8 @@ const EventPopup = props => {
     <li>
       <a
         href={getTradingPageUrl(tradingPage, path, serverSetting)}
+        target='_blank'
+        rel='noopener noreferrer'
         style={{
           cursor: 'pointer',
           display: 'inline-flex',
