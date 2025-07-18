@@ -67,18 +67,12 @@ public class EditEventPickingHandler(
         if (match.IsSync || match.ChildMatchId is not null) return;
         if (FiveMajorLeague.Contains(match.HomeMainLeague) && FiveMajorLeague.Contains(match.AwayMainLeague))
         {
-            ProcessLeagueSettingsForClubFriendlyMajorLeagueMatch(match, tvList);
+            buildMBForClubFriendlyMajorLeagueBuilder.Build(match, tvList);
         }
         else
         {
             ProcessLeagueSettingsForClubFriendlyNotMajorLeagueMatch(leagueSetting, match);
         }
-    }
-
-    private void ProcessLeagueSettingsForClubFriendlyMajorLeagueMatch(EventPickingModel match, List<Condition> tvList)
-    {
-        
-         buildMBForClubFriendlyMajorLeagueBuilder.Build(match, tvList);
     }
 
     private void ProcessLeagueSettingsForClubFriendlyNotMajorLeagueMatch(List<LeagueSettingInfoSender> leagueSetting, EventPickingModel match)

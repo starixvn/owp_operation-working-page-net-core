@@ -36,14 +36,9 @@ public class BuildMBForClubFriendlyMajorLeagueBuilderImp : BuildMBForClubFriendl
             // Rule 1: Valid TV = TV
             return (true, false);
         }
-        else if (hasValidIptv)
+        else if (hasValidIptv || hasValidChannel)
         {
             // Rule 2: No TV but Valid IPTV = IPTV
-            return (false, true);
-        }
-        else if (hasValidChannel)
-        {
-            // Rule 3: No TV, No IPTV but Valid Channel = IPTV
             return (false, true);
         }
         else
