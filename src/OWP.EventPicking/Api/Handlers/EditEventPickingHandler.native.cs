@@ -57,7 +57,14 @@ public class EditEventPickingHandler(
             new() { teamName = "VfB Eichstatt", mainLeague = "SERBIA SUPER LEAGUE" },
             new() { teamName = "Besiktas", mainLeague = "SWITZERLAND SUPER LEAGUE" },
             new() { teamName = "RFC Liege", mainLeague = "SLOVAKIA 2ND DIVISION" },
-            new() { teamName = "CD Platense Municipal Zacatecoluca", mainLeague = "*ENGLISH PREMIER LEAGUE" }
+            new() { teamName = "CD Platense Municipal Zacatecoluca", mainLeague = "*ENGLISH PREMIER LEAGUE" },
+            new() { teamName = "SC Launsdorf", mainLeague = "*ENGLISH PREMIER LEAGUE" },
+            new() { teamName = "FC Rapperswil-Jona", mainLeague = "*GERMANY-BUNDESLIGA I" },
+            new() { teamName = "FC Pipinsried", mainLeague = "*ITALY SERIE A" },
+            new() { teamName = "SKN St. Polten", mainLeague = "*SPAIN PRIMERA LALIGA" },
+            new() { teamName = "Royal Aywaille FC", mainLeague = "FRANCE LIGUE 1" },
+            new() { teamName = "Coatepeque FC", mainLeague = "FRANCE LIGUE 1" },
+
 
         };
         mainLeagueForEventMapper.Execute(matchFiltered, mainLeague);
