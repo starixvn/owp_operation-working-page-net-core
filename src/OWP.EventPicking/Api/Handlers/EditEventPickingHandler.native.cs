@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using NPOI.SS.Formula.Functions;
 using OWP.EventPicking.Api.Middleware.Models;
 using OWP.EventPicking.Api.Models;
@@ -12,7 +13,7 @@ public class EditEventPickingHandler(
     Repository repository,
     PullMainLeagueService pullMainLeagueService,
     MapMainLeagueForEventService mainLeagueForEventMapper,
-    LeagueSettingForClubFriendlyBuilder leagueSettingForClubFriendly) : IRequestHandler<EditEventPickingRequest, EventPickingResult>
+    BuildMBForClubFriendlyMajorLeagueBuilder buildMBForClubFriendlyMajorLeagueBuilder) : IRequestHandler<EditEventPickingRequest, EventPickingResult>
 {
 
     private readonly IList<string> FiveMajorLeague = new List<string>()
@@ -31,6 +32,7 @@ public class EditEventPickingHandler(
         var matchFiltered = mainMatches.FilteredMatches;
 
         var leagueSetting = (await repository.QueryLeagueSetting()).ToList();
+        
 
         var clubFriendlyMatches = matchFiltered.Where(x => x.IsClubFriendlyLeague).ToList();
         var mainLeague = new List<main_league_info>();
@@ -39,10 +41,10 @@ public class EditEventPickingHandler(
 
         foreach (var match in matchFiltered)
         {
-            if (match.IsClubFriendlyLeague &&
-            !(FiveMajorLeague.Contains(match.HomeMainLeague) && FiveMajorLeague.Contains(match.AwayMainLeague)))
+            if (match.IsClubFriendlyLeague)
             {
-                ProcessLeagueSettingsForClubFriendlyMatch(leagueSetting, match);
+                var tvList = (await repository.GetTVList()).ToList();
+                ProcessLeagueSettingsForClubFriendlyMatch(leagueSetting, match, tvList);
             }
             else
             {
@@ -53,7 +55,6 @@ public class EditEventPickingHandler(
 
         }
 
-        leagueSettingForClubFriendly.Build(matchFiltered, leagueSetting, cancellationToken);
         return new EventPickingResult
         {
             MatchesByDate = mainMatches.MatchesByDate,
@@ -61,10 +62,27 @@ public class EditEventPickingHandler(
         };
     }
 
-    private void ProcessLeagueSettingsForClubFriendlyMatch(List<LeagueSettingInfoSender> leagueSetting, EventPickingModel match)
+    private void ProcessLeagueSettingsForClubFriendlyMatch(List<LeagueSettingInfoSender> leagueSetting, EventPickingModel match, List<Condition> tvList)
     {
         if (match.IsSync || match.ChildMatchId is not null) return;
+        if (FiveMajorLeague.Contains(match.HomeMainLeague) && FiveMajorLeague.Contains(match.AwayMainLeague))
+        {
+            ProcessLeagueSettingsForClubFriendlyMajorLeagueMatch(match, tvList);
+        }
+        else
+        {
+            ProcessLeagueSettingsForClubFriendlyNotMajorLeagueMatch(leagueSetting, match);
+        }
+    }
 
+    private void ProcessLeagueSettingsForClubFriendlyMajorLeagueMatch(EventPickingModel match, List<Condition> tvList)
+    {
+        
+         buildMBForClubFriendlyMajorLeagueBuilder.Build(match, tvList);
+    }
+
+    private void ProcessLeagueSettingsForClubFriendlyNotMajorLeagueMatch(List<LeagueSettingInfoSender> leagueSetting, EventPickingModel match)
+    {
         var homeLeagueSettingByLeagueId = leagueSetting.Where(x => x.League.Trim() == match.HomeMainLeague && GetMaxbet(x, match) != null).ToList();
         var awayLeagueSettingByLeagueId = leagueSetting.Where(x => x.League.Trim() == match.AwayMainLeague && GetMaxbet(x, match) != null).ToList();
         LeagueSettingInfoSender selectedHomeLeagueSetting = null;
@@ -77,7 +95,7 @@ public class EditEventPickingHandler(
         {
             selectedAwayLeagueSetting = ProcessLeagueSettingsForMatch(awayLeagueSettingByLeagueId, match);
         }
-        
+
         if (selectedHomeLeagueSetting != null && selectedAwayLeagueSetting != null)
         {
             var homeMaxbet = GetMaxbet(selectedHomeLeagueSetting, match);
@@ -99,7 +117,7 @@ public class EditEventPickingHandler(
                 CalculateNoHDPClubFriendLy(match);
             }
         }
-        
+
     }
 
     private void CalculateNoHDPClubFriendLy(EventPickingModel match)
