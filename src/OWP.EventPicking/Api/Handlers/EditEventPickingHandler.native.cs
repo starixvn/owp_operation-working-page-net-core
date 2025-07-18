@@ -93,12 +93,12 @@ public class EditEventPickingHandler(
         if (selectedHomeLeagueSetting != null && selectedAwayLeagueSetting != null)
         {
             var homeMaxbet = GetMaxbet(selectedHomeLeagueSetting, match);
-            var homeSpreadHdp = selectedHomeLeagueSetting.Spread_HDP_Value ?? 0;
-            var homeSpreadOu = selectedHomeLeagueSetting.Spread_OU_Value ?? 0;
+            var homeSpreadHdp = selectedHomeLeagueSetting.Spread_HDP_Value;
+            var homeSpreadOu = selectedHomeLeagueSetting.Spread_OU_Value;
 
             var awayMaxbet = GetMaxbet(selectedAwayLeagueSetting, match);
-            var awaySpreadHdp = selectedAwayLeagueSetting.Spread_HDP_Value ?? 0;
-            var awaySpreadOu = selectedAwayLeagueSetting.Spread_OU_Value ?? 0;
+            var awaySpreadHdp = selectedAwayLeagueSetting.Spread_HDP_Value;
+            var awaySpreadOu = selectedAwayLeagueSetting.Spread_OU_Value;
 
             var (finalMaxbet, finalSpreadHdp, finalSpreadOu) = CalculateFinalMBAndSpread(homeMaxbet!.Value, awayMaxbet!.Value, homeSpreadHdp, awaySpreadHdp, homeSpreadOu, awaySpreadOu);
 
@@ -256,8 +256,8 @@ public class EditEventPickingHandler(
             : time >= TimeSpan.FromHours(2) && time <= TimeSpan.FromHours(4.5);
     }
 
-    private static (decimal finalMaxbet, decimal finalSpreadHdp, decimal finalSpreadOu) CalculateFinalMBAndSpread(
-        decimal homeMaxbet, decimal awayMaxbet, decimal homeSpreadHdp, decimal awaySpreadHdp, decimal homeSpreadOu, decimal awaySpreadOu)
+    private static (decimal finalMaxbet, decimal? finalSpreadHdp, decimal? finalSpreadOu) CalculateFinalMBAndSpread(
+        decimal homeMaxbet, decimal awayMaxbet, decimal? homeSpreadHdp, decimal? awaySpreadHdp, decimal? homeSpreadOu, decimal? awaySpreadOu)
     {
         // Rule 1: Home & Away MB >= 25K
         if (homeMaxbet >= 25000 && awayMaxbet >= 25000)
@@ -274,7 +274,9 @@ public class EditEventPickingHandler(
         // Rule 3 & 4: Home MB = Away MB = 12K AND Home & Away Spread <= 10%-12%
         if (homeMaxbet == awayMaxbet && homeMaxbet == 12000)
         {
-            var averageSpread = (homeSpreadHdp + homeSpreadOu + awaySpreadHdp + awaySpreadOu) / 4;
+            var spreadValues = new[] { homeSpreadHdp, homeSpreadOu, awaySpreadHdp, awaySpreadOu };
+            var nonNullSpreads = spreadValues.Where(s => s.HasValue).Select(s => s.Value).ToList();
+            var averageSpread = nonNullSpreads.Count > 0 ? nonNullSpreads.Average() : 0;
 
             if (averageSpread <= 0.12m)
             {
@@ -337,10 +339,22 @@ public class EditEventPickingHandler(
         return (0, 0, 0);
     }
 
-    private static (decimal spreadHdp, decimal spreadOu) CompareAverageSpread(decimal homeSpreadHdp, decimal homeSpreadOu, decimal awaySpreadHdp, decimal awaySpreadOu, bool useHigher = true)
+    private static (decimal? spreadHdp, decimal? spreadOu) CompareAverageSpread(decimal? homeSpreadHdp, decimal? homeSpreadOu, decimal? awaySpreadHdp, decimal? awaySpreadOu, bool useHigher = true)
     {
-        var homeAverageSpread = (homeSpreadHdp + homeSpreadOu) / 2;
-        var awayAverageSpread = (awaySpreadHdp + awaySpreadOu) / 2;
+        var homeValues = new[] { homeSpreadHdp, homeSpreadOu }.Where(v => v.HasValue).Select(v => v.Value).ToList();
+        var awayValues = new[] { awaySpreadHdp, awaySpreadOu }.Where(v => v.HasValue).Select(v => v.Value).ToList();
+        
+        var homeAverageSpread = homeValues.Count > 0 ? homeValues.Average() : (decimal?)null;
+        var awayAverageSpread = awayValues.Count > 0 ? awayValues.Average() : (decimal?)null;
+
+        if (homeAverageSpread == null)
+        {
+            return (awaySpreadHdp, awaySpreadOu);
+        }
+        if (awayAverageSpread == null)
+        {
+            return (homeSpreadHdp, homeSpreadOu);
+        }
 
         bool shouldUseHome = useHigher ?
             homeAverageSpread > awayAverageSpread :
