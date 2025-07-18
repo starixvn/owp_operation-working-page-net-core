@@ -51,7 +51,13 @@ public class EditEventPickingHandler(
             new() { teamName = "Kickers Offenbach", mainLeague = "GERMANY REGIONAL LEAGUE SOUTHWEST" },
             new() { teamName = "Loughgall", mainLeague = "NORTHERN IRELAND PREMIERSHIP DEVELOPMENT LEAGUE" },
             new() { teamName = "Wrexham", mainLeague = "ENGLISH LEAGUE CHAMPIONSHIP" },
-            new() { teamName = "SV Wehen Wiesbaden", mainLeague = "GERMANY 3RD LIGA" }
+            new() { teamName = "SV Wehen Wiesbaden", mainLeague = "GERMANY 3RD LIGA" },
+            new() { teamName = "SV Donau Klagenfurt", mainLeague = "RUSSIA FIRST LEAGUE" },
+            new() { teamName = "Basel", mainLeague = "POLAND EKSTRAKLASA" },
+            new() { teamName = "VfB Eichstatt", mainLeague = "SERBIA SUPER LEAGUE" },
+            new() { teamName = "Besiktas", mainLeague = "SWITZERLAND SUPER LEAGUE" },
+            new() { teamName = "RFC Liege", mainLeague = "SLOVAKIA 2ND DIVISION" },
+            new() { teamName = "CD Platense Municipal Zacatecoluca", mainLeague = "*ENGLISH PREMIER LEAGUE" }
 
         };
         mainLeagueForEventMapper.Execute(matchFiltered, mainLeague);
