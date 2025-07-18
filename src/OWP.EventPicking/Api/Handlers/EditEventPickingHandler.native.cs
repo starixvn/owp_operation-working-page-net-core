@@ -45,7 +45,14 @@ public class EditEventPickingHandler(
             new() { teamName = "Piast Gliwice", mainLeague = "POLAND EKSTRAKLASA" },
             new() { teamName = "FK Novi Pazar", mainLeague = "SERBIA SUPER LEAGUE" },
             new() { teamName = "Zurich", mainLeague = "SWITZERLAND SUPER LEAGUE" },
-            new() { teamName = "ViOn Zlate Moravce", mainLeague = "SLOVAKIA 2ND DIVISION" }
+            new() { teamName = "ViOn Zlate Moravce", mainLeague = "SLOVAKIA 2ND DIVISION" },
+            new() { teamName = "Dungannon Swifts", mainLeague = "NORTHERN IRELAND PREMIERSHIP" },
+            new() { teamName = "Wellington Phoenix", mainLeague = "FC AUSTRALIA A-LEAGUE" },
+            new() { teamName = "Kickers Offenbach", mainLeague = "GERMANY REGIONAL LEAGUE SOUTHWEST" },
+            new() { teamName = "Loughgall", mainLeague = "NORTHERN IRELAND PREMIERSHIP DEVELOPMENT LEAGUE" },
+            new() { teamName = "Wrexham", mainLeague = "ENGLISH LEAGUE CHAMPIONSHIP" },
+            new() { teamName = "SV Wehen Wiesbaden", mainLeague = "GERMANY 3RD LIGA" }
+
         };
         mainLeagueForEventMapper.Execute(matchFiltered, mainLeague);
 
