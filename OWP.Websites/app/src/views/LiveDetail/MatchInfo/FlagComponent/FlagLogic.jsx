@@ -7,7 +7,6 @@ import {
   PES_FLAG_23,
   SABA,
   FC_24,
-  V_LEAGUE,
   PES_FLAG_24
 } from './FlagStore/FlagsCondition';
 import { FC_24_IMAGE_STORE } from './FlagStore/FC24';
@@ -15,7 +14,7 @@ import { PES_IMAGE_STORE } from './FlagStore/PES';
 import { PES_21_IMAGE_STORE } from './FlagStore/PES21';
 import { FIFA_23_IMAGE_STORE } from './FlagStore/FIFA23';
 import { PES_23_IMAGE_STORE } from './FlagStore/PES23';
-import { V_LEAGUE_IMAGE_STORE } from './FlagStore/VLeague';
+import { PES_24_IMAGE_STORE } from './FlagStore/PES24';
 
 export const getFlagFromStore = props => {
   const { flagName, flagNameLibrary, flagURL, flagExtension = '.jpg' } = props;
@@ -35,13 +34,6 @@ export const getFlagFromStore = props => {
 export const flagFactory = props => {
   const { flagName, flagInfo } = props;
   switch (flagInfo) {
-    case V_LEAGUE.type:
-      return getFlagFromStore({
-        flagName,
-        flagNameLibrary: V_LEAGUE_IMAGE_STORE,
-        flagURL: V_LEAGUE.rootPath,
-        flagExtension: '.png'
-      });
     case 'FIFA':
       return getFlagFromStore({
         flagName,
@@ -65,6 +57,12 @@ export const flagFactory = props => {
         flagName,
         flagNameLibrary: PES_23_IMAGE_STORE,
         flagURL: PES_FLAG_23.rootPath
+      });
+    case 'PES 24':
+      return getFlagFromStore({
+        flagName,
+        flagNameLibrary: PES_24_IMAGE_STORE,
+        flagURL: PES_FLAG_24.rootPath
       });
     case 'FIFA 23':
       return getFlagFromStore({
@@ -128,15 +126,10 @@ export const checkLeague = props => /* NOSONAR */ {
   const fifa23 = testRegex({ leagueName, ...FIFA_FLAG_23 });
   const pes23 = testRegex({ leagueName, ...PES_FLAG_23 });
   const fc24 = testRegex({ leagueName, ...FC_24 });
-  const vLeague = testRegex({ leagueName, ...V_LEAGUE });
   const pes24 = testRegex({ leagueName, ...PES_FLAG_24 });
 
   if (pes24) {
     return { isHaveFlag: true, flagInfo: PES_FLAG_24.type };
-  }
-
-  if (vLeague) {
-    return { isHaveFlag: true, flagInfo: V_LEAGUE.type };
   }
 
   if (pes && fifa) {

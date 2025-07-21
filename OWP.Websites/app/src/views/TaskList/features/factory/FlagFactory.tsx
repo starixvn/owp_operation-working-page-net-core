@@ -6,7 +6,7 @@ import Pes24Icon from '../component/Pes24Icon';
 
 const FlagFactory = (props: PesOrFiFa) => {
   const { IsPESOther, IsFIFA, IsPES23, IsFC24, IsPES24 } = props;
-  console.log(IsPES24);
+
   let flag = null;
 
   if (IsPESOther || IsPES23) {

@@ -28,7 +28,6 @@
     "build-all": "npm run build:rocket-chat & npm run build-batch-0 & npm run build-batch-1 & npm run build-batch-2 & npm run build-batch-3 & npm run build-batch-4 & npm run build-batch-5 & npm run build-batch-6 & npm run build-batch-7 & npm run build-batch-8",
     "build-related-popup-ticket": "npm run build:task-list & npm run build:live-game-list & npm run build:live-game-assignment & npm run build:event-assignment-new & npm run build:ticket-center & npm run build:day-shift-assignment & npm run build:night-shift-assignment",
     "build:syncRound": "npm run build:task-list & npm run build:live-game-assignment & npm run build:live-game-list & npm run build:detail-information & npm run build:day-shift-assignment & npm run build:night-shift-assignment & npm run build:event-picking",
-    "start:test": "npm run start:live-game-list &npm run start:detail-information ",
     "start:account-setting": "set NODE_APP=account-setting & vite",
     "build:account-setting": "set NODE_APP=account-setting & vite build",
     "start:assignee-suggestion": "set NODE_APP=assignee-suggestion-list & vite",

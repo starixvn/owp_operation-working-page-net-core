@@ -28,8 +28,7 @@ const KOTimeCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
     InfoSiteTime,
     rowIndex
   };
-  console.log(IsPESOther);
-  console.log(IsPES23);
+
   return (
     <div className='ko-time-cell'>
       <TimeOfMatch {...propsTime} />
@@ -70,7 +69,7 @@ const KOTimeCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
         <>
           <i
             className='icon-match icon-pes24'
-            original-title='VLeague'
+            original-title='PES 24'
             ref={ref}></i>
           <UncontrolledTooltip placement='bottom' target={ref}>
             PES 24
