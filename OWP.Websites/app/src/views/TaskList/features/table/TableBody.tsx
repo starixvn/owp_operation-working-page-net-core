@@ -26,8 +26,7 @@ const TableBody = (props: TBody) => {
           dataSource={dataSource}
           rowIndex={rowIndex}
           firstMatchCheckedIsSaba={firstMatchCheckedIsSaba}
-          authToken={authToken ?? ''}
-        ></RowContent>
+          authToken={authToken ?? ''}></RowContent>
       ))}
     </>
   );

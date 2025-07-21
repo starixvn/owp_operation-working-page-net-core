@@ -2,20 +2,20 @@ import { useRef } from 'react';
 import { PesOrFiFa } from '../../type/TTaskListTable';
 import { UncontrolledTooltip } from 'reactstrap';
 
-const VLeagueIcon = (props: PesOrFiFa) => {
-  const { IsVietNamVLeague } = props;
+const Pes24Icon = (props: PesOrFiFa) => {
+  const { IsPES24 } = props;
 
   const ref = useRef(null);
   return (
     <>
-      {IsVietNamVLeague && (
+      {IsPES24 && (
         <>
           <i
-            className={'icon-match icon-vn-vleague'}
-            original-title='VLeague'
+            className={'icon-match icon-pes24'}
+            original-title='Pes24'
             ref={ref}></i>
           <UncontrolledTooltip placement='bottom' target={ref}>
-            VLeague
+            PES 24
           </UncontrolledTooltip>
         </>
       )}
@@ -23,4 +23,4 @@ const VLeagueIcon = (props: PesOrFiFa) => {
   );
 };
 
-export default VLeagueIcon;
+export default Pes24Icon;

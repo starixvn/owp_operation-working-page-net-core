@@ -2,10 +2,11 @@ import { PesOrFiFa } from '../../type/TTaskListTable';
 import PesIcon from '../component/PesIcon';
 import FifaIcon from '../component/FifaIcon';
 import FC24Icon from '../component/FC24Icon';
-import VLeagueIcon from '../component/VLeagueIcon';
+import Pes24Icon from '../component/Pes24Icon';
 
 const FlagFactory = (props: PesOrFiFa) => {
-  const { IsPESOther, IsFIFA, IsPES23, IsFC24, IsVietNamVLeague } = props;
+  const { IsPESOther, IsFIFA, IsPES23, IsFC24, IsPES24 } = props;
+  console.log(IsPES24);
   let flag = null;
 
   if (IsPESOther || IsPES23) {
@@ -17,8 +18,8 @@ const FlagFactory = (props: PesOrFiFa) => {
   if (IsFC24) {
     flag = <FC24Icon {...props} />;
   }
-  if (IsVietNamVLeague) {
-    flag = <VLeagueIcon {...props} />;
+  if (IsPES24) {
+    flag = <Pes24Icon {...props} />;
   }
   return flag;
 };

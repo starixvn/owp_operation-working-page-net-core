@@ -16,7 +16,7 @@ const KOTimeCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
     IsFC24,
     IsPESOther,
     IsFIFA,
-    IsVietNamVLeague
+    IsPES24
   } = dataSource[rowIndex];
 
   const propsTime = {
@@ -28,7 +28,8 @@ const KOTimeCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
     InfoSiteTime,
     rowIndex
   };
-
+  console.log(IsPESOther);
+  console.log(IsPES23);
   return (
     <div className='ko-time-cell'>
       <TimeOfMatch {...propsTime} />
@@ -65,14 +66,14 @@ const KOTimeCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
           </UncontrolledTooltip>
         </>
       )}
-      {IsVietNamVLeague && (
+      {IsPES24 && (
         <>
           <i
-            className='icon-match icon-vn-vleague'
+            className='icon-match icon-pes24'
             original-title='VLeague'
             ref={ref}></i>
           <UncontrolledTooltip placement='bottom' target={ref}>
-            VLeague
+            PES 24
           </UncontrolledTooltip>
         </>
       )}

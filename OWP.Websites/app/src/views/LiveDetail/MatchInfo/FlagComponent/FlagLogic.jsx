@@ -7,7 +7,8 @@ import {
   PES_FLAG_23,
   SABA,
   FC_24,
-  V_LEAGUE
+  V_LEAGUE,
+  PES_FLAG_24
 } from './FlagStore/FlagsCondition';
 import { FC_24_IMAGE_STORE } from './FlagStore/FC24';
 import { PES_IMAGE_STORE } from './FlagStore/PES';
@@ -128,10 +129,16 @@ export const checkLeague = props => /* NOSONAR */ {
   const pes23 = testRegex({ leagueName, ...PES_FLAG_23 });
   const fc24 = testRegex({ leagueName, ...FC_24 });
   const vLeague = testRegex({ leagueName, ...V_LEAGUE });
+  const pes24 = testRegex({ leagueName, ...PES_FLAG_24 });
+
+  if (pes24) {
+    return { isHaveFlag: true, flagInfo: PES_FLAG_24.type };
+  }
 
   if (vLeague) {
     return { isHaveFlag: true, flagInfo: V_LEAGUE.type };
   }
+
   if (pes && fifa) {
     return { isHaveFlag: null, flagInfo: null };
   }

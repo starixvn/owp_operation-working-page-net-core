@@ -11,10 +11,10 @@ interface KOTimeProps {
 
 interface PesOrFiFa {
   IsPES23: boolean;
+  IsPES24: boolean;
   IsFC24: boolean;
   IsPESOther: boolean;
   IsFIFA: boolean;
-  IsVietNamVLeague: boolean;
   rowIndex: number;
 }
 
@@ -141,7 +141,7 @@ type CellProps = {
   dataLength?: number;
   rowSpan?: number;
   firstMatchCheckedIsSaba?: boolean;
-  authToken: string;
+  authToken?: string;
 };
 
 type OtherProductProps = {

@@ -34,7 +34,6 @@ type CellProps = {
   dataSource: Required<Array<MatchInfo>>;
   rowIndex: Required<number>;
   firstMatchCheckedIsSaba?: boolean;
-
 };
 
 interface TicketCellProps extends CellProps {
@@ -151,9 +150,9 @@ interface MatchInfo {
   IsMinorMatch: boolean;
   IsOneHourToKickOffTime: boolean;
   IsPES23: boolean;
+  IsPES24: boolean;
   IsFC24: boolean;
   IsPESOther: boolean;
-  IsVietNamVLeague: boolean;
   KickOffTime: string;
   League: string;
   LeagueGroup: string;
