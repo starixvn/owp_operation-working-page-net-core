@@ -37,6 +37,14 @@ public class EditEventPickingHandler(
         var clubFriendlyMatches = matchFiltered.Where(x => x.IsClubFriendlyLeague).ToList();
         var mainLeague = new List<main_league_info>();
         //var mainLeague = await pullMainLeagueService.GetMainLeague(clubFriendlyMatches, cancellationToken);
+            new() { teamName = "Ballyclare Comrades", mainLeague = "*ITALY SERIE A" },
+            new() { teamName = "Crusaders FC", mainLeague = "*SPAIN PRIMERA LALIGA" },
+            new() { teamName = "Zorya Lugansk (N)", mainLeague = "*ITALY SERIE A" },
+            new() { teamName = "FK Sarajevo", mainLeague = "*GERMANY-BUNDESLIGA I" },
+            new() { teamName = "NK Bravo (N)", mainLeague = "*GERMANY-BUNDESLIGA I" },
+            new() { teamName = "HNK Rijeka", mainLeague = "*GERMANY-BUNDESLIGA I" },
+            new() { teamName = "Orlando Pirates (N)", mainLeague = "*GERMANY-BUNDESLIGA I" },
+            new() { teamName = "Pafos FC", mainLeague = "*ITALY SERIE A" },
         mainLeagueForEventMapper.Execute(matchFiltered, mainLeague);
 
         foreach (var match in matchFiltered)
