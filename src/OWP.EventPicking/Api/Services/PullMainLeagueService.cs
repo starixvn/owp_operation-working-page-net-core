@@ -19,11 +19,13 @@ public class PullMainLeagueServiceImp(IHttpClientFactory httpClientFactory,
 
         var data = new
         {
-            sportTypeId = 1,
-            teams = matches.Select(m => m.HomeName).Concat(matches.Select(m => m.AwayName)).Distinct()
+            SportTypeId = 1,
+            Teams = matches.Select(m => m.HomeName.Replace(" (N)", "")).Concat(matches.Select(m => m.AwayName.Replace(" (N)", ""))).Distinct()
         };
 
-        var bodyContent = new StringContent(JsonConvert.SerializeObject(data),
+        var jsonData = JsonConvert.SerializeObject(data);
+
+        var bodyContent = new StringContent(jsonData,
             Encoding.UTF8,
             "application/json");
 
@@ -32,7 +34,7 @@ public class PullMainLeagueServiceImp(IHttpClientFactory httpClientFactory,
         try
         {
             // TODO
-            var response = await client.PostAsync("", bodyContent, cancellationToken);
+            var response = await client.PostAsync("/api/EventSchedule/GetMainLeagueByTeam", bodyContent, cancellationToken);
 
             mainLeagueInfo = await HandleResponse(response, cancellationToken);
         }
