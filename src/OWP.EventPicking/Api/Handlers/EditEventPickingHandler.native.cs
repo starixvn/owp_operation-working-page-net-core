@@ -33,40 +33,8 @@ public class EditEventPickingHandler(
         var leagueSetting = (await repository.QueryLeagueSetting()).ToList();
 
         var clubFriendlyMatches = matchFiltered.Where(x => x.IsClubFriendlyLeague).ToList();
+        var mainLeague = new List<main_league_info>();
         //var mainLeague = await pullMainLeagueService.GetMainLeague(clubFriendlyMatches, cancellationToken);
-        var mainLeague = new List<main_league_info>
-        {
-             new() { teamName = "FK Arsenal Dzyarzhynsk", mainLeague = "BELARUS PREMIER LEAGUE" },
-            new() { teamName = "Widzew Lodz (N)", mainLeague = "POLAND EKSTRAKLASA" },
-            new() { teamName = "FK Spartak Subotica (N)", mainLeague = "SERBIA SUPER LEAGUE" },
-            new() { teamName = "FC Magdeburg", mainLeague = "GERMANY BUNDESLIGA 2" },
-            new() { teamName = "Slovan Duslo Sala", mainLeague = "SLOVAKIA LIGA 3" },
-            new() { teamName = "FC Neftekhimik Nizhnekamsk", mainLeague = "RUSSIA FIRST LEAGUE" },
-            new() { teamName = "Piast Gliwice", mainLeague = "POLAND EKSTRAKLASA" },
-            new() { teamName = "FK Novi Pazar", mainLeague = "SERBIA SUPER LEAGUE" },
-            new() { teamName = "Zurich", mainLeague = "SWITZERLAND SUPER LEAGUE" },
-            new() { teamName = "ViOn Zlate Moravce", mainLeague = "SLOVAKIA 2ND DIVISION" },
-            new() { teamName = "Dungannon Swifts", mainLeague = "NORTHERN IRELAND PREMIERSHIP" },
-            new() { teamName = "Wellington Phoenix FC", mainLeague = "AUSTRALIA A-LEAGUE" },
-            new() { teamName = "Kickers Offenbach", mainLeague = "GERMANY REGIONAL LEAGUE SOUTHWEST" },
-            new() { teamName = "Loughgall", mainLeague = "NORTHERN IRELAND PREMIERSHIP DEVELOPMENT LEAGUE" },
-            new() { teamName = "Wrexham", mainLeague = "ENGLISH LEAGUE CHAMPIONSHIP" },
-            new() { teamName = "SV Wehen Wiesbaden", mainLeague = "GERMANY 3RD LIGA" },
-            new() { teamName = "SV Donau Klagenfurt", mainLeague = "RUSSIA FIRST LEAGUE" },
-            new() { teamName = "Basel", mainLeague = "POLAND EKSTRAKLASA" },
-            new() { teamName = "VfB Eichstatt", mainLeague = "SERBIA SUPER LEAGUE" },
-            new() { teamName = "Besiktas", mainLeague = "SWITZERLAND SUPER LEAGUE" },
-            new() { teamName = "RFC Liege", mainLeague = "SLOVAKIA 2ND DIVISION" },
-            new() { teamName = "CD Platense Municipal Zacatecoluca", mainLeague = "*ENGLISH PREMIER LEAGUE" },
-            new() { teamName = "SC Launsdorf", mainLeague = "*ENGLISH PREMIER LEAGUE" },
-            new() { teamName = "FC Rapperswil-Jona", mainLeague = "*GERMANY-BUNDESLIGA I" },
-            new() { teamName = "FC Pipinsried", mainLeague = "*ITALY SERIE A" },
-            new() { teamName = "SKN St. Polten", mainLeague = "*SPAIN PRIMERA LALIGA" },
-            new() { teamName = "Royal Aywaille FC", mainLeague = "FRANCE LIGUE 1" },
-            new() { teamName = "Coatepeque FC", mainLeague = "FRANCE LIGUE 1" },
-
-
-        };
         mainLeagueForEventMapper.Execute(matchFiltered, mainLeague);
 
         foreach (var match in matchFiltered)
