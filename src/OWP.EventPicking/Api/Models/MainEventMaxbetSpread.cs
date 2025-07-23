@@ -7,12 +7,12 @@ public class MainEventMaxbetSpread
     public decimal? SpreadHdp { get; set; }
 
     [Cell("O2")]
-    public string SpreadHdpExcel => SpreadHdp.HasValue ? $"{SpreadHdp.Value*100}%" : string.Empty;
+    public string SpreadHdpExcel => SpreadHdp.HasValue ? $"{Math.Round(SpreadHdp.Value*100)}%" : string.Empty;
 
     public decimal? SpreadOu { get; set; }
 
     [Cell("P2")]
-    public string SpreadOuExcel => SpreadOu.HasValue ? $"{SpreadOu.Value * 100}%" : string.Empty;
+    public string SpreadOuExcel => SpreadOu.HasValue ? $"{Math.Round(SpreadOu.Value * 100)}%" : string.Empty;
 
     public decimal? MaxbetHdp { get; set; }
 
