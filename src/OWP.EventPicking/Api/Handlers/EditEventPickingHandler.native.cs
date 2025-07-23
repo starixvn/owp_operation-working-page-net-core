@@ -39,7 +39,7 @@ public class EditEventPickingHandler(
         //var mainLeague = await pullMainLeagueService.GetMainLeague(clubFriendlyMatches, cancellationToken);
         var mainLeague = new List<main_league_info>
         {
-             new() { TeamName = "FK Arsenal Dzyarzhynsk", MainLeagueName = "BELARUS PREMIER LEAGUE" },
+            new() { TeamName = "FK Arsenal Dzyarzhynsk", MainLeagueName = "BELARUS PREMIER LEAGUE" },
             new() { TeamName = "Widzew Lodz (N)", MainLeagueName = "POLAND EKSTRAKLASA" },
             new() { TeamName = "FK Spartak Subotica (N)", MainLeagueName = "SERBIA SUPER LEAGUE" },
             new() { TeamName = "FC Magdeburg", MainLeagueName = "GERMANY BUNDESLIGA 2" },
@@ -82,8 +82,12 @@ public class EditEventPickingHandler(
             new() { TeamName = "Asteras Tripolis", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
             new() { TeamName = "Neftchi Baku", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
             new() { TeamName = "FC 08 Homburg", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
-            new() { TeamName = "SV Elversberg", MainLeagueName = "*ENGLISH PREMIER LEAGUE" }
-
+            new() { TeamName = "SV Elversberg", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
+            new() { TeamName = "Montedio Yamagata", MainLeagueName = "JAPAN J-LEAGUE DIVISION 2" },
+            new() { TeamName = "Reims", MainLeagueName = "FRANCE LIGUE 2" },
+            new() { TeamName = "Vissel Kobe", MainLeagueName = "JAPAN J-LEAGUE DIVISION 1" },
+            new() { TeamName = "Middelfart Boldklub", MainLeagueName = "JAPAN J-LEAGUE DIVISION 2" },
+            new() { TeamName = "Naesby BK", MainLeagueName = "FRANCE LIGUE 2" },
         mainLeagueForEventMapper.Execute(matchFiltered, mainLeague);
 
         foreach (var match in matchFiltered)
