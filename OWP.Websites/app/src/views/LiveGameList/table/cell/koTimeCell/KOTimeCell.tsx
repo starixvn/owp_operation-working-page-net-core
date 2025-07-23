@@ -16,7 +16,7 @@ const KOTimeCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
     IsFC24,
     IsPESOther,
     IsFIFA,
-    IsVietNamVLeague
+    IsPES24
   } = dataSource[rowIndex];
 
   const propsTime = {
@@ -65,14 +65,14 @@ const KOTimeCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
           </UncontrolledTooltip>
         </>
       )}
-      {IsVietNamVLeague && (
+      {IsPES24 && (
         <>
           <i
-            className='icon-match icon-vn-vleague'
-            original-title='VLeague'
+            className='icon-match icon-pes24'
+            original-title='PES 24'
             ref={ref}></i>
           <UncontrolledTooltip placement='bottom' target={ref}>
-            VLeague
+            PES 24
           </UncontrolledTooltip>
         </>
       )}

@@ -45,20 +45,19 @@ public class MatchInfo : TaskListMatchInfo
 
     public bool IsPES23 => League.Contains(" PES 23", StringComparison.CurrentCultureIgnoreCase);
 
+    public bool IsPES24 => League.Contains(" PES 24", StringComparison.CurrentCultureIgnoreCase);
+
     public bool IsFC24 =>
         League.Contains("SABA ", StringComparison.CurrentCultureIgnoreCase) &&
         League.Contains("FC 24", StringComparison.CurrentCultureIgnoreCase);
 
     public bool IsPESOther =>
         League.Contains(" PES ", StringComparison.CurrentCultureIgnoreCase) &&
-        !League.Contains(" PES 23", StringComparison.CurrentCultureIgnoreCase) &&
-        !League.Equals("SABA VIETNAM V LEAGUE 1 Virtual PES 24 - 15 Mins Play", StringComparison.CurrentCultureIgnoreCase);
-
+        !IsPES23 &&
+        !IsPES24;
     public bool IsFIFA =>
         League.Contains("SABA ", StringComparison.CurrentCultureIgnoreCase) &&
         League.Contains("FIFA", StringComparison.CurrentCultureIgnoreCase);
-
-    public bool IsVietNamVLeague => League.Trim().Equals("SABA VIETNAM V LEAGUE 1 Virtual PES 24 - 15 Mins Play", StringComparison.CurrentCultureIgnoreCase);
 
     public string NoOfHDP { get; set; }
 
