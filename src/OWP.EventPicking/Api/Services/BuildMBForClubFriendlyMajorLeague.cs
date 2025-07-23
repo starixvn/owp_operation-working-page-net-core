@@ -74,5 +74,6 @@ public class BuildMBForClubFriendlyMajorLeagueBuilderImp : BuildMBForClubFriendl
         match.SpreadHdp = spreadHdp;
         match.SpreadOu = spreadOu;
         match.NoOfHDP = noOfHdp;
+        match.IsReferenceLeagueManagement = true;
     }
 }
