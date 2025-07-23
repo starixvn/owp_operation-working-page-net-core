@@ -37,6 +37,15 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
 
     public bool IsMovedEventDate { get; set; }
 
+    [JsonIgnore]
+    public string HomeMainLeague { get; set; }
+
+    [JsonIgnore]
+    public string AwayMainLeague { get; set; }
+
+
+    [JsonIgnore] public bool IsClubFriendlyLeague => LeagueName.ToLower() == "club friendly";
+
     public List<string> InfoSiteBlackList
     {
         get

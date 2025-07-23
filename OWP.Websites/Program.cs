@@ -43,6 +43,7 @@ services.AddInternalServices();
 services.AddRabbitMQ();
 services.AddCarter();
 services.AddSectionHttpClientOWPChat(configuration);
+services.AddSectionHttpClientInfosite(configuration);
 services.AddWebOptimizer();
 services.AddOWPLog();
 

@@ -19,5 +19,8 @@ public static class EventPickingInjector
         services.AddScoped<QueryEventPickingService, QueryEventPickingServiceImp>();
         services.AddScoped<ExportService, ExportServiceImp>();
         services.AddScoped<TGRSService, TGRSServiceImp>();
+        services.AddScoped<PullMainLeagueService, PullMainLeagueServiceImp>();
+        services.AddScoped<LeagueSettingForClubFriendlyBuilder, LeagueSettingForClubFriendlyBuilderImp>();
+        services.AddScoped<MapMainLeagueForEventService, MapMainLeagueForEventServiceImp>();
     }
 }

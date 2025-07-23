@@ -1,3 +1,4 @@
+using NPOI.SS.Formula.Functions;
 using OWP.EventPicking.Api.Middleware.Models;
 using OWP.EventPicking.Api.Models;
 using OWP.EventPicking.Api.Services;
@@ -6,17 +7,22 @@ namespace OWP.EventPicking.Api.Handlers;
 
 public class EditEventPickingRequest : EventPickingRequest, IRequest<EventPickingResult>;
 
-public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, EventPickingResult>
+public class EditEventPickingHandler(
+    QueryEventPickingService service,
+    Repository repository,
+    PullMainLeagueService pullMainLeagueService,
+    MapMainLeagueForEventService mainLeagueForEventMapper,
+    LeagueSettingForClubFriendlyBuilder leagueSettingForClubFriendly) : IRequestHandler<EditEventPickingRequest, EventPickingResult>
 {
-    private readonly QueryEventPickingService service;
 
-    private readonly Repository repository;
-
-    public EditEventPickingHandler(QueryEventPickingService service, Repository repository)
+    private readonly IList<string> FiveMajorLeague = new List<string>()
     {
-        this.service = service;
-        this.repository = repository;
-    }
+        "*ENGLISH PREMIER LEAGUE",
+        "*GERMANY-BUNDESLIGA I",
+        "*ITALY SERIE A",
+        "*SPAIN PRIMERA LALIGA",
+        "FRANCE LIGUE 1"
+    };
 
     public async Task<EventPickingResult> Handle(EditEventPickingRequest request, CancellationToken cancellationToken)
     {
@@ -26,13 +32,28 @@ public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, 
 
         var leagueSetting = (await repository.QueryLeagueSetting()).ToList();
 
+        var clubFriendlyMatches = matchFiltered.Where(x => x.IsClubFriendlyLeague).ToList();
+        var mainLeague = new List<main_league_info>();
+        //var mainLeague = await pullMainLeagueService.GetMainLeague(clubFriendlyMatches, cancellationToken);
+        mainLeagueForEventMapper.Execute(matchFiltered, mainLeague);
+
         foreach (var match in matchFiltered)
         {
-            var leagueSettingByLeagueId = leagueSetting.Where(x => x.OWPLeagueId == match.OWPLeagueId).ToList();
+            if (match.IsClubFriendlyLeague &&
+            !(FiveMajorLeague.Contains(match.HomeMainLeague) && FiveMajorLeague.Contains(match.AwayMainLeague)))
+            {
+                ProcessLeagueSettingsForClubFriendlyMatch(leagueSetting, match);
+            }
+            else
+            {
+                var leagueSettingByLeagueId = leagueSetting.Where(x => x.OWPLeagueId == match.OWPLeagueId).ToList();
+                ProcessLeagueSettingsForMatch(leagueSettingByLeagueId, match);
+            }
 
-            ProcessLeagueSettingsForMatch(leagueSettingByLeagueId, match);
+
         }
 
+        leagueSettingForClubFriendly.Build(matchFiltered, leagueSetting, cancellationToken);
         return new EventPickingResult
         {
             MatchesByDate = mainMatches.MatchesByDate,
@@ -40,23 +61,89 @@ public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, 
         };
     }
 
-    private void ProcessLeagueSettingsForMatch(List<LeagueSettingInfoSender> leagueSettingByLeagueId, EventPickingModel match)
+    private void ProcessLeagueSettingsForClubFriendlyMatch(List<LeagueSettingInfoSender> leagueSetting, EventPickingModel match)
+    {
+        if (match.IsSync || match.ChildMatchId is not null) return;
+
+        var homeLeagueSettingByLeagueId = leagueSetting.Where(x => x.League.Trim() == match.HomeMainLeague && GetMaxbet(x, match) != null).ToList();
+        var awayLeagueSettingByLeagueId = leagueSetting.Where(x => x.League.Trim() == match.AwayMainLeague && GetMaxbet(x, match) != null).ToList();
+        LeagueSettingInfoSender selectedHomeLeagueSetting = null;
+        LeagueSettingInfoSender selectedAwayLeagueSetting = null;
+        if (homeLeagueSettingByLeagueId.Count > 0)
+        {
+            selectedHomeLeagueSetting = ProcessLeagueSettingsForMatch(homeLeagueSettingByLeagueId, match);
+        }
+        if (awayLeagueSettingByLeagueId.Count > 0)
+        {
+            selectedAwayLeagueSetting = ProcessLeagueSettingsForMatch(awayLeagueSettingByLeagueId, match);
+        }
+        
+        if (selectedHomeLeagueSetting != null && selectedAwayLeagueSetting != null)
+        {
+            var homeMaxbet = GetMaxbet(selectedHomeLeagueSetting, match);
+            var homeSpreadHdp = selectedHomeLeagueSetting.Spread_HDP_Value;
+            var homeSpreadOu = selectedHomeLeagueSetting.Spread_OU_Value;
+
+            var awayMaxbet = GetMaxbet(selectedAwayLeagueSetting, match);
+            var awaySpreadHdp = selectedAwayLeagueSetting.Spread_HDP_Value;
+            var awaySpreadOu = selectedAwayLeagueSetting.Spread_OU_Value;
+
+            var (finalMaxbet, finalSpreadHdp, finalSpreadOu) = CalculateFinalMBAndSpread(homeMaxbet!.Value, awayMaxbet!.Value, homeSpreadHdp, awaySpreadHdp, homeSpreadOu, awaySpreadOu);
+
+            if (finalMaxbet > 0)
+            {
+                match.MaxbetHdp = finalMaxbet;
+                match.SpreadHdp = finalSpreadHdp;
+                match.SpreadOu = finalSpreadOu;
+                match.IsReferenceLeagueManagement = true;
+                CalculateNoHDPClubFriendLy(match);
+            }
+        }
+        
+    }
+
+    private void CalculateNoHDPClubFriendLy(EventPickingModel match)
+    {
+        var maxbetHdp = match.MaxbetHdp;
+
+        var noOfHDP = maxbetHdp switch
+        {
+            >= 2000 and <= 4000 => "2 lines",
+            >= 5000 and <= 8000 => string.Empty,
+            >= 10000 and <= 60000 => IsPeakHour(match.EventDateTime) ? string.Empty : "3+3 Lines",
+            _ => match.NoOfHDP
+        };
+
+        match.NoOfHDP = noOfHDP;
+    }
+
+    private decimal? GetMaxbet(LeagueSettingInfoSender leagueSetting, EventPickingModel match)
+    {
+        if (IsWeekend(match.EventDateTime))
+        {
+            return leagueSetting.MaxbetWK_HDP_Value;
+        }
+        else
+        {
+            return leagueSetting.MaxbetWD_HDP_Value;
+        }
+    }
+    private LeagueSettingInfoSender ProcessLeagueSettingsForMatch(List<LeagueSettingInfoSender> leagueSettingByLeagueId, EventPickingModel match)
     {
         switch (leagueSettingByLeagueId.Count)
         {
             case 0:
                 match.IsShowCheckButton = false;
-                break;
+                return null;
             case 1:
                 SuggestionValue(match, leagueSettingByLeagueId.First());
-                break;
+                return leagueSettingByLeagueId.First();
             default:
-                HandleMappingForMultipleSettings(match, leagueSettingByLeagueId);
-                break;
+                return HandleMappingForMultipleSettings(match, leagueSettingByLeagueId);
         }
     }
 
-    private void HandleMappingForMultipleSettings(EventPickingModel match, IList<LeagueSettingInfoSender> leagueSettingByLeagueId)
+    private LeagueSettingInfoSender HandleMappingForMultipleSettings(EventPickingModel match, IList<LeagueSettingInfoSender> leagueSettingByLeagueId)
     {
         var leagueIsMappingWithCondition = leagueSettingByLeagueId
             .Where(league => CheckMatchValidMappingWithLeagueManagement(match, league)).ToList();
@@ -64,8 +151,12 @@ public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, 
         if (leagueIsMappingWithCondition.Count == 1)
         {
             SuggestionValue(match, leagueIsMappingWithCondition.First());
+            return leagueIsMappingWithCondition.First();
         }
+        return leagueIsMappingWithCondition.FirstOrDefault();
+
     }
+
 
     private void SuggestionValue(EventPickingModel match, LeagueSettingInfoSender league)
     {
@@ -132,7 +223,6 @@ public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, 
         return roundConditions && divisionConditions;
     }
 
-
     private static IList<string> GetValueContains(IList<Condition> conditions)
         => conditions.Where(x => x.Type == "Contains").Select(x => x.Value).ToList();
 
@@ -141,9 +231,131 @@ public class EditEventPickingHandler : IRequestHandler<EditEventPickingRequest, 
 
     private static bool IsWeekend(DateTime eventDateTime)
     {
-        var eventDate = DateTime.SpecifyKind(eventDateTime, DateTimeKind.Utc).AddHours(-4);
+        var eventDate = DateTime.SpecifyKind(eventDateTime, DateTimeKind.Utc).AddHours(-12);
         var isWeekend = eventDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday;
         return isWeekend;
+    }
+
+    private static bool IsPeakHour(DateTime eventDateTime)
+    {
+        var time = eventDateTime.TimeOfDay;
+        return IsWeekend(eventDateTime)
+            ? time >= TimeSpan.FromHours(20) || time <= TimeSpan.FromHours(4.5)
+            : time >= TimeSpan.FromHours(2) && time <= TimeSpan.FromHours(4.5);
+    }
+
+    private static (decimal finalMaxbet, decimal? finalSpreadHdp, decimal? finalSpreadOu) CalculateFinalMBAndSpread(
+        decimal homeMaxbet, decimal awayMaxbet, decimal? homeSpreadHdp, decimal? awaySpreadHdp, decimal? homeSpreadOu, decimal? awaySpreadOu)
+    {
+        // Rule 1: Home & Away MB >= 25K
+        if (homeMaxbet >= 25000 && awayMaxbet >= 25000)
+        {
+            return (15000, 0.10m, 0.12m);
+        }
+
+        // Rule 2: Home MB = Away MB = xK, where x ∈ [13K-24K]
+        if (homeMaxbet == awayMaxbet && homeMaxbet >= 13000 && homeMaxbet <= 24000)
+        {
+            return (12000, 0.10m, 0.12m);
+        }
+
+        // Rule 3 & 4: Home MB = Away MB = 12K AND Home & Away Spread <= 10%-12%
+        if (homeMaxbet == awayMaxbet && homeMaxbet == 12000)
+        {
+            var spreadValues = new[] { homeSpreadHdp, homeSpreadOu, awaySpreadHdp, awaySpreadOu };
+            var nonNullSpreads = spreadValues.Where(s => s.HasValue).Select(s => s.Value).ToList();
+            var averageSpread = nonNullSpreads.Count > 0 ? nonNullSpreads.Average() : 0;
+
+            if (averageSpread <= 0.12m)
+            {
+                return (12000, 0.10m, 0.12m);
+            }
+            else
+            {
+                return (6000, 0.16m, 0.18m);
+            }
+        }
+
+        // Rule 5: Home MB = Away MB = yK, where y ∈ [6K-11K]
+        if (homeMaxbet == awayMaxbet && homeMaxbet >= 6000 && homeMaxbet <= 11000)
+        {
+            return (6000, 0.16m, 0.18m);
+        }
+
+        // Rule 6: Home & Away MB <= 5K AND MB Home ≠ MB Away
+        if (homeMaxbet <= 5000 && awayMaxbet <= 5000 && homeMaxbet != awayMaxbet)
+        {
+            var higherMaxbet = Math.Max(homeMaxbet, awayMaxbet);
+            var selectedSpreadHdp = homeSpreadHdp;
+            var selectedSpreadOu = homeSpreadOu;
+            if (higherMaxbet == awayMaxbet)
+            {
+                selectedSpreadHdp = awaySpreadHdp;
+                selectedSpreadOu = awaySpreadOu;
+
+            }
+
+            return (higherMaxbet, selectedSpreadHdp, selectedSpreadOu);
+        }
+
+        // Rule 7: Home MB = Away MB = zK, where z ∈ [2K-5K]
+        if (homeMaxbet == awayMaxbet && homeMaxbet >= 2000 && homeMaxbet <= 5000)
+        {
+            var (lowerSpreadHdp, lowerSpreadOu) = CompareAverageSpread(homeSpreadHdp, homeSpreadOu, awaySpreadHdp, awaySpreadOu, useHigher: false);
+
+            return (homeMaxbet, lowerSpreadHdp, lowerSpreadOu);
+        }
+
+        // Rule 8 & 9: When MB Home ≠ MB Away. Use the higher MB to evaluate.
+        if (homeMaxbet != awayMaxbet)
+        {
+            var higherMaxbet = Math.Max(homeMaxbet, awayMaxbet);
+
+            // Rule 8: Higher MB > 12K
+            if (higherMaxbet > 12000)
+            {
+                return (12000, 0.10m, 0.12m);
+            }
+
+            // Rule 9: Higher MB <= 12K
+            else
+            {
+                return (6000, 0.16m, 0.18m);
+            }
+        }
+
+        return (0, 0, 0);
+    }
+
+    private static (decimal? spreadHdp, decimal? spreadOu) CompareAverageSpread(decimal? homeSpreadHdp, decimal? homeSpreadOu, decimal? awaySpreadHdp, decimal? awaySpreadOu, bool useHigher = true)
+    {
+        var homeValues = new[] { homeSpreadHdp, homeSpreadOu }.Where(v => v.HasValue).Select(v => v.Value).ToList();
+        var awayValues = new[] { awaySpreadHdp, awaySpreadOu }.Where(v => v.HasValue).Select(v => v.Value).ToList();
+        
+        var homeAverageSpread = homeValues.Count > 0 ? homeValues.Average() : (decimal?)null;
+        var awayAverageSpread = awayValues.Count > 0 ? awayValues.Average() : (decimal?)null;
+
+        if (homeAverageSpread == null)
+        {
+            return (awaySpreadHdp, awaySpreadOu);
+        }
+        if (awayAverageSpread == null)
+        {
+            return (homeSpreadHdp, homeSpreadOu);
+        }
+
+        bool shouldUseHome = useHigher ?
+            homeAverageSpread > awayAverageSpread :
+            homeAverageSpread < awayAverageSpread;
+
+        if (shouldUseHome)
+        {
+            return (homeSpreadHdp, homeSpreadOu);
+        }
+        else
+        {
+            return (awaySpreadHdp, awaySpreadOu);
+        }
     }
 
 }

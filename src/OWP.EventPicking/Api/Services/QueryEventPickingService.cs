@@ -1,11 +1,6 @@
 ﻿using OWP.Constants;
-using OWP.EventPicking.Api.Constant;
-using OWP.EventPicking.Api.Criteria;
 using OWP.EventPicking.Api.Helper;
 using OWP.EventPicking.Api.Middleware.Models;
-using OWP.EventPicking.Api.Models;
-using System.Linq;
-using Olympus.OWP.Constants;
 
 namespace OWP.EventPicking.Api.Services;
 
@@ -15,22 +10,13 @@ public interface QueryEventPickingService
     Task<EventPickingResult> Execute(EventPickingRequest request, IList<short> excludedUpdateTypes);
 }
 
-public class QueryEventPickingServiceImp : QueryEventPickingService
+public class QueryEventPickingServiceImp(
+    TGRSService tGrsService,
+    BuildMainAndChildMatches buildMainAndChildMatches,
+    PermissionService permissionService)
+    : QueryEventPickingService
 {
-    private readonly BuildMainAndChildMatches buildMainAndChildMatches;
-
-    private readonly PermissionService permissionService;
-
-    private readonly TGRSService tGRSService;
-
     private const string InfoToHideMatch = "no need include miscmatch";
-
-    public QueryEventPickingServiceImp(TGRSService tGRSService, BuildMainAndChildMatches buildMainAndChildMatches, PermissionService permissionService)
-    {
-        this.buildMainAndChildMatches = buildMainAndChildMatches;
-        this.permissionService = permissionService;
-        this.tGRSService = tGRSService;
-    }
 
     public async Task<EventPickingResult> Execute(EventPickingRequest request, IList<short> excludedUpdateTypes)
     {
@@ -102,7 +88,7 @@ public class QueryEventPickingServiceImp : QueryEventPickingService
     {
         if (period is not null)
         {
-            var result = await tGRSService.GetTurnOverWinLoss(new GetTurnOverWinLossCriteria
+            var result = await tGrsService.GetTurnOverWinLoss(new GetTurnOverWinLossCriteria
             {
                 SportType = "Soccer",
                 FromDate = period.FromDate,
