@@ -35,7 +35,6 @@ public class EditEventPickingHandler(
         
 
         var clubFriendlyMatches = matchFiltered.Where(x => x.IsClubFriendlyLeague).ToList();
-        var mainLeague = new List<main_league_info>();
         //var mainLeague = await pullMainLeagueService.GetMainLeague(clubFriendlyMatches, cancellationToken);
         var mainLeague = new List<main_league_info>
         {
@@ -98,9 +97,9 @@ public class EditEventPickingHandler(
             new() { TeamName = "Reims", MainLeagueName = "FRANCE LIGUE 2" },
             new() { TeamName = "Vissel Kobe", MainLeagueName = "JAPAN J-LEAGUE DIVISION 1" },
             new() { TeamName = "Middelfart Boldklub", MainLeagueName = "JAPAN J-LEAGUE DIVISION 2" },
-            new() { TeamName = "Naesby BK", MainLeagueName = "FRANCE LIGUE 2" },
+            new() { TeamName = "Naesby BK", MainLeagueName = "FRANCE LIGUE 2" }
+        };
         mainLeagueForEventMapper.Execute(matchFiltered, mainLeague);
-
         foreach (var match in matchFiltered)
         {
             if (match.IsClubFriendlyLeague)
