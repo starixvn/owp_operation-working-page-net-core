@@ -18,7 +18,7 @@ public class MapMainLeagueForEventServiceImp: MapMainLeagueForEventService
 
     private static (string homeMainLeague, string awayMainLeague) GetMainLeague(string homeName, string awayName, IList<main_league_info> mainLeagueInfo)
     {
-        return (mainLeagueInfo.FirstOrDefault(x => x.teamName == homeName)?.mainLeague,
-            mainLeagueInfo.FirstOrDefault(x => x.teamName == awayName)?.mainLeague);
+        return (mainLeagueInfo.FirstOrDefault(x => x.TeamName == homeName)?.MainLeagueName,
+            mainLeagueInfo.FirstOrDefault(x => x.TeamName == awayName)?.MainLeagueName);
     }
 }

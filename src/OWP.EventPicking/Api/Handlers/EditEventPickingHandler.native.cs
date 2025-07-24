@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using NPOI.SS.Formula.Functions;
 using OWP.EventPicking.Api.Middleware.Models;
 using OWP.EventPicking.Api.Models;
@@ -12,7 +13,7 @@ public class EditEventPickingHandler(
     Repository repository,
     PullMainLeagueService pullMainLeagueService,
     MapMainLeagueForEventService mainLeagueForEventMapper,
-    LeagueSettingForClubFriendlyBuilder leagueSettingForClubFriendly) : IRequestHandler<EditEventPickingRequest, EventPickingResult>
+    BuildMBForClubFriendlyMajorLeagueBuilder buildMBForClubFriendlyMajorLeagueBuilder) : IRequestHandler<EditEventPickingRequest, EventPickingResult>
 {
 
     private readonly IList<string> FiveMajorLeague = new List<string>()
@@ -31,18 +32,81 @@ public class EditEventPickingHandler(
         var matchFiltered = mainMatches.FilteredMatches;
 
         var leagueSetting = (await repository.QueryLeagueSetting()).ToList();
+        
 
         var clubFriendlyMatches = matchFiltered.Where(x => x.IsClubFriendlyLeague).ToList();
         var mainLeague = new List<main_league_info>();
         //var mainLeague = await pullMainLeagueService.GetMainLeague(clubFriendlyMatches, cancellationToken);
-        mainLeagueForEventMapper.Execute(matchFiltered, mainLeague);
+        //var mainLeague = new List<main_league_info>
+        //{
+        //    new() { TeamName = "FK Arsenal Dzyarzhynsk", MainLeagueName = "BELARUS PREMIER LEAGUE" },
+        //    new() { TeamName = "Widzew Lodz (N)", MainLeagueName = "POLAND EKSTRAKLASA" },
+        //    new() { TeamName = "FK Spartak Subotica (N)", MainLeagueName = "SERBIA SUPER LEAGUE" },
+        //    new() { TeamName = "FC Magdeburg", MainLeagueName = "GERMANY BUNDESLIGA 2" },
+        //    new() { TeamName = "Slovan Duslo Sala", MainLeagueName = "SLOVAKIA LIGA 3" },
+        //    new() { TeamName = "FC Neftekhimik Nizhnekamsk", MainLeagueName = "RUSSIA FIRST LEAGUE" },
+        //    new() { TeamName = "Piast Gliwice", MainLeagueName = "POLAND EKSTRAKLASA" },
+        //    new() { TeamName = "FK Novi Pazar", MainLeagueName = "SERBIA SUPER LEAGUE" },
+        //    new() { TeamName = "Zurich", MainLeagueName = "SWITZERLAND SUPER LEAGUE" },
+        //    new() { TeamName = "ViOn Zlate Moravce", MainLeagueName = "SLOVAKIA 2ND DIVISION" },
+        //    new() { TeamName = "Dungannon Swifts", MainLeagueName = "NORTHERN IRELAND PREMIERSHIP" },
+        //    new() { TeamName = "Wellington Phoenix FC", MainLeagueName = "AUSTRALIA A-LEAGUE" },
+        //    new() { TeamName = "Kickers Offenbach", MainLeagueName = "GERMANY REGIONAL LEAGUE SOUTHWEST" },
+        //    new() { TeamName = "Loughgall", MainLeagueName = "NORTHERN IRELAND PREMIERSHIP DEVELOPMENT LEAGUE" },
+        //    new() { TeamName = "Wrexham", MainLeagueName = "ENGLISH LEAGUE CHAMPIONSHIP" },
+        //    new() { TeamName = "SV Wehen Wiesbaden", MainLeagueName = "GERMANY 3RD LIGA" },
+        //    new() { TeamName = "SV Donau Klagenfurt", MainLeagueName = "RUSSIA FIRST LEAGUE" },
+        //    new() { TeamName = "Basel", MainLeagueName = "POLAND EKSTRAKLASA" },
+        //    new() { TeamName = "VfB Eichstatt", MainLeagueName = "SERBIA SUPER LEAGUE" },
+        //    new() { TeamName = "Besiktas", MainLeagueName = "SWITZERLAND SUPER LEAGUE" },
+        //    new() { TeamName = "RFC Liege", MainLeagueName = "SLOVAKIA 2ND DIVISION" },
+        //    new() { TeamName = "CD Platense Municipal Zacatecoluca", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
+        //    new() { TeamName = "SC Launsdorf", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
+        //    new() { TeamName = "FC Rapperswil-Jona", MainLeagueName = "*GERMANY-BUNDESLIGA I" },
+        //    new() { TeamName = "FC Pipinsried", MainLeagueName = "*ITALY SERIE A" },
+        //    new() { TeamName = "SKN St. Polten", MainLeagueName = "*SPAIN PRIMERA LALIGA" },
+        //    new() { TeamName = "Royal Aywaille FC", MainLeagueName = "FRANCE LIGUE 1" },
+        //    new() { TeamName = "Ballyclare Comrades", MainLeagueName = "*ITALY SERIE A" },
+        //    new() { TeamName = "Crusaders FC", MainLeagueName = "*SPAIN PRIMERA LALIGA" },
+        //    new() { TeamName = "Zorya Lugansk (N)", MainLeagueName = "*ITALY SERIE A" },
+        //    new() { TeamName = "FK Sarajevo", MainLeagueName = "*GERMANY-BUNDESLIGA I" },
+        //    new() { TeamName = "NK Bravo (N)", MainLeagueName = "*GERMANY-BUNDESLIGA I" },
+        //    new() { TeamName = "HNK Rijeka", MainLeagueName = "*GERMANY-BUNDESLIGA I" },
+        //    new() { TeamName = "Orlando Pirates", MainLeagueName = "*GERMANY-BUNDESLIGA I" },
+        //    new() { TeamName = "Pafos FC", MainLeagueName = "*ITALY SERIE A" },
+        //    new() { TeamName = "Hapoel Rishon LeZion", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
+        //    new() { TeamName = "FK Graficar Beograd (N)", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
+        //    new() { TeamName = "Auckland FC", MainLeagueName = "*GERMANY-BUNDESLIGA I" },
+        //    new() { TeamName = "Adelaide Blue Eagles", MainLeagueName = "*ITALY SERIE A" },
+        //    new() { TeamName = "Bruk-Bet Termalica Nieciecza (N)", MainLeagueName = "*SPAIN PRIMERA LALIGA" },
+        //    new() { TeamName = "Maccabi Herzliya", MainLeagueName = "RUSSIA FIRST LEAGUE" },
+        //    new() { TeamName = "OFK Petrovac", MainLeagueName = "*GERMANY-BUNDESLIGA I" },
+        //    new() { TeamName = "West Coast Rangers", MainLeagueName = "*ITALY SERIE A" },
+        //    new() { TeamName = "Adelaide United", MainLeagueName = "*SPAIN PRIMERA LALIGA" },
+        //    new() { TeamName = "Neftchi Baku", MainLeagueName = "FRANCE LIGUE 1" },
 
+
+        //    new() { TeamName = "Arsenal", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
+        //    new() { TeamName = "Newcastle United", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
+        //    new() { TeamName = "Clitheroe FC", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
+        //    new() { TeamName = "Accrington Stanley", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
+        //    new() { TeamName = "Asteras Tripolis", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
+        //    new() { TeamName = "Neftchi Baku", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
+        //    new() { TeamName = "FC 08 Homburg", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
+        //    new() { TeamName = "SV Elversberg", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
+        //    new() { TeamName = "Montedio Yamagata", MainLeagueName = "JAPAN J-LEAGUE DIVISION 2" },
+        //    new() { TeamName = "Reims", MainLeagueName = "FRANCE LIGUE 2" },
+        //    new() { TeamName = "Vissel Kobe", MainLeagueName = "JAPAN J-LEAGUE DIVISION 1" },
+        //    new() { TeamName = "Middelfart Boldklub", MainLeagueName = "JAPAN J-LEAGUE DIVISION 2" },
+        //    new() { TeamName = "Naesby BK", MainLeagueName = "FRANCE LIGUE 2" }
+        //};
+        mainLeagueForEventMapper.Execute(matchFiltered, mainLeague);
         foreach (var match in matchFiltered)
         {
-            if (match.IsClubFriendlyLeague &&
-            !(FiveMajorLeague.Contains(match.HomeMainLeague) && FiveMajorLeague.Contains(match.AwayMainLeague)))
+            if (match.IsClubFriendlyLeague)
             {
-                ProcessLeagueSettingsForClubFriendlyMatch(leagueSetting, match);
+                var tvList = (await repository.GetTVList()).ToList();
+                ProcessLeagueSettingsForClubFriendlyMatch(leagueSetting, match, tvList);
             }
             else
             {
@@ -53,7 +117,6 @@ public class EditEventPickingHandler(
 
         }
 
-        leagueSettingForClubFriendly.Build(matchFiltered, leagueSetting, cancellationToken);
         return new EventPickingResult
         {
             MatchesByDate = mainMatches.MatchesByDate,
@@ -61,10 +124,21 @@ public class EditEventPickingHandler(
         };
     }
 
-    private void ProcessLeagueSettingsForClubFriendlyMatch(List<LeagueSettingInfoSender> leagueSetting, EventPickingModel match)
+    private void ProcessLeagueSettingsForClubFriendlyMatch(List<LeagueSettingInfoSender> leagueSetting, EventPickingModel match, List<Condition> tvList)
     {
         if (match.IsSync || match.ChildMatchId is not null) return;
+        if (FiveMajorLeague.Contains(match.HomeMainLeague) && FiveMajorLeague.Contains(match.AwayMainLeague))
+        {
+            buildMBForClubFriendlyMajorLeagueBuilder.Build(match, tvList);
+        }
+        else
+        {
+            ProcessLeagueSettingsForClubFriendlyNotMajorLeagueMatch(leagueSetting, match);
+        }
+    }
 
+    private void ProcessLeagueSettingsForClubFriendlyNotMajorLeagueMatch(List<LeagueSettingInfoSender> leagueSetting, EventPickingModel match)
+    {
         var homeLeagueSettingByLeagueId = leagueSetting.Where(x => x.League.Trim() == match.HomeMainLeague && GetMaxbet(x, match) != null).ToList();
         var awayLeagueSettingByLeagueId = leagueSetting.Where(x => x.League.Trim() == match.AwayMainLeague && GetMaxbet(x, match) != null).ToList();
         LeagueSettingInfoSender selectedHomeLeagueSetting = null;
@@ -77,7 +151,7 @@ public class EditEventPickingHandler(
         {
             selectedAwayLeagueSetting = ProcessLeagueSettingsForMatch(awayLeagueSettingByLeagueId, match);
         }
-        
+
         if (selectedHomeLeagueSetting != null && selectedAwayLeagueSetting != null)
         {
             var homeMaxbet = GetMaxbet(selectedHomeLeagueSetting, match);
@@ -99,7 +173,7 @@ public class EditEventPickingHandler(
                 CalculateNoHDPClubFriendLy(match);
             }
         }
-        
+
     }
 
     private void CalculateNoHDPClubFriendLy(EventPickingModel match)
