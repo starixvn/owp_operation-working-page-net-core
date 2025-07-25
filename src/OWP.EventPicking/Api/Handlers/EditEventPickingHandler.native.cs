@@ -86,8 +86,8 @@ public class EditEventPickingHandler(
             new() { TeamName = "Neftchi Baku", MainLeagueName = "FRANCE LIGUE 1" },
 
 
-            new() { TeamName = "Arsenal", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
-            new() { TeamName = "Newcastle United", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
+            new() { TeamName = "Lunds BK", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
+            new() { TeamName = "Hassleholms IF", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
             new() { TeamName = "Clitheroe FC", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
             new() { TeamName = "Accrington Stanley", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
             new() { TeamName = "Asteras Tripolis", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
