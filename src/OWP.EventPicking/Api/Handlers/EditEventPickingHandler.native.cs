@@ -97,8 +97,16 @@ public class EditEventPickingHandler(
             new() { TeamName = "Montedio Yamagata", MainLeagueName = "JAPAN J-LEAGUE DIVISION 2" },
             new() { TeamName = "Reims", MainLeagueName = "FRANCE LIGUE 2" },
             new() { TeamName = "Vissel Kobe", MainLeagueName = "JAPAN J-LEAGUE DIVISION 1" },
-            new() { TeamName = "Roasso Kumamoto", MainLeagueName = "JAPAN J-LEAGUE DIVISION 2" },
-            new() { TeamName = "Veroskronos Tsuno", MainLeagueName = "FRANCE LIGUE 2" }
+            new() { TeamName = "Barcelona", MainLeagueName = "*SPAIN PRIMERA LALIGA" },
+            new() { TeamName = "Ishoj IF", MainLeagueName = "DENMARK 2ND DIVISION" },
+            new() { TeamName = "Vanlose IF", MainLeagueName = "DENMARK 3RD DIVISION" },
+            new() { TeamName = "Ayutthaya United", MainLeagueName = "THAILAND LEAGUE 1" },
+            new() { TeamName = "Buriram United", MainLeagueName = "THAILAND LEAGUE 1" },
+            new() { TeamName = "Gemert", MainLeagueName = "NETHERLANDS DERDE DIVISIE" },
+            new() { TeamName = "FC 08 Villingen", MainLeagueName = "GERMANY OBERLIGA" },
+            new() { TeamName = "TSG Balingen", MainLeagueName = "GERMANY REGIONAL LEAGUE SOUTHWEST" },
+            new() { TeamName = "Roasso Kumamoto", MainLeagueName = "THAILAND LEAGUE 1" },
+            new() { TeamName = "Veroskronos Tsuno", MainLeagueName = "THAILAND LEAGUE 1" }
         };
         mainLeagueForEventMapper.Execute(matchFiltered, mainLeague);
         foreach (var match in matchFiltered)
