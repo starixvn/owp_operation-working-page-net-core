@@ -97,8 +97,8 @@ public class EditEventPickingHandler(
             new() { TeamName = "Montedio Yamagata", MainLeagueName = "JAPAN J-LEAGUE DIVISION 2" },
             new() { TeamName = "Reims", MainLeagueName = "FRANCE LIGUE 2" },
             new() { TeamName = "Vissel Kobe", MainLeagueName = "JAPAN J-LEAGUE DIVISION 1" },
-            new() { TeamName = "Middelfart Boldklub", MainLeagueName = "JAPAN J-LEAGUE DIVISION 2" },
-            new() { TeamName = "Naesby BK", MainLeagueName = "FRANCE LIGUE 2" }
+            new() { TeamName = "Roasso Kumamoto", MainLeagueName = "JAPAN J-LEAGUE DIVISION 2" },
+            new() { TeamName = "Veroskronos Tsuno", MainLeagueName = "FRANCE LIGUE 2" }
         };
         mainLeagueForEventMapper.Execute(matchFiltered, mainLeague);
         foreach (var match in matchFiltered)
