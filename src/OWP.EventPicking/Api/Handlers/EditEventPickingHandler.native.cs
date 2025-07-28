@@ -85,15 +85,18 @@ public class EditEventPickingHandler(
             new() { TeamName = "Adelaide United", MainLeagueName = "*SPAIN PRIMERA LALIGA" },
             new() { TeamName = "Neftchi Baku", MainLeagueName = "FRANCE LIGUE 1" },
 
-
+            
             new() { TeamName = "Lunds BK", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
             new() { TeamName = "Hassleholms IF", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
             new() { TeamName = "Clitheroe FC", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
             new() { TeamName = "Accrington Stanley", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
-            new() { TeamName = "Asteras Tripolis", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
-            new() { TeamName = "Neftchi Baku", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
-            new() { TeamName = "FC 08 Homburg", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
-            new() { TeamName = "SV Elversberg", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
+            new() { TeamName = "IFK Stocksund (N)", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
+            new() { TeamName = "Sollentuna FK", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
+            new() { TeamName = "Rot Weiss Walldorf", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
+            new() { TeamName = "SV Gonsenheim", MainLeagueName = "*ENGLISH PREMIER LEAGUE" },
+
+            new() { TeamName = "NK Rogaska", MainLeagueName = "SLOVENIA 3RD DIVISION" },
+            new() { TeamName = "Al Sailiya", MainLeagueName = "QATAR STARS LEAGUE" },
             new() { TeamName = "Montedio Yamagata", MainLeagueName = "JAPAN J-LEAGUE DIVISION 2" },
             new() { TeamName = "Reims", MainLeagueName = "FRANCE LIGUE 2" },
             new() { TeamName = "Vissel Kobe", MainLeagueName = "JAPAN J-LEAGUE DIVISION 1" },
