@@ -103,6 +103,8 @@ public class EditEventPickingHandler(
             new() { TeamName = "Barcelona", MainLeagueName = "*SPAIN PRIMERA LALIGA" },
             new() { TeamName = "Ishoj IF", MainLeagueName = "DENMARK 2ND DIVISION" },
             new() { TeamName = "Vanlose IF", MainLeagueName = "DENMARK 3RD DIVISION" },
+            new() { TeamName = "Wisla Krakow", MainLeagueName = "POLAND 1ST DIVISION" },
+            new() { TeamName = "Puszcza Niepolomice", MainLeagueName = "POLAND 1ST DIVISION" },
             new() { TeamName = "Ayutthaya United", MainLeagueName = "THAILAND LEAGUE 1" },
             new() { TeamName = "Buriram United", MainLeagueName = "THAILAND LEAGUE 1" },
             new() { TeamName = "Gemert", MainLeagueName = "NETHERLANDS DERDE DIVISIE" },
