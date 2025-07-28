@@ -183,9 +183,9 @@ public class EditEventPickingHandler(
                 match.SpreadHdp = finalSpreadHdp;
                 match.SpreadOu = finalSpreadOu;
                 match.IsReferenceLeagueManagement = true;
-                CalculateNoHDPClubFriendLy(match);
             }
         }
+        CalculateNoHDPClubFriendLy(match);
 
     }
 
@@ -379,7 +379,11 @@ public class EditEventPickingHandler(
             {
                 selectedSpreadHdp = awaySpreadHdp;
                 selectedSpreadOu = awaySpreadOu;
-
+                if (((selectedSpreadHdp ?? 0) + (selectedSpreadOu ?? 0)) / 2 < 0.17m)
+                {
+                    selectedSpreadHdp = 0.16m;
+                    selectedSpreadOu = 0.18m;
+                }
             }
 
             return (higherMaxbet, selectedSpreadHdp, selectedSpreadOu);
