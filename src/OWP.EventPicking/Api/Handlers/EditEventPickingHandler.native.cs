@@ -323,11 +323,12 @@ public class EditEventPickingHandler(
             {
                 selectedSpreadHdp = awaySpreadHdp;
                 selectedSpreadOu = awaySpreadOu;
-                if (((selectedSpreadHdp ?? 0) + (selectedSpreadOu ?? 0)) / 2 < 0.17m)
-                {
-                    selectedSpreadHdp = 0.16m;
-                    selectedSpreadOu = 0.18m;
-                }
+            }
+
+            if (((selectedSpreadHdp ?? 0) + (selectedSpreadOu ?? 0)) / 2 < 0.17m)
+            {
+                selectedSpreadHdp = 0.16m;
+                selectedSpreadOu = 0.18m;
             }
 
             return (higherMaxbet, selectedSpreadHdp, selectedSpreadOu);
