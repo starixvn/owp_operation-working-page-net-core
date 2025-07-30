@@ -14,7 +14,7 @@
     <PackageReference Include="Olympus.OWP.Log" Version="9.0.1" />
     <PackageReference Include="Epplus.Mapper" Version="7.5.0" />
     <PackageReference Include="Fanex.NAP.Client" Version="2.0.3" />
-    <PackageReference Include="Olympus.OWP.Constants" Version="9.0.0.7" />
+    <PackageReference Include="Olympus.OWP.Constants" Version="9.0.0.9" />
     <PackageReference Include="Olympus.Xml" Version="1.0.0.5" />
   </ItemGroup>
   <ItemGroup>

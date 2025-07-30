@@ -43,8 +43,12 @@ public static class ExcelColorHelper
             FillColor(matches[i], row, templateSheet, Misc.Constant.ROUND_COL_INDEX, UpdateTypeConstant.UPDATE_ROUND, UpdateTypeConstant.CANCEL_ROUND);
             FillColor(matches[i], row, templateSheet, Misc.Constant.REMARK_COL_INDEX, UpdateTypeConstant.UPDATE_REMARK, UpdateTypeConstant.CANCEL_REMARK);
             FillColor(matches[i], row, templateSheet, Misc.Constant.REMARK2_COL_INDEX, UpdateTypeConstant.UPDATE_REMARK2, UpdateTypeConstant.CANCEL_REMARK2);
-            FillColor(matches[i], row, templateSheet, Misc.Constant.HOME_REMARK_COL_INDEX, UpdateTypeConstant.UPDATE_HOME_REMARK, UpdateTypeConstant.CANCEL_HOME_REMARK);
-            FillColor(matches[i], row, templateSheet, Misc.Constant.AWAY_REMARK_COL_INDEX, UpdateTypeConstant.UPDATE_AWAY_REMARK, UpdateTypeConstant.CANCEL_AWAY_REMARK);
+            FillColor(matches[i], row, templateSheet, Misc.Constant.HOME_REMARK_COL_INDEX,
+                UpdateTypeConstant.UPDATE_HOME_REMARK, UpdateTypeConstant.CANCEL_HOME_REMARK,
+                UpdateTypeConstant.UPDATE_HOME_RELEGATION, UpdateTypeConstant.UPDATE_HOME_BAD_RANKING);
+            FillColor(matches[i], row, templateSheet, Misc.Constant.AWAY_REMARK_COL_INDEX,
+                UpdateTypeConstant.UPDATE_AWAY_REMARK, UpdateTypeConstant.CANCEL_AWAY_REMARK,
+                UpdateTypeConstant.UPDATE_AWAY_RELEGATION, UpdateTypeConstant.UPDATE_AWAY_BAD_RANKING);
             FillColor(matches[i], row, templateSheet, Misc.Constant.PROVIDER_COL_INDEX, UpdateTypeConstant.UPDATE_PROVIDER, UpdateTypeConstant.CANCEL_PROVIDER);
             FillColor(matches[i], row, templateSheet, Misc.Constant.OTHER_PROVIDER_COL_INDEX, UpdateTypeConstant.UPDATE_OTHER_PROVIDER, UpdateTypeConstant.CANCEL_OTHER_PROVIDER);
             FillColor(matches[i], row, templateSheet, Misc.Constant.DIVISION_COL_INDEX, UpdateTypeConstant.UPDATE_DIVISION, UpdateTypeConstant.CANCEL_DIVISION);
