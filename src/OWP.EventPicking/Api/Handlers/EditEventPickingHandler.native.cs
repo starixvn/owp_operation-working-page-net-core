@@ -37,26 +37,26 @@ public class EditEventPickingHandler(
         var clubFriendlyMatches = matchFiltered.Where(x => x.IsClubFriendlyLeague).ToList();
         //var mainLeague = new List<main_league_info>();
         //var mainLeague = await pullMainLeagueService.GetMainLeague(clubFriendlyMatches, cancellationToken);
-        var mainLeague = new List<main_league_info>()
-        {
-            new() { TeamName = "NK Rogaska", MainLeagueName = "SLOVENIA 3RD DIVISION" },
-            new() { TeamName = "Al Sailiya", MainLeagueName = "QATAR STARS LEAGUE" },
-            new() { TeamName = "Montedio Yamagata", MainLeagueName = "JAPAN J-LEAGUE DIVISION 2" },
-            new() { TeamName = "Reims", MainLeagueName = "FRANCE LIGUE 2" },
-            new() { TeamName = "Vissel Kobe", MainLeagueName = "JAPAN J-LEAGUE DIVISION 1" },
-            new() { TeamName = "Barcelona", MainLeagueName = "*SPAIN PRIMERA LALIGA" },
-            new() { TeamName = "Ishoj IF", MainLeagueName = "DENMARK 2ND DIVISION" },
-            new() { TeamName = "Vanlose IF", MainLeagueName = "DENMARK 3RD DIVISION" },
-            new() { TeamName = "Wisla Krakow", MainLeagueName = "POLAND 1ST DIVISION" },
-            new() { TeamName = "Puszcza Niepolomice", MainLeagueName = "POLAND 1ST DIVISION" },
-            new() { TeamName = "Ayutthaya United", MainLeagueName = "THAILAND LEAGUE 1" },
-            new() { TeamName = "Buriram United", MainLeagueName = "THAILAND LEAGUE 1" },
-            new() { TeamName = "Gemert", MainLeagueName = "NETHERLANDS DERDE DIVISIE" },
-            new() { TeamName = "FC 08 Villingen", MainLeagueName = "GERMANY OBERLIGA" },
-            new() { TeamName = "TSG Balingen", MainLeagueName = "GERMANY REGIONAL LEAGUE SOUTHWEST" },
-            new() { TeamName = "Roasso Kumamoto", MainLeagueName = "THAILAND LEAGUE 1" },
-            new() { TeamName = "Veroskronos Tsuno", MainLeagueName = "THAILAND LEAGUE 1" }
-        };
+        var mainLeague = new List<main_league_info>();
+        //{
+        //    new() { TeamName = "NK Rogaska", MainLeagueName = "SLOVENIA 3RD DIVISION" },
+        //    new() { TeamName = "Al Sailiya", MainLeagueName = "QATAR STARS LEAGUE" },
+        //    new() { TeamName = "Montedio Yamagata", MainLeagueName = "JAPAN J-LEAGUE DIVISION 2" },
+        //    new() { TeamName = "Reims", MainLeagueName = "FRANCE LIGUE 2" },
+        //    new() { TeamName = "Vissel Kobe", MainLeagueName = "JAPAN J-LEAGUE DIVISION 1" },
+        //    new() { TeamName = "Barcelona", MainLeagueName = "*SPAIN PRIMERA LALIGA" },
+        //    new() { TeamName = "Ishoj IF", MainLeagueName = "DENMARK 2ND DIVISION" },
+        //    new() { TeamName = "Vanlose IF", MainLeagueName = "DENMARK 3RD DIVISION" },
+        //    new() { TeamName = "Wisla Krakow", MainLeagueName = "POLAND 1ST DIVISION" },
+        //    new() { TeamName = "Puszcza Niepolomice", MainLeagueName = "POLAND 1ST DIVISION" },
+        //    new() { TeamName = "Ayutthaya United", MainLeagueName = "THAILAND LEAGUE 1" },
+        //    new() { TeamName = "Buriram United", MainLeagueName = "THAILAND LEAGUE 1" },
+        //    new() { TeamName = "Gemert", MainLeagueName = "NETHERLANDS DERDE DIVISIE" },
+        //    new() { TeamName = "FC 08 Villingen", MainLeagueName = "GERMANY OBERLIGA" },
+        //    new() { TeamName = "TSG Balingen", MainLeagueName = "GERMANY REGIONAL LEAGUE SOUTHWEST" },
+        //    new() { TeamName = "Roasso Kumamoto", MainLeagueName = "THAILAND LEAGUE 1" },
+        //    new() { TeamName = "Veroskronos Tsuno", MainLeagueName = "THAILAND LEAGUE 1" }
+        //};
         mainLeagueForEventMapper.Execute(matchFiltered, mainLeague);
         foreach (var match in matchFiltered)
         {
