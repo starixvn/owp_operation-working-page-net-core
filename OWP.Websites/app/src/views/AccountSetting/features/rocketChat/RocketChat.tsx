@@ -6,17 +6,16 @@ const RocketChat = () => {
   const [accountAlreadyExists, setAccountAlreadyExists] = useState<boolean | null>(null);
   useEffect(() => {
     const checkAccount = async () => {
-      const response = await axios.get('api/owp/chat/check-account-exists');
+      const response = await axios.get('/api/owp/chat/check-account-exists');
 
       setAccountAlreadyExists(response.data);
     };
     checkAccount();
-    // Placeholder for any side effects or initializations needed for RocketChat
   }, []);
 
   const handleCreateAccount = async () => {
-    await axios.post('api/owp/chat/create-account-rc');
-    ToastrWrapper.showNotifySuccess('RocketChat account created successfully');
+    await axios.post('/api/owp/chat/create-account-rc');
+    ToastrWrapper.showInfo('RocketChat account created successfully');
   };
 
   if (accountAlreadyExists === null || accountAlreadyExists === true) {
