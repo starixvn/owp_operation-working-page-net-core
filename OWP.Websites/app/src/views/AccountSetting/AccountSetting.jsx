@@ -4,6 +4,7 @@ import ProfilePicture from './features/profile/ProfilePicture';
 import QuickMessage from './features/quickMessage/QuickMessage';
 import store from './app/store';
 import AdminServerSetting from './features/adminServerSetting/AdminServerSetting';
+import RocketChat from './features/rocketChat/RocketChat';
 const AccountSetting = () => {
   return (
     <Provider store={store}>
@@ -11,6 +12,7 @@ const AccountSetting = () => {
         <ProfilePicture />
         <QuickMessage />
         <AdminServerSetting />
+        <RocketChat />
       </OWPPage>
     </Provider>
   );
