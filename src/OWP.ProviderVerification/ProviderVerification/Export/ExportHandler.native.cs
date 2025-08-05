@@ -13,15 +13,15 @@ public class ExportHandler( ConfigurationService configuration, ProviderVerifica
     private ExcelPackage ExcelPackage { get; set; }
     private ExcelWorksheet reportSheet;
 
-    const int START_TITLE_INDEX = 1;
-    const int START_ROW_INDEX = 3;
-    const int FONT_SIZE_TITLE = 12;
-    const int TOTAL_COLUMNS = 12;
+    private const int START_TITLE_INDEX = 1;
+    private const int START_ROW_INDEX = 3;
+    private const int FONT_SIZE_TITLE = 12;
+    private const int TOTAL_COLUMNS = 12;
 
     public async Task<ExcelPackage> Handle(ExportRequest request, CancellationToken cancellationToken)
     {
         LoadTemplate(request.Template);
-        BuildExcel(await GetProviderVerification(request));
+        await BuildExcel(request);
         ClearTemplate();
         return ExcelPackage;
     }
@@ -50,17 +50,18 @@ public class ExportHandler( ConfigurationService configuration, ProviderVerifica
         reportSheet = ExcelPackage.Workbook.Worksheets.Copy(Const.Const.TEMPLATE_NAME, Const.Const.SHEET_NAME);
     }
 
-    private void BuildExcel(IList<ProviderVerificationModel> model)
+    private async Task BuildExcel(ExportRequest request)
     {
-        SetExcelTitle(model[0].EventDateTime);
-        reportSheet.ApplyVertical(model, START_ROW_INDEX);
-        SetColorRow(model);
+        var data = await GetProviderVerification(request);
+        SetExcelTitle(request.EventDate);
+        reportSheet.ApplyVertical(data, START_ROW_INDEX);
+        SetColorRow(data);
     }
 
     private void SetExcelTitle(DateTime? date)
     {
-        string title = "Provider Verification";
-        string formattedDate = date?.ToString("MM/dd/yyyy") ?? "N/A";
+        const string title = "Provider Verification";
+        var formattedDate = date?.ToString("MM/dd/yyyy") ?? "N/A";
         var range = reportSheet.Cells[START_TITLE_INDEX, START_TITLE_INDEX, START_TITLE_INDEX, TOTAL_COLUMNS];
         range.Value = $"{title} - {formattedDate}";
         range.Style.Font.Size = FONT_SIZE_TITLE;
@@ -69,18 +70,18 @@ public class ExportHandler( ConfigurationService configuration, ProviderVerifica
     private void SetColorRow(IList<ProviderVerificationModel> model)
     {
         const string BORDER_COLOR_HEX = "#c8ced3";
-        Color borderColor = ColorTranslator.FromHtml(BORDER_COLOR_HEX);
+        var borderColor = ColorTranslator.FromHtml(BORDER_COLOR_HEX);
 
-        for (int i = 0; i < model.Count; i++)
+        for (var i = 0; i < model.Count; i++)
         {
-            int rowIndex = i + START_ROW_INDEX;
+            var rowIndex = i + START_ROW_INDEX;
             ApplyRowStyle(rowIndex, model[i].RowColor, borderColor, TOTAL_COLUMNS);
         }
     }
 
     private void ApplyRowStyle(int rowIndex, string hexColor, Color borderColor, int totalColumns)
     {
-        Color backgroundColor = ColorTranslator.FromHtml(hexColor);
+        var backgroundColor = ColorTranslator.FromHtml(hexColor);
         var range = reportSheet.Cells[rowIndex, 1, rowIndex, totalColumns];
         range.Style.Fill.PatternType = ExcelFillStyle.Solid;
         range.Style.Fill.BackgroundColor.SetColor(backgroundColor);
@@ -110,10 +111,10 @@ public class ExportCheckDifferenceHandler(ICache cache, ConfigurationService con
     private ExcelPackage ExcelPackage { get; set; }
     private ExcelWorksheet reportSheet;
 
-    const int START_TITLE_INDEX = 1;
-    const int START_ROW_INDEX = 3;
-    const int FONT_SIZE_TITLE = 12;
-    const int TOTAL_COLUMNS = 14;
+    private const int START_TITLE_INDEX = 1;
+    private const int START_ROW_INDEX = 3;
+    private const int FONT_SIZE_TITLE = 12;
+    private const int TOTAL_COLUMNS = 14;
 
     public async Task<ExcelPackage> Handle(ExportCheckDifferenceRequest request, CancellationToken cancellationToken)
     {
@@ -177,8 +178,8 @@ public class ExportCheckDifferenceHandler(ICache cache, ConfigurationService con
 
     private void SetExcelTitle(DateTime? date)
     {
-        string title = "Provider Verification - Check Difference ProviderId";
-        string formattedDate = date?.ToString("MM/dd/yyyy") ?? "N/A";
+        const string title = "Provider Verification - Check Difference ProviderId";
+        var formattedDate = date?.ToString("MM/dd/yyyy") ?? "N/A";
         var range = reportSheet.Cells[START_TITLE_INDEX, START_TITLE_INDEX, START_TITLE_INDEX, TOTAL_COLUMNS];
         range.Value = $"{title} - {formattedDate}";
         range.Style.Font.Size = FONT_SIZE_TITLE;
@@ -187,18 +188,18 @@ public class ExportCheckDifferenceHandler(ICache cache, ConfigurationService con
     private void SetColorRow(IList<ProviderVerificationDifferenceModel> model)
     {
         const string BORDER_COLOR_HEX = "#c8ced3";
-        Color borderColor = ColorTranslator.FromHtml(BORDER_COLOR_HEX);
+        var borderColor = ColorTranslator.FromHtml(BORDER_COLOR_HEX);
 
-        for (int i = 0; i < model.Count; i++)
+        for (var i = 0; i < model.Count; i++)
         {
-            int rowIndex = i + START_ROW_INDEX;
+            var rowIndex = i + START_ROW_INDEX;
             ApplyRowStyle(rowIndex, model[i].RowColor, borderColor, TOTAL_COLUMNS);
         }
     }
 
     private void ApplyRowStyle(int rowIndex, string hexColor, Color borderColor, int totalColumns)
     {
-        Color backgroundColor = ColorTranslator.FromHtml(hexColor);
+        var backgroundColor = ColorTranslator.FromHtml(hexColor);
         var range = reportSheet.Cells[rowIndex, 1, rowIndex, totalColumns];
         range.Style.Fill.PatternType = ExcelFillStyle.Solid;
         range.Style.Fill.BackgroundColor.SetColor(backgroundColor);

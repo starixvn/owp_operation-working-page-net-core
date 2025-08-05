@@ -80,7 +80,7 @@ const Filter = () => {
           <button className='button-submit' onClick={handleSearch}>
             Search
           </button>
-          <button className={`button-export ${dataSource.length === 0 ? "btn-disable" : ""}`}
+          <button className={`button-export`}
             onClick={handleExport}
           >
             Export
