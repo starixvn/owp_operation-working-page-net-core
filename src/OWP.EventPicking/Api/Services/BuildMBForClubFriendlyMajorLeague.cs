@@ -19,7 +19,7 @@ public class BuildMBForClubFriendlyMajorLeagueBuilderImp : BuildMBForClubFriendl
         // Check if TV field is valid (contains at least one item from TV List and doesn't contain "Cancel")
         var hasValidTv = !string.IsNullOrWhiteSpace(match.TV) && 
                         !match.TV.Contains("Cancel", StringComparison.OrdinalIgnoreCase) &&
-                        tvList.Any(tvCondition => IsTvConditionMatch(match.TV, tvCondition));
+                        tvList.Exists(tvCondition => IsTvConditionMatch(match.TV, tvCondition));
         
         // Check if IPTV field is valid (contains "IPTV" and doesn't contain "Cancel")
         var hasValidIptv = !string.IsNullOrWhiteSpace(match.Iptv) && 
@@ -51,7 +51,9 @@ public class BuildMBForClubFriendlyMajorLeagueBuilderImp : BuildMBForClubFriendl
     private static bool IsTvConditionMatch(string tvField, Condition tvCondition)
     {
         if (string.IsNullOrWhiteSpace(tvField) || string.IsNullOrWhiteSpace(tvCondition.Value))
+        {
             return false;
+        }
 
         return tvCondition.Type switch
         {
