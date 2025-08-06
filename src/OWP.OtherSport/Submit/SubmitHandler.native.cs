@@ -1,4 +1,5 @@
-﻿using Fanex.NAP.Client;
+﻿using Fanex.Logging;
+using Fanex.NAP.Client;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using OWP.Extensions;
@@ -39,7 +40,8 @@ public class SubmitHandler(
     INapSession session,
     IHubContext<NewDataUploadNotifyHubImp, NewDataUploadNotifyHub> notifyHub,
     MessageClient messageClient,
-    AssignmentAnalyzer assignmentAnalyzer) : IRequestHandler<SubmitRequest, SubmitResponse>
+    AssignmentAnalyzer assignmentAnalyzer,
+    ILogger logger) : IRequestHandler<SubmitRequest, SubmitResponse>
 {
     public async Task<SubmitResponse> Handle(SubmitRequest request, CancellationToken cancellationToken)
     {
@@ -100,7 +102,7 @@ public class SubmitHandler(
         try
         {
             await cacheManipulator.SaveUserWhoIsUploadingAssignment(eventDates, session.UserName);
-
+            
             await SaveDataAndCleanupCache(request, assignments);
 
             await cacheManipulator.SaveLastUpdate(
@@ -109,6 +111,10 @@ public class SubmitHandler(
                     Username = session.UserName,
                     Date = DateTime.Now.ToGmt8()
                 });
+        }
+        catch (Exception ex)
+        {
+            await logger.ErrorAsync(ex.Message);
         }
         finally
         {
