@@ -1,4 +1,6 @@
 
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
 namespace OWP.ProviderVerification.ProviderVerification.QueryProvider;
 
 public record QueryProviderVerificationRequest(DateTime EventDate, bool OnlyShowIsMismatchEvent, string ConfirmProvider, string LstBookProvider, string SessionId) : Query<ResultT<AnalyzedProviderResult>>;
@@ -11,7 +13,8 @@ public class QueryProviderVerificationHandler(ICache cache, ProviderVerification
     {
         var criteria = new GetProviderVerificationCriteria
         {
-            EventDate = request.EventDate,
+            StartDate = request.EventDate,
+            EndDate = request.EventDate,
             OnlyShowIsMismatchEvent = request.OnlyShowIsMismatchEvent,
             ConfirmProvider = request.ConfirmProvider,
             LSTBookProvider = request.LstBookProvider

@@ -20,7 +20,8 @@ public class SubmitAgentHandler(ICache cache, ProviderVerificationRepository rep
     {
         var criteria = new GetProviderVerificationCriteria
         {
-            EventDate = date,
+            StartDate = date,
+            EndDate = date,
             OnlyShowIsMismatchEvent = false
         };
 

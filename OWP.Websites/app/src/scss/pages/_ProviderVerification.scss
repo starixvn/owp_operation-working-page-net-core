@@ -50,7 +50,10 @@
       width: 150px;
       margin-right: 16px;
 
-      .multi-select .select-item[aria-selected='true'] input[type='checkbox']+span:after {
+      .multi-select
+        .select-item[aria-selected='true']
+        input[type='checkbox']
+        + span:after {
         width: 4px;
         height: 9px;
         border: 2px solid #fff;
@@ -177,7 +180,7 @@
       margin-top: 0;
     }
 
-    label+.MuiInput-formControl {
+    label + .MuiInput-formControl {
       margin-top: 35px;
     }
 
@@ -689,7 +692,7 @@
       }
 
       .dropdown-heading-value {
-        >span {
+        > span {
           display: block;
           max-width: 130px;
           overflow: hidden;
@@ -738,7 +741,7 @@
       }
 
       .item-renderer {
-        input[type='checkbox']+span {
+        input[type='checkbox'] + span {
           &:before {
             margin: 2px 5px !important;
           }
@@ -908,7 +911,6 @@
 .inhouse-providerID,
 .remark,
 .remark__by {
-  max-width: 130px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -952,6 +954,11 @@
   word-break: break-word;
 }
 
-.confirm-provider .multi-select.checkbox-disable .select-item .item-renderer input[type=checkbox]+span:before {
+.confirm-provider
+  .multi-select.checkbox-disable
+  .select-item
+  .item-renderer
+  input[type='checkbox']
+  + span:before {
   opacity: 0.5;
 }

@@ -1,10 +1,11 @@
 ﻿using Epplus.Mapper.Extensions;
+using NPOI.SS.Formula.Functions;
 using OfficeOpenXml.Style;
 using System.Drawing;
 
 namespace OWP.ProviderVerification.ProviderVerification.Export;
 
-public record ExportRequest(DateTime EventDate, bool OnlyShowIsMismatchEvent, string ConfirmProvider, string LstBookProvider, string Template) : Query<ExcelPackage>;
+public record ExportRequest(DateTime StartDate, DateTime EndDate, bool OnlyShowIsMismatchEvent, string ConfirmProvider, string LstBookProvider, string Template) : Query<ExcelPackage>;
 
 public record ExportCheckDifferenceRequest(DateTime EventDate, string SessionId, string Template) : Query<ExcelPackage>;
 
@@ -30,7 +31,8 @@ public class ExportHandler( ConfigurationService configuration, ProviderVerifica
     {
         var criteria = new GetProviderVerificationCriteria
         {
-            EventDate = request.EventDate,
+            StartDate = request.StartDate,
+            EndDate = request.EndDate,
             OnlyShowIsMismatchEvent = request.OnlyShowIsMismatchEvent,
             ConfirmProvider = request.ConfirmProvider,
             LSTBookProvider = request.LstBookProvider
@@ -38,8 +40,12 @@ public class ExportHandler( ConfigurationService configuration, ProviderVerifica
 
         var providerVerification = await repository.GetProviderVerification(criteria);
 
-        return providerVerification.ToList();
+        return providerVerification
+            .OrderBy(pv => pv.EventDateTime)
+            .ThenBy(pv => pv.MatchNo)
+            .ToList();
     }
+
 
     private void LoadTemplate(string template)
     {
@@ -53,15 +59,21 @@ public class ExportHandler( ConfigurationService configuration, ProviderVerifica
     private async Task BuildExcel(ExportRequest request)
     {
         var data = await GetProviderVerification(request);
-        SetExcelTitle(request.EventDate);
+        SetExcelTitle(request.StartDate, request.EndDate);
         reportSheet.ApplyVertical(data, START_ROW_INDEX);
         SetColorRow(data);
     }
 
-    private void SetExcelTitle(DateTime? date)
+    private void SetExcelTitle(DateTime? startDate, DateTime? endDate)
     {
         const string title = "Provider Verification";
-        var formattedDate = date?.ToString("MM/dd/yyyy") ?? "N/A";
+        if (!startDate.HasValue || !endDate.HasValue)
+        {
+            throw new ArgumentException("Both startDate and endDate must have values.");
+        }
+            
+        var formattedDate = $"{startDate.Value:MM/dd/yyyy} - {endDate.Value:MM/dd/yyyy}";
+
         var range = reportSheet.Cells[START_TITLE_INDEX, START_TITLE_INDEX, START_TITLE_INDEX, TOTAL_COLUMNS];
         range.Value = $"{title} - {formattedDate}";
         range.Style.Font.Size = FONT_SIZE_TITLE;
@@ -128,7 +140,8 @@ public class ExportCheckDifferenceHandler(ICache cache, ConfigurationService con
     {
         var criteria = new GetProviderVerificationCriteria
         {
-            EventDate = request.EventDate,
+            StartDate = request.EventDate,
+            EndDate = request.EventDate,
             OnlyShowIsMismatchEvent = true,
             ConfirmProvider = null,
             LSTBookProvider = null
