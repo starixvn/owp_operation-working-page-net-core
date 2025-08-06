@@ -5,6 +5,7 @@ const Value = (props: {
   index: number;
   hasWrite: boolean;
   property: 'round' | 'division';
+  hint?: string;
   handleUpdateValueExpression: (
     property: 'round' | 'division',
     key: 'value' | 'type',
@@ -12,7 +13,7 @@ const Value = (props: {
     index: number
   ) => void;
 }) => {
-  const { value, index, hasWrite, property, handleUpdateValueExpression } =
+  const { value, index, hasWrite, property, handleUpdateValueExpression, hint } =
     props;
   return (
     <Input
@@ -21,6 +22,7 @@ const Value = (props: {
       className='input-field'
       defaultValue={value}
       maxLength={100}
+      placeholder={hint}
       onBlur={event =>
         handleUpdateValueExpression(
           property,

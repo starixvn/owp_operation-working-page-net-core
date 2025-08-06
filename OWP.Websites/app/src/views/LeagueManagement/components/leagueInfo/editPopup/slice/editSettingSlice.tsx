@@ -5,7 +5,10 @@ import { TCondition, TDataSource } from '../../table/TableType';
 import { TAddExpressionKey, TEditSetting, TOption } from '../../component/Type';
 import { mapEditSettingFromDataSource } from '../../helper/helper';
 import { getLeagueGroupOptionsThunk } from '../../component/commonThunk';
-
+import {
+  expressionOption,
+  divisionExpressionOption,
+} from '../../../../constants/MaxbetConst';
 interface ConditionPayLoad {
   key: 'type' | 'value';
   property: keyof TAddExpressionKey;
@@ -108,7 +111,8 @@ const EditSettingSlice = createSlice({
     },
     updateExpression: (state, action: PayloadAction<ConditionPayLoad>) => {
       const { key, property, value, index } = action.payload;
-      if (key === 'type' && (value === 'Contains' || value === 'Equals')) {
+      if (key === 'type' && (value === 'Contains' || value === 'Equals' || value === 'Pairwise Contains')) {
+
         state[property][index].type = value;
       }
       if (key === 'value') {

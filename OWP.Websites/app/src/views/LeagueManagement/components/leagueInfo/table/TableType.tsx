@@ -28,7 +28,7 @@ type TConditionSource = {
 };
 
 type TCondition = {
-  type: 'Contains' | 'Equals';
+  type: 'Contains' | 'Equals' | 'Pairwise Contains';
   value: string;
 };
 

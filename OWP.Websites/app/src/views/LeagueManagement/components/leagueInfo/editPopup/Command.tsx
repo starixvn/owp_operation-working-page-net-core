@@ -7,6 +7,7 @@ import { updateSettingService } from '../service/service';
 import { AxiosError } from 'axios';
 import { TExpectedResponseType } from '../component/Type';
 import { message } from '../../../constants/Const';
+import MaxbetConst from '../../../constants/MaxbetConst';
 
 const Command = (props: { closePopup: Function }) => {
   const { closePopup } = props;
@@ -38,6 +39,14 @@ const Command = (props: { closePopup: Function }) => {
 
   const handleSave = async () => {
     try {
+      const regex = /^[^,\s]+,[^,\s]+$/;
+      if (
+        division.some(d => d.type === MaxbetConst.divisionExpressionOption[2].label
+          && !regex.test(d.value.trim()) && d.value.trim() !== ''
+        )) {
+        ToastrWrapper.showError('Invalid format for Pairwise Contains. Enter values as pairs like D1,D2. Each item must be separated by commas.');
+        return;
+      }
       if (oldLeagueGroupId !== leagueGroupId) {
         const confirmResult = await ToastrWrapper.show({
           type: 'warning',

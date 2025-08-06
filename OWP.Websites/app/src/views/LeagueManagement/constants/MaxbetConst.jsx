@@ -45,6 +45,11 @@ const expressionOption = [
   { value: 2, label: 'Equals' }
 ];
 
+const divisionExpressionOption = [
+  { value: 1, label: 'Contains' },
+  { value: 2, label: 'Equals' },
+  { value: 3, label: 'Pairwise Contains' }
+];
 const leagueCategoryOption = [
   { value: 1, label: 'Live' },
   { value: 2, label: 'Today' },
@@ -129,6 +134,7 @@ const MaxbetConst = {
   status,
   leagueGroupUnknown,
   expressionOption,
+  divisionExpressionOption,
   tvList,
   round,
   division,

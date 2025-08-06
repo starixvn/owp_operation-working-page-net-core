@@ -4,9 +4,14 @@ import Action from './Action';
 import Condition from './Condition';
 import Value from './Value';
 import { MouseEvent } from 'react';
+import MaxbetConst from '../../../constants/MaxbetConst';
 
 interface RowExpressionProps {
   expressionList: Array<TExpressionRow>;
+  option: Array<{
+    value: number;
+    label: string;
+  }>;
   title?: string;
   property: 'round' | 'division';
   handleUpdateValueExpression: (
@@ -28,6 +33,7 @@ interface RowExpressionProps {
 
 const RowsExpression = ({
   expressionList,
+  option,
   title,
   property,
   handleUpdateValueExpression,
@@ -42,6 +48,7 @@ const RowsExpression = ({
           <div className='expression__row' key={`${uniqueId()}`}>
             <Condition
               condition={expression.condition}
+              option={option}
               index={index}
               hasWrite
               property={property}
@@ -53,6 +60,7 @@ const RowsExpression = ({
               property={property}
               hasWrite
               handleUpdateValueExpression={handleUpdateValueExpression}
+              hint={expression.condition.label === MaxbetConst.divisionExpressionOption[2].label ? 'Example: D1,D2' : ''}
             />
             <Action
               handleAddRow={handleAddRow}

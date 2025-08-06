@@ -1,5 +1,4 @@
 import Select from 'react-select-ts';
-import MaxbetConst from '../../../constants/MaxbetConst';
 import { TOption } from './Type';
 
 interface ConditionProps {
@@ -7,6 +6,10 @@ interface ConditionProps {
     value: number;
     label: string;
   };
+  option: Array<{
+    value: number;
+    label: string;
+  }>;
   hasWrite: boolean;
   index: number;
   property: 'round' | 'division';
@@ -20,6 +23,7 @@ interface ConditionProps {
 
 const Condition = ({
   condition,
+  option,
   hasWrite = true,
   property,
   index,
@@ -36,7 +40,7 @@ const Condition = ({
   return (
     <Select
       isDisabled={!hasWrite}
-      options={MaxbetConst.expressionOption}
+      options={option}
       defaultValue={condition}
       className='basic-multi-select'
       classNamePrefix='select'
