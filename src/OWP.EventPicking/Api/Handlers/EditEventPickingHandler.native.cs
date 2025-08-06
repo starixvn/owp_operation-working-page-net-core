@@ -87,27 +87,11 @@ public class EditEventPickingHandler(
         {
             selectedAwayLeagueSetting = ProcessLeagueSettingsForMatch(awayLeagueSettingByLeagueId, match);
         }
-
         if (selectedHomeLeagueSetting != null && selectedAwayLeagueSetting != null)
         {
-            var homeMaxbet = GetMaxbet(selectedHomeLeagueSetting, match);
-            var homeSpreadHdp = selectedHomeLeagueSetting.Spread_HDP_Value;
-            var homeSpreadOu = selectedHomeLeagueSetting.Spread_OU_Value;
-
-            var awayMaxbet = GetMaxbet(selectedAwayLeagueSetting, match);
-            var awaySpreadHdp = selectedAwayLeagueSetting.Spread_HDP_Value;
-            var awaySpreadOu = selectedAwayLeagueSetting.Spread_OU_Value;
-
-            var (finalMaxbet, finalSpreadHdp, finalSpreadOu) = mappingRuleSyncMBLeagueFriendlyService.Execute(homeMaxbet!.Value, awayMaxbet!.Value, homeSpreadHdp, awaySpreadHdp, homeSpreadOu, awaySpreadOu);
-
-            if (finalMaxbet > 0)
-            {
-                match.MaxbetHdp = finalMaxbet;
-                match.SpreadHdp = finalSpreadHdp;
-                match.SpreadOu = finalSpreadOu;
-                match.IsReferenceLeagueManagement = true;
-            }
+            mappingRuleSyncMBLeagueFriendlyService.ProcessLeagueSettingsForClubFriendlyMatch(selectedHomeLeagueSetting, selectedAwayLeagueSetting, match);
         }
+
         CalculateNoHDPClubFriendLy(match);
 
     }

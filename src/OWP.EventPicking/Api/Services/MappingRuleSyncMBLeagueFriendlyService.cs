@@ -1,12 +1,41 @@
 ﻿namespace OWP.EventPicking.Api.Services;
+using OWP.EventPicking.Api.Models;
+
 public interface MappingRuleSyncMBLeagueFriendlyService
 {
-    public (decimal finalMaxbet, decimal? finalSpreadHdp, decimal? finalSpreadOu) Execute(
-            decimal homeMaxbet, decimal awayMaxbet, decimal? homeSpreadHdp, decimal? awaySpreadHdp, decimal? homeSpreadOu, decimal? awaySpreadOu)}
+    public void ProcessLeagueSettingsForClubFriendlyMatch(
+        LeagueSettingInfoSender selectedHomeLeagueSetting, 
+        LeagueSettingInfoSender selectedAwayLeagueSetting, 
+        EventPickingModel match);
+}
 
 public class MappingRuleSyncMBLeagueFriendlyServiceImp : MappingRuleSyncMBLeagueFriendlyService
 {
-    public (decimal finalMaxbet, decimal? finalSpreadHdp, decimal? finalSpreadOu) Execute(
+
+    public void ProcessLeagueSettingsForClubFriendlyMatch(
+        LeagueSettingInfoSender selectedHomeLeagueSetting, 
+        LeagueSettingInfoSender selectedAwayLeagueSetting, 
+        EventPickingModel match)
+    {
+        var homeMaxbet = GetMaxbet(selectedHomeLeagueSetting, match);
+        var homeSpreadHdp = selectedHomeLeagueSetting.Spread_HDP_Value;
+        var homeSpreadOu = selectedHomeLeagueSetting.Spread_OU_Value;
+
+        var awayMaxbet = GetMaxbet(selectedAwayLeagueSetting, match);
+        var awaySpreadHdp = selectedAwayLeagueSetting.Spread_HDP_Value;
+        var awaySpreadOu = selectedAwayLeagueSetting.Spread_OU_Value;
+
+        var (finalMaxbet, finalSpreadHdp, finalSpreadOu) = Execute(homeMaxbet!.Value, awayMaxbet!.Value, homeSpreadHdp, awaySpreadHdp, homeSpreadOu, awaySpreadOu);
+
+        if (finalMaxbet > 0)
+        {
+            match.MaxbetHdp = finalMaxbet;
+            match.SpreadHdp = finalSpreadHdp;
+            match.SpreadOu = finalSpreadOu;
+            match.IsReferenceLeagueManagement = true;
+        }
+    }
+    public (decimal finalMaxbet, decimal? finalSpreadHdp, decimal? finalSpreadOu) CalculateFinalMBAndSpread(
         decimal homeMaxbet, decimal awayMaxbet, decimal? homeSpreadHdp, decimal? awaySpreadHdp, decimal? homeSpreadOu, decimal? awaySpreadOu)
     {
         // Rule 1: Home & Away MB >= 25K
@@ -93,6 +122,28 @@ public class MappingRuleSyncMBLeagueFriendlyServiceImp : MappingRuleSyncMBLeague
 
         return (0, 0, 0);
     }
+
+    
+
+    private decimal? GetMaxbet(LeagueSettingInfoSender leagueSetting, EventPickingModel match)
+    {
+        if (IsWeekend(match.EventDateTime))
+        {
+            return leagueSetting.MaxbetWK_HDP_Value;
+        }
+        else
+        {
+            return leagueSetting.MaxbetWD_HDP_Value;
+        }
+    }
+
+    private static bool IsWeekend(DateTime eventDateTime)
+    {
+        var eventDate = DateTime.SpecifyKind(eventDateTime, DateTimeKind.Utc).AddHours(-12);
+        var isWeekend = eventDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday;
+        return isWeekend;
+    }
+
     private static (decimal? spreadHdp, decimal? spreadOu) CompareAverageSpread(decimal? homeSpreadHdp, decimal? homeSpreadOu, decimal? awaySpreadHdp, decimal? awaySpreadOu, bool useHigher = true)
     {
         var homeValues = new[] { homeSpreadHdp, homeSpreadOu }.Where(v => v.HasValue).Select(v => v.Value).ToList();
