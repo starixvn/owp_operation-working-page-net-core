@@ -90,7 +90,10 @@ public class ProviderVerificationRepositoryImp(IDynamicRepository dynamicReposit
                         Label = y.AgentName,
                         Value = y.AgentId
                     }).DistinctBy(a => a.Value).ToList(),
-                ProviderMatch = providerMatches.Where(x => x.OWPMatchId == match.OWPMatchId).ToList()
+                ProviderMatch = providerMatches.Where(x => x.OWPMatchId == match.OWPMatchId).ToList(),
+                OtherProvider = match.OtherProvider,
+                MaxBet = match.MaxBet,
+                MaxBetToDisplay = match.MaxBetToDisplay
             };
 
             var ticket = hasTicketModel.Find(x => x.ParentMatchId == match.OWPMatchId);

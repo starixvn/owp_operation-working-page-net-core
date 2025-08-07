@@ -1,74 +1,145 @@
-import { uniqBy } from "lodash";
-import { formatTime } from "../../../Shared/DateTime/dateTimeHelper";
-import { buildLabelItemOption } from "./helper";
-import { TDataSource } from "../../type/table";
-import store from "../../app/storeNative";
-import { Option } from "../../../Shared/MultipleSelection/type";
+import { uniqBy } from 'lodash';
+import { formatTime } from '../../../Shared/DateTime/dateTimeHelper';
+import { buildLabelItemOption } from './helper';
+import { TDataSource } from '../../type/table';
+import store from '../../app/storeNative';
+import { Option } from '../../../Shared/MultipleSelection/type';
 
 const calculateMatchNoOption = (dataSource: TDataSource[]) => {
-  return swapBlanks(uniqBy([...dataSource].map(x => ({
-    value: x.owpMatchId,
-    label: buildLabelItemOption(x.matchNo)
-  })), v => v.label));
+  return swapBlanks(
+    uniqBy(
+      [...dataSource].map(x => ({
+        value: x.owpMatchId,
+        label: buildLabelItemOption(x.matchNo)
+      })),
+      v => v.label
+    )
+  );
 };
 
 const calculateMatchStatusOption = (dataSource: TDataSource[]) => {
-  return swapBlanks(uniqBy([...dataSource].map(x => ({
-    value: x.owpMatchId,
-    label: buildLabelItemOption(x.matchStatus)
-  })), v => v.label));
+  return swapBlanks(
+    uniqBy(
+      [...dataSource].map(x => ({
+        value: x.owpMatchId,
+        label: buildLabelItemOption(x.matchStatus)
+      })),
+      v => v.label
+    )
+  );
 };
 
 const calculateKoOption = (dataSource: TDataSource[]) => {
-  return swapBlanks(uniqBy([...dataSource]
-    .sort((first, second) =>
-      Number(new Date(first.eventDateTime)) - Number(new Date(second.eventDateTime))
+  return swapBlanks(
+    uniqBy(
+      [...dataSource]
+        .sort(
+          (first, second) =>
+            Number(new Date(first.eventDateTime)) -
+            Number(new Date(second.eventDateTime))
+        )
+        .map(x => ({
+          value: x.owpMatchId,
+          label: formatTime(x.eventDateTime, 'minute', 'hh:mm A') ?? '(Blanks)'
+        })),
+      v => v.label
     )
-    .map(x => ({
-      value: x.owpMatchId,
-      label: formatTime(x.eventDateTime, 'minute', 'hh:mm A') ?? '(Blanks)'
-    })), v => v.label));
+  );
 };
 
 const calculateLeagueOption = (dataSource: TDataSource[]) => {
-  return swapBlanks(uniqBy([...dataSource].map(x => ({
-    value: x.owpMatchId,
-    label: x.league ?? '(Blanks)'
-  })), v => v.label));
+  return swapBlanks(
+    uniqBy(
+      [...dataSource].map(x => ({
+        value: x.owpMatchId,
+        label: x.league ?? '(Blanks)'
+      })),
+      v => v.label
+    )
+  );
 };
 
 const calculateMatchOption = (dataSource: TDataSource[]) => {
-  return swapBlanks(uniqBy([...dataSource].map(x => ({
-    value: x.owpMatchId,
-    label: `${x.home} -vs- ${x.away}`
-  })), v => v.label));
+  return swapBlanks(
+    uniqBy(
+      [...dataSource].map(x => ({
+        value: x.owpMatchId,
+        label: `${x.home} -vs- ${x.away}`
+      })),
+      v => v.label
+    )
+  );
 };
 
 const calculateLSTBookProviderOption = (dataSource: TDataSource[]) => {
-  return swapBlanks(uniqBy([...dataSource].map(x => ({
-    value: x.owpMatchId,
-    label: buildLabelItemOption(x.lstBookProvider)
-  })), v => v.label));
+  return swapBlanks(
+    uniqBy(
+      [...dataSource].map(x => ({
+        value: x.owpMatchId,
+        label: buildLabelItemOption(x.lstBookProvider)
+      })),
+      v => v.label
+    )
+  );
 };
 
 const calculateInhouseProviderIdOption = (dataSource: TDataSource[]) => {
-  return swapBlanks(uniqBy([...dataSource].map(x => ({
-    value: x.owpMatchId,
-    label: buildLabelItemOption(x.inHouseProviderId)
-  })), v => v.label));
+  return swapBlanks(
+    uniqBy(
+      [...dataSource].map(x => ({
+        value: x.owpMatchId,
+        label: buildLabelItemOption(x.inHouseProviderId)
+      })),
+      v => v.label
+    )
+  );
+};
+
+const calculateOtherProviderOption = (dataSource: TDataSource[]) => {
+  return swapBlanks(
+    uniqBy(
+      [...dataSource].map(x => ({
+        value: x.owpMatchId,
+        label: buildLabelItemOption(x.otherProvider)
+      })),
+      v => v.label
+    )
+  );
+};
+
+const calculateMaxBetToDisplayOption = (dataSource: TDataSource[]) => {
+  return swapBlanks(
+    uniqBy(
+      [...dataSource].map(x => ({
+        value: x.owpMatchId,
+        label: buildLabelItemOption(x.maxBetToDisplay)
+      })),
+      v => v.label
+    )
+  );
 };
 
 const calculateRemarkOption = (dataSource: TDataSource[]) => {
-  return swapBlanks(uniqBy([...dataSource].map(x => ({
-    value: x.owpMatchId,
-    label: buildLabelItemOption(x.remark)
-  })), v => v.label));
+  return swapBlanks(
+    uniqBy(
+      [...dataSource].map(x => ({
+        value: x.owpMatchId,
+        label: buildLabelItemOption(x.remark)
+      })),
+      v => v.label
+    )
+  );
 };
 const calculateRemarkByOption = (dataSource: TDataSource[]) => {
-  return swapBlanks(uniqBy([...dataSource].map(x => ({
-    value: x.owpMatchId,
-    label: buildLabelItemOption(x.remarkBy)
-  })), v => v.label));
+  return swapBlanks(
+    uniqBy(
+      [...dataSource].map(x => ({
+        value: x.owpMatchId,
+        label: buildLabelItemOption(x.remarkBy)
+      })),
+      v => v.label
+    )
+  );
 };
 
 const calculateConfirmProviderOption = () => {
@@ -89,16 +160,22 @@ const swapBlanks = (options: Option[]) => {
 
 const helper = {
   MatchNo: (dataSource: TDataSource[]) => calculateMatchNoOption(dataSource),
-  MatchStatus: (dataSource: TDataSource[]) => calculateMatchStatusOption(dataSource),
+  MatchStatus: (dataSource: TDataSource[]) =>
+    calculateMatchStatusOption(dataSource),
   KoTime: (dataSource: TDataSource[]) => calculateKoOption(dataSource),
   League: (dataSource: TDataSource[]) => calculateLeagueOption(dataSource),
   Match: (dataSource: TDataSource[]) => calculateMatchOption(dataSource),
-  LstBookProvider: (dataSource: TDataSource[]) => calculateLSTBookProviderOption(dataSource),
+  LstBookProvider: (dataSource: TDataSource[]) =>
+    calculateLSTBookProviderOption(dataSource),
   Remark: (dataSource: TDataSource[]) => calculateRemarkOption(dataSource),
   RemarkBy: (dataSource: TDataSource[]) => calculateRemarkByOption(dataSource),
   ConfirmProvider: () => calculateConfirmProviderOption(),
-  InHouseProviderId: (dataSource: TDataSource[]) => calculateInhouseProviderIdOption(dataSource)
+  InHouseProviderId: (dataSource: TDataSource[]) =>
+    calculateInhouseProviderIdOption(dataSource),
+  OtherProvider: (dataSource: TDataSource[]) =>
+    calculateOtherProviderOption(dataSource),
+  MaxBet: (dataSource: TDataSource[]) =>
+    calculateMaxBetToDisplayOption(dataSource)
 };
 
 export default helper;
-

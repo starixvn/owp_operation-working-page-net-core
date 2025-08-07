@@ -18,6 +18,8 @@ type ValidationResponse = {
 type TDataSource = {
   lstBookProvider?: string | null;
   inHouseProviderId?: string | null;
+  otherProvider?: string | null;
+  maxBetToDisplay?: string | null;
   remark?: string | null;
   remarkBy?: string | null;
   owpMatchId: number;
@@ -66,9 +68,11 @@ type TRemarkPopover = {
 
 type TTicketCell = {
   [key in 'hasTicket' | 'isRead']: boolean;
-} & { rowIndex: number; dataSource: TDataSource[]; };
+} & { rowIndex: number; dataSource: TDataSource[] };
 
-type TUpdateConfirmProvider = { value: TConfirmProvider[]; } & { owpMatchId: number; };
+type TUpdateConfirmProvider = { value: TConfirmProvider[] } & {
+  owpMatchId: number;
+};
 
 type TColumnKey =
   | 'MatchNo'
@@ -77,7 +81,9 @@ type TColumnKey =
   | 'League'
   | 'Match'
   | 'LstBookProvider'
+  | 'OtherProvider'
   | 'InHouseProviderId'
+  | 'MaxBet'
   | 'ConfirmProvider'
   | 'Remark'
   | 'RemarkBy';

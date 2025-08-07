@@ -909,6 +909,7 @@
 
 .lst-book-provider,
 .inhouse-providerID,
+.other-provider,
 .remark,
 .remark__by {
   white-space: nowrap;
@@ -946,7 +947,9 @@
 }
 
 .lst-book-provider,
-.inhouse-providerId {
+.inhouse-providerId,
+.other-provider,
+.max-bet {
   text-align: center;
 }
 

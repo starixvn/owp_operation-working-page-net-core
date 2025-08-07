@@ -1,5 +1,6 @@
 ﻿
 using Epplus.Mapper.Annotations;
+using OWP.Utils;
 
 namespace OWP.ProviderVerification.Models;
 
@@ -53,6 +54,17 @@ public class EventModel
     public string ProviderMatchId { get; set; }
 
     public string Provider { get; set; }
+
+    public string OtherProvider { get; set; }
+
+    public decimal? MaxBet { get; set; }
+
+    private string _maxBetToDisplay;
+    public string MaxBetToDisplay
+    {
+        get => _maxBetToDisplay ??= MaxBet.ToOWPMaxBetFormat();
+        set => _maxBetToDisplay = value;
+    }
 }
 
 public class ProviderVerificationModel : EventModel

@@ -43,6 +43,14 @@ const buildDefaultTableFilter = (dataSource: TDataSource[], confirmProviderOptio
   tableFilter.ConfirmProvider = {
     selected: [...confirmProviderOption, { value: -1, label: '(Blanks)' }],
     isFilter: false
+    };
+  tableFilter.OtherProvider = {
+    selected: helper.OtherProvider(dataSource),
+    isFilter: false
+  };
+  tableFilter.MaxBet = {
+    selected: helper.MaxBet(dataSource),
+    isFilter: false
   };
 };
 
@@ -55,7 +63,9 @@ const executeFilterTable = (dataSource: TDataSource[], tableFilter: TMultipleFil
     LstBookProvider,
     InHouseProviderId,
     Remark,
-    RemarkBy
+    RemarkBy,
+    OtherProvider,
+    MaxBet
   } = tableFilter;
   const result = dataSource.filter(e => MatchNo.selected.some(m => m.label === buildLabelItemOption(e.matchNo)) //NOSONAR
     && MatchStatus.selected.some(m => m.label === buildLabelItemOption(e.matchStatus))
@@ -65,7 +75,9 @@ const executeFilterTable = (dataSource: TDataSource[], tableFilter: TMultipleFil
     && LstBookProvider.selected.some(m => m.label === buildLabelItemOption(e.lstBookProvider))
     && InHouseProviderId.selected.some(m => m.label === buildLabelItemOption(e.inHouseProviderId))
     && Remark.selected.some(m => m.label === buildLabelItemOption(e.remark))
-    && RemarkBy.selected.some(m => m.label === buildLabelItemOption(e.remarkBy)));
+    && RemarkBy.selected.some(m => m.label === buildLabelItemOption(e.remarkBy))
+    && OtherProvider.selected.some(m => m.label === buildLabelItemOption(e.otherProvider))
+    && MaxBet.selected.some(m => m.label === buildLabelItemOption(e.maxBetToDisplay)));
 
   return filterByConfirmProvider(result, tableFilter);
 };
