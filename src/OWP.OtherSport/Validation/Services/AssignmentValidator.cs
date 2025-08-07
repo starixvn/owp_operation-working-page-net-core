@@ -199,7 +199,25 @@ public class AssignmentValidatorImp : AssignmentValidator
     private static bool IsEquals(string source, string value)
     {
         return !string.IsNullOrWhiteSpace(source) &&
-            source.Equals(value, StringComparison.OrdinalIgnoreCase);
+            NormalizeString(source).Equals(NormalizeString(value), StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static string NormalizeString(string input)
+    {
+        if (input == null) return string.Empty;
+
+        return input
+            .Replace('\u00A0', ' ')   // Non-breaking space (NBSP) - most common
+            .Replace('\u200B', ' ')   // Zero width space - often from copy/paste
+            .Replace('\uFEFF', ' ')   // Byte Order Mark (BOM) - encoding issues
+            .Replace('\u2013', '-')   // En dash → hyphen
+            .Replace('\u2014', '-')   // Em dash → hyphen
+            .Replace('\u2018', '\'')  // Left single quote → apostrophe
+            .Replace('\u2019', '\'')  // Right single quote → apostrophe
+            .Replace('\u201C', '"')   // Left double quote → quote
+            .Replace('\u201D', '"')
+            .Replace("  ", " ")       // Double space to single
+            .Trim();                  // Remove leading/trailing spaces
     }
 
     public static List<AssignmentValidationRowResult> GroupByDuplicateMatchMessage(List<AssignmentValidationRowResult> validationResults, params string[] containString)
