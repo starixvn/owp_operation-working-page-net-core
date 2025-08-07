@@ -39,27 +39,30 @@ public class EventModel
     [Cell("G3")]
     public string Away { get; set; }
 
-    [Cell("K3")]
+    [Cell("M3")]
     public string Remark { get; set; }
 
-    [Cell("L3")]
+    [Cell("N3")]
     public string RemarkBy { get; set; }
 
     [Cell("H3")]
     public string LstBookProvider { get; set; }
 
-    [Cell("I3")]
+    [Cell("J3")]
     public string InHouseProviderId { get; set; }
 
     public string ProviderMatchId { get; set; }
 
     public string Provider { get; set; }
 
+    [Cell("I3")]
     public string OtherProvider { get; set; }
 
     public decimal? MaxBet { get; set; }
 
     private string _maxBetToDisplay;
+
+    [Cell("K3")]
     public string MaxBetToDisplay
     {
         get => _maxBetToDisplay ??= MaxBet.ToOWPMaxBetFormat();
@@ -71,7 +74,7 @@ public class ProviderVerificationModel : EventModel
 {
     public List<AgentConfirmOption> AgentConfirm { get; set; }
 
-    [Cell("J3")]
+    [Cell("L3")]
     public string AgentConfirmList => AgentConfirm != null
         ? string.Join(", ", AgentConfirm.Where(x => !string.IsNullOrEmpty(x.Label)).Select(x => x.Label))
         : string.Empty;
