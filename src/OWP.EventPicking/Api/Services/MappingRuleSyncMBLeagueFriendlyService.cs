@@ -25,7 +25,7 @@ public class MappingRuleSyncMBLeagueFriendlyServiceImp : MappingRuleSyncMBLeague
         var awaySpreadHdp = selectedAwayLeagueSetting.Spread_HDP_Value;
         var awaySpreadOu = selectedAwayLeagueSetting.Spread_OU_Value;
 
-        var (finalMaxbet, finalSpreadHdp, finalSpreadOu) = Execute(homeMaxbet!.Value, awayMaxbet!.Value, homeSpreadHdp, awaySpreadHdp, homeSpreadOu, awaySpreadOu);
+        var (finalMaxbet, finalSpreadHdp, finalSpreadOu) = CalculateFinalMBAndSpread(homeMaxbet!.Value, awayMaxbet!.Value, homeSpreadHdp, awaySpreadHdp, homeSpreadOu, awaySpreadOu);
 
         if (finalMaxbet > 0)
         {

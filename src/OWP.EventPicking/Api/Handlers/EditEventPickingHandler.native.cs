@@ -287,4 +287,44 @@ public class EditEventPickingHandler(
             ? time >= TimeSpan.FromHours(20) || time <= TimeSpan.FromHours(4.5)
             : time >= TimeSpan.FromHours(2) && time <= TimeSpan.FromHours(4.5);
     }
+
+    private static (bool hasTv, bool hasIpTv) DetermineTvIptvStatus(EventPickingModel match, List<Condition> tvList)
+    {
+        var hasValidTv = !string.IsNullOrWhiteSpace(match.TV) &&
+                        !match.TV.Contains("Cancel", StringComparison.OrdinalIgnoreCase) &&
+                        tvList.Any(tvCondition => IsTvConditionMatch(match.TV, tvCondition));
+
+        var hasValidIptv = !string.IsNullOrWhiteSpace(match.Iptv) &&
+                          !match.Iptv.Contains("Cancel", StringComparison.OrdinalIgnoreCase) &&
+                          match.Iptv.Contains("IPTV", StringComparison.OrdinalIgnoreCase);
+
+        var hasValidChannel = !string.IsNullOrWhiteSpace(match.Channel) &&
+                             !match.Channel.Contains("Cancel", StringComparison.OrdinalIgnoreCase);
+
+        if (hasValidTv)
+        {
+            return (true, false);
+        }
+        else if (hasValidIptv || hasValidChannel)
+        {
+            return (false, true);
+        }
+        else
+        {
+            return (false, false);
+        }
+    }
+
+    private static bool IsTvConditionMatch(string tvField, Condition tvCondition)
+    {
+        if (string.IsNullOrWhiteSpace(tvField) || string.IsNullOrWhiteSpace(tvCondition.Value))
+            return false;
+
+        return tvCondition.Type switch
+        {
+            "Contains" => tvField.Contains(tvCondition.Value, StringComparison.OrdinalIgnoreCase),
+            "Equals" => tvField.Equals(tvCondition.Value, StringComparison.OrdinalIgnoreCase),
+            _ => false
+        };
+    }
 }
