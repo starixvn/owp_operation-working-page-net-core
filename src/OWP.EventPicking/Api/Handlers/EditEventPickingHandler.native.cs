@@ -47,7 +47,7 @@ public class EditEventPickingHandler(
             else
             {
                 var leagueSettingByLeagueId = leagueSetting.Where(x => x.OWPLeagueId == match.OWPLeagueId).ToList();
-                ProcessLeagueSettingsForMatch(leagueSettingByLeagueId, match);
+                ProcessLeagueSettingsForMatch(leagueSettingByLeagueId, match, tvList);
             }
 
 
@@ -65,15 +65,16 @@ public class EditEventPickingHandler(
         if (match.IsSync || match.ChildMatchId is not null) return;
         if (FiveMajorLeague.Contains(match.HomeMainLeague) && FiveMajorLeague.Contains(match.AwayMainLeague))
         {
-            buildMBForClubFriendlyMajorLeagueBuilder.Build(match, tvList);
+            var (hasTv, hasIptv) = DetermineTvIptvStatus(match, tvList);
+            buildMBForClubFriendlyMajorLeagueBuilder.Build(match, hasTv, hasIptv);
         }
         else
         {
-            ProcessLeagueSettingsForClubFriendlyNotMajorLeagueMatch(leagueSetting, match);
+            ProcessLeagueSettingsForClubFriendlyNotMajorLeagueMatch(leagueSetting, match, tvList);
         }
     }
 
-    private void ProcessLeagueSettingsForClubFriendlyNotMajorLeagueMatch(List<LeagueSettingInfoSender> leagueSetting, EventPickingModel match)
+    private void ProcessLeagueSettingsForClubFriendlyNotMajorLeagueMatch(List<LeagueSettingInfoSender> leagueSetting, EventPickingModel match, List<Condition> tvList)
     {
         var homeLeagueSettingByLeagueId = leagueSetting.Where(x => x.League.Trim() == match.HomeMainLeague && GetMaxbet(x, match) != null).ToList();
         var awayLeagueSettingByLeagueId = leagueSetting.Where(x => x.League.Trim() == match.AwayMainLeague && GetMaxbet(x, match) != null).ToList();
@@ -81,11 +82,11 @@ public class EditEventPickingHandler(
         LeagueSettingInfoSender selectedAwayLeagueSetting = null;
         if (homeLeagueSettingByLeagueId.Count > 0)
         {
-            selectedHomeLeagueSetting = ProcessLeagueSettingsForMatch(homeLeagueSettingByLeagueId, match);
+            selectedHomeLeagueSetting = ProcessLeagueSettingsForMatch(homeLeagueSettingByLeagueId, match, tvList);
         }
         if (awayLeagueSettingByLeagueId.Count > 0)
         {
-            selectedAwayLeagueSetting = ProcessLeagueSettingsForMatch(awayLeagueSettingByLeagueId, match);
+            selectedAwayLeagueSetting = ProcessLeagueSettingsForMatch(awayLeagueSettingByLeagueId, match, tvList);
         }
         if (selectedHomeLeagueSetting != null && selectedAwayLeagueSetting != null)
         {
@@ -122,7 +123,7 @@ public class EditEventPickingHandler(
             return leagueSetting.MaxbetWD_HDP_Value;
         }
     }
-    private LeagueSettingInfoSender ProcessLeagueSettingsForMatch(List<LeagueSettingInfoSender> leagueSettingByLeagueId, EventPickingModel match)
+    private LeagueSettingInfoSender ProcessLeagueSettingsForMatch(List<LeagueSettingInfoSender> leagueSettingByLeagueId, EventPickingModel match, List<Condition> tvList)
     {
         switch (leagueSettingByLeagueId.Count)
         {
@@ -133,22 +134,67 @@ public class EditEventPickingHandler(
                 SuggestionValue(match, leagueSettingByLeagueId.First());
                 return leagueSettingByLeagueId.First();
             default:
-                return HandleMappingForMultipleSettings(match, leagueSettingByLeagueId);
+                return HandleMappingForMultipleSettings(match, leagueSettingByLeagueId, tvList);
         }
     }
 
-    private LeagueSettingInfoSender HandleMappingForMultipleSettings(EventPickingModel match, IList<LeagueSettingInfoSender> leagueSettingByLeagueId)
+    private LeagueSettingInfoSender HandleMappingForMultipleSettings(EventPickingModel match, IList<LeagueSettingInfoSender> leagueSettingByLeagueId, List<Condition> tvList)
     {
         var leagueIsMappingWithCondition = leagueSettingByLeagueId
-            .Where(league => CheckMatchValidMappingWithLeagueManagement(match, league)).ToList();
+            .Where(league => CheckMatchValidMappingWithLeagueManagement(match, league, tvList)).ToList();
 
-        if (leagueIsMappingWithCondition.Count == 1)
+        if (leagueIsMappingWithCondition.Count > 1)
         {
-            SuggestionValue(match, leagueIsMappingWithCondition.First());
-            return leagueIsMappingWithCondition.First();
+            var test = GetLeagueSettingByPriority(leagueIsMappingWithCondition, match);
+            return GetLeagueSettingByPriority(leagueIsMappingWithCondition, match);
         }
-        return leagueIsMappingWithCondition.FirstOrDefault();
+        else
+        {
+            if (leagueIsMappingWithCondition.Count == 1)
+            {
+                SuggestionValue(match, leagueIsMappingWithCondition.First());
+            }
+            return leagueIsMappingWithCondition.FirstOrDefault();
+        }
 
+    }
+
+    private LeagueSettingInfoSender GetLeagueSettingByPriority(List<LeagueSettingInfoSender> leagueSettings, EventPickingModel match)
+    {
+        var tvLeagueSettings = leagueSettings.Where(league =>league.Condition.HasTv).ToList();
+
+        if (tvLeagueSettings.Count > 0)
+        {
+            SuggestionValue(match, tvLeagueSettings.First());
+            return tvLeagueSettings.First();
+        }
+
+        var ipTvLeagueSettings = leagueSettings.Where(league => league.Condition.HasIpTv).ToList();
+
+        if (ipTvLeagueSettings.Count > 0)
+        {
+            SuggestionValue(match, ipTvLeagueSettings.First());
+            return ipTvLeagueSettings.First();
+        }
+
+        var roundLeagueSettings = leagueSettings.Where(league =>league.Condition.Round.Count > 0).ToList();
+
+        if (roundLeagueSettings.Count > 0)
+        {
+            SuggestionValue(match, roundLeagueSettings.First());
+            return roundLeagueSettings.First();
+        }
+
+        var divisionLeagueSettings = leagueSettings.Where(league =>league.Condition.Division.Count > 0)
+            .ToList();
+
+        if (divisionLeagueSettings.Count > 0)
+        {
+            SuggestionValue(match, divisionLeagueSettings.First());
+            return divisionLeagueSettings.First();
+        }
+
+        return leagueSettings.FirstOrDefault();
     }
 
 
@@ -258,9 +304,30 @@ public class EditEventPickingHandler(
 
     private static bool CheckMatchValidMappingWithLeagueManagement(EventPickingModel match, LeagueSettingInfoSender leagueSetting)
     {
+        var (hasTv, hasIpTv) = DetermineTvIptvStatus(match, tvList);
+        var hasTvCondition = leagueSetting.Condition.HasTv;
+        var hasIpTvCondition = leagueSetting.Condition.HasIpTv;
+
+        if (hasTvCondition && hasIpTvCondition)
+        {
+            return hasTv || hasIpTv;
+        }
+        else if (hasTvCondition)
+        {
+            return hasTv;
+        }
+        else if (hasIpTvCondition)
+        {
+            return hasIpTv;
+        }
+        return true;
+    }
+    private bool CheckMatchValidMappingWithLeagueManagement(EventPickingModel match, LeagueSettingInfoSender leagueSetting, List<Condition> tvList)
+    {
         var roundConditions = CheckRoundConditions(match.Round, leagueSetting.Condition.Round);
         var divisionConditions = CheckDivisionConditions(match.Division, leagueSetting.Condition.Division);
-        return roundConditions && divisionConditions;
+        var tvConditions = CheckTVConditions(match, leagueSetting, tvList);
+        return roundConditions && divisionConditions && tvConditions;
     }
 
     private static IList<string> GetValuePairWiseContains(IList<Condition> conditions)

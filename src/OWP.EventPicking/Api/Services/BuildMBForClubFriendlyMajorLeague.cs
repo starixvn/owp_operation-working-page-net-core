@@ -3,58 +3,19 @@ namespace OWP.EventPicking.Api.Services;
 
 public interface BuildMBForClubFriendlyMajorLeagueBuilder
 {
-    void Build(EventPickingModel match, List<Condition> tvList);
+    void Build(EventPickingModel match, bool hasTv, bool hasIpTv);
 }
 
 public class BuildMBForClubFriendlyMajorLeagueBuilderImp : BuildMBForClubFriendlyMajorLeagueBuilder
 {
-    public void Build(EventPickingModel match, List<Condition> tvList)
+    public void Build(EventPickingModel match, bool hasTv, bool hasIpTv)
     {
-        var (hasTv, hasIpTv) = DetermineTvIptvStatus(match, tvList);
         ApplyMajorLeagueRules(match, hasTv, hasIpTv);
     }
 
-    private static (bool hasTv, bool hasIpTv) DetermineTvIptvStatus(EventPickingModel match, List<Condition> tvList)
-    {
-        var hasValidTv = !string.IsNullOrWhiteSpace(match.TV) && 
-                        !match.TV.Contains("Cancel", StringComparison.OrdinalIgnoreCase) &&
                         tvList.Exists(tvCondition => IsTvConditionMatch(match.TV, tvCondition));
-        
-        var hasValidIptv = !string.IsNullOrWhiteSpace(match.Iptv) && 
-                          !match.Iptv.Contains("Cancel", StringComparison.OrdinalIgnoreCase) &&
-                          match.Iptv.Contains("IPTV", StringComparison.OrdinalIgnoreCase);
-        
-        var hasValidChannel = !string.IsNullOrWhiteSpace(match.Channel) && 
-                             !match.Channel.Contains("Cancel", StringComparison.OrdinalIgnoreCase);
-        
-        if (hasValidTv)
         {
-            return (true, false);
         }
-        else if (hasValidIptv || hasValidChannel)
-        {
-            return (false, true);
-        }
-        else
-        {
-            return (false, false);
-        }
-    }
-
-    private static bool IsTvConditionMatch(string tvField, Condition tvCondition)
-    {
-        if (string.IsNullOrWhiteSpace(tvField) || string.IsNullOrWhiteSpace(tvCondition.Value))
-        {
-            return false;
-        }
-
-        return tvCondition.Type switch
-        {
-            "Contains" => tvField.Contains(tvCondition.Value, StringComparison.OrdinalIgnoreCase),
-            "Equals" => tvField.Equals(tvCondition.Value, StringComparison.OrdinalIgnoreCase),
-            _ => false
-        };
-    }
 
     private static void ApplyMajorLeagueRules(EventPickingModel match, bool hasTv, bool hasIpTv)
     {
