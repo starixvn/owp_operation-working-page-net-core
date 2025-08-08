@@ -161,37 +161,32 @@ public class EditEventPickingHandler(
 
     private LeagueSettingInfoSender GetLeagueSettingByPriority(List<LeagueSettingInfoSender> leagueSettings, EventPickingModel match)
     {
-        var tvLeagueSettings = leagueSettings.Where(league =>league.Condition.HasTv).ToList();
-
-        if (tvLeagueSettings.Count > 0)
+        var tvLeague = leagueSettings.FirstOrDefault(league => league.Condition.HasTv);
+        if (tvLeague != null)
         {
-            SuggestionValue(match, tvLeagueSettings.First());
-            return tvLeagueSettings.First();
+            SuggestionValue(match, tvLeague);
+            return tvLeague;
         }
 
-        var ipTvLeagueSettings = leagueSettings.Where(league => league.Condition.HasIpTv).ToList();
-
-        if (ipTvLeagueSettings.Count > 0)
+        var ipTvLeague = leagueSettings.FirstOrDefault(league => league.Condition.HasIpTv);
+        if (ipTvLeague != null)
         {
-            SuggestionValue(match, ipTvLeagueSettings.First());
-            return ipTvLeagueSettings.First();
+            SuggestionValue(match, ipTvLeague);
+            return ipTvLeague;
         }
 
-        var roundLeagueSettings = leagueSettings.Where(league =>league.Condition.Round.Count > 0).ToList();
-
-        if (roundLeagueSettings.Count > 0)
+        var roundLeague = leagueSettings.FirstOrDefault(league => league.Condition.Round.Count > 0);
+        if (roundLeague != null)
         {
-            SuggestionValue(match, roundLeagueSettings.First());
-            return roundLeagueSettings.First();
+            SuggestionValue(match, roundLeague);
+            return roundLeague;
         }
 
-        var divisionLeagueSettings = leagueSettings.Where(league =>league.Condition.Division.Count > 0)
-            .ToList();
-
-        if (divisionLeagueSettings.Count > 0)
+        var divisionLeague = leagueSettings.FirstOrDefault(league => league.Condition.Division.Count > 0);
+        if (divisionLeague != null)
         {
-            SuggestionValue(match, divisionLeagueSettings.First());
-            return divisionLeagueSettings.First();
+            SuggestionValue(match, divisionLeague);
+            return divisionLeague;
         }
 
         return leagueSettings.FirstOrDefault();
