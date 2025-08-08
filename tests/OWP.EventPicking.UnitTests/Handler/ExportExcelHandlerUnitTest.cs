@@ -47,22 +47,22 @@ public class ExportExcelHandlerUnitTest
         {
             FilteredMatches = new List<EventPickingModel>
             {
-                new() { 
-                    InfoSiteMatchId = 1, 
+                new() {
+                    InfoSiteMatchId = 1,
                     MinorBettypeId = null, // Main match
                     LeagueName = "Test League 1",
                     HomeName = "Team A",
                     AwayName = "Team B"
                 },
-                new() { 
-                    InfoSiteMatchId = 2, 
+                new() {
+                    InfoSiteMatchId = 2,
                     MinorBettypeId = 123, // Child match
                     LeagueName = "Test League 2",
                     HomeName = "Team C",
                     AwayName = "Team D"
                 },
-                new() { 
-                    InfoSiteMatchId = 3, 
+                new() {
+                    InfoSiteMatchId = 3,
                     MinorBettypeId = null, // Main match
                     LeagueName = "Test League 3",
                     HomeName = "Team E",
@@ -74,7 +74,7 @@ public class ExportExcelHandlerUnitTest
         // Create a real FileStreamResult with a MemoryStream
         var memoryStream = new MemoryStream();
         var expectedFileResult = new FileStreamResult(memoryStream, "application/octet-stream");
-        
+
         queryService.Execute(request, Arg.Any<List<short>>()).Returns(matches);
         exportService.BuildFileStream(Arg.Any<IList<EventPickingModel>>(), false).Returns(expectedFileResult);
 
