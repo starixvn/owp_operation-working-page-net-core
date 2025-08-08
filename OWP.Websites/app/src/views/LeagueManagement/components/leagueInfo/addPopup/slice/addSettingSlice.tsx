@@ -112,7 +112,7 @@ const AddSettingSlice = createSlice({
     ) => {
       const { key, property, value, index } = action.payload;
 
-      if (key === 'type' && (value === 'Contains' || value === 'Equals')) {
+      if (key === 'type' && (value === 'Contains' || value === 'Equals' || value === 'Pairwise Contains')) {
         state[property][index].type = value;
       }
       if (key === 'value') {

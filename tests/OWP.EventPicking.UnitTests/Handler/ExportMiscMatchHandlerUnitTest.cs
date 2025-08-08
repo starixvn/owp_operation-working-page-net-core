@@ -34,8 +34,18 @@ public class ExportMiscMatchHandlerUnitTest
 
         var matches = new List<EventPickingModel>
         {
-            new() { InfoSiteMatchId = 1 },
-            new() { InfoSiteMatchId = 2 }
+            new() { 
+                InfoSiteMatchId = 1,
+                LeagueName = "Test League 1",
+                HomeName = "Team A",
+                AwayName = "Team B"
+            },
+            new() { 
+                InfoSiteMatchId = 2,
+                LeagueName = "Test League 2",
+                HomeName = "Team C",
+                AwayName = "Team D"
+            }
         };
 
         // Create a real FileStreamResult with a MemoryStream

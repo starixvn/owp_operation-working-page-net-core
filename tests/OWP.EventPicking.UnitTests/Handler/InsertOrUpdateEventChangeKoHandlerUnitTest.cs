@@ -64,6 +64,6 @@ public class InsertOrUpdateEventChangeKoHandlerUnitTest
         // Act & Assert
         await Assert.ThrowsAsync<Exception>(() => handler.Handle(request, CancellationToken.None));
 
-        await logger.Received(2).Execute(Arg.Any<InfoSiteLogCriteria>());
+        await logger.Received(3).Execute(Arg.Any<InfoSiteLogCriteria>());
     }
 }

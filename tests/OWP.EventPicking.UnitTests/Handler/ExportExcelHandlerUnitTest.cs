@@ -47,9 +47,27 @@ public class ExportExcelHandlerUnitTest
         {
             FilteredMatches = new List<EventPickingModel>
             {
-                new() { InfoSiteMatchId = 1, MinorBettypeId = null }, // Main match
-                new() { InfoSiteMatchId = 2, MinorBettypeId = 123 }, // Child match
-                new() { InfoSiteMatchId = 3, MinorBettypeId = null } // Main match
+                new() { 
+                    InfoSiteMatchId = 1, 
+                    MinorBettypeId = null, // Main match
+                    LeagueName = "Test League 1",
+                    HomeName = "Team A",
+                    AwayName = "Team B"
+                },
+                new() { 
+                    InfoSiteMatchId = 2, 
+                    MinorBettypeId = 123, // Child match
+                    LeagueName = "Test League 2",
+                    HomeName = "Team C",
+                    AwayName = "Team D"
+                },
+                new() { 
+                    InfoSiteMatchId = 3, 
+                    MinorBettypeId = null, // Main match
+                    LeagueName = "Test League 3",
+                    HomeName = "Team E",
+                    AwayName = "Team F"
+                }
             }
         };
 
