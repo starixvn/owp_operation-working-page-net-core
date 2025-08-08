@@ -41,7 +41,7 @@ const Command = (props: { closePopup: Function }) => {
     try {
       const regex = /^[^,\s]+,[^,\s]+$/;
       if (
-        division.some(d => d.type === MaxbetConst.divisionExpressionOption[2].label
+        division.some(d => d.type === MaxbetConst.divisionExpressionOption[1].label
           && !regex.test(d.value.trim()) && d.value.trim() !== ''
         )) {
         ToastrWrapper.showError('Invalid format for Pairwise Contains. Enter values as pairs like D1,D2. Each item must be separated by commas.');

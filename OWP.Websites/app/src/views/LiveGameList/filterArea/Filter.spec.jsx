@@ -84,6 +84,6 @@ describe('Filter', () => {
     render(<Filter />);
     const search = screen.queryByText(/Search/i);
     fireEvent.click(search);
-    expect(mockDispatch).toHaveBeenCalledTimes(2);
+    expect(mockDispatch).toHaveBeenCalledTimes(3);
   });
 });

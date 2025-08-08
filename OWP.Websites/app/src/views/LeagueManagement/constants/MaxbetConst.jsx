@@ -47,8 +47,8 @@ const expressionOption = [
 
 const divisionExpressionOption = [
   { value: 1, label: 'Contains' },
-  { value: 2, label: 'Equals' },
-  { value: 3, label: 'Pairwise Contains' }
+  { value: 3, label: 'Pairwise Contains' },
+  { value: 2, label: 'Equals' }
 ];
 const leagueCategoryOption = [
   { value: 1, label: 'Live' },

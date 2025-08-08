@@ -12,6 +12,9 @@ describe('Header Component', () => {
     notificationSettingLink: 'notification_link',
     quickSearchPolicy: {
       HasRead: true
+    },
+    rocketChatPolicy: {
+      HasRead: true
     }
   };
 

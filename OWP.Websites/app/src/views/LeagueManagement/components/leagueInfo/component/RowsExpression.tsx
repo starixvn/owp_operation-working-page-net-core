@@ -60,7 +60,7 @@ const RowsExpression = ({
               property={property}
               hasWrite
               handleUpdateValueExpression={handleUpdateValueExpression}
-              hint={expression.condition.label === MaxbetConst.divisionExpressionOption[2].label ? 'Example: D1,D2' : ''}
+              hint={expression.condition.label === MaxbetConst.divisionExpressionOption[1].label ? 'Example: D1,D2' : ''}
             />
             <Action
               handleAddRow={handleAddRow}

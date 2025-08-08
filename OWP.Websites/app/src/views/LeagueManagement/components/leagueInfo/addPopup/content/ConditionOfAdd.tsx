@@ -2,7 +2,7 @@ import React, { MouseEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import CommonTextArea from '../../component/CommonTextArea';
 import RowsExpression from '../../component/RowsExpression';
-import { convertResponseToCondition } from '../../helper/helper';
+import { convertResponseToCondition, convertDivisionResponseToCondition } from '../../helper/helper';
 import {
   addRowExpressionsAddPopup,
   removeRowExpressionsAddPopup,
@@ -17,7 +17,7 @@ const ConditionOfAdd = () => {
   );
   const dispatch = useAppDispatch();
   const rounds = convertResponseToCondition(round);
-  const divisions = convertResponseToCondition(division);
+  const divisions = convertDivisionResponseToCondition(division);
 
   const handleUpdateValueExpression = (
     property: 'round' | 'division',
