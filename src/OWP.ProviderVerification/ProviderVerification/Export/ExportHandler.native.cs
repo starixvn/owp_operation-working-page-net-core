@@ -69,10 +69,10 @@ public class ExportHandler( ConfigurationService configuration, ProviderVerifica
         const string title = "Provider Verification";
         if (!startDate.HasValue || !endDate.HasValue)
         {
-            throw new ArgumentException("Both startDate and endDate must have values.");
+            throw new ArgumentException($"Both {nameof(startDate)} and {nameof(endDate)} must have values.");
         }
-            
-        var formattedDate = $"{startDate.Value:MM/dd/yyyy} - {endDate.Value:MM/dd/yyyy}";
+
+        var formattedDate = startDate.Value.Date == endDate.Value.Date ? startDate.Value.ToString("MM/dd/yyyy") : $"From {startDate.Value:MM/dd/yyyy} To {endDate.Value:MM/dd/yyyy}";
 
         var range = reportSheet.Cells[START_TITLE_INDEX, START_TITLE_INDEX, START_TITLE_INDEX, TOTAL_COLUMNS];
         range.Value = $"{title} - {formattedDate}";

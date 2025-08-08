@@ -114,6 +114,7 @@ const Filter = () => {
         lstBookProvider={lstBookProvider}
         confirmProviderOption={confirmProviderOption}
         LSTBookProviderOption={LSTBookProviderOption}
+        eventDate={eventDate}
       />
     </div>
   );

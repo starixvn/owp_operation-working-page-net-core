@@ -1,6 +1,6 @@
 import { Modal } from 'antd';
 import { DatePicker, Space } from 'antd';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import dayjs from 'dayjs';
 import { exportExcel } from '../../../Shared/common/ExportExcel/Helper';
 import Utils from '../../../Shared/Utils';
@@ -16,6 +16,7 @@ interface ModalExportExcelProps {
   lstBookProvider: any[];
   confirmProviderOption: any[];
   LSTBookProviderOption: any[];
+  eventDate: Date;
 }
 
 const ModalExportExcel = ({
@@ -25,20 +26,21 @@ const ModalExportExcel = ({
   confirmProvider,
   lstBookProvider,
   confirmProviderOption,
-  LSTBookProviderOption
+  LSTBookProviderOption,
+  eventDate
 }: ModalExportExcelProps) => {
-  const defaultDateRange = useMemo(
-    () =>
-      [dayjs().subtract(1, 'day'), dayjs().subtract(1, 'day')] as [
-        dayjs.Dayjs,
-        dayjs.Dayjs
-      ],
-    []
-  );
+  const defaultDateRange = useMemo(() => {
+    const eventDayjs = dayjs(eventDate);
+    return [eventDayjs, eventDayjs] as [dayjs.Dayjs, dayjs.Dayjs];
+  }, [eventDate]);
 
   const [dateRange, setDateRange] = useState<[dayjs.Dayjs, dayjs.Dayjs] | null>(
     defaultDateRange
   );
+
+  useEffect(() => {
+    setDateRange(defaultDateRange);
+  }, [defaultDateRange]);
 
   const getProviderValue = (selectedProviders: any[], allProviders: any[]) => {
     if (!selectedProviders?.length) return null;
