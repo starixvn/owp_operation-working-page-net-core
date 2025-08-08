@@ -5,10 +5,6 @@ import { TCondition, TDataSource } from '../../table/TableType';
 import { TAddExpressionKey, TEditSetting, TOption } from '../../component/Type';
 import { mapEditSettingFromDataSource } from '../../helper/helper';
 import { getLeagueGroupOptionsThunk } from '../../component/commonThunk';
-import {
-  expressionOption,
-  divisionExpressionOption,
-} from '../../../../constants/MaxbetConst';
 interface ConditionPayLoad {
   key: 'type' | 'value';
   property: keyof TAddExpressionKey;

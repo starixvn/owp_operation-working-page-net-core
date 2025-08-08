@@ -9,6 +9,7 @@ import {
   updateExpressionAddPopup,
   updateObjectAddPopup
 } from '../slice/addSettingSlice';
+import MaxbetConst from '../../../../constants/MaxbetConst';
 
 const ConditionOfAdd = () => {
   const { round, division, remark, hasIpTv, hasTv } = useAppSelector(
@@ -96,6 +97,7 @@ const ConditionOfAdd = () => {
       </div>
       <RowsExpression
         expressionList={rounds}
+        option={MaxbetConst.expressionOption}
         title='Round'
         property='round'
         handleUpdateValueExpression={handleUpdateValueExpression}
@@ -104,6 +106,7 @@ const ConditionOfAdd = () => {
       />
       <RowsExpression
         expressionList={divisions}
+        option={MaxbetConst.divisionExpressionOption}
         title='Division'
         property='division'
         handleUpdateValueExpression={handleUpdateValueExpression}
