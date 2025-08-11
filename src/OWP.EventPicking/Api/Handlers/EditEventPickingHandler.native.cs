@@ -130,9 +130,6 @@ public class EditEventPickingHandler(
             case 0:
                 match.IsShowCheckButton = false;
                 return null;
-            case 1:
-                SuggestionValue(match, leagueSettingByLeagueId.First());
-                return leagueSettingByLeagueId.First();
             default:
                 return HandleMappingForMultipleSettings(match, leagueSettingByLeagueId, tvList);
         }
