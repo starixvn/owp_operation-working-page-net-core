@@ -150,42 +150,42 @@ public class EditEventPickingHandler(
             {
                 SuggestionValue(match, leagueIsMappingWithCondition.First());
             }
-            return leagueIsMappingWithCondition.FirstOrDefault();
+            return leagueIsMappingWithCondition.LastOrDefault();
         }
 
     }
 
     private LeagueSettingInfoSender GetLeagueSettingByPriority(List<LeagueSettingInfoSender> leagueSettings, EventPickingModel match)
     {
-        var tvLeague = leagueSettings.FirstOrDefault(league => league.Condition.HasTv);
+        var tvLeague = leagueSettings.LastOrDefault(league => league.Condition.HasTv);
         if (tvLeague != null)
         {
             SuggestionValue(match, tvLeague);
             return tvLeague;
         }
 
-        var ipTvLeague = leagueSettings.FirstOrDefault(league => league.Condition.HasIpTv);
+        var ipTvLeague = leagueSettings.LastOrDefault(league => league.Condition.HasIpTv);
         if (ipTvLeague != null)
         {
             SuggestionValue(match, ipTvLeague);
             return ipTvLeague;
         }
 
-        var roundLeague = leagueSettings.FirstOrDefault(league => league.Condition.Round.Count > 0);
+        var roundLeague = leagueSettings.LastOrDefault(league => league.Condition.Round.Count > 0);
         if (roundLeague != null)
         {
             SuggestionValue(match, roundLeague);
             return roundLeague;
         }
 
-        var divisionLeague = leagueSettings.FirstOrDefault(league => league.Condition.Division.Count > 0);
+        var divisionLeague = leagueSettings.LastOrDefault(league => league.Condition.Division.Count > 0);
         if (divisionLeague != null)
         {
             SuggestionValue(match, divisionLeague);
             return divisionLeague;
         }
 
-        return leagueSettings.FirstOrDefault();
+        return leagueSettings.LastOrDefault();
     }
 
 
@@ -358,8 +358,11 @@ public class EditEventPickingHandler(
 
         var hasValidChannel = !string.IsNullOrWhiteSpace(match.Channel) &&
                              !match.Channel.Contains("Cancel", StringComparison.OrdinalIgnoreCase);
-
-        if (hasValidTv)
+        if (hasValidTv && (hasValidIptv || hasValidChannel))
+        {
+            return (true, true);
+        }
+        else if(hasValidTv)
         {
             return (true, false);
         }
