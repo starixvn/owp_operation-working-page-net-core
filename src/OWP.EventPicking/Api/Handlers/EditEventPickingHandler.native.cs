@@ -138,11 +138,10 @@ public class EditEventPickingHandler(
     private LeagueSettingInfoSender HandleMappingForMultipleSettings(EventPickingModel match, IList<LeagueSettingInfoSender> leagueSettingByLeagueId, List<Condition> tvList)
     {
         var leagueIsMappingWithCondition = leagueSettingByLeagueId
-            .Where(league => CheckMatchValidMappingWithLeagueManagement(match, league, tvList)).ToList();
+            .Where(league => league.FullConditionDescription is null || CheckMatchValidMappingWithLeagueManagement(match, league, tvList)).ToList();
 
         if (leagueIsMappingWithCondition.Count > 1)
         {
-            var test = GetLeagueSettingByPriority(leagueIsMappingWithCondition, match);
             return GetLeagueSettingByPriority(leagueIsMappingWithCondition, match);
         }
         else
