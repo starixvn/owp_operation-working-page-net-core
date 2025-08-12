@@ -19,20 +19,23 @@ public class EditEventPickingHandlerUnitTest
         OWP.EventPicking.Repository? repository = null,
         PullMainLeagueService? pullMainLeagueService = null,
         MapMainLeagueForEventService? mapMainLeagueForEventService = null,
-        BuildMBForClubFriendlyMajorLeagueBuilder? mbBuilder = null)
+        BuildMBForClubFriendlyMajorLeagueBuilder? mbBuilder = null,
+        MappingRuleSyncMBLeagueFriendlyService? mappingRuleSyncMB = null)
     {
         service ??= Substitute.For<QueryEventPickingService>();
         repository ??= Substitute.For<OWP.EventPicking.Repository>();
         pullMainLeagueService ??= Substitute.For<PullMainLeagueService>();
         mapMainLeagueForEventService ??= Substitute.For<MapMainLeagueForEventService>();
         mbBuilder ??= Substitute.For<BuildMBForClubFriendlyMajorLeagueBuilder>();
+        mappingRuleSyncMB ??= Substitute.For<MappingRuleSyncMBLeagueFriendlyService>();
 
         return new EditEventPickingHandler(
             service,
             repository,
             pullMainLeagueService,
             mapMainLeagueForEventService,
-            mbBuilder);
+            mbBuilder,
+            mappingRuleSyncMB);
     }
 
     private static EventPickingResult BuildServiceResult(params EventPickingModel[] matches)
@@ -181,7 +184,7 @@ public class EditEventPickingHandlerUnitTest
         await handler.Handle(new EditEventPickingRequest { Date = match.EventDateTime }, CancellationToken.None);
 
         // Assert - builder invoked for major leagues path
-        mbBuilder.Received(1).Build(match, Arg.Any<List<Condition>>());
+        mbBuilder.Received(1).Build(match, Arg.Any<bool>(), Arg.Any<bool>());
     }
 
     [Fact]
@@ -244,6 +247,6 @@ public class EditEventPickingHandlerUnitTest
         Assert.Equal(0.10m, match.SpreadHdp);
         Assert.Equal(0.12m, match.SpreadOu);
         Assert.Equal("3+3 Lines", match.NoOfHDP); // weekend noon => not peak hour
-        mbBuilder.DidNotReceive().Build(Arg.Any<EventPickingModel>(), Arg.Any<List<Condition>>());
+        mbBuilder.DidNotReceive().Build(Arg.Any<EventPickingModel>(), Arg.Any<bool>(), Arg.Any<bool>());
     }
 }
