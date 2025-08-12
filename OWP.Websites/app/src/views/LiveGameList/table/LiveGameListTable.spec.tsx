@@ -12,26 +12,27 @@ jest.mock('react-redux', () => ({
 
 // Mock the store that MatchCell imports
 jest.mock('../app/storeNative', () => ({
-  default: {
-    getState: () => ({
-      tradingPageInfo: {
-        info: {
-          laTradingPage: 'http://localhost:3000',
-          tradingPage: 'http://localhost:3001',
-          servers: [
-            {
-              id: 1,
-              name: 'Server 1',
-              url: 'http://localhost:3000',
-              laPort: 3000,
-              tradingPort: 3001
-            }
-          ]
-        },
-        serverSetingId: 1
-      }
-    })
-  }
+  getState: () => ({
+    events: {
+      matchesSelected: []
+    },
+    tradingPageInfo: {
+      info: {
+        laTradingPage: 'http://localhost:3000',
+        tradingPage: 'http://localhost:3001',
+        servers: [
+          {
+            id: 1,
+            name: 'Server 1',
+            url: 'http://localhost:3000',
+            laPort: 3000,
+            tradingPort: 3001
+          }
+        ]
+      },
+      serverSetingId: 1
+    }
+  })
 }));
 const mockedDispatch = jest.fn();
 
