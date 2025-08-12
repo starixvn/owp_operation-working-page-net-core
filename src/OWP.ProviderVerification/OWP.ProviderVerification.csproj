@@ -24,7 +24,4 @@
     <PackageReference Include="Olympus.OWP.Log" Version="9.0.1" />
     <PackageReference Include="Microsoft.NETCore.Targets" Version="5.0.0" PrivateAssets="all" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ProviderVerification\Export\" />
-  </ItemGroup>
 </Project>

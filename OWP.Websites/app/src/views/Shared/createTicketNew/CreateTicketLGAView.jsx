@@ -112,15 +112,16 @@ const CreateTicketLGAView = props => {
   };
 
   useEffect(() => {
-    creatorInfo.userName &&
+    if (creatorInfo.userName) {
       dispatch(
         setDefaultRecipientsLGA([creatorInfo, recipientAssigneeDefault])
       );
-  }, [creatorInfo, dispatch]);
+    }
+  }, [creatorInfo.userName]);
 
   useEffect(() => {
-    (async () => {
-      if (isProviderVerification) {
+    const initializeProviderVerification = async () => {
+      if (isProviderVerification && modelByRowIndex?.OWPMatchId) {
         const subTypes = await getSubTypeByType(LIVE_INCIDENT);
         const subtypeSelected = subTypes.find(
           x => x.subTypeId === providerCheckingSubTypeId
@@ -137,8 +138,10 @@ const CreateTicketLGAView = props => {
         );
         dispatch(setSelectedRecipients(recipient.concat(defaultRecipientsLGA)));
       }
-    })();
-  }, [modelByRowIndex]);
+    };
+
+    initializeProviderVerification();
+  }, [isProviderVerification, modelByRowIndex?.OWPMatchId]);
 
   if (!creatorInfo.userName) {
     return <Loading />;

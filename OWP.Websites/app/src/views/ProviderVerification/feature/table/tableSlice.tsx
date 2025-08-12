@@ -45,7 +45,9 @@ const tableSlice = createSlice({
       InHouseProviderId: buildMultipleFilterDefault(),
       Remark: buildMultipleFilterDefault(),
       RemarkBy: buildMultipleFilterDefault(),
-      ConfirmProvider: buildMultipleFilterDefault()
+      ConfirmProvider: buildMultipleFilterDefault(),
+      OtherProvider: buildMultipleFilterDefault(),
+      MaxBet: buildMultipleFilterDefault()
     } as TMultipleFilter
   },
   reducers: {

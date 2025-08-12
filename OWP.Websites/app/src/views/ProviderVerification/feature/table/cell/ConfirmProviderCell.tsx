@@ -15,13 +15,14 @@ const ConfirmProviderCell = ({
 }) => {
   const { confirmProviderOption, hasWrite } = useAppSelector(store => ({
     confirmProviderOption: store.events.confirmProviderOption,
-    hasWrite: store.providerPolicy.permission.HasWrite,
+    hasWrite: store.providerPolicy.permission.HasWrite
   }));
 
   const dispatch = useAppDispatch();
 
   const handleOnChange = (event: Option[]) => {
-    const agentSelected = event.length > 0 ? event.map((a: Option) => a.value).join(',') : null;
+    const agentSelected =
+      event.length > 0 ? event.map((a: Option) => a.value).join(',') : null;
     dispatch(saveConfirmProvider({ owpMatchId, agentSelected }));
 
     dispatch(
@@ -36,10 +37,10 @@ const ConfirmProviderCell = ({
   };
 
   return (
-    <td>
+    <div>
       <span className='confirm-provider'>
         <MultiSelect
-          onChange={canEditDate ? handleOnChange : () => { }}
+          onChange={canEditDate ? handleOnChange : () => {}}
           value={confirmProvider}
           options={confirmProviderOption}
           ClearSelectedIcon={null}
@@ -53,7 +54,7 @@ const ConfirmProviderCell = ({
           }}
         />
       </span>
-    </td>
+    </div>
   );
 };
 

@@ -23,7 +23,7 @@ const TableBody = ({ dataSource, virtualizer }: TableBodyProps) => {
   return (
     <tbody>
       <tr style={{ height: `${virtualizer.getTotalSize()}px` }}>
-        <td colSpan={11} style={{ padding: 0 }}>
+        <td colSpan={13} style={{ padding: 0 }}>
           <div className='table-content-wrapper'>
             <div
               className='table-virtual-content'
@@ -32,8 +32,9 @@ const TableBody = ({ dataSource, virtualizer }: TableBodyProps) => {
                 top: 0,
                 left: 0,
                 right: 0,
-                transform: `translateY(${virtualizer.getVirtualItems()[0]?.start ?? 0
-                  }px)`
+                transform: `translateY(${
+                  virtualizer.getVirtualItems()[0]?.start ?? 0
+                }px)`
               }}>
               {virtualizer.getVirtualItems().map(virtualRow => {
                 const event = dataSource[virtualRow.index];
@@ -104,10 +105,30 @@ const TableBody = ({ dataSource, virtualizer }: TableBodyProps) => {
                               isCanToolTip={true}
                             />
                           )}
+                          {header.HEADER_KEY === 'OtherProvider' && (
+                            <ReadonlyCommonCell
+                              className='other-provider'
+                              value={event.otherProvider}
+                              index={virtualRow.index}
+                              isCanToolTip={false}
+                            />
+                          )}
                           {header.HEADER_KEY === 'InHouseProviderId' && (
                             <ReadonlyCommonCell
                               className='inhouse-providerId'
-                              value={event.matchStatus?.toLowerCase() === 'cancel' ? '' : event.inHouseProviderId}
+                              value={
+                                event.matchStatus?.toLowerCase() === 'cancel'
+                                  ? ''
+                                  : event.inHouseProviderId
+                              }
+                              index={virtualRow.index}
+                              isCanToolTip={false}
+                            />
+                          )}
+                          {header.HEADER_KEY === 'MaxBet' && (
+                            <ReadonlyCommonCell
+                              className='max-bet'
+                              value={event.maxBetToDisplay}
                               index={virtualRow.index}
                               isCanToolTip={false}
                             />

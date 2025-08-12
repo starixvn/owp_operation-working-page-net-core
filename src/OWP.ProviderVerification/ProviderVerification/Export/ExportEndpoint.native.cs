@@ -17,10 +17,12 @@ public class ExportEndpoint: ICarterModule
             .WithSummary("Export difference from adminsite provider match id with agent file")
             .WithDescription("Export difference from adminsite provider match id with agent file");
 
-        app.MapGet("/api/ProviderVerification/export", async (DateTime eventDate, bool onlyShowIsMismatchEvent, string confirmProvider, string lSTBookProvider, [FromServices] ISender sender) =>
+        app.MapGet("/api/ProviderVerification/export", async (DateTime startDate, DateTime endDate,
+                    bool onlyShowIsMismatchEvent, string confirmProvider, string lSTBookProvider,
+                    [FromServices] ISender sender) =>
                 {
-                    using var excelPackage = await sender.Send(new ExportRequest(eventDate, onlyShowIsMismatchEvent, confirmProvider, lSTBookProvider, "ProviderVerification.xlsx"));
-                    var fileName = $"ProviderVerification {eventDate:ddMMMMyyyy}.xlsx";
+                    using var excelPackage = await sender.Send(new ExportRequest(startDate, endDate, onlyShowIsMismatchEvent, confirmProvider, lSTBookProvider, "ProviderVerification.xlsx"));
+                    var fileName = $"ProviderVerification {DateTime.Today:ddMMMMyyyy}.xlsx";
                     var bytes = await excelPackage.GetAsByteArrayAsync();
                     return Results.File(bytes, "application/octet-stream", fileName);
                 }

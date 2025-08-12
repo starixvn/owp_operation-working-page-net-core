@@ -2,7 +2,9 @@
 
 public class GetProviderVerificationCriteria : CriteriaBase
 {
-    public DateTime EventDate { get; set; }
+    public DateTime StartDate{ get; set; }
+
+    public DateTime EndDate { get; set; }
 
     public bool OnlyShowIsMismatchEvent { get; set; }
 

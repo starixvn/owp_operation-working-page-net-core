@@ -7,16 +7,15 @@ const ReadonlyCommonCell = ({
   index,
   isCanToolTip
 }: TCommonCell) => {
-
   return (
-    <td className={className} id={`${className}-${index}`}>
-      <span >{value}</span>
+    <div className={className} id={`${className}-${index}`}>
+      <span>{value}</span>
       {isCanToolTip && value && (
         <UncontrolledTooltip placement='top' target={`${className}-${index}`}>
           {value}
         </UncontrolledTooltip>
       )}
-    </td>
+    </div>
   );
 };
 

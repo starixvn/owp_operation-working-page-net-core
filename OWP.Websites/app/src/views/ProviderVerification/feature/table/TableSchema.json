@@ -3,7 +3,7 @@
     {
       "HEADER_KEY": "MatchNo",
       "HEADER_NAME": "No #",
-      "WIDTH": "4%",
+      "WIDTH": "3%",
       "IS_FILTER": true
     },
     {
@@ -27,19 +27,31 @@
     {
       "HEADER_KEY": "Match",
       "HEADER_NAME": "Match",
-      "WIDTH": "14%",
+      "WIDTH": "12%",
       "IS_FILTER": true
     },
     {
       "HEADER_KEY": "LstBookProvider",
       "HEADER_NAME": "LST Book Provider",
-      "WIDTH": "9%",
+      "WIDTH": "11%",
+      "IS_FILTER": true
+    },
+    {
+      "HEADER_KEY": "OtherProvider",
+      "HEADER_NAME": "Other Provider",
+      "WIDTH": "10%",
       "IS_FILTER": true
     },
     {
       "HEADER_KEY": "InHouseProviderId",
       "HEADER_NAME": "Inhouse ProviderID",
       "WIDTH": "9%",
+      "IS_FILTER": true
+    },
+    {
+      "HEADER_KEY": "MaxBet",
+      "HEADER_NAME": "MaxBet",
+      "WIDTH": "4%",
       "IS_FILTER": true
     },
     {
