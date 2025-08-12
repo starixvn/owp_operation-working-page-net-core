@@ -11,6 +11,7 @@ import {
 describe('eventPickingSlice', () => {
   it('should return initial state', () => {
     expect(eventPickingTable(undefined, {})).toEqual({
+      matchSelected: [],
       openPopupState: {
         isOpenAddSpecialProduct: false,
         isOpenRemoveSpecialProduct: false
@@ -22,21 +23,57 @@ describe('eventPickingSlice', () => {
       filterState: [],
       isConfirmAll: false,
       'isNoOfferAll': false,
+      isSelectedAll: false,
       loading: REQUEST_STATUS.idle,
       'multipleFilter': {
-        'KO_Time': {
+        'time': {
           'isFilter': false,
           'options': [],
           'selected': []
         },
-        'MB': {
+        'maxbetHdp': {
+          'isFilter': false,
+          'options': [],
+          'selected': []
+        },
+        'leagueName': {
+          'isFilter': false,
+          'options': [],
+          'selected': []
+        },
+        'spreadHdp': {
+          'isFilter': false,
+          'options': [],
+          'selected': []
+        },
+        'spreadOu': {
+          'isFilter': false,
+          'options': [],
+          'selected': []
+        },
+        'noOfHDP': {
+          'isFilter': false,
+          'options': [],
+          'selected': []
+        },
+        'rAndDInfo': {
           'isFilter': false,
           'options': [],
           'selected': []
         }
       },
       'previousNoOfferIndex': null,
-      'valueFilterAllColumn': {}
+      'valueFilterAllColumn': {},
+      'rAndDInfoFilterOriginal': {
+        'isFilter': false,
+        'options': [],
+        'selected': []
+      },
+      'order': {
+        'columnKey': '',
+        'turnoverPeriod': {},
+        'marginPeriod': {}
+      }
     });
   });
   it('filterBySearchKey', () => {
@@ -57,14 +94,14 @@ describe('eventPickingSlice', () => {
       ],
       filterState: [],
       multipleFilter: {
-        MB: {
+        maxbetHdp: {
           selected: [
             {
               value: null
             }
           ]
         },
-        KO_Time: {
+        time: {
           selected: [
             {
               value: new Date('2024-07-10')
@@ -91,10 +128,10 @@ describe('eventPickingSlice', () => {
       isConfirmAll: true,
       isNoOfferAll: true,
       'multipleFilter': {
-        'KO_Time': {
+        'time': {
           'selected': [{ value: new Date('2024-07-10') }]
         },
-        'MB': {
+        'maxbetHdp': {
           'selected': [
             {
               'value': null

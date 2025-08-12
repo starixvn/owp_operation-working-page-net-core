@@ -18,10 +18,19 @@ test('renders table with condition data', () => {
     fiveMajorLeagues: 0,
     multipleProducts: 0
   };
+  const conditionThird = {
+    totalVirtualMultipleMatches: 0,
+    virtualMatches: 0,
+    multipleMatches: 0,
+    specialProducts: 0,
+    fiveMajorLeagues: 0,
+    multipleProducts: 0
+  };
   const { getByText } = render(
     <ConditionColumn
       conditionFirst={conditionFirst}
       conditionSecond={conditionSecond}
+      conditionThird={conditionThird}
     />
   );
   expect(getByText('112')).toBeInTheDocument();

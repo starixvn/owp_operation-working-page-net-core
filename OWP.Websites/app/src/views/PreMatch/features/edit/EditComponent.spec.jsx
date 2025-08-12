@@ -61,8 +61,15 @@ describe('EditComponent under test', () => {
   it('should dispatch 1 time, when click btn submit', () => {
     setUp(true);
     const { container } = render(<EditComponent />);
-    const element = container.querySelector('.button-submit');
-    fireEvent.click(element);
+
+    // Click on the dropdown toggle to open it
+    const dropdownToggle = container.querySelector('.button-submit');
+    fireEvent.click(dropdownToggle);
+
+    // Click on the Manual Assign menu item
+    const manualAssignItem = screen.getByText('Manual Assign');
+    fireEvent.click(manualAssignItem);
+
     expect(mockedDispatch).toHaveBeenCalledTimes(1);
   });
 });

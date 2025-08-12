@@ -1,3 +1,4 @@
+import React from 'react';
 import { render } from '@testing-library/react';
 import TableBody from './TableBody';
 import { DataSource, TBody } from '../../type/TTaskListTable';
@@ -8,6 +9,32 @@ import { useAppSelector, useAppDispatch } from '../../app/hooks';
 jest.mock('../../app/hooks', () => ({
   useAppSelector: jest.fn(),
   useAppDispatch: jest.fn()
+}));
+
+// Mock the store to provide the missing tradingPageInfo state
+jest.mock('../../app/storeNative', () => ({
+  default: {
+    getState: () => ({
+      tradingPageInfo: {
+        info: {
+          laTradingPage: 'http://localhost:3000',
+          tradingPage: 'http://localhost:3001',
+          servers: [
+            {
+              id: 1,
+              name: 'Server 1',
+              url: 'http://localhost:3000',
+              laPort: 3000,
+              tradingPort: 3001
+            }
+          ]
+        },
+        serverSetingId: 1
+      }
+    }),
+    subscribe: jest.fn(),
+    dispatch: jest.fn()
+  }
 }));
 
 describe('TableBody component', () => {
@@ -61,7 +88,7 @@ const mockDataSource: Array<DataSource> = [
     Away: 'B',
     MatchCode: 'test',
     League: 'a',
-    IsPES: true,
+    IsPES23: true,
     IsFIFA: false,
     NoOfHDP: '23',
     NoOfHDPId: 0,
@@ -244,7 +271,7 @@ const mockDataSource: Array<DataSource> = [
     Away: 'B',
     MatchCode: 'test',
     League: 'a',
-    IsPES: false,
+    IsPES23: false,
     IsFIFA: true,
     NoOfHDP: '23',
     NoOfHDPId: 0,

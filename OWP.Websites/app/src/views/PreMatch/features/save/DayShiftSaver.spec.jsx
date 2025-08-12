@@ -88,6 +88,10 @@ const setUp = dataChangedLog => {
           },
           filter: {
             filterDate: new Date()
+          },
+          auto: {
+            autoMode: false,
+            assignments: []
           }
         };
       })

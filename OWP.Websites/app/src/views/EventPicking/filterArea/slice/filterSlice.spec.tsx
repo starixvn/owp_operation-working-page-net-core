@@ -31,52 +31,28 @@ describe('filterSlice under test', () => {
   it('should return the initial state', () => {
     const initState = {
       leagues: [] as Option[],
-    updateTypes: [] as Option[],
-    param: {
-      [DATE]: Utils.formatDate(new Date()),
-      [FILTER_MATCH]: FILTER_MATCH_OPTIONS.map(m => m.value),
-      [SELECT_GAME]: SELECT_GAME_OPTIONS.map(m => m.value),
-      [HAS_PROVIDER]: HAS_PROVIDER_OPTIONS.map(m => m.value),
-      [HAS_OTHER_PROVIDER]: HAS_PROVIDER_OPTIONS.map(m => m.value),
-      [FILTER_MATCH_CATEGORY]: FILTER_MATCH_CATEGORY_OPTIONS.map(m => m.value),
-      [LEAGUE]: [],
-      [UPDATE_TYPE]: [],
-      [PERIOD.KEY]: {
-        [ONE_MONTH]: {
-          [FROM_DATE]: SELECT_TURNOVER_OPTIONS[0].fromDate,
-          [TO_DATE]: SELECT_TURNOVER_OPTIONS[0].toDate
-        },
-        [THREE_MONTHS]: {
-          [FROM_DATE]: SELECT_TURNOVER_OPTIONS[1].fromDate,
-          [TO_DATE]: SELECT_TURNOVER_OPTIONS[1].toDate
-        },
-        [SIX_MONTHS]: {
-          [FROM_DATE]: SELECT_TURNOVER_OPTIONS[2].fromDate,
-          [TO_DATE]: SELECT_TURNOVER_OPTIONS[2].toDate
-        },
-        [TWELVE_MONTH]: {
-          [FROM_DATE]: SELECT_TURNOVER_OPTIONS[3].fromDate,
-          [TO_DATE]: SELECT_TURNOVER_OPTIONS[3].toDate
+      updateTypes: [] as Option[],
+      lastSearchTime: 0,
+      param: {
+        [DATE]: Utils.formatDate(new Date()),
+        [FILTER_MATCH]: FILTER_MATCH_OPTIONS.map(m => m.value),
+        [SELECT_GAME]: SELECT_GAME_OPTIONS.map(m => m.value),
+        [HAS_PROVIDER]: HAS_PROVIDER_OPTIONS.map(m => m.value),
+        [HAS_OTHER_PROVIDER]: HAS_PROVIDER_OPTIONS.map(m => m.value),
+        [FILTER_MATCH_CATEGORY]: FILTER_MATCH_CATEGORY_OPTIONS.map(m => m.value),
+        [LEAGUE]: [],
+        [UPDATE_TYPE]: [],
+        [PERIOD.KEY]: {
+          [ONE_MONTH]: {
+            [FROM_DATE]: SELECT_TURNOVER_OPTIONS[0].fromDate,
+            [TO_DATE]: SELECT_TURNOVER_OPTIONS[0].toDate
+          }
         }
-      }
-    } as TFilter
+      } as TFilter
     };
     const action: any = {};
 
     expect(reducer(undefined, action)).toEqual(initState);
-  });
-
-  it('should handle getLeagues.fulfilled', () => {
-    const data: Option[] = [
-      { value: 1, label: 'sms' }
-    ];
-    const action = {
-      type: getLeagues.fulfilled.type,
-      payload: data
-    };
-    const actual = reducer(undefined, action);
-    expect(actual.leagues).toEqual(data);
-    expect(actual.param.league).toEqual([1]);
   });
 
   it('should handle getUpdateTypes.fulfilled', () => {

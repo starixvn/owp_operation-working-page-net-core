@@ -1,3 +1,4 @@
+import React from 'react';
 import LiveGameListTable from './LiveGameListTable';
 import { useSelector, useDispatch } from 'react-redux';
 import { fakeEntities } from './tableSlice/tableSliceConst';
@@ -7,6 +8,30 @@ jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
   useDispatch: jest.fn(),
   createSelectorHook: jest.fn()
+}));
+
+// Mock the store that MatchCell imports
+jest.mock('../app/storeNative', () => ({
+  default: {
+    getState: () => ({
+      tradingPageInfo: {
+        info: {
+          laTradingPage: 'http://localhost:3000',
+          tradingPage: 'http://localhost:3001',
+          servers: [
+            {
+              id: 1,
+              name: 'Server 1',
+              url: 'http://localhost:3000',
+              laPort: 3000,
+              tradingPort: 3001
+            }
+          ]
+        },
+        serverSetingId: 1
+      }
+    })
+  }
 }));
 const mockedDispatch = jest.fn();
 
@@ -19,6 +44,7 @@ const mockedDispatch = jest.fn();
         columnKey: 'KO Time',
         orderType: '',
       },
+      matchesSelected: []
     },
     pagePolicy: {
       permission: {

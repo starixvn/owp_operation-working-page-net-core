@@ -11,6 +11,20 @@ jest.mock('../../app/hookNative', () => ({
 jest.mock('../table/tableThunk', () => ({
   getEvents: jest.fn(),
 }));
+jest.mock('../../app/storeNative', () => ({
+  default: {
+    getState: () => ({
+      common: {
+        confirmProvider: {
+          confirmProviderOption: []
+        },
+        LSTBookProvider: {
+          LSTBookProviderOption: []
+        }
+      }
+    })
+  }
+}));
 jest.mock('./FilterDate', () => jest.fn(() => <div>FilterDate Component</div>));
 jest.mock('../summarizeProvider/sum/SummarizeProviderIcon', () =>
   jest.fn(() => <div>SummarizeProviderIcon Component</div>)
@@ -18,6 +32,9 @@ jest.mock('../summarizeProvider/sum/SummarizeProviderIcon', () =>
 jest.mock('../summarizeProvider/compare/CompareAgentIcon', () =>
   jest.fn(() => <div>CompareAgent Component</div>)
 );
+jest.mock('./ConfirmProvider', () => jest.fn(() => <div>ConfirmProvider Component</div>));
+jest.mock('./LSTBookProvider', () => jest.fn(() => <div>LSTBookProvider Component</div>));
+jest.mock('./MismatchEvent', () => jest.fn(() => <div>MismatchEvent Component</div>));
 
 const mockDispatch = jest.fn();
 const mockUseAppSelector = useAppSelector as jest.Mock;
@@ -29,11 +46,25 @@ describe('Filter Component', () => {
     mockUseAppDispatch.mockReturnValue(mockDispatch);
     mockUseAppSelector.mockImplementation(callback =>
       callback({
+        events: {
+          dataSource: []
+        },
         filterState: {
           filter: {
-            eventDate: '2024-07-08',
+            eventDate: new Date('2024-07-08'),
+            onlyShowIsMismatchEvent: false,
+            confirmProvider: [],
+            lstBookProvider: []
           },
         },
+        common: {
+          confirmProvider: {
+            confirmProviderOption: []
+          },
+          LSTBookProvider: {
+            LSTBookProviderOption: []
+          }
+        }
       })
     );
   });
@@ -42,6 +73,9 @@ describe('Filter Component', () => {
     render(<Filter />);
 
     expect(screen.getByText('FilterDate Component')).toBeInTheDocument();
+    expect(screen.getByText('LSTBookProvider Component')).toBeInTheDocument();
+    expect(screen.getByText('ConfirmProvider Component')).toBeInTheDocument();
+    expect(screen.getByText('MismatchEvent Component')).toBeInTheDocument();
     expect(screen.getByText('SummarizeProviderIcon Component')).toBeInTheDocument();
     expect(screen.getByText('CompareAgent Component')).toBeInTheDocument();
     expect(screen.getByText('Search')).toBeInTheDocument();
@@ -50,11 +84,23 @@ describe('Filter Component', () => {
   test('dispatches getEvents action on component mount and button click', () => {
     render(<Filter />);
 
-    expect(mockDispatch).toHaveBeenCalledWith(getEvents('2024-07-08'));
+    expect(mockDispatch).toHaveBeenCalledWith(getEvents({
+      eventDate: new Date('2024-07-08'),
+      onlyShowIsMismatchEvent: false,
+      confirmProvider: null,
+      lstBookProvider: null
+    }));
 
     fireEvent.click(screen.getByText('Search'));
 
     expect(mockDispatch).toHaveBeenCalledTimes(2);
-    expect(mockDispatch).toHaveBeenCalledWith(getEvents('2024-07-08'));
+    expect(mockDispatch).toHaveBeenCalledWith(getEvents({
+      eventDate: new Date('2024-07-08'),
+      onlyShowIsMismatchEvent: false,
+      confirmProvider: null,
+      lstBookProvider: null
+    }));
   });
 });
+
+

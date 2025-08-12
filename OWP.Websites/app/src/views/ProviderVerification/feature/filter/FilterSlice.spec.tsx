@@ -4,7 +4,10 @@ import { buildDefaultFilterDateProviderVerification } from '../../../Shared/Date
 describe('filterSlice', () => {
   const initialState = {
     filter: {
-      eventDate: buildDefaultFilterDateProviderVerification()
+      eventDate: buildDefaultFilterDateProviderVerification(),
+      onlyShowIsMismatchEvent: false,
+      confirmProvider: [],
+      lstBookProvider: []
     }
   };
 

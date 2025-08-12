@@ -36,9 +36,10 @@ describe('createTicketBoardSlice under test', () => {
       isOpenCreateTicketInLGA: false,
       typeTicketText: '',
       defaultRecipients: [],
+      defaultRecipientsLGA: [],
       subTypeOption: [],
       subTypeSelected: [],
-      "creatorInfo": null,
+      'creatorInfo': null
     });
   });
   it('should handle setSubTypeSelected', () => {
@@ -175,7 +176,7 @@ describe('createTicketBoardSlice under test', () => {
       errorInput: false,
       errorRecipient: false,
       valueEvent: null,
-      
+
       isOpenPopup: true,
       isEventChecking: true,
       isOthers: false,
@@ -208,7 +209,7 @@ describe('createTicketBoardSlice under test', () => {
       errorInput: false,
       errorRecipient: false,
       valueEvent: null,
-     
+
       isOpenPopup: true,
       isEventChecking: false,
       isOthers: false,

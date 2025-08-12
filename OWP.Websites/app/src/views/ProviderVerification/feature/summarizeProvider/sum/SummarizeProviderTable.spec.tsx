@@ -18,7 +18,7 @@ describe('SummarizeProviderTable', () => {
     store = mockStore({
       events: {
         dataSource: [] as TDataSource[],
-        agentConfirmOption: [] as Option[],
+        confirmProviderOption: [] as Option[],
       },
       providerSum: {
         sumTable: [] as TProviderCount[],
@@ -62,7 +62,7 @@ describe('SummarizeProviderTable', () => {
     store = mockStore({
       events: {
         dataSource: [] as TDataSource[],
-        agentConfirmOption: [] as Option[],
+        confirmProviderOption: [] as Option[],
       },
       providerSum: {
         sumTable: mockData,
@@ -91,7 +91,7 @@ describe('SummarizeProviderTable', () => {
     store = mockStore({
       events: {
         dataSource: [] as TDataSource[],
-        agentConfirmOption: [] as Option[],
+        confirmProviderOption: [] as Option[],
       },
       providerSum: {
         sumTable: mockData,

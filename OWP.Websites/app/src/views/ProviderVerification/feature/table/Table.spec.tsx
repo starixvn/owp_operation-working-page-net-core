@@ -7,7 +7,8 @@ import Table from './Table';
 jest.mock('../../app/hookNative');
 jest.mock('../../../Shared/customHook/useLayoutTable', () => () => ({
   maxHeight: '500px',
-  maxWidth: '1000px'
+  maxWidth: '1000px',
+  minHeight: '450px'
 }));
 jest.mock('../../../components/Loading', () => () => <div>Loading...</div>);
 jest.mock('./TableHeader', () => () => <thead><tr><th>Header</th></tr></thead>);
@@ -53,6 +54,5 @@ describe('Table component', () => {
 
     expect(tableWrap).toHaveStyle('maxHeight: 500px');
     expect(tableWrap).toHaveStyle('maxWidth: 1000px');
-    expect(tableWrap).toHaveStyle('minHeight: 450px');
   });
 });

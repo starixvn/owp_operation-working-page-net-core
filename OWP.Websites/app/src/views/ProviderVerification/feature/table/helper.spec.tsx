@@ -1,11 +1,10 @@
 import {
-  buildMaxbetItemInOption,
   buildDefaultTableFilter,
   executeFilterTable,
   buildLabelItemOption
 } from './helper';
 import { formatTime } from '../../../Shared/DateTime/dateTimeHelper';
-import { TDataSource, TMaxbetSetting, TMultipleFilter } from '../../type/table';
+import { TDataSource, TMultipleFilter } from '../../type/table';
 import helper from './calculateFilterOption';
 
 jest.mock('../../../Shared/DateTime/dateTimeHelper', () => ({
@@ -24,32 +23,9 @@ jest.mock('./calculateFilterOption', () => ({
   Mb: jest.fn(),
   RemarkEst: jest.fn(),
   RemarkBy: jest.fn(),
-  EstNote: jest.fn()
+  EstNote: jest.fn(),
+  LstBookProvider: jest.fn()
 }));
-
-describe('buildMaxbetItemInOption', () => {
-  it('should return (Blanks) if no HandicapSetting and OverUnderSetting', () => {
-    const result = buildMaxbetItemInOption({});
-    expect(result).toBe('(Blanks)');
-  });
-
-  it('should build string with HandicapSetting', () => {
-    const maxbetSetting = {
-      HandicapSetting: { MaxBetToDisplay: '100', SpreadToDisplay: '2.5' }
-    };
-    const result = buildMaxbetItemInOption(maxbetSetting);
-    expect(result).toBe('100(2.5\n\n  )');
-  });
-
-  it('should build string with OverUnderSetting', () => {
-    const maxbetSetting = {
-      HandicapSetting: { MaxBetToDisplay: '100', SpreadToDisplay: '2.5' },
-      OverUnderSetting: { SpreadToDisplay: '3.0' }
-    };
-    const result = buildMaxbetItemInOption(maxbetSetting);
-    expect(result).toBe('100(2.5\n-3.0\n  )');
-  });
-});
 
 describe('buildDefaultTableFilter', () => {
   const dataSource = [];
@@ -58,13 +34,23 @@ describe('buildDefaultTableFilter', () => {
 
   beforeEach(() => {
     tableFilter = {};
+    // Mock the helper functions to return empty arrays
+    helper.MatchNo = jest.fn().mockReturnValue([]);
+    helper.MatchStatus = jest.fn().mockReturnValue([]);
+    helper.KoTime = jest.fn().mockReturnValue([]);
+    helper.League = jest.fn().mockReturnValue([]);
+    helper.Match = jest.fn().mockReturnValue([]);
+    helper.LstBookProvider = jest.fn().mockReturnValue([]);
+    helper.InHouseProviderId = jest.fn().mockReturnValue([]);
+    helper.Remark = jest.fn().mockReturnValue([]);
+    helper.RemarkBy = jest.fn().mockReturnValue([]);
   });
 
   it('should populate tableFilter with default values', () => {
     buildDefaultTableFilter(dataSource, confirmProviderOption, tableFilter);
 
     expect(tableFilter.MatchNo).toEqual({
-      selected: helper.MatchNo(dataSource),
+      selected: [],
       isFilter: false
     });
     expect(tableFilter.ConfirmProvider).toEqual({
@@ -77,92 +63,101 @@ describe('buildDefaultTableFilter', () => {
 describe('executeFilterTable', () => {
   const dataSource: TDataSource[] = [
     {
-      MatchNo: '1',
-      MatchStatus: 'Scheduled',
-      EventDateTime: '2024-07-11 01:00:00',
-      Home: 'Team A',
-      Away: 'Team B',
-      League: 'League 1',
-      Provider: 'Provider A',
-      OtherProvider: 'Provider B',
-      AgentEst: 'Agent X',
-      HandicapSetting: { MaxBetToDisplay: '100', SpreadToDisplay: '2.5' },
-      OverUnderSetting: { SpreadToDisplay: '3.0' },
-      RemarkEst: 'Remark 1',
-      RemarkBy: 'User A',
-      EstNote: 'Note 1',
-      AgentConfirm: [{ Label: 'Agent 1' }],
-      RowColor: 'red',
-      IsRead: false,
-      HasTicket: false,
-      OWPMatchId: 1
-    },
-    {
-      MatchNo: '2',
-      MatchStatus: 'Completed',
-      EventDateTime: '2024-07-11 01:00:00',
-      Home: 'Team C',
-      Away: 'Team D',
-      League: 'League 2',
-      Provider: 'Provider C',
-      OtherProvider: 'Provider D',
-      AgentEst: 'Agent Y',
-      HandicapSetting: { MaxBetToDisplay: '200', SpreadToDisplay: '1.5' },
-      OverUnderSetting: { SpreadToDisplay: '2.0' },
-      RemarkEst: 'Remark 2',
-      RemarkBy: 'User B',
-      EstNote: 'Note 2',
-      AgentConfirm: [{ Label: 'Agent 2' }],
-      RowColor: 'blue',
-      IsRead: false,
-      HasTicket: false,
-      OWPMatchId: 2
+      owpMatchId: 1,
+      parentMatchId: 1,
+      matchNo: '1',
+      matchStatus: 'Scheduled',
+      eventDateTime: '2024-07-11 01:00:00',
+      home: 'Team A',
+      away: 'Team B',
+      league: 'League 1',
+      lstBookProvider: 'Provider A',
+      inHouseProviderId: 'Provider B',
+      remark: 'Remark 1',
+      remarkBy: 'User A',
+      agentConfirm: [{ label: 'Agent 1' }],
+      rowColor: 'red',
+      isRead: false,
+      hasTicket: false,
+      rowIndex: 0,
+      dataSource: []
     }
   ];
 
   const tableFilter: TMultipleFilter = {
-    MatchNo: { selected: [{ label: '1' }], isFilter: true },
-    MatchStatus: { selected: [{ label: 'Scheduled' }], isFilter: true },
-    KoTime: { selected: [{ label: 'formatted time' }], isFilter: true },
-    League: { selected: [{ label: 'League 1' }], isFilter: true },
-    Match: { selected: [{ label: 'Team A -vs- Team B' }], isFilter: true },
-    Provider: { selected: [{ label: 'Provider A' }], isFilter: true },
-    OtherProvider: { selected: [{ label: 'Provider B' }], isFilter: true },
-    AgentEst: { selected: [{ label: 'Agent X' }], isFilter: true },
-    Mb: { selected: [{ label: '100(2.5\n-3.0\n  )' }], isFilter: true },
-    RemarkEst: { selected: [{ label: 'Remark 1' }], isFilter: true },
-    RemarkBy: { selected: [{ label: 'User A' }], isFilter: true },
-    EstNote: { selected: [{ label: 'Note 1' }], isFilter: true },
-    AgentConfirm: { selected: [{ label: 'Agent 1' }], isFilter: true }
+    MatchNo: {
+      selected: [{ value: '1', label: '1' }],
+      isFilter: false
+    },
+    MatchStatus: {
+      selected: [{ value: 'Scheduled', label: 'Scheduled' }],
+      isFilter: false
+    },
+    KoTime: {
+      selected: [{ value: '01:00 AM', label: '01:00 AM' }],
+      isFilter: false
+    },
+    League: {
+      selected: [{ value: 'League 1', label: 'League 1' }],
+      isFilter: false
+    },
+    Match: {
+      selected: [{ value: 'Team A -vs- Team B', label: 'Team A -vs- Team B' }],
+      isFilter: false
+    },
+    LstBookProvider: {
+      selected: [{ value: 'Provider A', label: 'Provider A' }],
+      isFilter: false
+    },
+    InHouseProviderId: {
+      selected: [{ value: 'Provider B', label: 'Provider B' }],
+      isFilter: false
+    },
+    Remark: {
+      selected: [{ value: 'Remark 1', label: 'Remark 1' }],
+      isFilter: false
+    },
+    RemarkBy: {
+      selected: [{ value: 'User A', label: 'User A' }],
+      isFilter: false
+    },
+    ConfirmProvider: {
+      selected: [{ value: 1, label: 'Agent 1' }],
+      isFilter: false
+    }
   };
 
   beforeEach(() => {
-    (formatTime as jest.Mock).mockReturnValue('formatted time');
+    formatTime.mockReturnValue('01:00 AM');
   });
 
-  it('should return empty array if no matches found', () => {
+  it('should return filtered data when all filters match', () => {
     const result = executeFilterTable(dataSource, tableFilter);
     expect(result).toHaveLength(1);
   });
 
   it('should return empty array if no matches found', () => {
-    tableFilter.MatchNo.selected = [{ label: '3' }];
-    const result = executeFilterTable(dataSource, tableFilter);
+    const noMatchFilter = {
+      ...tableFilter,
+      MatchNo: {
+        selected: [{ value: '2', label: '2' }],
+        isFilter: false
+      }
+    };
+    const result = executeFilterTable(dataSource, noMatchFilter);
     expect(result).toHaveLength(0);
   });
 });
 
 describe('buildLabelItemOption', () => {
-  it('should return (Blanks) for null or undefined', () => {
+  it('should return value if not empty', () => {
+    expect(buildLabelItemOption('test')).toBe('test');
+  });
+
+  it('should return (Blanks) if value is empty', () => {
+    expect(buildLabelItemOption('')).toBe('(Blanks)');
+    expect(buildLabelItemOption('   ')).toBe('(Blanks)');
     expect(buildLabelItemOption(null)).toBe('(Blanks)');
     expect(buildLabelItemOption(undefined)).toBe('(Blanks)');
-  });
-
-  it('should return (Blanks) for empty string', () => {
-    expect(buildLabelItemOption('')).toBe('(Blanks)');
-  });
-
-  it('should return trimmed value', () => {
-    expect(buildLabelItemOption('  value  ')).toBe('  value  ');
   });
 });
