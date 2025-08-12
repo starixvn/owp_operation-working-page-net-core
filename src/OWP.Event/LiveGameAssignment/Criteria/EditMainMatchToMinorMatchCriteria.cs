@@ -1,7 +1,5 @@
 ﻿namespace OWP.Event.LiveGameAssignment.Criteria;
 
-using System;
-using System.Globalization;
 using Fanex.Data.Repository;
 
 public class EditMainMatchToMinorMatchCriteria : NonQueryCommand

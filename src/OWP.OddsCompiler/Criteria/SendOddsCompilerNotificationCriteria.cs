@@ -1,6 +1,4 @@
 ﻿using Fanex.Data.Repository;
-using System;
-using System.Globalization;
 
 namespace OWP.OddsCompiler.Criteria;
 public class SendOddsCompilerNotificationCriteria : NonQueryCommand

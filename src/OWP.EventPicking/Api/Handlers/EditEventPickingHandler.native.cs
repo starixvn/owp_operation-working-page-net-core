@@ -214,24 +214,75 @@ public class EditEventPickingHandler(
         match.IsReferenceLeagueManagement = true;
     }
 
-    private bool CheckRoundOrDivisionConditions(string matchValues, IList<Condition> conditions)
+    private static bool CheckRoundConditions(string matchValues, IList<Condition> conditions)
     {
-        var containsValues = GetValueContains(conditions);
-        var equalsValues = GetValueEquals(conditions);
-
-        var isConditionsEmpty = conditions.Count == 0;
-        var isContains = containsValues.Any(x => matchValues.Contains(x, StringComparison.CurrentCultureIgnoreCase)) && !string.IsNullOrEmpty(matchValues);
-        var isEquals = equalsValues.Any(x => x.Equals(matchValues, StringComparison.CurrentCultureIgnoreCase));
-        return isConditionsEmpty || isContains || isEquals;
+        var isContains = CheckConditionContain(matchValues, conditions);
+        var isEquals = CheckConditionEqual(matchValues, conditions);
+        return !conditions.Any() || isContains || isEquals;
     }
 
-    private bool CheckMatchValidMappingWithLeagueManagement(EventPickingModel match, LeagueSettingInfoSender leagueSetting)
+    private static bool CheckDivisionConditions(string matchValues, IList<Condition> conditions)
     {
-        var roundConditions = CheckRoundOrDivisionConditions(match.Round, leagueSetting.Condition.Round);
-        var divisionConditions = CheckRoundOrDivisionConditions(match.Division, leagueSetting.Condition.Division);
+        var isContains = CheckConditionContain(matchValues, conditions);
+        var isEquals = CheckConditionEqual(matchValues, conditions);
+        var isPairWiseContains = CheckConditionPairWiseContain(matchValues, conditions);
+        return !conditions.Any() || isContains || isEquals || isPairWiseContains;
+    }
+    private static bool CheckConditionPairWiseContain(string matchValues, IList<Condition> conditions)
+    {
+        var containsValues = GetValuePairWiseContains(conditions);
+        var homeAwayDivision = matchValues.Split("-");
+        if (homeAwayDivision.Length != 2)
+        {
+            return false;
+        }
+
+        var homeDivision= homeAwayDivision[0];
+        var awayDivision= homeAwayDivision[1];
+
+        return containsValues.Any(c =>
+        {
+            var homeAwayCondition = c.Split(",");
+            if (homeAwayCondition.Length != 2)
+            {
+                return false;
+            }
+            var firstConditionValue = homeAwayCondition[0].Trim();
+            var secondConditionValue = homeAwayCondition[1].Trim();
+
+            return (homeDivision.Contains(firstConditionValue) &&
+                   awayDivision.Contains(secondConditionValue)) 
+                   ||
+                   (homeDivision.Contains(secondConditionValue) &&
+                   awayDivision.Contains(firstConditionValue));
+        });
+    }
+
+    private static bool CheckConditionContain(string matchValues, IList<Condition> conditions)
+    {
+        var containsValues = GetValueContains(conditions);
+
+       return containsValues.Any(x => matchValues.Contains(x, StringComparison.CurrentCultureIgnoreCase)) && !string.IsNullOrEmpty(matchValues);
+    }
+
+    private static bool CheckConditionEqual(string matchValues, IList<Condition> conditions)
+    {
+        var equalsValues = GetValueEquals(conditions);
+
+        return equalsValues.Any(x => x.Equals(matchValues, StringComparison.CurrentCultureIgnoreCase));
+    }
+
+    private static bool CheckMatchValidMappingWithLeagueManagement(EventPickingModel match, LeagueSettingInfoSender leagueSetting)
+    {
+        var roundConditions = CheckRoundConditions(match.Round, leagueSetting.Condition.Round);
+        var divisionConditions = CheckDivisionConditions(match.Division, leagueSetting.Condition.Division);
 
         return roundConditions && divisionConditions;
     }
+
+    private static IList<string> GetValuePairWiseContains(IList<Condition> conditions)
+        => conditions.Where(x => x.Type == "Pairwise Contains").Select(x => x.Value).ToList();
+
 
     private static IList<string> GetValueContains(IList<Condition> conditions)
         => conditions.Where(x => x.Type == "Contains").Select(x => x.Value).ToList();

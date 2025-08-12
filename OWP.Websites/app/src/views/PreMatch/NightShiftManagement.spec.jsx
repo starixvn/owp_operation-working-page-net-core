@@ -308,6 +308,10 @@ const setup = (status, mockPermission, isEditMode = false) => {
     },
     copy: {
       highlightedCell: { PreMatchLeagueId: [9966] }
+    },
+    auto: {
+      autoMode: false,
+      assignments: []
     }
   };
   useState.mockImplementation(init => [init, setState]);

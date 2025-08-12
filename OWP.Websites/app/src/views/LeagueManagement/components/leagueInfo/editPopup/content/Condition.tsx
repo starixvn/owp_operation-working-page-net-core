@@ -2,8 +2,9 @@ import React, { useState, MouseEvent } from 'react';
 import { TExpressionRow } from '../../component/Type';
 import CommonTextArea from '../../component/CommonTextArea';
 import RowsExpression from '../../component/RowsExpression';
-import { convertResponseToCondition } from '../../helper/helper';
+import { convertResponseToCondition, convertDivisionResponseToCondition } from '../../helper/helper';
 import { useAppDispatch } from '../../app/hooks';
+import MaxbetConst from '../../../../constants/MaxbetConst';
 import {
   updateObject,
   updateExpression,
@@ -19,7 +20,7 @@ const Condition = (props: { condition: TConditionSource }) => {
   const dispatch = useAppDispatch();
 
   const rounds = convertResponseToCondition(round);
-  const divisions = convertResponseToCondition(division);
+  const divisions = convertDivisionResponseToCondition(division);
 
   const handleOnChangeHasTV = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(
@@ -46,8 +47,8 @@ const Condition = (props: { condition: TConditionSource }) => {
     dispatch(
       updateExpression({
         property,
-        key: key,
-        value: value,
+        key,
+        value,
         index
       })
     );
@@ -72,6 +73,7 @@ const Condition = (props: { condition: TConditionSource }) => {
 
   const renderRoundList = (roundLists: TExpressionRow[]) => (
     <RowsExpression
+      option={MaxbetConst.expressionOption}
       expressionList={roundLists}
       title='Round'
       property='round'
@@ -83,6 +85,7 @@ const Condition = (props: { condition: TConditionSource }) => {
 
   const renderDivisionList = (divisionLists: TExpressionRow[]) => (
     <RowsExpression
+      option={MaxbetConst.divisionExpressionOption}
       expressionList={divisionLists}
       title='Division'
       property='division'
@@ -101,47 +104,43 @@ const Condition = (props: { condition: TConditionSource }) => {
         dispatch(updateObject({ property: 'remark', value: newValue }));
     };
     return (
-      <>
-        <div className='content'>
-          <div className='left'>Remark</div>
-          <CommonTextArea
-            value={remarkLists}
-            handleOnChange={handleOnChangeRemark}
-          />
-        </div>
-      </>
+      <div className='content'>
+        <div className='left'>Remark</div>
+        <CommonTextArea
+          value={remarkLists}
+          handleOnChange={handleOnChangeRemark}
+        />
+      </div>
     );
   };
 
   const renderTV = () => (
-    <>
-      <div className='content'>
-        <div className='left'>TV</div>
-        <div className='right'>
+    <div className='content'>
+      <div className='left'>TV</div>
+      <div className='right'>
+        <label>
+          <input
+            className='form-check-label'
+            type='checkbox'
+            checked={checkedTV}
+            onChange={handleOnChangeHasTV}
+          />
+          TV (check in TV list)
+        </label>
+        <div className='iptv'>
           <label>
             <input
-              className='form-check-label'
               type='checkbox'
-              checked={checkedTV}
-              onChange={handleOnChangeHasTV}
+              checked={checkedIPTV}
+              onChange={handleOnChangeHasIPTV}
             />
-            TV (check in TV list)
+            IPTV
           </label>
-          <div className='iptv'>
-            <label>
-              <input
-                type='checkbox'
-                checked={checkedIPTV}
-                onChange={handleOnChangeHasIPTV}
-              />
-              IPTV
-            </label>
-          </div>
         </div>
       </div>
-    </>
-  );
+    </div>
 
+  );
   return (
     <div className='list'>
       <div className='title'>Condition</div>

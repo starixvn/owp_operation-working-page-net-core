@@ -68,6 +68,16 @@ const convertResponseToCondition = (response: TCondition[]) => {
   })) as TExpressionRow[];
 };
 
+const convertDivisionResponseToCondition = (response: TCondition[]) => {
+  return response.map(item => ({
+    key: uuidv4(),
+    condition: MaxbetConst.divisionExpressionOption.find(
+      round => round.label === item.type
+    ),
+    value: item.value
+  })) as TExpressionRow[];
+};
+
 const convertResourceToOptions = (resource: TLeagueCategory[]) => {
   return resource.map(item => ({
     value: item.Id,
@@ -78,5 +88,6 @@ const convertResourceToOptions = (resource: TLeagueCategory[]) => {
 export {
   convertResourceToOptions,
   convertResponseToCondition,
-  mapEditSettingFromDataSource
+  mapEditSettingFromDataSource,
+  convertDivisionResponseToCondition
 };

@@ -204,7 +204,10 @@ public class AssignmentValidatorImp : AssignmentValidator
 
     private static string NormalizeString(string input)
     {
-        if (input == null) return string.Empty;
+        if (input == null)
+        {
+            return string.Empty;
+        }
 
         return input
             .Replace('\u00A0', ' ')   // Non-breaking space (NBSP) - most common

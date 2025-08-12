@@ -38,7 +38,7 @@ public class KpiServiceImp(Repository repository, IMapper mapper) : KpiService
             kpi.Progress = progress;
             kpi.Reward = Array.Find(ConditionConstant.ConditionInfos, x => x.Progress == progress)?.Reward;
 
-            var targetConditionInfos = ConditionConstant.ConditionInfos.FirstOrDefault(x => x.LevelId == kpi.TargetId);
+            var targetConditionInfos = Array.Find(ConditionConstant.ConditionInfos,x => x.LevelId == kpi.TargetId);
             kpi.ApplyCondition = ProgressHelper.CalculateApplyCondition(targetConditionInfos, kpi.AchievedGames);
         }
     }

@@ -2,13 +2,14 @@ import React, { MouseEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import CommonTextArea from '../../component/CommonTextArea';
 import RowsExpression from '../../component/RowsExpression';
-import { convertResponseToCondition } from '../../helper/helper';
+import { convertResponseToCondition, convertDivisionResponseToCondition } from '../../helper/helper';
 import {
   addRowExpressionsAddPopup,
   removeRowExpressionsAddPopup,
   updateExpressionAddPopup,
   updateObjectAddPopup
 } from '../slice/addSettingSlice';
+import MaxbetConst from '../../../../constants/MaxbetConst';
 
 const ConditionOfAdd = () => {
   const { round, division, remark, hasIpTv, hasTv } = useAppSelector(
@@ -16,7 +17,7 @@ const ConditionOfAdd = () => {
   );
   const dispatch = useAppDispatch();
   const rounds = convertResponseToCondition(round);
-  const divisions = convertResponseToCondition(division);
+  const divisions = convertDivisionResponseToCondition(division);
 
   const handleUpdateValueExpression = (
     property: 'round' | 'division',
@@ -96,6 +97,7 @@ const ConditionOfAdd = () => {
       </div>
       <RowsExpression
         expressionList={rounds}
+        option={MaxbetConst.expressionOption}
         title='Round'
         property='round'
         handleUpdateValueExpression={handleUpdateValueExpression}
@@ -104,6 +106,7 @@ const ConditionOfAdd = () => {
       />
       <RowsExpression
         expressionList={divisions}
+        option={MaxbetConst.divisionExpressionOption}
         title='Division'
         property='division'
         handleUpdateValueExpression={handleUpdateValueExpression}

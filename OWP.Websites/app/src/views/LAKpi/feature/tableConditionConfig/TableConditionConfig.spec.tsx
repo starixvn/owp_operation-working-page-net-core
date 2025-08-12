@@ -23,6 +23,14 @@ useStore.setState({
         fiveMajorLeagues: 0,
         multipleProducts: 0
       },
+      conditionThird: {
+        totalVirtualMultipleMatches: 0,
+        virtualMatches: 0,
+        multipleMatches: 0,
+        specialProducts: 0,
+        fiveMajorLeagues: 0,
+        multipleProducts: 0
+      },
       timeRange: '5-10',
       reward: 'Gold'
     }

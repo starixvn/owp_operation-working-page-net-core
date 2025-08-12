@@ -63,7 +63,7 @@ public class PullMainLeagueServiceImp(IHttpClientFactory httpClientFactory,
 
     private async Task LogDetailedPayload(DateTime CreatedDate, string Action, string Payload)
     {
-        await dynamicRepository.ExecuteAsync(new OwpLogCriteria()
+        await dynamicRepository.ExecuteAsync(new OwpLogCriteria
         {
             CreatedDate = CreatedDate,
             Action = Action,
