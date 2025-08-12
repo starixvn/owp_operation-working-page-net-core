@@ -9,6 +9,7 @@ using OWP.EventPicking.Api.Middleware.Models;
 using OWP.EventPicking.Api.Models;
 using OWP.EventPicking.Api.Services;
 using Xunit;
+using Newtonsoft.Json;
 
 namespace OWP.EventPicking.UnitTests.Handler;
 
@@ -255,5 +256,228 @@ public class EditEventPickingHandlerUnitTest
         Assert.Equal(0.12m, match.SpreadOu);
         Assert.Equal("3+3 Lines", match.NoOfHDP); // weekend noon => not peak hour
         mbBuilder.DidNotReceive().Build(Arg.Any<EventPickingModel>(), Arg.Any<bool>(), Arg.Any<bool>());
+    }
+
+    [Fact]
+    public async Task Handle_NonClubFriendly_WithMultipleLeagueSettings_ShouldSelectBasedOnTvIptvPriority()
+    {
+        // Arrange
+        var service = Substitute.For<QueryEventPickingService>();
+        var repository = Substitute.For<OWP.EventPicking.Repository>();
+        var pullMainLeagueService = Substitute.For<PullMainLeagueService>();
+        var mapper = Substitute.For<MapMainLeagueForEventService>();
+        var mbBuilder = Substitute.For<BuildMBForClubFriendlyMajorLeagueBuilder>();
+        var mappingRuleSyncMBLeagueFriendlyService = Substitute.For<MappingRuleSyncMBLeagueFriendlyService>();
+        var handler = CreateHandler(service, repository, pullMainLeagueService, mapper, mbBuilder, mappingRuleSyncMBLeagueFriendlyService);
+
+        var match = new EventPickingModel
+        {
+            LeagueName = "EPL",
+            OWPLeagueId = 1,
+            EventDateTime = new DateTime(2025, 1, 6, 12, 0, 0, DateTimeKind.Utc), // Monday
+            TV = "Sky Sports",
+            Iptv = "IPTV Channel",
+            Channel = "HD Channel"
+        };
+
+        service.Execute(Arg.Any<EventPickingRequest>(), Arg.Any<IList<short>>())
+            .Returns(BuildServiceResult(match));
+
+        // Create multiple league settings with different TV/IPTV conditions
+        var leagueSettings = new List<LeagueSettingInfoSender>
+        {
+            new()
+            {
+                OWPLeagueId = 1,
+                LstNote = "no-tv-setting",
+                Remark2 = "no-tv-remark",
+                Spread_HDP_Value = 0.08m,
+                Spread_OU_Value = 0.10m,
+                MaxbetWD_HDP_Value = 15000,
+                MaxbetWK_HDP_Value = 20000,
+                WD_NoOfHDP_Value = "3 lines",
+                WK_NoOfHDP_Value = "4 lines",
+                League = "EPL",
+                FullConditionDescription = JsonConvert.SerializeObject(new NewLeagueSettingCondition
+                {
+                    HasTv = false,
+                    HasIpTv = false,
+                    Round = new List<Condition>(),
+                    Division = new List<Condition>()
+                })
+            },
+            new()
+            {
+                OWPLeagueId = 1,
+                LstNote = "iptv-setting",
+                Remark2 = "iptv-remark",
+                Spread_HDP_Value = 0.09m,
+                Spread_OU_Value = 0.11m,
+                MaxbetWD_HDP_Value = 18000,
+                MaxbetWK_HDP_Value = 25000,
+                WD_NoOfHDP_Value = "4 lines",
+                WK_NoOfHDP_Value = "5 lines",
+                League = "EPL",
+                FullConditionDescription = JsonConvert.SerializeObject(new NewLeagueSettingCondition
+                {
+                    HasTv = false,
+                    HasIpTv = true,
+                    Round = new List<Condition>(),
+                    Division = new List<Condition>()
+                })
+            },
+            new()
+            {
+                OWPLeagueId = 1,
+                LstNote = "tv-setting",
+                Remark2 = "tv-remark",
+                Spread_HDP_Value = 0.12m,
+                Spread_OU_Value = 0.15m,
+                MaxbetWD_HDP_Value = 25000,
+                MaxbetWK_HDP_Value = 35000,
+                WD_NoOfHDP_Value = "5 lines",
+                WK_NoOfHDP_Value = "6 lines",
+                League = "EPL",
+                FullConditionDescription = JsonConvert.SerializeObject(new NewLeagueSettingCondition
+                {
+                    HasTv = true,
+                    HasIpTv = false,
+                    Round = new List<Condition>(),
+                    Division = new List<Condition>()
+                })
+            }
+        };
+
+        repository.QueryLeagueSetting().Returns(leagueSettings);
+
+        // TV list with conditions that match the match's TV field
+        var tvList = new List<Condition> 
+        { 
+            new() { Type = "Contains", Value = "Sky" } // Matches "Sky Sports"
+        };
+        repository.GetTVList().Returns(tvList);
+
+        pullMainLeagueService.GetMainLeague(Arg.Any<List<EventPickingModel>>(), Arg.Any<CancellationToken>())
+            .Returns(new List<main_league_info>());
+
+        var request = new EditEventPickingRequest { Date = match.EventDateTime };
+
+        // Act
+        var result = await handler.Handle(request, CancellationToken.None);
+
+        // Assert - Should select TV setting based on priority (TV > IPTV > No TV)
+        Assert.Same(match, result.FilteredMatches.Single());
+        Assert.True(match.IsReferenceLeagueManagement);
+        Assert.Equal("tv-remark", match.Remark2LeagueManagement);
+        Assert.Equal("tv-setting", match.LstNote);
+        Assert.Equal(15000, match.MaxbetHdp); // Monday (weekday) uses WD value
+        Assert.Equal(0.12m, match.SpreadHdp);
+        Assert.Equal(0.15m, match.SpreadOu);
+        Assert.Equal("5 lines", match.NoOfHDP);
+        
+        await service.Received(1).Execute(Arg.Any<EventPickingRequest>(), Arg.Any<IList<short>>());
+        await repository.Received(1).QueryLeagueSetting();
+        await repository.Received(1).GetTVList();
+        mapper.Received(1).Execute(Arg.Any<IList<EventPickingModel>>(), Arg.Any<IList<main_league_info>>());
+    }
+
+    [Fact]
+    public async Task Handle_NonClubFriendly_WithMultipleLeagueSettings_ShouldSelectIptvWhenNoTv()
+    {
+        // Arrange
+        var service = Substitute.For<QueryEventPickingService>();
+        var repository = Substitute.For<OWP.EventPicking.Repository>();
+        var pullMainLeagueService = Substitute.For<PullMainLeagueService>();
+        var mapper = Substitute.For<MapMainLeagueForEventService>();
+        var mbBuilder = Substitute.For<BuildMBForClubFriendlyMajorLeagueBuilder>();
+        var mappingRuleSyncMBLeagueFriendlyService = Substitute.For<MappingRuleSyncMBLeagueFriendlyService>();
+        var handler = CreateHandler(service, repository, pullMainLeagueService, mapper, mbBuilder, mappingRuleSyncMBLeagueFriendlyService);
+
+        var match = new EventPickingModel
+        {
+            LeagueName = "EPL",
+            OWPLeagueId = 1,
+            EventDateTime = new DateTime(2025, 1, 6, 12, 0, 0, DateTimeKind.Utc), // Monday
+            TV = "Cancel", // No TV
+            Iptv = "IPTV Channel",
+            Channel = "HD Channel"
+        };
+
+        service.Execute(Arg.Any<EventPickingRequest>(), Arg.Any<IList<short>>())
+            .Returns(BuildServiceResult(match));
+
+        // Create multiple league settings with different TV/IPTV conditions
+        var leagueSettings = new List<LeagueSettingInfoSender>
+        {
+            new()
+            {
+                OWPLeagueId = 1,
+                LstNote = "no-tv-setting",
+                Remark2 = "no-tv-remark",
+                Spread_HDP_Value = 0.08m,
+                Spread_OU_Value = 0.10m,
+                MaxbetWD_HDP_Value = 15000,
+                MaxbetWK_HDP_Value = 20000,
+                WD_NoOfHDP_Value = "3 lines",
+                WK_NoOfHDP_Value = "4 lines",
+                League = "EPL",
+                FullConditionDescription = JsonConvert.SerializeObject(new NewLeagueSettingCondition
+                {
+                    HasTv = false,
+                    HasIpTv = false,
+                    Round = new List<Condition>(),
+                    Division = new List<Condition>()
+                })
+            },
+            new()
+            {
+                OWPLeagueId = 1,
+                LstNote = "iptv-setting",
+                Remark2 = "iptv-remark",
+                Spread_HDP_Value = 0.09m,
+                Spread_OU_Value = 0.11m,
+                MaxbetWD_HDP_Value = 18000,
+                MaxbetWK_HDP_Value = 25000,
+                WD_NoOfHDP_Value = "4 lines",
+                WK_NoOfHDP_Value = "5 lines",
+                League = "EPL",
+                FullConditionDescription = JsonConvert.SerializeObject(new NewLeagueSettingCondition
+                {
+                    HasTv = false,
+                    HasIpTv = true,
+                    Round = new List<Condition>(),
+                    Division = new List<Condition>()
+                })
+            }
+        };
+
+        repository.QueryLeagueSetting().Returns(leagueSettings);
+
+        // Empty TV list since no TV conditions
+        var tvList = new List<Condition>();
+        repository.GetTVList().Returns(tvList);
+
+        pullMainLeagueService.GetMainLeague(Arg.Any<List<EventPickingModel>>(), Arg.Any<CancellationToken>())
+            .Returns(new List<main_league_info>());
+
+        var request = new EditEventPickingRequest { Date = match.EventDateTime };
+
+        // Act
+        var result = await handler.Handle(request, CancellationToken.None);
+
+        // Assert - Should select IPTV setting when no TV setting is available
+        Assert.Same(match, result.FilteredMatches.Single());
+        Assert.True(match.IsReferenceLeagueManagement);
+        Assert.Equal("iptv-remark", match.Remark2LeagueManagement);
+        Assert.Equal("iptv-setting", match.LstNote);
+        Assert.Equal(18000, match.MaxbetHdp); // Monday (weekday) uses WD value
+        Assert.Equal(0.09m, match.SpreadHdp);
+        Assert.Equal(0.11m, match.SpreadOu);
+        Assert.Equal("4 lines", match.NoOfHDP);
+        
+        await service.Received(1).Execute(Arg.Any<EventPickingRequest>(), Arg.Any<IList<short>>());
+        await repository.Received(1).QueryLeagueSetting();
+        await repository.Received(1).GetTVList();
+        mapper.Received(1).Execute(Arg.Any<IList<EventPickingModel>>(), Arg.Any<IList<main_league_info>>());
     }
 }
