@@ -13,10 +13,6 @@ public class BuildMBForClubFriendlyMajorLeagueBuilderImp : BuildMBForClubFriendl
         ApplyMajorLeagueRules(match, hasTv, hasIpTv);
     }
 
-                        tvList.Exists(tvCondition => IsTvConditionMatch(match.TV, tvCondition));
-        {
-        }
-
     private static void ApplyMajorLeagueRules(EventPickingModel match, bool hasTv, bool hasIpTv)
     {
         var (maxbet, spreadHdp, spreadOu, noOfHdp) = (hasTv, hasIpTv) switch

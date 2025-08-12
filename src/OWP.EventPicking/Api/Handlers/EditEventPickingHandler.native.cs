@@ -293,7 +293,7 @@ public class EditEventPickingHandler(
         return equalsValues.Any(x => x.Equals(matchValues, StringComparison.CurrentCultureIgnoreCase));
     }
 
-    private static bool CheckMatchValidMappingWithLeagueManagement(EventPickingModel match, LeagueSettingInfoSender leagueSetting)
+    private static bool CheckTVConditions(EventPickingModel match, LeagueSettingInfoSender leagueSetting, List<Condition> tvList)
     {
         var (hasTv, hasIpTv) = DetermineTvIptvStatus(match, tvList);
         var hasTvCondition = leagueSetting.Condition.HasTv;
