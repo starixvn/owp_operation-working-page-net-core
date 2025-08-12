@@ -102,7 +102,7 @@ const ModalExportExcel = ({
 
   return (
     <Modal
-      title='Please choose range date'
+      title='Please select a date range'
       open={isModalOpen}
       onOk={handleOk}
       onCancel={handleCancel}
