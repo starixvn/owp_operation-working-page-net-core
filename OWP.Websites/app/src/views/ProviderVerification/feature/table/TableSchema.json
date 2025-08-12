@@ -33,13 +33,13 @@
     {
       "HEADER_KEY": "LstBookProvider",
       "HEADER_NAME": "LST Book Provider",
-      "WIDTH": "9%",
+      "WIDTH": "11%",
       "IS_FILTER": true
     },
     {
       "HEADER_KEY": "OtherProvider",
       "HEADER_NAME": "Other Provider",
-      "WIDTH": "7%",
+      "WIDTH": "10%",
       "IS_FILTER": true
     },
     {
