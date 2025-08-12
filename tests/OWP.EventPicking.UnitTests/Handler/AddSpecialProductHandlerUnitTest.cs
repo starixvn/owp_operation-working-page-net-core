@@ -21,7 +21,7 @@ public class AddSpecialProductHandlerUnitTest
         var session = Substitute.For<INapSession>();
         session.UserId.Returns(123);
 
-        var repository = Substitute.For<Repository>();
+        var repository = Substitute.For<OWP.EventPicking.Repository>();
         var handler = new AddSpecialProductHandler(session, repository);
 
         var addInfo = new AddSpecialProduct

@@ -22,13 +22,13 @@ public class CriteriaUnitTests
     }
 
     [Fact]
-    public void QueryMainMatchCriteria_ShouldImplementINonQueryCommand()
+    public void QueryMainMatchCriteria_ShouldImplementICriteria()
     {
         // Arrange
         var criteria = new QueryMainMatchCriteria();
 
         // Act & Assert
-        Assert.IsAssignableFrom<INonQueryCommand>(criteria);
+        Assert.IsAssignableFrom<ICriteria>(criteria);
     }
 
     [Fact]
@@ -46,13 +46,13 @@ public class CriteriaUnitTests
     }
 
     [Fact]
-    public void QueryChildMatchCriteria_ShouldImplementINonQueryCommand()
+    public void QueryChildMatchCriteria_ShouldImplementICriteria()
     {
         // Arrange
         var criteria = new QueryChildMatchCriteria();
 
         // Act & Assert
-        Assert.IsAssignableFrom<INonQueryCommand>(criteria);
+        Assert.IsAssignableFrom<ICriteria>(criteria);
     }
 
     [Fact]
@@ -70,33 +70,33 @@ public class CriteriaUnitTests
     }
 
     [Fact]
-    public void QueryMoveEventDateMatchCriteria_ShouldImplementINonQueryCommand()
+    public void QueryMoveEventDateMatchCriteria_ShouldImplementICriteria()
     {
         // Arrange
         var criteria = new QueryMoveEventDateMatchCriteria();
 
         // Act & Assert
-        Assert.IsAssignableFrom<INonQueryCommand>(criteria);
+        Assert.IsAssignableFrom<ICriteria>(criteria);
     }
 
     [Fact]
-    public void GetLeagueSettingCriteria_ShouldImplementINonQueryCommand()
+    public void GetLeagueSettingCriteria_ShouldImplementICriteria()
     {
         // Arrange
         var criteria = new GetLeagueSettingCriteria();
 
         // Act & Assert
-        Assert.IsAssignableFrom<INonQueryCommand>(criteria);
+        Assert.IsAssignableFrom<ICriteria>(criteria);
     }
 
     [Fact]
-    public void GetTVListCriteria_ShouldImplementINonQueryCommand()
+    public void GetTVListCriteria_ShouldImplementICriteria()
     {
         // Arrange
         var criteria = new GetTVListCriteria();
 
         // Act & Assert
-        Assert.IsAssignableFrom<INonQueryCommand>(criteria);
+        Assert.IsAssignableFrom<ICriteria>(criteria);
     }
 
     [Fact]
@@ -127,13 +127,13 @@ public class CriteriaUnitTests
     }
 
     [Fact]
-    public void GetProviderCriteria_ShouldImplementINonQueryCommand()
+    public void GetProviderCriteria_ShouldImplementICriteria()
     {
         // Arrange
         var criteria = new GetProviderCriteria();
 
         // Act & Assert
-        Assert.IsAssignableFrom<INonQueryCommand>(criteria);
+        Assert.IsAssignableFrom<ICriteria>(criteria);
     }
 
     [Fact]
@@ -151,23 +151,23 @@ public class CriteriaUnitTests
     }
 
     [Fact]
-    public void QueryRAndDInfoCriteria_ShouldImplementINonQueryCommand()
+    public void QueryRAndDInfoCriteria_ShouldImplementICriteria()
     {
         // Arrange
         var criteria = new QueryRAndDInfoCriteria();
 
         // Act & Assert
-        Assert.IsAssignableFrom<INonQueryCommand>(criteria);
+        Assert.IsAssignableFrom<ICriteria>(criteria);
     }
 
     [Fact]
-    public void QueryUpdateTypeCriteria_ShouldImplementINonQueryCommand()
+    public void QueryUpdateTypeCriteria_ShouldImplementICriteria()
     {
         // Arrange
         var criteria = new QueryUpdateTypeCriteria();
 
         // Act & Assert
-        Assert.IsAssignableFrom<INonQueryCommand>(criteria);
+        Assert.IsAssignableFrom<ICriteria>(criteria);
     }
 
     [Fact]
@@ -185,13 +185,13 @@ public class CriteriaUnitTests
     }
 
     [Fact]
-    public void GetLogCriteria_ShouldImplementINonQueryCommand()
+    public void GetLogCriteria_ShouldImplementICriteria()
     {
         // Arrange
         var criteria = new GetLogCriteria();
 
         // Act & Assert
-        Assert.IsAssignableFrom<INonQueryCommand>(criteria);
+        Assert.IsAssignableFrom<ICriteria>(criteria);
     }
 
     [Fact]
@@ -228,13 +228,13 @@ public class CriteriaUnitTests
     }
 
     [Fact]
-    public void GetNewLeagueSettingCriteria_ShouldImplementINonQueryCommand()
+    public void GetNewLeagueSettingCriteria_ShouldImplementICriteria()
     {
         // Arrange
         var criteria = new GetNewLeagueSettingCriteria();
 
         // Act & Assert
-        Assert.IsAssignableFrom<INonQueryCommand>(criteria);
+        Assert.IsAssignableFrom<ICriteria>(criteria);
     }
 
     [Fact]
@@ -242,16 +242,16 @@ public class CriteriaUnitTests
     {
         // Arrange
         var criteria = new UpdateMaxbetSpreadCriteria();
-        var testMatchId = 123;
-        var testMaxbetSpread = 1.5m;
+        var testTargetJson = "{\"test\": \"data\"}";
+        var testActorId = 123;
 
         // Act
-        criteria.MatchId = testMatchId;
-        criteria.MaxbetSpread = testMaxbetSpread;
+        criteria.TargetJson = testTargetJson;
+        criteria.ActorId = testActorId;
 
         // Assert
-        Assert.Equal(testMatchId, criteria.MatchId);
-        Assert.Equal(testMaxbetSpread, criteria.MaxbetSpread);
+        Assert.Equal(testTargetJson, criteria.TargetJson);
+        Assert.Equal(testActorId, criteria.ActorId);
     }
 
     [Fact]
@@ -279,13 +279,13 @@ public class CriteriaUnitTests
     }
 
     [Fact]
-    public void QueryEventPickingChildMatchCriteria_ShouldImplementINonQueryCommand()
+    public void QueryEventPickingChildMatchCriteria_ShouldImplementICriteria()
     {
         // Arrange
         var criteria = new QueryEventPickingChildMatchCriteria();
 
         // Act & Assert
-        Assert.IsAssignableFrom<INonQueryCommand>(criteria);
+        Assert.IsAssignableFrom<ICriteria>(criteria);
     }
 
     [Fact]

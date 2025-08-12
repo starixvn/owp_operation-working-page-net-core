@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using OWP.EventPicking.Api.Models;
 using Xunit;
 
@@ -7,88 +8,33 @@ namespace OWP.EventPicking.UnitTests.Models;
 public class EventPickingModelUnitTests
 {
     [Fact]
-    public void EventPickingModel_ShouldHaveDefaultValues()
-    {
-        // Act
-        var model = new EventPickingModel();
-
-        // Assert
-        Assert.Equal(0, model.Id);
-        Assert.Null(model.Name);
-        Assert.Equal(DateTime.MinValue, model.GameDate);
-        Assert.Equal(0, model.LeagueId);
-        Assert.Null(model.LeagueName);
-        Assert.Equal(0, model.HomeTeamId);
-        Assert.Null(model.HomeTeamName);
-        Assert.Equal(0, model.AwayTeamId);
-        Assert.Null(model.AwayTeamName);
-        Assert.Equal(0, model.Status);
-        Assert.Null(model.StatusName);
-        Assert.Equal(0, model.ProviderId);
-        Assert.Null(model.ProviderName);
-        Assert.Equal(0, model.MaxbetSpread);
-        Assert.False(model.IsConfirmed);
-        Assert.Null(model.ConfirmedBy);
-        Assert.Equal(DateTime.MinValue, model.ConfirmedAt);
-        Assert.Null(model.CreatedBy);
-        Assert.Equal(DateTime.MinValue, model.CreatedAt);
-        Assert.Null(model.ModifiedBy);
-        Assert.Equal(DateTime.MinValue, model.ModifiedAt);
-    }
-
-    [Fact]
-    public void EventPickingModel_ShouldSetAndGetProperties()
+    public void EventPickingModel_ShouldHaveCorrectProperties()
     {
         // Arrange
-        var model = new EventPickingModel();
-        var testDate = DateTime.Now;
-        var testUser = "testuser";
-
-        // Act
-        model.Id = 123;
-        model.Name = "Test Match";
-        model.GameDate = testDate;
-        model.LeagueId = 456;
-        model.LeagueName = "Test League";
-        model.HomeTeamId = 789;
-        model.HomeTeamName = "Home Team";
-        model.AwayTeamId = 101;
-        model.AwayTeamName = "Away Team";
-        model.Status = 1;
-        model.StatusName = "Active";
-        model.ProviderId = 202;
-        model.ProviderName = "Test Provider";
-        model.MaxbetSpread = 1.5m;
-        model.IsConfirmed = true;
-        model.ConfirmedBy = testUser;
-        model.ConfirmedAt = testDate;
-        model.CreatedBy = testUser;
-        model.CreatedAt = testDate;
-        model.ModifiedBy = testUser;
-        model.ModifiedAt = testDate;
+        var model = new EventPickingModel
+        {
+            InfoSiteMatchId = 123,
+            MatchNo = "Test Match",
+            EventDateTime = DateTime.Now,
+            OWPLeagueId = 456,
+            HomeName = "Home Team",
+            AwayName = "Away Team",
+            LeagueName = "Test League",
+            Provider = "Test Provider",
+            MaxbetHdp = 1000,
+            IsNoOffer = false
+        };
 
         // Assert
-        Assert.Equal(123, model.Id);
-        Assert.Equal("Test Match", model.Name);
-        Assert.Equal(testDate, model.GameDate);
-        Assert.Equal(456, model.LeagueId);
+        Assert.Equal(123, model.InfoSiteMatchId);
+        Assert.Equal("Test Match", model.MatchNo);
+        Assert.Equal(456, model.OWPLeagueId);
+        Assert.Equal("Home Team", model.HomeName);
+        Assert.Equal("Away Team", model.AwayName);
         Assert.Equal("Test League", model.LeagueName);
-        Assert.Equal(789, model.HomeTeamId);
-        Assert.Equal("Home Team", model.HomeTeamName);
-        Assert.Equal(101, model.AwayTeamId);
-        Assert.Equal("Away Team", model.AwayTeamName);
-        Assert.Equal(1, model.Status);
-        Assert.Equal("Active", model.StatusName);
-        Assert.Equal(202, model.ProviderId);
-        Assert.Equal("Test Provider", model.ProviderName);
-        Assert.Equal(1.5m, model.MaxbetSpread);
-        Assert.True(model.IsConfirmed);
-        Assert.Equal(testUser, model.ConfirmedBy);
-        Assert.Equal(testDate, model.ConfirmedAt);
-        Assert.Equal(testUser, model.CreatedBy);
-        Assert.Equal(testDate, model.CreatedAt);
-        Assert.Equal(testUser, model.ModifiedBy);
-        Assert.Equal(testDate, model.ModifiedAt);
+        Assert.Equal("Test Provider", model.Provider);
+        Assert.Equal(1000, model.MaxbetHdp);
+        Assert.False(model.IsNoOffer);
     }
 
     [Fact]
@@ -97,151 +43,194 @@ public class EventPickingModelUnitTests
         // Arrange
         var model = new EventPickingModel();
 
-        // Act
-        model.Name = null;
-        model.LeagueName = null;
-        model.HomeTeamName = null;
-        model.AwayTeamName = null;
-        model.StatusName = null;
-        model.ProviderName = null;
-        model.ConfirmedBy = null;
-        model.CreatedBy = null;
-        model.ModifiedBy = null;
-
         // Assert
-        Assert.Null(model.Name);
+        Assert.Equal(0, model.InfoSiteMatchId);
+        Assert.Null(model.MatchNo);
+        Assert.Equal(default(DateTime), model.EventDateTime);
+        Assert.Equal(0, model.OWPLeagueId);
+        Assert.Null(model.HomeName);
+        Assert.Null(model.AwayName);
         Assert.Null(model.LeagueName);
-        Assert.Null(model.HomeTeamName);
-        Assert.Null(model.AwayTeamName);
-        Assert.Null(model.StatusName);
-        Assert.Null(model.ProviderName);
-        Assert.Null(model.ConfirmedBy);
-        Assert.Null(model.CreatedBy);
-        Assert.Null(model.ModifiedBy);
+        Assert.Null(model.Provider);
+        Assert.Null(model.MaxbetHdp);
+        Assert.False(model.IsNoOffer);
     }
 
     [Fact]
-    public void EventPickingModel_ShouldHandleEdgeCaseValues()
+    public void EventPickingModel_ShouldInheritFromBaseClasses()
     {
         // Arrange
-        var model = new EventPickingModel();
-        var minDate = DateTime.MinValue;
-        var maxDate = DateTime.MaxValue;
-
-        // Act
-        model.Id = int.MaxValue;
-        model.LeagueId = int.MinValue;
-        model.HomeTeamId = 0;
-        model.AwayTeamId = -1;
-        model.Status = 999;
-        model.ProviderId = 0;
-        model.MaxbetSpread = decimal.MaxValue;
-        model.GameDate = minDate;
-        model.ConfirmedAt = maxDate;
+        var model = new EventPickingModel
+        {
+            InfoSiteMatchId = 789,
+            MatchNo = "Inheritance Test",
+            EventDateTime = new DateTime(2024, 1, 1),
+            OWPLeagueId = 101,
+            HomeName = "Home",
+            AwayName = "Away",
+            LeagueName = "Inheritance League",
+            Provider = "Inheritance Provider",
+            MaxbetHdp = 2000,
+            IsNoOffer = true
+        };
 
         // Assert
-        Assert.Equal(int.MaxValue, model.Id);
-        Assert.Equal(int.MinValue, model.LeagueId);
-        Assert.Equal(0, model.HomeTeamId);
-        Assert.Equal(-1, model.AwayTeamId);
-        Assert.Equal(999, model.Status);
-        Assert.Equal(0, model.ProviderId);
-        Assert.Equal(decimal.MaxValue, model.MaxbetSpread);
-        Assert.Equal(minDate, model.GameDate);
-        Assert.Equal(maxDate, model.ConfirmedAt);
+        Assert.Equal(789, model.InfoSiteMatchId);
+        Assert.Equal("Inheritance Test", model.MatchNo);
+        Assert.Equal(new DateTime(2024, 1, 1), model.EventDateTime);
+        Assert.Equal(101, model.OWPLeagueId);
+        Assert.Equal("Home", model.HomeName);
+        Assert.Equal("Away", model.AwayName);
+        Assert.Equal("Inheritance League", model.LeagueName);
+        Assert.Equal("Inheritance Provider", model.Provider);
+        Assert.Equal(2000, model.MaxbetHdp);
+        Assert.True(model.IsNoOffer);
     }
 
     [Fact]
-    public void EventPickingModel_ShouldHandleDecimalPrecision()
+    public void EventPickingModel_ShouldHandleMaxbetAndSpreadProperties()
     {
         // Arrange
-        var model = new EventPickingModel();
-
-        // Act
-        model.MaxbetSpread = 1.123456789m;
+        var model = new EventPickingModel
+        {
+            MaxbetHdp = 5000,
+            SpreadHdp = 0.05m,
+            SpreadOu = 0.10m
+        };
 
         // Assert
-        Assert.Equal(1.123456789m, model.MaxbetSpread);
+        Assert.Equal(5000, model.MaxbetHdp);
+        Assert.Equal(0.05m, model.SpreadHdp);
+        Assert.Equal(0.10m, model.SpreadOu);
     }
 
     [Fact]
-    public void EventPickingModel_ShouldHandleBooleanValues()
+    public void EventPickingModel_ShouldHandleBooleanProperties()
     {
         // Arrange
-        var model = new EventPickingModel();
-
-        // Act
-        model.IsConfirmed = true;
-
-        // Assert
-        Assert.True(model.IsConfirmed);
-
-        // Act
-        model.IsConfirmed = false;
+        var model = new EventPickingModel
+        {
+            IsNoOffer = true,
+            IsTestMatch = true,
+            IsDeleted = false,
+            IsCheck = true
+        };
 
         // Assert
-        Assert.False(model.IsConfirmed);
+        Assert.True(model.IsNoOffer);
+        Assert.True(model.IsTestMatch);
+        Assert.False(model.IsDeleted);
+        Assert.True(model.IsCheck);
     }
 
     [Fact]
-    public void EventPickingModel_ShouldHandleDateTimeValues()
+    public void EventPickingModel_ShouldHandleDateTimeProperties()
     {
         // Arrange
-        var model = new EventPickingModel();
-        var now = DateTime.Now;
-        var utcNow = DateTime.UtcNow;
-
-        // Act
-        model.GameDate = now;
-        model.CreatedAt = utcNow;
+        var testDate = new DateTime(2024, 12, 25, 15, 30, 0);
+        var model = new EventPickingModel
+        {
+            EventDateTime = testDate
+        };
 
         // Assert
-        Assert.Equal(now, model.GameDate);
-        Assert.Equal(utcNow, model.CreatedAt);
+        Assert.Equal(testDate, model.EventDateTime);
     }
 
     [Fact]
-    public void EventPickingModel_ShouldHandleStringValues()
+    public void EventPickingModel_ShouldHandleStringProperties()
     {
         // Arrange
-        var model = new EventPickingModel();
-        var emptyString = "";
-        var longString = new string('A', 1000);
-
-        // Act
-        model.Name = emptyString;
-        model.LeagueName = longString;
+        var model = new EventPickingModel
+        {
+            MatchNo = "String Test",
+            HomeName = "Home String",
+            AwayName = "Away String",
+            LeagueName = "League String",
+            Provider = "Provider String"
+        };
 
         // Assert
-        Assert.Equal(emptyString, model.Name);
-        Assert.Equal(longString, model.LeagueName);
+        Assert.Equal("String Test", model.MatchNo);
+        Assert.Equal("Home String", model.HomeName);
+        Assert.Equal("Away String", model.AwayName);
+        Assert.Equal("League String", model.LeagueName);
+        Assert.Equal("Provider String", model.Provider);
     }
 
     [Fact]
-    public void EventPickingModel_ShouldHandleSpecialCharacters()
+    public void EventPickingModel_ShouldHandleNumericProperties()
     {
         // Arrange
-        var model = new EventPickingModel();
-        var specialChars = "!@#$%^&*()_+-=[]{}|;':\",./<>?";
-
-        // Act
-        model.Name = specialChars;
+        var model = new EventPickingModel
+        {
+            InfoSiteMatchId = 999,
+            OWPLeagueId = 888,
+            MaxbetHdp = 7777
+        };
 
         // Assert
-        Assert.Equal(specialChars, model.Name);
+        Assert.Equal(999, model.InfoSiteMatchId);
+        Assert.Equal(888, model.OWPLeagueId);
+        Assert.Equal(7777, model.MaxbetHdp);
     }
 
     [Fact]
-    public void EventPickingModel_ShouldHandleUnicodeCharacters()
+    public void EventPickingModel_ShouldHandleNullNumericProperties()
     {
         // Arrange
-        var model = new EventPickingModel();
-        var unicodeString = "测试文本 with unicode 🚀";
-
-        // Act
-        model.Name = unicodeString;
+        var model = new EventPickingModel
+        {
+            MaxbetHdp = null,
+            SpreadHdp = null,
+            SpreadOu = null
+        };
 
         // Assert
-        Assert.Equal(unicodeString, model.Name);
+        Assert.Null(model.MaxbetHdp);
+        Assert.Null(model.SpreadHdp);
+        Assert.Null(model.SpreadOu);
+    }
+
+    [Fact]
+    public void EventPickingModel_ShouldHandleEmptyStringProperties()
+    {
+        // Arrange
+        var model = new EventPickingModel
+        {
+            MatchNo = "",
+            HomeName = "",
+            AwayName = "",
+            LeagueName = "",
+            Provider = ""
+        };
+
+        // Assert
+        Assert.Equal("", model.MatchNo);
+        Assert.Equal("", model.HomeName);
+        Assert.Equal("", model.AwayName);
+        Assert.Equal("", model.LeagueName);
+        Assert.Equal("", model.Provider);
+    }
+
+    [Fact]
+    public void EventPickingModel_ShouldHandleSpecialCharactersInStrings()
+    {
+        // Arrange
+        var model = new EventPickingModel
+        {
+            MatchNo = "Test-Match_123",
+            HomeName = "Home & Away",
+            AwayName = "Away (Test)",
+            LeagueName = "League: Test",
+            Provider = "Provider@Test"
+        };
+
+        // Assert
+        Assert.Equal("Test-Match_123", model.MatchNo);
+        Assert.Equal("Home & Away", model.HomeName);
+        Assert.Equal("Away (Test)", model.AwayName);
+        Assert.Equal("League: Test", model.LeagueName);
+        Assert.Equal("Provider@Test", model.Provider);
     }
 }

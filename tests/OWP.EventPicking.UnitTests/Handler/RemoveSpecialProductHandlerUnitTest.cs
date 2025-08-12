@@ -20,7 +20,7 @@ public class RemoveSpecialProductHandlerUnitTest
         var session = Substitute.For<INapSession>();
         session.UserId.Returns(456);
 
-        var repository = Substitute.For<Repository>();
+        var repository = Substitute.For<OWP.EventPicking.Repository>();
         var handler = new RemoveSpecialProductHandler(session, repository);
 
         var removeInfo = new RemoveSpecialProduct

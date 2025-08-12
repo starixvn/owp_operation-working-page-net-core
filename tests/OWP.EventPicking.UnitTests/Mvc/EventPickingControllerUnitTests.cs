@@ -27,7 +27,7 @@ public class EventPickingControllerUnitTests
 
         // Assert
         var viewResult = Assert.IsType<ViewResult>(result);
-        Assert.Null(viewResult.ViewName); // Should use default view name
+        Assert.Equal("Index", viewResult.ViewName); // Controller explicitly returns "Index"
     }
 
     [Fact]
