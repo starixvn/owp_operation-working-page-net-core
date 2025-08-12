@@ -1,0 +1,17 @@
+global using System;
+global using System.Collections.Generic;
+global using System.Net;
+global using System.Net.Http;
+global using System.Text;
+global using System.Threading;
+global using System.Threading.Tasks;
+global using Xunit;
+global using NSubstitute;
+global using MediatR;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+global using Fanex.Data.Repository;
+global using Fanex.NAP.Client;
+global using Olympus.OWP.Log.Criteria;
+global using OWP.CQRS;
+global using OWP.Extensions;
