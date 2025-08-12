@@ -16,13 +16,13 @@ public class EditEventPickingHandlerUnitTest
 {
     private static EditEventPickingHandler CreateHandler(
         QueryEventPickingService? service = null,
-        Repository? repository = null,
+        OWP.EventPicking.Repository? repository = null,
         PullMainLeagueService? pullMainLeagueService = null,
         MapMainLeagueForEventService? mapMainLeagueForEventService = null,
         BuildMBForClubFriendlyMajorLeagueBuilder? mbBuilder = null)
     {
         service ??= Substitute.For<QueryEventPickingService>();
-        repository ??= Substitute.For<Repository>();
+        repository ??= Substitute.For<OWP.EventPicking.Repository>();
         pullMainLeagueService ??= Substitute.For<PullMainLeagueService>();
         mapMainLeagueForEventService ??= Substitute.For<MapMainLeagueForEventService>();
         mbBuilder ??= Substitute.For<BuildMBForClubFriendlyMajorLeagueBuilder>();
@@ -47,7 +47,7 @@ public class EditEventPickingHandlerUnitTest
     {
         // Arrange
         var service = Substitute.For<QueryEventPickingService>();
-        var repository = Substitute.For<Repository>();
+        var repository = Substitute.For<OWP.EventPicking.Repository>();
         var pullMainLeagueService = Substitute.For<PullMainLeagueService>();
         var mapper = Substitute.For<MapMainLeagueForEventService>();
         var mbBuilder = Substitute.For<BuildMBForClubFriendlyMajorLeagueBuilder>();
@@ -108,7 +108,7 @@ public class EditEventPickingHandlerUnitTest
     {
         // Arrange
         var service = Substitute.For<QueryEventPickingService>();
-        var repository = Substitute.For<Repository>();
+        var repository = Substitute.For<OWP.EventPicking.Repository>();
         var handler = CreateHandler(service, repository);
 
         var match = new EventPickingModel
