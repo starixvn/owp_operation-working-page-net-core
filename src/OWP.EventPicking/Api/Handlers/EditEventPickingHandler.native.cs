@@ -157,10 +157,10 @@ public class EditEventPickingHandler(
 
     private LeagueSettingInfoSender GetLeagueSettingByPriority(List<LeagueSettingInfoSender> leagueSettings, EventPickingModel match)
     {
-        // Order by ID (descending) first, then by priority
+        // Order by priority first, then by ID (descending) to get the last ID
         var orderedLeagues = leagueSettings
-            .OrderByDescending(league => league.LeagueSettingId)
-            .ThenBy(league => GetPriority(league.Condition))
+            .OrderBy(league => GetPriority(league.Condition))
+            .ThenByDescending(league => league.LeagueSettingId)
             .ToList();
 
         var bestMatch = orderedLeagues.FirstOrDefault();
