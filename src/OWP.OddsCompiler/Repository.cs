@@ -260,28 +260,31 @@ public class RepositoryImp(IDynamicRepository dynamicRepository,
             Message = ""
         };
         var marketSendNotificationModel = message.ParseXml<MarketSendNotificationModel>();
-        if (!string.IsNullOrEmpty(marketSendNotificationModel.OldValue) || !string.IsNullOrEmpty(marketSendNotificationModel.NewValue))
+        if (string.IsNullOrEmpty(marketSendNotificationModel.OldValue) &&
+            string.IsNullOrEmpty(marketSendNotificationModel.NewValue))
         {
-            var getUserIdResult = await GetUsersToSendNotification(owpMatchId,
-                (int)NotificationSettings.WatcherMatchInfoSetting,
-                (int)NotificationSettings.AssigneeMatchInfoSetting);
-            var listAssigneeIds = getUserIdResult.Item1;
-            var listWatcherIds = getUserIdResult.Item2;
-            if (listAssigneeIds != null && listAssigneeIds.Any() || listWatcherIds != null && listWatcherIds.Any())
-            {
-                var assigneeIds = string.Join(",", listAssigneeIds.Select(x => x.UserId).ToArray());
-                var watcherIds = string.Join(",", listWatcherIds.Select(x => x.UserId).ToArray());
-
-                result = await SendNotificationWithEditMarket(new MarketNotificationModel
-                {
-                    OWPMatchId = owpMatchId,
-                    AssigneeIds = assigneeIds,
-                    WatcherIds = watcherIds,
-                    OldValue = marketSendNotificationModel.OldValue,
-                    NewValue = marketSendNotificationModel.NewValue
-                });
-            }
+            return result;
         }
+        var getUserIdResult = await GetUsersToSendNotification(owpMatchId,
+            (int)NotificationSettings.WatcherMatchInfoSetting,
+            (int)NotificationSettings.AssigneeMatchInfoSetting);
+        var listAssigneeIds = getUserIdResult.Item1;
+        var userIdModels = listAssigneeIds as UserIdModel[] ?? listAssigneeIds.ToArray();
+        if (!userIdModels.Any())
+        {
+            return result;
+        }
+        var assigneeIds = string.Join(",", userIdModels.Select(x => x.UserId).ToArray());
+        var watcherIds = string.Empty;
+
+        result = await SendNotificationWithEditMarket(new MarketNotificationModel
+        {
+            OWPMatchId = owpMatchId,
+            AssigneeIds = assigneeIds,
+            WatcherIds = watcherIds,
+            OldValue = marketSendNotificationModel.OldValue,
+            NewValue = marketSendNotificationModel.NewValue
+        });
 
         return result;
     }
@@ -317,20 +320,22 @@ public class RepositoryImp(IDynamicRepository dynamicRepository,
                 (int)NotificationSettings.WatcherOddsCompilerSetting,
                 (int)NotificationSettings.AssigneeOddsCompilerSetting);
             var listAssigneeIds = getUserIdResult.Item1;
-            var listWatcherIds = getUserIdResult.Item2;
-            if (listAssigneeIds != null && listAssigneeIds.Any() || listWatcherIds != null && listWatcherIds.Any())
+            var userIdModels = listAssigneeIds as UserIdModel[] ?? listAssigneeIds.ToArray();
+            if (!userIdModels.Any())
             {
-                var assigneeIds = string.Join(",", listAssigneeIds.Select(x => x.UserId).ToArray());
-                var watcherIds = string.Join(",", listWatcherIds.Select(x => x.UserId).ToArray());
-
-                await SendOddsCompilerNotificationWithBettype(new OddsCompilerNotificationModel
-                {
-                    OWPMatchId = owpMatchId,
-                    AssigneeIds = assigneeIds,
-                    WatcherIds = watcherIds,
-                    Bettype = bettype
-                });
+                continue;
             }
+
+            var assigneeIds = string.Join(",", userIdModels.Select(x => x.UserId).ToArray());
+            var watcherIds = string.Empty;
+
+            await SendOddsCompilerNotificationWithBettype(new OddsCompilerNotificationModel
+            {
+                OWPMatchId = owpMatchId,
+                AssigneeIds = assigneeIds,
+                WatcherIds = watcherIds,
+                Bettype = bettype
+            });
         }
     }
 
@@ -367,7 +372,7 @@ public class RepositoryImp(IDynamicRepository dynamicRepository,
         };
         var fetchedData = await dynamicRepository.FetchMultipleAsync<UserIdModel, UserIdModel>(criteria);
         var listAssigneeIds = fetchedData.Item1;
-        var listWatcherIds = fetchedData.Item2;
-        return new Tuple<IEnumerable<UserIdModel>, IEnumerable<UserIdModel>>(listAssigneeIds, listWatcherIds);
+       
+        return new Tuple<IEnumerable<UserIdModel>, IEnumerable<UserIdModel>>(listAssigneeIds, []);
     }
 }

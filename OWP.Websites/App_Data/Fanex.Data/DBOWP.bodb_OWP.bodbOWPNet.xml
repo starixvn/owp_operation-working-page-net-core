@@ -28,7 +28,6 @@
     <Function Name="AssignmentUpload">
         <Setting Key="OWP_AssignmentUpload_AllMatchesByTimeRange" SpName="OWP_AssignmentUpload_AllMatchesByTimeRange" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_AssignmentUpload_GetNotificationSetting" SpName="OWP_AssignmentUpload_GetNotificationSetting" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_AssignmentUpload_GetSectionMemberOfUserReceivedWatcher" SpName="OWP_AssignmentUpload_GetSectionMemberOfUserReceivedWatcher" DbName="DBOWP.bodb_OWP.wsv_owp" />
     </Function>
 
     <Function Name="SyncMaxbet">
@@ -111,7 +110,6 @@
         <Setting Key="OWP_ValidationRule_CheckWhenEdit" SpName="OWP_ValidationRule_CheckWhenEdit" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_LiveDetail_MatchInfo_Get" SpName="OWP_LiveDetail_MatchInfo_Get" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_LiveDetail_Update_ProviderInfo" SpName="OWP_LiveDetail_Update_ProviderInfo" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_LiveDetail_UpdateTradingInfo" SpName="OWP_LiveDetail_UpdateTradingInfo" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_LiveDetail_MatchInfo_UpdateMatchStatus" SpName="OWP_LiveDetail_MatchInfo_UpdateMatchStatus" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_LiveDetail_Television_GetByMatchId" SpName="OWP_LiveDetail_Television_GetByMatchId" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_LiveDetail_OtherProvider_GetByMatchId" SpName="OWP_LiveDetail_OtherProvider_GetByMatchId" DbName="DBOWP.bodb_OWP.wsv_owp" />
@@ -122,9 +120,6 @@
         <Setting Key="OWP_LiveDetail_MatchOffer_GetByMatchId" SpName="OWP_LiveDetail_MatchOffer_GetByMatchId" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_LiveDetail_ValidateInfoSiteMatchId" SpName="OWP_LiveDetail_ValidateInfoSiteMatchId" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_LiveDetail_MatchSetting_GetById" SpName="OWP_LiveDetail_MatchSetting_GetById" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_LiveDetail_MatchSetting_Create" SpName="OWP_LiveDetail_MatchSetting_Create" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_LiveDetail_MatchSetting_Update" SpName="OWP_LiveDetail_MatchSetting_Update" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_LiveDetail_MatchSetting_Delete" SpName="OWP_LiveDetail_MatchSetting_Delete" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_LiveDetail_Update_MatchInfo" SpName="OWP_LiveDetail_Update_MatchInfo" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_LiveDetail_ReadyTradeStatus_Insert" SpName="OWP_LiveDetail_ReadyTradeStatus_Insert" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_Agent_GetSuggestion" SpName="OWP_Agent_GetSuggestion" DbName="DBOWP.bodb_OWP.wsv_owp" />
@@ -330,7 +325,6 @@
         <Setting Key="OWP_TraderByUsernameSel" SpName="OWP_TraderByUsernameSel" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_AssignmentUpload_MessageInsert" SpName="OWP_AssignmentUpload_MessageInsert" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_AssignmentUpload_GetNotificationSetting" SpName="OWP_AssignmentUpload_GetNotificationSetting" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_AssignmentUpload_GetSectionMemberOfUserReceivedWatcher" SpName="OWP_AssignmentUpload_GetSectionMemberOfUserReceivedWatcher" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_AssignmentUpload_UploadHistoryInsertOrUpdate" SpName="OWP_AssignmentUpload_UploadHistoryInsertOrUpdate" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_InfoSiteMatch_GetInfoSiteMatchByDate" SpName="OWP_InfoSiteMatch_GetInfoSiteMatchByDate" DbName="DBOWP.bodb_OWP.wsv_owp" />
     </Function>
