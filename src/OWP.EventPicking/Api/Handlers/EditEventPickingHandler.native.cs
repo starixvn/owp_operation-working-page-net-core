@@ -157,35 +157,36 @@ public class EditEventPickingHandler(
 
     private LeagueSettingInfoSender GetLeagueSettingByPriority(List<LeagueSettingInfoSender> leagueSettings, EventPickingModel match)
     {
-        var tvLeague = leagueSettings.LastOrDefault(league => league.Condition.HasTv);
-        if (tvLeague != null)
+        // Order by ID (descending) first, then by priority
+        var orderedLeagues = leagueSettings
+            .OrderByDescending(league => league.LeagueSettingId)
+            .ThenBy(league => GetPriority(league.Condition))
+            .ToList();
+
+        var bestMatch = orderedLeagues.FirstOrDefault();
+        
+        if (bestMatch != null)
         {
-            SuggestionValue(match, tvLeague);
-            return tvLeague;
+            SuggestionValue(match, bestMatch);
         }
 
-        var ipTvLeague = leagueSettings.LastOrDefault(league => league.Condition.HasIpTv);
-        if (ipTvLeague != null)
-        {
-            SuggestionValue(match, ipTvLeague);
-            return ipTvLeague;
-        }
+        return bestMatch;
+    }
 
-        var roundLeague = leagueSettings.LastOrDefault(league => league.Condition.Round.Count > 0);
-        if (roundLeague != null)
-        {
-            SuggestionValue(match, roundLeague);
-            return roundLeague;
-        }
-
-        var divisionLeague = leagueSettings.LastOrDefault(league => league.Condition.Division.Count > 0);
-        if (divisionLeague != null)
-        {
-            SuggestionValue(match, divisionLeague);
-            return divisionLeague;
-        }
-
-        return leagueSettings.LastOrDefault();
+    private int GetPriority(NewLeagueSettingCondition condition)
+    {
+        if (condition.HasTv && condition.Round.Count > 0 && condition.Division.Count > 0) return 1;
+        if (condition.HasTv && condition.Round.Count > 0) return 2;
+        if (condition.HasTv && condition.Division.Count > 0) return 3;
+        if (condition.HasIpTv && condition.Round.Count > 0 && condition.Division.Count > 0) return 4;
+        if (condition.HasIpTv && condition.Round.Count > 0) return 5;
+        if (condition.HasIpTv && condition.Division.Count > 0) return 6;
+        if (condition.HasTv) return 7;
+        if (condition.HasIpTv) return 8;
+        if (condition.Round.Count > 0 && condition.Division.Count > 0) return 9;
+        if (condition.Round.Count > 0) return 10;
+        if (condition.Division.Count > 0) return 11;
+        return 12;
     }
 
 
