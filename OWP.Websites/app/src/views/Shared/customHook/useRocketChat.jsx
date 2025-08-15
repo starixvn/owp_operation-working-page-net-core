@@ -28,7 +28,7 @@ const decryptData = async encryptedData => {
     const bytes = CryptoJS.AES.decrypt(encryptedData, key);
     return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
   } catch (error) {
-    console.error('Decryption failed:', error);
+    console.info('Decryption failed:', error);
     return null;
   }
 };
@@ -88,7 +88,7 @@ const verifyToken = async (token, userId, chatUrl) => {
     });
     return response.ok;
   } catch (err) {
-    console.error('Token verification failed:', err);
+    console.info('Token verification failed:', err);
     return false;
   }
 };

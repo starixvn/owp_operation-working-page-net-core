@@ -7,6 +7,93 @@ import { filterMatchByCriteria } from '../../helper/tasklistHelper';
 import { RefreshModel } from '../../type/Header';
 
 const defaultEntities: Readonly<Array<DataSource>> = [];
+
+const checkBasicMatchFields = (match: DataSource, keyword: string): boolean => {
+  return [
+    match.MatchNo,
+    match.KickOffTimeDisplay,
+    match.InfoSiteTimeDisplay,
+    match.OtherTimeDisplay,
+    match.EventDateDisplay,
+    match.League,
+    match.LeagueGroup,
+    match.NoOfHDP,
+    match.Home,
+    match.Away,
+    match.Remark,
+    match.Round,
+    match.TeamRound,
+    match.Division,
+    match.IPTV,
+    match.IPTVCopy,
+    match.Provider,
+    match.WatchBet,
+    match.OtherProvider
+  ].some(field => String(field || '').toLowerCase().includes(keyword));
+};
+
+const checkMatchOffers = (match: DataSource, keyword: string): boolean => {
+  return match.MatchOffers?.some(offer =>
+    String(offer.MatchOfferValue || '').toLowerCase().includes(keyword)
+  ) || false;
+};
+
+const checkMatchSettings = (match: DataSource, keywordUpper: string): boolean => {
+  const settings = match.MatchSetting;
+  if (!settings) {
+    return false;
+  }
+
+  const maxbetFields = [
+    settings.Handicap?.MaxbetSpreadToDisplay,
+    settings.Handicap1st?.MaxbetSpreadToDisplay,
+    settings.OverUnder?.MaxbetSpreadToDisplay,
+    settings.OverUnder1st?.MaxbetSpreadToDisplay,
+    settings.OneXTwo?.MaxbetSpreadToDisplay,
+    settings.OneXTwo1st?.MaxbetSpreadToDisplay,
+    settings.Specific15Mins?.MaxbetSpreadToDisplay,
+    settings.Specific10Mins?.MaxbetSpreadToDisplay,
+    settings.FastMarket?.MaxbetSpreadToDisplay
+  ];
+
+  return maxbetFields.some(field =>
+    String(field || '').toUpperCase().includes(keywordUpper)
+  );
+};
+
+const checkAssignments = (match: DataSource, keyword: string): boolean => {
+  const assignment = match.Assignment;
+  if (!assignment) {
+    return false;
+  }
+
+  const assignmentTypes = [
+    assignment.Handicap,
+    assignment.Handicap1st,
+    assignment.OverUnder,
+    assignment.OverUnder1st,
+    assignment.OneXTwo,
+    assignment.OneXTwo1st,
+    assignment.Specific15Mins,
+    assignment.Specific10Mins,
+    assignment.FastMarket,
+    assignment.LA,
+    assignment.LAOthers
+  ];
+
+  return assignmentTypes.some(traders =>
+    traders?.some(trader =>
+      String(trader.Username || '').toLowerCase().includes(keyword)
+    )
+  );
+};
+
+const checkTelevisions = (match: DataSource, keyword: string): boolean => {
+  return match.Televisions?.some(tv =>
+    String(tv.TVCode || '').toLowerCase().includes(keyword)
+  ) || false;
+};
+
 const taskListSlice = createSlice({
   name: 'taskList/taskListSlice',
   initialState: {
@@ -90,51 +177,30 @@ const taskListSlice = createSlice({
         state.matches = filterMatchByCriteria(state.matchesOriginal)(state.isShowUnreadMsg)(state.isHideCompletedMatches);
         return;
       }
-      const filteredMatches = state.matchesOriginal.filter(match =>
-        String(match.MatchNo || '').toLowerCase().includes(keyword) ||
-        String(match.KickOffTimeDisplay || '').toLowerCase().includes(keyword) ||
-        String(match.InfoSiteTimeDisplay || '').toLowerCase().includes(keyword) ||
-        String(match.OtherTimeDisplay || '').toLowerCase().includes(keyword) ||
-        String(match.EventDateDisplay || '').toLowerCase().includes(keyword) ||
-        String(match.League || '').toLowerCase().includes(keyword) ||
-        String(match.LeagueGroup || '').toLowerCase().includes(keyword) ||
-        match.MatchOffers?.some(offer => String(offer.MatchOfferValue || '').toLowerCase().includes(keyword)) ||
-        String(match.NoOfHDP || '').trim().replace(' ', '').toLowerCase().includes(keyword) ||
-        String(match.Home || '').toLowerCase().includes(keyword) ||
-        String(match.Away || '').toLowerCase().includes(keyword) ||
-        String(match.Remark || '').toLowerCase().includes(keyword) ||
-        String(match.Round || '').toLowerCase().includes(keyword) ||
-        String(match.TeamRound || '').toLowerCase().includes(keyword) ||
-        String(match.Division || '').toLowerCase().includes(keyword) ||
-        String(match.IPTV || '').toLowerCase().includes(keyword) ||
-        String(match.IPTVCopy || '').toLowerCase().includes(keyword) ||
-        String(match.Provider || '').toLowerCase().includes(keyword) ||
-        String(match.WatchBet || '').toLowerCase().includes(keyword) ||
-        String(match.OtherProvider || '').toLowerCase().includes(keyword) ||
-        String(match.MatchSetting?.Handicap?.MaxbetSpreadToDisplay || '').toUpperCase().includes(keywordUpper) ||
-        String(match.MatchSetting?.Handicap1st?.MaxbetSpreadToDisplay || '').toUpperCase().includes(keywordUpper) ||
-        String(match.MatchSetting?.OverUnder?.MaxbetSpreadToDisplay || '').toUpperCase().includes(keywordUpper) ||
-        String(match.MatchSetting?.OverUnder1st?.MaxbetSpreadToDisplay || '').toUpperCase().includes(keywordUpper) ||
-        String(match.MatchSetting?.OneXTwo?.MaxbetSpreadToDisplay || '').toUpperCase().includes(keywordUpper) ||
-        String(match.MatchSetting?.OneXTwo1st?.MaxbetSpreadToDisplay || '').toUpperCase().includes(keywordUpper) ||
-        String(match.MatchSetting?.Specific15Mins?.MaxbetSpreadToDisplay || '').toUpperCase().includes(keywordUpper) ||
-        String(match.MatchSetting?.Specific10Mins?.MaxbetSpreadToDisplay || '').toUpperCase().includes(keywordUpper) ||
-        String(match.MatchSetting?.FastMarket?.MaxbetSpreadToDisplay || '').toUpperCase().includes(keywordUpper) ||
-        match.Assignment?.Handicap?.some(trader => String(trader.Username || '').toLowerCase().includes(keyword)) ||
-        match.Assignment?.Handicap1st?.some(trader => String(trader.Username || '').toLowerCase().includes(keyword)) ||
-        match.Assignment?.OverUnder?.some(trader => String(trader.Username || '').toLowerCase().includes(keyword)) ||
-        match.Assignment?.OverUnder1st?.some(trader => String(trader.Username || '').toLowerCase().includes(keyword)) ||
-        match.Assignment?.OneXTwo?.some(trader => String(trader.Username || '').toLowerCase().includes(keyword)) ||
-        match.Assignment?.OneXTwo1st?.some(trader => String(trader.Username || '').toLowerCase().includes(keyword)) ||
-        match.Assignment?.Specific15Mins?.some(trader => String(trader.Username || '').toLowerCase().includes(keyword)) ||
-        match.Assignment?.Specific10Mins?.some(trader => String(trader.Username || '').toLowerCase().includes(keyword)) ||
-        match.Assignment?.FastMarket?.some(trader => String(trader.Username || '').toLowerCase().includes(keyword)) ||
-        match.Assignment?.LA?.some(trader => String(trader.Username || '').toLowerCase().includes(keyword)) ||
-        match.Assignment?.LAOthers?.some(trader => String(trader.Username || '').toLowerCase().includes(keyword)) ||
-        match.Televisions?.some(tv =>
-          String(tv.TVCode || '').toLowerCase().includes(keyword)
-        )
-      );
+
+      const filteredMatches = state.matchesOriginal.filter(match => {
+        if (checkBasicMatchFields(match, keyword)) {
+          return true;
+        }
+
+        if (checkMatchOffers(match, keyword)) {
+          return true;
+        }
+
+        if (checkMatchSettings(match, keywordUpper)) {
+          return true;
+        }
+
+        if (checkAssignments(match, keyword)) {
+          return true;
+        }
+
+        if (checkTelevisions(match, keyword)) {
+          return true;
+        }
+
+        return false;
+      });
       state.matches = filterMatchByCriteria(filteredMatches)(state.isShowUnreadMsg)(state.isHideCompletedMatches);
     }
   },

@@ -31,28 +31,48 @@ const BASE_URLS = {
   RT3: '/RobotTrader3/Robot3MulControl.aspx'
 } as const;
 
-const useActionConfigs = (
+const createActionConfigs = (
   tradingPageUrl: string,
-  firstMatchCheckedIsSaba?: boolean
+  firstMatchCheckedIsSaba: boolean
 ) => {
   return {
     Saba: {
       url: `${tradingPageUrl}${BASE_URLS.Saba}`,
       paramName: 'MatchIds',
       label: 'Saba Batch',
-      isDisabled:
-        firstMatchCheckedIsSaba === undefined ||
-        firstMatchCheckedIsSaba === false
+      isDisabled: !firstMatchCheckedIsSaba
     },
     RT3: {
       url: `${tradingPageUrl}${BASE_URLS.RT3}`,
       paramName: 'matchID',
       label: 'RT3 Batch',
-      isDisabled:
-        firstMatchCheckedIsSaba === undefined ||
-        firstMatchCheckedIsSaba === true
+      isDisabled: firstMatchCheckedIsSaba
     }
   } as const;
+};
+
+const useActionConfigs = (
+  tradingPageUrl: string,
+  firstMatchCheckedIsSaba?: boolean
+) => {
+  if (firstMatchCheckedIsSaba === undefined) {
+    return {
+      Saba: {
+        url: `${tradingPageUrl}${BASE_URLS.Saba}`,
+        paramName: 'MatchIds',
+        label: 'Saba Batch',
+        isDisabled: true
+      },
+      RT3: {
+        url: `${tradingPageUrl}${BASE_URLS.RT3}`,
+        paramName: 'matchID',
+        label: 'RT3 Batch',
+        isDisabled: true
+      }
+    } as const;
+  }
+
+  return createActionConfigs(tradingPageUrl, firstMatchCheckedIsSaba);
 };
 
 const createLabelClickHandler =
@@ -131,11 +151,11 @@ const TradingMenuPopup = (props: TTradingMenuPopup) => {
           serverSetting === undefined
             ? tradingPage
             : serverSetting.port !== defaultPort
-            ? `${serverSetting.url}:${serverSetting.tradingPort}`
-            : serverSetting.url
+              ? `${serverSetting.url}:${serverSetting.tradingPort}`
+              : serverSetting.url
         );
       } catch (error) {
-        console.error('Error fetching trading URL:', error);
+        console.info('Error fetching trading URL:', error);
       } finally {
         setLoading(false);
       }
@@ -152,7 +172,7 @@ const TradingMenuPopup = (props: TTradingMenuPopup) => {
   return (
     <Dropdown dropdownRender={() => menu} trigger={['click']}>
       <a onClick={e => e.preventDefault()}>
-        <DropdownIcon colorDropdown='black' handleOnClick={() => {}} />
+        <DropdownIcon colorDropdown='black' handleOnClick={() => undefined} />
       </a>
     </Dropdown>
   );

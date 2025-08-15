@@ -21,9 +21,9 @@ const MultipleFilterHeader = ({
     setIsOpenFilter(false)
   );
 
-  const handleFilter = (selected: Option[]) => {
+  const handleFilter = (selectedOptions: Option[]) => {
     setIsOpenFilter(false);
-    onFilter(selected);
+    onFilter(selectedOptions);
   };
 
   const handleClearFilter = () => {
@@ -33,9 +33,8 @@ const MultipleFilterHeader = ({
   return (
     <div className='filter-header'>
       <span
-        className={`icon-filter ${
-          (setIsFilter ? setIsFilter() : isFilter) ? 'is-filter' : ''
-        }`}
+        className={`icon-filter ${(setIsFilter ? setIsFilter() : isFilter) ? 'is-filter' : ''
+          }`}
         onClick={() => setIsOpenFilter(true)}>
         <FilterIcon size={14} />
       </span>

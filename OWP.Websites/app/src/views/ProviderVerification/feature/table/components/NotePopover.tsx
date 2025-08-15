@@ -37,7 +37,7 @@ const NotePopover = ({
 
   useEffect(() => {
     if (!isOpen) {
-      return;
+      return undefined;
     }
 
     const handleClickOutside = (e: MouseEvent) => {
@@ -47,8 +47,9 @@ const NotePopover = ({
     };
 
     document.addEventListener('click', handleClickOutside, true);
-    return () =>
+    return () => {
       document.removeEventListener('click', handleClickOutside, true);
+    };
   }, [isOpen]);
 
   const handleSubmit = (e: React.FormEvent) => {

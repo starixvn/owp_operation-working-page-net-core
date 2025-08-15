@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import useClickOutside from './customHook/useClickOutside';
 import FilterIcon from 'mdi-react/FilterIcon';
 import CloseIcon from 'mdi-react/CloseIcon';
 import { Button } from 'reactstrap';
