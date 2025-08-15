@@ -17,9 +17,9 @@ const MultipleFilterHeaderPopupCommon = ({
   const [value, setValue] = useState(selected || []);
   const [oldValue, setOldValue] = useState(selected || []);
 
-  const filterOptions = (options: Option[], filter: string): Option[] => {
+  const filterOptions = (optionList: Option[], filter: string): Option[] => {
     if (filter.length > 0) {
-      const filteredOptions = options.filter(option =>
+      const filteredOptions = optionList.filter(option =>
         option.label.toLowerCase().includes(filter.toLowerCase())
       );
 
@@ -27,7 +27,7 @@ const MultipleFilterHeaderPopupCommon = ({
       return filteredOptions;
     }
     setValue(oldValue);
-    return options;
+    return optionList;
   };
 
   const handleSearch = () => {

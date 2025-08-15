@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { Suspense, useState, lazy, useEffect } from 'react';
+import { Suspense, useState, lazy } from 'react';
 import { useDispatch } from 'react-redux';
 import Loading from '../../components/Loading';
 import { FunctionKeys } from '../../Shared/Constants';

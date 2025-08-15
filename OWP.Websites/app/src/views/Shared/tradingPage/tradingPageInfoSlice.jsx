@@ -11,7 +11,12 @@ const tradingPageInfoSlice = createSlice({
     info: {},
     serverSetingId: 0
   },
-  reducers: {},
+  reducers: {
+    setServerSettingId: (state, action) => {
+      const { id } = action.payload;
+      state.serverSetingId = id;
+    }
+  },
   extraReducers: builder => {
     builder
       .addCase(getSoccerTradingPageInfo.pending, state => {
@@ -27,6 +32,8 @@ const tradingPageInfoSlice = createSlice({
   }
 });
 
-const { reducer } = tradingPageInfoSlice;
+const { reducer, actions } = tradingPageInfoSlice;
+const { setServerSettingId } = actions;
 
 export default reducer;
+export { setServerSettingId };

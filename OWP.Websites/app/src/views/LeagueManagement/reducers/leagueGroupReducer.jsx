@@ -5,7 +5,6 @@ import {
 } from '../constants/action-type';
 import MaxbetConst from '../constants/MaxbetConst';
 import Converter from '../../Shared/Converter';
-import isEqual from 'lodash.isequal';
 
 const defaultModel = {
   leagueGroupPending: true,

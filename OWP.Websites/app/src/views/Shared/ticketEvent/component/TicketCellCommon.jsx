@@ -36,7 +36,8 @@ const propTypes = {
   dataSource: PropTypes.any,
   rowIndex: PropTypes.number,
   onShowTicketList: PropTypes.func,
-  updateDataSources: PropTypes.func
+  updateDataSources: PropTypes.func,
+  authToken: PropTypes.string
 };
 
 const { LIVE_INCIDENT } = TICKET_TYPE;
@@ -137,51 +138,45 @@ const TicketCellCommon = props => {
       Provider: ${Provider ?? ''}
         `.trim();
 
-    try {
-      const recipients = await Service.queryAssigneesByParentMatchId(
-        OWPMatchId
-      );
-      const userNames = recipients.map(item => item.userName);
+    const recipients = await Service.queryAssigneesByParentMatchId(OWPMatchId);
+    const userNames = recipients.map(item => item.userName);
 
-      const discussionName = await stableDispatch(
-        createDiscussionThunk({
-          t_name: `${KickOffTimeDisplay} - ${Home} -vs- ${Away}`,
-          reply: replyMessage,
-          users: userNames,
-          owpMatchId: OWPMatchId
-        })
-      ).unwrap();
+    const discussionName = await stableDispatch(
+      createDiscussionThunk({
+        t_name: `${KickOffTimeDisplay} - ${Home} -vs- ${Away}`,
+        reply: replyMessage,
+        users: userNames,
+        owpMatchId: OWPMatchId
+      })
+    ).unwrap();
 
-      const width = window.innerWidth / 2;
-      const height = window.innerHeight / 2;
-      const left = (window.innerWidth - width) / 2;
-      const top = (window.innerHeight - height) / 2;
+    const width = window.innerWidth / 2;
+    const height = window.innerHeight / 2;
+    const left = (window.innerWidth - width) / 2;
+    const top = (window.innerHeight - height) / 2;
 
-      const baseUrl = `${await getServerUrl()}/group/${discussionName}`;
-      const params = new URLSearchParams({
-        layout: 'embedded'
-      });
-      if (authToken) {
-        params.set('resumeToken', authToken);
-      }
-
-      const chatUrl = `${baseUrl}?${params.toString()}`;
-
-      window.open(
-        chatUrl,
-        '_blank',
-        `toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=${width},height=${height},top=${top},left=${left}`
-      );
-
-      stableDispatch(
-        setDataSignalR({
-          actorId: creatorInfo.recipientId,
-          parentMatchId: OWPMatchId
-        })
-      );
-    } catch (err) {
-      console.error('Create discussion failed:', err);
+    const baseUrl = `${await getServerUrl()}/group/${discussionName}`;
+    const params = new URLSearchParams({
+      layout: 'embedded'
+    });
+    if (authToken) {
+      params.set('resumeToken', authToken);
     }
+
+    const chatUrl = `${baseUrl}?${params.toString()}`;
+
+    window.open(
+      chatUrl,
+      '_blank',
+      `toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=${width},height=${height},top=${top},left=${left}`
+    );
+
+    stableDispatch(
+      setDataSignalR({
+        actorId: creatorInfo.recipientId,
+        parentMatchId: OWPMatchId
+      })
+    );
   };
 
   const renderOpenTicketListHandler = () => (
@@ -233,15 +228,19 @@ const TicketCellCommon = props => {
     />
   );
 
-  return (
-    <div className='ticket-cell'>
-      {dataSource[rowIndex].HasTicket
-        ? renderOpenTicketListHandler()
-        : allowQuickAdd && HasWrite
-        ? renderQuickAddTicketHandler()
-        : renderCreateTicketHandler()}
-    </div>
-  );
+  const renderTicketContent = () => {
+    if (dataSource[rowIndex].HasTicket) {
+      return renderOpenTicketListHandler();
+    }
+
+    if (allowQuickAdd && HasWrite) {
+      return renderQuickAddTicketHandler();
+    }
+
+    return renderCreateTicketHandler();
+  };
+
+  return <div className='ticket-cell'>{renderTicketContent()}</div>;
 };
 
 TicketCellCommon.propTypes = propTypes;

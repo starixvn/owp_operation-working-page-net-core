@@ -91,10 +91,10 @@ const Command = (props: { closePopup: Function }) => {
       closePopup();
     } catch (error) {
       if ((error as AxiosError).response?.status === 400) {
-        const { message, duplicatedLeagueName } = (error as AxiosError).response
+        const { message: errorMessage, duplicatedLeagueName } = (error as AxiosError).response
           ?.data as TExpectedResponseType;
         await ToastrWrapper.showDuplicateLeagueSetting(
-          message,
+          errorMessage,
           duplicatedLeagueName
         );
       }

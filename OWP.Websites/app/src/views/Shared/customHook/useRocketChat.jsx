@@ -28,7 +28,7 @@ const decryptData = async encryptedData => {
     const bytes = CryptoJS.AES.decrypt(encryptedData, key);
     return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
   } catch (error) {
-    console.error('Decryption failed:', error);
+    console.info('Decryption failed:', error);
     return null;
   }
 };
@@ -40,7 +40,7 @@ const getStoredAuth = async () => {
   }
 
   const expiry = await decryptData(encryptedExpiry);
-  if (!expiry || new Date().getTime() > parseInt(expiry)) {
+  if (!expiry || new Date().getTime() > parseInt(expiry, 10)) {
     clearStorage();
     return null;
   }
@@ -88,7 +88,7 @@ const verifyToken = async (token, userId, chatUrl) => {
     });
     return response.ok;
   } catch (err) {
-    console.error('Token verification failed:', err);
+    console.info('Token verification failed:', err);
     return false;
   }
 };

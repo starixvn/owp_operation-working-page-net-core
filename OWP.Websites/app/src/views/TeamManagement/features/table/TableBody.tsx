@@ -48,7 +48,9 @@ const TableBody = ({ virtualizer, flattenedRows }: TableBodyProps) => {
               {virtualizer.getVirtualItems().map(virtualRow => {
                 const rowData = flattenedRows[virtualRow.index];
 
-                if (!rowData) return null;
+                if (!rowData) {
+                  return null;
+                }
 
                 if (rowData.type === 'league') {
                   const league = rowData.data as TLeague;
@@ -65,7 +67,7 @@ const TableBody = ({ virtualizer, flattenedRows }: TableBodyProps) => {
                       <div className='table-cell'>
                         <div className="league-header-content">
                           <button
-                            onClick={(e) => {
+                            onClick={e => {
                               e.stopPropagation();
                               handleToggleLeague(league.LeagueId);
                             }}
@@ -82,7 +84,11 @@ const TableBody = ({ virtualizer, flattenedRows }: TableBodyProps) => {
                   );
                 } else if (rowData.type === 'team') {
                   const team = rowData.data;
-                  const teamIndex = rowData.teamIndex!;
+                  const teamIndex = rowData.teamIndex;
+                  if (teamIndex === undefined) {
+                    return null;
+                  }
+
 
                   return (
                     <div

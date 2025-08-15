@@ -5,7 +5,7 @@ import {
   getUserSettingServer
 } from '../tradingPage/getTradingPageInfoThunk';
 
-const useGetSoccerTradingPageInfo = () => {
+const useQueryTradingInfo = () => {
   const dispatch = useStableDispatch();
   useEffect(() => {
     dispatch(getSoccerTradingPageInfo());
@@ -13,4 +13,4 @@ const useGetSoccerTradingPageInfo = () => {
   }, []);
 };
 
-export default useGetSoccerTradingPageInfo;
+export default useQueryTradingInfo;

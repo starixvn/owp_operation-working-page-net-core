@@ -49,6 +49,8 @@ if (!app && !process.argv[1].endsWith('test.cjs')) {
   throw new Error('missing argument --app');
 }
 
+const packageJson = resolveApp('package.json');
+
 // config after eject: we're in ./config/
 module.exports = {
   dotenv: resolveApp('.env'),
@@ -56,13 +58,13 @@ module.exports = {
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
   serverHtml: resolveApp('public/server.html'),
-  appIndexJs: resolveApp('src/apps/' + app + '.jsx'),
-  appPackageJson: resolveApp('package.json'),
+  appIndexJs: resolveApp(`src/apps/${app}.jsx`),
+  appPackageJson: packageJson,
   appSrc: resolveApp('src'),
   yarnLockFile: resolveApp('yarn.lock'),
   testsSetup: resolveApp('src/setupTests.js'),
   appNodeModules: resolveApp('node_modules'),
-  publicUrl: getPublicUrl(resolveApp('package.json')),
-  servedPath: getServedPath(resolveApp('package.json')),
-  publicPath: 'wwwroot/' + app + '/'
+  publicUrl: getPublicUrl(packageJson),
+  servedPath: getServedPath(packageJson),
+  publicPath: `wwwroot/${app}/`
 };

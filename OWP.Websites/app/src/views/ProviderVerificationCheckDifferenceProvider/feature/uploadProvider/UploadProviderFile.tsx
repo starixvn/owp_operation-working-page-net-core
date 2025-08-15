@@ -4,9 +4,8 @@ import dayjs from 'dayjs';
 import { BackButton, NextButton } from './Button';
 import ToastrWrapper from '../../../components/ToastrWrapper';
 import { validateFile } from '../../../Shared/uploadFile/validationHelper';
-import { setFile } from './providerUploadSlice';
+import { setFile, setEventDate } from './providerUploadSlice';
 import { TUploadProviderFile } from '../../type/typeNative';
-import { setEventDate } from './providerUploadSlice';
 
 const UPLOAD_PLACEHOLDER = 'Upload file';
 
