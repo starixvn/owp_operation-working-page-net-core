@@ -1,21 +1,21 @@
-import { Modal } from 'antd';
-import { DatePicker, Space } from 'antd';
+import { DatePicker, Modal } from 'antd';
 import { useState, useMemo, useEffect } from 'react';
 import dayjs from 'dayjs';
 import { exportExcel } from '../../../Shared/common/ExportExcel/Helper';
 import Utils from '../../../Shared/Utils';
 import ToastrWrapper from '../../../components/ToastrWrapper';
+import { Option } from '../../../Shared/MultipleSelection/type';
 
 const { RangePicker } = DatePicker;
 
 interface ModalExportExcelProps {
   isModalOpen: boolean;
-  setIsModalOpen: (value: boolean) => void;
+  setIsModalOpen: (isOpen: boolean) => void;
   onlyShowIsMismatchEvent: boolean;
-  confirmProvider: any[];
-  lstBookProvider: any[];
-  confirmProviderOption: any[];
-  LSTBookProviderOption: any[];
+  confirmProvider: Option[];
+  lstBookProvider: Option[];
+  confirmProviderOption: Option[];
+  LSTBookProviderOption: Option[];
   eventDate: Date;
 }
 
@@ -42,8 +42,10 @@ const ModalExportExcel = ({
     setDateRange(defaultDateRange);
   }, [defaultDateRange]);
 
-  const getProviderValue = (selectedProviders: any[], allProviders: any[]) => {
-    if (!selectedProviders?.length) return null;
+  const getProviderValue = (selectedProviders: Option[], allProviders: Option[]) => {
+    if (!selectedProviders?.length) {
+      return null;
+    }
     const providerValue = selectedProviders.map(x => x.value).join(',');
     return selectedProviders.length === allProviders?.length
       ? null

@@ -4,6 +4,7 @@ import SortHeader from './SortHeader';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../app/storeNative';
 import TradingMenuPopup from '../../../Shared/TradingMenuPopup';
+import { DataSource } from '../../../TaskList/type/TTaskListTable';
 
 const TableHeader = () => {
   const colSpanObject: { [key: string]: number } = {
@@ -28,7 +29,7 @@ const TableHeader = () => {
                 <span style={{ marginLeft: '-20px', marginTop: '-4px' }}>
                   <TradingMenuPopup
                     firstMatchCheckedIsSaba={firstMatchCheckedIsSaba}
-                    matchesSelected={matchesSelected as unknown as readonly any[]}
+                    matchesSelected={matchesSelected as unknown as readonly DataSource[]}
                   />
                 </span>
               )}

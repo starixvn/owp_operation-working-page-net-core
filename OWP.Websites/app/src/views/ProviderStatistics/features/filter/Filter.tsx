@@ -31,15 +31,15 @@ const Filter = () => {
   const getExportURL = (viewByValue: string): string =>
     buildRequestURL(isByDayView(viewByValue) ? 'export/by-day' : 'export/by-league');
 
-  const getExportParams = (fromDate: Date, toDate: Date): string =>
+  const getExportParams = (fDate: Date, tDate: Date): string =>
     new URLSearchParams({
-      fromDate: Utils.formatDate(fromDate),
-      toDate: Utils.formatDate(toDate)
+      fromDate: Utils.formatDate(fDate),
+      toDate: Utils.formatDate(tDate)
     }).toString();
 
-  const getExportFileName = (viewByValue: string, fromDate: Date, toDate: Date): string => {
-    const formattedFrom = dayjs(fromDate).format('YYYY-MM-DD');
-    const formattedTo = dayjs(toDate).format('YYYY-MM-DD');
+  const getExportFileName = (viewByValue: string, fDate: Date, tDate: Date): string => {
+    const formattedFrom = dayjs(fDate).format('YYYY-MM-DD');
+    const formattedTo = dayjs(tDate).format('YYYY-MM-DD');
 
     return isByDayView(viewByValue)
       ? `Monthly_Total_Summaries_${formattedFrom}_to_${formattedTo}.xlsx`

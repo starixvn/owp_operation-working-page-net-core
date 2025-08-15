@@ -7,9 +7,16 @@ import SummarizeProviderIcon from '../summarizeProvider/sum/SummarizeProviderIco
 import CompareAgent from '../summarizeProvider/compare/CompareAgentIcon';
 import MismatchEvent from './MismatchEvent';
 import ConfirmProvider from './ConfirmProvider';
-import LSTBookProvider from './LSTBookProvider';
+import LSTBookProviderComponent from './LSTBookProvider';
 import EyeIcon from 'mdi-react/EyeIcon';
 import ModalExportExcel from './ModalExportExcel';
+
+interface ProviderOption {
+  value: string | number | null;
+  label: string;
+  key?: string;
+  disabled?: boolean;
+}
 
 const Filter = () => {
   const dispatch = useAppDispatch();
@@ -33,8 +40,10 @@ const Filter = () => {
     common: state.common
   }));
 
-  const getProviderValue = (selectedProviders: any[], allProviders: any[]) => {
-    if (!selectedProviders?.length) return null;
+  const getProviderValue = (selectedProviders: ProviderOption[], allProviders: ProviderOption[]) => {
+    if (!selectedProviders?.length) {
+      return null;
+    }
     const providerValue = selectedProviders.map(x => x.value).join(',');
     return selectedProviders.length === allProviders?.length
       ? null
@@ -83,7 +92,7 @@ const Filter = () => {
     <div className='top-control'>
       <div className='left-control'>
         <FilterDate />
-        <LSTBookProvider />
+        <LSTBookProviderComponent />
         <ConfirmProvider />
         <MismatchEvent />
         <div className='filter-control btn-block'>

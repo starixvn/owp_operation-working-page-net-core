@@ -7,7 +7,7 @@ import { updateFilter } from './FilterSlice';
 const LSTBookProvider = () => {
   const dispatch = useAppDispatch();
   const { LSTBookProviderOption } = store.getState().common.LSTBookProvider;
-  const LSTBookProvider = useAppSelector(
+  const selectedLSTBookProvider = useAppSelector(
     s => s.filterState.filter.lstBookProvider
   );
 
@@ -26,7 +26,7 @@ const LSTBookProvider = () => {
         options={LSTBookProviderOption}
         disableSearch
         ClearSelectedIcon={null}
-        value={LSTBookProvider}
+        value={selectedLSTBookProvider}
         onChange={handleChange}
         labelledBy={''}
       />
