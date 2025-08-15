@@ -1,10 +1,16 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { queryAdminServerSettingThunk, querySelectedAdminServerThunk, saveAdminServerSettingThunk } from './slice/AdminServerSettingThunk';
-import Select, { components } from 'react-select';
+import Select from 'react-select';
 import { UncontrolledTooltip } from 'reactstrap';
 import InformationOutlineIcon from 'mdi-react/InformationOutlineIcon';
 import { setSelectedServer } from './slice/adminServerSettingSlice';
+
+interface ServerOption {
+  value: number;
+  label: string;
+  url: string;
+}
 
 const AdminServerSetting = () => {
   const servers = useAppSelector(state => state.adminServerSettingSlice.servers);
@@ -16,7 +22,7 @@ const AdminServerSetting = () => {
     dispatch(querySelectedAdminServerThunk());
   }, []);
 
-  const options = servers.map(server => ({
+  const options: ServerOption[] = servers.map(server => ({
     value: server.id,
     label: server.name,
     url: server.url
@@ -24,14 +30,16 @@ const AdminServerSetting = () => {
 
   const selectedServerOption = options.find(option => option.value === selectedServer) || null;
 
-  const handleOnChange = (option: any) => {
-    dispatch(setSelectedServer(option.value));
-    dispatch(saveAdminServerSettingThunk({ value: option.value }));
+  const handleOnChange = (option: ServerOption | null) => {
+    if (option) {
+      dispatch(setSelectedServer(option.value));
+      dispatch(saveAdminServerSettingThunk({ value: option.value }));
+    }
   };
 
-  const Option = (props: any) => (
+  const Option = (props: { data: ServerOption; children: React.ReactNode }) => (
     <div title={props.data.url}>
-      <components.Option {...props} />
+      {props.children}
     </div>
   );
 

@@ -21,8 +21,7 @@ const TableHeader = () => {
         },
         turnOverMarginPolicy: {
             permission: { HasRead }
-        },
-        mode: { mode }
+        }
     } = store.getState();
     const [isShowDropdownAction, setIsDropdownAction] = useState(false);
 

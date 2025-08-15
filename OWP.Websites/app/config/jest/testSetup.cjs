@@ -1,4 +1,4 @@
 import '@testing-library/jest-dom';
-import * as React from 'react'
+import React from 'react';
 
-global.React = React
+global.React = React;

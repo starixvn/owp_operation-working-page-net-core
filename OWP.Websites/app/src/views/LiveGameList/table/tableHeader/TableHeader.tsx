@@ -28,7 +28,7 @@ const TableHeader = () => {
                 <span style={{ marginLeft: '-20px', marginTop: '-4px' }}>
                   <TradingMenuPopup
                     firstMatchCheckedIsSaba={firstMatchCheckedIsSaba}
-                    matchesSelected={matchesSelected as any}
+                    matchesSelected={matchesSelected as unknown as readonly any[]}
                   />
                 </span>
               )}

@@ -26,8 +26,6 @@ import {
   IconSearchAccount
 } from '../Shared/common/icons/common-icons';
 import useRocketChat from '../Shared/customHook/useRocketChat';
-import Spinner from '../components/Spinner';
-import { getServerUrl } from '../Shared/RcChat/Service';
 
 const propTypes = {
   title: PropTypes.string.isRequired,

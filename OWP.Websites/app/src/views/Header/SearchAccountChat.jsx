@@ -47,7 +47,7 @@ const SearchAccountChat = ({ isSearch, onAccountSelect, handleSearch }) => {
           : [];
         setFilteredAccounts(filtered);
       } catch (error) {
-        console.error('Error filtering users:', error);
+        console.info('Error filtering users:', error);
         setFilteredAccounts([]);
       } finally {
         setIsLoading(false);
@@ -68,7 +68,44 @@ const SearchAccountChat = ({ isSearch, onAccountSelect, handleSearch }) => {
     setFilteredAccounts([]);
   };
 
-  if (!isSearch) return null;
+  const renderSearchResults = () => {
+    if (isLoading) {
+      return (
+        <div className='search-item loading'>
+          <span>Searching...</span>
+        </div>
+      );
+    }
+    
+    if (filteredAccounts.length > 0) {
+      return filteredAccounts.map(account => (
+        <div
+          className='search-item'
+          key={account.UserId}
+          onClick={() => handleAccountClick(account)}>
+          <span className='user-icon'>
+            <AccountCircleIcon size={24} />
+          </span>
+          <div className='user-info'>
+            <div className='user-name'>{account.UserName}</div>
+            {account.NickName && (
+              <div className='user-nickname'>{account.NickName}</div>
+            )}
+          </div>
+        </div>
+      ));
+    }
+    
+    return (
+      <div className='search-item no-results'>
+        <span>No results found</span>
+      </div>
+    );
+  };
+
+  if (!isSearch) {
+    return null;
+  }
 
   return (
     <div className='area-search' ref={searchRef}>
@@ -92,32 +129,7 @@ const SearchAccountChat = ({ isSearch, onAccountSelect, handleSearch }) => {
         <>
           <div className='pseudo-classes' />
           <div className='area-account search-dropdown'>
-            {isLoading ? (
-              <div className='search-item loading'>
-                <span>Searching...</span>
-              </div>
-            ) : filteredAccounts.length > 0 ? (
-              filteredAccounts.map(account => (
-                <div
-                  className='search-item'
-                  key={account.UserId}
-                  onClick={() => handleAccountClick(account)}>
-                  <span className='user-icon'>
-                    <AccountCircleIcon size={24} />
-                  </span>
-                  <div className='user-info'>
-                    <div className='user-name'>{account.UserName}</div>
-                    {account.NickName && (
-                      <div className='user-nickname'>{account.NickName}</div>
-                    )}
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className='search-item no-results'>
-                <span>No results found</span>
-              </div>
-            )}
+            {renderSearchResults()}
           </div>
         </>
       )}
