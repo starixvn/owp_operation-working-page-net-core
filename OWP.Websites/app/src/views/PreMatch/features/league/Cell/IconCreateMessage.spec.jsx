@@ -14,6 +14,9 @@ const setup = HasWrite => {
       permission: {
         HasWrite
       }
+    },
+    createTicketBoard: {
+      defaultRecipients: []
     }
   };
   useSelector.mockImplementation(selectorFn => selectorFn({ ...state }));

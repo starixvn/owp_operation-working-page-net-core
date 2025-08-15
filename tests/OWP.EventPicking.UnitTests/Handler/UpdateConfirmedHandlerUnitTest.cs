@@ -16,7 +16,7 @@ public class UpdateConfirmedHandlerUnitTest
     public async Task Handle_ShouldConvertTimestampToGmt8_AndCallRepository()
     {
         // Arrange
-        var repository = Substitute.For<Repository>();
+        var repository = Substitute.For<OWP.EventPicking.Repository>();
         var session = Substitute.For<INapSession>();
         session.UserName.Returns("testuser");
 
@@ -47,7 +47,7 @@ public class UpdateConfirmedHandlerUnitTest
     public async Task Handle_ShouldHandleFalseConfirmed_AndCallRepository()
     {
         // Arrange
-        var repository = Substitute.For<Repository>();
+        var repository = Substitute.For<OWP.EventPicking.Repository>();
         var session = Substitute.For<INapSession>();
         session.UserName.Returns("admin");
 

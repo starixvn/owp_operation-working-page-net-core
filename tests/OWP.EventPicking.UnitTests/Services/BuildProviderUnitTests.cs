@@ -7,10 +7,10 @@ namespace OWP.EventPicking.UnitTests.Services;
 
 public class BuildProviderUnitTests
 {
-    private readonly Repository repository;
+    private readonly OWP.EventPicking.Repository repository;
     public BuildProviderUnitTests()
     {
-        repository = Substitute.For<Repository>();
+        repository = Substitute.For<OWP.EventPicking.Repository>();
     }
 
     [Fact]
@@ -26,9 +26,9 @@ public class BuildProviderUnitTests
 
         // Assert
         Assert.Equal("TV", matches[0].Provider);
-        Assert.Equal("TV/RB2", matches[1].Provider); 
+        Assert.Equal("TV/RB2", matches[1].Provider);
         Assert.Equal("RB2", matches[2].Provider);
-        Assert.Equal(null, matches[3].Provider); 
+        Assert.Equal(null, matches[3].Provider);
     }
 
 

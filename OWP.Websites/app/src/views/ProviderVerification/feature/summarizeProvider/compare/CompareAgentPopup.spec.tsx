@@ -23,7 +23,7 @@ describe('CompareAgentPopup', () => {
     (useAppSelector as jest.Mock).mockImplementation(callback =>
       callback({
         events: {
-          agentConfirmOption: [
+          confirmProviderOption: [
             { value: '1', label: 'Agent 1' },
             { value: '2', label: 'Agent 2' }
           ],

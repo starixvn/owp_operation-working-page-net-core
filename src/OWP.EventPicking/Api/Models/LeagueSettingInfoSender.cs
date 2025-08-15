@@ -57,7 +57,16 @@ public class LeagueSettingInfoSender : LeagueSettingInfo
 
     public string MaxbetWK_NoOfHDP_Show => FormatNoOfHdpMaxbet(WK_NoOfHDP_Value, WK_NoOfHDP_Note);
 
-    public NewLeagueSettingCondition Condition => JsonConvert.DeserializeObject<NewLeagueSettingCondition>(FullConditionDescription);
+    public NewLeagueSettingCondition Condition => string.IsNullOrEmpty(FullConditionDescription) 
+        ? new NewLeagueSettingCondition 
+        { 
+            HasTv = false, 
+            HasIpTv = false, 
+            Round = new List<Condition>(), 
+            Division = new List<Condition>(), 
+            IpTv = new List<Condition>() 
+        }
+        : JsonConvert.DeserializeObject<NewLeagueSettingCondition>(FullConditionDescription);
 
     public static string FormatMaxbet(decimal? maxbet, string maxbetNote) => maxbet.HasValue ? $"{maxbet / 1000}".TrimEnd('0').TrimEnd('.') + "K" : maxbetNote;
 
@@ -87,11 +96,11 @@ public class NewLeagueSettingCondition
 
     public bool HasIpTv { get; set; }
 
-    public IList<Condition> IpTv { get; set; }
+    public IList<Condition> IpTv { get; set; } = new List<Condition>();
 
-    public IList<Condition> Round { get; set; }
+    public IList<Condition> Round { get; set; } = new List<Condition>();
 
-    public IList<Condition> Division { get; set; }
+    public IList<Condition> Division { get; set; } = new List<Condition>();
 
-    public string Remark { get; set; }
+    public string Remark { get; set; } = string.Empty;
 }

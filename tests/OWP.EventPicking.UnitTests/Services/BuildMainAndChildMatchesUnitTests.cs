@@ -13,14 +13,14 @@ using Xunit.Asserts.Compare;
 
 public class BuildMainAndChildMatchesUnitTests
 {
-    private readonly Repository repository;
+    private readonly OWP.EventPicking.Repository repository;
     private readonly MaxbetSettingService maxbetSettingService;
     private readonly IOptions<AppSettings> appSettingOptions;
     private readonly BuildMainAndChildMatchesImp services;
 
     public BuildMainAndChildMatchesUnitTests()
     {
-        repository = Substitute.For<Repository>();
+        repository = Substitute.For<OWP.EventPicking.Repository>();
         var buildChildMatchMaxBet = Substitute.For<BuildChildMatchMaxBet>();
         var buildRowColor = Substitute.For<BuildRowColor>();
         maxbetSettingService = Substitute.For<MaxbetSettingService>();
@@ -40,7 +40,7 @@ public class BuildMainAndChildMatchesUnitTests
             buildRowColor,
             buildMatchOffer,
             providerBuilder,
-            appSettingOptions, 
+            appSettingOptions,
             maxbetSettingService);
     }
 

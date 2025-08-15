@@ -16,6 +16,9 @@ describe('DropdownActionHeader', () => {
       openPopupStore: {
         isOpenAddSpecialProduct: false,
         isOpenRemoveSpecialProduct: false
+      },
+      eventPickingTable: {
+        matchSelected: []
       }
     });
 

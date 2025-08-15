@@ -54,7 +54,8 @@ const recipientData = {
 };
 describe('TicketList under test', () => {
   const props = {
-    handleOpenCreateTicket: mockFunction
+    handleOpenCreateTicket: mockFunction,
+    hasWrite: true
   };
 
   it('should call dispatch when click', () => {

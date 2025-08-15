@@ -9,77 +9,134 @@ import { formatTime } from '../../../Shared/DateTime/dateTimeHelper';
 jest.mock('./cell/ReadonlyCommonCell', () => ({ className, value, index, isCanToolTip }) => (
   <td className={className} data-testid={className}>{value}</td>
 ));
-jest.mock('./cell/TicketCell', () => ({ HasTicket, IsRead }) => (
-  <td data-testid="ticket-cell">{`${HasTicket}-${IsRead}`}</td>
+jest.mock('./cell/TicketCell', () => ({ dataSource, rowIndex }) => (
+  <td data-testid="ticket-cell">Ticket</td>
 ));
-jest.mock('./cell/ConfirmProviderCell', () => ({ agentConfirm }) => (
-  <td data-testid="agent-confirm-cell">{agentConfirm.map(a => a.label).join(', ')}</td>
+jest.mock('./cell/ConfirmProviderCell', () => ({ confirmProvider }) => (
+  <td data-testid="agent-confirm-cell">{confirmProvider.map(a => a.label).join(', ')}</td>
 ));
-jest.mock('./cell/MBCell', () => ({ HandicapSetting, OverUnderSetting }) => (
-  <td data-testid="mb-cell">{`Handicap: ${HandicapSetting.MaxBet}, OverUnder: ${OverUnderSetting.MaxBet}`}</td>
-));
-jest.mock('./cell/EstNoteCell', () => ({ value }) => (
+jest.mock('./cell/NoteCell', () => ({ value }) => (
   <td data-testid="est-note-cell">{value}</td>
 ));
 jest.mock('./cell/MatchCell', () => ({ home, away }) => (
   <td data-testid="match-cell">{`${home} vs ${away}`}</td>
 ));
 
+// Mock the formatTime function
+jest.mock('../../../Shared/DateTime/dateTimeHelper', () => ({
+  formatTime: jest.fn().mockReturnValue('01:00 AM')
+}));
+
+// Mock the useAppSelector hook
+jest.mock('../../app/hookNative', () => ({
+  useAppSelector: jest.fn()
+}));
+
 // Mock data
 const mockDataSource: TDataSource[] = [
   {
-    OWPMatchId: 1,
-    ParentMatchId: 1,
-    MatchNo: 'Match 1',
-    MatchStatus: 'Status 1',
-    EventDateTime: '2024-01-01T00:00:00Z',
-    League: 'League 1',
-    Home: 'Home Team',
-    Away: 'Away Team',
-    AgentEst: 'Agent Est',
-    AgentConfirm: [{ Value: 1, Label: 'Confirmed' }],
-    RowColor: 'red',
-    HasTicket: true,
-    IsRead: false,
-    RemarkEst: 'Remark 1',
-    RemarkBy: 'Remark By 1',
-    Provider: 'Provider 1',
-    OtherProvider: 'Other Provider 1',
-    OverUnderSetting: {
-      MaxBet: 100,
-      MaxBetToDisplay: '100',
-      Spread: 1,
-      SpreadToDisplay: '1'
-    },
-    HandicapSetting: {
-      MaxBet: 200,
-      MaxBetToDisplay: '200',
-      Spread: 2,
-      SpreadToDisplay: '2'
-    },
-    EstNote: 'Note 1',
+    owpMatchId: 1,
+    parentMatchId: 1,
+    matchNo: 'Match 1',
+    matchStatus: 'Status 1',
+    eventDateTime: '2024-01-01T00:00:00Z',
+    league: 'League 1',
+    home: 'Home Team',
+    away: 'Away Team',
+    lstBookProvider: 'Provider 1',
+    inHouseProviderId: 'Other Provider 1',
+    remark: 'Remark 1',
+    remarkBy: 'Remark By 1',
+    agentConfirm: [{ value: 1, label: 'Confirmed' }],
+    rowColor: 'red',
+    hasTicket: true,
+    isRead: false,
     rowIndex: 0,
     dataSource: []
   }
 ];
 
+// Mock virtualizer
+const mockVirtualizer = {
+  getTotalSize: () => 100,
+  getVirtualItems: () => [{ index: 0, start: 0, size: 50 }],
+  unsubs: [],
+  options: {},
+  scrollElement: null,
+  targetWindow: null,
+  measureElement: jest.fn(),
+  scrollToIndex: jest.fn(),
+  scrollToOffset: jest.fn(),
+  scrollTo: jest.fn(),
+  setScrollElement: jest.fn(),
+  setTargetWindow: jest.fn(),
+  setOptions: jest.fn(),
+  setCount: jest.fn(),
+  setOffset: jest.fn(),
+  setIndex: jest.fn(),
+  setScrollOffset: jest.fn(),
+  setScrollElement: jest.fn(),
+  setTargetWindow: jest.fn(),
+  setOptions: jest.fn(),
+  setCount: jest.fn(),
+  setOffset: jest.fn(),
+  setIndex: jest.fn(),
+  setScrollOffset: jest.fn(),
+  setScrollElement: jest.fn(),
+  setTargetWindow: jest.fn(),
+  setOptions: jest.fn(),
+  setCount: jest.fn(),
+  setOffset: jest.fn(),
+  setIndex: jest.fn(),
+  setScrollOffset: jest.fn(),
+  setScrollElement: jest.fn(),
+  setTargetWindow: jest.fn(),
+  setOptions: jest.fn(),
+  setCount: jest.fn(),
+  setOffset: jest.fn(),
+  setIndex: jest.fn(),
+  setScrollOffset: jest.fn(),
+  setScrollElement: jest.fn(),
+  setTargetWindow: jest.fn(),
+  setOptions: jest.fn(),
+  setCount: jest.fn(),
+  setOffset: jest.fn(),
+  setIndex: jest.fn(),
+  setScrollOffset: jest.fn()
+} as any;
+
 describe('TableBody', () => {
+  beforeEach(() => {
+    const { useAppSelector } = require('../../app/hookNative');
+    useAppSelector.mockImplementation(callback =>
+      callback({
+        filterState: {
+          filter: {
+            eventDate: new Date()
+          }
+        }
+      })
+    );
+  });
+
   it('renders correctly with given data', () => {
-    render(<table><TableBody dataSource={mockDataSource} /></table>);
+    render(<table><TableBody dataSource={mockDataSource} virtualizer={mockVirtualizer} /></table>);
 
     // Check if elements are rendered correctly
     expect(screen.getByTestId('match_no')).toHaveTextContent('Match 1');
     expect(screen.getByTestId('match_status')).toHaveTextContent('Status 1');
+    expect(screen.getByTestId('ko_time')).toHaveTextContent('01:00 AM');
     expect(screen.getByTestId('league')).toHaveTextContent('League 1');
     expect(screen.getByTestId('match-cell')).toHaveTextContent('Home Team vs Away Team');
-    expect(screen.getByTestId('ticket-cell')).toHaveTextContent('true-false');
-    expect(screen.getByTestId('provider')).toHaveTextContent('Provider 1');
-    expect(screen.getByTestId('other_provider')).toHaveTextContent('Other Provider 1');
-    expect(screen.getByTestId('agent')).toHaveTextContent('Agent Est');
-    expect(screen.getByTestId('mb-cell')).toHaveTextContent('Handicap: 200, OverUnder: 100');
-    expect(screen.getByTestId('remark')).toHaveTextContent('Remark 1');
-    expect(screen.getByTestId('remark__by')).toHaveTextContent('Remark By 1');
+    expect(screen.getByTestId('ticket-cell')).toHaveTextContent('Ticket');
+    expect(screen.getByTestId('lst-book-provider')).toHaveTextContent('Provider 1');
+    expect(screen.getByTestId('inhouse-providerId')).toHaveTextContent('Other Provider 1');
     expect(screen.getByTestId('agent-confirm-cell')).toHaveTextContent('Confirmed');
-    expect(screen.getByTestId('est-note-cell')).toHaveTextContent('Note 1');
+
+    // Check both est-note-cell elements
+    const estNoteCells = screen.getAllByTestId('est-note-cell');
+    expect(estNoteCells).toHaveLength(2);
+    expect(estNoteCells[0]).toHaveTextContent('Remark 1');
+    expect(estNoteCells[1]).toHaveTextContent('Remark By 1');
   });
 });

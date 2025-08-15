@@ -27,6 +27,7 @@ describe('tableSlice', () => {
     "valueFilterAllColumn": {},
     "isShowFilterHeader": false,
     "columnKeyFilterCurrent": "",
+    "matchesSelected": [] as MatchInfo[],
     popupState: {
       matchId: undefined,
       isOpen: false

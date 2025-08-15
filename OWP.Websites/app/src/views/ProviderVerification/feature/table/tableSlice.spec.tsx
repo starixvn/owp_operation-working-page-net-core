@@ -2,10 +2,10 @@ import { configureStore } from '@reduxjs/toolkit';
 import reducer, {
   setValue,
   setDataSignalR,
-  setAgentConfirm,
   setMultipleFilter,
   handleClearFilter,
-  setDataTable
+  setDataTable,
+  setConfirmProvider
 } from './tableSlice';
 import { Option } from '../../../Shared/MultipleSelection/type';
 import { buildDefaultTableFilter, executeFilterTable } from './helper';
@@ -13,37 +13,37 @@ import { buildDefaultTableFilter, executeFilterTable } from './helper';
 // Mock data
 const mockDataSource = [
   {
-    OWPMatchId: 1,
-    ParentMatchId: 1,
-    MatchNo: 'Match 1',
-    MatchStatus: 'Status 1',
-    EventDateTime: '2024-01-01T00:00:00Z',
-    League: 'League 1',
-    Home: 'Home Team',
-    Away: 'Away Team',
-    AgentEst: 'Agent Est',
-    AgentConfirm: [],
-    RowColor: 'red',
-    HasTicket: true,
-    IsRead: false,
-    RemarkEst: undefined,
-    RemarkBy: undefined,
-    Provider: undefined,
-    OtherProvider: undefined,
-    Mb: undefined,
-    OverUnderSetting: {
-      MaxBet: undefined,
-      MaxBetToDisplay: undefined,
-      Spread: undefined,
-      SpreadToDisplay: undefined
+    owpMatchId: 1,
+    parentMatchId: 1,
+    matchNo: 'Match 1',
+    matchStatus: 'Status 1',
+    eventDateTime: '2024-01-01T00:00:00Z',
+    league: 'League 1',
+    home: 'Home Team',
+    away: 'Away Team',
+    agentEst: 'Agent Est',
+    agentConfirm: [],
+    rowColor: 'red',
+    hasTicket: true,
+    isRead: false,
+    remarkEst: undefined,
+    remarkBy: undefined,
+    lstBookProvider: undefined,
+    inHouseProviderId: undefined,
+    mb: undefined,
+    overUnderSetting: {
+      maxBet: undefined,
+      maxBetToDisplay: undefined,
+      spread: undefined,
+      spreadToDisplay: undefined
     },
-    HandicapSetting: {
-      MaxBet: undefined,
-      MaxBetToDisplay: undefined,
-      Spread: undefined,
-      SpreadToDisplay: undefined
+    handicapSetting: {
+      maxBet: undefined,
+      maxBetToDisplay: undefined,
+      spread: undefined,
+      spreadToDisplay: undefined
     },
-    EstNote: 'Some note',
+    estNote: 'Some note',
     rowIndex: 0,
     dataSource: []
   }
@@ -60,8 +60,8 @@ const mockHelper = {
   KoTime: jest.fn(() => [{ value: '01:00 AM', label: '01:00 AM' }]),
   League: jest.fn(() => [{ value: 'League 1', label: 'League 1' }]),
   Match: jest.fn(() => [{ value: 'Home Team -vs- Away Team', label: 'Home Team -vs- Away Team' }]),
-  Provider: jest.fn(() => [{ value: '', label: '' }]),
-  OtherProvider: jest.fn(() => [{ value: '', label: '' }]),
+  LstBookProvider: jest.fn(() => [{ value: '', label: '' }]),
+  InHouseProviderId: jest.fn(() => [{ value: '', label: '' }]),
   AgentEst: jest.fn(() => [{ value: 'Agent Est', label: 'Agent Est' }]),
   Mb: jest.fn(() => [{ value: '', label: '' }]),
   RemarkEst: jest.fn(() => [{ value: '', label: '' }]),
@@ -85,28 +85,39 @@ describe('tableSlice', () => {
       preloadedState: {
         events: {
           loadingDataTable: 'idle',
-          loadingAgentConfirmOption: 'idle',
+          loadingConfirmProviderOption: 'idle',
           dataSource: mockDataSource,
           dataSourceOriginal: mockDataSource,
-          agentConfirmOption: mockOption,
+          confirmProviderOption: mockOption,
           multipleFilter: {
             MatchNo: { isFilter: false, selected: [] },
             MatchStatus: { isFilter: false, selected: [] },
             KoTime: { isFilter: false, selected: [] },
             League: { isFilter: false, selected: [] },
             Match: { isFilter: false, selected: [] },
-            Mb: { isFilter: false, selected: [] },
-            Provider: { isFilter: false, selected: [] },
-            OtherProvider: { isFilter: false, selected: [] },
-            AgentEst: { isFilter: false, selected: [] },
-            RemarkEst: { isFilter: false, selected: [] },
+            LstBookProvider: { isFilter: false, selected: [] },
+            InHouseProviderId: { isFilter: false, selected: [] },
+            Remark: { isFilter: false, selected: [] },
             RemarkBy: { isFilter: false, selected: [] },
-            AgentConfirm: { isFilter: false, selected: [] },
-            EstNote: { isFilter: false, selected: [] }
+            ConfirmProvider: { isFilter: false, selected: [] }
+          },
+          validationResponse: {
+            isSuccess: false,
+            value: {
+              providerVerification: [],
+              sessionId: ''
+            }
           }
         }
       }
     });
+  });
+
+  it('should return initial state', () => {
+    const state = store.getState().events;
+    expect(state.loadingDataTable).toBe('idle');
+    expect(state.dataSource).toEqual(mockDataSource);
+    expect(state.dataSourceOriginal).toEqual(mockDataSource);
   });
 
   it('should handle setValue action', () => {
@@ -118,8 +129,8 @@ describe('tableSlice', () => {
 
     store.dispatch(action);
     const state = store.getState().events;
-    expect(state.dataSource[0].MatchNo).toBe('Updated Match No');
-    expect(state.dataSourceOriginal[0].MatchNo).toBe('Updated Match No');
+    expect(state.dataSource[0].matchNo).toBe('Updated Match No');
+    expect(state.dataSourceOriginal[0].matchNo).toBe('Updated Match No');
     expect(state.multipleFilter['MatchNo'].selected).toEqual([
       { value: 'Updated Match No', label: 'Updated Match No' }
     ]);
@@ -134,22 +145,22 @@ describe('tableSlice', () => {
 
     store.dispatch(action);
     const state = store.getState().events;
-    expect(state.dataSource[0].HasTicket).toBe(true);
+    expect(state.dataSource[0].hasTicket).toBe(true);
   });
 
-  it('should handle setAgentConfirm action', () => {
-    const action = setAgentConfirm({
+  it('should handle setConfirmProvider action', () => {
+    const action = setConfirmProvider({
       owpMatchId: 1,
-      value: [{ Value: 'Confirmed', Label: 'Confirmed' }]
+      value: [{ value: 'Confirmed', label: 'Confirmed' }]
     });
 
     store.dispatch(action);
     const state = store.getState().events;
-    expect(state.dataSource[0].AgentConfirm).toEqual([
-      { Value: 'Confirmed', Label: 'Confirmed' }
+    expect(state.dataSource[0].agentConfirm).toEqual([
+      { value: 'Confirmed', label: 'Confirmed' }
     ]);
-    expect(state.dataSourceOriginal[0].AgentConfirm).toEqual([
-      { Value: 'Confirmed', Label: 'Confirmed' }
+    expect(state.dataSourceOriginal[0].agentConfirm).toEqual([
+      { value: 'Confirmed', label: 'Confirmed' }
     ]);
   });
 

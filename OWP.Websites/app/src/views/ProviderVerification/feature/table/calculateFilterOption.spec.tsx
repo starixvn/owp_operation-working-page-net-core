@@ -4,46 +4,42 @@ import { TDataSource } from '../../type/table';
 
 const mockDataSource: TDataSource[] = [
   {
-    OWPMatchId: 1,
-    ParentMatchId: 1,
-    MatchNo: 'Match 1',
-    MatchStatus: 'Status 1',
-    EventDateTime: '2024-07-10T15:00:00Z',
-    League: 'League 1',
-    Home: 'Team A',
-    Away: 'Team B',
-    AgentEst: 'Agent 1',
-    AgentConfirm: [],
-    RowColor: 'red',
-    EstNote: 'Note 1',
-    RemarkEst: 'Remark 1',
-    RemarkBy: 'RemarkBy 1',
-    HandicapSetting: { MaxBet: 100, MaxBetToDisplay: '100', Spread: 5, SpreadToDisplay: '5' },
-    OverUnderSetting: { MaxBet: 200, MaxBetToDisplay: '200', Spread: 10, SpreadToDisplay: '10' },
-    HasTicket: true,
-    IsRead: false,
+    owpMatchId: 1,
+    parentMatchId: 1,
+    matchNo: 'Match 1',
+    matchStatus: 'Status 1',
+    eventDateTime: '2024-07-10T15:00:00Z',
+    league: 'League 1',
+    home: 'Team A',
+    away: 'Team B',
+    lstBookProvider: 'Provider 1',
+    inHouseProviderId: 'InHouse 1',
+    remark: 'Remark 1',
+    remarkBy: 'RemarkBy 1',
+    agentConfirm: [{ value: 'Agent 1', label: 'Agent 1' }],
+    rowColor: 'red',
+    hasTicket: true,
+    isRead: false,
     rowIndex: 0,
     dataSource: []
   },
   {
-    OWPMatchId: 2,
-    ParentMatchId: 2,
-    MatchNo: 'Match 2',
-    MatchStatus: 'Status 2',
-    EventDateTime: '2024-07-10T16:00:00Z',
-    League: 'League 2',
-    Home: 'Team C',
-    Away: 'Team D',
-    AgentEst: 'Agent 2',
-    AgentConfirm: [],
-    RowColor: 'blue',
-    EstNote: 'Note 2',
-    RemarkEst: 'Remark 2',
-    RemarkBy: 'RemarkBy 2',
-    HandicapSetting: { MaxBet: 300, MaxBetToDisplay: '300', Spread: 15, SpreadToDisplay: '15' },
-    OverUnderSetting: { MaxBet: 400, MaxBetToDisplay: '400', Spread: 20, SpreadToDisplay: '20' },
-    HasTicket: false,
-    IsRead: true,
+    owpMatchId: 2,
+    parentMatchId: 2,
+    matchNo: 'Match 2',
+    matchStatus: 'Status 2',
+    eventDateTime: '2024-07-10T16:00:00Z',
+    league: 'League 2',
+    home: 'Team C',
+    away: 'Team D',
+    lstBookProvider: 'Provider 2',
+    inHouseProviderId: 'InHouse 2',
+    remark: 'Remark 2',
+    remarkBy: 'RemarkBy 2',
+    agentConfirm: [{ value: 'Agent 2', label: 'Agent 2' }],
+    rowColor: 'blue',
+    hasTicket: false,
+    isRead: true,
     rowIndex: 1,
     dataSource: []
   }
@@ -105,43 +101,23 @@ describe('helper', () => {
     });
   });
 
-  describe('calculateProviderOption', () => {
-    it('should return options with unique labels for providers', () => {
-      const result = helper.Provider(mockDataSource);
+  describe('calculateLSTBookProviderOption', () => {
+    it('should return options with unique labels for LST book providers', () => {
+      const result = helper.LstBookProvider(mockDataSource);
       const expected: Option[] = [
-        { value: 1, label: '(Blanks)' }
+        { value: 1, label: 'Provider 1' },
+        { value: 2, label: 'Provider 2' }
       ];
       expect(result).toEqual(expected);
     });
   });
 
-  describe('calculateOtherProviderOption', () => {
-    it('should return options with unique labels for other providers', () => {
-      const result = helper.OtherProvider(mockDataSource);
+  describe('calculateInhouseProviderIdOption', () => {
+    it('should return options with unique labels for in-house provider IDs', () => {
+      const result = helper.InHouseProviderId(mockDataSource);
       const expected: Option[] = [
-        { value: 1, label: '(Blanks)' },
-      ];
-      expect(result).toEqual(expected);
-    });
-  });
-
-  describe('calculateAgentOption', () => {
-    it('should return options with unique values for agents', () => {
-      const result = helper.AgentEst(mockDataSource);
-      const expected: Option[] = [
-        { value: 'Agent 1', label: 'Agent 1' },
-        { value: 'Agent 2', label: 'Agent 2' }
-      ];
-      expect(result).toEqual(expected);
-    });
-  });
-
-  describe('calculateMbOption', () => {
-    it('should return options sorted by max bet value', () => {
-      const result = helper.Mb(mockDataSource);
-      const expected: Option[] = [
-        { value: 1, label: '100(5\n-10\n  )' },
-        { value: 2, label: '300(15\n-20\n  )' }
+        { value: 1, label: 'InHouse 1' },
+        { value: 2, label: 'InHouse 2' }
       ];
       expect(result).toEqual(expected);
     });
@@ -149,7 +125,7 @@ describe('helper', () => {
 
   describe('calculateRemarkOption', () => {
     it('should return options with unique labels for remarks', () => {
-      const result = helper.RemarkEst(mockDataSource);
+      const result = helper.Remark(mockDataSource);
       const expected: Option[] = [
         { value: 1, label: 'Remark 1' },
         { value: 2, label: 'Remark 2' }
@@ -169,22 +145,11 @@ describe('helper', () => {
     });
   });
 
-  describe('calculateAgentConfirmOption', () => {
+  describe('calculateConfirmProviderOption', () => {
     it('should return options with an additional blank option', () => {
-      const result = helper.AgentConfirm(mockDataSource);
+      const result = helper.ConfirmProvider();
       const expected: Option[] = [
         { value: -1, label: '(Blanks)' }
-      ];
-      expect(result).toEqual(expected);
-    });
-  });
-
-  describe('calculateEstNoteOption', () => {
-    it('should return options with unique labels for estimate notes', () => {
-      const result = helper.EstNote(mockDataSource);
-      const expected: Option[] = [
-        { value: 'Note 1', label: 'Note 1' },
-        { value: 'Note 2', label: 'Note 2' }
       ];
       expect(result).toEqual(expected);
     });

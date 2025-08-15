@@ -13,7 +13,8 @@ public class EditEventPickingHandler(
     Repository repository,
     PullMainLeagueService pullMainLeagueService,
     MapMainLeagueForEventService mainLeagueForEventMapper,
-    BuildMBForClubFriendlyMajorLeagueBuilder buildMBForClubFriendlyMajorLeagueBuilder) : IRequestHandler<EditEventPickingRequest, EventPickingResult>
+    BuildMBForClubFriendlyMajorLeagueBuilder buildMBForClubFriendlyMajorLeagueBuilder,
+    MappingRuleSyncMBLeagueFriendlyService mappingRuleSyncMBLeagueFriendlyService) : IRequestHandler<EditEventPickingRequest, EventPickingResult>
 {
 
     private readonly IList<string> FiveMajorLeague = new List<string>()
@@ -32,7 +33,7 @@ public class EditEventPickingHandler(
         var matchFiltered = mainMatches.FilteredMatches;
 
         var leagueSetting = (await repository.QueryLeagueSetting()).ToList();
-        
+        var tvList = (await repository.GetTVList()).ToList();
 
         var clubFriendlyMatches = matchFiltered.Where(x => x.IsClubFriendlyLeague).ToList();
         var mainLeague = await pullMainLeagueService.GetMainLeague(clubFriendlyMatches, cancellationToken);
@@ -41,13 +42,12 @@ public class EditEventPickingHandler(
         {
             if (match.IsClubFriendlyLeague)
             {
-                var tvList = (await repository.GetTVList()).ToList();
                 ProcessLeagueSettingsForClubFriendlyMatch(leagueSetting, match, tvList);
             }
             else
             {
                 var leagueSettingByLeagueId = leagueSetting.Where(x => x.OWPLeagueId == match.OWPLeagueId).ToList();
-                ProcessLeagueSettingsForMatch(leagueSettingByLeagueId, match);
+                ProcessLeagueSettingsForMatch(leagueSettingByLeagueId, match, tvList);
             }
 
 
@@ -65,15 +65,16 @@ public class EditEventPickingHandler(
         if (match.IsSync || match.ChildMatchId is not null) return;
         if (FiveMajorLeague.Contains(match.HomeMainLeague) && FiveMajorLeague.Contains(match.AwayMainLeague))
         {
-            buildMBForClubFriendlyMajorLeagueBuilder.Build(match, tvList);
+            var (hasTv, hasIptv) = DetermineTvIptvStatus(match, tvList);
+            buildMBForClubFriendlyMajorLeagueBuilder.Build(match, hasTv, hasIptv);
         }
         else
         {
-            ProcessLeagueSettingsForClubFriendlyNotMajorLeagueMatch(leagueSetting, match);
+            ProcessLeagueSettingsForClubFriendlyNotMajorLeagueMatch(leagueSetting, match, tvList);
         }
     }
 
-    private void ProcessLeagueSettingsForClubFriendlyNotMajorLeagueMatch(List<LeagueSettingInfoSender> leagueSetting, EventPickingModel match)
+    private void ProcessLeagueSettingsForClubFriendlyNotMajorLeagueMatch(List<LeagueSettingInfoSender> leagueSetting, EventPickingModel match, List<Condition> tvList)
     {
         var homeLeagueSettingByLeagueId = leagueSetting.Where(x => x.League.Trim() == match.HomeMainLeague && GetMaxbet(x, match) != null).ToList();
         var awayLeagueSettingByLeagueId = leagueSetting.Where(x => x.League.Trim() == match.AwayMainLeague && GetMaxbet(x, match) != null).ToList();
@@ -81,33 +82,17 @@ public class EditEventPickingHandler(
         LeagueSettingInfoSender selectedAwayLeagueSetting = null;
         if (homeLeagueSettingByLeagueId.Count > 0)
         {
-            selectedHomeLeagueSetting = ProcessLeagueSettingsForMatch(homeLeagueSettingByLeagueId, match);
+            selectedHomeLeagueSetting = ProcessLeagueSettingsForMatch(homeLeagueSettingByLeagueId, match, tvList);
         }
         if (awayLeagueSettingByLeagueId.Count > 0)
         {
-            selectedAwayLeagueSetting = ProcessLeagueSettingsForMatch(awayLeagueSettingByLeagueId, match);
+            selectedAwayLeagueSetting = ProcessLeagueSettingsForMatch(awayLeagueSettingByLeagueId, match, tvList);
         }
-
         if (selectedHomeLeagueSetting != null && selectedAwayLeagueSetting != null)
         {
-            var homeMaxbet = GetMaxbet(selectedHomeLeagueSetting, match);
-            var homeSpreadHdp = selectedHomeLeagueSetting.Spread_HDP_Value;
-            var homeSpreadOu = selectedHomeLeagueSetting.Spread_OU_Value;
-
-            var awayMaxbet = GetMaxbet(selectedAwayLeagueSetting, match);
-            var awaySpreadHdp = selectedAwayLeagueSetting.Spread_HDP_Value;
-            var awaySpreadOu = selectedAwayLeagueSetting.Spread_OU_Value;
-
-            var (finalMaxbet, finalSpreadHdp, finalSpreadOu) = CalculateFinalMBAndSpread(homeMaxbet!.Value, awayMaxbet!.Value, homeSpreadHdp, awaySpreadHdp, homeSpreadOu, awaySpreadOu);
-
-            if (finalMaxbet > 0)
-            {
-                match.MaxbetHdp = finalMaxbet;
-                match.SpreadHdp = finalSpreadHdp;
-                match.SpreadOu = finalSpreadOu;
-                match.IsReferenceLeagueManagement = true;
-            }
+            mappingRuleSyncMBLeagueFriendlyService.ProcessLeagueSettingsForClubFriendlyMatch(selectedHomeLeagueSetting, selectedAwayLeagueSetting, match);
         }
+
         CalculateNoHDPClubFriendLy(match);
 
     }
@@ -138,33 +123,70 @@ public class EditEventPickingHandler(
             return leagueSetting.MaxbetWD_HDP_Value;
         }
     }
-    private LeagueSettingInfoSender ProcessLeagueSettingsForMatch(List<LeagueSettingInfoSender> leagueSettingByLeagueId, EventPickingModel match)
+    private LeagueSettingInfoSender ProcessLeagueSettingsForMatch(List<LeagueSettingInfoSender> leagueSettingByLeagueId, EventPickingModel match, List<Condition> tvList)
     {
         switch (leagueSettingByLeagueId.Count)
         {
             case 0:
                 match.IsShowCheckButton = false;
                 return null;
-            case 1:
-                SuggestionValue(match, leagueSettingByLeagueId.First());
-                return leagueSettingByLeagueId.First();
             default:
-                return HandleMappingForMultipleSettings(match, leagueSettingByLeagueId);
+                return HandleMappingForMultipleSettings(match, leagueSettingByLeagueId, tvList);
         }
     }
 
-    private LeagueSettingInfoSender HandleMappingForMultipleSettings(EventPickingModel match, IList<LeagueSettingInfoSender> leagueSettingByLeagueId)
+    private LeagueSettingInfoSender HandleMappingForMultipleSettings(EventPickingModel match, IList<LeagueSettingInfoSender> leagueSettingByLeagueId, List<Condition> tvList)
     {
         var leagueIsMappingWithCondition = leagueSettingByLeagueId
-            .Where(league => CheckMatchValidMappingWithLeagueManagement(match, league)).ToList();
+            .Where(league => league.FullConditionDescription is null || CheckMatchValidMappingWithLeagueManagement(match, league, tvList)).ToList();
 
-        if (leagueIsMappingWithCondition.Count == 1)
+        if (leagueIsMappingWithCondition.Count > 1)
         {
-            SuggestionValue(match, leagueIsMappingWithCondition.First());
-            return leagueIsMappingWithCondition.First();
+            return GetLeagueSettingByPriority(leagueIsMappingWithCondition, match);
         }
-        return leagueIsMappingWithCondition.FirstOrDefault();
+        else
+        {
+            if (leagueIsMappingWithCondition.Count == 1)
+            {
+                SuggestionValue(match, leagueIsMappingWithCondition.First());
+            }
+            return leagueIsMappingWithCondition.LastOrDefault();
+        }
 
+    }
+
+    private LeagueSettingInfoSender GetLeagueSettingByPriority(List<LeagueSettingInfoSender> leagueSettings, EventPickingModel match)
+    {
+        // Order by priority first, then by ID (descending) to get the last ID
+        var orderedLeagues = leagueSettings
+            .OrderBy(league => GetPriority(league.Condition))
+            .ThenByDescending(league => league.LeagueSettingId)
+            .ToList();
+
+        var bestMatch = orderedLeagues.FirstOrDefault();
+        
+        if (bestMatch != null)
+        {
+            SuggestionValue(match, bestMatch);
+        }
+
+        return bestMatch;
+    }
+
+    private int GetPriority(NewLeagueSettingCondition condition)
+    {
+        if (condition.HasTv && condition.Round.Count > 0 && condition.Division.Count > 0) return 1;
+        if (condition.HasTv && condition.Round.Count > 0) return 2;
+        if (condition.HasTv && condition.Division.Count > 0) return 3;
+        if (condition.HasIpTv && condition.Round.Count > 0 && condition.Division.Count > 0) return 4;
+        if (condition.HasIpTv && condition.Round.Count > 0) return 5;
+        if (condition.HasIpTv && condition.Division.Count > 0) return 6;
+        if (condition.HasTv) return 7;
+        if (condition.HasIpTv) return 8;
+        if (condition.Round.Count > 0 && condition.Division.Count > 0) return 9;
+        if (condition.Round.Count > 0) return 10;
+        if (condition.Division.Count > 0) return 11;
+        return 12;
     }
 
 
@@ -272,12 +294,32 @@ public class EditEventPickingHandler(
         return equalsValues.Any(x => x.Equals(matchValues, StringComparison.CurrentCultureIgnoreCase));
     }
 
-    private static bool CheckMatchValidMappingWithLeagueManagement(EventPickingModel match, LeagueSettingInfoSender leagueSetting)
+    private static bool CheckTVConditions(EventPickingModel match, LeagueSettingInfoSender leagueSetting, List<Condition> tvList)
+    {
+        var (hasTv, hasIpTv) = DetermineTvIptvStatus(match, tvList);
+        var hasTvCondition = leagueSetting.Condition.HasTv;
+        var hasIpTvCondition = leagueSetting.Condition.HasIpTv;
+
+        if (hasTvCondition && hasIpTvCondition)
+        {
+            return hasTv || hasIpTv;
+        }
+        else if (hasTvCondition)
+        {
+            return hasTv;
+        }
+        else if (hasIpTvCondition)
+        {
+            return hasIpTv;
+        }
+        return true;
+    }
+    private bool CheckMatchValidMappingWithLeagueManagement(EventPickingModel match, LeagueSettingInfoSender leagueSetting, List<Condition> tvList)
     {
         var roundConditions = CheckRoundConditions(match.Round, leagueSetting.Condition.Round);
         var divisionConditions = CheckDivisionConditions(match.Division, leagueSetting.Condition.Division);
-
-        return roundConditions && divisionConditions;
+        var tvConditions = CheckTVConditions(match, leagueSetting, tvList);
+        return roundConditions && divisionConditions && tvConditions;
     }
 
     private static IList<string> GetValuePairWiseContains(IList<Condition> conditions)
@@ -305,123 +347,46 @@ public class EditEventPickingHandler(
             : time >= TimeSpan.FromHours(2) && time <= TimeSpan.FromHours(4.5);
     }
 
-    private static (decimal finalMaxbet, decimal? finalSpreadHdp, decimal? finalSpreadOu) CalculateFinalMBAndSpread(
-        decimal homeMaxbet, decimal awayMaxbet, decimal? homeSpreadHdp, decimal? awaySpreadHdp, decimal? homeSpreadOu, decimal? awaySpreadOu)
+    private static (bool hasTv, bool hasIpTv) DetermineTvIptvStatus(EventPickingModel match, List<Condition> tvList)
     {
-        // Rule 1: Home & Away MB >= 25K
-        if (homeMaxbet >= 25000 && awayMaxbet >= 25000)
+        var hasValidTv = !string.IsNullOrWhiteSpace(match.TV) &&
+                        !match.TV.Contains("Cancel", StringComparison.OrdinalIgnoreCase) &&
+                        tvList.Any(tvCondition => IsTvConditionMatch(match.TV, tvCondition));
+
+        var hasValidIptv = !string.IsNullOrWhiteSpace(match.Iptv) &&
+                          !match.Iptv.Contains("Cancel", StringComparison.OrdinalIgnoreCase) &&
+                          match.Iptv.Contains("IPTV", StringComparison.OrdinalIgnoreCase);
+
+        var hasValidChannel = !string.IsNullOrWhiteSpace(match.Channel) &&
+                             !match.Channel.Contains("Cancel", StringComparison.OrdinalIgnoreCase);
+        if (hasValidTv && (hasValidIptv || hasValidChannel))
         {
-            return (15000, 0.10m, 0.12m);
+            return (true, true);
         }
-
-        // Rule 2: Home MB = Away MB = xK, where x ∈ [13K-24K]
-        if (homeMaxbet == awayMaxbet && homeMaxbet >= 13000 && homeMaxbet <= 24000)
+        else if(hasValidTv)
         {
-            return (12000, 0.10m, 0.12m);
+            return (true, false);
         }
-
-        // Rule 3 & 4: Home MB = Away MB = 12K AND Home & Away Spread <= 10%-12%
-        if (homeMaxbet == awayMaxbet && homeMaxbet == 12000)
+        else if (hasValidIptv || hasValidChannel)
         {
-            var spreadValues = new[] { homeSpreadHdp, homeSpreadOu, awaySpreadHdp, awaySpreadOu };
-            var nonNullSpreads = spreadValues.Where(s => s.HasValue).Select(s => s.Value).ToList();
-            var averageSpread = nonNullSpreads.Count > 0 ? nonNullSpreads.Average() : 0;
-
-            if (averageSpread <= 0.12m)
-            {
-                return (12000, 0.10m, 0.12m);
-            }
-            else
-            {
-                return (6000, 0.16m, 0.18m);
-            }
-        }
-
-        // Rule 5: Home MB = Away MB = yK, where y ∈ [6K-11K]
-        if (homeMaxbet == awayMaxbet && homeMaxbet >= 6000 && homeMaxbet <= 11000)
-        {
-            return (6000, 0.16m, 0.18m);
-        }
-
-        // Rule 6: Home & Away MB <= 5K AND MB Home ≠ MB Away
-        if (homeMaxbet <= 5000 && awayMaxbet <= 5000 && homeMaxbet != awayMaxbet)
-        {
-            var higherMaxbet = Math.Max(homeMaxbet, awayMaxbet);
-            var selectedSpreadHdp = homeSpreadHdp;
-            var selectedSpreadOu = homeSpreadOu;
-            if (higherMaxbet == awayMaxbet)
-            {
-                selectedSpreadHdp = awaySpreadHdp;
-                selectedSpreadOu = awaySpreadOu;
-            }
-
-            if (((selectedSpreadHdp ?? 0) + (selectedSpreadOu ?? 0)) / 2 < 0.17m)
-            {
-                selectedSpreadHdp = 0.16m;
-                selectedSpreadOu = 0.18m;
-            }
-
-            return (higherMaxbet, selectedSpreadHdp, selectedSpreadOu);
-        }
-
-        // Rule 7: Home MB = Away MB = zK, where z ∈ [2K-5K]
-        if (homeMaxbet == awayMaxbet && homeMaxbet >= 2000 && homeMaxbet <= 5000)
-        {
-            var (lowerSpreadHdp, lowerSpreadOu) = CompareAverageSpread(homeSpreadHdp, homeSpreadOu, awaySpreadHdp, awaySpreadOu, useHigher: false);
-
-            return (homeMaxbet, lowerSpreadHdp, lowerSpreadOu);
-        }
-
-        // Rule 8 & 9: When MB Home ≠ MB Away. Use the higher MB to evaluate.
-        if (homeMaxbet != awayMaxbet)
-        {
-            var higherMaxbet = Math.Max(homeMaxbet, awayMaxbet);
-
-            // Rule 8: Higher MB > 12K
-            if (higherMaxbet > 12000)
-            {
-                return (12000, 0.10m, 0.12m);
-            }
-
-            // Rule 9: Higher MB <= 12K
-            else
-            {
-                return (6000, 0.16m, 0.18m);
-            }
-        }
-
-        return (0, 0, 0);
-    }
-
-    private static (decimal? spreadHdp, decimal? spreadOu) CompareAverageSpread(decimal? homeSpreadHdp, decimal? homeSpreadOu, decimal? awaySpreadHdp, decimal? awaySpreadOu, bool useHigher = true)
-    {
-        var homeValues = new[] { homeSpreadHdp, homeSpreadOu }.Where(v => v.HasValue).Select(v => v.Value).ToList();
-        var awayValues = new[] { awaySpreadHdp, awaySpreadOu }.Where(v => v.HasValue).Select(v => v.Value).ToList();
-        
-        var homeAverageSpread = homeValues.Count > 0 ? homeValues.Average() : (decimal?)null;
-        var awayAverageSpread = awayValues.Count > 0 ? awayValues.Average() : (decimal?)null;
-
-        if (homeAverageSpread == null)
-        {
-            return (awaySpreadHdp, awaySpreadOu);
-        }
-        if (awayAverageSpread == null)
-        {
-            return (homeSpreadHdp, homeSpreadOu);
-        }
-
-        bool shouldUseHome = useHigher ?
-            homeAverageSpread > awayAverageSpread :
-            homeAverageSpread < awayAverageSpread;
-
-        if (shouldUseHome)
-        {
-            return (homeSpreadHdp, homeSpreadOu);
+            return (false, true);
         }
         else
         {
-            return (awaySpreadHdp, awaySpreadOu);
+            return (false, false);
         }
     }
 
+    private static bool IsTvConditionMatch(string tvField, Condition tvCondition)
+    {
+        if (string.IsNullOrWhiteSpace(tvField) || string.IsNullOrWhiteSpace(tvCondition.Value))
+            return false;
+
+        return tvCondition.Type switch
+        {
+            "Contains" => tvField.Contains(tvCondition.Value, StringComparison.OrdinalIgnoreCase),
+            "Equals" => tvField.Equals(tvCondition.Value, StringComparison.OrdinalIgnoreCase),
+            _ => false
+        };
+    }
 }

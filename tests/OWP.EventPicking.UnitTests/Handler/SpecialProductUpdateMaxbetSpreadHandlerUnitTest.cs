@@ -19,7 +19,7 @@ public class SpecialProductUpdateMaxbetSpreadHandlerUnitTest
     public async Task Handle_ShouldSerializeEvents_AndCallRepository_AndReturnUnit()
     {
         // Arrange
-        var repository = Substitute.For<Repository>();
+        var repository = Substitute.For<OWP.EventPicking.Repository>();
         var session = Substitute.For<INapSession>();
         session.UserId.Returns(789);
 

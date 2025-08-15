@@ -39,7 +39,6 @@ describe('leagueGroup reducer', () => {
     ).toEqual({
       leagueGroup: { value: -1, label: 'All' },
       leagueGroupOption: [
-        undefined,
         {
           value: 1,
           label: 'M1'

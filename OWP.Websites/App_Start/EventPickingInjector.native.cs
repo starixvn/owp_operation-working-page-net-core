@@ -22,5 +22,6 @@ public static class EventPickingInjector
         services.AddScoped<PullMainLeagueService, PullMainLeagueServiceImp>();
         services.AddScoped<BuildMBForClubFriendlyMajorLeagueBuilder, BuildMBForClubFriendlyMajorLeagueBuilderImp>();
         services.AddScoped<MapMainLeagueForEventService, MapMainLeagueForEventServiceImp>();
+        services.AddScoped<MappingRuleSyncMBLeagueFriendlyService, MappingRuleSyncMBLeagueFriendlyServiceImp>();
     }
 }

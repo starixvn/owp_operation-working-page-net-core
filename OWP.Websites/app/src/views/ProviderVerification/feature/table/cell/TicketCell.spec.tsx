@@ -15,9 +15,24 @@ jest.mock('../tableSlice', () => ({
 
 describe('TicketCell', () => {
   const mockDispatch = jest.fn();
-  const defaultProps: TTicketCell = {
+  const defaultProps = {
     rowIndex: 1,
-    dataSource: [{ id: 1, name: 'Test Ticket', HasTicket: false }]
+    dataSource: [{
+      owpMatchId: 123,
+      parentMatchId: 1,
+      matchNo: 'Test Ticket',
+      matchStatus: 'Status',
+      eventDateTime: '2024-01-01T00:00:00Z',
+      league: 'Test League',
+      home: 'Home Team',
+      away: 'Away Team',
+      agentConfirm: [],
+      rowColor: 'red',
+      hasTicket: false,
+      isRead: false,
+      rowIndex: 0,
+      dataSource: []
+    }]
   };
 
   beforeEach(() => {
@@ -31,7 +46,17 @@ describe('TicketCell', () => {
     expect(getByText('TicketCellCommon')).toBeInTheDocument();
     expect(TicketCellCommon).toHaveBeenCalledWith(
       expect.objectContaining({
-        dataSource: defaultProps.dataSource,
+        dataSource: expect.arrayContaining([
+          expect.objectContaining({
+            HasTicket: false,
+            IsRead: false,
+            Home: 'Home Team',
+            Away: 'Away Team',
+            EventDateTime: '2024-01-01T00:00:00Z',
+            OWPMatchId: 123,
+            League: 'Test League'
+          })
+        ]),
         rowIndex: defaultProps.rowIndex,
         updateDataSources: expect.any(Function)
       }),

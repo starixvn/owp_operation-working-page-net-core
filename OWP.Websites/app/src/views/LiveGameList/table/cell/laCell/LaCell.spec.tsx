@@ -9,7 +9,7 @@ const mockStore = configureStore(middleWares);
 import { useDispatch, useSelector, Provider } from 'react-redux';
 
 const store = mockStore({
- 
+
 });
 jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
@@ -25,9 +25,14 @@ const mockedDispatch = jest.fn();
 
 useDispatch.mockReturnValue(mockedDispatch);
 
-useSelector.mockReturnValue({ events:{
-  userNameFilter: 'sa'
-}});
+useSelector.mockImplementation((selector) => {
+  const mockState = {
+    events: {
+      userNameFilter: 'sa'
+    }
+  };
+  return selector(mockState);
+});
 
 const Wrapper = ({ children }) => <Provider store={store}>{children}</Provider>;
 
@@ -219,7 +224,7 @@ const props: CellProps = {
   rowIndex: 0
 };
 describe('LaCell under test', () => {
-  beforeAll(()=>{
+  beforeAll(() => {
     jest.resetAllMocks();
   })
   it('Should render', () => {

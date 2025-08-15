@@ -15,11 +15,18 @@ import {
 
 const setState = jest.fn();
 const mockDispatch = jest.fn();
+
 jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
   useDispatch: jest.fn(),
   createRef: jest.fn()
 }));
+
+jest.mock('../../../Shared/customHook/useStableDispatch', () => ({
+  __esModule: true,
+  default: () => mockDispatch
+}));
+
 jest.mock('react', () => ({
   ...jest.requireActual('react'),
   useState: jest.fn(),
@@ -36,14 +43,30 @@ jest.mock('../../../components/ToastrWrapper');
 jest.mock('../../../Shared/createTicketNew/Helper/HelperCreateTicket');
 ToastrWrapper.showInfo.mockImplementation(() => noop());
 ToastrWrapper.showError.mockImplementation(() => noop());
+
+// Mock helper functions
+const {
+  formatRecipientModel,
+  saveFileToBackEnd
+} = require('../../../Shared/createTicketNew/Helper/HelperCreateTicket');
+formatRecipientModel.mockImplementation((recipients, creatorInfo) =>
+  recipients.map(r => ({ ...r, creatorInfo }))
+);
+saveFileToBackEnd.mockResolvedValue([]);
 const ref = { current: { value: 'test' } };
 
-const setup = (selectedRecipients, errorRecipient, subTypeOption) => {
+const setup = (
+  selectedRecipients,
+  errorRecipient,
+  subTypeOption,
+  subTypeSelected
+) => {
   const initialState = {
     createTicketBoard: {
       selectedRecipients: selectedRecipients,
       errorRecipient: errorRecipient,
-      subTypeOption: subTypeOption
+      subTypeOption: subTypeOption,
+      subTypeSelected: subTypeSelected
     }
   };
   useState.mockImplementation(init => [init, setState]);
@@ -95,7 +118,9 @@ describe('CreateTicketBoard under test', () => {
     Service.GetInfoSiteMatch.mockResolvedValue(fetchDataInfoSite);
     ServiceCreateTicket.getSubType.mockResolvedValue(responseDataSubType);
     getSubTypeByType.mockReturnValue([{ subTypeId: 1, subTypeName: 'event' }]);
-    filterFeedbackSubtype.mockReturnValue([{ subTypeId: 1, subTypeName: 'event' }]);
+    filterFeedbackSubtype.mockReturnValue([
+      { subTypeId: 1, subTypeName: 'event' }
+    ]);
     const selectedRecipients = [
       {
         ticketTypeRecipientId: 1,
@@ -112,9 +137,9 @@ describe('CreateTicketBoard under test', () => {
         recipientNickname: 'sa_nick'
       }
     ];
-    setup(selectedRecipients, false, subTypeOption);
+    setup(selectedRecipients, false, subTypeOption, { value: 1, label: 'abc' });
     const props = {
-      subTypeSelected: [{ value: 1, label: 'abc' }],
+      subTypeSelected: { value: 1, label: 'abc' },
       creatorInfo: {
         groupName: null,
         nickName: 'sa',
@@ -158,10 +183,12 @@ describe('CreateTicketBoard under test', () => {
     Service.GetInfoSiteMatch.mockResolvedValue(fetchDataInfoSite);
     ServiceCreateTicket.getSubType.mockResolvedValue(responseDataSubType);
     getSubTypeByType.mockReturnValue([{ subTypeId: 1, subTypeName: 'event' }]);
-    filterFeedbackSubtype.mockReturnValue([{ subTypeId: 1, subTypeName: 'event' }]);
-    setup([], false, subTypeOption);
+    filterFeedbackSubtype.mockReturnValue([
+      { subTypeId: 1, subTypeName: 'event' }
+    ]);
+    setup([], false, subTypeOption, { value: null, label: '' });
     const props = {
-      subTypeSelected: [{ value: 1, label: 'abc' }],
+      subTypeSelected: { value: 1, label: 'abc' },
       creatorInfo: {
         groupName: null,
         nickName: 'sa',
@@ -195,7 +222,9 @@ describe('CreateTicketBoard under test', () => {
     Service.GetInfoSiteMatch.mockResolvedValue(fetchDataInfoSite);
     ServiceCreateTicket.getSubType.mockResolvedValue(responseDataSubType);
     getSubTypeByType.mockReturnValue([{ subTypeId: 1, subTypeName: 'event' }]);
-    filterFeedbackSubtype.mockReturnValue([{ subTypeId: 1, subTypeName: 'event' }]);
+    filterFeedbackSubtype.mockReturnValue([
+      { subTypeId: 1, subTypeName: 'event' }
+    ]);
     post.mockResolvedValue(true);
     const selectedRecipients = [
       {
@@ -213,9 +242,9 @@ describe('CreateTicketBoard under test', () => {
         recipientNickname: 'sa_nick'
       }
     ];
-    setup(selectedRecipients, false, subTypeOption);
+    setup(selectedRecipients, false, subTypeOption, { value: 1, label: 'abc' });
     const props = {
-      subTypeSelected: [{ value: 1, label: 'abc' }],
+      subTypeSelected: { value: 1, label: 'abc' },
       creatorInfo: {
         groupName: null,
         nickName: 'sa',

@@ -17,7 +17,7 @@ public class InsertOrDeleteNoOfferMatchHandlerUnitTest
     public async Task Handle_SingleSelected_ShouldCallRepository_AndNotUpdateCounter()
     {
         // Arrange
-        var repository = Substitute.For<Repository>();
+        var repository = Substitute.For<OWP.EventPicking.Repository>();
         var accessCounter = Substitute.For<AccessCounter>();
 
         var handler = new InsertOrDeleteNoOfferMatchHandler(repository, accessCounter);
@@ -45,7 +45,7 @@ public class InsertOrDeleteNoOfferMatchHandlerUnitTest
     public async Task Handle_MultiSelected_ShouldCallRepository_AndUpdateCounter()
     {
         // Arrange
-        var repository = Substitute.For<Repository>();
+        var repository = Substitute.For<OWP.EventPicking.Repository>();
         var accessCounter = Substitute.For<AccessCounter>();
 
         var handler = new InsertOrDeleteNoOfferMatchHandler(repository, accessCounter);

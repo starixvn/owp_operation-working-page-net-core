@@ -18,7 +18,7 @@ public class UpdateMaxbetHandlerUnitTest
     public async Task Handle_ShouldSerializeEvents_AndCallRepository_AndReturnUnit()
     {
         // Arrange
-        var repository = Substitute.For<Repository>();
+        var repository = Substitute.For<OWP.EventPicking.Repository>();
         var session = Substitute.For<INapSession>();
         session.UserId.Returns(456);
 
@@ -53,7 +53,7 @@ public class UpdateMaxbetHandlerUnitTest
     public async Task Handle_WithEmptyEvents_ShouldCallRepository_AndReturnUnit()
     {
         // Arrange
-        var repository = Substitute.For<Repository>();
+        var repository = Substitute.For<OWP.EventPicking.Repository>();
         var session = Substitute.For<INapSession>();
         session.UserId.Returns(789);
 
