@@ -1,4 +1,4 @@
-import '@testing-library/jest-dom';
-import React from 'react';
+require('@testing-library/jest-dom');
+const React = require('react');
 
 global.React = React;

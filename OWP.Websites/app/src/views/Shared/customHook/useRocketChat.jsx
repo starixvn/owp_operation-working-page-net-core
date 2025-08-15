@@ -40,7 +40,7 @@ const getStoredAuth = async () => {
   }
 
   const expiry = await decryptData(encryptedExpiry);
-  if (!expiry || new Date().getTime() > parseInt(expiry)) {
+  if (!expiry || new Date().getTime() > parseInt(expiry, 10)) {
     clearStorage();
     return null;
   }
