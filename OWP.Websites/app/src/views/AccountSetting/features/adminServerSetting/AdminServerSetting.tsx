@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { queryAdminServerSettingThunk, querySelectedAdminServerThunk, saveAdminServerSettingThunk } from './slice/AdminServerSettingThunk';
-import Select from 'react-select';
+import Select, { components } from 'react-select';
 import { UncontrolledTooltip } from 'reactstrap';
 import InformationOutlineIcon from 'mdi-react/InformationOutlineIcon';
 import { setSelectedServer } from './slice/adminServerSettingSlice';
@@ -39,7 +39,7 @@ const AdminServerSetting = () => {
 
   const Option = (props: { data: ServerOption; children: React.ReactNode }) => (
     <div title={props.data.url}>
-      {props.children}
+       <components.Option {...props} />
     </div>
   );
 
