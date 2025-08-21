@@ -39,10 +39,28 @@ public class RepositoryImp : Repository
     public async Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSetting(LeagueParamRequest request)
     { 
         var result = await repository.FetchAsync<LeagueSettingInfoSender>(new QueryLeagueSettingCriteria
-        { League = request.LeagueName, IsEqualLeague = request.IsEqualLeague });
-        return result;
+        { League = request.League, IsEqualLeague = request.IsEqualLeague });
+        
+        return FilterLeagueSettingsByRequest(result, request);
     }
     
+    private static IEnumerable<LeagueSettingInfoSender> FilterLeagueSettingsByRequest(IEnumerable<LeagueSettingInfoSender> leagueSettings, LeagueParamRequest request)
+        => leagueSettings
+            .Where(x => ValidLeagueSetting(x, request))
+            .ToList();
+
+    private static bool ValidLeagueSetting(LeagueSettingInfoSender leagueSetting, LeagueParamRequest condition)
+        => CheckBlackListCondition(leagueSetting, condition) && 
+           CheckOfferLiveCondition(leagueSetting, condition);
+    private static bool CheckBlackListCondition(LeagueSettingInfoSender leagueSetting, LeagueParamRequest condition)
+        => condition.IsBlackList == null || 
+           !condition.IsBlackList.Any() || 
+           !condition.IsBlackList.Contains(leagueSetting.LeagueSettingId);
+
+    private static bool CheckOfferLiveCondition(LeagueSettingInfoSender leagueSetting, LeagueParamRequest condition)
+        => condition.OfferLive == null || 
+           !condition.OfferLive.Any() || 
+           condition.OfferLive.Contains(leagueSetting.LeagueSettingId);
 
     public async Task<LeagueSettingInfoSender> QueryLeagueSettingDetail(int leagueSettingId)
         => await repository.GetAsync<LeagueSettingInfoSender>(new QueryLeagueSettingDetailCriteria
