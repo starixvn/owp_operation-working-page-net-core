@@ -22,6 +22,9 @@ const EditSettingSlice = createSlice({
     owpLeagueId: 0,
     leagueGroupId: 0,
     leagueGroup: '',
+    shortLeague: '',
+    blackList: false,
+    noOfferLive: false,
     spread: '',
     maxbetWD_HDP: '',
     wD_NoOfHDP: '',
@@ -57,7 +60,10 @@ const EditSettingSlice = createSlice({
         hasIpTv,
         remark,
         round,
-        division
+        division,
+        shortLeague,
+        blackList,
+        noOfferLive
       } = mapEditSettingFromDataSource(action.payload);
       state.leagueSettingId = leagueSettingId;
       state.league = league;
@@ -78,6 +84,9 @@ const EditSettingSlice = createSlice({
       state.remark = remark;
       state.round = round;
       state.division = division;
+      state.shortLeague = shortLeague;
+      state.blackList = blackList;
+      state.noOfferLive = noOfferLive;
     },
     updateObject: (
       state,
@@ -86,6 +95,7 @@ const EditSettingSlice = createSlice({
         value: string | number | boolean;
       }>
     ) => {
+
       const { property, value } = action.payload;
       return { ...state, [property]: value };
     },

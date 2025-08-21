@@ -26,10 +26,12 @@ type TEditSetting = {
   wK_NoOfHDP: string;
   lstNote: string;
   remark2: string;
-  comment: string;
   hasTv: boolean;
   hasIpTv: boolean;
   remark: string;
+  blackList: boolean;
+  noOfferLive: boolean;
+  comment: string;
 } & TAddExpressionKey;
 
 type TAddSetting = {

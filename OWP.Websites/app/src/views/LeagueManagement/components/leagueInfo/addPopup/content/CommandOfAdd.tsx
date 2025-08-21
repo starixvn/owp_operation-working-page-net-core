@@ -63,12 +63,13 @@ const CommandOfAdd = () => {
         wK_NoOfHDP,
         lstNote,
         remark2,
-        comment,
         hasTv,
         hasIpTv,
         remark,
         round: round.filter(d => d.value) || [],
-        division: division.filter(d => d.value) || []
+        division: division.filter(d => d.value) || [],
+        blackList: false,
+        noOfferLive: false
       });
 
       if (response.status === 200) {

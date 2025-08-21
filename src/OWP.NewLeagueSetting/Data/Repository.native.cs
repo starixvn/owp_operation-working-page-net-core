@@ -66,7 +66,9 @@ public class RepositoryImp : Repository
             Spread_HDP_Value = request.Spread_HDP_Value,
             Spread_Note = request.Spread_Note,
             Spread_OU_Value = request.Spread_OU_Value,
-            ActorId = actorId
+            ActorId = actorId,
+            NoOfferLive = request.NoOfferLive
+
         };
         await repository.ExecuteAsync(criteria);
     }

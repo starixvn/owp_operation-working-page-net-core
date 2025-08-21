@@ -3,6 +3,7 @@ import { post } from '../../../../Shared/Service/Service';
 import { TUpdateSettingSender } from '../component/Type';
 
 const updateSettingService = async (model: TUpdateSettingSender) => {
+  debugger
   const url = buildRequestURL('NewLeagueSetting', 'update');
   const response = await post({ url, ...model });
   return response;

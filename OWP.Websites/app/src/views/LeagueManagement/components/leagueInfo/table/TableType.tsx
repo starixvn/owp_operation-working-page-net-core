@@ -18,6 +18,9 @@ type TDataSource = {
   remark2: string;
   comment: string;
   condition: TConditionSource;
+  shortLeague: string;
+  blackList: boolean;
+  noOfferLive: boolean;
 };
 type TConditionSource = {
   hasTv: boolean;

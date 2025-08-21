@@ -20,7 +20,10 @@ const mapEditSettingFromDataSource = (dataSource: TDataSource) => {
     lstNote,
     remark2,
     comment,
-    condition
+    condition,
+    shortLeague,
+    blackList,
+    noOfferLive
   } = dataSource;
   const result = {
     leagueSettingId,
@@ -42,7 +45,10 @@ const mapEditSettingFromDataSource = (dataSource: TDataSource) => {
     hasIpTv: condition.hasIpTv,
     round: selectCondition(condition.round),
     division: selectCondition(condition.division),
-    remark: condition.remark
+    remark: condition.remark,
+    shortLeague,
+    blackList,
+    noOfferLive
   };
 
   return result;

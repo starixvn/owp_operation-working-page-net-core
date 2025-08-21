@@ -3,7 +3,7 @@ import { useAppDispatch } from '../../app/hooks';
 import { updateObject } from '../slice/editSettingSlice';
 import { TEditSetting } from '../../component/Type';
 
-const MB = (props: {
+const Maxbet = (props: {
   maxbetWD_HDP: string;
   wD_NoOfHDP: string;
   maxbetWK_HDP: string;
@@ -61,4 +61,4 @@ const MB = (props: {
   );
 };
 
-export default MB;
+export default Maxbet;
