@@ -9,7 +9,7 @@ public interface Repository
 {
     Task InitData(IList<LeagueSettingInfo> leagueInfo, CancellationToken cancellationToken);
 
-    Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSetting(string league, bool isEqualLeague);
+    Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSetting(LeagueParamRequest request);
 
     Task<LeagueSettingInfoSender> QueryLeagueSettingDetail(int leagueSettingId);
 
@@ -36,9 +36,9 @@ public class RepositoryImp : Repository
         });
     }
 
-    public async Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSetting(string league, bool isEqualLeague)
+    public async Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSetting(LeagueParamRequest request)
         => await repository.FetchAsync<LeagueSettingInfoSender>(new QueryLeagueSettingCriteria
-            { League = league, IsEqualLeague = isEqualLeague });
+            { League = request.League, IsEqualLeague = request.IsEqualLeague });
 
     public async Task<LeagueSettingInfoSender> QueryLeagueSettingDetail(int leagueSettingId)
         => await repository.GetAsync<LeagueSettingInfoSender>(new QueryLeagueSettingDetailCriteria

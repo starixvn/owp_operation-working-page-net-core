@@ -1,9 +1,8 @@
 import LeagueNameFilter from '../filter/LeagueNameFilter';
 import LeagueGroupFilter from '../filter/LeagueGroupFilter';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { fetchLeagueSettingInfo } from './leagueInfoTableSlice/leagueInfoThunk';
-import { setLeagueHeaderFiler } from './leagueInfoTableSlice/reducer';
 import { Button } from 'reactstrap';
 import AddLeagueSettingButton from '../filter/AddLeagueSettingButton';
 import { getLeagueGroupOptionsThunk } from '../component/commonThunk';
@@ -12,16 +11,12 @@ import OfferLiveFilter from '../filter/OfferLiveFilter';
 
 const FilterSection = () => {
   const dispatch = useAppDispatch();
-  const [searchValues, setSearchValues] = useState({
-    leagueName: '',
-    leagueGroupId: null as number | null
-  });
   const { leagueFilterHeader } = useAppSelector(state => state.leagueInfoTableSlice);
   const { leagueGroupOptions } = useAppSelector(state => state.editSettingSlice);
   
   
   const handleSearch = async () => {
-    await dispatch(fetchLeagueSettingInfo(leagueFilterHeader.leagueName, false));
+    await dispatch(fetchLeagueSettingInfo(leagueFilterHeader, false));
   };
 
   useEffect(() => {

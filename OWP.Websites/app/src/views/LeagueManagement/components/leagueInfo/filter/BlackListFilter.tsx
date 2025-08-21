@@ -8,7 +8,7 @@ const BlackListFilter = () => {
         label='Blacklist'
         options={IS_BLACKLIST_OPTIONS}
         value={IS_BLACKLIST_OPTIONS}
-        filterKey='IsBackList'
+        filterKey='BlackList'
         disabled={false} />
   );
 };

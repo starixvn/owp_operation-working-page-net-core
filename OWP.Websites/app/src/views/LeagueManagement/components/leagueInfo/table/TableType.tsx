@@ -42,8 +42,8 @@ type TTableSlice = {
   leagueFilterHeader: {
     leagueName: string;
     leagueGroupId: number | null;
-    IsBackList: boolean | null;
-    NoOfferLive: boolean | null;
+    BlackList:  string | (number | string | null)[];
+    OfferLive:  string | (number | string | null)[];
   };
   focusSettingId: number;
   multipleFilter: TMultipleFilter;

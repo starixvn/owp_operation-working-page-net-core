@@ -8,7 +8,7 @@ const OfferLiveFilter = () => {
         label='Offer Live'
         options={IS_OFFERLIVE_OPTIONS}
         value={IS_OFFERLIVE_OPTIONS}
-        filterKey='IsOfferLive'
+        filterKey='OfferLive'
         disabled={false} />
   );
 };

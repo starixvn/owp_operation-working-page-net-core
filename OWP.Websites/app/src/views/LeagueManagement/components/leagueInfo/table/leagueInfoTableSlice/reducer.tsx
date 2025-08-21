@@ -1,9 +1,11 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 import { TColumnKey, TTableSlice } from '../TableType';
 import { getLeagueInfoThunk } from './leagueInfoThunk';
 import { REQUEST_STATUS } from '../../../../../Shared/Constants';
 import { Option } from '../../../../../Shared/MultipleSelection/type';
 import { executeFilterTable, buildDefaultTableFilter } from './reducerHelper';
+import { IS_BLACKLIST_OPTIONS, IS_OFFERLIVE_OPTIONS } from '../../filter/filterConst.json';
 
 const buildMultipleFilterDefault = () => ({
   isFilter: false,
@@ -20,8 +22,8 @@ const LeagueInfoTableSlice = createSlice({
     leagueFilterHeader: {
       leagueName: '',
       leagueGroupId: 0,
-      IsBackList: null,
-      NoOfferLive: null,
+      BlackList: IS_BLACKLIST_OPTIONS.map(m => m.value),
+      OfferLive: IS_OFFERLIVE_OPTIONS.map(m => m.value)
     },
     focusSettingId: 0,
     multipleFilter: {
@@ -51,16 +53,10 @@ const LeagueInfoTableSlice = createSlice({
       state.entities = entitiesOriginal;
       buildDefaultTableFilter(state.entitiesOriginal, state.multipleFilter);
     },
-    setLeagueHeaderFiler: (state, actions) => /*NOSONAR*/ {
-      const { leagueName, leagueGroupId, IsBackList, NoOfferLive } = actions.payload;
-      state.leagueFilterHeader = {
-        leagueName,
-        leagueGroupId,
-        IsBackList,
-        NoOfferLive
-      };
+    setLeagueHeaderFiler: (state, actions) => {
+      state.leagueFilterHeader = actions.payload;
     },
-    setFocusSettingId: (state, actions) => /*NOSONAR*/ {
+    setFocusSettingId: (state, actions) => {
       state.focusSettingId = actions.payload;
     },
     setMultipleFilter: (

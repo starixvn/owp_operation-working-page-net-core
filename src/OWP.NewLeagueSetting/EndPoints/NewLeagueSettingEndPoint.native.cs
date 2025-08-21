@@ -17,9 +17,9 @@ public class NewLeagueSettingEndPoint : ICarterModule
         }).Accepts<HttpRequest>("multipart/form-data")
             .AllowAnonymous();
 
-        groupEndpoint.MapGet("/getAllListSettings", async (string league, bool isEqualLeague, ISender sender) =>
+        groupEndpoint.MapPost("/getAllListSettings", async (QueryLeagueSettingRequest request, ISender sender) =>
         {
-            var result = await sender.Send(new QueryLeagueSettingRequest(league, isEqualLeague));
+            var result = await sender.Send(request);
             return Results.Json(result);
         });
 

@@ -11,12 +11,12 @@ interface MultipleSelectionTemplateProps extends IMultipleSelectProps {
 const MultipleSelectionTemplate = (props: MultipleSelectionTemplateProps) => {
   const dispatch = useAppDispatch();
   const { leagueFilterHeader } = useAppSelector(state => state.leagueInfoTableSlice);
-  const handleChange = useCallback((event: Option[]) => {
+  const handleChange = (event: Option[]) => {
     dispatch(setLeagueHeaderFiler({
       ...leagueFilterHeader,
       [props.filterKey]: event.map(opt => opt.value)
     }));
-  }, [dispatch, props.filterKey]);
+  };
 
   return (
     <MultipleSelection

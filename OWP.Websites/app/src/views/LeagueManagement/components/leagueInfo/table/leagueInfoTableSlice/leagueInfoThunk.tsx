@@ -1,19 +1,20 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { buildRequestURL } from '../../../../../Shared/Service/serviceHelper';
-import { get } from '../../../../../Shared/Service/Service';
-import { TDataSource } from '../TableType';
+import { post } from '../../../../../Shared/Service/Service';
+import { TDataSource, TTableSlice} from '../TableType';
 
-const getLeagueInfoThunk = createAsyncThunk<TDataSource[], { league: string, isEqualLeague: boolean }>(
+const getLeagueInfoThunk = createAsyncThunk<TDataSource[], { param: TTableSlice["leagueFilterHeader"], isEqualLeague: boolean }>(
   'dataTable/query',
-  async ({ league = '', isEqualLeague = false }) => {
+  async ({ param, isEqualLeague = false }) => {
     const url = buildRequestURL('NewLeagueSetting', 'getAllListSettings');
-    const data = await get({ url, league, isEqualLeague });
+    const data = await post({ url, ...param, isEqualLeague });
+
     return data.data as TDataSource[];
   }
 );
 
-const fetchLeagueSettingInfo = (league: string, isEqualLeague: boolean) => {
-  return getLeagueInfoThunk({ league, isEqualLeague });
+const fetchLeagueSettingInfo = (param: TTableSlice["leagueFilterHeader"], isEqualLeague: boolean) => {
+  return getLeagueInfoThunk({ param, isEqualLeague });
 };
 
 export { getLeagueInfoThunk, fetchLeagueSettingInfo };
