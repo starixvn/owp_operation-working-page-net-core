@@ -7,7 +7,8 @@ import { executeFilterTable, buildDefaultTableFilter } from './reducerHelper';
 
 const buildMultipleFilterDefault = () => ({
   isFilter: false,
-  selected: []
+  selected: [],
+  options: []
 });
 
 const LeagueInfoTableSlice = createSlice({
@@ -81,9 +82,16 @@ const LeagueInfoTableSlice = createSlice({
         state.multipleFilter
       );
     },
-    removeBySettingId: (state, actions: PayloadAction<{ settingId: number }>) => /*NOSONAR*/ {
-      state.entities = state.entities.filter(l => l.leagueSettingId !== actions.payload.settingId);
-      state.entitiesOriginal = state.entitiesOriginal.filter(l => l.leagueSettingId !== actions.payload.settingId);
+    removeBySettingId: (
+      state,
+      actions: PayloadAction<{ settingId: number }>
+    ) => /*NOSONAR*/ {
+      state.entities = state.entities.filter(
+        l => l.leagueSettingId !== actions.payload.settingId
+      );
+      state.entitiesOriginal = state.entitiesOriginal.filter(
+        l => l.leagueSettingId !== actions.payload.settingId
+      );
     }
   },
   extraReducers: builder => {

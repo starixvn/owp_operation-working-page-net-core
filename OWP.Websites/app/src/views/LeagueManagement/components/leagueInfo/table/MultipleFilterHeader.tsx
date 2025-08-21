@@ -9,19 +9,20 @@ type FilterHeaderProps = {
   columnKey: TColumnKey;
 };
 
-const FilterHeader = ({ columnKey }: FilterHeaderProps) => {
+const MultipleFilterHeader = ({ columnKey }: FilterHeaderProps) => {
   const dispatch = useAppDispatch();
 
   const getFilterInfo = () =>
     store.getState().leagueInfoTableSlice.multipleFilter;
-  const { entitiesOriginal, multipleFilter } =
-    store.getState().leagueInfoTableSlice;
+  const { entitiesOriginal } = store.getState().leagueInfoTableSlice;
   const options = helper[columnKey](entitiesOriginal);
+
   return (
     <MultipleFilterHeaderCommon
-      setOptions={() => helper[columnKey](entitiesOriginal)}
+      columnKey={columnKey}
+      setOptions={() => getFilterInfo()[columnKey].options}
       setSelected={() => getFilterInfo()[columnKey].selected}
-      isFilter={multipleFilter[columnKey].isFilter}
+      setIsFilter={() => getFilterInfo()[columnKey].isFilter}
       onFilter={selected =>
         dispatch(
           setMultipleFilter({
@@ -36,4 +37,4 @@ const FilterHeader = ({ columnKey }: FilterHeaderProps) => {
   );
 };
 
-export default FilterHeader;
+export default MultipleFilterHeader;

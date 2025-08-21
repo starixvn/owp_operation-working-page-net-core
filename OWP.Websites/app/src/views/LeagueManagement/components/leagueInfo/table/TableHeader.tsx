@@ -1,4 +1,4 @@
-import FilterHeader from './FilterHeader';
+import MultipleFilterHeader from './MultipleFilterHeader';
 import { COLUMN_KEY, classNameCells } from './TableSchema.json';
 import { TColumnKey } from './TableType';
 
@@ -40,7 +40,7 @@ const TableHeader = () => {
           className='blue-header'>
           <div className='header-table'>
             <span>League Group</span>
-            <FilterHeader columnKey={League_Group as TColumnKey} />
+            <MultipleFilterHeader columnKey={League_Group as TColumnKey} />
           </div>
         </th>
         <th
@@ -49,7 +49,7 @@ const TableHeader = () => {
           className='blue-header'>
           <div className='header-table'>
             <span>League</span>
-            <FilterHeader columnKey={League as TColumnKey} />
+            <MultipleFilterHeader columnKey={League as TColumnKey} />
           </div>
         </th>
         <th rowSpan={1} colSpan={4} className='grey-header'>
@@ -65,7 +65,7 @@ const TableHeader = () => {
               <br />
               HDP - OU
             </span>
-            <FilterHeader columnKey={Spread_HDP_OU as TColumnKey} />
+            <MultipleFilterHeader columnKey={Spread_HDP_OU as TColumnKey} />
           </div>
         </th>
         <th rowSpan={1} colSpan={2} className='light-blue-header'>
@@ -83,7 +83,7 @@ const TableHeader = () => {
           className='grey-header'>
           <div className='header-table last-header'>
             <span>Comment</span>
-            <FilterHeader columnKey={Comment as TColumnKey} />
+            <MultipleFilterHeader columnKey={Comment as TColumnKey} />
           </div>
         </th>
         <th
@@ -105,7 +105,7 @@ const TableHeader = () => {
           className='blue-header'>
           <div className='header-table'>
             <span>TV</span>
-            <FilterHeader columnKey={Tv as TColumnKey} />
+            <MultipleFilterHeader columnKey={Tv as TColumnKey} />
           </div>
         </th>
         <th
@@ -114,7 +114,7 @@ const TableHeader = () => {
           className='blue-header'>
           <div className='header-table'>
             <span>Round</span>
-            <FilterHeader columnKey={Round as TColumnKey} />
+            <MultipleFilterHeader columnKey={Round as TColumnKey} />
           </div>
         </th>
         <th
@@ -123,7 +123,7 @@ const TableHeader = () => {
           className='blue-header'>
           <div className='header-table'>
             <span>League Division</span>
-            <FilterHeader columnKey={League_Division as TColumnKey} />
+            <MultipleFilterHeader columnKey={League_Division as TColumnKey} />
           </div>
         </th>
         <th
@@ -132,7 +132,7 @@ const TableHeader = () => {
           className='blue-header'>
           <div className='header-table'>
             <span>Remark</span>
-            <FilterHeader columnKey={Remark as TColumnKey} />
+            <MultipleFilterHeader columnKey={Remark as TColumnKey} />
           </div>
         </th>
         <th
@@ -141,7 +141,7 @@ const TableHeader = () => {
           className='light-blue-header'>
           <div className='header-table'>
             <span>HDP(K)</span>
-            <FilterHeader columnKey={MB_WD_HDP as TColumnKey} />
+            <MultipleFilterHeader columnKey={MB_WD_HDP as TColumnKey} />
           </div>
         </th>
         <th
@@ -150,7 +150,7 @@ const TableHeader = () => {
           className='light-blue-header'>
           <div className='header-table'>
             <span>NO.HDP</span>
-            <FilterHeader columnKey={MB_WD_NO_HDP as TColumnKey} />
+            <MultipleFilterHeader columnKey={MB_WD_NO_HDP as TColumnKey} />
           </div>
         </th>
         <th
@@ -159,7 +159,7 @@ const TableHeader = () => {
           className='pink-header'>
           <div className='header-table'>
             <span>HDP</span>
-            <FilterHeader columnKey={MB_WK_HDP as TColumnKey} />
+            <MultipleFilterHeader columnKey={MB_WK_HDP as TColumnKey} />
           </div>
         </th>
         <th
@@ -168,7 +168,7 @@ const TableHeader = () => {
           className='pink-header'>
           <div className='header-table'>
             <span>NO.HDP</span>
-            <FilterHeader columnKey={MB_WK_NO_HDP as TColumnKey} />
+            <MultipleFilterHeader columnKey={MB_WK_NO_HDP as TColumnKey} />
           </div>
         </th>
         <th
@@ -177,7 +177,7 @@ const TableHeader = () => {
           className='blue-header'>
           <div className='header-table'>
             <span>LST Note (Show under League)</span>
-            <FilterHeader columnKey={LST_Note as TColumnKey} />
+            <MultipleFilterHeader columnKey={LST_Note as TColumnKey} />
           </div>
         </th>
         <th
@@ -186,7 +186,7 @@ const TableHeader = () => {
           className='blue-header'>
           <div className='header-table'>
             <span>Remark 2 (Show under match)</span>
-            <FilterHeader columnKey={Remark2 as TColumnKey} />
+            <MultipleFilterHeader columnKey={Remark2 as TColumnKey} />
           </div>
         </th>
       </tr>

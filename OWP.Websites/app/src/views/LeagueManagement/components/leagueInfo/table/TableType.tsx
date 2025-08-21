@@ -67,6 +67,7 @@ type TMultipleFilter = {
   [key in TColumnKey]: {
     isFilter: boolean;
     selected: Option[];
+    options: Option[];
   };
 };
 
