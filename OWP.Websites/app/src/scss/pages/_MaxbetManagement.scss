@@ -1601,17 +1601,6 @@
     }
   }
 
-  .dropdown-content {
-    z-index: 5 !important;
-    padding-top: 0;
-
-    .panel-content {
-      max-width: 200px;
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-    }
-  }
-
   //input field
   .dropdown-container {
     height: 28px !important;
@@ -1638,29 +1627,77 @@
 
 // filter header
 
-.league-filter {
+.filter-section {
+  align-items: center;
   display: flex;
-  margin-left: 10px;
-  margin-top: 11px;
+  margin-bottom: 10px;
 
-  input {
-    margin-left: 6px;
-    margin-right: 10px;
-    max-width: 380px;
-    width: 270px;
-    height: 27px;
-    border-radius: 3px;
-    border: 1px solid #c8ced3;
-    background-color: transparent;
+  .league-filter {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    margin-top: 11px;
+    gap: 10px;
+  
+    input {
+      margin-left: 6px;
+      margin-right: 10px;
+      max-width: 300px;
+      width: 250px;
+      height: 27px;
+      border-radius: 3px;
+      border: 1px solid #c8ced3;
+      background-color: transparent;
+    }
+  
+    input:focus {
+      outline: none;
+      border: 1px solid #1e88e5;
+      box-shadow: none;
+    }
+
   }
 
-  input:focus {
-    outline: none;
-    border: 1px solid #1e88e5;
-    box-shadow: none;
+  .league-group-filter {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    margin-top: 11px;
+    gap: 10px;
+
+    .basic-multi-select {
+      width: 150px;
+    }
+
+  }
+
+  .filter-section-button {
+    display: flex;
+    margin-left: 30px;
+    margin-top: 11px;
+    gap: 10px;
+    align-self: flex-end;
+
+    .btn-search {
+      border: 0;
+      height: 26px;
+      line-height: 26px;
+      text-transform: capitalize;
+      border-radius: 2px;
+      font-size: 13px;
+      color: #fff;
+      background: #1e88e5;
+      padding: 0 1rem;
+      box-shadow: 0 2px 2px #00000024, 0 3px 2px -2px #0003, 0 1px 5px #0000001f;
+      cursor: pointer;
+      transition: .2s ease all;
+      margin-left: 10px;
   }
 }
-
+}
+.select__menu {
+  z-index: 5!important;
+}
 // edit popup
 .league {
   color: #1e88e5;

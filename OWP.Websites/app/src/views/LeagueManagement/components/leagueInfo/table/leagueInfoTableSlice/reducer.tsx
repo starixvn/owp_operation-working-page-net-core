@@ -16,7 +16,12 @@ const LeagueInfoTableSlice = createSlice({
     entities: [],
     entitiesOriginal: [],
     loading: REQUEST_STATUS.idle,
-    leagueFilterHeader: '',
+    leagueFilterHeader: {
+      leagueName: '',
+      leagueGroupId: 0,
+      IsBackList: null,
+      NoOfferLive: null,
+    },
     focusSettingId: 0,
     multipleFilter: {
       League_Group: buildMultipleFilterDefault(),
@@ -46,8 +51,13 @@ const LeagueInfoTableSlice = createSlice({
       buildDefaultTableFilter(state.entitiesOriginal, state.multipleFilter);
     },
     setLeagueHeaderFiler: (state, actions) => /*NOSONAR*/ {
-      const league = actions.payload;
-      state.leagueFilterHeader = league;
+      const { leagueName, leagueGroupId, IsBackList, NoOfferLive } = actions.payload;
+      state.leagueFilterHeader = {
+        leagueName,
+        leagueGroupId,
+        IsBackList,
+        NoOfferLive
+      };
     },
     setFocusSettingId: (state, actions) => /*NOSONAR*/ {
       state.focusSettingId = actions.payload;

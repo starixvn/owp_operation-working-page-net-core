@@ -1,29 +1,32 @@
 import { KeyboardEvent, useEffect, useState } from 'react';
-import { useAppDispatch } from '../app/hooks';
-import { fetchLeagueSettingInfo } from '../table/leagueInfoTableSlice/leagueInfoThunk';
-import { setLeagueHeaderFiler } from '../table/leagueInfoTableSlice/reducer';
-import AddLeagueSettingButton from './AddLeagueSettingButton';
-import { Button } from 'reactstrap';
-const LeagueNameFilter = () => {
-  const dispatch = useAppDispatch();
+
+interface LeagueNameFilterProps {
+  onSearchValueChange: (value: string, field: string) => void;
+}
+
+const LeagueNameFilter = ({ onSearchValueChange }: LeagueNameFilterProps) => {
   const searchParams = new URLSearchParams(document.location.search);
   const owpLeagueName = searchParams.get('leagueName');
   const [value, setValue] = useState(owpLeagueName || '');
-  const isEqualLeague = !!owpLeagueName;
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    e.key === 'Enter' && handleEnter();
+    if (e.key === 'Enter') {
+      onSearchValueChange(value, 'leagueName');
+    }
   };
 
-  const handleEnter = async () => {
-    dispatch(setLeagueHeaderFiler(value));
-    await dispatch(fetchLeagueSettingInfo(value, false));
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    setValue(newValue);
+    onSearchValueChange(newValue, 'leagueName');
   };
 
   useEffect(() => {
-    dispatch(setLeagueHeaderFiler(value));
-    dispatch(fetchLeagueSettingInfo(value, isEqualLeague));
-  }, [owpLeagueName]);
+    if (owpLeagueName) {
+      setValue(owpLeagueName);
+      onSearchValueChange(owpLeagueName, 'leagueName');
+    }
+  }, [owpLeagueName, onSearchValueChange]);
 
   return (
     <div className='league-filter'>
@@ -32,11 +35,8 @@ const LeagueNameFilter = () => {
         type='text'
         onKeyDown={handleKeyDown}
         value={value}
-        onChange={e => setValue(e.target.value)}></input>
-      <Button className='btn-search' onClick={handleEnter}>
-        Search
-      </Button>
-      <AddLeagueSettingButton />
+        onChange={handleInputChange}
+      />
     </div>
   );
 };

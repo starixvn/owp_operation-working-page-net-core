@@ -36,7 +36,12 @@ type TTableSlice = {
   entities: Array<TDataSource>;
   entitiesOriginal: Array<TDataSource>;
   loading: string;
-  leagueFilterHeader: string;
+  leagueFilterHeader: {
+    leagueName: string;
+    leagueGroupId: number | null;
+    IsBackList: boolean | null;
+    NoOfferLive: boolean | null;
+  };
   focusSettingId: number;
   multipleFilter: TMultipleFilter;
   isOpenAddNewSetting: boolean;
