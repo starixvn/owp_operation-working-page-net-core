@@ -1310,7 +1310,7 @@
 }
 
 .rmsc.multi-select {
-  width: 200px;
+  max-width: 200px;
 
   .dropdown-container {
     border: 0;
@@ -1631,12 +1631,12 @@
   align-items: center;
   display: flex;
   margin-bottom: 10px;
+  margin-top: 11px;
 
   .league-filter {
     display: flex;
     flex-direction: column;
     margin-left: 10px;
-    margin-top: 11px;
     gap: 10px;
   
     input {
@@ -1649,6 +1649,8 @@
       border: 1px solid #c8ced3;
       background-color: transparent;
     }
+
+   
   
     input:focus {
       outline: none;
@@ -1658,12 +1660,17 @@
 
   }
 
+  .multi-select-dropdown {
+    width: 150px;
+    margin-right: 10px;
+}
+
   .league-group-filter {
     display: flex;
     flex-direction: column;
     margin-left: 10px;
-    margin-top: 11px;
     gap: 10px;
+    margin-right: 10px;
 
     .basic-multi-select {
       width: 150px;
@@ -1674,7 +1681,6 @@
   .filter-section-button {
     display: flex;
     margin-left: 30px;
-    margin-top: 11px;
     gap: 10px;
     align-self: flex-end;
 

@@ -1,32 +1,42 @@
 import { KeyboardEvent, useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { setLeagueHeaderFiler } from '../table/leagueInfoTableSlice/reducer';
 
-interface LeagueNameFilterProps {
-  onSearchValueChange: (value: string, field: string) => void;
-}
 
-const LeagueNameFilter = ({ onSearchValueChange }: LeagueNameFilterProps) => {
+const LeagueNameFilter = () => {
+  const dispatch = useAppDispatch();
   const searchParams = new URLSearchParams(document.location.search);
   const owpLeagueName = searchParams.get('leagueName');
   const [value, setValue] = useState(owpLeagueName || '');
+  const { leagueFilterHeader } = useAppSelector(state => state.leagueInfoTableSlice);
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      onSearchValueChange(value, 'leagueName');
+      dispatch(setLeagueHeaderFiler({
+        ...leagueFilterHeader,
+        leagueName: value
+      }));
     }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setValue(newValue);
-    onSearchValueChange(newValue, 'leagueName');
+    dispatch(setLeagueHeaderFiler({
+      ...leagueFilterHeader,
+      leagueName: newValue
+    }));
   };
 
   useEffect(() => {
     if (owpLeagueName) {
       setValue(owpLeagueName);
-      onSearchValueChange(owpLeagueName, 'leagueName');
+      dispatch(setLeagueHeaderFiler({
+        ...leagueFilterHeader,
+        leagueName: owpLeagueName
+      }));
     }
-  }, [owpLeagueName, onSearchValueChange]);
+  }, [owpLeagueName]);
 
   return (
     <div className='league-filter'>

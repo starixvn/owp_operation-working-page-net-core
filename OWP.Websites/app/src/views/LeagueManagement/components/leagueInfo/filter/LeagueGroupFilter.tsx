@@ -1,15 +1,12 @@
-import { useAppSelector } from '../app/hooks';
 import Select from 'react-select-ts';
 import { TOption } from '../component/Type';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { setLeagueHeaderFiler } from '../table/leagueInfoTableSlice/reducer';
 
-interface LeagueGroupFilterProps {
-  onSearchValueChange: (value: string | null, field: string) => void;
-}
-
-const LeagueGroupFilter = ({ onSearchValueChange }: LeagueGroupFilterProps) => {
+const LeagueGroupFilter = () => {
+  const dispatch = useAppDispatch();
   const { leagueGroupOptions } = useAppSelector(state => state.editSettingSlice);
   const { leagueFilterHeader } = useAppSelector(state => state.leagueInfoTableSlice);
-  
   const allOptions: TOption[] = [
     { value: 0, label: 'All' },
     ...leagueGroupOptions
@@ -17,7 +14,10 @@ const LeagueGroupFilter = ({ onSearchValueChange }: LeagueGroupFilterProps) => {
   
   const handleChangeLeagueGroup = (selectedOption: TOption | null) => {
     const value = selectedOption?.value === 0 ? null : selectedOption?.value || null;
-    onSearchValueChange(value?.toString() || null, 'leagueGroupId');
+    dispatch(setLeagueHeaderFiler({
+      ...leagueFilterHeader,
+      leagueGroupId: value?.toString() || null
+    }));
   };
   
   return (
@@ -25,11 +25,11 @@ const LeagueGroupFilter = ({ onSearchValueChange }: LeagueGroupFilterProps) => {
       <span> League Group</span>
       <Select
         options={allOptions}
-        value={allOptions.find(option => option.value === leagueFilterHeader.leagueGroupId) || null}
         className='basic-multi-select'
         classNamePrefix='select'
         onChange={handleChangeLeagueGroup}
         placeholder="Select League Group..."
+        value={allOptions.find(option => option.value === Number(leagueFilterHeader.leagueGroupId)) || null}
       />
     </div>
   );

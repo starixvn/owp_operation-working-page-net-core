@@ -7,6 +7,8 @@ import { setLeagueHeaderFiler } from './leagueInfoTableSlice/reducer';
 import { Button } from 'reactstrap';
 import AddLeagueSettingButton from '../filter/AddLeagueSettingButton';
 import { getLeagueGroupOptionsThunk } from '../component/commonThunk';
+import BlackListFilter from '../filter/BlackListFilter';
+import OfferLiveFilter from '../filter/OfferLiveFilter';
 
 const FilterSection = () => {
   const dispatch = useAppDispatch();
@@ -17,16 +19,9 @@ const FilterSection = () => {
   const { leagueFilterHeader } = useAppSelector(state => state.leagueInfoTableSlice);
   const { leagueGroupOptions } = useAppSelector(state => state.editSettingSlice);
   
-  const handleSearchValueChange = (value: string | null, field: string) => {
-    setSearchValues(prev => ({
-      ...prev,
-      [field]: field === 'leagueGroupId' ? (value ? parseInt(value) : null) : (value || '')
-    }));
-  };
   
   const handleSearch = async () => {
-    dispatch(setLeagueHeaderFiler(searchValues));
-    await dispatch(fetchLeagueSettingInfo(searchValues.leagueName, false));
+    await dispatch(fetchLeagueSettingInfo(leagueFilterHeader.leagueName, false));
   };
 
   useEffect(() => {
@@ -35,8 +30,10 @@ const FilterSection = () => {
 
   return (
     <div className='filter-section'>
-      <LeagueNameFilter onSearchValueChange={handleSearchValueChange} />
-      <LeagueGroupFilter onSearchValueChange={handleSearchValueChange} />
+      <LeagueNameFilter  />
+      <LeagueGroupFilter  />
+      <BlackListFilter  />
+      <OfferLiveFilter  />
       <div className='filter-section-button'>
         <Button className='btn-search' onClick={handleSearch}>
           Search
