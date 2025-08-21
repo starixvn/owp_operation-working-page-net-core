@@ -14,7 +14,7 @@ const LeagueNameFilter = () => {
     if (e.key === 'Enter') {
       dispatch(setLeagueHeaderFiler({
         ...leagueFilterHeader,
-        leagueName: value
+        leagueName: value.trim()
       }));
     }
   };
@@ -24,7 +24,7 @@ const LeagueNameFilter = () => {
     setValue(newValue);
     dispatch(setLeagueHeaderFiler({
       ...leagueFilterHeader,
-      leagueName: newValue
+      leagueName: newValue.trim()
     }));
   };
 
@@ -33,7 +33,7 @@ const LeagueNameFilter = () => {
       setValue(owpLeagueName);
       dispatch(setLeagueHeaderFiler({
         ...leagueFilterHeader,
-        leagueName: owpLeagueName
+        leagueName: owpLeagueName.trim()
       }));
     }
   }, [owpLeagueName]);

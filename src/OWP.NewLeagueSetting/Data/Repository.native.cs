@@ -37,8 +37,12 @@ public class RepositoryImp : Repository
     }
 
     public async Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSetting(LeagueParamRequest request)
-        => await repository.FetchAsync<LeagueSettingInfoSender>(new QueryLeagueSettingCriteria
-            { League = request.League, IsEqualLeague = request.IsEqualLeague });
+    { 
+        var result = await repository.FetchAsync<LeagueSettingInfoSender>(new QueryLeagueSettingCriteria
+        { League = request.LeagueName, IsEqualLeague = request.IsEqualLeague });
+        return result;
+    }
+    
 
     public async Task<LeagueSettingInfoSender> QueryLeagueSettingDetail(int leagueSettingId)
         => await repository.GetAsync<LeagueSettingInfoSender>(new QueryLeagueSettingDetailCriteria

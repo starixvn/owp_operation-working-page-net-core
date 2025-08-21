@@ -2,7 +2,7 @@
 
 public class LeagueParamRequest 
 {
-    public string League { get; set; }
+    public string LeagueName { get; set; }
 
     public bool IsEqualLeague { get; set; }
 

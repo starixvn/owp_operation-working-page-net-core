@@ -23,6 +23,10 @@ const FilterSection = () => {
     !leagueGroupOptions.length && dispatch(getLeagueGroupOptionsThunk());
   }, [dispatch, leagueGroupOptions]);
 
+  useEffect(() => {
+    dispatch(fetchLeagueSettingInfo(leagueFilterHeader, false));
+  }, []);
+
   return (
     <div className='filter-section'>
       <LeagueNameFilter  />

@@ -9,7 +9,7 @@ public class DuplicateSettingServiceImp(Repository repository) : DuplicateSettin
 {
     public async Task<bool> GetDuplicatedSettingId(LeagueSettingRequest model)
     {
-        var leagueSettings = await repository.QueryLeagueSetting(new LeagueParamRequest { League = model.League, IsEqualLeague = true });
+        var leagueSettings = await repository.QueryLeagueSetting(new LeagueParamRequest { LeagueName = model.League, IsEqualLeague = true });
 
         return leagueSettings
             .Where(x => x.LeagueSettingId != model.LeagueSettingId)
