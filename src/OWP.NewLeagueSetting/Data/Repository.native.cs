@@ -43,12 +43,12 @@ public class RepositoryImp : Repository
         
         return FilterLeagueSettingsByRequest(result, request);
     }
-    
+
     private static IEnumerable<LeagueSettingInfoSender> FilterLeagueSettingsByRequest(IEnumerable<LeagueSettingInfoSender> leagueSettings, LeagueParamRequest request)
         => leagueSettings
-            .Where(x => 
-                request.Blacklist.Contains(x.BackList ?? 0)
-                && request.OfferLive.Contains(x.NoOfferLive ?? 0)
+            .Where(x =>
+                request.Blacklist.Contains(x.IsBlackList ? 1 : 0)
+                && request.OfferLive.Contains(x.NoOfferLive ? 0 : 1)
                 && request.LeagueGroupId == null || request.LeagueGroupId == x.LeagueGroupId)
             .ToList();
 

@@ -7,9 +7,9 @@ public class LeagueSettingInfoSender : LeagueSettingInfo
 
     public int LeagueGroupId { get; set; } = default!;
 
-    public int? BackList { get; set; } = default!;
+    public bool IsBlackList { get; set; } = default!;
 
-    public int? NoOfferLive { get; set; } = default!;
+    public bool NoOfferLive { get; set; } = default!;
 
     public string MaxbetWD_HDP_Show => FormatMaxbet(MaxbetWD_HDP_Value, MaxbetWD_HDP_Note);
 
