@@ -30,7 +30,6 @@ const AddSettingPopup = () => {
         <FtSpreadOfAdd />
         <MBOfAdd />
         <MiscMatchOfAdd />
-        <CommentOfAdd />
       </ModalBody>
       <ModalFooter>
         <CommandOfAdd />

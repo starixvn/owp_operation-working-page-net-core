@@ -44,7 +44,6 @@ const LeagueInfo = (props: {
     <div className='content'>
       <div className='left'>
         Short League
-        <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>*</p>
       </div>
       <label style={{ marginTop: '7px' }}>{shortLeague}</label>
     </div>

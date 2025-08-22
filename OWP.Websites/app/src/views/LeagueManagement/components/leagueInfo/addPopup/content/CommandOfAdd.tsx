@@ -33,7 +33,10 @@ const CommandOfAdd = () => {
     hasIpTv,
     remark,
     round,
-    division
+    division,
+    isBlackList,
+    noOfferLive,
+    shortLeague
   } = leagueSetting;
   const dispatch = useAppDispatch();
 
@@ -68,8 +71,9 @@ const CommandOfAdd = () => {
         remark,
         round: round.filter(d => d.value) || [],
         division: division.filter(d => d.value) || [],
-        isBlackList: false,
-        noOfferLive: false,
+        isBlackList,
+        noOfferLive,
+        shortLeague,
         comment
       });
 

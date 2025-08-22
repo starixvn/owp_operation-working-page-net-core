@@ -32,6 +32,7 @@ type TEditSetting = {
   isBlackList: boolean;
   noOfferLive: boolean;
   comment: string;
+  shortLeague?: string;
 } & TAddExpressionKey;
 
 type TAddSetting = {

@@ -13,7 +13,7 @@ const LeagueInfoOfAdd = () => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const value = event.target.value;
-    dispatch(updateObjectAddPopup({ property: 'league', value }));
+
   };
 
   const handleChangeLeagueGroup = (selectedOption: TOption | null) => {
@@ -27,6 +27,7 @@ const LeagueInfoOfAdd = () => {
     );
   };
 
+
   return (
     <div className='list'>
       <div className='title'>League Information</div>
@@ -39,7 +40,7 @@ const LeagueInfoOfAdd = () => {
         <input
           style={{ 'width': '500px' }}
           className='input'
-          onChange={handleOnChangeLeagueName}
+          onBlur={event => dispatch(updateObjectAddPopup({ property: 'league', value: event.target.value }))}
         />
       </div>
       <div className='content'>
@@ -50,6 +51,22 @@ const LeagueInfoOfAdd = () => {
           classNamePrefix='select'
           onChange={handleChangeLeagueGroup}
         />
+      </div>
+      <div className='content'>
+        <div className='left'>League Type</div>
+        <div className='checkbox form-check-league-type'>
+          <input
+
+            id='chb-no-offer-live-league'
+            type='checkbox'
+            name='oldLeague'
+            className='form-check-input'
+            onChange={event => dispatch(updateObjectAddPopup({ property: 'noOfferLive', value: event.currentTarget.checked }))}
+          />
+          <label className='form-check-label' htmlFor='chb-no-offer-live-league'>
+            No Offer Live
+          </label>
+        </div>
       </div>
     </div>
   );
