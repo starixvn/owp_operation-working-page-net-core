@@ -2,7 +2,7 @@ import { TCondition } from '../table/TableType';
 import { MouseEvent } from 'react';
 
 type TOption = {
-  value: number;
+  value: number | null;
   label: string | null;
 };
 

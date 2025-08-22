@@ -7,6 +7,10 @@ public class LeagueSettingInfoSender : LeagueSettingInfo
 
     public int LeagueGroupId { get; set; } = default!;
 
+    public int? BackList { get; set; } = default!;
+
+    public int? NoOfferLive { get; set; } = default!;
+
     public string MaxbetWD_HDP_Show => FormatMaxbet(MaxbetWD_HDP_Value, MaxbetWD_HDP_Note);
 
     public string MaxbetWK_HDP_Show => FormatMaxbet(MaxbetWK_HDP_Value, MaxbetWK_HDP_Note);

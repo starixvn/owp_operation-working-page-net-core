@@ -32,7 +32,7 @@ const LeagueInfoTableSlice = createSlice({
     loading: REQUEST_STATUS.idle,
     leagueFilterHeader: {
       leagueName: '',
-      leagueGroupId: 0,
+      leagueGroupId: null,
       BlackList: IS_BLACKLIST_OPTIONS.map(m => m.value),
       OfferLive: IS_OFFERLIVE_OPTIONS.map(m => m.value)
     },

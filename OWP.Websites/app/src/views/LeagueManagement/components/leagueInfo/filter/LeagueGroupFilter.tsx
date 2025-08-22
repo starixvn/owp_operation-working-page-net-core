@@ -8,15 +8,15 @@ const LeagueGroupFilter = () => {
   const { leagueGroupOptions } = useAppSelector(state => state.editSettingSlice);
   const { leagueFilterHeader } = useAppSelector(state => state.leagueInfoTableSlice);
   const allOptions: TOption[] = [
-    { value: 0, label: 'All' },
+    { value: null, label: 'All' },
     ...leagueGroupOptions
   ];
-  
+
   const handleChangeLeagueGroup = (selectedOption: TOption | null) => {
-    const value = selectedOption?.value === 0 ? null : selectedOption?.value || null;
+    const value = selectedOption?.value;
     dispatch(setLeagueHeaderFiler({
       ...leagueFilterHeader,
-      leagueGroupId: value?.toString() || null
+      leagueGroupId: value
     }));
   };
   
@@ -29,7 +29,9 @@ const LeagueGroupFilter = () => {
         classNamePrefix='select'
         onChange={handleChangeLeagueGroup}
         placeholder="Select League Group..."
-        value={allOptions.find(option => option.value === Number(leagueFilterHeader.leagueGroupId)) || null}
+        value={leagueFilterHeader.leagueGroupId === null 
+          ? allOptions[0] 
+          : allOptions.find(option => option.value === leagueFilterHeader.leagueGroupId) || null}
       />
     </div>
   );

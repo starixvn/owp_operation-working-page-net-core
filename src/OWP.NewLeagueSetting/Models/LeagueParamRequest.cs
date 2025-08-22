@@ -6,7 +6,7 @@ public class LeagueParamRequest
 
     public bool IsEqualLeague { get; set; }
 
-    public int LeagueGroupId { get; set; }
+    public int? LeagueGroupId { get; set; }
 
     public List<int> Blacklist { get; set; }
 
