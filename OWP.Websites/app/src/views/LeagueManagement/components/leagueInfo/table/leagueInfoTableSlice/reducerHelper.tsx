@@ -1,8 +1,10 @@
+import { filterDataTable } from '../../../../../Shared/Utils';
 import {
   TCondition,
   TDataSource,
   TMultipleFilter,
-  TColumnKey
+  TColumnKey,
+  TTableSlice
 } from '../TableType';
 import helper from './calculateFilterOptions';
 
@@ -47,9 +49,14 @@ const buildDefaultTableFilter = (
 };
 
 const executeFilterTable = (
-  dataSource: TDataSource[],
-  tableFilter: TMultipleFilter
+  state: TTableSlice,
+  filterByKeyword: (
+    arraySource: any, //NOSONAR
+    { keyword, columnKey }: { keyword: undefined; columnKey: undefined }
+  ) => any //NOSONAR
 ) => {
+  const { entitiesOriginal, multipleFilter, filterState } = state;
+
   const {
     League_Group,
     League,
@@ -65,67 +72,72 @@ const executeFilterTable = (
     LST_Note,
     Remark2,
     Comment
-  } = tableFilter;
-  const result = dataSource.filter(
+  } = multipleFilter;
+
+  let result = filterDataTable(entitiesOriginal, filterState, filterByKeyword);
+  //console.log(JSON.stringify(result, null, 2));
+  result = result.filter(
     (
-      e //NOSONAR
+      e: TDataSource //NOSONAR
     ) =>
       (!League_Group.isFilter ||
         League_Group.selected.some(
-          m => m.label === buildLabelItemOption(e.leagueGroup)
+          (m: any) => m.label === buildLabelItemOption(e.leagueGroup)
         )) &&
       (!League.isFilter ||
         League.selected.some(
-          m => m.label === buildLabelItemOption(e.league)
+          (m: any) => m.label === buildLabelItemOption(e.league)
         )) &&
       (!Tv.isFilter ||
         Tv.selected.some(
-          m =>
+          (m: any) =>
             m.label ===
             buildLabelTvOption(e.condition.hasTv, e.condition.hasIpTv)
         )) &&
       (!Round.isFilter ||
-        Round.selected.some(m =>
+        Round.selected.some((m: any) =>
           buildLabelItemForCondition(e.condition.round, m.label)
         )) &&
       (!League_Division.isFilter ||
-        League_Division.selected.some(m =>
+        League_Division.selected.some((m: any) =>
           buildLabelItemForCondition(e.condition.division, m.label)
         )) &&
       (!Remark.isFilter ||
         Remark.selected.some(
-          m => m.label === buildLabelItemOption(e.condition.remark)
+          (m: any) => m.label === buildLabelItemOption(e.condition.remark)
         )) &&
       (!Spread_HDP_OU.isFilter ||
         Spread_HDP_OU.selected.some(
-          m => m.label === buildLabelItemOption(e.spreadShow)
+          (m: any) => m.label === buildLabelItemOption(e.spreadShow)
         )) &&
       (!MB_WD_HDP.isFilter ||
         MB_WD_HDP.selected.some(
-          m => m.label === buildLabelItemOption(e.maxbetWD_HDP_Show)
+          (m: any) => m.label === buildLabelItemOption(e.maxbetWD_HDP_Show)
         )) &&
       (!MB_WD_NO_HDP.isFilter ||
         MB_WD_NO_HDP.selected.some(
-          m => m.label === buildLabelItemOption(e.wD_NoOfHDP_Show)
+          (m: any) => m.label === buildLabelItemOption(e.wD_NoOfHDP_Show)
         )) &&
       (!MB_WK_HDP.isFilter ||
         MB_WK_HDP.selected.some(
-          m => m.label === buildLabelItemOption(e.maxbetWK_HDP_Show)
+          (m: any) => m.label === buildLabelItemOption(e.maxbetWK_HDP_Show)
         )) &&
       (!MB_WK_NO_HDP.isFilter ||
         MB_WK_NO_HDP.selected.some(
-          m => m.label === buildLabelItemOption(e.wK_NoOfHDP_Show)
+          (m: any) => m.label === buildLabelItemOption(e.wK_NoOfHDP_Show)
         )) &&
       (!LST_Note.isFilter ||
         LST_Note.selected.some(
-          m => m.label === buildLabelItemOption(e.lstNote)
+          (m: any) => m.label === buildLabelItemOption(e.lstNote)
         )) &&
       (!Remark2.isFilter ||
         Remark2.selected.some(
-          m => m.label === buildLabelItemOption(e.remark2)
+          (m: any) => m.label === buildLabelItemOption(e.remark2)
         )) &&
       (!Comment.isFilter ||
-        Comment.selected.some(m => m.label === buildLabelItemOption(e.comment)))
+        Comment.selected.some(
+          (m: any) => m.label === buildLabelItemOption(e.comment)
+        ))
   );
   return result;
 };

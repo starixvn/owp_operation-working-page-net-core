@@ -1,5 +1,9 @@
 import { Option } from '../../../../Shared/MultipleSelection/type';
 
+interface FilterAllColumn {
+  [x: string]: string;
+}
+
 type TDataSource = {
   leagueSettingId: number;
   owpLeagueId: number;
@@ -48,6 +52,14 @@ type TTableSlice = {
   focusSettingId: number;
   multipleFilter: TMultipleFilter;
   isOpenAddNewSetting: boolean;
+  valueFilterAllColumn: FilterAllColumn;
+  columnKeyFilterCurrent: string;
+  filterState: Array<TFilterState>;
+};
+
+type TFilterState = {
+  columnKey: string | undefined;
+  keyword: string | undefined;
 };
 
 type TColumnKey =
@@ -76,6 +88,8 @@ type TMultipleFilter = {
 
 export {
   TCondition,
+  TFilterState,
+  FilterAllColumn,
   TConditionSource,
   TDataSource,
   TTableSlice,

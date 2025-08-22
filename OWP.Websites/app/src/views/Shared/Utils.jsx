@@ -203,8 +203,13 @@ const addOrReplaceFilterState = (currentState, newFilter) => {
     : [...currentState, newFilter];
 };
 
-const filterDataTable = (data, filterState, callback) =>
-  filterState.reduce((matches, filter) => callback(matches, filter), data);
+const filterDataTable = (data, filterState, callback) => {
+  console.log(JSON.stringify(filterState, null, 2));
+  return filterState.reduce(
+    (matches, filter) => callback(matches, filter),
+    data
+  );
+};
 
 const formatNumberWithCommas = source =>
   source?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');

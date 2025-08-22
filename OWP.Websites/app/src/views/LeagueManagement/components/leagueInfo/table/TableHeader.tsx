@@ -1,4 +1,5 @@
 import MultipleFilterHeader from './MultipleFilterHeader';
+import FilterHeader from './FilterHeader';
 import { COLUMN_KEY, classNameCells } from './TableSchema.json';
 import { TColumnKey } from './TableType';
 
@@ -49,7 +50,7 @@ const TableHeader = () => {
           className='blue-header'>
           <div className='header-table'>
             <span>League</span>
-            <MultipleFilterHeader columnKey={League as TColumnKey} />
+            <FilterHeader columnKey={League as TColumnKey} />
           </div>
         </th>
         <th rowSpan={1} colSpan={4} className='grey-header'>

@@ -1,11 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { TColumnKey, TTableSlice } from '../TableType';
+import {
+  TColumnKey,
+  TTableSlice,
+  FilterAllColumn,
+  TFilterState
+} from '../TableType';
 import { getLeagueInfoThunk } from './leagueInfoThunk';
 import { REQUEST_STATUS } from '../../../../../Shared/Constants';
 import { Option } from '../../../../../Shared/MultipleSelection/type';
 import { executeFilterTable, buildDefaultTableFilter } from './reducerHelper';
 import { IS_BLACKLIST_OPTIONS, IS_OFFERLIVE_OPTIONS } from '../../filter/filterConst.json';
+import {
+  addOrReplaceFilterState,
+  filterDataTable,
+  pushOrUpdateObject
+} from '../../../../../Shared/Utils';
+import filterByKeyword from '../filterByKeyword';
 
 const buildMultipleFilterDefault = () => ({
   isFilter: false,
@@ -42,7 +53,10 @@ const LeagueInfoTableSlice = createSlice({
       Remark2: buildMultipleFilterDefault(),
       Comment: buildMultipleFilterDefault()
     },
-    isOpenAddNewSetting: false
+    isOpenAddNewSetting: false,
+    valueFilterAllColumn: {} as FilterAllColumn,
+    columnKeyFilterCurrent: '',
+    filterState: [] as TFilterState[]
   } as TTableSlice,
   reducers: {
     setIsOpenAddNewSetting: state => {
@@ -50,6 +64,8 @@ const LeagueInfoTableSlice = createSlice({
     },
     clearFilter: state => {
       const { entitiesOriginal } = state;
+      state.filterState = [];
+      state.valueFilterAllColumn = {};
       state.entities = entitiesOriginal;
       buildDefaultTableFilter(state.entitiesOriginal, state.multipleFilter);
     },
@@ -58,6 +74,11 @@ const LeagueInfoTableSlice = createSlice({
     },
     setFocusSettingId: (state, actions) => {
       state.focusSettingId = actions.payload;
+    },
+    filterBySearchKey: (state, action) => {
+      const { filterState } = state;
+      state.filterState = addOrReplaceFilterState(filterState, action.payload);
+      state.entities = executeFilterTable(state, filterByKeyword);
     },
     setMultipleFilter: (
       state,
@@ -73,10 +94,7 @@ const LeagueInfoTableSlice = createSlice({
         selected,
         isFilter
       };
-      state.entities = executeFilterTable(
-        state.entitiesOriginal,
-        state.multipleFilter
-      );
+      state.entities = executeFilterTable(state, filterByKeyword);
     },
     removeBySettingId: (
       state,
@@ -87,6 +105,16 @@ const LeagueInfoTableSlice = createSlice({
       );
       state.entitiesOriginal = state.entitiesOriginal.filter(
         l => l.leagueSettingId !== actions.payload.settingId
+      );
+    },
+    setColumnKeyValue: (state, action) => {
+      state.columnKeyFilterCurrent = action.payload;
+    },
+    setValueFilter: (state, action) => {
+      const { valueFilterAllColumn } = state;
+      state.valueFilterAllColumn = pushOrUpdateObject(
+        valueFilterAllColumn,
+        action.payload
       );
     }
   },
@@ -111,7 +139,10 @@ const {
   setLeagueHeaderFiler,
   setFocusSettingId,
   setIsOpenAddNewSetting,
-  removeBySettingId
+  removeBySettingId,
+  setColumnKeyValue,
+  setValueFilter,
+  filterBySearchKey
 } = actions;
 
 export {
@@ -120,7 +151,10 @@ export {
   setLeagueHeaderFiler,
   setFocusSettingId,
   setIsOpenAddNewSetting,
-  removeBySettingId
+  removeBySettingId,
+  setColumnKeyValue,
+  setValueFilter,
+  filterBySearchKey
 };
 
 export default reducer;
