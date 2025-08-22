@@ -1638,7 +1638,7 @@
     flex-direction: column;
     margin-left: 10px;
     gap: 10px;
-  
+
     input {
       margin-left: 6px;
       margin-right: 10px;
@@ -1650,20 +1650,17 @@
       background-color: transparent;
     }
 
-   
-  
     input:focus {
       outline: none;
       border: 1px solid #1e88e5;
       box-shadow: none;
     }
-
   }
 
   .multi-select-dropdown {
     width: 150px;
     margin-right: 10px;
-}
+  }
 
   .league-group-filter {
     display: flex;
@@ -1675,7 +1672,6 @@
     .basic-multi-select {
       width: 150px;
     }
-
   }
 
   .filter-section-button {
@@ -1696,13 +1692,13 @@
       padding: 0 1rem;
       box-shadow: 0 2px 2px #00000024, 0 3px 2px -2px #0003, 0 1px 5px #0000001f;
       cursor: pointer;
-      transition: .2s ease all;
+      transition: 0.2s ease all;
       margin-left: 10px;
+    }
   }
 }
-}
 .select__menu {
-  z-index: 5!important;
+  z-index: 5 !important;
 }
 // edit popup
 .league {
@@ -2010,6 +2006,10 @@ textarea {
 
 .is-focus-row {
   background-color: #cddcf9;
+}
+
+.color-gray {
+  background-color: #a9a9ad;
 }
 
 .league-filter .btn-search {

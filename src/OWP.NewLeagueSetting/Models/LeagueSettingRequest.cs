@@ -40,7 +40,7 @@ public class LeagueSettingRequest : LeagueSettingCore
 
     public string Remark { get; set; }
 
-    public bool BlackList { get; set; }
+    public bool IsBlackList { get; set; }
 
     public bool NoOfferLive { get; set; }
 

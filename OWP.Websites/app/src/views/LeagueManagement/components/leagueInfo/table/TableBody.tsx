@@ -26,9 +26,14 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
       const linkVerb = tv.length && iptv.length ? '/' : '';
       return `${tv}${linkVerb}${iptv}`.trim();
     };
+
     if (row) {
-      const className =
-        focusSettingId === row.leagueSettingId ? 'is-focus-row' : '';
+      const className = [
+        focusSettingId === row.leagueSettingId ? 'is-focus-row' : '',
+        row.isBlackList || row.noOfferLive ? 'color-gray' : ''
+      ]
+        .filter(Boolean)
+        .join(' ');
       rows.push(
         <tr key={uniqueId()} className={className}>
           <CommonCell
@@ -39,9 +44,7 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
             className={classNameCells.leagueGroupCell.className}
             value={row.leagueGroup}
           />
-          <CommonCell
-            value={row.shortLeague}
-          />
+          <CommonCell value={row.shortLeague} />
           <LeagueCell
             className={classNameCells.leagueCell.className}
             dataSource={row}
