@@ -62,14 +62,11 @@ const executeFilterTable = (
     Tv,
     Round,
     League_Division,
-    Remark,
     Spread_HDP_OU,
     MB_WK_HDP,
     MB_WK_NO_HDP,
     MB_WD_HDP,
     MB_WD_NO_HDP,
-    LST_Note,
-    Remark2,
     Comment
   } = multipleFilter;
 
@@ -97,10 +94,6 @@ const executeFilterTable = (
         League_Division.selected.some((m: any) =>
           buildLabelItemForCondition(e.condition.division, m.label)
         )) &&
-      (!Remark.isFilter ||
-        Remark.selected.some(
-          (m: any) => m.label === buildLabelItemOption(e.condition.remark)
-        )) &&
       (!Spread_HDP_OU.isFilter ||
         Spread_HDP_OU.selected.some(
           (m: any) => m.label === buildLabelItemOption(e.spreadShow)
@@ -120,14 +113,6 @@ const executeFilterTable = (
       (!MB_WK_NO_HDP.isFilter ||
         MB_WK_NO_HDP.selected.some(
           (m: any) => m.label === buildLabelItemOption(e.wK_NoOfHDP_Show)
-        )) &&
-      (!LST_Note.isFilter ||
-        LST_Note.selected.some(
-          (m: any) => m.label === buildLabelItemOption(e.lstNote)
-        )) &&
-      (!Remark2.isFilter ||
-        Remark2.selected.some(
-          (m: any) => m.label === buildLabelItemOption(e.remark2)
         )) &&
       (!Comment.isFilter ||
         Comment.selected.some(

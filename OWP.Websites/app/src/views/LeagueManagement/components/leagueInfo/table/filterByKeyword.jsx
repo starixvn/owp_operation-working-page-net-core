@@ -8,9 +8,27 @@ const checkShortLeague = (arraySource, keyWordFormat) =>
     item.shortLeague?.toLowerCase().includes(keyWordFormat)
   );
 
+const checkRemark = (arraySource, keyWordFormat) =>
+  arraySource.filter(item =>
+    item.condition.remark?.toLowerCase().includes(keyWordFormat)
+  );
+
+const checkRemark2 = (arraySource, keyWordFormat) =>
+  arraySource.filter(item =>
+    item.remark2?.toLowerCase().includes(keyWordFormat)
+  );
+
+const checkLSTNote = (arraySource, keyWordFormat) =>
+  arraySource.filter(item =>
+    item.lstNote?.toLowerCase().includes(keyWordFormat)
+  );
+
 const columnFilter = {
   'League': checkLeague,
-  'Short_League': checkShortLeague
+  'Short_League': checkShortLeague,
+  'Remark': checkRemark,
+  'Remark2': checkRemark2,
+  'LST_Note': checkLSTNote
 };
 
 const filterByKeyword = (

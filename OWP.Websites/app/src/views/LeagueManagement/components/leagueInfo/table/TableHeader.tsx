@@ -143,7 +143,7 @@ const TableHeader = () => {
           className='blue-header'>
           <div className='header-table'>
             <span>Remark</span>
-            <MultipleFilterHeader columnKey={Remark as TColumnKey} />
+            <FilterHeader columnKey={Remark as TColumnKey} />
           </div>
         </th>
         <th
@@ -188,7 +188,7 @@ const TableHeader = () => {
           className='blue-header'>
           <div className='header-table'>
             <span>LST Note (Show under League)</span>
-            <MultipleFilterHeader columnKey={LST_Note as TColumnKey} />
+            <FilterHeader columnKey={LST_Note as TColumnKey} />
           </div>
         </th>
         <th
@@ -197,7 +197,7 @@ const TableHeader = () => {
           className='blue-header'>
           <div className='header-table'>
             <span>Remark 2 (Show under match)</span>
-            <MultipleFilterHeader columnKey={Remark2 as TColumnKey} />
+            <FilterHeader columnKey={Remark2 as TColumnKey} />
           </div>
         </th>
       </tr>

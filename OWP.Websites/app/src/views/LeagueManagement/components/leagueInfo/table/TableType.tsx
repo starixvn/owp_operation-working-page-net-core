@@ -84,14 +84,11 @@ type TColumnHasMultipleFilterKey =
   | 'Tv'
   | 'Round'
   | 'League_Division'
-  | 'Remark'
   | 'Spread_HDP_OU'
   | 'MB_WK_HDP'
   | 'MB_WK_NO_HDP'
   | 'MB_WD_HDP'
   | 'MB_WD_NO_HDP'
-  | 'LST_Note'
-  | 'Remark2'
   | 'Comment';
 
 type TMultipleFilter = {
