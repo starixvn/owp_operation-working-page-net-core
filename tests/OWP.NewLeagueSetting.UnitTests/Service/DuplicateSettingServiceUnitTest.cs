@@ -1,74 +1,34 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json;
 using NSubstitute;
-using OWP.NewLeagueSetting.Data;
-using OWP.NewLeagueSetting.Models;
 using OWP.NewLeagueSetting.Service;
+using OWP.NewLeagueSetting.Models;
+using OWP.NewLeagueSetting.Data;
 using Xunit;
+
+namespace OWP.NewLeagueSetting.UnitTests.Service;
 
 public class DuplicateSettingServiceUnitTest
 {
-    private readonly Repository _repository;
-    private readonly DuplicateSettingServiceImp _service;
-
-    public DuplicateSettingServiceUnitTest()
-    {
-        _repository = Substitute.For<Repository>();
-        _service = new DuplicateSettingServiceImp(_repository);
-    }
-
     [Fact]
-    public async Task GetDuplicatedSettingId_ReturnsTrue_WhenDuplicateExists()
+    public async Task GetDuplicatedSettingId_WithNoDuplicates_ShouldReturnFalse()
     {
         // Arrange
+        var repository = Substitute.For<Repository>();
+        var service = new DuplicateSettingServiceImp(repository);
+
         var model = new LeagueSettingRequest
         {
-            League = "Premier League",
             LeagueSettingId = 1,
+            League = "Test League",
             HasIpTv = true,
-            HasTv = true,
+            HasTv = false,
             Round = new List<Condition> { new Condition("Round", "1") },
-            Division = new List<Condition> { new Condition("Division", "1") }
+            Division = new List<Condition> { new Condition("Division", "A") }
         };
 
-        var leagueSettings = new List<LeagueSettingInfoSender>
-        {
-            new ()
-            {
-                LeagueSettingId = 2,
-                FullConditionDescription = JsonConvert.SerializeObject(new LeagueSettingCondition
-                {
-                    HasIpTv = true,
-                    HasTv = true,
-                    Round = new List<Condition> { new Condition("Round", "1") },
-                    Division = new List<Condition> { new Condition("Division", "1") }
-                })
-            }
-        };
-
-        _repository.QueryLeagueSetting(model.League, true).Returns(leagueSettings);
-
-        // Act
-        var result = await _service.GetDuplicatedSettingId(model);
-
-        // Assert
-        Assert.True(result);
-    }
-
-    [Fact]
-    public async Task GetDuplicatedSettingId_ReturnsFalse_WhenNoDuplicateExists()
-    {
-        // Arrange
-        var model = new LeagueSettingRequest
-        {
-            League = "Premier League",
-            LeagueSettingId = 1,
-            HasIpTv = true,
-            HasTv = true,
-            Round = new List<Condition> { new Condition("Round", "1") },
-            Division = new List<Condition> { new Condition("Division", "1") }
-        };
-
-        var leagueSettings = new List<LeagueSettingInfoSender>
+        var existingSettings = new List<LeagueSettingInfoSender>
         {
             new LeagueSettingInfoSender
             {
@@ -78,35 +38,38 @@ public class DuplicateSettingServiceUnitTest
                     HasIpTv = false,
                     HasTv = true,
                     Round = new List<Condition> { new Condition("Round", "2") },
-                    Division = new List<Condition> { new Condition("Division", "2") }
+                    Division = new List<Condition> { new Condition("Division", "B") }
                 })
             }
         };
 
-        _repository.QueryLeagueSetting(model.League, false).Returns(leagueSettings);
+        repository.QueryLeagueSetting(Arg.Any<LeagueParamRequest>()).Returns(existingSettings);
 
         // Act
-        var result = await _service.GetDuplicatedSettingId(model);
+        var result = await service.GetDuplicatedSettingId(model);
 
         // Assert
         Assert.False(result);
     }
 
     [Fact]
-    public async Task GetDuplicatedSettingId_ReturnsTrue_WhenCaseInsensitiveMatch()
+    public async Task GetDuplicatedSettingId_WithExactDuplicate_ShouldReturnTrue()
     {
         // Arrange
+        var repository = Substitute.For<Repository>();
+        var service = new DuplicateSettingServiceImp(repository);
+
         var model = new LeagueSettingRequest
         {
-            League = "Premier League",
             LeagueSettingId = 1,
+            League = "Test League",
             HasIpTv = true,
-            HasTv = true,
+            HasTv = false,
             Round = new List<Condition> { new Condition("Round", "1") },
-            Division = new List<Condition> { new Condition("Division", "1") }
+            Division = new List<Condition> { new Condition("Division", "A") }
         };
 
-        var leagueSettings = new List<LeagueSettingInfoSender>
+        var existingSettings = new List<LeagueSettingInfoSender>
         {
             new LeagueSettingInfoSender
             {
@@ -114,57 +77,251 @@ public class DuplicateSettingServiceUnitTest
                 FullConditionDescription = JsonConvert.SerializeObject(new LeagueSettingCondition
                 {
                     HasIpTv = true,
-                    HasTv = true,
-                    Round = new List<Condition> { new Condition("round", "1") },
-                    Division = new List<Condition> { new Condition("division", "1") }
+                    HasTv = false,
+                    Round = new List<Condition> { new Condition("Round", "1") },
+                    Division = new List<Condition> { new Condition("Division", "A") }
                 })
             }
         };
 
-        _repository.QueryLeagueSetting(model.League, true).Returns(leagueSettings);
+        repository.QueryLeagueSetting(Arg.Any<LeagueParamRequest>()).Returns(existingSettings);
 
         // Act
-        var result = await _service.GetDuplicatedSettingId(model);
+        var result = await service.GetDuplicatedSettingId(model);
 
         // Assert
         Assert.True(result);
     }
 
     [Fact]
-    public void Equals_ReturnsTrue_WhenCaseInsensitiveMatch()
+    public async Task GetDuplicatedSettingId_WithSameLeagueSettingId_ShouldReturnFalse()
     {
         // Arrange
-        var condition1 = new Condition("Type", "Value");
-        var condition2 = new Condition("type", "Value");
-        var comparer = new ConditionComparer();
+        var repository = Substitute.For<Repository>();
+        var service = new DuplicateSettingServiceImp(repository);
+
+        var model = new LeagueSettingRequest
+        {
+            LeagueSettingId = 1,
+            League = "Test League",
+            HasIpTv = true,
+            HasTv = false,
+            Round = new List<Condition> { new Condition("Round", "1") },
+            Division = new List<Condition> { new Condition("Division", "A") }
+        };
+
+        var existingSettings = new List<LeagueSettingInfoSender>
+        {
+            new LeagueSettingInfoSender
+            {
+                LeagueSettingId = 1, // Same ID
+                FullConditionDescription = JsonConvert.SerializeObject(new LeagueSettingCondition
+                {
+                    HasIpTv = true,
+                    HasTv = false,
+                    Round = new List<Condition> { new Condition("Round", "1") },
+                    Division = new List<Condition> { new Condition("Division", "A") }
+                })
+            }
+        };
+
+        repository.QueryLeagueSetting(Arg.Any<LeagueParamRequest>()).Returns(existingSettings);
 
         // Act
-        var result = comparer.Equals(condition1, condition2);
+        var result = await service.GetDuplicatedSettingId(model);
 
         // Assert
-        Assert.True(result);
+        Assert.False(result);
     }
 
     [Fact]
-    public void IsConditionsEqual_ReturnsTrue_WhenConditionsMatchIgnoringCase()
+    public async Task GetDuplicatedSettingId_WithDifferentConditions_ShouldReturnFalse()
     {
         // Arrange
-        var firstList = new List<Condition>
+        var repository = Substitute.For<Repository>();
+        var service = new DuplicateSettingServiceImp(repository);
+
+        var model = new LeagueSettingRequest
+        {
+            LeagueSettingId = 1,
+            League = "Test League",
+            HasIpTv = true,
+            HasTv = false,
+            Round = new List<Condition> { new Condition("Round", "1") },
+            Division = new List<Condition> { new Condition("Division", "A") }
+        };
+
+        var existingSettings = new List<LeagueSettingInfoSender>
+        {
+            new LeagueSettingInfoSender
+            {
+                LeagueSettingId = 2,
+                FullConditionDescription = JsonConvert.SerializeObject(new LeagueSettingCondition
+                {
+                    HasIpTv = true,
+                    HasTv = false,
+                    Round = new List<Condition> { new Condition("Round", "2") }, // Different round
+                    Division = new List<Condition> { new Condition("Division", "A") }
+                })
+            }
+        };
+
+        repository.QueryLeagueSetting(Arg.Any<LeagueParamRequest>()).Returns(existingSettings);
+
+        // Act
+        var result = await service.GetDuplicatedSettingId(model);
+
+        // Assert
+        Assert.False(result);
+    }
+
+    [Fact]
+    public async Task GetDuplicatedSettingId_WithEmptyExistingSettings_ShouldReturnFalse()
+    {
+        // Arrange
+        var repository = Substitute.For<Repository>();
+        var service = new DuplicateSettingServiceImp(repository);
+
+        var model = new LeagueSettingRequest
+        {
+            LeagueSettingId = 1,
+            League = "Test League",
+            HasIpTv = true,
+            HasTv = false,
+            Round = new List<Condition> { new Condition("Round", "1") },
+            Division = new List<Condition> { new Condition("Division", "A") }
+        };
+
+        var existingSettings = new List<LeagueSettingInfoSender>();
+
+        repository.QueryLeagueSetting(Arg.Any<LeagueParamRequest>()).Returns(existingSettings);
+
+        // Act
+        var result = await service.GetDuplicatedSettingId(model);
+
+        // Assert
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void IsConditionsEqual_WithIdenticalConditions_ShouldReturnTrue()
+    {
+        // Arrange
+        var first = new List<Condition>
         {
             new Condition("Type1", "Value1"),
             new Condition("Type2", "Value2")
         };
 
-        var secondList = new List<Condition>
+        var second = new List<Condition>
         {
-            new Condition("type1", "value1"),
-            new Condition("TYPE2", "VALUE2")
+            new Condition("Type1", "Value1"),
+            new Condition("Type2", "Value2")
         };
 
         // Act
-        var result = DuplicateSettingServiceImp.IsConditionsEqual(firstList, secondList);
+        var result = DuplicateSettingServiceImp.IsConditionsEqual(first, second);
 
         // Assert
         Assert.True(result);
+    }
+
+    [Fact]
+    public void IsConditionsEqual_WithDifferentOrder_ShouldReturnTrue()
+    {
+        // Arrange
+        var first = new List<Condition>
+        {
+            new Condition("Type1", "Value1"),
+            new Condition("Type2", "Value2")
+        };
+
+        var second = new List<Condition>
+        {
+            new Condition("Type2", "Value2"),
+            new Condition("Type1", "Value1")
+        };
+
+        // Act
+        var result = DuplicateSettingServiceImp.IsConditionsEqual(first, second);
+
+        // Assert
+        Assert.True(result);
+    }
+
+    [Fact]
+    public void IsConditionsEqual_WithDifferentCounts_ShouldReturnFalse()
+    {
+        // Arrange
+        var first = new List<Condition>
+        {
+            new Condition("Type1", "Value1"),
+            new Condition("Type2", "Value2")
+        };
+
+        var second = new List<Condition>
+        {
+            new Condition("Type1", "Value1")
+        };
+
+        // Act
+        var result = DuplicateSettingServiceImp.IsConditionsEqual(first, second);
+
+        // Assert
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void IsConditionsEqual_WithDifferentConditions_ShouldReturnFalse()
+    {
+        // Arrange
+        var first = new List<Condition>
+        {
+            new Condition("Type1", "Value1"),
+            new Condition("Type2", "Value2")
+        };
+
+        var second = new List<Condition>
+        {
+            new Condition("Type1", "Value1"),
+            new Condition("Type3", "Value3")
+        };
+
+        // Act
+        var result = DuplicateSettingServiceImp.IsConditionsEqual(first, second);
+
+        // Assert
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void IsConditionsEqual_WithEmptyLists_ShouldReturnTrue()
+    {
+        // Arrange
+        var first = new List<Condition>();
+        var second = new List<Condition>();
+
+        // Act
+        var result = DuplicateSettingServiceImp.IsConditionsEqual(first, second);
+
+        // Assert
+        Assert.True(result);
+    }
+
+    [Fact]
+    public void IsConditionsEqual_WithOneEmptyList_ShouldReturnFalse()
+    {
+        // Arrange
+        var first = new List<Condition>();
+        var second = new List<Condition>
+        {
+            new Condition("Type1", "Value1")
+        };
+
+        // Act
+        var result = DuplicateSettingServiceImp.IsConditionsEqual(first, second);
+
+        // Assert
+        Assert.False(result);
     }
 }
