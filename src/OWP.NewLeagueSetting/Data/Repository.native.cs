@@ -48,8 +48,8 @@ public class RepositoryImp : Repository
         => leagueSettings
             .Where(x =>
                 request.Blacklist.Contains(x.IsBlackList ? 1 : 0)
-                && request.OfferLive.Contains(x.NoOfferLive ? 0 : 1)
-                && request.LeagueGroupId == null || request.LeagueGroupId == x.LeagueGroupId)
+                && request.OfferLive.Contains(x.NoOfferLive ? 1 : 0)
+                && (request.LeagueGroupId == null || request.LeagueGroupId == x.LeagueGroupId))
             .ToList();
 
 
