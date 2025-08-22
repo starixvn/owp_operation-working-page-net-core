@@ -4,16 +4,19 @@ import {
   TColumnKey,
   TTableSlice,
   FilterAllColumn,
-  TFilterState
+  TFilterState,
+  TColumnHasMultipleFilterKey
 } from '../TableType';
 import { getLeagueInfoThunk } from './leagueInfoThunk';
 import { REQUEST_STATUS } from '../../../../../Shared/Constants';
 import { Option } from '../../../../../Shared/MultipleSelection/type';
 import { executeFilterTable, buildDefaultTableFilter } from './reducerHelper';
-import { IS_BLACKLIST_OPTIONS, IS_OFFERLIVE_OPTIONS } from '../../filter/filterConst.json';
+import {
+  IS_BLACKLIST_OPTIONS,
+  IS_OFFERLIVE_OPTIONS
+} from '../../filter/filterConst.json';
 import {
   addOrReplaceFilterState,
-  filterDataTable,
   pushOrUpdateObject
 } from '../../../../../Shared/Utils';
 import filterByKeyword from '../filterByKeyword';
@@ -39,7 +42,6 @@ const LeagueInfoTableSlice = createSlice({
     focusSettingId: 0,
     multipleFilter: {
       League_Group: buildMultipleFilterDefault(),
-      League: buildMultipleFilterDefault(),
       Tv: buildMultipleFilterDefault(),
       Round: buildMultipleFilterDefault(),
       League_Division: buildMultipleFilterDefault(),
@@ -89,8 +91,8 @@ const LeagueInfoTableSlice = createSlice({
       }>
     ) => {
       const { columnKey, selected, isFilter } = action.payload;
-      state.multipleFilter[columnKey] = {
-        ...state.multipleFilter[columnKey],
+      state.multipleFilter[columnKey as TColumnHasMultipleFilterKey] = {
+        ...state.multipleFilter[columnKey as TColumnHasMultipleFilterKey],
         selected,
         isFilter
       };

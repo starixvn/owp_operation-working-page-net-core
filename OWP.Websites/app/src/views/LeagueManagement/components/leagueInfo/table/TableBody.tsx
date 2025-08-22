@@ -7,7 +7,6 @@ import CommonCell from './cell/CommonCell';
 import LeagueCell from './cell/LeagueCell';
 import RemoveCell from './cell/RemoveCell';
 
-
 const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
   const rows = [];
   const focusSettingId = useAppSelector(
@@ -39,6 +38,9 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
           <CommonCell
             className={classNameCells.leagueGroupCell.className}
             value={row.leagueGroup}
+          />
+          <CommonCell
+            value={row.shortLeague}
           />
           <LeagueCell
             className={classNameCells.leagueCell.className}
@@ -92,13 +94,11 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
             className={classNameCells.remark2Cell.className}
             value={row.remark2}
           />
-          <CommentCell
+          {/* <CommentCell
             className={classNameCells.commentCell.className}
             value={row.comment}
-          />
-          <RemoveCell
-            leagueSettingId={row.leagueSettingId}
-          />
+          /> */}
+          <RemoveCell leagueSettingId={row.leagueSettingId} />
         </tr>
       );
     }

@@ -204,7 +204,6 @@ const addOrReplaceFilterState = (currentState, newFilter) => {
 };
 
 const filterDataTable = (data, filterState, callback) => {
-  console.log(JSON.stringify(filterState, null, 2));
   return filterState.reduce(
     (matches, filter) => callback(matches, filter),
     data

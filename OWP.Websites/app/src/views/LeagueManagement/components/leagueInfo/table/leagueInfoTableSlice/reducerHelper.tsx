@@ -4,7 +4,8 @@ import {
   TDataSource,
   TMultipleFilter,
   TColumnKey,
-  TTableSlice
+  TTableSlice,
+  TColumnHasMultipleFilterKey
 } from '../TableType';
 import helper from './calculateFilterOptions';
 
@@ -24,7 +25,6 @@ const buildDefaultTableFilter = (
 ) => {
   const filterConfigs = {
     League_Group: () => helper.League_Group(dataSource),
-    League: () => helper.League(dataSource),
     Tv: () => helper.Tv(),
     Round: () => helper.Round(dataSource),
     League_Division: () => helper.League_Division(dataSource),
@@ -40,7 +40,7 @@ const buildDefaultTableFilter = (
   };
 
   Object.entries(filterConfigs).forEach(([key, helperFn]) => {
-    tableFilter[key as TColumnKey] = createFilterConfig(
+    tableFilter[key as TColumnHasMultipleFilterKey] = createFilterConfig(
       key,
       dataSource,
       helperFn
@@ -59,7 +59,6 @@ const executeFilterTable = (
 
   const {
     League_Group,
-    League,
     Tv,
     Round,
     League_Division,
@@ -75,7 +74,7 @@ const executeFilterTable = (
   } = multipleFilter;
 
   let result = filterDataTable(entitiesOriginal, filterState, filterByKeyword);
-  //console.log(JSON.stringify(result, null, 2));
+
   result = result.filter(
     (
       e: TDataSource //NOSONAR
@@ -83,10 +82,6 @@ const executeFilterTable = (
       (!League_Group.isFilter ||
         League_Group.selected.some(
           (m: any) => m.label === buildLabelItemOption(e.leagueGroup)
-        )) &&
-      (!League.isFilter ||
-        League.selected.some(
-          (m: any) => m.label === buildLabelItemOption(e.league)
         )) &&
       (!Tv.isFilter ||
         Tv.selected.some(

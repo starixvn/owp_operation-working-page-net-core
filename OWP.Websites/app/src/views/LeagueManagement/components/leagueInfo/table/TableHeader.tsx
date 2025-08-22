@@ -17,7 +17,8 @@ const {
   MB_WD_NO_HDP,
   LST_Note,
   Remark2,
-  Comment
+  Comment,
+  Short_League
 } = COLUMN_KEY;
 
 const TableHeader = () => {
@@ -42,6 +43,15 @@ const TableHeader = () => {
           <div className='header-table'>
             <span>League Group</span>
             <MultipleFilterHeader columnKey={League_Group as TColumnKey} />
+          </div>
+        </th>
+        <th
+          style={{ width: `${classNameCells.shortLeagueCell.width}` }}
+          rowSpan={2}
+          className='blue-header'>
+          <div className='header-table'>
+            <span>Short League</span>
+            <FilterHeader columnKey={Short_League as TColumnKey} />
           </div>
         </th>
         <th
@@ -78,7 +88,7 @@ const TableHeader = () => {
         <th rowSpan={1} colSpan={2} className='blue-header'>
           Display in Mis match file
         </th>
-        <th
+        {/* <th
           style={{ width: `${classNameCells.commentCell.width}` }}
           rowSpan={2}
           className='grey-header'>
@@ -86,7 +96,7 @@ const TableHeader = () => {
             <span>Comment</span>
             <MultipleFilterHeader columnKey={Comment as TColumnKey} />
           </div>
-        </th>
+        </th> */}
         <th
           style={{
             width: `${classNameCells.action.width}`,

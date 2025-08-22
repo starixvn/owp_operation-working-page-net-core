@@ -46,8 +46,8 @@ type TTableSlice = {
   leagueFilterHeader: {
     leagueName: string;
     leagueGroupId: number | null;
-    BlackList:  string | (number | string | null)[];
-    OfferLive:  string | (number | string | null)[];
+    BlackList: string | (number | string | null)[];
+    OfferLive: string | (number | string | null)[];
   };
   focusSettingId: number;
   multipleFilter: TMultipleFilter;
@@ -64,6 +64,7 @@ type TFilterState = {
 
 type TColumnKey =
   | 'League_Group'
+  | 'Short_League'
   | 'League'
   | 'Tv'
   | 'Round'
@@ -78,8 +79,23 @@ type TColumnKey =
   | 'Remark2'
   | 'Comment';
 
+type TColumnHasMultipleFilterKey =
+  | 'League_Group'
+  | 'Tv'
+  | 'Round'
+  | 'League_Division'
+  | 'Remark'
+  | 'Spread_HDP_OU'
+  | 'MB_WK_HDP'
+  | 'MB_WK_NO_HDP'
+  | 'MB_WD_HDP'
+  | 'MB_WD_NO_HDP'
+  | 'LST_Note'
+  | 'Remark2'
+  | 'Comment';
+
 type TMultipleFilter = {
-  [key in TColumnKey]: {
+  [key in TColumnHasMultipleFilterKey]: {
     isFilter: boolean;
     selected: Option[];
     options: Option[];
@@ -94,5 +110,6 @@ export {
   TDataSource,
   TTableSlice,
   TColumnKey,
-  TMultipleFilter
+  TMultipleFilter,
+  TColumnHasMultipleFilterKey
 };

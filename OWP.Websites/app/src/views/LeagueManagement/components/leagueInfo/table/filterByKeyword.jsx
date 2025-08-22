@@ -3,15 +3,20 @@ const checkLeague = (arraySource, keyWordFormat) =>
     item.league?.toLowerCase().includes(keyWordFormat)
   );
 
+const checkShortLeague = (arraySource, keyWordFormat) =>
+  arraySource.filter(item =>
+    item.shortLeague?.toLowerCase().includes(keyWordFormat)
+  );
+
 const columnFilter = {
-  'League': checkLeague
+  'League': checkLeague,
+  'Short_League': checkShortLeague
 };
 
 const filterByKeyword = (
   arraySource,
   { keyword = undefined, columnKey = undefined }
 ) => {
-
   if (!keyword) {
     return arraySource;
   }

@@ -6,7 +6,11 @@
     },
     "leagueGroupCell": {
       "className": "league-group-cell",
-      "width": "75px"
+      "width": "100px"
+    },
+    "shortLeagueCell": {
+      "className": "short-league-cell",
+      "width": "170px"
     },
     "leagueCell": {
       "className": "league-cell",
@@ -80,6 +84,7 @@
     "LST_Note": "LST_Note",
     "Remark2": "Remark2",
     "Comment": "Comment",
+    "Short_League": "Short_League",
     "Action": "Action"
   },
   "itemRowHeight": 40
