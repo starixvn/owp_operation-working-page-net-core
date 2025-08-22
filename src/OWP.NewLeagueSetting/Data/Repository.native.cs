@@ -47,8 +47,8 @@ public class RepositoryImp : Repository
     private static IEnumerable<LeagueSettingInfoSender> FilterLeagueSettingsByRequest(IEnumerable<LeagueSettingInfoSender> leagueSettings, LeagueParamRequest request)
         => leagueSettings
             .Where(x =>
-                request.Blacklist.Contains(x.IsBlackList ? 1 : 0)
-                && request.OfferLive.Contains(x.NoOfferLive ? 1 : 0)
+                (request.Blacklist == null || request.Blacklist.Contains(x.IsBlackList ? 1 : 0))
+                && (request.OfferLive == null || request.OfferLive.Contains(x.NoOfferLive ? 1 : 0))
                 && (request.LeagueGroupId == null || request.LeagueGroupId == x.LeagueGroupId))
             .ToList();
 

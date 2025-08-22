@@ -8,7 +8,7 @@ public class LeagueParamRequest
 
     public int? LeagueGroupId { get; set; }
 
-    public List<int> Blacklist { get; set; }
+    public List<int>? Blacklist { get; set; }
 
-    public List<int> OfferLive { get; set; }
+    public List<int>? OfferLive { get; set; }
 }
