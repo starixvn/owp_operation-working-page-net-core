@@ -23,7 +23,7 @@ type TDataSource = {
   comment: string;
   condition: TConditionSource;
   shortLeague: string;
-  blackList: boolean;
+  isBlackList: boolean;
   noOfferLive: boolean;
 };
 type TConditionSource = {

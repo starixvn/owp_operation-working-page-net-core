@@ -22,7 +22,7 @@ const mapEditSettingFromDataSource = (dataSource: TDataSource) => {
     comment,
     condition,
     shortLeague,
-    blackList,
+    isBlackList,
     noOfferLive
   } = dataSource;
   const result = {
@@ -47,7 +47,7 @@ const mapEditSettingFromDataSource = (dataSource: TDataSource) => {
     division: selectCondition(condition.division),
     remark: condition.remark,
     shortLeague,
-    blackList,
+    isBlackList,
     noOfferLive
   };
 

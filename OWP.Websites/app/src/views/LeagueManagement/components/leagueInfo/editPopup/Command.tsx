@@ -32,7 +32,7 @@ const Command = (props: { closePopup: Function }) => {
       remark,
       round,
       division,
-      blackList,
+      isBlackList,
       noOfferLive,
       comment
     },
@@ -80,7 +80,7 @@ const Command = (props: { closePopup: Function }) => {
         remark,
         round: round.filter(d => d.value) || [],
         division: division.filter(d => d.value) || [],
-        blackList,
+        isBlackList,
         noOfferLive,
         comment
       });

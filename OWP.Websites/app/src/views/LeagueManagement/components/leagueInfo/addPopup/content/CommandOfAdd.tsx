@@ -68,8 +68,9 @@ const CommandOfAdd = () => {
         remark,
         round: round.filter(d => d.value) || [],
         division: division.filter(d => d.value) || [],
-        blackList: false,
-        noOfferLive: false
+        isBlackList: false,
+        noOfferLive: false,
+        comment
       });
 
       if (response.status === 200) {

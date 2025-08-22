@@ -29,7 +29,7 @@ type TEditSetting = {
   hasTv: boolean;
   hasIpTv: boolean;
   remark: string;
-  blackList: boolean;
+  isBlackList: boolean;
   noOfferLive: boolean;
   comment: string;
 } & TAddExpressionKey;

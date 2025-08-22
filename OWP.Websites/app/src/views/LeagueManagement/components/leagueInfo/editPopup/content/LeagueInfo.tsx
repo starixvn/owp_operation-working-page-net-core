@@ -7,11 +7,11 @@ const LeagueInfo = (props: {
   leagueGroupId: number;
   league: string;
   shortLeague: string;
-  blackList: boolean;
+  isBlackList: boolean;
   noOfferLive: boolean;
 }) => {
   const dispatch = useAppDispatch();
-  const { leagueGroupId, league, shortLeague, blackList, noOfferLive } = props;
+  const { leagueGroupId, league, shortLeague, isBlackList, noOfferLive } = props;
   const leagueGroupOptions = useAppSelector(
     state => state.addSettingSlice.leagueGroupOptions
   );
@@ -69,7 +69,7 @@ const LeagueInfo = (props: {
       <div className='league--type__content'>
         <div className='checkbox form-check-league-type'>
           <input
-            checked={blackList}
+            checked={isBlackList}
             id='chb-blacklist-league'
             type='checkbox'
             name='oldLeague'

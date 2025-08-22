@@ -31,7 +31,7 @@ const EditSettingPopup = (props: { closePopup: () => void }) => {
     lstNote,
     remark2,
     shortLeague,
-    blackList,
+    isBlackList,
     noOfferLive
   } = useAppSelector(state => state.editSettingSlice);
 
@@ -51,7 +51,7 @@ const EditSettingPopup = (props: { closePopup: () => void }) => {
           leagueGroupId={leagueGroupId}
           league={league}
           shortLeague={shortLeague}
-          blackList={blackList}
+          isBlackList={isBlackList}
           noOfferLive={noOfferLive}
         />
         <Condition
