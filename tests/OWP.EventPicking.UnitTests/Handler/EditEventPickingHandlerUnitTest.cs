@@ -277,7 +277,9 @@ public class EditEventPickingHandlerUnitTest
             EventDateTime = new DateTime(2025, 1, 6, 12, 0, 0, DateTimeKind.Utc), // Monday
             TV = "Sky Sports",
             Iptv = "IPTV Channel",
-            Channel = "HD Channel"
+            Channel = "HD Channel",
+            Division = "Premier League-Division 1", // Add Division property
+            Round = "Round 1" // Add Round property
         };
 
         service.Execute(Arg.Any<EventPickingRequest>(), Arg.Any<IList<short>>())
@@ -351,8 +353,8 @@ public class EditEventPickingHandlerUnitTest
         repository.QueryLeagueSetting().Returns(leagueSettings);
 
         // TV list with conditions that match the match's TV field
-        var tvList = new List<Condition> 
-        { 
+        var tvList = new List<Condition>
+        {
             new() { Type = "Contains", Value = "Sky" } // Matches "Sky Sports"
         };
         repository.GetTVList().Returns(tvList);
@@ -370,11 +372,11 @@ public class EditEventPickingHandlerUnitTest
         Assert.True(match.IsReferenceLeagueManagement);
         Assert.Equal("tv-remark", match.Remark2LeagueManagement);
         Assert.Equal("tv-setting", match.LstNote);
-        Assert.Equal(15000, match.MaxbetHdp); // Monday (weekday) uses WD value
+        Assert.Equal(25000, match.MaxbetHdp); // Monday (weekday) uses WD value from TV setting
         Assert.Equal(0.12m, match.SpreadHdp);
         Assert.Equal(0.15m, match.SpreadOu);
         Assert.Equal("5 lines", match.NoOfHDP);
-        
+
         await service.Received(1).Execute(Arg.Any<EventPickingRequest>(), Arg.Any<IList<short>>());
         await repository.Received(1).QueryLeagueSetting();
         await repository.Received(1).GetTVList();
@@ -400,7 +402,9 @@ public class EditEventPickingHandlerUnitTest
             EventDateTime = new DateTime(2025, 1, 6, 12, 0, 0, DateTimeKind.Utc), // Monday
             TV = "Cancel", // No TV
             Iptv = "IPTV Channel",
-            Channel = "HD Channel"
+            Channel = "HD Channel",
+            Division = "Premier League-Division 1", // Add Division property
+            Round = "Round 1" // Add Round property
         };
 
         service.Execute(Arg.Any<EventPickingRequest>(), Arg.Any<IList<short>>())
@@ -474,7 +478,7 @@ public class EditEventPickingHandlerUnitTest
         Assert.Equal(0.09m, match.SpreadHdp);
         Assert.Equal(0.11m, match.SpreadOu);
         Assert.Equal("4 lines", match.NoOfHDP);
-        
+
         await service.Received(1).Execute(Arg.Any<EventPickingRequest>(), Arg.Any<IList<short>>());
         await repository.Received(1).QueryLeagueSetting();
         await repository.Received(1).GetTVList();
