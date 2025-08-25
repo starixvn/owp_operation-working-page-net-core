@@ -126,6 +126,8 @@ const LeagueInfoTableSlice = createSlice({
         state.entities = payload;
         state.entitiesOriginal = payload;
         state.loading = REQUEST_STATUS.idle;
+        state.filterState = [];
+        state.valueFilterAllColumn = {};
         buildDefaultTableFilter(state.entitiesOriginal, state.multipleFilter);
       });
   }
