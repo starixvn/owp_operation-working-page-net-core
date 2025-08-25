@@ -23,7 +23,7 @@ const buildModelFilter = state => {
 };
 
 const rebuildLeagueGroupOption = option =>
-  option.concat([{ value: 0, label: '(Unknown)' }]);
+  option.concat([{ value: 0, label: '(Blanks)' }]);
 
 const buildModelTVList = state => {
   let { tvListExpression } = state.tvListReducer;
