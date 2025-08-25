@@ -13,9 +13,8 @@ const LeagueInfo = (props: {
   const dispatch = useAppDispatch();
   const { leagueGroupId, league, shortLeague, isBlackList, noOfferLive } = props;
   const leagueGroupOptions = useAppSelector(
-    state => state.addSettingSlice.leagueGroupOptions
+    state => state.editSettingSlice.leagueGroupOptions
   );
-
 
   const handleChangeLeagueGroup = (selectedOption: TOption | null) => {
     const value = selectedOption?.value || 0;
