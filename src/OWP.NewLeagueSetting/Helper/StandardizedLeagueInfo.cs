@@ -2,6 +2,9 @@ namespace OWP.NewLeagueSetting.Helper;
 
 public static class StandardizedLeagueInfo
 {
+    private const int ThousandMultiplier = 1000;
+    private const int PercentageMultiplier = 100;
+
     public static IList<LeagueSettingInfo> Execute(IList<LeagueSettingExcelInfo> excelInfo)
     {
         var leagueInfo = new List<LeagueSettingInfo>();
@@ -122,7 +125,7 @@ public static class StandardizedLeagueInfo
         {
             var maxbet = RemoveLastCharacterAndParseToNumber(maxbetSource);
 
-            return (maxbet * 1000, null);
+            return (maxbet * ThousandMultiplier, null);
         }
         return (null, maxbetSource);
     }
@@ -143,7 +146,7 @@ public static class StandardizedLeagueInfo
             var spreadHdp = RemoveLastCharacterAndParseToNumber(spreadSplit[0]);
             var spreadOu = RemoveLastCharacterAndParseToNumber(spreadSplit[1]);
 
-            return (spreadHdp / 100, spreadOu / 100, null);
+            return (spreadHdp / PercentageMultiplier, spreadOu / PercentageMultiplier, null);
         }
 
         return (null, null, spreadSource);
