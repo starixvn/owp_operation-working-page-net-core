@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace OWP.NewLeagueSetting.Helper;
 
 public static class ReadExcel
@@ -14,14 +16,13 @@ public static class ReadExcel
             .GetProperties()
             .ToList();
 
-        const int startRow = 8;
+        const int startRow = 2;
         var end = worksheet.Dimension.End;
         var cells = new List<ExcelRangeBase>();
 
-
         for (var row = startRow; row <= end.Row; row++)
         {
-            for (var col = 2; col <= end.Column; col++)
+            for (var col = 1; col <= end.Column; col++)
             {
                 cells.Add(worksheet.Cells[row, col]);
             }
@@ -31,10 +32,18 @@ public static class ReadExcel
             .GroupBy(cell => cell.Start.Row)
             .ToList();
 
-        var colNames = groups[0]
-            .Select((cell, idx) => new { Name = cell.Value?.ToString(), index = idx })
-            .Where(o => props.Select(p => p.Name).Contains(o.Name))
-            .ToList();
+        // Get column names from the header row (row 2)
+        var headerRow = worksheet.Cells[2, 1, 2, end.Column];
+        var colNames = new List<dynamic>();
+        
+        for (int col = 1; col <= end.Column; col++)
+        {
+            var headerValue = headerRow[2, col].Value?.ToString();
+            if (!string.IsNullOrWhiteSpace(headerValue))
+            {
+                colNames.Add(new { Name = headerValue, index = col - 1 });
+            }
+        }
 
         var rowValues = groups
             .Skip(1)
@@ -51,11 +60,20 @@ public static class ReadExcel
                 var settingInfo = new LeagueSettingExcelInfo();
                 colNames.ForEach(colName =>
                 {
-                    var value = row[colName.index];
-                    var prop = props.First(p => p.Name == colName.Name);
-                    var propComment = props.First(p => p.Name == $"{colName.Name}Note");
-                    prop.SetValue(settingInfo, value?.Value?.ToString());
-                    propComment.SetValue(settingInfo, value?.note);
+                    if (colName.index < row.Count)
+                    {
+                        var value = row[colName.index];
+                        var prop = props.FirstOrDefault(p => 
+                            p.Name.Equals(colName.Name, StringComparison.OrdinalIgnoreCase) ||
+                            p.GetCustomAttributes(typeof(DisplayAttribute), false)
+                                .Cast<DisplayAttribute>()
+                                .Any(attr => attr.Name?.Equals(colName.Name, StringComparison.OrdinalIgnoreCase) == true));
+                        
+                        if (prop != null)
+                        {
+                            prop.SetValue(settingInfo, value?.Value?.ToString());
+                        }
+                    }
                 });
 
                 return settingInfo;
