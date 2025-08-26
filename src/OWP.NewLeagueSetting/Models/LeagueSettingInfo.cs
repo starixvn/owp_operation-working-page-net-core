@@ -6,6 +6,8 @@ public class LeagueSettingInfo : LeagueSettingCore
 {
     public string LeagueGroup { get; set; } = default!;
 
+    public string ShortLegue { get; set; } = default!;
+
     public string LeagueGroupNote { get; set; } = default!;
 
     public string League { get; set; } = default!;

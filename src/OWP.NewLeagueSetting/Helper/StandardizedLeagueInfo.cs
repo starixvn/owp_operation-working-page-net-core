@@ -23,6 +23,7 @@ public static class StandardizedLeagueInfo
 
     public static void BuildCommonInfo(LeagueSettingInfo leagueInfo, LeagueSettingExcelInfo excelInfo)
     {
+        leagueInfo.ShortLegue = excelInfo.ShortLeague;
         leagueInfo.LeagueGroup = excelInfo.LeagueGroup;
         leagueInfo.League = excelInfo.League;
         leagueInfo.LstNote = excelInfo.LstNote;
