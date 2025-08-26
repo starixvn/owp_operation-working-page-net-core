@@ -29,7 +29,10 @@ const addSetting = {
   hasIpTv: false,
   remark: '',
   round: [{ value: '', type: 'Contains' }] as Array<TCondition>,
-  division: [{ value: '', type: 'Contains' }] as Array<TCondition>
+  division: [{ value: '', type: 'Contains' }] as Array<TCondition>,
+  shortLeague: '',
+  isBlackList: false,
+  noOfferLive: false
 };
 
 const AddSettingSlice = createSlice({
@@ -58,7 +61,10 @@ const AddSettingSlice = createSlice({
         hasIpTv,
         remark,
         round,
-        division
+        division,
+        shortLeague,
+        isBlackList,
+        noOfferLive
       } = addSetting;
       state.leagueGroupOptions = leagueGroupOptions;
       state.loading = loading;
@@ -79,6 +85,9 @@ const AddSettingSlice = createSlice({
       state.remark = remark;
       state.round = round;
       state.division = division;
+      state.shortLeague = shortLeague;
+      state.isBlackList = isBlackList;
+      state.noOfferLive = noOfferLive;
     },
     updateObjectAddPopup: (
       state,

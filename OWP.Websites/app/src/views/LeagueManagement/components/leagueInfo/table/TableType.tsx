@@ -1,5 +1,9 @@
 import { Option } from '../../../../Shared/MultipleSelection/type';
 
+interface FilterAllColumn {
+  [x: string]: string;
+}
+
 type TDataSource = {
   leagueSettingId: number;
   owpLeagueId: number;
@@ -18,6 +22,9 @@ type TDataSource = {
   remark2: string;
   comment: string;
   condition: TConditionSource;
+  shortLeague: string;
+  isBlackList: boolean;
+  noOfferLive: boolean;
 };
 type TConditionSource = {
   hasTv: boolean;
@@ -36,14 +43,28 @@ type TTableSlice = {
   entities: Array<TDataSource>;
   entitiesOriginal: Array<TDataSource>;
   loading: string;
-  leagueFilterHeader: string;
+  leagueFilterHeader: {
+    leagueName: string;
+    leagueGroupId: number | null;
+    BlackList: string | (number | string | null)[];
+    OfferLive: string | (number | string | null)[];
+  };
   focusSettingId: number;
   multipleFilter: TMultipleFilter;
   isOpenAddNewSetting: boolean;
+  valueFilterAllColumn: FilterAllColumn;
+  columnKeyFilterCurrent: string;
+  filterState: Array<TFilterState>;
+};
+
+type TFilterState = {
+  columnKey: string | undefined;
+  keyword: string | undefined;
 };
 
 type TColumnKey =
   | 'League_Group'
+  | 'Short_League'
   | 'League'
   | 'Tv'
   | 'Round'
@@ -58,18 +79,34 @@ type TColumnKey =
   | 'Remark2'
   | 'Comment';
 
+type TColumnHasMultipleFilterKey =
+  | 'League_Group'
+  | 'Tv'
+  | 'Round'
+  | 'League_Division'
+  | 'Spread_HDP_OU'
+  | 'MB_WK_HDP'
+  | 'MB_WK_NO_HDP'
+  | 'MB_WD_HDP'
+  | 'MB_WD_NO_HDP'
+  | 'Comment';
+
 type TMultipleFilter = {
-  [key in TColumnKey]: {
+  [key in TColumnHasMultipleFilterKey]: {
     isFilter: boolean;
     selected: Option[];
+    options: Option[];
   };
 };
 
 export {
   TCondition,
+  TFilterState,
+  FilterAllColumn,
   TConditionSource,
   TDataSource,
   TTableSlice,
   TColumnKey,
-  TMultipleFilter
+  TMultipleFilter,
+  TColumnHasMultipleFilterKey
 };

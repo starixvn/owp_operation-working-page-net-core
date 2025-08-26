@@ -38,4 +38,6 @@ public abstract class InsertOrUpdateSettingCriteria: NonQueryCommand
     public int ActorId { get; set; }
 
     public string FullConditionDescription { get; set; }
+
+    public bool NoOfferLive { get; set; }
 }

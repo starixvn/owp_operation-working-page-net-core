@@ -27,12 +27,14 @@ const Command = (props: { closePopup: Function }) => {
       wK_NoOfHDP,
       lstNote,
       remark2,
-      comment,
       hasTv,
       hasIpTv,
       remark,
       round,
-      division
+      division,
+      isBlackList,
+      noOfferLive,
+      comment
     },
     leagueInfoTableSlice: { leagueFilterHeader }
   } = store.getState();
@@ -73,12 +75,14 @@ const Command = (props: { closePopup: Function }) => {
         wK_NoOfHDP,
         lstNote,
         remark2,
-        comment,
         hasTv,
         hasIpTv,
         remark,
         round: round.filter(d => d.value) || [],
-        division: division.filter(d => d.value) || []
+        division: division.filter(d => d.value) || [],
+        isBlackList,
+        noOfferLive,
+        comment
       });
       if (response.status === 200) {
         await ToastrWrapper.showInfo(

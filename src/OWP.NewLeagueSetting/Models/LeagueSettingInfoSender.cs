@@ -7,6 +7,12 @@ public class LeagueSettingInfoSender : LeagueSettingInfo
 
     public int LeagueGroupId { get; set; } = default!;
 
+    public bool IsBlackList { get; set; } = default!;
+
+    public bool NoOfferLive { get; set; } = default!;
+
+    public string ShortLeague { get; set; }
+
     public string MaxbetWD_HDP_Show => FormatMaxbet(MaxbetWD_HDP_Value, MaxbetWD_HDP_Note);
 
     public string MaxbetWK_HDP_Show => FormatMaxbet(MaxbetWK_HDP_Value, MaxbetWK_HDP_Note);

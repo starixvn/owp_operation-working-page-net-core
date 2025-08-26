@@ -6,9 +6,10 @@ import Comment from './content/Comment';
 import Condition from './content/Condition';
 import FtSpread from './content/FtSpread';
 import Header from './content/Header';
-import MB from './content/MB';
+import Maxbet from './content/Maxbet';
 import MicsMatch from './content/MicsMatch';
 import { getLeagueGroupOptionsThunk } from '../component/commonThunk';
+import LeagueInfo from './content/LeagueInfo';
 
 const EditSettingPopup = (props: { closePopup: () => void }) => {
   const { closePopup } = props;
@@ -27,9 +28,11 @@ const EditSettingPopup = (props: { closePopup: () => void }) => {
     wD_NoOfHDP,
     maxbetWK_HDP,
     wK_NoOfHDP,
-    comment,
     lstNote,
-    remark2
+    remark2,
+    shortLeague,
+    isBlackList,
+    noOfferLive
   } = useAppSelector(state => state.editSettingSlice);
 
   useEffect(() => {
@@ -44,7 +47,13 @@ const EditSettingPopup = (props: { closePopup: () => void }) => {
       modalClassName='edit-modal'
       centered>
       <ModalBody>
-        <Header league={league} leagueGroupId={leagueGroupId} />
+        <LeagueInfo
+          leagueGroupId={leagueGroupId}
+          league={league}
+          shortLeague={shortLeague}
+          isBlackList={isBlackList}
+          noOfferLive={noOfferLive}
+        />
         <Condition
           condition={{
             hasTv,
@@ -55,14 +64,13 @@ const EditSettingPopup = (props: { closePopup: () => void }) => {
           }}
         />
         <FtSpread spread={spread} />
-        <MB
+        <Maxbet
           maxbetWD_HDP={maxbetWD_HDP}
           wD_NoOfHDP={wD_NoOfHDP}
           maxbetWK_HDP={maxbetWK_HDP}
           wK_NoOfHDP={wK_NoOfHDP}
         />
         <MicsMatch lstNote={lstNote} remark2={remark2} />
-        <Comment comment={comment} />
       </ModalBody>
       <ModalFooter>
         <Command closePopup={closePopup} />

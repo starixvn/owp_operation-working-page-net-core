@@ -2,7 +2,7 @@ import { TCondition } from '../table/TableType';
 import { MouseEvent } from 'react';
 
 type TOption = {
-  value: number;
+  value: number | null;
   label: string | null;
 };
 
@@ -26,10 +26,13 @@ type TEditSetting = {
   wK_NoOfHDP: string;
   lstNote: string;
   remark2: string;
-  comment: string;
   hasTv: boolean;
   hasIpTv: boolean;
   remark: string;
+  isBlackList: boolean;
+  noOfferLive: boolean;
+  comment: string;
+  shortLeague?: string;
 } & TAddExpressionKey;
 
 type TAddSetting = {
@@ -86,6 +89,28 @@ type TExpectedResponseType = {
   duplicatedLeagueName: string;
 };
 
+
+interface Option {
+  value: number | string | null;
+  label: string;
+  key?: string;
+  disabled?: boolean;
+}
+
+
+interface IMultipleSelectProps {
+  label: Required<string>;
+  options: Required<Option[]>;
+  value: Option[];
+  className?: string;
+  isRequired?: boolean;
+  disabled: boolean;
+  disableSearch?: boolean;
+  onChange?: (event: Option[]) => void;
+  onValueRenderer?: (newSelected: Option[], _options: Option[]) => string
+  onShowDropdownListOption?: (value: boolean) => void
+}
+
 export {
   TEditSetting,
   TExpressionRow,
@@ -95,5 +120,6 @@ export {
   TAddExpressionKey,
   TAddSetting,
   RowExpressionProps,
-  TExpectedResponseType
+  TExpectedResponseType,
+  IMultipleSelectProps
 };

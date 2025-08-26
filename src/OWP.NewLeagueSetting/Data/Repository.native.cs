@@ -9,7 +9,7 @@ public interface Repository
 {
     Task InitData(IList<LeagueSettingInfo> leagueInfo, CancellationToken cancellationToken);
 
-    Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSetting(string league, bool isEqualLeague);
+    Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSetting(LeagueParamRequest request);
 
     Task<LeagueSettingInfoSender> QueryLeagueSettingDetail(int leagueSettingId);
 
@@ -36,9 +36,22 @@ public class RepositoryImp : Repository
         });
     }
 
-    public async Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSetting(string league, bool isEqualLeague)
-        => await repository.FetchAsync<LeagueSettingInfoSender>(new QueryLeagueSettingCriteria
-            { League = league, IsEqualLeague = isEqualLeague });
+    public async Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSetting(LeagueParamRequest request)
+    { 
+        var result = await repository.FetchAsync<LeagueSettingInfoSender>(new QueryLeagueSettingCriteria
+        { League = request.LeagueName, IsEqualLeague = request.IsEqualLeague });
+        
+        return FilterLeagueSettingsByRequest(result, request);
+    }
+
+    private static IEnumerable<LeagueSettingInfoSender> FilterLeagueSettingsByRequest(IEnumerable<LeagueSettingInfoSender> leagueSettings, LeagueParamRequest request)
+        => leagueSettings
+            .Where(x =>
+                (request.Blacklist == null || request.Blacklist.Contains(x.IsBlackList ? 1 : 0))
+                && (request.OfferLive == null || request.OfferLive.Contains(x.NoOfferLive ? 1 : 0))
+                && (request.LeagueGroupId == null || request.LeagueGroupId == x.LeagueGroupId))
+            .ToList();
+
 
     public async Task<LeagueSettingInfoSender> QueryLeagueSettingDetail(int leagueSettingId)
         => await repository.GetAsync<LeagueSettingInfoSender>(new QueryLeagueSettingDetailCriteria
@@ -66,7 +79,9 @@ public class RepositoryImp : Repository
             Spread_HDP_Value = request.Spread_HDP_Value,
             Spread_Note = request.Spread_Note,
             Spread_OU_Value = request.Spread_OU_Value,
-            ActorId = actorId
+            ActorId = actorId,
+            NoOfferLive = request.NoOfferLive
+
         };
         await repository.ExecuteAsync(criteria);
     }

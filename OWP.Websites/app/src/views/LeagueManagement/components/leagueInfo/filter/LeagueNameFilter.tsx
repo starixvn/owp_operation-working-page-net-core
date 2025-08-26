@@ -1,28 +1,41 @@
 import { KeyboardEvent, useEffect, useState } from 'react';
-import { useAppDispatch } from '../app/hooks';
-import { fetchLeagueSettingInfo } from '../table/leagueInfoTableSlice/leagueInfoThunk';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { setLeagueHeaderFiler } from '../table/leagueInfoTableSlice/reducer';
-import AddLeagueSettingButton from './AddLeagueSettingButton';
-import { Button } from 'reactstrap';
+
+
 const LeagueNameFilter = () => {
   const dispatch = useAppDispatch();
   const searchParams = new URLSearchParams(document.location.search);
   const owpLeagueName = searchParams.get('leagueName');
   const [value, setValue] = useState(owpLeagueName || '');
-  const isEqualLeague = !!owpLeagueName;
+  const { leagueFilterHeader } = useAppSelector(state => state.leagueInfoTableSlice);
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    e.key === 'Enter' && handleEnter();
+    if (e.key === 'Enter') {
+      dispatch(setLeagueHeaderFiler({
+        ...leagueFilterHeader,
+        leagueName: value.trim()
+      }));
+    }
   };
 
-  const handleEnter = async () => {
-    dispatch(setLeagueHeaderFiler(value));
-    await dispatch(fetchLeagueSettingInfo(value, false));
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    setValue(newValue);
+    dispatch(setLeagueHeaderFiler({
+      ...leagueFilterHeader,
+      leagueName: newValue.trim()
+    }));
   };
 
   useEffect(() => {
-    dispatch(setLeagueHeaderFiler(value));
-    dispatch(fetchLeagueSettingInfo(value, isEqualLeague));
+    if (owpLeagueName) {
+      setValue(owpLeagueName);
+      dispatch(setLeagueHeaderFiler({
+        ...leagueFilterHeader,
+        leagueName: owpLeagueName.trim()
+      }));
+    }
   }, [owpLeagueName]);
 
   return (
@@ -32,11 +45,8 @@ const LeagueNameFilter = () => {
         type='text'
         onKeyDown={handleKeyDown}
         value={value}
-        onChange={e => setValue(e.target.value)}></input>
-      <Button className='btn-search' onClick={handleEnter}>
-        Search
-      </Button>
-      <AddLeagueSettingButton />
+        onChange={handleInputChange}
+      />
     </div>
   );
 };

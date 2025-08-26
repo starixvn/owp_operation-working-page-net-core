@@ -1,130 +1,123 @@
+import { filterDataTable } from '../../../../../Shared/Utils';
 import {
   TCondition,
   TDataSource,
-  TMultipleFilter
+  TMultipleFilter,
+  TColumnKey,
+  TTableSlice,
+  TColumnHasMultipleFilterKey
 } from '../TableType';
 import helper from './calculateFilterOptions';
+
+const createFilterConfig = (
+  key: string,
+  dataSource: TDataSource[] | undefined,
+  helperFunction: (data?: TDataSource[]) => any
+) => ({
+  selected: helperFunction(dataSource),
+  options: helperFunction(dataSource),
+  isFilter: false
+});
 
 const buildDefaultTableFilter = (
   dataSource: TDataSource[],
   tableFilter: TMultipleFilter
 ) => {
-  tableFilter.League_Group = {
-    selected: helper.League_Group(dataSource),
-    isFilter: false
+  const filterConfigs = {
+    League_Group: () => helper.League_Group(dataSource),
+    Tv: () => helper.Tv(),
+    Round: () => helper.Round(dataSource),
+    League_Division: () => helper.League_Division(dataSource),
+    Remark: () => helper.Remark(dataSource),
+    Spread_HDP_OU: () => helper.Spread_HDP_OU(dataSource),
+    MB_WD_HDP: () => helper.MB_WD_HDP(dataSource),
+    MB_WD_NO_HDP: () => helper.MB_WD_NO_HDP(dataSource),
+    MB_WK_HDP: () => helper.MB_WK_HDP(dataSource),
+    MB_WK_NO_HDP: () => helper.MB_WK_NO_HDP(dataSource),
+    LST_Note: () => helper.LST_Note(dataSource),
+    Remark2: () => helper.Remark2(dataSource),
+    Comment: () => helper.Comment(dataSource)
   };
-  tableFilter.League = {
-    selected: helper.League(dataSource),
-    isFilter: false
-  };
-  tableFilter.Tv = {
-    selected: helper.Tv(),
-    isFilter: false
-  };
-  tableFilter.Round = {
-    selected: helper.Round(dataSource),
-    isFilter: false
-  };
-  tableFilter.League_Division = {
-    selected: helper.League_Division(dataSource),
-    isFilter: false
-  };
-  tableFilter.Remark = {
-    selected: helper.Remark(dataSource),
-    isFilter: false
-  };
-  tableFilter.Spread_HDP_OU = {
-    selected: helper.Spread_HDP_OU(dataSource),
-    isFilter: false
-  };
-  tableFilter.MB_WD_HDP = {
-    selected: helper.MB_WD_HDP(dataSource),
-    isFilter: false
-  };
-  tableFilter.MB_WD_NO_HDP = {
-    selected: helper.MB_WD_NO_HDP(dataSource),
-    isFilter: false
-  };
-  tableFilter.MB_WK_HDP = {
-    selected: helper.MB_WK_HDP(dataSource),
-    isFilter: false
-  };
-  tableFilter.MB_WK_NO_HDP = {
-    selected: helper.MB_WK_NO_HDP(dataSource),
-    isFilter: false
-  };
-  tableFilter.LST_Note = {
-    selected: helper.LST_Note(dataSource),
-    isFilter: false
-  };
-  tableFilter.Remark2 = {
-    selected: helper.Remark2(dataSource),
-    isFilter: false
-  };
-  tableFilter.Comment = {
-    selected: helper.Comment(dataSource),
-    isFilter: false
-  };
+
+  Object.entries(filterConfigs).forEach(([key, helperFn]) => {
+    tableFilter[key as TColumnHasMultipleFilterKey] = createFilterConfig(
+      key,
+      dataSource,
+      helperFn
+    );
+  });
 };
 
 const executeFilterTable = (
-  dataSource: TDataSource[],
-  tableFilter: TMultipleFilter
+  state: TTableSlice,
+  filterByKeyword: (
+    arraySource: any, //NOSONAR
+    { keyword, columnKey }: { keyword: undefined; columnKey: undefined }
+  ) => any //NOSONAR
 ) => {
+  const { entitiesOriginal, multipleFilter, filterState } = state;
+
   const {
     League_Group,
-    League,
     Tv,
     Round,
     League_Division,
-    Remark,
     Spread_HDP_OU,
     MB_WK_HDP,
     MB_WK_NO_HDP,
     MB_WD_HDP,
     MB_WD_NO_HDP,
-    LST_Note,
-    Remark2,
     Comment
-  } = tableFilter;
-  const result = dataSource.filter(e => //NOSONAR
-    (!League_Group.isFilter || League_Group.selected.some(
-      m => m.label === buildLabelItemOption(e.leagueGroup)
-    )) &&
-    (!League.isFilter || League.selected.some(m => m.label === buildLabelItemOption(e.league))) &&
-    (!Tv.isFilter || Tv.selected.some(
-      m =>
-        m.label === buildLabelTvOption(e.condition.hasTv, e.condition.hasIpTv)
-    )) &&
-    (!Round.isFilter || Round.selected.some(m =>
-      buildLabelItemForCondition(e.condition.round, m.label)
-    )) &&
-    (!League_Division.isFilter || League_Division.selected.some(m =>
-      buildLabelItemForCondition(e.condition.division, m.label)
-    )) &&
-    (!Remark.isFilter || Remark.selected.some(
-      m => m.label === buildLabelItemOption(e.condition.remark)
-    )) &&
-    (!Spread_HDP_OU.isFilter || Spread_HDP_OU.selected.some(
-      m => m.label === buildLabelItemOption(e.spreadShow)
-    )) &&
-    (!MB_WD_HDP.isFilter || MB_WD_HDP.selected.some(
-      m => m.label === buildLabelItemOption(e.maxbetWD_HDP_Show)
-    )) &&
-    (!MB_WD_NO_HDP.isFilter || MB_WD_NO_HDP.selected.some(
-      m => m.label === buildLabelItemOption(e.wD_NoOfHDP_Show)
-    )) &&
-    (!MB_WK_HDP.isFilter || MB_WK_HDP.selected.some(
-      m => m.label === buildLabelItemOption(e.maxbetWK_HDP_Show)
-    )) &&
-    (!MB_WK_NO_HDP.isFilter || MB_WK_NO_HDP.selected.some(
-      m => m.label === buildLabelItemOption(e.wK_NoOfHDP_Show)
-    )) &&
-    (!LST_Note.isFilter || LST_Note.selected.some(
-      m => m.label === buildLabelItemOption(e.lstNote)
-    )) &&
-    (!Remark2.isFilter || Remark2.selected.some(m => m.label === buildLabelItemOption(e.remark2))) &&
-    (!Comment.isFilter || Comment.selected.some(m => m.label === buildLabelItemOption(e.comment)))
+  } = multipleFilter;
+
+  let result = filterDataTable(entitiesOriginal, filterState, filterByKeyword);
+
+  result = result.filter(
+    (
+      e: TDataSource //NOSONAR
+    ) =>
+      (!League_Group.isFilter ||
+        League_Group.selected.some(
+          (m: any) => m.label === buildLabelItemOption(e.leagueGroup)
+        )) &&
+      (!Tv.isFilter ||
+        Tv.selected.some(
+          (m: any) =>
+            m.label ===
+            buildLabelTvOption(e.condition.hasTv, e.condition.hasIpTv)
+        )) &&
+      (!Round.isFilter ||
+        Round.selected.some((m: any) =>
+          buildLabelItemForCondition(e.condition.round, m.label)
+        )) &&
+      (!League_Division.isFilter ||
+        League_Division.selected.some((m: any) =>
+          buildLabelItemForCondition(e.condition.division, m.label)
+        )) &&
+      (!Spread_HDP_OU.isFilter ||
+        Spread_HDP_OU.selected.some(
+          (m: any) => m.label === buildLabelItemOption(e.spreadShow)
+        )) &&
+      (!MB_WD_HDP.isFilter ||
+        MB_WD_HDP.selected.some(
+          (m: any) => m.label === buildLabelItemOption(e.maxbetWD_HDP_Show)
+        )) &&
+      (!MB_WD_NO_HDP.isFilter ||
+        MB_WD_NO_HDP.selected.some(
+          (m: any) => m.label === buildLabelItemOption(e.wD_NoOfHDP_Show)
+        )) &&
+      (!MB_WK_HDP.isFilter ||
+        MB_WK_HDP.selected.some(
+          (m: any) => m.label === buildLabelItemOption(e.maxbetWK_HDP_Show)
+        )) &&
+      (!MB_WK_NO_HDP.isFilter ||
+        MB_WK_NO_HDP.selected.some(
+          (m: any) => m.label === buildLabelItemOption(e.wK_NoOfHDP_Show)
+        )) &&
+      (!Comment.isFilter ||
+        Comment.selected.some(
+          (m: any) => m.label === buildLabelItemOption(e.comment)
+        ))
   );
   return result;
 };
@@ -132,10 +125,10 @@ const buildLabelTvOption = (hasTv: boolean, hasIpTv: boolean) => {
   return hasIpTv && hasTv
     ? 'TV/IPTV'
     : hasIpTv
-      ? 'IPTV'
-      : hasTv
-        ? 'TV'
-        : '(Blanks)';
+    ? 'IPTV'
+    : hasTv
+    ? 'TV'
+    : '(Blanks)';
 };
 const buildLabelItemOption = (value: string | undefined | null) =>
   value?.trim().length ? value : '(Blanks)';

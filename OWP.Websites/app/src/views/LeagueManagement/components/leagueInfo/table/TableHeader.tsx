@@ -1,3 +1,4 @@
+import MultipleFilterHeader from './MultipleFilterHeader';
 import FilterHeader from './FilterHeader';
 import { COLUMN_KEY, classNameCells } from './TableSchema.json';
 import { TColumnKey } from './TableType';
@@ -16,7 +17,8 @@ const {
   MB_WD_NO_HDP,
   LST_Note,
   Remark2,
-  Comment
+  Comment,
+  Short_League
 } = COLUMN_KEY;
 
 const TableHeader = () => {
@@ -40,7 +42,16 @@ const TableHeader = () => {
           className='blue-header'>
           <div className='header-table'>
             <span>League Group</span>
-            <FilterHeader columnKey={League_Group as TColumnKey} />
+            <MultipleFilterHeader columnKey={League_Group as TColumnKey} />
+          </div>
+        </th>
+        <th
+          style={{ width: `${classNameCells.shortLeagueCell.width}` }}
+          rowSpan={2}
+          className='blue-header'>
+          <div className='header-table'>
+            <span>Short League</span>
+            <FilterHeader columnKey={Short_League as TColumnKey} />
           </div>
         </th>
         <th
@@ -65,7 +76,7 @@ const TableHeader = () => {
               <br />
               HDP - OU
             </span>
-            <FilterHeader columnKey={Spread_HDP_OU as TColumnKey} />
+            <MultipleFilterHeader columnKey={Spread_HDP_OU as TColumnKey} />
           </div>
         </th>
         <th rowSpan={1} colSpan={2} className='light-blue-header'>
@@ -77,15 +88,15 @@ const TableHeader = () => {
         <th rowSpan={1} colSpan={2} className='blue-header'>
           Display in Mis match file
         </th>
-        <th
+        {/* <th
           style={{ width: `${classNameCells.commentCell.width}` }}
           rowSpan={2}
           className='grey-header'>
           <div className='header-table last-header'>
             <span>Comment</span>
-            <FilterHeader columnKey={Comment as TColumnKey} />
+            <MultipleFilterHeader columnKey={Comment as TColumnKey} />
           </div>
-        </th>
+        </th> */}
         <th
           style={{
             width: `${classNameCells.action.width}`,
@@ -105,7 +116,7 @@ const TableHeader = () => {
           className='blue-header'>
           <div className='header-table'>
             <span>TV</span>
-            <FilterHeader columnKey={Tv as TColumnKey} />
+            <MultipleFilterHeader columnKey={Tv as TColumnKey} />
           </div>
         </th>
         <th
@@ -114,7 +125,7 @@ const TableHeader = () => {
           className='blue-header'>
           <div className='header-table'>
             <span>Round</span>
-            <FilterHeader columnKey={Round as TColumnKey} />
+            <MultipleFilterHeader columnKey={Round as TColumnKey} />
           </div>
         </th>
         <th
@@ -123,7 +134,7 @@ const TableHeader = () => {
           className='blue-header'>
           <div className='header-table'>
             <span>League Division</span>
-            <FilterHeader columnKey={League_Division as TColumnKey} />
+            <MultipleFilterHeader columnKey={League_Division as TColumnKey} />
           </div>
         </th>
         <th
@@ -141,7 +152,7 @@ const TableHeader = () => {
           className='light-blue-header'>
           <div className='header-table'>
             <span>HDP(K)</span>
-            <FilterHeader columnKey={MB_WD_HDP as TColumnKey} />
+            <MultipleFilterHeader columnKey={MB_WD_HDP as TColumnKey} />
           </div>
         </th>
         <th
@@ -150,7 +161,7 @@ const TableHeader = () => {
           className='light-blue-header'>
           <div className='header-table'>
             <span>NO.HDP</span>
-            <FilterHeader columnKey={MB_WD_NO_HDP as TColumnKey} />
+            <MultipleFilterHeader columnKey={MB_WD_NO_HDP as TColumnKey} />
           </div>
         </th>
         <th
@@ -159,7 +170,7 @@ const TableHeader = () => {
           className='pink-header'>
           <div className='header-table'>
             <span>HDP</span>
-            <FilterHeader columnKey={MB_WK_HDP as TColumnKey} />
+            <MultipleFilterHeader columnKey={MB_WK_HDP as TColumnKey} />
           </div>
         </th>
         <th
@@ -168,7 +179,7 @@ const TableHeader = () => {
           className='pink-header'>
           <div className='header-table'>
             <span>NO.HDP</span>
-            <FilterHeader columnKey={MB_WK_NO_HDP as TColumnKey} />
+            <MultipleFilterHeader columnKey={MB_WK_NO_HDP as TColumnKey} />
           </div>
         </th>
         <th
