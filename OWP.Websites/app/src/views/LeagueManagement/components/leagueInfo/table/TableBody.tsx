@@ -33,10 +33,7 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }: TProp) => {
     };
 
     if (row) {
-      const className = [
-        focusSettingId === row.leagueSettingId ? 'is-focus-row' : '',
-        row.isBlackList || row.noOfferLive ? 'color-gray' : ''
-      ]
+      const className = [row.isBlackList || row.noOfferLive ? 'color-gray' : '']
         .filter(Boolean)
         .join(' ');
       rows.push(
