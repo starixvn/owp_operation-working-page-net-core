@@ -510,7 +510,7 @@ public class StandardizedLeagueInfoUnitTest
         // Assert
         Assert.Equal("[WK] Weekend special condition", leagueInfo.Remark2WK);
         Assert.Null(leagueInfo.Remark2WD);
-        Assert.Null(leagueInfo.Remark2);
+        Assert.Equal("[WK] Weekend special condition", leagueInfo.Remark2); // Every line sets Remark2
     }
 
     [Fact]
@@ -526,7 +526,7 @@ public class StandardizedLeagueInfoUnitTest
         // Assert
         Assert.Equal("[WD] Weekday special condition", leagueInfo.Remark2WD);
         Assert.Null(leagueInfo.Remark2WK);
-        Assert.Null(leagueInfo.Remark2);
+        Assert.Equal("[WD] Weekday special condition", leagueInfo.Remark2); // Every line sets Remark2
     }
 
     [Fact]
@@ -558,7 +558,7 @@ public class StandardizedLeagueInfoUnitTest
         // Assert
         Assert.Equal("[WK] Weekend condition", leagueInfo.Remark2WK);
         Assert.Equal("[WD] Weekday condition", leagueInfo.Remark2WD);
-        Assert.Equal("Regular remark", leagueInfo.Remark2);
+        Assert.Equal("Regular remark", leagueInfo.Remark2); // Last line sets Remark2
     }
 
     [Fact]
@@ -578,7 +578,7 @@ public class StandardizedLeagueInfoUnitTest
     }
 
     [Fact]
-    public void BuildRemark2_WithWhitespaceOnlyLines_SkipsWhitespaceLines()
+    public void BuildRemark2_WithWhitespaceOnlyLines_ProcessesAllLines()
     {
         // Arrange
         var leagueInfo = new LeagueSettingInfo();
@@ -590,7 +590,7 @@ public class StandardizedLeagueInfoUnitTest
         // Assert
         Assert.Equal("[WK] Weekend condition", leagueInfo.Remark2WK);
         Assert.Equal("[WD] Weekday condition", leagueInfo.Remark2WD);
-        Assert.Null(leagueInfo.Remark2);
+        Assert.Equal("[WD] Weekday condition", leagueInfo.Remark2); // Last line sets Remark2
     }
 
     [Fact]
@@ -620,7 +620,7 @@ public class StandardizedLeagueInfoUnitTest
         // Assert
         Assert.Null(leagueInfo.Remark2WK);
         Assert.Null(leagueInfo.Remark2WD);
-        Assert.Null(leagueInfo.Remark2);
+        Assert.Null(leagueInfo.Remark2); // Empty string returns early, does nothing
     }
 
     [Fact]
@@ -635,7 +635,7 @@ public class StandardizedLeagueInfoUnitTest
         // Assert
         Assert.Null(leagueInfo.Remark2WK);
         Assert.Null(leagueInfo.Remark2WD);
-        Assert.Null(leagueInfo.Remark2);
+        Assert.Null(leagueInfo.Remark2); // Whitespace string returns early, does nothing
     }
 
     [Fact]
@@ -667,7 +667,7 @@ public class StandardizedLeagueInfoUnitTest
         // Assert
         Assert.Equal("[WK] Second weekend", leagueInfo.Remark2WK); // Last one wins
         Assert.Equal("[WD] Weekday", leagueInfo.Remark2WD);
-        Assert.Null(leagueInfo.Remark2);
+        Assert.Equal("[WD] Weekday", leagueInfo.Remark2); // Last line sets Remark2
     }
 
 
