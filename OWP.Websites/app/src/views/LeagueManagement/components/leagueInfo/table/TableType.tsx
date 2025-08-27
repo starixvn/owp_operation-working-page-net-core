@@ -5,6 +5,8 @@ interface FilterAllColumn {
 }
 
 type TDataSource = {
+  remark2WK: string | undefined;
+  remark2WD: string | undefined;
   leagueSettingId: number;
   owpLeagueId: number;
   leagueGroupId: number;

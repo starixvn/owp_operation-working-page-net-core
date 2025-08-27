@@ -496,6 +496,183 @@ public class StandardizedLeagueInfoUnitTest
     }
     #endregion
 
+    #region BuildRemark2 Method Tests
+    [Fact]
+    public void BuildRemark2_WithWKRemark_SetsRemarkWKProperty()
+    {
+        // Arrange
+        var leagueInfo = new LeagueSettingInfo();
+        var remark2Source = "[WK] Weekend special condition";
+
+        // Act
+        StandardizedLeagueInfo.BuildRemark2(leagueInfo, remark2Source);
+
+        // Assert
+        Assert.Equal("[WK] Weekend special condition", leagueInfo.Remark2WK);
+        Assert.Null(leagueInfo.Remark2WD);
+        Assert.Null(leagueInfo.Remark2);
+    }
+
+    [Fact]
+    public void BuildRemark2_WithWDRemark_SetsRemarkWDProperty()
+    {
+        // Arrange
+        var leagueInfo = new LeagueSettingInfo();
+        var remark2Source = "[WD] Weekday special condition";
+
+        // Act
+        StandardizedLeagueInfo.BuildRemark2(leagueInfo, remark2Source);
+
+        // Assert
+        Assert.Equal("[WD] Weekday special condition", leagueInfo.Remark2WD);
+        Assert.Null(leagueInfo.Remark2WK);
+        Assert.Null(leagueInfo.Remark2);
+    }
+
+    [Fact]
+    public void BuildRemark2_WithRegularRemark_SetsRemark2Property()
+    {
+        // Arrange
+        var leagueInfo = new LeagueSettingInfo();
+        var remark2Source = "Regular remark without prefix";
+
+        // Act
+        StandardizedLeagueInfo.BuildRemark2(leagueInfo, remark2Source);
+
+        // Assert
+        Assert.Equal("Regular remark without prefix", leagueInfo.Remark2);
+        Assert.Null(leagueInfo.Remark2WK);
+        Assert.Null(leagueInfo.Remark2WD);
+    }
+
+    [Fact]
+    public void BuildRemark2_WithMultipleLines_ProcessesAllLines()
+    {
+        // Arrange
+        var leagueInfo = new LeagueSettingInfo();
+        var remark2Source = "[WK] Weekend condition\n[WD] Weekday condition\nRegular remark";
+
+        // Act
+        StandardizedLeagueInfo.BuildRemark2(leagueInfo, remark2Source);
+
+        // Assert
+        Assert.Equal("[WK] Weekend condition", leagueInfo.Remark2WK);
+        Assert.Equal("[WD] Weekday condition", leagueInfo.Remark2WD);
+        Assert.Equal("Regular remark", leagueInfo.Remark2);
+    }
+
+    [Fact]
+    public void BuildRemark2_WithEmptyLines_SkipsEmptyLines()
+    {
+        // Arrange
+        var leagueInfo = new LeagueSettingInfo();
+        var remark2Source = "[WK] Weekend condition\n\n[WD] Weekday condition\n  \nRegular remark";
+
+        // Act
+        StandardizedLeagueInfo.BuildRemark2(leagueInfo, remark2Source);
+
+        // Assert
+        Assert.Equal("[WK] Weekend condition", leagueInfo.Remark2WK);
+        Assert.Equal("[WD] Weekday condition", leagueInfo.Remark2WD);
+        Assert.Equal("Regular remark", leagueInfo.Remark2);
+    }
+
+    [Fact]
+    public void BuildRemark2_WithWhitespaceOnlyLines_SkipsWhitespaceLines()
+    {
+        // Arrange
+        var leagueInfo = new LeagueSettingInfo();
+        var remark2Source = "[WK] Weekend condition\n   \n\t\n[WD] Weekday condition";
+
+        // Act
+        StandardizedLeagueInfo.BuildRemark2(leagueInfo, remark2Source);
+
+        // Assert
+        Assert.Equal("[WK] Weekend condition", leagueInfo.Remark2WK);
+        Assert.Equal("[WD] Weekday condition", leagueInfo.Remark2WD);
+        Assert.Null(leagueInfo.Remark2);
+    }
+
+    [Fact]
+    public void BuildRemark2_WithNullInput_DoesNothing()
+    {
+        // Arrange
+        var leagueInfo = new LeagueSettingInfo();
+
+        // Act
+        StandardizedLeagueInfo.BuildRemark2(leagueInfo, null);
+
+        // Assert
+        Assert.Null(leagueInfo.Remark2WK);
+        Assert.Null(leagueInfo.Remark2WD);
+        Assert.Null(leagueInfo.Remark2);
+    }
+
+    [Fact]
+    public void BuildRemark2_WithEmptyString_DoesNothing()
+    {
+        // Arrange
+        var leagueInfo = new LeagueSettingInfo();
+
+        // Act
+        StandardizedLeagueInfo.BuildRemark2(leagueInfo, string.Empty);
+
+        // Assert
+        Assert.Null(leagueInfo.Remark2WK);
+        Assert.Null(leagueInfo.Remark2WD);
+        Assert.Null(leagueInfo.Remark2);
+    }
+
+    [Fact]
+    public void BuildRemark2_WithWhitespaceString_DoesNothing()
+    {
+        // Arrange
+        var leagueInfo = new LeagueSettingInfo();
+
+        // Act
+        StandardizedLeagueInfo.BuildRemark2(leagueInfo, "   \n\t  ");
+
+        // Assert
+        Assert.Null(leagueInfo.Remark2WK);
+        Assert.Null(leagueInfo.Remark2WD);
+        Assert.Null(leagueInfo.Remark2);
+    }
+
+    [Fact]
+    public void BuildRemark2_WithMixedCasePrefixes_HandlesCorrectly()
+    {
+        // Arrange
+        var leagueInfo = new LeagueSettingInfo();
+        var remark2Source = "[wk] Lowercase weekend\n[Wd] Mixed case weekday\nRegular remark";
+
+        // Act
+        StandardizedLeagueInfo.BuildRemark2(leagueInfo, remark2Source);
+
+        // Assert
+        Assert.Equal("[wk] Lowercase weekend", leagueInfo.Remark2WK);
+        Assert.Equal("[Wd] Mixed case weekday", leagueInfo.Remark2WD);
+        Assert.Equal("Regular remark", leagueInfo.Remark2);
+    }
+
+    [Fact]
+    public void BuildRemark2_WithOverlappingPrefixes_ProcessesInOrder()
+    {
+        // Arrange
+        var leagueInfo = new LeagueSettingInfo();
+        var remark2Source = "[WK] First weekend\n[WK] Second weekend\n[WD] Weekday";
+
+        // Act
+        StandardizedLeagueInfo.BuildRemark2(leagueInfo, remark2Source);
+
+        // Assert
+        Assert.Equal("[WK] Second weekend", leagueInfo.Remark2WK); // Last one wins
+        Assert.Equal("[WD] Weekday", leagueInfo.Remark2WD);
+        Assert.Null(leagueInfo.Remark2);
+    }
+
+
+    #endregion
+
     #region Edge Cases and Error Handling
     [Fact]
     public void Execute_WithEmptyList_ReturnsEmptyList()
@@ -540,6 +717,31 @@ public class StandardizedLeagueInfoUnitTest
         Assert.Null(leagueInfo.League);
         Assert.Null(leagueInfo.LstNote);
         Assert.Null(leagueInfo.Remark2);
+    }
+
+    [Fact]
+    public void Execute_WithRemark2Data_ProcessesBuildRemark2Correctly()
+    {
+        // Arrange
+        var excelInfos = new List<LeagueSettingExcelInfo>
+        {
+            new()
+            {
+                LeagueGroup = "TestGroup",
+                League = "TestLeague",
+                Remark2 = "[WK] Weekend condition\n[WD] Weekday condition\nRegular remark"
+            }
+        };
+
+        // Act
+        var result = StandardizedLeagueInfo.Execute(excelInfos);
+
+        // Assert
+        Assert.Single(result);
+        var leagueInfo = result[0];
+        Assert.Equal("[WK] Weekend condition", leagueInfo.Remark2WK);
+        Assert.Equal("[WD] Weekday condition", leagueInfo.Remark2WD);
+        Assert.Equal("Regular remark", leagueInfo.Remark2);
     }
 
     [Theory]

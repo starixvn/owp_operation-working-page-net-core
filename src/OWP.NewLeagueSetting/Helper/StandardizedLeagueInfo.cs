@@ -16,6 +16,7 @@ public static class StandardizedLeagueInfo
             BuildSpread(setting, info.FTSpread);
             BuildMaxbet(setting, info.WD_HDP, info.WK_HDP);
             BuildNoHdp(setting, info.WD_NO_HDP, info.WK_NO_HDP);
+            BuildRemark2(setting, info.Remark2);
             leagueInfo.Add(setting);
         }
         return leagueInfo;
@@ -23,7 +24,7 @@ public static class StandardizedLeagueInfo
 
     public static void BuildCommonInfo(LeagueSettingInfo leagueInfo, LeagueSettingExcelInfo excelInfo)
     {
-        leagueInfo.ShortLegue = excelInfo.ShortLeague;
+        leagueInfo.ShortLeague = excelInfo.ShortLeague;
         leagueInfo.LeagueGroup = excelInfo.LeagueGroup;
         leagueInfo.League = excelInfo.League;
         leagueInfo.LstNote = excelInfo.LstNote;
@@ -113,7 +114,7 @@ public static class StandardizedLeagueInfo
             Round = AnalyzeConditionString(excelInfo.Round?.Trim()),
             Division = shouldAnalyzeDivision
                 ? AnalyzeDivisionString(excelInfo.LeagueDivision?.Trim())
-                : new List<Condition>(),
+                : [],
             Remark = remarkValue
         });
     }
@@ -131,9 +132,39 @@ public static class StandardizedLeagueInfo
         return remarkValue;
     }
 
+    public static void BuildRemark2(LeagueSettingInfo leagueInfo, string remark2Source)
+    {
+        if (string.IsNullOrWhiteSpace(remark2Source))
+        {
+            return;
+        }
+
+        var splitRemarks = remark2Source.Split('\n')
+            .Select(item => item.Trim());
+
+        foreach (var remarkLine in splitRemarks)
+        {
+            SetRemarkProperty(leagueInfo, remarkLine);
+        }
+    }
+
+    private static void SetRemarkProperty(LeagueSettingInfo leagueInfo, string remarkLine)
+    {
+        leagueInfo.Remark2 = remarkLine;
+        if (remarkLine.StartsWith("[WK]", StringComparison.OrdinalIgnoreCase))
+        {
+            leagueInfo.Remark2WK = remarkLine;
+        }
+
+        if (remarkLine.StartsWith("[WD]", StringComparison.OrdinalIgnoreCase))
+        {
+            leagueInfo.Remark2WD = remarkLine;
+        }
+    }
+
     private static bool CanBuildDivision(LeagueSettingExcelInfo excelInfo)
     {
-        var isSpecialDivision = excelInfo.LeagueDivision == "Club Team" || excelInfo.LeagueDivision == "National Team";
+        var isSpecialDivision = excelInfo.LeagueDivision is "Club Team" or "National Team";
         return !isSpecialDivision;
     }
 

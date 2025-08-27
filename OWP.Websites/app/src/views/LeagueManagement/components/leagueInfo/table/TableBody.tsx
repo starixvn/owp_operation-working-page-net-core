@@ -2,12 +2,17 @@ import { uniqueId } from 'lodash';
 import { useAppSelector } from '../app/hooks';
 import { classNameCells, itemRowHeight } from './TableSchema.json';
 import { TDataSource } from './TableType';
-import CommentCell from './cell/CommentCell';
 import CommonCell from './cell/CommonCell';
 import LeagueCell from './cell/LeagueCell';
 import RemoveCell from './cell/RemoveCell';
+import Remark2Cell from './cell/Remark2Cell';
 
-const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
+type TProp = {
+  data: TDataSource[];
+  displayStart: number;
+  displayEnd: number;
+};
+const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }: TProp) => {
   const rows = [];
   const focusSettingId = useAppSelector(
     state => state.leagueInfoTableSlice.focusSettingId
@@ -19,7 +24,7 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
       style={{ height: displayStart * itemRowHeight }}></tr>
   );
   for (let i = displayStart; i < displayEnd; ++i) {
-    const row = data[i] as TDataSource;
+    const row = data[i];
     const buildValueForTvCell = () => {
       const tv = row.condition.hasTv ? 'TV' : '';
       const iptv = row.condition.hasIpTv ? 'IPTV' : '';
@@ -93,15 +98,15 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
             className={classNameCells.lstNoteCell.className}
             value={row.lstNote}
           />
-          <CommonCell
+          <Remark2Cell
             className={classNameCells.remark2Cell.className}
-            value={row.remark2}
+            remark2={row.remark2}
+            remark2WD={row.remark2WD}
+            remark2WK={row.remark2WK}
           />
-          {/* <CommentCell
-            className={classNameCells.commentCell.className}
-            value={row.comment}
-          /> */}
-          <RemoveCell leagueSettingId={row.leagueSettingId} />
+          <RemoveCell
+            leagueSettingId={row.leagueSettingId}
+          />
         </tr>
       );
     }

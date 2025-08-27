@@ -26,9 +26,9 @@ const RemoveCell = ({ leagueSettingId }: { leagueSettingId: number }) => {
 
   return (
     <td style={{ textAlign: 'center' }}>
-      <span onClick={handleRemoveSetting}>
+      {leagueSettingId && <span onClick={handleRemoveSetting}>
         <DeleteIcon className='icon-delete' size={13} />
-      </span>
+      </span>}
     </td>
   );
 };

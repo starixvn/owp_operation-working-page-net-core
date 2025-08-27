@@ -18,15 +18,8 @@ public interface Repository
     Task ExecuteNonQueryCommand(NonQueryCommand criteria);
 }
 
-public class RepositoryImp : Repository
+public class RepositoryImp(IDynamicRepository repository) : Repository
 {
-    private readonly IDynamicRepository repository;
-
-    public RepositoryImp(IDynamicRepository repository)
-    {
-        this.repository = repository;
-    }
-
     public async Task InitData(IList<LeagueSettingInfo> leagueInfo, CancellationToken cancellationToken)
     {
         var xml = XmlConverter.Serialize(leagueInfo);
