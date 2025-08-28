@@ -1,5 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using Fanex.NAP.Client;
 using MediatR;
 using NSubstitute;
@@ -18,10 +19,11 @@ public class UpdateLeagueSettingHandlerUnitTest
         // Arrange
         var repository = Substitute.For<Repository>();
         var session = Substitute.For<INapSession>();
+        var mapper = Substitute.For<IMapper>();
 
         session.UserId.Returns(123);
 
-        var handler = new UpdateLeagueSettingHandler(repository, session);
+        var handler = new UpdateLeagueSettingHandler(repository, session, mapper);
 
         var request = new UpdateLeagueSettingRequest
         {
@@ -47,10 +49,11 @@ public class UpdateLeagueSettingHandlerUnitTest
         // Arrange
         var repository = Substitute.For<Repository>();
         var session = Substitute.For<INapSession>();
+        var mapper = Substitute.For<IMapper>();
 
         session.UserId.Returns(789);
 
-        var handler = new UpdateLeagueSettingHandler(repository, session);
+        var handler = new UpdateLeagueSettingHandler(repository, session, mapper);
 
         var request = new UpdateLeagueSettingRequest
         {
@@ -76,10 +79,11 @@ public class UpdateLeagueSettingHandlerUnitTest
         // Arrange
         var repository = Substitute.For<Repository>();
         var session = Substitute.For<INapSession>();
+        var mapper = Substitute.For<IMapper>();
 
         session.UserId.Returns(123);
 
-        var handler = new UpdateLeagueSettingHandler(repository, session);
+        var handler = new UpdateLeagueSettingHandler(repository, session, mapper);
 
         var request = new UpdateLeagueSettingRequest
         {
@@ -106,10 +110,11 @@ public class UpdateLeagueSettingHandlerUnitTest
         // Arrange
         var repository = Substitute.For<Repository>();
         var session = Substitute.For<INapSession>();
+        var mapper = Substitute.For<IMapper>();
 
         session.UserId.Returns(0);
 
-        var handler = new UpdateLeagueSettingHandler(repository, session);
+        var handler = new UpdateLeagueSettingHandler(repository, session, mapper);
 
         var request = new UpdateLeagueSettingRequest
         {
@@ -135,10 +140,11 @@ public class UpdateLeagueSettingHandlerUnitTest
         // Arrange
         var repository = Substitute.For<Repository>();
         var session = Substitute.For<INapSession>();
+        var mapper = Substitute.For<IMapper>();
 
         session.UserId.Returns(-1);
 
-        var handler = new UpdateLeagueSettingHandler(repository, session);
+        var handler = new UpdateLeagueSettingHandler(repository, session, mapper);
 
         var request = new UpdateLeagueSettingRequest
         {

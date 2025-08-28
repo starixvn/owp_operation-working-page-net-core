@@ -32,15 +32,15 @@ public class LeagueSettingInfoSender : LeagueSettingInfo
 
     private static string AnalyzeSpreadSourceFT(decimal? spreadHdp, decimal? spreadOu)
     {
-        if (spreadHdp.HasValue && spreadOu.HasValue)
+        if (!spreadHdp.HasValue || !spreadOu.HasValue)
         {
-            var spreadHdpString = (spreadHdp * 100).ToString().TrimEnd('0').TrimEnd('.');
-            var spreadOuString = (spreadOu * 100).ToString().TrimEnd('0').TrimEnd('.');
-
-            return $"{spreadHdpString}%-{spreadOuString}%";
+            return null;
         }
+        var spreadHdpString = (spreadHdp * 100).ToString().TrimEnd('0').TrimEnd('.');
+        var spreadOuString = (spreadOu * 100).ToString().TrimEnd('0').TrimEnd('.');
 
-        return null;
+        return $"{spreadHdpString}%-{spreadOuString}%";
+
     }
 }
 

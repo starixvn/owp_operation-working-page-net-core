@@ -150,16 +150,19 @@ public static class StandardizedLeagueInfo
 
     private static void SetRemarkProperty(LeagueSettingInfo leagueInfo, string remarkLine)
     {
-        leagueInfo.Remark2 = remarkLine;
-        if (remarkLine.StartsWith("[WK]", StringComparison.OrdinalIgnoreCase))
+        
+        if (remarkLine.StartsWith("(WK)", StringComparison.OrdinalIgnoreCase))
         {
             leagueInfo.Remark2WK = remarkLine;
+            return;
         }
 
-        if (remarkLine.StartsWith("[WD]", StringComparison.OrdinalIgnoreCase))
+        if (remarkLine.StartsWith("(WD)", StringComparison.OrdinalIgnoreCase))
         {
             leagueInfo.Remark2WD = remarkLine;
+            return;
         }
+        leagueInfo.Remark2 = remarkLine;
     }
 
     private static bool CanBuildDivision(LeagueSettingExcelInfo excelInfo)
