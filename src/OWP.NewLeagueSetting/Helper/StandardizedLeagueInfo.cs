@@ -28,7 +28,6 @@ public static class StandardizedLeagueInfo
         leagueInfo.LeagueGroup = excelInfo.LeagueGroup;
         leagueInfo.League = excelInfo.League;
         leagueInfo.LstNote = excelInfo.LstNote;
-        leagueInfo.Remark2 = excelInfo.Remark2;
     }
 
     public static void BuildSpread(LeagueSettingCore leagueInfo, string ftSpread)
@@ -150,7 +149,6 @@ public static class StandardizedLeagueInfo
 
     private static void SetRemarkProperty(LeagueSettingInfo leagueInfo, string remarkLine)
     {
-        
         if (remarkLine.StartsWith("(WK)", StringComparison.OrdinalIgnoreCase))
         {
             leagueInfo.Remark2WK = remarkLine;

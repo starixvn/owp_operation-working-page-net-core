@@ -11,9 +11,9 @@ public class LeagueSettingInfoSender : LeagueSettingInfo
 
     public bool NoOfferLive { get; set; } = default!;
 
-    public string MaxbetWD_HDP_Show => FormatMaxbet(MaxbetWD_HDP_Value);
+    public string MaxbetWD_HDP_Show => FormatMaxbet(MaxbetWD_HDP_Value, MaxbetWD_HDP_Note);
 
-    public string MaxbetWK_HDP_Show => FormatMaxbet(MaxbetWK_HDP_Value);
+    public string MaxbetWK_HDP_Show => FormatMaxbet(MaxbetWK_HDP_Value, MaxbetWD_HDP_Note);
 
     public string WD_NoOfHDP_Show => FormatNoOfHdpMaxbet(WD_NoOfHDP_Value);
 
@@ -25,7 +25,7 @@ public class LeagueSettingInfoSender : LeagueSettingInfo
         new LeagueSettingCondition():
         JsonConvert.DeserializeObject<LeagueSettingCondition>(FullConditionDescription);
 
-    public static string FormatMaxbet(decimal? maxbet) => maxbet.HasValue ? $"{maxbet / 1000}" + "K" : string.Empty;
+    public static string FormatMaxbet(decimal? maxbet, string maxbetNote) => maxbet.HasValue ? $"{maxbet / 1000}" + "K" : maxbetNote;
 
     public static string FormatNoOfHdpMaxbet(string maxbetNoOfHdp)
         => !string.IsNullOrWhiteSpace(maxbetNoOfHdp) ? maxbetNoOfHdp : string.Empty;
