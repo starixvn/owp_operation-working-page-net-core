@@ -6,6 +6,7 @@ import CommonCell from './cell/CommonCell';
 import LeagueCell from './cell/LeagueCell';
 import RemoveCell from './cell/RemoveCell';
 import Remark2Cell from './cell/Remark2Cell';
+import { convertDivisionResponseToDisplayValue } from '../helper/helper';
 
 type TProp = {
   data: TDataSource[];
@@ -14,9 +15,6 @@ type TProp = {
 };
 const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }: TProp) => {
   const rows = [];
-  const focusSettingId = useAppSelector(
-    state => state.leagueInfoTableSlice.focusSettingId
-  );
 
   rows.push(
     <tr
@@ -63,9 +61,7 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }: TProp) => {
           />
           <CommonCell
             className={classNameCells.leagueDivisionCell.className}
-            value={row.condition.division
-              .map(x => (x.type === 'Contains' ? `*${x.value}*` : x.value))
-              .join('/')}
+            value={convertDivisionResponseToDisplayValue(row.condition.division)}
           />
           <CommonCell
             className={classNameCells.remarkCell.className}
