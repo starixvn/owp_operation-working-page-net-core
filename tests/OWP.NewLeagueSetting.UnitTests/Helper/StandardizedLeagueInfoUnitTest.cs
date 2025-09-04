@@ -82,7 +82,7 @@ public class StandardizedLeagueInfoUnitTest
         Assert.Equal("Group1", leagueInfo.LeagueGroup);
         Assert.Equal("League1", leagueInfo.League);
         Assert.Equal("LstNote1", leagueInfo.LstNote);
-        Assert.Equal("Remark2", leagueInfo.Remark2);
+        Assert.Null(leagueInfo.Remark2); // BuildCommonInfo doesn't set Remark2 - that's handled by BuildRemark2
     }
     #endregion
 
