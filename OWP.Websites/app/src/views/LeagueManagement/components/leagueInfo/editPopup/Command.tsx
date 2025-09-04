@@ -41,11 +41,14 @@ const Command = (props: { closePopup: Function }) => {
 
   const handleSave = async () => {
     try {
-      const regex = /^[^,\s]+,[^,\s]+$/;
       if (
-        division.some(d => d.type === MaxbetConst.divisionExpressionOption[1].label
-          && !regex.test(d.value.trim()) && d.value.trim() !== ''
-        )) {
+        division.some(d => {
+          const trimmedValue = d.value.trim();
+          return d.type === MaxbetConst.divisionExpressionOption[1].label
+            && (trimmedValue.includes(' ,') || trimmedValue.includes(', '))
+            && trimmedValue !== '';
+        })
+      ) {
         ToastrWrapper.showError('Invalid format for Pairwise Contains. Enter values as pairs like D1,D2. Each item must be separated by commas.');
         return;
       }
