@@ -14,19 +14,12 @@ public interface Repository
     Task<LeagueSettingInfoSender> QueryLeagueSettingDetail(int leagueSettingId);
 
     Task UpdateLeagueSetting(UpdateLeagueSettingRequest request, int actorId);
-   
+
     Task ExecuteNonQueryCommand(NonQueryCommand criteria);
 }
 
-public class RepositoryImp : Repository
+public class RepositoryImp(IDynamicRepository repository) : Repository
 {
-    private readonly IDynamicRepository repository;
-
-    public RepositoryImp(IDynamicRepository repository)
-    {
-        this.repository = repository;
-    }
-
     public async Task InitData(IList<LeagueSettingInfo> leagueInfo, CancellationToken cancellationToken)
     {
         var xml = XmlConverter.Serialize(leagueInfo);
@@ -37,11 +30,13 @@ public class RepositoryImp : Repository
     }
 
     public async Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSetting(LeagueParamRequest request)
-    { 
+    {
         var result = await repository.FetchAsync<LeagueSettingInfoSender>(new QueryLeagueSettingCriteria
         { League = request.LeagueName, IsEqualLeague = request.IsEqualLeague });
-        
-        return FilterLeagueSettingsByRequest(result, request);
+        var filteredResult = FilterLeagueSettingsByRequest(result, request);
+        var sortedResult = SortLeagueSettings(filteredResult);
+
+        return sortedResult;
     }
 
     private static IEnumerable<LeagueSettingInfoSender> FilterLeagueSettingsByRequest(IEnumerable<LeagueSettingInfoSender> leagueSettings, LeagueParamRequest request)
@@ -52,10 +47,25 @@ public class RepositoryImp : Repository
                 && (request.LeagueGroupId == null || request.LeagueGroupId == x.LeagueGroupId))
             .ToList();
 
+    private static IEnumerable<LeagueSettingInfoSender> SortLeagueSettings(IEnumerable<LeagueSettingInfoSender> leagueSettings)
+    {
+        var leagueList = leagueSettings.ToList();
+
+        return leagueList
+            .OrderBy(x => x.LeagueGroup != "MJ") 
+            .ThenBy(x => NormalizeLeagueName(x.League), StringComparer.OrdinalIgnoreCase)
+            .ToList();
+    }
+
+    private static string NormalizeLeagueName(string leagueName)
+    {
+        return string.IsNullOrWhiteSpace(leagueName) ? string.Empty : leagueName.TrimStart('*').Trim();
+    }
+
 
     public async Task<LeagueSettingInfoSender> QueryLeagueSettingDetail(int leagueSettingId)
         => await repository.GetAsync<LeagueSettingInfoSender>(new QueryLeagueSettingDetailCriteria
-            { LeagueSettingId = leagueSettingId });
+        { LeagueSettingId = leagueSettingId });
 
     public async Task UpdateLeagueSetting(UpdateLeagueSettingRequest request, int actorId)
     {

@@ -3,15 +3,8 @@
 namespace OWP.NewLeagueSetting.Data;
 
 public record InitDataRequest(Stream Stream) : IRequest<IList<LeagueSettingInfo>>;
-public class InitDataHandler : IRequestHandler<InitDataRequest, IList<LeagueSettingInfo>>
+public class InitDataHandler(Repository repository) : IRequestHandler<InitDataRequest, IList<LeagueSettingInfo>>
 {
-    private readonly Repository repository;
-
-    public InitDataHandler(Repository repository)
-    {
-        this.repository = repository;
-    }
-
     public async Task<IList<LeagueSettingInfo>> Handle(InitDataRequest request, CancellationToken cancellationToken)
     {
         var dataExcel = ReadExcel.LoadData(request.Stream);

@@ -2,16 +2,19 @@ import { uniqueId } from 'lodash';
 import { useAppSelector } from '../app/hooks';
 import { classNameCells, itemRowHeight } from './TableSchema.json';
 import { TDataSource } from './TableType';
-import CommentCell from './cell/CommentCell';
 import CommonCell from './cell/CommonCell';
 import LeagueCell from './cell/LeagueCell';
 import RemoveCell from './cell/RemoveCell';
+import Remark2Cell from './cell/Remark2Cell';
+import { convertDivisionResponseToDisplayValue } from '../helper/helper';
 
-const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
+type TProp = {
+  data: TDataSource[];
+  displayStart: number;
+  displayEnd: number;
+};
+const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }: TProp) => {
   const rows = [];
-  const focusSettingId = useAppSelector(
-    state => state.leagueInfoTableSlice.focusSettingId
-  );
 
   rows.push(
     <tr
@@ -19,7 +22,7 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
       style={{ height: displayStart * itemRowHeight }}></tr>
   );
   for (let i = displayStart; i < displayEnd; ++i) {
-    const row = data[i] as TDataSource;
+    const row = data[i];
     const buildValueForTvCell = () => {
       const tv = row.condition.hasTv ? 'TV' : '';
       const iptv = row.condition.hasIpTv ? 'IPTV' : '';
@@ -28,10 +31,7 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
     };
 
     if (row) {
-      const className = [
-        focusSettingId === row.leagueSettingId ? 'is-focus-row' : '',
-        row.isBlackList || row.noOfferLive ? 'color-gray' : ''
-      ]
+      const className = [row.isBlackList || row.noOfferLive ? 'color-gray' : '']
         .filter(Boolean)
         .join(' ');
       rows.push(
@@ -61,9 +61,7 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
           />
           <CommonCell
             className={classNameCells.leagueDivisionCell.className}
-            value={row.condition.division
-              .map(x => (x.type === 'Contains' ? `*${x.value}*` : x.value))
-              .join('/')}
+            value={convertDivisionResponseToDisplayValue(row.condition.division)}
           />
           <CommonCell
             className={classNameCells.remarkCell.className}
@@ -93,15 +91,15 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
             className={classNameCells.lstNoteCell.className}
             value={row.lstNote}
           />
-          <CommonCell
+          <Remark2Cell
             className={classNameCells.remark2Cell.className}
-            value={row.remark2}
+            remark2={row.remark2}
+            remark2WD={row.remark2WD}
+            remark2WK={row.remark2WK}
           />
-          {/* <CommentCell
-            className={classNameCells.commentCell.className}
-            value={row.comment}
-          /> */}
-          <RemoveCell leagueSettingId={row.leagueSettingId} />
+          <RemoveCell
+            leagueSettingId={row.leagueSettingId}
+          />
         </tr>
       );
     }

@@ -2,7 +2,12 @@ import { Fragment } from 'react';
 import { UncontrolledTooltip } from 'reactstrap';
 import { v4 as uuidv4 } from 'uuid';
 
-const CommentCell = ({ className = '', value = '' }) => {
+type TProp = {
+  className?: string;
+  value?: string;
+}
+
+const CommentCell = ({ className, value }: TProp) => {
   const uuidKey = `${className}_${uuidv4()}`;
   const comments = (value || '').split('\n');
 

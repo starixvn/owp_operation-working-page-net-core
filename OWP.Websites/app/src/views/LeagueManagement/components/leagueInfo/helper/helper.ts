@@ -91,9 +91,46 @@ const convertResourceToOptions = (resource: TLeagueCategory[]) => {
   }));
 };
 
+const convertDivisionResponseToDisplayValue = (response: TCondition[]) => {
+  if (!response || response.length === 0){
+    return '';
+  }
+
+  if(!response.some(condition => condition.type === 'Pairwise Contains')){
+    return response.map(condition => (condition.type === 'Contains' ?
+      `*${condition.value}*`
+      : condition.value)).join('/');
+  }
+  const groupedBySecondValue: { [key: string]: string[] } = {};
+  
+  response.forEach(condition => {
+    if (condition.type === 'Pairwise Contains' && condition.value) {
+      const [first, second] = condition.value.split(',');
+      if (first && second) {
+        if (!groupedBySecondValue[second]) {
+          groupedBySecondValue[second] = [];
+        }
+        groupedBySecondValue[second].push(first);
+      }
+    }
+  });
+
+  const resultParts: string[] = [];
+  
+  Object.keys(groupedBySecondValue).forEach(secondValue => {
+    const firstValues = groupedBySecondValue[secondValue];
+    const firstPart = firstValues.map(val => `*(${val})*`).join('/');
+    const secondPart = `*(${secondValue})*`;
+    resultParts.push(`${firstPart}-vs-${secondPart}`);
+  });
+
+  return resultParts.join(', ');
+};
+
 export {
   convertResourceToOptions,
   convertResponseToCondition,
   mapEditSettingFromDataSource,
-  convertDivisionResponseToCondition
+  convertDivisionResponseToCondition,
+  convertDivisionResponseToDisplayValue
 };

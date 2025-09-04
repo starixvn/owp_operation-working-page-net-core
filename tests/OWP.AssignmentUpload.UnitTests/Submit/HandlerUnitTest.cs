@@ -73,6 +73,8 @@ public class HandlerUnitTest
             MatchSettings = new Dictionary<int, List<MatchSetting>>()
         };
 
+        #region MockObject
+
         queryRepository.GetOldMatchIds(Arg.Compat.Any<DateTime>()).Returns(emptyMatchIds);
         queryRepository.Query(request.EventDate).Returns(Task.FromResult(emptySnapshot));
         cacheManipulator.GetAssignments(Arg.Compat.Any<string>())
@@ -84,6 +86,8 @@ public class HandlerUnitTest
             IsSuccessful = true,
             Message = "Event assignment is successfully submitted!"
         };
+
+        #endregion
 
         // Act
         var actual = await handler.Handle(request, new CancellationToken(false));

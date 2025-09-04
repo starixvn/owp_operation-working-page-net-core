@@ -7,6 +7,8 @@ public static class ConvertTypeService
     private const string DateFormat = "MMM dd, yyyy";
     private const string TimeFormat = "hh:mm tt";
     private const string LastUpdatedFormat = "MMM dd hh:mm tt";
+    private const int ThousandMultiplier = 1000;
+    private const int PercentageMultiplier = 100;
 
     public static string BuildDisplayMaxbetSpread(decimal? maxBet, decimal? spread)
     {
@@ -65,7 +67,7 @@ public static class ConvertTypeService
 
     public static string ToOWPMaxBetFormat(this decimal? maxbet)
     {
-        return maxbet.HasValue ? (maxbet.Value / 1000).ToString("0.####", CultureInfo.InvariantCulture) + "K" : string.Empty;
+        return maxbet.HasValue ? (maxbet.Value / ThousandMultiplier).ToString("0.####", CultureInfo.InvariantCulture) + "K" : string.Empty;
     }
 
     public static string ToOWPSpreadFormatPercent(this decimal? spread)
@@ -75,7 +77,7 @@ public static class ConvertTypeService
 
     public static string ToOWPSpreadFormat(this decimal? spread)
     {
-        return spread.HasValue ? (spread.Value * 100).ToString("0.##", CultureInfo.InvariantCulture) : string.Empty;
+        return spread.HasValue ? (spread.Value * PercentageMultiplier).ToString("0.##", CultureInfo.InvariantCulture) : string.Empty;
     }
 
     public static string ReplaceFirstOccurrence(this string sourceText, string searchText, string replaceText)

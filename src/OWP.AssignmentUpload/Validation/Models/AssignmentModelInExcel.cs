@@ -61,7 +61,7 @@ public class AssignmentModelInExcel
     public string MatchStatus { get; set; }
 
     [Display(Name = "No.HDP")]
-    [RegularExpression(@"^(1HDP|2HDP|2\+1H|3HDP|4HDP|2\+4 lines|3\+3 lines|3\+4 lines|4\+4 lines|1 line|2 lines)*$",
+    [RegularExpression(@"^(1HDP|2HDP|2\+1H|3HDP|4HDP|2\+4 lines|2\+3 lines|3\+3 lines|3\+4 lines|4\+4 lines|1 line|2 lines)*$",
         ErrorMessage = "[Column: {0}] - The No.HDP must be 1HDP, 2HDP, 2+1H, 3HDP, 4HDP, 2+4 lines, 3+3 lines, 3+4 lines, 4+4 lines, 1 line or 2 lines")]
     public string NoHDP { get; set; }
 
