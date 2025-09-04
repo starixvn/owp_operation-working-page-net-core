@@ -13,10 +13,14 @@ const checkRemark = (arraySource, keyWordFormat) =>
     item.condition.remark?.toLowerCase().includes(keyWordFormat)
   );
 
-const checkRemark2 = (arraySource, keyWordFormat) =>
-  arraySource.filter(item =>
-    item.remark2?.toLowerCase().includes(keyWordFormat)
+const checkRemark2 = (arraySource, keyWordFormat) => {
+  return arraySource.filter(
+    item =>
+      item.remark2?.toLowerCase().includes(keyWordFormat) ||
+      item.remark2WD?.toLowerCase().includes(keyWordFormat) ||
+      item.remark2WK?.toLowerCase().includes(keyWordFormat)
   );
+};
 
 const checkLSTNote = (arraySource, keyWordFormat) =>
   arraySource.filter(item =>
