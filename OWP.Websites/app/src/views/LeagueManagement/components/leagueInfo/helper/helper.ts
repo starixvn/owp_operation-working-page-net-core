@@ -127,14 +127,12 @@ const convertDivisionResponseToDisplayValue = (response: TCondition[]) => {
   return resultParts.join(', ');
 };
 
-const isValidDivision=(division: TCondition[])=>division.some(d => {
-        const trimmedValue = d.value.trim();
-        return d.type === MaxbetConst.divisionExpressionOption[1].label
-          && !trimmedValue.includes(' ,') 
-          && !trimmedValue.includes(', ')
-          && !trimmedValue.startsWith(',')
-          && !trimmedValue.endsWith(',');
-      });
+const haInvalidDivision=(division: TCondition[])=>division.some(d => {
+          const trimmedValue = d.value.trim();
+          return d.type === MaxbetConst.divisionExpressionOption[1].label
+            && (trimmedValue.includes(' ,') || trimmedValue.includes(', '))
+            && trimmedValue !== '';
+        });
       
 export {
   convertResourceToOptions,
@@ -142,5 +140,5 @@ export {
   mapEditSettingFromDataSource,
   convertDivisionResponseToCondition,
   convertDivisionResponseToDisplayValue,
-  isValidDivision
+  haInvalidDivision
 };
