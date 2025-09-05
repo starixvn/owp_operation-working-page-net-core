@@ -127,10 +127,20 @@ const convertDivisionResponseToDisplayValue = (response: TCondition[]) => {
   return resultParts.join(', ');
 };
 
+const isValidDivision=(division: TCondition[])=>division.some(d => {
+        const trimmedValue = d.value.trim();
+        return d.type === MaxbetConst.divisionExpressionOption[1].label
+          && !trimmedValue.includes(' ,') 
+          && !trimmedValue.includes(', ')
+          && !trimmedValue.startsWith(',')
+          && !trimmedValue.endsWith(',');
+      });
+      
 export {
   convertResourceToOptions,
   convertResponseToCondition,
   mapEditSettingFromDataSource,
   convertDivisionResponseToCondition,
-  convertDivisionResponseToDisplayValue
+  convertDivisionResponseToDisplayValue,
+  isValidDivision
 };

@@ -15,7 +15,6 @@ const EditSettingPopup = (props: { closePopup: () => void }) => {
   const {
     leagueGroupOptions,
     league,
-    leagueGroupId,
     hasTv,
     hasIpTv,
     round,
@@ -46,7 +45,6 @@ const EditSettingPopup = (props: { closePopup: () => void }) => {
       centered>
       <ModalBody>
         <LeagueInfo
-          leagueGroupId={leagueGroupId}
           league={league}
           shortLeague={shortLeague}
           isBlackList={isBlackList}
