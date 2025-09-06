@@ -18,9 +18,12 @@ public class UtilsUnitTests
         var result = OWP.EventPicking.Utils.GetMiscMatchTemplate(currentDirectory);
 
         // Assert
-        // The actual implementation uses Path.DirectorySeparatorChar which is \ on Windows
+        // The actual implementation uses Path.DirectorySeparatorChar which is platform-specific
         // and the template path uses forward slashes, so we expect mixed separators
-        Assert.Equal(@"C:\TestApp\App_Data/Templates/EventPickingNewFormat.xlsx", result);
+        // On Windows: C:\TestApp\App_Data/Templates/EventPickingNewFormat.xlsx
+        // On Linux: C:\TestApp/App_Data/Templates/EventPickingNewFormat.xlsx
+        var expectedPath = $@"C:\TestApp{Path.DirectorySeparatorChar}App_Data/Templates/EventPickingNewFormat.xlsx";
+        Assert.Equal(expectedPath, result);
     }
 
     [Fact]
@@ -152,8 +155,9 @@ public class UtilsUnitTests
 
         // Assert
         // The actual implementation doesn't handle division by zero gracefully
-        // It will result in infinity, so we expect "∞" or similar
-        Assert.Equal("∞", marginInfo.ValueDisplay);
+        // It will result in infinity, which formats differently on different platforms
+        // Windows: "∞", Linux: "Infinity"
+        Assert.True(marginInfo.ValueDisplay == "∞" || marginInfo.ValueDisplay == "Infinity");
         Assert.True(double.IsInfinity(marginInfo.Value.Value));
         Assert.Null(marginInfo.Color);
     }
