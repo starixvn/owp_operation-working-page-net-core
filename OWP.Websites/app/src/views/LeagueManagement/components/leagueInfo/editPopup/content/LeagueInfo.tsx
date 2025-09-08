@@ -1,33 +1,14 @@
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import Select from 'react-select-ts';
-import { TOption } from '../../component/Type';
+import { useAppDispatch } from '../../app/hooks';
 import { updateObject } from '../slice/editSettingSlice';
 
 const LeagueInfo = (props: {
-  leagueGroupId: number;
   league: string;
   shortLeague: string;
   isBlackList: boolean;
   noOfferLive: boolean;
 }) => {
   const dispatch = useAppDispatch();
-  const { leagueGroupId, league, shortLeague, isBlackList, noOfferLive } = props;
-  const leagueGroupOptions = useAppSelector(
-    state => state.editSettingSlice.leagueGroupOptions
-  );
-
-  const handleChangeLeagueGroup = (selectedOption: TOption | null) => {
-    const value = selectedOption?.value || 0;
-    if (leagueGroupId !== value) {
-      dispatch(updateObject({ property: 'leagueGroupId', value }));
-      dispatch(
-        updateObject({
-          property: 'leagueGroup',
-          value: selectedOption?.label || ''
-        })
-      );
-    }
-  };
+  const { league, shortLeague, isBlackList, noOfferLive } = props;
 
   const renderLeagueName = () => (
     <div className='content'>
@@ -45,19 +26,6 @@ const LeagueInfo = (props: {
         Short League
       </div>
       <label style={{ marginTop: '7px' }}>{shortLeague}</label>
-    </div>
-  );
-
-  const renderLeagueGroup = () => (
-    <div className='content'>
-      <div className='left'>League Group</div>
-      <Select
-        options={leagueGroupOptions}
-        value={leagueGroupOptions.filter(x => x.value === leagueGroupId)}
-        className='basic-multi-select'
-        classNamePrefix='select'
-        onChange={handleChangeLeagueGroup}
-      />
     </div>
   );
 
@@ -100,7 +68,6 @@ const LeagueInfo = (props: {
       <div className='title'>League Information</div>
       {renderLeagueName()}
       {renderShortLeague()}
-      {renderLeagueGroup()}
       {renderLeagueType()}
     </div>
   );

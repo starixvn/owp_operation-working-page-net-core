@@ -5,10 +5,10 @@ import ConditionOfAdd from './content/ConditionOfAdd';
 import FtSpreadOfAdd from './content/FtSpreadOfAdd';
 import MBOfAdd from './content/MBOfAdd';
 import MiscMatchOfAdd from './content/MiscMatchOfAdd';
-import CommentOfAdd from './content/CommentOfAdd';
 import CommandOfAdd from './content/CommandOfAdd';
 import LeagueInfoOfAdd from './content/LeagueInfoOfAdd';
 import { getLeagueGroupOptionsThunk } from '../component/commonThunk';
+
 const AddSettingPopup = () => {
   const dispatch = useAppDispatch();
 

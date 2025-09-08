@@ -127,10 +127,21 @@ const convertDivisionResponseToDisplayValue = (response: TCondition[]) => {
   return resultParts.join(', ');
 };
 
+const hasInvalidDivision=(division: TCondition[])=>division.some(d => {
+          const trimmedValue = d.value.trim();
+          return d.type === MaxbetConst.divisionExpressionOption[1].label &&
+            (trimmedValue.startsWith(',') ||
+             trimmedValue.endsWith(',') ||
+             (trimmedValue.match(/,/g) || []).length!==1 ||
+             trimmedValue.includes(' ,') ||
+             trimmedValue.includes(', '));
+        });
+
 export {
   convertResourceToOptions,
   convertResponseToCondition,
   mapEditSettingFromDataSource,
   convertDivisionResponseToCondition,
-  convertDivisionResponseToDisplayValue
+  convertDivisionResponseToDisplayValue,
+  hasInvalidDivision
 };

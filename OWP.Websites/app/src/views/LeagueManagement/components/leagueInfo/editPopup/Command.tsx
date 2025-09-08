@@ -7,7 +7,7 @@ import { updateSettingService } from '../service/service';
 import { AxiosError } from 'axios';
 import { TExpectedResponseType } from '../component/Type';
 import { message } from '../../../constants/Const';
-import MaxbetConst from '../../../constants/MaxbetConst';
+import { hasInvalidDivision } from '../helper/helper';
 
 const Command = (props: { closePopup: Function }) => {
   const { closePopup } = props;
@@ -42,13 +42,7 @@ const Command = (props: { closePopup: Function }) => {
   const handleSave = async () => {
     try {
       if (
-        division.some(d => {
-          const trimmedValue = d.value.trim();
-          return d.type === MaxbetConst.divisionExpressionOption[1].label
-            && (trimmedValue.includes(' ,') || trimmedValue.includes(', '))
-            && trimmedValue !== '';
-        })
-      ) {
+        hasInvalidDivision(division)) {
         ToastrWrapper.showError('Invalid format for Pairwise Contains. Enter values as pairs like D1,D2. Each item must be separated by commas.');
         return;
       }

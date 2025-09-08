@@ -9,7 +9,7 @@ import ToastrWrapper from '../../../../../components/ToastrWrapper';
 import { fetchLeagueSettingInfo } from '../../table/leagueInfoTableSlice/leagueInfoThunk';
 import { setValueDefault } from '../slice/addSettingSlice';
 import { TExpectedResponseType } from '../../component/Type';
-import MaxbetConst from '../../../../constants/MaxbetConst';
+import { hasInvalidDivision } from '../../helper/helper';
 
 const CommandOfAdd = () => {
   const leagueFilterHeader = useAppSelector(
@@ -45,11 +45,9 @@ const CommandOfAdd = () => {
       await ToastrWrapper.showError('League Name field is required!');
       return;
     }
-    const regex = /^[^,\s]+,[^,\s]+$/;
+
     if (
-      division.some(d => d.type === MaxbetConst.divisionExpressionOption[1].label
-        && !regex.test(d.value.trim()) && d.value.trim() !== ''
-      )) {
+      hasInvalidDivision(division)) {
       ToastrWrapper.showError('Invalid format for Pairwise Contains. Enter values as pairs like D1,D2. Each item must be separated by commas.');
       return;
     }

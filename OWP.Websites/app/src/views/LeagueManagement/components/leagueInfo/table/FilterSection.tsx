@@ -13,8 +13,7 @@ const FilterSection = () => {
   const dispatch = useAppDispatch();
   const { leagueFilterHeader } = useAppSelector(state => state.leagueInfoTableSlice);
   const { leagueGroupOptions } = useAppSelector(state => state.editSettingSlice);
-  
-  
+
   const handleSearch = async () => {
     await dispatch(fetchLeagueSettingInfo(leagueFilterHeader, false));
   };
@@ -24,15 +23,20 @@ const FilterSection = () => {
   }, [dispatch, leagueGroupOptions]);
 
   useEffect(() => {
-    dispatch(fetchLeagueSettingInfo(leagueFilterHeader, false));
+    const searchParams = new URLSearchParams(document.location.search);
+    const owpLeagueName = searchParams.get('leagueName');
+    dispatch(fetchLeagueSettingInfo({
+      ...leagueFilterHeader,
+      leagueName: owpLeagueName || ''
+    }, false));
   }, []);
 
   return (
     <div className='filter-section'>
-      <LeagueNameFilter  />
-      <LeagueGroupFilter  />
-      <BlackListFilter  />
-      <OfferLiveFilter  />
+      <LeagueNameFilter />
+      <LeagueGroupFilter />
+      <BlackListFilter />
+      <OfferLiveFilter />
       <div className='filter-section-button'>
         <Button className='btn-search' onClick={handleSearch}>
           Search
