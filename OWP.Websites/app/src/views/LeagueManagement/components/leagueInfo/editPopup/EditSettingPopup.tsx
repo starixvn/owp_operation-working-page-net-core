@@ -29,7 +29,9 @@ const EditSettingPopup = (props: { closePopup: () => void }) => {
     remark2,
     shortLeague,
     isBlackList,
-    noOfferLive
+    noOfferLive,
+    remark2WD,
+    remark2WK
   } = useAppSelector(state => state.editSettingSlice);
 
   useEffect(() => {
@@ -66,7 +68,7 @@ const EditSettingPopup = (props: { closePopup: () => void }) => {
           maxbetWK_HDP={maxbetWK_HDP}
           wK_NoOfHDP={wK_NoOfHDP}
         />
-        <MicsMatch lstNote={lstNote} remark2={remark2} />
+        <MicsMatch lstNote={lstNote} remark2={remark2} remark2WD={remark2WD} remark2WK={remark2WK} />
       </ModalBody>
       <ModalFooter>
         <Command closePopup={closePopup} />
