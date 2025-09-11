@@ -69,21 +69,21 @@ public class WeeklyWorkingShiftController : Controller
 
     [AllowAnonymous]
     [HttpGet]
-    public async Task<ActionResult> IFrame(int? gmt = 7)
+    public async Task<ActionResult> IFrame(float? gmt = 7)
     {
         var sections = (await resourceRepository.GetResourceByNameWithNone(ReferenceResourceNames.Section))
             .Where(x => !HiddenSectionConst.HiddenSections.Exists(i => i == x.ResourceId)).ToList();
         var departments = await resourceRepository.GetResourceByNameWithNone(ReferenceResourceNames.Department);
         const int defaultMinus = 60;
-        const int defaultGTM7 = 7;
-        const int defaultGMT8 = 8;
+        const float defaultGTM7 = 7;
+        const float defaultGMT8 = 8;
 
         var defaultGMT = gmt ?? defaultGTM7;
 
         var convertOffset = (defaultGMT - defaultGMT8) * defaultMinus;
 
         var getTimezoneSettings = await timezoneSettingRepository.GetTimezoneSettings();
-        if (!getTimezoneSettings.Select(x => x.Offset).Contains(convertOffset))
+        if (!getTimezoneSettings.Select(x => x.Offset).Contains((int)convertOffset))
         {
             convertOffset = (defaultGTM7 - defaultGMT8) * defaultMinus;
         }
