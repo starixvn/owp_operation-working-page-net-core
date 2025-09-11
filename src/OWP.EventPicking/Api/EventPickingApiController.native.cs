@@ -27,7 +27,7 @@ public class EventPickingApiController(IMediator mediator, Repository repository
     }
 
     [HttpPost("update-noOffer-match")]
-    public async Task UpdateMaxbetSetting(InsertOrDeleteNoOfferMatchRequest request)
+    public async Task UpdateMaxbetSetting(InsertOrUpdateNoOfferMatchRequest request)
         => await mediator.Send(request);
 
     [Route("export-misc-match")]

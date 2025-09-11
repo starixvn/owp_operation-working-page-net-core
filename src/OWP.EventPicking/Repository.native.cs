@@ -19,7 +19,7 @@ public interface Repository
 
     Task<IEnumerable<Condition>> GetTVList();
 
-    Task InsertOrDeleteNoOfferMatch(InsertOrDeleteNoOfferMatchRequest request);
+    Task InsertOrUpdateNoOfferMatch(InsertOrUpdateNoOfferMatchRequest request);
 
     Task<List<string>> GetProviderArrangement();
 
@@ -104,9 +104,9 @@ public class RepositoryImp : Repository
         return result.Select(x => new Condition { Type = x.Label, Value = x.Value });
     }
 
-    public async Task InsertOrDeleteNoOfferMatch(InsertOrDeleteNoOfferMatchRequest request)
+    public async Task InsertOrUpdateNoOfferMatch(InsertOrUpdateNoOfferMatchRequest request)
     {
-        var criteria = new InsertOrDeleteNoOfferMatchCriteria
+        var criteria = new InsertOrUpdateNoOfferMatchCriteria
         {
             MatchInfoJson = JsonConvert.SerializeObject(request.NoOfferMatch),
             ActorId = session.UserId

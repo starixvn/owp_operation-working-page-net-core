@@ -161,19 +161,19 @@ public class RepositoryUnitTests
     public async Task InsertOrDeleteNoOfferMatch_ShouldExecuteCriteriaWithSerializedData()
     {
         // Arrange
-        var request = new InsertOrDeleteNoOfferMatchRequest
+        var request = new InsertOrUpdateNoOfferMatchRequest
         {
             NoOfferMatch = new List<NoOfferMatchInfo> { new NoOfferMatchInfo { InfoSiteMatchId = 123, IsNoOffer = true } }
         };
         _session.UserId.Returns(456);
 
         // Act
-        await _repository.InsertOrDeleteNoOfferMatch(request);
+        await _repository.InsertOrUpdateNoOfferMatch(request);
 
         // Assert
         // Simplified assertion - just verify that ExecuteAsync was called with the correct type
         await _dynamicRepository.Received(1).ExecuteAsync(
-            Arg.Any<InsertOrDeleteNoOfferMatchCriteria>(), "");
+            Arg.Any<InsertOrUpdateNoOfferMatchCriteria>(), "");
     }
 
     [Fact]

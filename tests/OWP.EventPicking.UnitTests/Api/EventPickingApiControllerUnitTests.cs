@@ -78,7 +78,7 @@ public class EventPickingApiControllerUnitTests
     public async Task UpdateMaxbetSetting_ShouldSendRequestToMediator()
     {
         // Arrange
-        var request = new InsertOrDeleteNoOfferMatchRequest
+        var request = new InsertOrUpdateNoOfferMatchRequest
         {
             NoOfferMatch = new List<NoOfferMatchInfo> { new NoOfferMatchInfo { InfoSiteMatchId = 123, IsNoOffer = true } }
         };
