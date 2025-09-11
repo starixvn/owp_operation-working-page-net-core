@@ -8,25 +8,35 @@ public class QueryEmployeeWorkingShiftRequest : IRequest<IEnumerable<SyncWorking
     public string LocationCode { get; set; }
     public DateTime FromDate { get; set; }
     public DateTime ToDate { get; set; }
-    public short Timezone { get; set; }
+    public float Timezone { get; set; }
 }
 
 public class QueryEmployeeWorkingShiftHandler(
     IMapper mapper,
     WorkingShiftRepository commandRepository) : IRequestHandler<QueryEmployeeWorkingShiftRequest, IEnumerable<SyncWorkingShiftModel>>
 {
-    private const short Timezone_GMT7 = 7;
-
     public async Task<IEnumerable<SyncWorkingShiftModel>> Handle(QueryEmployeeWorkingShiftRequest request, CancellationToken cancellationToken)
     {
+        const float timezone_GMT5_5 = 5.5F;
+        const float timezone_GMT7 = 7;
         var workingShifts = await commandRepository.QueryWorkingShift(request);
         foreach (var workingShift in workingShifts)
         {
-            if (request.Timezone == Timezone_GMT7)
+            switch (request.Timezone)
             {
-                workingShift.ShiftStartTime = workingShift.ShiftStartTime?.AddHours(-1) ?? workingShift.ShiftStartTime;
-                workingShift.ShiftEndTime = workingShift.ShiftEndTime?.AddHours(-1) ?? workingShift.ShiftEndTime;
-                workingShift.LastUpdated = workingShift.LastUpdated?.AddHours(-1) ?? workingShift.LastUpdated;
+                case timezone_GMT7:
+                    workingShift.ShiftStartTime = ConvertDateTime(workingShift.ShiftStartTime, -1);
+                    workingShift.ShiftEndTime = ConvertDateTime(workingShift.ShiftEndTime, -1);
+                    workingShift.LastUpdated = ConvertDateTime(workingShift.LastUpdated, -1);
+                    break;
+                case timezone_GMT5_5:
+                    workingShift.ShiftStartTime = ConvertDateTime(workingShift.ShiftStartTime, -2.5F);
+                    workingShift.ShiftEndTime = ConvertDateTime(workingShift.ShiftEndTime, -2.5F);
+                    workingShift.LastUpdated = ConvertDateTime(workingShift.LastUpdated, -2.5F);
+                    break;
+                default:
+                    // do nothing
+                    break;
             }
 
             RecalculateShiftCode(workingShift);
@@ -56,4 +66,6 @@ public class QueryEmployeeWorkingShiftHandler(
 
         workingShift.ShiftCode = workingShift.ShiftCode.Trim();
     }
+
+    private static DateTime? ConvertDateTime(DateTime? date, float offset) => date?.AddHours(offset);
 }
