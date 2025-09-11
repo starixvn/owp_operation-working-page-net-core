@@ -24,6 +24,7 @@ public class RefResourceServiceImp(IDynamicRepository dynamicRepository) : RefRe
             new() { LocationName = "CSC", LocationCode = "CSC" },
             new() { LocationName = "CTI", LocationCode = "CTI" },
             new() { LocationName = "DBS", LocationCode = "DBS" },
+            new() { LocationName = "NTX", LocationCode = "NTX" },
             new() { LocationName = "SMS", LocationCode = "SMS" },
             new() { LocationName = "WAH HCMC", LocationCode = "WAH HCMC" },
             new() { LocationName = "WAH MAL", LocationCode = "WAH MAL" },
