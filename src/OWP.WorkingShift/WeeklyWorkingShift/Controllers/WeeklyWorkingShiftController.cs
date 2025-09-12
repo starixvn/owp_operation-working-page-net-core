@@ -76,7 +76,7 @@ public class WeeklyWorkingShiftController(
         foreach (var item in getTimezoneSettings)
         {
             // NOSONA
-            item.IsSelected = item.Offset == convertOffset;
+            item.IsSelected = Math.Abs(item.Offset - convertOffset) < 0.0001;
         }
 
         var selectedTimezoneSetting = getTimezoneSettings.FirstOrDefault(x => x.IsSelected);
