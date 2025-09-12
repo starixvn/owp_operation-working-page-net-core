@@ -1,6 +1,7 @@
 using Fanex.Data.Repository;
 using Fanex.NAP.Client;
 using Newtonsoft.Json;
+using Olympus.OWP.Log.Criteria;
 using OWP.EventPicking.Api.Criteria;
 using OWP.EventPicking.Api.Handlers;
 using OWP.EventPicking.Api.Models;
@@ -106,12 +107,19 @@ public class RepositoryImp : Repository
 
     public async Task InsertOrUpdateNoOfferMatch(InsertOrUpdateNoOfferMatchRequest request)
     {
+        var matchInfoJson = JsonConvert.SerializeObject(request.NoOfferMatch);
         var criteria = new InsertOrUpdateNoOfferMatchCriteria
         {
-            MatchInfoJson = JsonConvert.SerializeObject(request.NoOfferMatch),
+            MatchInfoJson = matchInfoJson,
             ActorId = session.UserId
         };
         await dynamicRepository.ExecuteAsync(criteria);
+        await dynamicRepository.ExecuteAsync(new OwpLogCriteria()
+        {
+            CreatedDate = DateTime.Now.ToGmt8(),
+            Action = "EventPicking-UpdateNoOfferMatch",
+            Payload = matchInfoJson
+        });
     }
 
     public async Task<List<string>> GetProviderArrangement()

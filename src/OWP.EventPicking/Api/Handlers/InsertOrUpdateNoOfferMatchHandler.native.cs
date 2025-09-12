@@ -9,16 +9,9 @@ public class InsertOrUpdateNoOfferMatchRequest : IRequest<Unit>
     public bool IsMultiSelected { get; set; } = false;
 }
 
-public class InsertOrDeleteNoOfferMatchHandler : IRequestHandler<InsertOrUpdateNoOfferMatchRequest, Unit>
+public class InsertOrDeleteNoOfferMatchHandler(Repository repository, AccessCounter accessCounter)
+    : IRequestHandler<InsertOrUpdateNoOfferMatchRequest, Unit>
 {
-    private readonly Repository repository;
-    private readonly AccessCounter accessCounter;
-    public InsertOrDeleteNoOfferMatchHandler(Repository repository, AccessCounter accessCounter)
-    {
-        this.repository = repository;
-        this.accessCounter = accessCounter;
-    }
-
     public async Task<Unit> Handle(InsertOrUpdateNoOfferMatchRequest request, CancellationToken cancellationToken)
     {
         if (request.IsMultiSelected)
