@@ -9,30 +9,15 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-public class WeeklyWorkingShiftController : Controller
+public class WeeklyWorkingShiftController(
+    RefResourceService resourceRepository,
+    Common.Services.ModelService modelService,
+    INapSession currentSession,
+    WorkingShiftTimezoneSettingRepository timezoneSettingRepository,
+    UserRepository userRepository,
+    AccessCounter accessCounter)
+    : Controller
 {
-    private readonly RefResourceService resourceRepository;
-    private readonly Common.Services.ModelService modelService;
-    private readonly INapSession currentSession;
-    private readonly WorkingShiftTimezoneSettingRepository timezoneSettingRepository;
-    private readonly UserRepository userRepository;
-    private readonly AccessCounter accessCounter;
-
-    public WeeklyWorkingShiftController(
-        RefResourceService resourceRepository,
-        Common.Services.ModelService modelService,
-        INapSession currentSession,
-        WorkingShiftTimezoneSettingRepository timezoneSettingRepository,
-        UserRepository userRepository, AccessCounter accessCounter)
-    {
-        this.modelService = modelService;
-        this.resourceRepository = resourceRepository;
-        this.currentSession = currentSession;
-        this.timezoneSettingRepository = timezoneSettingRepository;
-        this.userRepository = userRepository;
-        this.accessCounter = accessCounter;
-    }
-
     [NapAuth(FunctionKey = FunctionKeys.WorkingShiftManagement, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> Index()
     {
@@ -90,6 +75,7 @@ public class WeeklyWorkingShiftController : Controller
 
         foreach (var item in getTimezoneSettings)
         {
+            // NOSONA
             item.IsSelected = item.Offset == convertOffset;
         }
 
