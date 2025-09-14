@@ -1,16 +1,20 @@
 import dayjs from 'dayjs';
-import { filterPrematchUpdated } from '../../helper/preMatchHelper';
+import {
+  filterPrematchUpdated,
+  getLeaguesName
+} from '../../helper/preMatchHelper';
 import { getHourAndMinutes } from '../../../Shared/DateTime/dateTimeHelper';
 import { isEqual } from 'lodash';
 import { URL } from '../../const/const';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 dayjs.extend(localizedFormat);
 
-const getPrematchsHaveAssignment = shifts =>
+const getPrematchHaveAssignment = shifts =>
   shifts.filter(s => s.HDP || s.HDPTakeOver || s.OU || s.OUTakeOver);
 
 const executeBuilder = props => {
-  const { startTimeFilter, entities, startTimeOriginal, ...rest } = props;
+  const { startTimeFilter, entities, leagues, startTimeOriginal, ...rest } =
+    props;
 
   const postModel = {
     url: URL.SAVE_PREMATCH_ASSIGNMENT,
@@ -19,6 +23,7 @@ const executeBuilder = props => {
 
   let message = '';
   postModel.StartTime = getHourAndMinutes(startTimeFilter);
+  postModel.leaguesName = getLeaguesName(leagues);
   const startTimeOriginalConverted = getHourAndMinutes(startTimeOriginal);
 
   const startTimeFilterConverted = getHourAndMinutes(startTimeFilter);
@@ -55,7 +60,7 @@ const IsFilterStartTimeLowerThanOriginalStartTime = (
 
 const buildModelNightShiftSaver = (dayShift, header, filter) => {
   const { startTimeOriginal, startTimeFilter } = header;
-  const { entities, prematchIdDeleted, prematchIdUpdated } = dayShift;
+  const { entities, prematchIdDeleted, prematchIdUpdated, leagues } = dayShift;
   const { filterDate } = filter;
 
   const isFilterStartTimeLowerThanOriginalStartTime =
@@ -66,7 +71,7 @@ const buildModelNightShiftSaver = (dayShift, header, filter) => {
 
   const PrematchUpdated =
     !startTimeOriginal || isFilterStartTimeLowerThanOriginalStartTime
-      ? getPrematchsHaveAssignment(entities)
+      ? getPrematchHaveAssignment(entities)
       : filterPrematchUpdated(entities, prematchIdUpdated);
 
   const props = {
@@ -75,13 +80,10 @@ const buildModelNightShiftSaver = (dayShift, header, filter) => {
     startTimeOriginal,
     PrematchIdDeleted: prematchIdDeleted,
     PrematchUpdated,
-    Date: filterDate
+    Date: filterDate,
+    leagues
   };
   return executeBuilder(props);
 };
 
-export {
-  getPrematchsHaveAssignment,
-  executeBuilder,
-  buildModelNightShiftSaver
-};
+export { getPrematchHaveAssignment, buildModelNightShiftSaver };

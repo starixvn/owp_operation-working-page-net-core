@@ -46,6 +46,8 @@ public class PreMatchAssignmentController(
     public async Task<IActionResult> SavePrematchAssignment(UpdateLeagueAssignmentRequest request)
     {
         await mediator.Send(request);
+        await mediator.Send(new CacheLeagueNameRequest(request.LeaguesName, request.Date,
+            !request.StartTime.HasValue));
         return Ok();
     }
 
@@ -64,7 +66,6 @@ public class PreMatchAssignmentController(
     public async Task<IActionResult> QueryDayShift(QueryDayShiftPreMatchRequest request)
     {
         var result = await mediator.Send(request);
-
         return Ok(JsonConvert.SerializeObject(result));
     }
 
@@ -73,7 +74,6 @@ public class PreMatchAssignmentController(
     public async Task<IActionResult> QueryNightShift(QueryNightShiftPreMatchRequest request)
     {
         var result = await mediator.Send(request);
-
         return Ok(JsonConvert.SerializeObject(result));
     }
 
@@ -150,6 +150,7 @@ public class PreMatchAssignmentController(
     public async Task<IActionResult> SubmitAutoAssign(SubmitAutoAssignRequest request)
     {
         await mediator.Send(request);
+        await mediator.Send(new CacheLeagueNameRequest(request.LeaguesName, request.Date, true));
         await accessCounter.UpdateCounter(AccessCounterConst.DayShiftAssignment_Automatically_Assign_Trader);
         return Ok();
     }
