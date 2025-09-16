@@ -11,32 +11,15 @@ using Repository = Repositories.Repository;
 [ApiController]
 [Authorize]
 
-public class WeeklyWorkingShiftApiController : ControllerBase
+public class WeeklyWorkingShiftApiController(
+    Repository weeklyWorkingShiftRepository,
+    Common.Services.ModelService modelService,
+    ExportService exportService,
+    ImportService importService,
+    ViewLogService viewLogService,
+    INapSession currentSession)
+    : ControllerBase
 {
-    private readonly Repository weeklyWorkingShiftRepository;
-    private readonly Common.Services.ModelService modelService;
-    private readonly ImportService importService;
-    private readonly ExportService exportService;
-    private readonly INapSession currentSession;
-    private readonly ViewLogService viewLogService;
-
-    public WeeklyWorkingShiftApiController(
-        Repository weeklyWorkingShiftRepository,
-        Common.Services.ModelService modelService,
-        ExportService exportService,
-        ImportService importService,
-        ViewLogService viewLogService,
-        INapSession currentSession
-    )
-    {
-        this.weeklyWorkingShiftRepository = weeklyWorkingShiftRepository;
-        this.modelService = modelService;
-        this.exportService = exportService;
-        this.viewLogService = viewLogService;
-        this.importService = importService;
-        this.currentSession = currentSession;
-    }
-
     [Route("search")]
     [HttpPost]
     [NapAuth(FunctionKey = FunctionKeys.WorkingShiftManagement, Policy = Constant.Policy.Read)]
@@ -61,12 +44,10 @@ public class WeeklyWorkingShiftApiController : ControllerBase
     {
         model.Permission = modelService.BuildPermissionViewModel();
         model.OrderUserId = modelService.GetOrderUserId(model.Permission);
-        using (var stream = new MemoryStream())
-        {
-            await exportService.Export(stream, model);
+        using var stream = new MemoryStream();
+        await exportService.Export(stream, model);
 
-            return File(stream.ToArray(), "application/octet-stream", model.GetExportFileName());
-        }
+        return File(stream.ToArray(), "application/octet-stream", model.GetExportFileName());
     }
 
     [Route("validate")]

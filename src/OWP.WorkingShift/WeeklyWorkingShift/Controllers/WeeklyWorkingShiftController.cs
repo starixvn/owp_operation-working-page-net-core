@@ -9,30 +9,15 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-public class WeeklyWorkingShiftController : Controller
+public class WeeklyWorkingShiftController(
+    RefResourceService resourceRepository,
+    Common.Services.ModelService modelService,
+    INapSession currentSession,
+    WorkingShiftTimezoneSettingRepository timezoneSettingRepository,
+    UserRepository userRepository,
+    AccessCounter accessCounter)
+    : Controller
 {
-    private readonly RefResourceService resourceRepository;
-    private readonly Common.Services.ModelService modelService;
-    private readonly INapSession currentSession;
-    private readonly WorkingShiftTimezoneSettingRepository timezoneSettingRepository;
-    private readonly UserRepository userRepository;
-    private readonly AccessCounter accessCounter;
-
-    public WeeklyWorkingShiftController(
-        RefResourceService resourceRepository,
-        Common.Services.ModelService modelService,
-        INapSession currentSession,
-        WorkingShiftTimezoneSettingRepository timezoneSettingRepository,
-        UserRepository userRepository, AccessCounter accessCounter)
-    {
-        this.modelService = modelService;
-        this.resourceRepository = resourceRepository;
-        this.currentSession = currentSession;
-        this.timezoneSettingRepository = timezoneSettingRepository;
-        this.userRepository = userRepository;
-        this.accessCounter = accessCounter;
-    }
-
     [NapAuth(FunctionKey = FunctionKeys.WorkingShiftManagement, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> Index()
     {
@@ -69,28 +54,29 @@ public class WeeklyWorkingShiftController : Controller
 
     [AllowAnonymous]
     [HttpGet]
-    public async Task<ActionResult> IFrame(int? gmt = 7)
+    public async Task<ActionResult> IFrame(float? gmt = 7)
     {
         var sections = (await resourceRepository.GetResourceByNameWithNone(ReferenceResourceNames.Section))
             .Where(x => !HiddenSectionConst.HiddenSections.Exists(i => i == x.ResourceId)).ToList();
         var departments = await resourceRepository.GetResourceByNameWithNone(ReferenceResourceNames.Department);
         const int defaultMinus = 60;
-        const int defaultGTM7 = 7;
-        const int defaultGMT8 = 8;
+        const float defaultGTM7 = 7;
+        const float defaultGMT8 = 8;
 
         var defaultGMT = gmt ?? defaultGTM7;
 
         var convertOffset = (defaultGMT - defaultGMT8) * defaultMinus;
 
         var getTimezoneSettings = await timezoneSettingRepository.GetTimezoneSettings();
-        if (!getTimezoneSettings.Select(x => x.Offset).Contains(convertOffset))
+        if (!getTimezoneSettings.Select(x => x.Offset).Contains((int)convertOffset))
         {
             convertOffset = (defaultGTM7 - defaultGMT8) * defaultMinus;
         }
 
         foreach (var item in getTimezoneSettings)
         {
-            item.IsSelected = item.Offset == convertOffset;
+            // NOSONA
+            item.IsSelected = Math.Abs(item.Offset - convertOffset) < 0.0001;
         }
 
         var selectedTimezoneSetting = getTimezoneSettings.FirstOrDefault(x => x.IsSelected);

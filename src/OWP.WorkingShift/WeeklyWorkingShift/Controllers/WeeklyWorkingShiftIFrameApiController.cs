@@ -10,16 +10,8 @@ using System.Threading.Tasks;
 [Route("api/weekly-working-shift")]
 [ApiController]
 [Authorize]
-public class WeeklyWorkingShiftIFrameApiController : ControllerBase
+public class WeeklyWorkingShiftIFrameApiController(Repository weeklyWorkingShiftRepository) : ControllerBase
 {
-    private readonly Repository weeklyWorkingShiftRepository;
-
-    public WeeklyWorkingShiftIFrameApiController(Repository weeklyWorkingShiftRepository)
-    {
-        this.weeklyWorkingShiftRepository = weeklyWorkingShiftRepository;
-    }
-
-
     [Route("search-iframe")]
     [AllowAnonymous]
     [HttpPost]

@@ -4,27 +4,14 @@ using OWP.WorkingShift.DailyWorkingShift.ViewModels;
 namespace OWP.WorkingShift.DailyWorkingShift.Controllers;
 
 
-
-public class DailyWorkingShiftController : Controller
+public class DailyWorkingShiftController(
+    RefResourceService resourceRepository,
+    ModelService modelService,
+    INapSession currentSession,
+    UserRepository userRepository,
+    AccessCounter accessCounter)
+    : Controller
 {
-    private readonly RefResourceService resourceRepository;
-    private readonly ModelService modelService;
-    private readonly INapSession currentSession;
-    private readonly UserRepository userRepository;
-    private readonly AccessCounter accessCounter;
-
-    public DailyWorkingShiftController(RefResourceService resourceRepository,
-        ModelService modelService,
-        INapSession currentSession,
-        UserRepository userRepository, AccessCounter accessCounter)
-    {
-        this.resourceRepository = resourceRepository;
-        this.modelService = modelService;
-        this.currentSession = currentSession;
-        this.userRepository = userRepository;
-        this.accessCounter = accessCounter;
-    }
-
     [NapAuth(FunctionKey = FunctionKeys.DailyWorkingShift, Policy = Constant.Policy.Read)]
     public async Task<ActionResult> Index()
     {
@@ -47,6 +34,8 @@ public class DailyWorkingShiftController : Controller
             UserLocations = resourceRepository.GetAllLocations(),
             Username = currentSession.UserName
         };
+        await accessCounter.UpdateCounter(AccessCounterConst.DailyWorkingShift);
+
         return View(model);
     }
 }

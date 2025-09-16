@@ -8,19 +8,12 @@ namespace OWP.WorkingShift.DailyWorkingShift.Controllers;
 [Route("api/daily-working-shift")]
 [ApiController]
 [Authorize]
-public class DailyWorkingShiftApiController : ControllerBase
+public class DailyWorkingShiftApiController(
+    Repository repository,
+    ModelService modelService,
+    INapSession currentSession)
+    : ControllerBase
 {
-    private readonly Repository repository;
-    private readonly ModelService modelService;
-    private readonly INapSession currentSession;
-
-    public DailyWorkingShiftApiController(Repository repository, ModelService modelService, INapSession currentSession)
-    {
-        this.repository = repository;
-        this.modelService = modelService;
-        this.currentSession = currentSession;
-    }
-
     [Route("query")]
     [HttpPost]
     [NapAuth(FunctionKey = FunctionKeys.WorkingShiftManagement, Policy = Constant.Policy.Host)]
