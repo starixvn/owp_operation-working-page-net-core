@@ -12,26 +12,22 @@ public record CacheLeagueNameRequest(IList<string> LeagueName, DateTime RequestD
 public class CacheLeagueNameHandler(ICache cache) : CommandHandler<CacheLeagueNameRequest, Unit>
 {
 
-    public async Task<Unit> Handle(CacheLeagueNameRequest leagueNameRequest, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(CacheLeagueNameRequest request, CancellationToken cancellationToken)
     {
-        if (!leagueNameRequest.LeagueName.Any())
+        if (!request.LeagueName.Any())
         {
             return Unit.Value;
         }
 
-        var key = BuildKey(leagueNameRequest);
+        //var key = BuildKey(leagueNameRequest);
+        var key = Olympus.OWP.Cache.Utils.BuildPrematchNotificationCacheKey(request.RequestDate, request.isDay);
         var leaguesFromCache=await GetLeaguesFromCache(key);
-        var leagues = MergeLeagues(leaguesFromCache, leagueNameRequest.LeagueName);
+        var leagues = MergeLeagues(leaguesFromCache, request.LeagueName);
 
         await RemoveExistsCache(key);
         await Cache(key, leagues);
         return Unit.Value;
     }
-
-    private string BuildKey(CacheLeagueNameRequest request)
-        => request.isDay
-            ? $"{CacheConst.PREMATCH_SHIFT}-{request.RequestDate:yyyy-MM-dd}-day-shift"
-            : $"{CacheConst.PREMATCH_SHIFT}-{request.RequestDate:yyyy-MM-dd}-night-shift";
 
     private async Task<IList<string>> GetLeaguesFromCache(string key)
     {
