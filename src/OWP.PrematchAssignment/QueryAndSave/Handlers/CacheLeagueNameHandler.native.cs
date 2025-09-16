@@ -23,8 +23,6 @@ public class CacheLeagueNameHandler(ICache cache) : CommandHandler<CacheLeagueNa
         var key = Olympus.OWP.Cache.Utils.BuildPrematchNotificationCacheKey(request.RequestDate, request.isDay);
         var leaguesFromCache=await GetLeaguesFromCache(key);
         var leagues = MergeLeagues(leaguesFromCache, request.LeagueName);
-
-        await RemoveExistsCache(key);
         await Cache(key, leagues);
         return Unit.Value;
     }
@@ -41,16 +39,9 @@ public class CacheLeagueNameHandler(ICache cache) : CommandHandler<CacheLeagueNa
 
     private async Task Cache(string key, IList<string> leagues)
     {
-        var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(CacheConst.CACHE_EXPIRED_IN_3_DAYS));
+        var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromDays(CacheConst.CACHE_EXPIRED_IN_3_DAYS));
         var assignmentSnapshotInJson = JsonConvert.SerializeObject(leagues);
         await cache.SetAsync(key, assignmentSnapshotInJson, cachePolicy);
     }
 
-    private async Task RemoveExistsCache(string key)
-    {
-        if (await cache.ContainAsync(key))
-        {
-            await cache.RemoveAsync(key);
-        }
-    }
 }
