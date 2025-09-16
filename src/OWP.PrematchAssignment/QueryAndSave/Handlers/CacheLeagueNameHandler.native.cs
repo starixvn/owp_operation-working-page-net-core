@@ -19,7 +19,6 @@ public class CacheLeagueNameHandler(ICache cache) : CommandHandler<CacheLeagueNa
             return Unit.Value;
         }
 
-        //var key = BuildKey(leagueNameRequest);
         var key = Olympus.OWP.Cache.Utils.BuildPrematchNotificationCacheKey(request.RequestDate, request.isDay);
         var leaguesFromCache=await GetLeaguesFromCache(key);
         var leagues = MergeLeagues(leaguesFromCache, request.LeagueName);
