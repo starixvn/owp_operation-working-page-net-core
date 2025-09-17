@@ -1,6 +1,7 @@
 using Fanex.Data.Repository;
 using Fanex.NAP.Client;
 using Newtonsoft.Json;
+using Olympus.OWP.Log.Criteria;
 using OWP.EventPicking.Api.Criteria;
 using OWP.EventPicking.Api.Handlers;
 using OWP.EventPicking.Api.Models;
@@ -19,7 +20,7 @@ public interface Repository
 
     Task<IEnumerable<Condition>> GetTVList();
 
-    Task InsertOrDeleteNoOfferMatch(InsertOrDeleteNoOfferMatchRequest request);
+    Task InsertOrUpdateNoOfferMatch(InsertOrUpdateNoOfferMatchRequest request);
 
     Task<List<string>> GetProviderArrangement();
 
@@ -104,14 +105,21 @@ public class RepositoryImp : Repository
         return result.Select(x => new Condition { Type = x.Label, Value = x.Value });
     }
 
-    public async Task InsertOrDeleteNoOfferMatch(InsertOrDeleteNoOfferMatchRequest request)
+    public async Task InsertOrUpdateNoOfferMatch(InsertOrUpdateNoOfferMatchRequest request)
     {
-        var criteria = new InsertOrDeleteNoOfferMatchCriteria
+        var matchInfoJson = JsonConvert.SerializeObject(request.NoOfferMatch);
+        var criteria = new InsertOrUpdateNoOfferMatchCriteria
         {
-            MatchInfoJson = JsonConvert.SerializeObject(request.NoOfferMatch),
+            MatchInfoJson = matchInfoJson,
             ActorId = session.UserId
         };
         await dynamicRepository.ExecuteAsync(criteria);
+        await dynamicRepository.ExecuteAsync(new OwpLogCriteria()
+        {
+            CreatedDate = DateTime.Now.ToGmt8(),
+            Action = "EventPicking-UpdateNoOfferMatch",
+            Payload = matchInfoJson
+        });
     }
 
     public async Task<List<string>> GetProviderArrangement()

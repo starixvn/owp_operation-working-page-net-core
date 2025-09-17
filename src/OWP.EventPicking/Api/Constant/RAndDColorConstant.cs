@@ -12,8 +12,6 @@ public static class RAndDColorConstant
     private const string UPDATE_COLOR = "#B1D9BE";
     private const string CANCEL_COLOR = "#AB383B";
 
-    
-
     public static readonly ImmutableDictionary<int, (string, string)> MAP_R_AND_D_COLOR = new Dictionary<int, (string, string)>
     {
         {UpdateTypeConstant.NEW_MATCH, (NEW_COLOR, WHITE)},
@@ -76,5 +74,6 @@ public static class RAndDColorConstant
         {UpdateTypeConstant.UPDATE_AWAY_BAD_RANKING, (UPDATE_COLOR, GREEN)},
         {UpdateTypeConstant.UPDATE_HOME_RELEGATION, (UPDATE_COLOR, GREEN)},
         {UpdateTypeConstant.UPDATE_AWAY_RELEGATION, (UPDATE_COLOR, GREEN)},
+        {UpdateTypeConstant.UPDATE_MATCH_OFFER, (UPDATE_COLOR, GREEN)},
     }.ToImmutableDictionary();
 }

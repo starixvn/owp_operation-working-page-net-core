@@ -22,7 +22,7 @@ public class InsertOrDeleteNoOfferMatchHandlerUnitTest
 
         var handler = new InsertOrDeleteNoOfferMatchHandler(repository, accessCounter);
 
-        var request = new InsertOrDeleteNoOfferMatchRequest
+        var request = new InsertOrUpdateNoOfferMatchRequest
         {
             NoOfferMatch = new List<NoOfferMatchInfo>
             {
@@ -35,7 +35,7 @@ public class InsertOrDeleteNoOfferMatchHandlerUnitTest
         var result = await handler.Handle(request, CancellationToken.None);
 
         // Assert
-        await repository.Received(1).InsertOrDeleteNoOfferMatch(request);
+        await repository.Received(1).InsertOrUpdateNoOfferMatch(request);
         await accessCounter.DidNotReceive().UpdateCounter(Arg.Any<string>());
 
         Assert.Equal(Unit.Value, result);
@@ -50,7 +50,7 @@ public class InsertOrDeleteNoOfferMatchHandlerUnitTest
 
         var handler = new InsertOrDeleteNoOfferMatchHandler(repository, accessCounter);
 
-        var request = new InsertOrDeleteNoOfferMatchRequest
+        var request = new InsertOrUpdateNoOfferMatchRequest
         {
             NoOfferMatch = new List<NoOfferMatchInfo>
             {
@@ -65,7 +65,7 @@ public class InsertOrDeleteNoOfferMatchHandlerUnitTest
         var result = await handler.Handle(request, CancellationToken.None);
 
         // Assert
-        await repository.Received(1).InsertOrDeleteNoOfferMatch(request);
+        await repository.Received(1).InsertOrUpdateNoOfferMatch(request);
         await accessCounter.Received(1).UpdateCounter("EventPicking Multiple NoOffer");
 
         Assert.Equal(Unit.Value, result);

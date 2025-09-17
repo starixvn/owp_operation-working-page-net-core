@@ -103,7 +103,7 @@ public class CriteriaUnitTests
     public void InsertOrDeleteNoOfferMatchCriteria_ShouldSetAndGetProperties()
     {
         // Arrange
-        var criteria = new InsertOrDeleteNoOfferMatchCriteria();
+        var criteria = new InsertOrUpdateNoOfferMatchCriteria();
         var testJson = "{\"matchId\":123,\"reason\":\"test\"}";
         var testActorId = 456;
 
@@ -120,7 +120,7 @@ public class CriteriaUnitTests
     public void InsertOrDeleteNoOfferMatchCriteria_ShouldImplementINonQueryCommand()
     {
         // Arrange
-        var criteria = new InsertOrDeleteNoOfferMatchCriteria();
+        var criteria = new InsertOrUpdateNoOfferMatchCriteria();
 
         // Act & Assert
         Assert.IsAssignableFrom<INonQueryCommand>(criteria);

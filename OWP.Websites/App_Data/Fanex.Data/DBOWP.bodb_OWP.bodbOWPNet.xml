@@ -334,7 +334,7 @@
         <Setting Key="OWP_EventPicking_GetInfoSiteChildMatch" SpName="OWP_EventPicking_GetInfoSiteChildMatch" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_EventPicking_GetInfoSiteMatch" SpName="OWP_EventPicking_GetInfoSiteMatch" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_EventPicking_GetMovedEventDateInfoSiteMatch" SpName="OWP_EventPicking_GetMovedEventDateInfoSiteMatch" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_EventPicking_InsertOrDeleteNoOfferMatch" SpName="OWP_EventPicking_InsertOrDeleteNoOfferMatch" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
+        <Setting Key="OWP_EventPicking_InsertOrUpdateNoOfferMatch" SpName="OWP_EventPicking_InsertOrUpdateNoOfferMatch" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
         <Setting Key="OWP_EventPicking_GetRandDInfo" SpName="OWP_EventPicking_GetRandDInfo" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
         <Setting Key="OWP_EventPicking_GetUpdateType" SpName="OWP_EventPicking_GetUpdateType" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
         <Setting Key="OWP_EventPicking_GetLogHistory" SpName="OWP_EventPicking_GetLogHistory" DbName="DBOWP.bodb_OWP.wsv_owp"></Setting>
