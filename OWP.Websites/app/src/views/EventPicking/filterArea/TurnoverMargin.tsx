@@ -1,50 +1,54 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Option } from '../../Shared/MultipleSelection/type';
 import { TurnoverMarginSelection } from '../types/filterType';
 import useStableDispatch from '../../Shared/customHook/useStableDispatch';
 import { setPeriod } from './slice/filterSlice';
 import { SELECT_TURNOVER_OPTIONS } from './const';
-import { MultiSelect } from 'react-multi-select-component';
+import Select from 'react-select';
+
 
 const TurnoverMargin = () => {
   const dispatch = useStableDispatch();
-  const [selected, setSelected] = useState<Option[]>([
-    SELECT_TURNOVER_OPTIONS[0]
-  ]);
+  const [selected, setSelected] = useState<Option | null>(
+    SELECT_TURNOVER_OPTIONS[1]
+  );
 
-  const handleChange = (value: TurnoverMarginSelection[]) => {
-    const period = value.reduce(
-      (sl, item) => ({
-        ...sl,
-        [item.key]: {
-          fromDate: item.fromDate,
-          toDate: item.toDate
-        }
-      }),
-      {}
-    );
-
+  useEffect(() => {
+    const defaultOption = SELECT_TURNOVER_OPTIONS[1] as TurnoverMarginSelection;
+    const period = {
+      [defaultOption.key]: {
+        fromDate: defaultOption.fromDate,
+        toDate: defaultOption.toDate
+      }
+    };
     dispatch(setPeriod(period));
-    setSelected(value);
+  }, []);
+
+  const handleChange = (selectedOption: Option | null) => {
+    if (selectedOption) {
+      const value = selectedOption as TurnoverMarginSelection;
+      const period = {
+        [value.key]: {
+          fromDate: value.fromDate,
+          toDate: value.toDate
+        }
+      };
+
+      dispatch(setPeriod(period));
+      setSelected(selectedOption);
+    }
   };
 
   return (
     <div className='multi-select-dropdown'>
       <div className={`Turnover__Margin--Period`}>
         <div className='label'>Turnover & Margin Period</div>
-        <MultiSelect
-          onChange={handleChange}
+        <Select
           value={selected}
+          className='basic-multi-select'
+          classNamePrefix='select'
           options={SELECT_TURNOVER_OPTIONS}
-          ClearSelectedIcon={null}
-          className='multi-select'
-          disableSearch
-          hasSelectAll
-          labelledBy='Select...'
-          overrideStrings={{
-            selectAll: '-- Select All --',
-            allItemsAreSelected: 'All'
-          }}
+          onChange={handleChange}
         />
       </div>
     </div>
