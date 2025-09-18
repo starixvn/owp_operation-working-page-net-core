@@ -10,12 +10,26 @@ const propTypes = {
 
 const LSTNote = props => {
   const { rowIndex, dataSource } = props;
+  const { lstNote } = dataSource[rowIndex];
+
+  const renderLstNote = () =>
+    lstNote && (
+      <span>
+        <strong>LST Note: </strong>
+        {lstNote}
+      </span>
+    );
   return (
-    <div className='league-cell'>
-      <p>
-        <span className='league-name'>test</span>
-      </p>
-    </div>
+    <>
+      <div className='remark-cell' id={`lstNote${rowIndex}`}>
+        {renderLstNote()}
+      </div>
+      <UncontrolledTooltip
+        className='tooltip-remark'
+        target={`lstNote${rowIndex}`}>
+        {renderLstNote()}
+      </UncontrolledTooltip>
+    </>
   );
 };
 
