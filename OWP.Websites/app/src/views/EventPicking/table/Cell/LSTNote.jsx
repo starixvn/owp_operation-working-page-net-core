@@ -15,7 +15,6 @@ const LSTNote = props => {
   const renderLstNote = () =>
     lstNote && (
       <span>
-        <strong>LST Note: </strong>
         {lstNote}
       </span>
     );

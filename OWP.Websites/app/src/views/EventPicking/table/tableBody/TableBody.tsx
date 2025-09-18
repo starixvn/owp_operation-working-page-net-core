@@ -114,7 +114,7 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
                         <td rowSpan={rowSpan}>
                             <IPTvStreamingCell dataSource={data} rowIndex={i} />
                         </td>
-                        <td rowSpan={rowSpan} className={className}>
+                        <td rowSpan={rowSpan} >
                             <LSTNote dataSource={data} rowIndex={i} />
                         </td>
 
