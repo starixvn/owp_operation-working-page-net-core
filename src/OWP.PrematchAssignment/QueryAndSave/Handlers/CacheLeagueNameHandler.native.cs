@@ -38,8 +38,10 @@ public class CacheLeagueNameHandler(ICache cache, INapSession session, Repositor
 
     private async Task<CacheInfo> GetCacheInfo(string key)
     {
-        var cacheResult = await cache.TryGetAsync<CacheInfo>(key);
-        return cacheResult.Item2 ?? new CacheInfo();
+        var cacheResult = await cache.TryGetAsync<string>(key);
+        return cacheResult.found
+            ? JsonConvert.DeserializeObject<CacheInfo>(cacheResult.value)
+            : new CacheInfo();
     }
 
     private static IList<string> MergeLeagues(
