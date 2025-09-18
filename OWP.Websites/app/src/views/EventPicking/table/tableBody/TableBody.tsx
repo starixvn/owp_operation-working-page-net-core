@@ -117,20 +117,7 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
                         <td rowSpan={rowSpan} className={className}>
                             <LSTNote dataSource={data} rowIndex={i} />
                         </td>
-                        {HasRead && (
-                            <>
-                                <TurnOverCell
-                                    value={row.turnoverPeriod[0]?.valueDisplay}
-                                    color={row.turnoverPeriod[0]?.color}
-                                    name={row.turnoverPeriod[0]?.title}
-                                />
 
-                                <MarginCell
-                                    value={row.marginPeriod[0]?.valueDisplay}
-                                    color={row.marginPeriod[0]?.color}
-                                />
-                            </>
-                        )}
                         <td rowSpan={rowSpan}>
                             <ProviderCell dataSource={data} rowIndex={i} />
                         </td>
@@ -149,6 +136,20 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
                         <td rowSpan={rowSpan}>
                             <ActionCell dataSource={data} rowIndex={i} />
                         </td>
+                        {HasRead && (
+                            <>
+                                <TurnOverCell
+                                    value={row.turnoverPeriod[0]?.valueDisplay}
+                                    color={row.turnoverPeriod[0]?.color}
+                                    name={row.turnoverPeriod[0]?.title}
+                                />
+
+                                <MarginCell
+                                    value={row.marginPeriod[0]?.valueDisplay}
+                                    color={row.marginPeriod[0]?.color}
+                                />
+                            </>
+                        )}
                     </tr>
                     {rowSpan > 1 && buildTurnoverMarginRow()}
                 </Fragment>

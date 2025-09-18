@@ -171,19 +171,6 @@
       "columnKey": "lstNote"
     },
     {
-      "headerName": "Turnover",
-      "size": 6,
-      "columnKey": "turnoverPeriod",
-      "isOrder": true,
-      "colSpan": 2
-    },
-    {
-      "headerName": "Margin",
-      "size": 6,
-      "columnKey": "marginPeriod",
-      "isOrder": true
-    },
-    {
       "headerName": "Provider",
       "size": 6,
       "isFilter": true,
@@ -218,6 +205,19 @@
       "headerName": "Action",
       "size": 5,
       "columnKey": "Action"
+    },
+    {
+      "headerName": "Turnover",
+      "size": 6,
+      "columnKey": "turnoverPeriod",
+      "isOrder": true,
+      "colSpan": 2
+    },
+    {
+      "headerName": "Margin",
+      "size": 6,
+      "columnKey": "marginPeriod",
+      "isOrder": true
     }
   ],
   "itemRowHeight": 100,
