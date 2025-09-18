@@ -1,0 +1,8 @@
+﻿namespace OWP.PrematchAssignment.QueryAndSave.Models;
+public class CacheInfo
+{
+    public string Actor { get; set; }
+
+    public IList<string> Leagues { get; set; }
+
+}
