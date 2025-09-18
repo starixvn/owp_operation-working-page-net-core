@@ -86,6 +86,11 @@ const EventPickingTableSlice = createSlice({
                 selected: [],
                 options: []
             },
+            lstNote: {
+                isFilter: false,
+                selected: [],
+                options: []
+            },
             rAndDInfo: {
                 isFilter: false,
                 selected: [],
@@ -158,6 +163,7 @@ const EventPickingTableSlice = createSlice({
             state.multipleFilter.spreadOu.options = options.spreadOu;
             state.multipleFilter.noOfHDP.options = options.noOfHDP;
             state.multipleFilter.rAndDInfo.options = options.rAndDInfo;
+            state.multipleFilter.lstNote.options = options.lstNote;
 
             state.isConfirmAll = state.entities?.every(x => x.isCheck);
             state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
@@ -201,6 +207,7 @@ const EventPickingTableSlice = createSlice({
             state.multipleFilter.spreadHdp.options = options.spreadHdp;
             state.multipleFilter.spreadOu.options = options.spreadOu;
             state.multipleFilter.noOfHDP.options = options.noOfHDP;
+            state.multipleFilter.lstNote.options = options.lstNote;
             state.multipleFilter.rAndDInfo.options = options.rAndDInfo;
             state.isConfirmAll = state.entities?.every(x => x.isCheck);
             state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);

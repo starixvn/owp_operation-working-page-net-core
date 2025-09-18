@@ -6,7 +6,8 @@
     "SPREAD_HDP": "spreadHdp",
     "SPREAD_OU": "spreadOu",
     "NO.OF_HDP": "noOfHDP",
-    "RAndD": "rAndDInfo"
+    "RAndD": "rAndDInfo",
+    "LST_NOTE": "lstNote"
   },
   "TABLE_HEADER": [
     {
@@ -68,7 +69,7 @@
     {
       "headerName": "LST Note",
       "size": 8,
-      "isFilter": true,
+      "isFilterMultiple": true,
       "columnKey": "lstNote"
     },
     {
@@ -167,7 +168,7 @@
     {
       "headerName": "LST Note",
       "size": 8,
-      "isFilter": true,
+      "isFilterMultiple": true,
       "columnKey": "lstNote"
     },
     {
