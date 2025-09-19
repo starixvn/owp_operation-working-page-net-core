@@ -401,11 +401,11 @@ const executeFilterTable = (
                 props.entities,
                 props.filterInfo
             ),
-        // (props: TMultipleFilterPipe) =>
-        //     filterByMarginPeriod(
-        //         props.entities,
-        //         props.filterInfo
-        //     ),
+        (props: TMultipleFilterPipe) =>
+            filterByMarginPeriod(
+                props.entities,
+                props.filterInfo
+            ),
         (props: TMultipleFilterPipe) =>
             multipleFilterCommon(
                 props.entities,

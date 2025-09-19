@@ -220,6 +220,7 @@
     {
       "headerName": "Margin",
       "size": 6,
+      "isFilterMultiple": true,
       "columnKey": "marginPeriod",
       "isOrder": true
     }
