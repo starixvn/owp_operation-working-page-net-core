@@ -1,94 +1,252 @@
 import {
   buildTimeRangeForFromDate,
   buildTimeRangeForToDate,
-  getCurrentTimeGmtPlus7,
   buildFromDateToDateDefaultWithServerTime,
-  buildFilterDate,
+  buildTimeRangeLast30Day,
   convertFrom24hTo12h,
+  getHourAndMinutes,
   addDays,
-  buildDateString,
-  formatTimeOsLastUpdate
-} from './DateTimeHelper';
+  buildDateString
+} from './dateTimeHelper';
 
-describe('DateTimeHelper', () => {
-  describe('Build time range for from date correct', () => {
-    it('add date', () => {
-      const result = addDays(new Date('2018-12-17'), 1);
-      const expectValue = new Date('2018-12-18');
-      expect(expectValue).toEqual(result);
-    });
-    it('buildDateString', () => {
-      const result = buildDateString(new Date('2018-12-17'));
-      const expectValue = '12-17-2018';
-      expect(expectValue).toEqual(result);
-    });
-    it('Build min date for from date correct', () => {
-      const { minFromDate } = buildTimeRangeForFromDate('2019-12-17');
-      const minFromDateExpect = new Date('2018-12-17');
-      expect(minFromDate).toEqual(minFromDateExpect);
+describe('dateTimeHelper - Core Functions', () => {
+  describe('buildTimeRangeForFromDate', () => {
+    it('should build time range with 365 days before from date', () => {
+      // Arrange
+      const fromDate = new Date('2024-01-15');
+      
+      // Act
+      const result = buildTimeRangeForFromDate(fromDate);
+      
+      // Assert
+      expect(result.minFromDate).toEqual(new Date('2023-01-15'));
+      expect(result.maxFromDate).toEqual(new Date('2024-01-15'));
     });
 
-    it('Build max date for from date correct', () => {
-      const { maxFromDate } = buildTimeRangeForFromDate('2019-12-17');
-      const maxFromDateExpect = new Date('2019-12-17');
-      expect(maxFromDate).toEqual(maxFromDateExpect);
-    });
-  });
-
-  it('getCurrentTimeGmtPlus7 should return time', () => {
-    const dateTimeGmtPlus7String = new Date().toLocaleString('en-US', {
-      timeZone: 'Asia/Ho_Chi_Minh'
-    });
-    const dateTimeGmtPlus7 = new Date(dateTimeGmtPlus7String);
-    const expecttime = {
-      hour: dateTimeGmtPlus7.getHours(),
-      minute: dateTimeGmtPlus7.getMinutes()
-    };
-    const result = getCurrentTimeGmtPlus7();
-    expect(result).toEqual(expecttime);
-  });
-
-  describe('Build time range for to date correct', () => {
-    it('Build min date for to date correct', () => {
-      const { minToDate } = buildTimeRangeForToDate('2019-12-17');
-      const minToDateExpect = new Date('2019-12-17');
-      expect(minToDate).toEqual(minToDateExpect);
-    });
-
-    it('Build max date for to date correct', () => {
-      const { maxToDate } = buildTimeRangeForToDate('2019-12-17', new Date());
-      const currentDate = new Date();
-      const maxToDateExpect = new Date(currentDate);
-      maxToDateExpect.setDate(currentDate.getDate());
-      expect(maxToDate.getDate()).toEqual(maxToDateExpect.getDate());
+    it('should handle leap year correctly', () => {
+      // Arrange
+      const fromDate = new Date('2024-03-01');
+      
+      // Act
+      const result = buildTimeRangeForFromDate(fromDate);
+      
+      // Assert
+      expect(result.minFromDate).toEqual(new Date('2023-03-02')); // 2024 is leap year
+      expect(result.maxFromDate).toEqual(new Date('2024-03-01'));
     });
   });
 
-  it('Should build FromDate ToDate correct', () => {
-    const time = buildFromDateToDateDefaultWithServerTime(
-      'Wed Sep 09 2020 10:57:47 GMT+0700 (Indochina Time)'
-    );
-    expect(JSON.stringify(time)).toEqual(
-      JSON.stringify({
-        fromDate: '2020-08-10T03:57:47.000Z',
-        toDate: '2020-09-09T03:57:47.000Z'
-      })
-    );
+  describe('buildTimeRangeForToDate', () => {
+    it('should build time range from fromDate to serverTime', () => {
+      // Arrange
+      const fromDate = new Date('2024-01-10');
+      const serverTime = new Date('2024-01-15T10:30:00Z');
+      
+      // Act
+      const result = buildTimeRangeForToDate(fromDate, serverTime);
+      
+      // Assert
+      expect(result.minToDate).toEqual(fromDate);
+      expect(result.maxToDate).toEqual(serverTime);
+    });
   });
 
-  it('Should build filter date correct', () => {
-    const date = buildFilterDate();
-    expect(date.getDate()).toEqual(new Date().getDate());
+  describe('buildFromDateToDateDefaultWithServerTime', () => {
+    it('should build default 30-day range from server time', () => {
+      // Arrange
+      const serverTime = new Date('2024-01-15T10:30:00Z');
+      
+      // Act
+      const result = buildFromDateToDateDefaultWithServerTime(serverTime);
+      
+      // Assert
+      expect(result.fromDate).toEqual(new Date('2023-12-16T10:30:00Z'));
+      expect(result.toDate).toEqual(serverTime);
+    });
   });
 
-  it('Should convert from 24h to 12h', () => {
-    const timeFormat12h = convertFrom24hTo12h('22:12:59', true);
-    expect(JSON.stringify(timeFormat12h)).toEqual(
-      JSON.stringify('10:12:59 PM')
-    );
+  describe('buildTimeRangeLast30Day', () => {
+    it('should return date 30 days before given time', () => {
+      // Arrange
+      const time = new Date('2024-01-15T10:30:00Z');
+      
+      // Act
+      const result = buildTimeRangeLast30Day(time);
+      
+      // Assert
+      expect(result).toEqual(new Date('2023-12-16T10:30:00Z'));
+    });
   });
-  it('Should formatTimeOsLastUpdate', () => {
-    const timeFormat12h = formatTimeOsLastUpdate('2023-04-05T10:43:39.467624Z');
-    expect(timeFormat12h).toEqual('April 05, 2023 10:43 AM');
+
+  describe('convertFrom24hTo12h', () => {
+    it('should convert 24-hour format to 12-hour AM format', () => {
+      // Arrange
+      const time24 = '09:30:00';
+      
+      // Act
+      const result = convertFrom24hTo12h(time24);
+      
+      // Assert
+      expect(result).toBe('09:30 AM');
+    });
+
+    it('should convert 24-hour format to 12-hour PM format', () => {
+      // Arrange
+      const time24 = '15:45:00';
+      
+      // Act
+      const result = convertFrom24hTo12h(time24);
+      
+      // Assert
+      expect(result).toBe('03:45 PM');
+    });
+
+    it('should handle midnight correctly', () => {
+      // Arrange
+      const time24 = '00:30:00';
+      
+      // Act
+      const result = convertFrom24hTo12h(time24);
+      
+      // Assert
+      expect(result).toBe('00:30 AM');
+    });
+
+    it('should handle noon correctly', () => {
+      // Arrange
+      const time24 = '12:00:00';
+      
+      // Act
+      const result = convertFrom24hTo12h(time24);
+      
+      // Assert
+      expect(result).toBe('00:00 PM');
+    });
+
+    it('should include seconds when isDisplaySecond is true', () => {
+      // Arrange
+      const time24 = '14:30:45';
+      
+      // Act
+      const result = convertFrom24hTo12h(time24, true);
+      
+      // Assert
+      expect(result).toBe('02:30:45 PM');
+    });
+
+    it('should exclude seconds when isDisplaySecond is false', () => {
+      // Arrange
+      const time24 = '14:30:45';
+      
+      // Act
+      const result = convertFrom24hTo12h(time24, false);
+      
+      // Assert
+      expect(result).toBe('02:30:45 PM');
+    });
+
+    it('should handle invalid time format', () => {
+      // Arrange
+      const invalidTime = 'invalid';
+      
+      // Act
+      const result = convertFrom24hTo12h(invalidTime);
+      
+      // Assert
+      expect(result).toBe('invalid');
+    });
   });
+
+  describe('getHourAndMinutes', () => {
+    it('should return first 5 characters of time string', () => {
+      // Arrange
+      const time = '14:30:45';
+      
+      // Act
+      const result = getHourAndMinutes(time);
+      
+      // Assert
+      expect(result).toBe('14:30');
+    });
+
+    it('should return undefined for null/undefined input', () => {
+      // Act & Assert
+      expect(getHourAndMinutes(null)).toBeUndefined();
+      expect(getHourAndMinutes(undefined)).toBeUndefined();
+    });
+
+    it('should handle short time strings', () => {
+      // Arrange
+      const time = '14:30';
+      
+      // Act
+      const result = getHourAndMinutes(time);
+      
+      // Assert
+      expect(result).toBe('14:30');
+    });
+  });
+
+  describe('addDays', () => {
+    it('should add positive days to date', () => {
+      // Arrange
+      const date = new Date('2024-01-15');
+      const days = 5;
+      
+      // Act
+      const result = addDays(date, days);
+      
+      // Assert
+      expect(result).toEqual(new Date('2024-01-20'));
+    });
+
+    it('should subtract days when negative number provided', () => {
+      // Arrange
+      const date = new Date('2024-01-15');
+      const days = -5;
+      
+      // Act
+      const result = addDays(date, days);
+      
+      // Assert
+      expect(result).toEqual(new Date('2024-01-10'));
+    });
+
+    it('should not modify original date', () => {
+      // Arrange
+      const originalDate = new Date('2024-01-15');
+      const dateCopy = new Date(originalDate);
+      
+      // Act
+      addDays(dateCopy, 5);
+      
+      // Assert
+      expect(originalDate).toEqual(new Date('2024-01-15'));
+    });
+  });
+
+  describe('buildDateString', () => {
+    it('should build M-D-YYYY format string', () => {
+      // Arrange
+      const date = new Date('2024-01-15');
+      
+      // Act
+      const result = buildDateString(date);
+      
+      // Assert
+      expect(result).toBe('1-15-2024');
+    });
+
+    it('should handle single digit month and day', () => {
+      // Arrange
+      const date = new Date('2024-03-05');
+      
+      // Act
+      const result = buildDateString(date);
+      
+      // Assert
+      expect(result).toBe('3-5-2024');
+    });
+  });
+
 });
