@@ -95,6 +95,16 @@ const EventPickingTableSlice = createSlice({
                 isFilter: false,
                 selected: [],
                 options: []
+            },
+            turnoverPeriod: {
+                isFilter: false,
+                selected: [],
+                options: []
+            },
+            marginPeriod: {
+                isFilter: false,
+                selected: [],
+                options: []
             }
         },
         order: {
@@ -201,7 +211,7 @@ const EventPickingTableSlice = createSlice({
                 state.entities,
                 state.rAndDInfoFilterOriginal.options
             );
-
+            
             state.multipleFilter.time.options = options.time;
             state.multipleFilter.maxbetHdp.options = options.maxbetHdp;
             state.multipleFilter.spreadHdp.options = options.spreadHdp;
@@ -209,8 +219,10 @@ const EventPickingTableSlice = createSlice({
             state.multipleFilter.noOfHDP.options = options.noOfHDP;
             state.multipleFilter.lstNote.options = options.lstNote;
             state.multipleFilter.rAndDInfo.options = options.rAndDInfo;
+
             state.isConfirmAll = state.entities?.every(x => x.isCheck);
             state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
+          
         },
         setPreviousNoOfferRow: (state, action) => {
             state.previousNoOfferIndex = action.payload;

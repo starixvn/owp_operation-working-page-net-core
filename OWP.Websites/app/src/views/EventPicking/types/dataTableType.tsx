@@ -94,6 +94,8 @@ type TColumnKey =
     | 'noOfHDP'
     | 'rAndDInfo'
     | 'lstNote'
+    | 'turnoverPeriod'
+    | 'marginPeriod'
     ;
 type TOrderKey = '1m' | '3m' | '6m' | '12m';
 type TOrderDirection = 'asc' | 'desc';

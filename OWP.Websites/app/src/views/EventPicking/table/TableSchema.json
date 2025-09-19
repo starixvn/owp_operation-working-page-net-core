@@ -7,7 +7,9 @@
     "SPREAD_OU": "spreadOu",
     "NO.OF_HDP": "noOfHDP",
     "RAndD": "rAndDInfo",
-    "LST_NOTE": "lstNote"
+    "LST_NOTE": "lstNote",
+    "TURNOVER_PERIOD": "turnoverPeriod",
+    "MARGIN_PERIOD": "marginPeriod"
   },
   "TABLE_HEADER": [
     {
@@ -210,6 +212,7 @@
     {
       "headerName": "Turnover",
       "size": 6,
+      "isFilterMultiple": true,
       "columnKey": "turnoverPeriod",
       "isOrder": true,
       "colSpan": 2
