@@ -307,7 +307,7 @@ const filterByTurnoverPeriod = (
     filterInfo: TMultipleFilter
 ) => {
     const selectedValue = filterInfo.turnoverPeriod.selected.map(s => s.value);
-    if (!selectedValue || selectedValue.length === 0) {
+    if (!selectedValue) {
         return {
             filterInfo,
             entities
@@ -329,7 +329,7 @@ const filterByMarginPeriod = (
 ) => {
     const selectedValue = filterInfo.marginPeriod.selected.map(s => s.value);
     
-    if (!selectedValue || selectedValue.length === 0) {
+    if (!selectedValue) {
         return {
             filterInfo,
             entities
