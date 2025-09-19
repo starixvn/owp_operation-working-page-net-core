@@ -534,6 +534,18 @@
                 }
             }
         }
+        &:nth-child(16),
+        &:nth-child(18) {
+            .filter-popup {
+                right: 1px !important;
+                left: auto !important;
+
+                &:before {
+                    right: 1px !important;
+                    left: auto !important;
+                }
+            }
+        }
     }
 
     .no-cell {

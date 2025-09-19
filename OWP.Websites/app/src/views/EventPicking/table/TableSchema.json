@@ -205,11 +205,6 @@
       "columnKey": "Checked"
     },
     {
-      "headerName": "Action",
-      "size": 5,
-      "columnKey": "Action"
-    },
-    {
       "headerName": "Turnover",
       "size": 6,
       "isFilterMultiple": true,
@@ -223,6 +218,11 @@
       "isFilterMultiple": true,
       "columnKey": "marginPeriod",
       "isOrder": true
+    },
+    {
+      "headerName": "Action",
+      "size": 2,
+      "columnKey": "Action"
     }
   ],
   "itemRowHeight": 100,

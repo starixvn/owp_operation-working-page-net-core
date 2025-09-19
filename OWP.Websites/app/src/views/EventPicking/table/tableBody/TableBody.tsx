@@ -133,9 +133,7 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
                         <td rowSpan={rowSpan}>
                             <CheckedByLstCell dataSource={data} rowIndex={i} />
                         </td>
-                        <td rowSpan={rowSpan}>
-                            <ActionCell dataSource={data} rowIndex={i} />
-                        </td>
+                       
                         {HasRead && (
                             <>
                                 <TurnOverCell
@@ -150,6 +148,9 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
                                 />
                             </>
                         )}
+                         <td rowSpan={rowSpan}>
+                            <ActionCell dataSource={data} rowIndex={i} />
+                        </td>
                     </tr>
                     {rowSpan > 1 && buildTurnoverMarginRow()}
                 </Fragment>
