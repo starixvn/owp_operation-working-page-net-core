@@ -57,6 +57,7 @@ public static class Constant
     public const int WEB2_COL_INDEX = 53;
     public const int WEB3_COL_INDEX = 54;
     public const int WEB4_COL_INDEX = 55;
+    public const int MARGIN_COL_INDEX = 76;
 
 
     public const int START_ROW = 2;

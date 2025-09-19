@@ -1,4 +1,5 @@
 using System.Text;
+using OfficeOpenXml.Style;
 using Olympus.OWP.Constants;
 using OWP.EventPicking.Api.Constant;
 using OWP.EventPicking.Api.Models;
@@ -67,6 +68,21 @@ public static class ExcelColorHelper
         }
     }
 
+    public static void FillTextColor(IList<EventPickingModel> matches, ExcelWorksheet templateSheet)
+    {
+        for (int i = 0, row = Misc.Constant.START_ROW; i < matches.Count; i++, row++)
+        {
+            FillTextColor(matches[i], templateSheet, row, Misc.Constant.MARGIN_COL_INDEX);
+        }
+    }
+
+    private static void FillTextColor(EventPickingModel match, ExcelWorksheet templateSheet, int row, int column)
+    {
+        if (match.MarginExport.Contains("-"))
+        {
+            SetTextColor(templateSheet.Cells[row, column],Color.Red);
+        }
+    }
     private static void FillColor(EventPickingModel match, int row, ExcelWorksheet templateSheet, int columnIndex, params int[] updateTypes)
     {
         if (ExistsUpdateType(match, updateTypes))
@@ -178,6 +194,11 @@ public static class ExcelColorHelper
         excelRange.Style.Fill.SetBackground(color);
     }
 
+    private static void SetTextColor(ExcelRange excelRange, Color color)
+    {
+        excelRange.Style.Font.Color.SetColor(color);
+        
+    }
     private static bool ExistsUpdateType(EventPickingModel match, params int[] updateTypes)
     => match.RAndDInfo is not null && match.RAndDInfo.Any(r => updateTypes.Contains(r.UpdateTypeId));
 

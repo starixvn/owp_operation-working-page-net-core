@@ -378,7 +378,7 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
 
     public string BuildMarginExport()
     {
-        var marginPeriodValues = MarginPeriod?.Select(t => $"{t.Title}: " + t.ValueDisplay).ToList();
+        var marginPeriodValues = MarginPeriod?.Select(t => t.ValueDisplay);
         return string.Join("\r\n", marginPeriodValues);
     }
 
