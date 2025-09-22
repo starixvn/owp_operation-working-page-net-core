@@ -1,7 +1,6 @@
-
 using Fanex.Data.Repository;
+using Fanex.Logging;
 using OWP.NewLeagueSetting.Command;
-
 
 namespace OWP.NewLeagueSetting.Data;
 
@@ -18,7 +17,9 @@ public interface Repository
     Task ExecuteNonQueryCommand(NonQueryCommand criteria);
 }
 
-public class RepositoryImp(IDynamicRepository repository) : Repository
+public class RepositoryImp(
+    ILogger logger,
+    IDynamicRepository repository) : Repository
 {
     public async Task InitData(IList<LeagueSettingInfo> leagueInfo, CancellationToken cancellationToken)
     {
@@ -31,8 +32,16 @@ public class RepositoryImp(IDynamicRepository repository) : Repository
 
     public async Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSetting(LeagueParamRequest request)
     {
-        var result = await repository.FetchAsync<LeagueSettingInfoSender>(new QueryLeagueSettingCriteria
-        { League = request.LeagueName, IsEqualLeague = request.IsEqualLeague });
+        var startTime = DateTimeOffset.Now;
+        var criteria = new QueryLeagueSettingCriteria
+        {
+            League = request.LeagueName,
+            IsEqualLeague = request.IsEqualLeague
+        };
+        var result = await repository.FetchAsync<LeagueSettingInfoSender>(criteria);
+        var endTime = DateTimeOffset.Now;
+        await logger.InfoAsync($"Query New League Setting - params: {JsonConvert.SerializeObject(criteria)} - exec time: {(endTime - startTime).TotalSeconds}s");
+
         var filteredResult = FilterLeagueSettingsByRequest(result, request);
         var sortedResult = SortLeagueSettings(filteredResult);
 
@@ -52,7 +61,7 @@ public class RepositoryImp(IDynamicRepository repository) : Repository
         var leagueList = leagueSettings.ToList();
 
         return leagueList
-            .OrderBy(x => x.LeagueGroup != "MJ") 
+            .OrderBy(x => x.LeagueGroup != "MJ")
             .ThenBy(x => NormalizeLeagueName(x.League), StringComparer.OrdinalIgnoreCase)
             .ToList();
     }
@@ -61,7 +70,6 @@ public class RepositoryImp(IDynamicRepository repository) : Repository
     {
         return string.IsNullOrWhiteSpace(leagueName) ? string.Empty : leagueName.TrimStart('*').Trim();
     }
-
 
     public async Task<LeagueSettingInfoSender> QueryLeagueSettingDetail(int leagueSettingId)
         => await repository.GetAsync<LeagueSettingInfoSender>(new QueryLeagueSettingDetailCriteria
@@ -91,7 +99,6 @@ public class RepositoryImp(IDynamicRepository repository) : Repository
             Spread_OU_Value = request.Spread_OU_Value,
             ActorId = actorId,
             NoOfferLive = request.NoOfferLive
-
         };
         await repository.ExecuteAsync(criteria);
     }
