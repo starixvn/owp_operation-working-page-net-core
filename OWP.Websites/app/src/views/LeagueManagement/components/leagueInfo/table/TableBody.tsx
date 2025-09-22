@@ -4,7 +4,7 @@ import { classNameCells, itemRowHeight } from './TableSchema.json';
 import { TDataSource } from './TableType';
 import CommonCell from './cell/CommonCell';
 import LeagueCell from './cell/LeagueCell';
-import RemoveCell from './cell/RemoveCell';
+import ActionCell from './cell/ActionCell';
 import Remark2Cell from './cell/Remark2Cell';
 import { convertDivisionResponseToDisplayValue } from '../helper/helper';
 
@@ -97,8 +97,10 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }: TProp) => {
             remark2WD={row.remark2WD}
             remark2WK={row.remark2WK}
           />
-          <RemoveCell
+          
+          <ActionCell
             leagueSettingId={row.leagueSettingId}
+            dataSource={row}
           />
         </tr>
       );

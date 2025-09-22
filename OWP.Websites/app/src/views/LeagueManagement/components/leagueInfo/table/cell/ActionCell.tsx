@@ -1,12 +1,24 @@
 import DeleteIcon from 'mdi-react/DeleteIcon';
+import CopyIcon from 'mdi-react/ContentCopyIcon';
 import ToastrWrapper from '../../../../../components/ToastrWrapper';
 import Spinner from '../../../../../components/Spinner';
 import { removeSettingService } from '../../service/service';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { removeBySettingId } from '../leagueInfoTableSlice/reducer';
-
-const RemoveCell = ({ leagueSettingId }: { leagueSettingId: number }) => {
+import { setIsOpenAddNewSetting } from '../../table/leagueInfoTableSlice/reducer';
+import { TDataSource } from '../TableType';
+import { setInitSetting } from '../../addPopup/slice/addSettingSlice';
+interface Props {
+  leagueSettingId: number;
+  dataSource: TDataSource;
+}
+const ActionCell = (props: Props) => {
+  const { leagueSettingId, dataSource } = props;
   const dispatch = useAppDispatch();
+  const { isOpenAddNewSetting } = useAppSelector(
+    state => state.leagueInfoTableSlice
+  );
+
   const handleRemoveSetting = async () => {
     const confirmResult = await ToastrWrapper.confirmYesNo(
       'Are you sure that you want to delete this league setting ?'
@@ -23,9 +35,17 @@ const RemoveCell = ({ leagueSettingId }: { leagueSettingId: number }) => {
       Spinner.hide();
     }
   };
+  const handleCopySetting = () => {
+    dispatch(setInitSetting(dataSource));
+    dispatch(setIsOpenAddNewSetting());
+  };
+
 
   return (
     <td style={{ textAlign: 'center' }}>
+      <span onClick={handleCopySetting}>
+        <CopyIcon className='icon-copy' size={13} />
+      </span>
       {leagueSettingId ?
         <span onClick={handleRemoveSetting}>
           <DeleteIcon className='icon-delete' size={13} />
@@ -35,4 +55,4 @@ const RemoveCell = ({ leagueSettingId }: { leagueSettingId: number }) => {
   );
 };
 
-export default RemoveCell;
+export default ActionCell;
