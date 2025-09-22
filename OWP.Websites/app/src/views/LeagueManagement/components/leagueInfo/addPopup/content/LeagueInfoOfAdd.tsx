@@ -23,8 +23,7 @@ const LeagueInfoOfAdd = () => {
         <input
           style={{ 'width': '500px' }}
           className='input'
-          onChange={event => handleOnChange(event)}
-          onBlur={event => handleOnChange(event)}
+          onChange={handleOnChange}
           value={league}
         />
       </div>

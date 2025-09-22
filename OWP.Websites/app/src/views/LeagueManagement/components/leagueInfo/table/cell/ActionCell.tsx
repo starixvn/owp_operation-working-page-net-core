@@ -3,7 +3,7 @@ import CopyIcon from 'mdi-react/ContentCopyIcon';
 import ToastrWrapper from '../../../../../components/ToastrWrapper';
 import Spinner from '../../../../../components/Spinner';
 import { removeSettingService } from '../../service/service';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useAppDispatch } from '../../app/hooks';
 import { removeBySettingId } from '../leagueInfoTableSlice/reducer';
 import { setIsOpenAddNewSetting } from '../../table/leagueInfoTableSlice/reducer';
 import { TDataSource } from '../TableType';
@@ -15,9 +15,6 @@ interface Props {
 const ActionCell = (props: Props) => {
   const { leagueSettingId, dataSource } = props;
   const dispatch = useAppDispatch();
-  const { isOpenAddNewSetting } = useAppSelector(
-    state => state.leagueInfoTableSlice
-  );
 
   const handleRemoveSetting = async () => {
     const confirmResult = await ToastrWrapper.confirmYesNo(
