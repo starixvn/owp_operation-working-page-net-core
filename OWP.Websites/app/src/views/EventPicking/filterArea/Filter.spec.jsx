@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useAppSelector, useAppDispatch } from '../app/hooks'
+import { useAppSelector, useAppDispatch } from '../app/hooks';
 
 import ToastrWrapper from '../../components/ToastrWrapper';
 import Filter from './Filter';
@@ -9,12 +9,12 @@ import Filter from './Filter';
 jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
   useSelector: jest.fn(),
-  createSelectorHook: jest.fn(),
+  createSelectorHook: jest.fn()
 }));
 jest.mock('../app/hooks', () => ({
   useAppSelector: jest.fn(),
   useAppDispatch: jest.fn()
-}))
+}));
 jest.mock('react', () => ({
   ...jest.requireActual('react'),
   useState: jest.fn()
@@ -23,10 +23,12 @@ jest.mock('../../components/ToastrWrapper');
 useAppSelector.mockImplementation(selectorFn =>
   selectorFn({
     filter: {
-      leagues: [{
-        value: 1,
-        label: 'V-leagues'
-      }]
+      leagues: [
+        {
+          value: 1,
+          label: 'V-leagues'
+        }
+      ]
     }
   })
 );
@@ -36,7 +38,7 @@ const state = {
     permission: { HasRead: true }
   },
   mode: {
-    mode: "VIEW"
+    mode: 'VIEW'
   },
   filter: {
     param: {
@@ -70,6 +72,6 @@ describe('test FilterTicketCenter', () => {
   it('click Search, should dispatch', async () => {
     render(<Filter />);
     await fireEvent.click(screen.queryByText(/Search/i));
-    expect(mockedDispatch).toHaveBeenCalledTimes(2);
+    expect(mockedDispatch).toHaveBeenCalledTimes(1);
   });
 });

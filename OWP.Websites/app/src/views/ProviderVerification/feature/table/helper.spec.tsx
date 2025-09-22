@@ -21,6 +21,7 @@ jest.mock('./calculateFilterOption', () => ({
   OtherProvider: jest.fn(),
   AgentEst: jest.fn(),
   Mb: jest.fn(),
+  MaxBet: jest.fn(),
   RemarkEst: jest.fn(),
   RemarkBy: jest.fn(),
   EstNote: jest.fn(),
@@ -42,8 +43,15 @@ describe('buildDefaultTableFilter', () => {
     helper.Match = jest.fn().mockReturnValue([]);
     helper.LstBookProvider = jest.fn().mockReturnValue([]);
     helper.InHouseProviderId = jest.fn().mockReturnValue([]);
-    helper.Remark = jest.fn().mockReturnValue([]);
-    helper.RemarkBy = jest.fn().mockReturnValue([]);
+    helper.Remark = jest.fn().mockReturnValue({ selected: [] });
+    helper.RemarkBy = jest.fn().mockReturnValue({ selected: [] });
+    helper.MaxBet = jest.fn().mockReturnValue({ selected: [] });
+    helper.OtherProvider = jest.fn().mockReturnValue({ selected: [] });
+    helper.AgentEst = jest.fn().mockReturnValue({ selected: [] });
+    helper.Mb = jest.fn().mockReturnValue({ selected: [] });
+    helper.RemarkEst = jest.fn().mockReturnValue({ selected: [] });
+    helper.EstNote = jest.fn().mockReturnValue({ selected: [] });
+    helper.LstBookProvider = jest.fn().mockReturnValue({ selected: [] });
   });
 
   it('should populate tableFilter with default values', () => {
@@ -75,6 +83,8 @@ describe('executeFilterTable', () => {
       inHouseProviderId: 'Provider B',
       remark: 'Remark 1',
       remarkBy: 'User A',
+      maxBetToDisplay: '100',
+      otherProvider: 'Other Provider',
       agentConfirm: [{ label: 'Agent 1' }],
       rowColor: 'red',
       isRead: false,
@@ -121,6 +131,14 @@ describe('executeFilterTable', () => {
       selected: [{ value: 'User A', label: 'User A' }],
       isFilter: false
     },
+    OtherProvider: {
+      selected: [{ value: 'Other Provider', label: 'Other Provider' }],
+      isFilter: false
+    },
+    MaxBet: {
+      selected: [{ value: '100', label: '100' }],
+      isFilter: false
+    },
     ConfirmProvider: {
       selected: [{ value: 1, label: 'Agent 1' }],
       isFilter: false
@@ -129,6 +147,22 @@ describe('executeFilterTable', () => {
 
   beforeEach(() => {
     formatTime.mockReturnValue('01:00 AM');
+    // Mock all helper functions
+    helper.MatchNo = jest.fn().mockReturnValue([]);
+    helper.MatchStatus = jest.fn().mockReturnValue([]);
+    helper.KoTime = jest.fn().mockReturnValue([]);
+    helper.League = jest.fn().mockReturnValue([]);
+    helper.Match = jest.fn().mockReturnValue([]);
+    helper.LstBookProvider = jest.fn().mockReturnValue([]);
+    helper.InHouseProviderId = jest.fn().mockReturnValue([]);
+    helper.Remark = jest.fn().mockReturnValue({ selected: [] });
+    helper.RemarkBy = jest.fn().mockReturnValue({ selected: [] });
+    helper.MaxBet = jest.fn().mockReturnValue({ selected: [] });
+    helper.OtherProvider = jest.fn().mockReturnValue({ selected: [] });
+    helper.AgentEst = jest.fn().mockReturnValue({ selected: [] });
+    helper.Mb = jest.fn().mockReturnValue({ selected: [] });
+    helper.RemarkEst = jest.fn().mockReturnValue({ selected: [] });
+    helper.EstNote = jest.fn().mockReturnValue({ selected: [] });
   });
 
   it('should return filtered data when all filters match', () => {

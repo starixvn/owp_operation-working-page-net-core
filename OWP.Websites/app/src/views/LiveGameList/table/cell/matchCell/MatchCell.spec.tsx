@@ -1,15 +1,88 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import MatchCell from './MatchCell';
 import { CellProps } from '../../../type/TableType';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
 
 const mockDispatch = jest.fn();
+const middlewares = [];
+const mockStore = configureStore(middlewares);
 
 jest.mock('react-redux', () => ({
-  useDispatch: jest.fn()
+  useDispatch: jest.fn(),
+  useSelector: jest.fn(),
+  Provider: ({ children }) => children, // Mock Provider to just return children
 }));
 
+jest.mock('../../../app/storeNative', () => ({
+  getState: jest.fn(() => ({
+    tradingPageInfo: {
+      info: {
+        laTradingPage: 'http://localhost:3000',
+        tradingPage: 'http://localhost:3001',
+        servers: [
+          {
+            id: 1,
+            name: 'Server 1',
+            url: 'http://localhost:3000',
+            laPort: 3000,
+            tradingPort: 3001
+          }
+        ]
+      },
+      serverSetingId: 1
+    },
+    laTradingPage: { serverSetingId: 1 },
+    tradingPage: { serverSetingId: 1 },
+    servers: [
+      {
+        id: 1,
+        name: 'Server 1',
+        url: 'http://localhost:3000',
+        laPort: 3000,
+        tradingPort: 3001
+      }
+    ]
+  }))
+}));
+
+const Wrapper = ({ children }) => {
+  const store = mockStore({
+    servers: [
+      {
+        id: 1,
+        name: 'Server 1',
+        url: 'http://localhost:3000',
+        laPort: 3000,
+        tradingPort: 3001
+      }
+    ],
+    laTradingPage: {
+      serverSetingId: 1
+    },
+    tradingPage: {
+      serverSetingId: 1
+    }
+  });
+  return <Provider store={store}>{children}</Provider>;
+};
+
 (useDispatch as jest.Mock).mockReturnValue(mockDispatch);
+(useSelector as jest.Mock).mockImplementation(selector => {
+  const mockState = {
+    servers: [
+      {
+        id: 1,
+        name: 'Server 1',
+        url: 'http://localhost:3000',
+        laPort: 3000,
+        tradingPort: 3001
+      }
+    ]
+  };
+  return selector(mockState);
+});
 declare global {
   interface Window {
     executeCopy: jest.Mock;
@@ -205,7 +278,7 @@ const props: CellProps = {
 };
 describe('MatchCell under test', () => {
   it('Should render', () => {
-    const { container } = render(<MatchCell {...props} />);
+    const { container } = render(<MatchCell {...props} />, { wrapper: Wrapper });
     const matchCode = screen.getByText(
       props.dataSource[props.rowIndex].MatchCode
     );
@@ -215,7 +288,7 @@ describe('MatchCell under test', () => {
   });
   it('Should handle copy', () => {
     window.executeCopy = jest.fn();
-    const { container } = render(<MatchCell {...props} />);
+    const { container } = render(<MatchCell {...props} />, { wrapper: Wrapper });
     const button = container.querySelector('.btn-copy-content');
     fireEvent.click(button!);
     expect(window.executeCopy).toHaveBeenCalled();

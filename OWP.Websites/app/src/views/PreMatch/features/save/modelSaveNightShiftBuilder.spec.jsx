@@ -1,5 +1,5 @@
 import {
-  getPrematchsHaveAssignment,
+  getPrematchHaveAssignment,
   executeBuilder,
   buildModelNightShiftSaver
 } from './modelSaveNightShiftBuilder';
@@ -8,7 +8,7 @@ jest.mock('../../const/const', () => {
   return {
     URL: { SAVE_PREMATCH_ASSIGNMENT: 'url-save' },
     netCoreUrl: 'v1/test'
-  }
+  };
 });
 
 describe('modelSaveNightShiftBuilder under test', () => {
@@ -72,7 +72,7 @@ describe('modelSaveNightShiftBuilder under test', () => {
         OUTakeOver: 'sa'
       }
     ];
-    const result = getPrematchsHaveAssignment(entities);
+    const result = getPrematchHaveAssignment(entities);
 
     expect(result).toEqual(expectState);
   });
@@ -118,7 +118,7 @@ describe('modelSaveNightShiftBuilder under test', () => {
     const expected = {
       postModel: {
         url: 'url-save',
-       
+        leaguesName: [],
         PrematchIdDeleted: [],
         PrematchUpdated: [],
         Date: 'October 9, 2020 9:51 AM',
@@ -205,7 +205,8 @@ describe('modelSaveNightShiftBuilder under test', () => {
           }
         ],
         Date: 'October 9, 2020 9:51 AM',
-        StartTime: '15:59'
+        StartTime: '15:59',
+        leaguesName: []
       },
       message: '',
       startTimeChange: false

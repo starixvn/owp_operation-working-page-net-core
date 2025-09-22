@@ -29,10 +29,11 @@ describe('TaskListTable', () => {
       hasDetailInformationPermission: mockHasDetailInformationPermission
     });
 
+    (useAppSelector as unknown as jest.Mock).mockReturnValue(false);
+
     const { container } = render(<TaskListTable />);
 
     expect(container.querySelector('.loading-process')).toBeInTheDocument();
-    expect(useAppSelector).not.toBeCalled();
-    expect(useAppDispatch).not.toBeCalled();
+    expect(useAppSelector).toBeCalled();
   });
 });

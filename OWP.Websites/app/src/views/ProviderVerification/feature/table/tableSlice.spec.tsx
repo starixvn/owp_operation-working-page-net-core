@@ -10,6 +10,23 @@ import reducer, {
 import { Option } from '../../../Shared/MultipleSelection/type';
 import { buildDefaultTableFilter, executeFilterTable } from './helper';
 
+// Mock helper functions
+jest.mock('./helper', () => ({
+  buildDefaultTableFilter: jest.fn(() => ({
+    MatchNo: { isFilter: false, selected: [] },
+    MatchStatus: { isFilter: false, selected: [] },
+    KoTime: { isFilter: false, selected: [] },
+    League: { isFilter: false, selected: [] },
+    Match: { isFilter: false, selected: [] },
+    LstBookProvider: { isFilter: false, selected: [] },
+    InHouseProviderId: { isFilter: false, selected: [] },
+    Remark: { isFilter: false, selected: [] },
+    RemarkBy: { isFilter: false, selected: [] },
+    ConfirmProvider: { isFilter: false, selected: [] }
+  })),
+  executeFilterTable: jest.fn((dataSource) => dataSource)
+}));
+
 // Mock data
 const mockDataSource = [
   {

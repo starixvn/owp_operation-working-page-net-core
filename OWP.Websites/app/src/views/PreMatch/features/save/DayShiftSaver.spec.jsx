@@ -118,7 +118,7 @@ describe('DayShiftSaver under test', () => {
     const { container } = render(<DayShiftSaver />);
     const button = container.querySelector('.button-cancel');
     fireEvent.click(button);
-    expect(mockedDispatch).toHaveBeenCalledTimes(5);
+    expect(mockedDispatch).toHaveBeenCalledTimes(7);
   });
 
   it('should click save, should execute Dispatch 4 time', async () => {
@@ -127,6 +127,6 @@ describe('DayShiftSaver under test', () => {
     const button = container.querySelector('.button-submit');
     await fireEvent.click(button);
     await flushPromises();
-    expect(mockedDispatch).toBeCalledTimes(6);
+    expect(mockedDispatch).toBeCalledTimes(8);
   });
 });

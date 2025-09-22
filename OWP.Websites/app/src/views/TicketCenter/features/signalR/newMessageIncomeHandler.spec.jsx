@@ -2,7 +2,6 @@ import store from '../../app/storeNative';
 import { handleNewMessageIncome } from './newMessageIncomeHandler';
 import { reloadTicketCenterTable } from './signalRHelper';
 
-
 jest.mock('./signalRHelper', () => ({
   reloadTicketCenterTable: jest.fn()
 }));
@@ -14,18 +13,22 @@ jest.mock('react-redux', () => ({
 }));
 
 store.getState = () => ({
-  signalR:{
-    filterModel:{},
-    issueModel:{}
+  signalR: {
+    filterModel: {},
+    issueModel: {}
   },
-  chatBoard:{
+  chatBoard: {
     isOpenPopup: false,
-    ticketDetail:{
+    ticketDetail: {
       ticketId: 123
     }
+  },
+  subtype: {
+    subTypeSelected: { subTypeId: 1, typeId: 1 }
   }
 });
 
+store.dispatch = jest.fn();
 
 describe('handleNewMessageIncome under test', () => {
   afterEach(() => {

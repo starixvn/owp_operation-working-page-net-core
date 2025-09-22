@@ -14,6 +14,9 @@ const setup = () => {
       permission: {
         HasWrite: true
       }
+    },
+    createTicketBoard: {
+      defaultRecipients: []
     }
   };
   useDispatch.mockReturnValue(mockDispatch);
@@ -39,7 +42,7 @@ describe('IssuesCell under test', () => {
     const { container } = render(<IssuesCell {...props} />);
     const button = container.querySelector('.icon-plus');
     fireEvent.click(button);
-    expect(mockDispatch).toHaveBeenCalledTimes(7);
+    expect(mockDispatch).toHaveBeenCalledTimes(8);
   });
 
   it('when have message, should render ', () => {

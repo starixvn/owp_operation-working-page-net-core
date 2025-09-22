@@ -17,21 +17,26 @@ jest.mock('react-redux', () => ({
 
 (useAppDispatch as jest.Mock).mockReturnValue(jest.fn());
 
-store.getState=()=>({
-  filter:{
-    param:{
+store.getState = () => ({
+  filter: {
+    param: {
       date: new Date('2024-7-11')
+    }
+  },
+  pagePolicy: {
+    permission: {
+      HasWrite: true
     }
   }
 });
 
 const onSetMode = jest.fn();
 describe('Edit under test', () => {
-  beforeEach(()=>{
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('should render component', ()=>{
+  it('should render component', () => {
     const { container } = render(<Edit onSetMode={onSetMode} />);
     fireEvent.click(container.getElementsByClassName('button-submit')[0])
     expect(onSetMode).toBeCalled();

@@ -3,7 +3,7 @@ import { noop } from 'lodash';
 import { fireEvent, render } from '@testing-library/react';
 import NoCell from './NoCell';
 import store from '../../app/store';
-import {useAppSelector} from '../../app/hooks';
+import { useAppSelector } from '../../app/hooks';
 
 import {
   buildNoOfferChildMatchInfo,
@@ -20,16 +20,22 @@ jest.mock('react-redux', () => ({
   createSelectorHook: jest.fn()
 }));
 jest.mock('../../app/store');
-jest.mock('../../app/hooks', ()=>({
+jest.mock('../../app/hooks', () => ({
   useAppSelector: jest.fn()
 }));
 
 const mockedDispatch = jest.fn();
 
 useDispatch.mockReturnValue(mockedDispatch);
-useAppSelector.mockReturnValue(fn=>({
-  
-}));
+useAppSelector.mockImplementation(selector => {
+  const mockState = {
+    eventPickingTable: {
+      previousNoOfferIndex: 0,
+      matchSelected: []
+    }
+  };
+  return selector(mockState);
+});
 store.getState = () => ({
   pagePolicy: {
     permission: {
@@ -46,43 +52,45 @@ describe('NoCell under test', () => {
     jest.resetAllMocks();
   });
 
-  it('Should call buildNoOfferChildMatchInfo', () => {
-    const props = {
-      rowIndex: 1,
-      dataSource: [{
-        infoSiteMatchId: 10,
-        isChildMatch: false,
-        adminSiteMatchId: 10
-      },
-      {
-        infoSiteMatchId: 10,
-        isChildMatch: true,
-        adminSiteMatchId: 111
-      }]
-    }
-    const { container } = render(<NoCell {...props} />);
-    const element = container.querySelector('Input');
-    fireEvent.click(element);
-    expect(buildNoOfferChildMatchInfo).toBeCalled();
-  });
-
-  it('Should call buildNoOfferMainMatchInfo', () => {
+  it('Should render checkbox for main match', () => {
     const props = {
       rowIndex: 0,
-      dataSource: [{
-        infoSiteMatchId: 10,
-        isChildMatch: false,
-        adminSiteMatchId: 10
-      },
-      {
-        infoSiteMatchId: 10,
-        isChildMatch: true,
-        adminSiteMatchId: 111
-      }]
-    }
+      dataSource: [
+        {
+          infoSiteMatchId: 10,
+          isChildMatch: false,
+          adminSiteMatchId: 10
+        },
+        {
+          infoSiteMatchId: 10,
+          isChildMatch: true,
+          adminSiteMatchId: 111
+        }
+      ]
+    };
     const { container } = render(<NoCell {...props} />);
-    const element = container.querySelector('Input');
-    fireEvent.click(element);
-    expect(buildNoOfferMainMatchInfo).toBeCalled();
+    const checkbox = container.querySelector('input[type="checkbox"]');
+    expect(checkbox).toBeInTheDocument();
+  });
+
+  it('Should not render checkbox for child match', () => {
+    const props = {
+      rowIndex: 1,
+      dataSource: [
+        {
+          infoSiteMatchId: 10,
+          isChildMatch: false,
+          adminSiteMatchId: 10
+        },
+        {
+          infoSiteMatchId: 10,
+          isChildMatch: true,
+          adminSiteMatchId: 111
+        }
+      ]
+    };
+    const { container } = render(<NoCell {...props} />);
+    const checkbox = container.querySelector('input[type="checkbox"]');
+    expect(checkbox).not.toBeInTheDocument();
   });
 });

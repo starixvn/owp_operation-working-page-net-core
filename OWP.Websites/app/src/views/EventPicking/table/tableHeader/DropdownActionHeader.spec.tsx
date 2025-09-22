@@ -7,9 +7,16 @@ import { setOpenPopupState } from '../eventPickingTableSlice/reducer';
 
 const mockStore = configureStore([]);
 
+// Mock the hooks
+jest.mock('../../app/hooks', () => ({
+  useAppDispatch: jest.fn(),
+  useAppSelector: jest.fn()
+}));
+
 describe('DropdownActionHeader', () => {
   let store: any;
   let refValue: React.RefObject<HTMLDivElement>;
+  const mockDispatch = jest.fn();
 
   beforeEach(() => {
     store = mockStore({
@@ -25,6 +32,18 @@ describe('DropdownActionHeader', () => {
     refValue = React.createRef<HTMLDivElement>();
 
     store.dispatch = jest.fn();
+
+    // Mock the hooks
+    const { useAppDispatch, useAppSelector } = require('../../app/hooks');
+    useAppDispatch.mockReturnValue(mockDispatch);
+    useAppSelector.mockImplementation((selector) => {
+      const mockState = {
+        eventPickingTable: {
+          matchSelected: []
+        }
+      };
+      return selector(mockState);
+    });
   });
 
   test('renders DropdownActionHeader and dispatches actions on click', () => {
@@ -38,12 +57,12 @@ describe('DropdownActionHeader', () => {
     const removeSpecialProduct = screen.getByText('Remove Special Product');
 
     fireEvent.click(addSpecialProduct);
-    expect(store.dispatch).toHaveBeenCalledWith(
+    expect(mockDispatch).toHaveBeenCalledWith(
       setOpenPopupState({ key: 'isOpenAddSpecialProduct', value: true })
     );
 
     fireEvent.click(removeSpecialProduct);
-    expect(store.dispatch).toHaveBeenCalledWith(
+    expect(mockDispatch).toHaveBeenCalledWith(
       setOpenPopupState({ key: 'isOpenRemoveSpecialProduct', value: true })
     );
   });
