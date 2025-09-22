@@ -50,10 +50,6 @@ public class ExportExcelServiceUnitTests
         DeepAssert.Equal(reportSheet.Cells[3, 146].Value, "222.05");
     }
 
-    /// <summary>
-    /// Add test
-    /// </summary>
-    /// <returns></returns>
     private static ExcelModel GetExcelModel()
     {
         return new ExcelModel
