@@ -111,11 +111,11 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
                         <td rowSpan={rowSpan} className={className}>
                             <NoOfHdpCell dataSource={data} rowIndex={i} />
                         </td>
-                        <td rowSpan={rowSpan}>
-                            <IPTvStreamingCell dataSource={data} rowIndex={i} />
-                        </td>
                         <td rowSpan={rowSpan} >
                             <LSTNote dataSource={data} rowIndex={i} />
+                        </td>
+                        <td rowSpan={rowSpan}>
+                            <IPTvStreamingCell dataSource={data} rowIndex={i} />
                         </td>
 
                         <td rowSpan={rowSpan}>
@@ -133,7 +133,7 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
                         <td rowSpan={rowSpan}>
                             <CheckedByLstCell dataSource={data} rowIndex={i} />
                         </td>
-                       
+
                         {HasRead && (
                             <>
                                 <TurnOverCell
@@ -148,7 +148,7 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
                                 />
                             </>
                         )}
-                         <td rowSpan={rowSpan}>
+                        <td rowSpan={rowSpan}>
                             <ActionCell dataSource={data} rowIndex={i} />
                         </td>
                     </tr>

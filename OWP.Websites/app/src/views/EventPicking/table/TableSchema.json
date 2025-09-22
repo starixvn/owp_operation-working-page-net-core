@@ -63,16 +63,16 @@
       "columnKey": "noOfHDP"
     },
     {
-      "headerName": "TV/IPTV",
-      "size": 10,
-      "isFilter": true,
-      "columnKey": "TV/IPTV"
-    },
-    {
       "headerName": "LST Note",
       "size": 8,
       "isFilterMultiple": true,
       "columnKey": "lstNote"
+    },
+    {
+      "headerName": "TV/IPTV",
+      "size": 10,
+      "isFilter": true,
+      "columnKey": "TV/IPTV"
     },
     {
       "headerName": "Provider",
@@ -162,16 +162,16 @@
       "columnKey": "noOfHDP"
     },
     {
-      "headerName": "TV/IPTV",
-      "size": 8,
-      "isFilter": true,
-      "columnKey": "TV/IPTV"
-    },
-    {
       "headerName": "LST Note",
       "size": 8,
       "isFilterMultiple": true,
       "columnKey": "lstNote"
+    },
+    {
+      "headerName": "TV/IPTV",
+      "size": 8,
+      "isFilter": true,
+      "columnKey": "TV/IPTV"
     },
     {
       "headerName": "Provider",
