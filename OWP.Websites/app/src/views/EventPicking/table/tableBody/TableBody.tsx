@@ -134,6 +134,10 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
                             <CheckedByLstCell dataSource={data} rowIndex={i} />
                         </td>
 
+                        <td rowSpan={rowSpan}>
+                            <ActionCell dataSource={data} rowIndex={i} />
+                        </td>
+
                         {HasRead && (
                             <>
                                 <TurnOverCell
@@ -141,16 +145,12 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
                                     color={row.turnoverPeriod[0]?.color}
                                     name={row.turnoverPeriod[0]?.title}
                                 />
-
                                 <MarginCell
                                     value={row.marginPeriod[0]?.valueDisplay}
                                     color={row.marginPeriod[0]?.color}
                                 />
                             </>
                         )}
-                        <td rowSpan={rowSpan}>
-                            <ActionCell dataSource={data} rowIndex={i} />
-                        </td>
                     </tr>
                     {rowSpan > 1 && buildTurnoverMarginRow()}
                 </Fragment>
