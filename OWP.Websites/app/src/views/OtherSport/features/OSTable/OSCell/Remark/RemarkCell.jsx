@@ -9,9 +9,9 @@ const RemarkCell = props => {
   const { dataSource, rowIndex } = props;
   const { remark } = dataSource[rowIndex];
   const renderContent = () => {
-    const remarkSplitByComma = remark.split(',');
+    const remarkSplitByComma = remark?.split(',');
     return <ul>
-      {remarkSplitByComma.map((item, index) => <li key={index}>{item}</li>)}
+      {remarkSplitByComma?.map((item, index) => <li key={index}>{item}</li>)}
     </ul>;
   };
 

@@ -19,18 +19,11 @@ public class QueryDayShiftPreMatchRequest : IRequest<QueryPreMatchLeagueViewMode
     public List<int> EarlyOffered { get; set; }
 }
 
-public class QueryDayShiftPreMatchHandler : IRequestHandler<QueryDayShiftPreMatchRequest, QueryPreMatchLeagueViewModel>
+public class QueryDayShiftPreMatchHandler(
+    ShiftAssignmentService shiftAssignmentService,
+    MaxbetSpreadService maxbetSpreadService)
+    : IRequestHandler<QueryDayShiftPreMatchRequest, QueryPreMatchLeagueViewModel>
 {
-    private readonly ShiftAssignmentService shiftAssignmentService;
-
-    private readonly MaxbetSpreadService maxbetSpreadService;
-
-    public QueryDayShiftPreMatchHandler(ShiftAssignmentService shiftAssignmentService, MaxbetSpreadService maxbetSpreadService)
-    {
-        this.shiftAssignmentService = shiftAssignmentService;
-        this.maxbetSpreadService = maxbetSpreadService;
-    }
-
     public async Task<QueryPreMatchLeagueViewModel> Handle(QueryDayShiftPreMatchRequest request, CancellationToken cancellationToken)
     {
         var shiftAssignments = await shiftAssignmentService.QueryDayShift(request);
@@ -39,4 +32,5 @@ public class QueryDayShiftPreMatchHandler : IRequestHandler<QueryDayShiftPreMatc
 
         return shiftAssignments;
     }
+
 }

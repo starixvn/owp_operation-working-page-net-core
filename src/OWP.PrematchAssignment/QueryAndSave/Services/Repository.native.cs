@@ -1,4 +1,5 @@
 ﻿using Fanex.Data.Repository;
+using Olympus.OWP.Log.Criteria;
 using OWP.PrematchAssignment.Criteria;
 using OWP.PrematchAssignment.QueryAndSave.Models;
 
@@ -13,6 +14,8 @@ public interface Repository
     Task<List<LinkedMatch>> QueryLinkedOwpMatch(List<int> infositeIds, DateTime eventDate);
 
     Task<TimeSpan?> QueryExistedStartTime(DateTime eventDate);
+
+    Task LogDetailedPayload(DateTime createdDate, string action, string payload);
 
     Task<(List<PreMatchLeague>, List<InfoSiteMatch>)> QueryDayShiftPreMatchAssignments(QueryShiftPreMatchCriteria criteria);
 
@@ -109,5 +112,16 @@ public class RepositoryImp : Repository
             EventDate = eventDate
         };
         return await dynamicRepository.FetchAsync<string>(criteria);
+    }
+
+    public async Task LogDetailedPayload(DateTime CreatedDate, string Action, string Payload)
+    {
+        var owpLogCriteria = new OwpLogCriteria
+        {
+            CreatedDate = CreatedDate,
+            Action = Action,
+            Payload = Payload
+        };
+        await dynamicRepository.ExecuteAsync(owpLogCriteria);
     }
 }

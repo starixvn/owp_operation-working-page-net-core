@@ -9,18 +9,11 @@ public class QueryNightShiftPreMatchRequest : QueryDayShiftPreMatchRequest//, IR
     public TimeSpan StartTime { get; set; }
 }
 
-public class QueryNightShiftPreMatchHandler : IRequestHandler<QueryNightShiftPreMatchRequest, QueryPreMatchLeagueViewModel>
+public class QueryNightShiftPreMatchHandler(
+    ShiftAssignmentService shiftAssignmentService,
+    MaxbetSpreadService maxbetSpreadService)
+    : IRequestHandler<QueryNightShiftPreMatchRequest, QueryPreMatchLeagueViewModel>
 {
-    private readonly ShiftAssignmentService shiftAssignmentService;
-
-    private readonly MaxbetSpreadService maxbetSpreadService;
-
-    public QueryNightShiftPreMatchHandler(ShiftAssignmentService shiftAssignmentService, MaxbetSpreadService maxbetSpreadService)
-    {
-        this.shiftAssignmentService = shiftAssignmentService;
-        this.maxbetSpreadService = maxbetSpreadService;
-    }
-
     public async Task<QueryPreMatchLeagueViewModel> Handle(QueryNightShiftPreMatchRequest request, CancellationToken cancellationToken)
     {
         var shiftAssignments = await shiftAssignmentService.QueryNightShift(request);

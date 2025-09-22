@@ -18,18 +18,8 @@ public interface ShiftAssignmentService
     Task MapTicketLists(List<LeagueAssignment> preMatchLeagues, List<InfoSiteMatch> infoSiteMatches, int actorId);
 }
 
-public class ShiftAssignmentServiceImp : ShiftAssignmentService
+public class ShiftAssignmentServiceImp(Repository repository, IMapper mapper) : ShiftAssignmentService
 {
-    private readonly Repository repository;
-
-    private readonly IMapper mapper;
-
-    public ShiftAssignmentServiceImp(Repository repository, IMapper mapper)
-    {
-        this.repository = repository;
-        this.mapper = mapper;
-    }
-
     public async Task<QueryPreMatchLeagueViewModel> QueryDayShift(QueryDayShiftPreMatchRequest request)
     {
         var criteria = ShiftHelper.CreateShiftCriteria(request.EventDate, true);

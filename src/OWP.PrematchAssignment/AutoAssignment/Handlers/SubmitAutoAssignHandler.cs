@@ -8,6 +8,8 @@ public class SubmitAutoAssignRequest : IRequest
 {
     public DateTime Date { get; set; }
     public IEnumerable<PreMatchLeagueAssignment> Assignments { get; set; }
+
+    public string[] LeaguesName { get; set; }
 }
 
 public class SubmitAutoAssignHandler(PreMatchAssignmentService preMatchAssignmentService) : IRequestHandler<SubmitAutoAssignRequest>
@@ -18,5 +20,6 @@ public class SubmitAutoAssignHandler(PreMatchAssignmentService preMatchAssignmen
         {
             await preMatchAssignmentService.AutoAssign(request.Assignments);
         }
+
     }
 }

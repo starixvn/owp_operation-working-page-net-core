@@ -10,6 +10,8 @@ public class UpdateLeagueAssignmentRequest : IRequest<Unit>
 
     public LeagueAssignment[] PrematchUpdated { get; set; }
 
+    public string[] LeaguesName { get; set; }
+
     public TimeSpan? StartTime { get; set; }
 
     public DateTime Date { get; set; }
