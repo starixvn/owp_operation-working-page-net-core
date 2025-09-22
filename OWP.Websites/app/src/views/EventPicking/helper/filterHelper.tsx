@@ -160,7 +160,7 @@ const buildTurnoverPeriodOptions = (entities: TDataTable[]) => {
         entity.turnoverPeriod
             .map(period => ({
                 value: period.value,
-                label: String(period.value || '(Blanks)')
+                label: String(period.valueDisplay || '(Blanks)')
             }))
     );
     return uniqBy(allPeriods, i => i.value);
@@ -218,7 +218,6 @@ const buildMultipleFilterDefault = (entities: TDataTable[]) => {
     const lstNoteOptions = buildLstNoteOptions(entities);
     const turnoverPeriodOptions = buildTurnoverPeriodOptions(entities);
     const marginPeriodOptions = buildMarginPeriodOptions(entities);
-
     return {
         [KO_TIME]: {
             isFilter: false,
