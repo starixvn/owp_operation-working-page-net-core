@@ -8,7 +8,8 @@ const SELECT_TURNOVER_OPTIONS = [
     'fromDate': Utils.formatDate(
       new Date(new Date().setDate(new Date().getDate() - 30))
     ),
-    'toDate': Utils.formatDate(new Date())
+    'toDate': Utils.formatDate(new Date()),
+    'order': 1
   },
   {
     'key': PERIOD.VALUE.THREE_MONTHS,
@@ -17,7 +18,8 @@ const SELECT_TURNOVER_OPTIONS = [
     'fromDate': Utils.formatDate(
       new Date(new Date().setDate(new Date().getDate() - 90))
     ),
-    'toDate': Utils.formatDate(new Date())
+    'toDate': Utils.formatDate(new Date()),
+    'order': 2
   },
   {
     'key': PERIOD.VALUE.SIX_MONTHS,
@@ -26,7 +28,8 @@ const SELECT_TURNOVER_OPTIONS = [
     'fromDate': Utils.formatDate(
       new Date(new Date().setDate(new Date().getDate() - 180))
     ),
-    'toDate': Utils.formatDate(new Date())
+    'toDate': Utils.formatDate(new Date()),
+    'order': 3
   },
   {
     'key': PERIOD.VALUE.TWELVE_MONTH,
@@ -35,7 +38,8 @@ const SELECT_TURNOVER_OPTIONS = [
     'fromDate': Utils.formatDate(
       new Date(new Date().setDate(new Date().getDate() - 365))
     ),
-    'toDate': Utils.formatDate(new Date())
+    'toDate': Utils.formatDate(new Date()),
+    'order': 4
   }
 ];
 

@@ -9,13 +9,50 @@ const mockStore = configureStore(middleWares);
 import { useDispatch, useSelector, Provider } from 'react-redux';
 
 const store = mockStore({
-
+  servers: [
+    {
+      id: 1,
+      name: 'Server 1',
+      url: 'http://localhost:3000',
+      laPort: 3000,
+      tradingPort: 3001
+    }
+  ],
+  events: {
+    userNameFilter: 'sa'
+  }
 });
+
 jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
   useSelector: jest.fn(),
   createSelectorHook: jest.fn(),
+  Provider: ({ children }) => children, // Mock Provider to just return children
 }));
+
+jest.mock('../../../app/storeNative', () => ({
+  getState: jest.fn(() => ({
+    events: {
+      userNameFilter: 'sa'
+    }
+  }))
+}));
+
+// Mock useSelector to return the correct state
+beforeEach(() => {
+  useSelector.mockImplementation((selector) => {
+    const mockState = {
+      events: {
+        userNameFilter: 'sa'
+      }
+    };
+    return selector(mockState);
+  });
+});
+
+const Wrapper = ({ children }) => {
+  return <Provider store={store}>{children}</Provider>;
+};
 
 jest.mock('react', () => ({
   ...jest.requireActual('react'),
@@ -34,7 +71,6 @@ useSelector.mockImplementation((selector) => {
   return selector(mockState);
 });
 
-const Wrapper = ({ children }) => <Provider store={store}>{children}</Provider>;
 
 const props: CellProps = {
   dataSource: [
@@ -229,7 +265,7 @@ describe('LaCell under test', () => {
   })
   it('Should render', () => {
     const { container } = render(
-      <LaCell {...props} />);
+      <LaCell {...props} />, { wrapper: Wrapper });
     const la = container.querySelector('.assignee');
     const laOther = container.querySelector('.assignee-other');
     expect(la).toBeInTheDocument();

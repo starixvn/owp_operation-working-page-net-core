@@ -60,6 +60,21 @@ describe('eventPickingSlice', () => {
           'isFilter': false,
           'options': [],
           'selected': []
+        },
+        'lstNote': {
+          'isFilter': false,
+          'options': [],
+          'selected': []
+        },
+        'marginPeriod': {
+          'isFilter': false,
+          'options': [],
+          'selected': []
+        },
+        'turnoverPeriod': {
+          'isFilter': false,
+          'options': [],
+          'selected': []
         }
       },
       'previousNoOfferIndex': null,
@@ -107,6 +122,9 @@ describe('eventPickingSlice', () => {
               value: new Date('2024-07-10')
             }
           ]
+        },
+        turnoverPeriod: {
+          selected: []
         }
       }
     };
@@ -137,6 +155,9 @@ describe('eventPickingSlice', () => {
               'value': null
             }
           ]
+        },
+        'turnoverPeriod': {
+          'selected': []
         }
       }
     };
@@ -186,7 +207,105 @@ describe('eventPickingSlice', () => {
       isConfirmAll: false,
       isNoOfferAll: false,
       multipleFilter: {
-        KO_Time: {
+        leagueName: {
+          isFilter: false,
+          options: [
+            {
+              label: 'test league',
+              value: 'test league'
+            }
+          ],
+          selected: [
+            {
+              label: 'test league',
+              value: 'test league'
+            }
+          ]
+        },
+        lstNote: {
+          isFilter: false,
+          options: [
+            {
+              label: '(Blanks)',
+              value: null
+            }
+          ],
+          selected: [
+            {
+              label: '(Blanks)',
+              value: null
+            }
+          ]
+        },
+        marginPeriod: {
+          isFilter: false,
+          options: [],
+          selected: []
+        },
+        maxbetHdp: {
+          isFilter: false,
+          options: [
+            {
+              label: '(Blanks)',
+              value: null
+            }
+          ],
+          selected: [
+            {
+              label: '(Blanks)',
+              value: null
+            }
+          ]
+        },
+        noOfHDP: {
+          isFilter: false,
+          options: [
+            {
+              index: 9007199254740991,
+              label: '(Blanks)',
+              value: null
+            }
+          ],
+          selected: [
+            {
+              index: 9007199254740991,
+              label: '(Blanks)',
+              value: null
+            }
+          ]
+        },
+        rAndDInfo: undefined,
+        spreadHdp: {
+          isFilter: false,
+          options: [
+            {
+              label: '(Blanks)',
+              value: null
+            }
+          ],
+          selected: [
+            {
+              label: '(Blanks)',
+              value: null
+            }
+          ]
+        },
+        spreadOu: {
+          isFilter: false,
+          options: [
+            {
+              label: '(Blanks)',
+              value: null
+            }
+          ],
+          selected: [
+            {
+              label: '(Blanks)',
+              value: null
+            }
+          ]
+        },
+        time: {
           isFilter: false,
           options: [
             {
@@ -201,20 +320,10 @@ describe('eventPickingSlice', () => {
             }
           ]
         },
-        MB: {
+        turnoverPeriod: {
           isFilter: false,
-          options: [
-            {
-              label: '(Blanks)',
-              value: null
-            }
-          ],
-          selected: [
-            {
-              label: '(Blanks)',
-              value: null
-            }
-          ]
+          options: [],
+          selected: []
         }
       },
       valueFilterAllColumn: {}
@@ -264,6 +373,7 @@ describe('eventPickingSlice', () => {
           awayName: 'test1 away'
         }
       ],
+      entitiesByDate: undefined,
       entitiesOriginal: [
         {
           leagueName: 'test league',
@@ -281,7 +391,113 @@ describe('eventPickingSlice', () => {
       isConfirmAll: false,
       isNoOfferAll: false,
       'multipleFilter': {
-        'KO_Time': {
+        'leagueName': {
+          'isFilter': false,
+          'options': [
+            {
+              'label': 'test league',
+              'value': 'test league'
+            },
+            {
+              'label': 'test1 league',
+              'value': 'test1 league'
+            }
+          ],
+          'selected': [
+            {
+              'label': 'test league',
+              'value': 'test league'
+            },
+            {
+              'label': 'test1 league',
+              'value': 'test1 league'
+            }
+          ]
+        },
+        'lstNote': {
+          'isFilter': false,
+          'options': [
+            {
+              'label': '(Blanks)',
+              'value': null
+            }
+          ],
+          'selected': [
+            {
+              'label': '(Blanks)',
+              'value': null
+            }
+          ]
+        },
+        'marginPeriod': {
+          'isFilter': false,
+          'options': [],
+          'selected': []
+        },
+        'maxbetHdp': {
+          'isFilter': false,
+          'options': [
+            {
+              'label': '(Blanks)',
+              'value': null
+            }
+          ],
+          'selected': [
+            {
+              'label': '(Blanks)',
+              'value': null
+            }
+          ]
+        },
+        'noOfHDP': {
+          'isFilter': false,
+          'options': [
+            {
+              'index': 9007199254740991,
+              'label': '(Blanks)',
+              'value': null
+            }
+          ],
+          'selected': [
+            {
+              'index': 9007199254740991,
+              'label': '(Blanks)',
+              'value': null
+            }
+          ]
+        },
+        'rAndDInfo': undefined,
+        'spreadHdp': {
+          'isFilter': false,
+          'options': [
+            {
+              'label': '(Blanks)',
+              'value': null
+            }
+          ],
+          'selected': [
+            {
+              'label': '(Blanks)',
+              'value': null
+            }
+          ]
+        },
+        'spreadOu': {
+          'isFilter': false,
+          'options': [
+            {
+              'label': '(Blanks)',
+              'value': null
+            }
+          ],
+          'selected': [
+            {
+              'label': '(Blanks)',
+              'value': null
+            }
+          ]
+        },
+        'time': {
           'isFilter': false,
           'options': [
             {
@@ -296,22 +512,13 @@ describe('eventPickingSlice', () => {
             }
           ]
         },
-        'MB': {
+        'turnoverPeriod': {
           'isFilter': false,
-          'options': [
-            {
-              'label': '(Blanks)',
-              'value': null
-            }
-          ],
-          'selected': [
-            {
-              'label': '(Blanks)',
-              'value': null
-            }
-          ]
+          'options': [],
+          'selected': []
         }
-      }
+      },
+      order: {}
     };
     const action = {
       type: getEventPickings.fulfilled.type,

@@ -1,230 +1,247 @@
 {
-    "COLUMN_KEY": {
-        "KO_TIME": "time",
-        "MB": "maxbetHdp",
-        "LEAGUE": "leagueName",
-        "SPREAD_HDP": "spreadHdp",
-        "SPREAD_OU": "spreadOu",
-        "NO.OF_HDP": "noOfHDP",
-        "RAndD": "rAndDInfo"
+  "COLUMN_KEY": {
+    "KO_TIME": "time",
+    "MB": "maxbetHdp",
+    "LEAGUE": "leagueName",
+    "SPREAD_HDP": "spreadHdp",
+    "SPREAD_OU": "spreadOu",
+    "NO.OF_HDP": "noOfHDP",
+    "RAndD": "rAndDInfo",
+    "LST_NOTE": "lstNote",
+    "TURNOVER_PERIOD": "turnoverPeriod",
+    "MARGIN_PERIOD": "marginPeriod"
+  },
+  "TABLE_HEADER": [
+    {
+      "headerName": "No #",
+      "size": 3,
+      "isCheckAll": true,
+      "isHaveDropdown": true,
+      "columnKey": "No #",
+      "colSpan": 1
     },
-    "TABLE_HEADER": [
-        {
-            "headerName": "No #",
-            "size": 3,
-            "isCheckAll": true,
-            "isHaveDropdown": true,
-            "columnKey": "No #",
-            "colSpan": 1
-        },
-        {
-            "headerName": "KO Time",
-            "size": 6,
-            "isFilterMultiple": true,
-            "columnKey": "time"
-        },
-        {
-            "headerName": "League",
-            "size": 15,
-            "isFilterMultiple": true,
-            "columnKey": "leagueName"
-        },
-        {
-            "headerName": "Match",
-            "size": 14,
-            "isFilter": true,
-            "columnKey": "Match"
-        },
-        {
-            "headerName": "MB",
-            "size": 5,
-            "isFilterMultiple": true,
-            "columnKey": "maxbetHdp"
-        },
-        {
-            "headerName": "Spread HDP",
-            "size": 5,
-            "isFilterMultiple": true,
-            "columnKey": "spreadHdp"
-        },
-        {
-            "headerName": "Spread OU",
-            "size": 5,
-            "isFilterMultiple": true,
-            "columnKey": "spreadOu"
-        },
-        {
-            "headerName": "No. HDP",
-            "size": 7,
-            "isFilterMultiple": true,
-            "columnKey": "noOfHDP"
-        },
-        {
-            "headerName": "TV/IPTV",
-            "size": 10,
-            "isFilter": true,
-            "columnKey": "TV/IPTV"
-        },
-        {
-            "headerName": "Provider",
-            "size": 8,
-            "isFilter": true,
-            "columnKey": "Provider"
-        },
-        {
-            "headerName": "Round",
-            "size": 10,
-            "isFilter": true,
-            "columnKey": "Round"
-        },
-        {
-            "headerName": "Remark",
-            "size": 10,
-            "isFilter": true,
-            "columnKey": "Remark"
-        },
-        {
-            "headerName": "R&D Update",
-            "size": 13,
-            "columnKey": "rAndDInfo",
-            "isFilterMultiple": true
-        },
-        {
-            "headerName": "Checked",
-            "size": 5,
-            "className": "check-by-lst",
-            "isCheckBox": true,
-            "columnKey": "Checked"
-        },
-        {
-            "headerName": "Action",
-            "size": 5,
-            "columnKey": "Action"
-        }
-    ],
-    "TABLE_HEADER_TURN_OVER_MARGIN": [
-        {
-            "headerName": "No #",
-            "size": 3,
-            "isHaveDropdown": true,
-            "isCheckAll": true,
-            "columnKey": "No #"
-        },
-        {
-            "headerName": "KO Time",
-            "size": 6,
-            "isFilterMultiple": true,
-            "columnKey": "time"
-        },
-        {
-            "headerName": "League",
-            "size": 10,
-            "isFilterMultiple": true,
-            "columnKey": "leagueName"
-        },
-        {
-            "headerName": "Match",
-            "size": 12,
-            "isFilter": true,
-            "columnKey": "Match"
-        },
-        {
-            "headerName": "MB",
-            "size": 5,
-            "isFilterMultiple": true,
-            "columnKey": "maxbetHdp"
-        },
-        {
-            "headerName": "Spread HDP",
-            "size": 5,
-            "isFilterMultiple": true,
-            "columnKey": "spreadHdp"
-        },
-        {
-            "headerName": "Spread OU",
-            "size": 5,
-            "isFilterMultiple": true,
-            "columnKey": "spreadOu"
-        },
-        {
-            "headerName": "No. HDP",
-            "size": 7,
-            "isFilterMultiple": true,
-            "columnKey": "noOfHDP"
-        },
-        {
-            "headerName": "TV/IPTV",
-            "size": 8,
-            "isFilter": true,
-            "columnKey": "TV/IPTV"
-        },
-        {
-            "headerName": "Turnover",
-            "size": 6,
-            "columnKey": "turnoverPeriod",
-            "isOrder": true,
-            "colSpan": 2
-        },
-        {
-            "headerName": "Margin",
-            "size": 6,
-            "columnKey": "marginPeriod",
-            "isOrder": true
-        },
-        {
-            "headerName": "Provider",
-            "size": 6,
-            "isFilter": true,
-            "columnKey": "Provider"
-        },
-        {
-            "headerName": "Round",
-            "size": 7,
-            "isFilter": true,
-            "columnKey": "Round"
-        },
-        {
-            "headerName": "Remark",
-            "size": 6,
-            "isFilter": true,
-            "columnKey": "Remark"
-        },
-        {
-            "headerName": "R&D Update",
-            "size": 13,
-            "columnKey": "rAndDInfo",
-            "isFilterMultiple": true
-        },
-        {
-            "headerName": "Checked",
-            "size": 5,
-            "className": "check-by-lst",
-            "isCheckBox": true,
-            "columnKey": "Checked"
-        },
-        {
-            "headerName": "Action",
-            "size": 5,
-            "columnKey": "Action"
-        }
-    ],
-    "itemRowHeight": 100,
-    "Special_Product_Type": [
-        {
-            "label": "No. Of Corner",
-            "value": -3
-        },
-        {
-            "label": "Next Corner",
-            "value": -4
-        },
-        {
-            "label": "Total Booking",
-            "value": -6
-        },
-        {
-            "label": "Next Booking",
-            "value": -7
-        }
-    ]
+    {
+      "headerName": "KO Time",
+      "size": 6,
+      "isFilterMultiple": true,
+      "columnKey": "time"
+    },
+    {
+      "headerName": "League",
+      "size": 15,
+      "isFilterMultiple": true,
+      "columnKey": "leagueName"
+    },
+    {
+      "headerName": "Match",
+      "size": 14,
+      "isFilter": true,
+      "columnKey": "Match"
+    },
+    {
+      "headerName": "MB",
+      "size": 5,
+      "isFilterMultiple": true,
+      "columnKey": "maxbetHdp"
+    },
+    {
+      "headerName": "Spread HDP",
+      "size": 5,
+      "isFilterMultiple": true,
+      "columnKey": "spreadHdp"
+    },
+    {
+      "headerName": "Spread OU",
+      "size": 5,
+      "isFilterMultiple": true,
+      "columnKey": "spreadOu"
+    },
+    {
+      "headerName": "No. HDP",
+      "size": 7,
+      "isFilterMultiple": true,
+      "columnKey": "noOfHDP"
+    },
+    {
+      "headerName": "LST Note",
+      "size": 8,
+      "isFilterMultiple": true,
+      "columnKey": "lstNote"
+    },
+    {
+      "headerName": "TV/IPTV",
+      "size": 10,
+      "isFilter": true,
+      "columnKey": "TV/IPTV"
+    },
+    {
+      "headerName": "Provider",
+      "size": 8,
+      "isFilter": true,
+      "columnKey": "Provider"
+    },
+    {
+      "headerName": "Round",
+      "size": 10,
+      "isFilter": true,
+      "columnKey": "Round"
+    },
+    {
+      "headerName": "Remark",
+      "size": 10,
+      "isFilter": true,
+      "columnKey": "Remark"
+    },
+    {
+      "headerName": "R&D Update",
+      "size": 13,
+      "columnKey": "rAndDInfo",
+      "isFilterMultiple": true
+    },
+    {
+      "headerName": "Checked",
+      "size": 5,
+      "className": "check-by-lst",
+      "isCheckBox": true,
+      "columnKey": "Checked"
+    },
+    {
+      "headerName": "Action",
+      "size": 5,
+      "columnKey": "Action"
+    }
+  ],
+  "TABLE_HEADER_TURN_OVER_MARGIN": [
+    {
+      "headerName": "No #",
+      "size": 3,
+      "isHaveDropdown": true,
+      "isCheckAll": true,
+      "columnKey": "No #"
+    },
+    {
+      "headerName": "KO Time",
+      "size": 6,
+      "isFilterMultiple": true,
+      "columnKey": "time"
+    },
+    {
+      "headerName": "League",
+      "size": 10,
+      "isFilterMultiple": true,
+      "columnKey": "leagueName"
+    },
+    {
+      "headerName": "Match",
+      "size": 12,
+      "isFilter": true,
+      "columnKey": "Match"
+    },
+    {
+      "headerName": "MB",
+      "size": 5,
+      "isFilterMultiple": true,
+      "columnKey": "maxbetHdp"
+    },
+    {
+      "headerName": "Spread HDP",
+      "size": 5,
+      "isFilterMultiple": true,
+      "columnKey": "spreadHdp"
+    },
+    {
+      "headerName": "Spread OU",
+      "size": 5,
+      "isFilterMultiple": true,
+      "columnKey": "spreadOu"
+    },
+    {
+      "headerName": "No. HDP",
+      "size": 7,
+      "isFilterMultiple": true,
+      "columnKey": "noOfHDP"
+    },
+    {
+      "headerName": "LST Note",
+      "size": 8,
+      "isFilterMultiple": true,
+      "columnKey": "lstNote"
+    },
+    {
+      "headerName": "TV/IPTV",
+      "size": 8,
+      "isFilter": true,
+      "columnKey": "TV/IPTV"
+    },
+    {
+      "headerName": "Provider",
+      "size": 6,
+      "isFilter": true,
+      "columnKey": "Provider"
+    },
+    {
+      "headerName": "Round",
+      "size": 7,
+      "isFilter": true,
+      "columnKey": "Round"
+    },
+    {
+      "headerName": "Remark",
+      "size": 6,
+      "isFilter": true,
+      "columnKey": "Remark"
+    },
+    {
+      "headerName": "R&D Update",
+      "size": 13,
+      "columnKey": "rAndDInfo",
+      "isFilterMultiple": true
+    },
+    {
+      "headerName": "Checked",
+      "size": 5,
+      "className": "check-by-lst",
+      "isCheckBox": true,
+      "columnKey": "Checked"
+    },
+    {
+      "headerName": "Action",
+      "size": 2,
+      "columnKey": "Action"
+    },
+    {
+      "headerName": "Turnover",
+      "size": 6,
+      "isFilterMultiple": true,
+      "columnKey": "turnoverPeriod",
+      "isOrder": true,
+      "colSpan": 2
+    },
+    {
+      "headerName": "Margin",
+      "size": 6,
+      "isFilterMultiple": true,
+      "columnKey": "marginPeriod",
+      "isOrder": true
+    }
+  ],
+  "itemRowHeight": 100,
+  "Special_Product_Type": [
+    {
+      "label": "No. Of Corner",
+      "value": -3
+    },
+    {
+      "label": "Next Corner",
+      "value": -4
+    },
+    {
+      "label": "Total Booking",
+      "value": -6
+    },
+    {
+      "label": "Next Booking",
+      "value": -7
+    }
+  ]
 }

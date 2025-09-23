@@ -322,7 +322,7 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
 
     [Cell("BX2")]
     [JsonIgnore]
-    public string MarginExport => BuildMarginExport();
+    public double? MarginExport => BuildMarginExport();
 
     [JsonIgnore]
     public TurnOverInfo TurnoverOneMonth { get; set; }
@@ -376,10 +376,10 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
         return string.Join("\r\n", turnOverPeriodValues);
     }
 
-    public string BuildMarginExport()
+    public double? BuildMarginExport()
     {
-        var marginPeriodValues = MarginPeriod?.Select(t => $"{t.Title}: " + t.ValueDisplay).ToList();
-        return string.Join("\r\n", marginPeriodValues);
+        var marginPeriodValues = MarginPeriod?.FirstOrDefault()?.Value;
+        return marginPeriodValues;
     }
 
     public void MapWeekendSettings(LeagueSetting leagueSetting)

@@ -1,8 +1,28 @@
 import { render, screen } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
 import { CellProps, DataSource } from '../../../type/TTaskListTable';
 import NoCell from './NoCell';
 
+const middlewares = [];
+const mockStore = configureStore(middlewares);
+
+const Wrapper = ({ children }) => {
+  const store = mockStore({
+    taskList: {
+      matchesSelected: []
+    }
+  });
+  return <Provider store={store}>{children}</Provider>;
+};
+
+// Mock the custom hook
+jest.mock('../../../../Shared/customHook/useStableDispatch', () => {
+  return jest.fn(() => jest.fn());
+});
+
 describe('NoCell under testing', () => {
+
   const dataSources: DataSource = {
     KickOffTime: new Date('2022-12-13T16:00:00'),
     KickOffTimeDisplay: '4:00PM 13-12-2022',
@@ -150,7 +170,7 @@ describe('NoCell under testing', () => {
       dataSource: dataSources,
       rowIndex: 0
     };
-    const { container } = render(<NoCell {...props} />);
+    const { container } = render(<NoCell {...props} />, { wrapper: Wrapper });
     const icon = container.querySelectorAll('.live');
     expect(icon).toBeTruthy();
   });

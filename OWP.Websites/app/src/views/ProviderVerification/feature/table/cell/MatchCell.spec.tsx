@@ -12,7 +12,7 @@ describe('MatchCell', () => {
 
   it('should render with the correct class name', () => {
     const { container } = render(<MatchCell {...defaultProps} />);
-    expect(container.querySelector('td')).toHaveClass('test-class');
+    expect(container.querySelector('div')).toHaveClass('test-class');
   });
 
   it('should render the home team name', () => {

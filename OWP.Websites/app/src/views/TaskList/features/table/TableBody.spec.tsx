@@ -3,38 +3,52 @@ import { render } from '@testing-library/react';
 import TableBody from './TableBody';
 import { DataSource, TBody } from '../../type/TTaskListTable';
 import { Provider } from 'react-redux';
-import store from '../../app/storeNative';
+import configureStore from 'redux-mock-store';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
+
+const middlewares = [];
+const mockStore = configureStore(middlewares);
 
 jest.mock('../../app/hooks', () => ({
   useAppSelector: jest.fn(),
   useAppDispatch: jest.fn()
 }));
 
-// Mock the store to provide the missing tradingPageInfo state
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useSelector: jest.fn()
+}));
+
 jest.mock('../../app/storeNative', () => ({
-  default: {
-    getState: () => ({
-      tradingPageInfo: {
-        info: {
-          laTradingPage: 'http://localhost:3000',
-          tradingPage: 'http://localhost:3001',
-          servers: [
-            {
-              id: 1,
-              name: 'Server 1',
-              url: 'http://localhost:3000',
-              laPort: 3000,
-              tradingPort: 3001
-            }
-          ]
-        },
-        serverSetingId: 1
+  getState: jest.fn(() => ({
+    tradingPageInfo: {
+      info: {
+        laTradingPage: 'http://localhost:3000',
+        tradingPage: 'http://localhost:3001',
+        servers: [
+          {
+            id: 1,
+            name: 'Server 1',
+            url: 'http://localhost:3000',
+            laPort: 3000,
+            tradingPort: 3001
+          }
+        ]
+      },
+      serverSetingId: 1
+    },
+    laTradingPage: { serverSetingId: 1 },
+    tradingPage: { serverSetingId: 1 },
+    servers: [
+      {
+        id: 1,
+        name: 'Server 1',
+        url: 'http://localhost:3000',
+        laPort: 3000,
+        tradingPort: 3001
       }
-    }),
-    subscribe: jest.fn(),
-    dispatch: jest.fn()
-  }
+    ]
+  }))
 }));
 
 describe('TableBody component', () => {
@@ -60,6 +74,72 @@ describe('TableBody component', () => {
     (useAppSelector as unknown as jest.Mock).mockReturnValue({
       matches: mockDataSource,
       popupState: { isOpen: true, matchId: 21 }
+    });
+
+    // Mock useSelector for pagePolicy
+    const { useSelector } = require('react-redux');
+    (useSelector as jest.Mock).mockImplementation((selector) => {
+      const mockState = {
+        pagePolicy: {
+          permission: {
+            Username: 'sa',
+            ActorId: 8,
+            HasWrite: true
+          }
+        },
+        taskList: {
+          refreshModel: {
+            isToday: true
+          }
+        }
+      };
+      return selector(mockState);
+    });
+
+    const store = mockStore({
+      tradingPageInfo: {
+        info: {
+          laTradingPage: 'http://localhost:3000',
+          tradingPage: 'http://localhost:3001',
+          servers: [
+            {
+              id: 1,
+              name: 'Server 1',
+              url: 'http://localhost:3000',
+              laPort: 3000,
+              tradingPort: 3001
+            }
+          ]
+        },
+        serverSetingId: 1
+      },
+      taskList: {
+        matchesSelected: []
+      },
+      servers: [
+        {
+          id: 1,
+          name: 'Server 1',
+          url: 'http://localhost:3000',
+          laPort: 3000,
+          tradingPort: 3001
+        }
+      ],
+      tradingPageInfo: {
+        info: {
+          serverSetingId: 1
+        },
+        serverSetingId: 1,
+        servers: [
+          {
+            id: 1,
+            name: 'Server 1',
+            url: 'http://localhost:3000',
+            laPort: 3000,
+            tradingPort: 3001
+          }
+        ]
+      }
     });
 
     const { getByText } = render(

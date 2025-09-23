@@ -481,7 +481,7 @@
 .table-event-picking {
     border-collapse: collapse;
     padding: 0;
-    width: 2200px;
+    width: 2400px;
     height: 100%;
     color: #494848;
     font-size: 11.5px;
@@ -524,6 +524,19 @@
         &:nth-child(13),
         &:nth-child(14),
         &:nth-child(15) {
+            .filter-popup {
+                right: 1px !important;
+                left: auto !important;
+
+                &:before {
+                    right: 1px !important;
+                    left: auto !important;
+                }
+            }
+        }
+        &:nth-child(16),
+        &:nth-child(17),
+        &:nth-child(18) {
             .filter-popup {
                 right: 1px !important;
                 left: auto !important;

@@ -33,8 +33,8 @@ const messagesData = [
 
 useDispatch.mockReturnValue(mockedDispatch);
 const setUp = (status, message = messagesData, actorId) => {
-  useSelector.mockImplementation(selectorFn =>
-    selectorFn({
+  useSelector.mockImplementation(selectorFn => {
+    const state = {
       chatBoard: {
         loading: status,
         ticketDetail: {
@@ -62,9 +62,17 @@ const setUp = (status, message = messagesData, actorId) => {
           ActorId: actorId,
           HasWrite: true
         }
+      },
+      pagePolicy: {
+        permission: {
+          Username: 'sa',
+          ActorId: actorId,
+          HasWrite: true
+        }
       }
-    })
-  );
+    };
+    return selectorFn(state);
+  });
 };
 
 describe('test MessageList', () => {
@@ -74,14 +82,14 @@ describe('test MessageList', () => {
 
   it('status is loading, should contain Loading Mask', () => {
     setUp('pending');
-    const { container } = render(<MessageList />);
+    const { container } = render(<MessageList policy='policy' />);
     const loading = container.querySelector('.loading-process');
     expect(loading).toBeInTheDocument();
   });
 
   it('status is idle, should contain AutoSizer', () => {
     setUp('idle', messagesData, 8);
-    const { container } = render(<MessageList />);
+    const { container } = render(<MessageList policy='policy' />);
     const list = container.querySelector('.message-row');
     expect(list).toBeInTheDocument();
     const message = container.querySelector('.my-message');

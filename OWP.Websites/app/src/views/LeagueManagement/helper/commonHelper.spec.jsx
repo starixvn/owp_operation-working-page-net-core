@@ -25,7 +25,7 @@ describe('commonHelper', () => {
       }
     ];
 
-    const expected = option.concat([{ value: 0, label: '' }]);
+    const expected = option.concat([{ value: 0, label: '(Blanks)' }]);
     expect(rebuildLeagueGroupOption(option)).toEqual(expected);
   });
 

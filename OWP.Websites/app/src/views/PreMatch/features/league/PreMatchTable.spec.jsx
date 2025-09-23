@@ -288,6 +288,10 @@ const setup = status => {
     },
     filter: {
       filterDate: new Date()
+    },
+    auto: {
+      autoMode: false,
+      assignments: []
     }
   };
 

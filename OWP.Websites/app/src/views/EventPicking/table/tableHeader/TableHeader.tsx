@@ -46,33 +46,29 @@ const TableHeader = () => {
                             )}
                         </div>
                         <div className='group-multiple-select'>
-                            {
-                                item?.isCheckBox &&
+                            {item?.isCheckBox && (
                                 <CheckboxHeader
                                     classNameProps={item?.className}
                                     columnKey={item.columnKey}
                                 />
-                            }
-                            {
-                                item?.isCheckAll &&
+                            )}
+                            {item?.isCheckAll && (
                                 <CheckAllHeader
                                     classNameProps={item?.className}
                                     columnKey={item.columnKey}
                                 />
-                            }
-                            {
-                                item?.isHaveDropdown && HasWrite &&
+                            )}
+                            {item?.isHaveDropdown && HasWrite && (
                                 <div className='dropdown-wrap'>
                                     <DropdownIcon
                                         colorDropdown='black'
                                         handleOnClick={() => setIsDropdownAction(true)}
                                     />
-                                    {
-                                        isShowDropdownAction &&
+                                    {isShowDropdownAction && (
                                         <DropdownActionHeader refValue={ref} />
-                                    }
+                                    )}
                                 </div>
-                            }
+                            )}
                         </div>
                     </th>
                 );

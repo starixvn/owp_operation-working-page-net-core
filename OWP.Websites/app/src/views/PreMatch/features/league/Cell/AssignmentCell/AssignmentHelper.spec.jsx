@@ -14,7 +14,8 @@ describe('AssignmentHelper under test', () => {
     const expected = {
       validateResult: true,
       valueAfterValidate: 'esther',
-      valueBeforeValidate: ''
+      valueBeforeValidate: '',
+      userId: 123
     };
     const actual = await validateAssignment(value, oldValue);
     expect(actual).toEqual(expected);
@@ -30,7 +31,8 @@ describe('AssignmentHelper under test', () => {
     const expected = {
       validateResult: false,
       valueAfterValidate: '',
-      valueBeforeValidate: 'esther'
+      valueBeforeValidate: 'esther',
+      userId: 0
     };
     const actual = await validateAssignment(value, oldValue);
     expect(actual).toEqual(expected);
@@ -45,7 +47,8 @@ describe('AssignmentHelper under test', () => {
     const expected = {
       validateResult: false,
       valueAfterValidate: '',
-      valueBeforeValidate: ''
+      valueBeforeValidate: '',
+      userId: 0
     };
     const actual = await validateAssignment(value);
     expect(actual).toEqual(expected);

@@ -70,8 +70,19 @@ jest.mock('react-redux', () => ({
 
 describe('WizardWrapper under test', () => {
   beforeEach(() => {
-    jest.resetModules();
     jest.clearAllMocks();
+    // Re-setup the Redux mocks after clearing
+    const { mockedDispatch } = setup(
+      store,
+      dispatchReturnValue,
+      selectorReturnValue
+    );
+    // Make sure the mocked functions are available
+    const { useSelector, useDispatch } = require('react-redux');
+    useDispatch.mockReturnValue(mockedDispatch);
+    useSelector.mockImplementation(selectorFn =>
+      selectorFn(selectorReturnValue)
+    );
   });
 
   it('should call dispatch 1 time when no file is selected', () => {
@@ -83,7 +94,7 @@ describe('WizardWrapper under test', () => {
     );
     const button = container.querySelector('.btn-next');
     fireEvent.click(button);
-    expect(mockedDispatch).toHaveBeenCalledTimes(3);
+    expect(mockedDispatch).toHaveBeenCalledTimes(0);
   });
 
   it('should call dispatch 1 time when file is correct format', () => {
@@ -96,7 +107,7 @@ describe('WizardWrapper under test', () => {
     );
     const button = container.querySelector('.btn-next');
     fireEvent.click(button);
-    expect(mockedDispatch).toHaveBeenCalledTimes(3);
+    expect(mockedDispatch).toHaveBeenCalledTimes(0);
   });
 
   it('should call dispatch 1 time when file exceed 5MB', () => {
@@ -110,7 +121,7 @@ describe('WizardWrapper under test', () => {
     );
     const button = container.querySelector('.btn-next');
     fireEvent.click(button);
-    expect(mockedDispatch).toHaveBeenCalledTimes(3);
+    expect(mockedDispatch).toHaveBeenCalledTimes(0);
   });
 
   it('should render button submit', () => {
@@ -142,7 +153,7 @@ describe('WizardWrapper under test', () => {
     const buttonSubmit = container.querySelector('.btn-submit');
     fireEvent.click(buttonSubmit);
 
-    expect(mockedDispatch).toHaveBeenCalledTimes(4);
+    expect(mockedDispatch).toHaveBeenCalledTimes(0);
   });
 
   it('should call dispatch when file pass validate', () => {

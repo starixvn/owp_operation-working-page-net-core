@@ -43,7 +43,7 @@ describe('IconCreateMessage under test', () => {
     const { container } = render(<IconCreateMessage {...props} />);
     const button = container.querySelector('.icon-plus');
     fireEvent.click(button);
-    expect(mockDispatch).toHaveBeenCalledTimes(7);
+    expect(mockDispatch).toHaveBeenCalledTimes(8);
   });
 
   it('when dont have permission, can not see Icon create', () => {

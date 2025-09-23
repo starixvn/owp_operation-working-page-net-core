@@ -1,6 +1,26 @@
 import { render, screen } from '@testing-library/react';
 import NoCell from './NoCell';
 import { CellProps } from '../../../type/TableType';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+
+const middlewares = [];
+const mockStore = configureStore(middlewares);
+
+const Wrapper = ({ children }) => {
+  const store = mockStore({
+    servers: [
+      {
+        id: 1,
+        name: 'Server 1',
+        url: 'http://localhost:3000',
+        laPort: 3000,
+        tradingPort: 3001
+      }
+    ]
+  });
+  return <Provider store={store}>{children}</Provider>;
+};
 
 const propLiveStatus: CellProps = {
   dataSource: [
@@ -370,12 +390,12 @@ const propCancelStatus: CellProps = {
 };
 describe('NoCell under test', () => {
   it('Should render icon Live', () => {
-    const { container } = render(<NoCell {...propLiveStatus} />);
+    const { container } = render(<NoCell {...propLiveStatus} />, { wrapper: Wrapper });
     const status = container.querySelector('.live');
     expect(status).toBeInTheDocument();
   });
   it('Should render icon Cancel', () => {
-    const { container } = render(<NoCell {...propCancelStatus} />);
+    const { container } = render(<NoCell {...propCancelStatus} />, { wrapper: Wrapper });
     const status = container.querySelector('.icon-cancelled');
     expect(status).toBeInTheDocument();
   });

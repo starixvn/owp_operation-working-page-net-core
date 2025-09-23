@@ -11,19 +11,10 @@ public interface ExportService
     Task<FileStreamResult> BuildFileStream(IList<EventPickingModel> matches, bool isMiscMatch);
 }
 
-public class ExportServiceImp : ExportService, IDisposable
+public class ExportServiceImp(ConfigurationService configurationService, PermissionService permissionService)
+    : ExportService, IDisposable
 {
     private ExcelPackage excelPackage;
-
-    private readonly ConfigurationService configurationService;
-
-    private readonly PermissionService permissionService;
-
-    public ExportServiceImp(ConfigurationService configurationService, PermissionService permissionService)
-    {
-        this.configurationService = configurationService;
-        this.permissionService = permissionService;
-    }
 
     public async Task<FileStreamResult> BuildFileStream(IList<EventPickingModel> matches, bool isMiscMatch)
     {
@@ -36,6 +27,7 @@ public class ExportServiceImp : ExportService, IDisposable
         templateSheet.ApplyVertical(matches, 2);
         ExcelColorHelper.FillRowColor(matches, templateSheet);
         ExcelColorHelper.FillCellColor(matches, templateSheet);
+        ExcelColorHelper.FillTextColor(matches, templateSheet);
         var turnoverMarginPolicy = permissionService
             .GetPermissions(FunctionKeys.EventPickingNew)?
             .GetPermissionModel(FunctionKeys.EventPickingNew_EventAndPerformance);

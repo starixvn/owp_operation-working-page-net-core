@@ -42,7 +42,7 @@ describe('Edit under test', () => {
       }
     }));
     const { getByText } = render(<EditWrapper />);
-    expect(getByText('Edit')).toBeInTheDocument()
+    expect(getByText('Edit MB')).toBeInTheDocument()
 
   });
   it('should render view component', () => {

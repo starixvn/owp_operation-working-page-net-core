@@ -17,7 +17,7 @@ describe('Filter component', () => {
 
     fireEvent.change(fromDateInput, { target: { value: '2023-01-01' } });
 
-    expect(fromDateInput.value).toBe('2023-01-01');
+    expect(fromDateInput.value).toBe('Jan 2023');
   });
 
   it('should call handleOnSearch when Search button is clicked', () => {

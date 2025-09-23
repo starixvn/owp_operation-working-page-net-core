@@ -107,6 +107,28 @@ const buildNoOfHdpOptions = (entities: TDataTable[]) =>
     i => i.label
   );
 
+const buildLstNoteOptions = (entities: TDataTable[]) =>
+  uniqBy(
+    [...entities]
+      .map(o => ({
+        value: o.lstNote || null,
+        label: o.lstNote || '(Blanks)'
+      }))
+      .sort((a, b) => {
+        const aIsAlpha = /^[a-zA-Z]/.test(a.label);
+        const bIsAlpha = /^[a-zA-Z]/.test(b.label);
+
+        if (aIsAlpha === bIsAlpha) {
+          if (a.label === '(Blanks)') return 1;
+          if (b.label === '(Blanks)') return -1;
+          return a.label.localeCompare(b.label);
+        }
+
+        return aIsAlpha ? -1 : 1;
+      }),
+    i => i.label
+  );
+
 const buildDefaultRAndDInfoOptions = (updateTypeOption: Option[]) =>
   updateTypeOption
     .map(type => ({
@@ -132,6 +154,44 @@ const buildRAndDInfoOptions = (
     rAndDInfo.some(r => r.group === o.value)
   );
 };
+
+const buildTurnoverPeriodOptions = (entities: TDataTable[]) => {
+  const allPeriods = entities.flatMap(entity =>
+    Array.isArray(entity.turnoverPeriod)
+      ? entity.turnoverPeriod.map(period => ({
+        value: period.value,
+        label: String(period.valueDisplay || '(Blanks)')
+      }))
+      : []
+  );
+  const periods = uniqBy(allPeriods, i => i.value);
+  
+  return periods.sort((a, b) => {
+    if (a.value === null && b.value === null) return 0;
+    if (a.value === null) return 1;
+    if (b.value === null) return -1;
+    return a.value - b.value;
+  });
+};
+
+const buildMarginPeriodOptions = (entities: TDataTable[]) => {
+  const allPeriods = entities.flatMap(entity =>
+    Array.isArray(entity.marginPeriod)
+      ? entity.marginPeriod.map(period => ({
+        value: period.value,
+        label: String(period.value || '(Blanks)')
+      }))
+      : []
+  );
+  const periods = uniqBy(allPeriods, i => i.value);
+  
+  return periods.sort((a, b) => {
+    if (a.value === null && b.value === null) return 0;
+    if (a.value === null) return 1;
+    if (b.value === null) return -1;
+    return a.value - b.value;
+  });
+};
 const buildTableMultipleFilterOptions = (
   entities: TDataTable[],
   rAndDInfoOriginalOption: Option[]
@@ -142,10 +202,13 @@ const buildTableMultipleFilterOptions = (
   const spreadHdpOptions = buildSpreadOptions(entities, 'spreadHdp');
   const spreadOuOptions = buildSpreadOptions(entities, 'spreadOu');
   const noOfHdpOptions = buildNoOfHdpOptions(entities);
+  const lstNoteOptions = buildLstNoteOptions(entities);
   const rAndDInfoOptions = buildRAndDInfoOptions(
     entities,
     rAndDInfoOriginalOption
   );
+  const turnoverPeriodOptions = buildTurnoverPeriodOptions(entities);
+  const marginPeriodOptions = buildMarginPeriodOptions(entities);
 
   return {
     time: koTimeOptions,
@@ -154,7 +217,10 @@ const buildTableMultipleFilterOptions = (
     spreadHdp: spreadHdpOptions,
     spreadOu: spreadOuOptions,
     noOfHDP: noOfHdpOptions,
-    rAndDInfo: rAndDInfoOptions
+    lstNote: lstNoteOptions,
+    rAndDInfo: rAndDInfoOptions,
+    turnoverPeriod: turnoverPeriodOptions,
+    marginPeriod: marginPeriodOptions
   };
 };
 
@@ -165,7 +231,9 @@ const buildMultipleFilterDefault = (entities: TDataTable[]) => {
   const spreadHdpOptions = buildSpreadOptions(entities, 'spreadHdp');
   const spreadOuOptions = buildSpreadOptions(entities, 'spreadOu');
   const noOfHdpOptions = buildNoOfHdpOptions(entities);
-
+  const lstNoteOptions = buildLstNoteOptions(entities);
+  const turnoverPeriodOptions = buildTurnoverPeriodOptions(entities);
+  const marginPeriodOptions = buildMarginPeriodOptions(entities);
   return {
     [KO_TIME]: {
       isFilter: false,
@@ -196,6 +264,21 @@ const buildMultipleFilterDefault = (entities: TDataTable[]) => {
       isFilter: false,
       selected: noOfHdpOptions,
       options: noOfHdpOptions
+    },
+    [COLUMN_KEY.LST_NOTE]: {
+      isFilter: false,
+      selected: lstNoteOptions,
+      options: lstNoteOptions
+    },
+    [COLUMN_KEY.TURNOVER_PERIOD]: {
+      isFilter: false,
+      selected: turnoverPeriodOptions,
+      options: turnoverPeriodOptions
+    },
+    [COLUMN_KEY.MARGIN_PERIOD]: {
+      isFilter: false,
+      selected: marginPeriodOptions,
+      options: marginPeriodOptions
     }
   } as TMultipleFilter;
 };
@@ -205,7 +288,8 @@ const multipleFilterCommon = (
   multipleFilter: TMultipleFilter,
   filterProps: TColumnKey
 ) => {
-  if (!multipleFilter[filterProps]) {
+  if (!multipleFilter || !multipleFilter[filterProps]) {
+    console.log(`Filter ${filterProps} not found in multipleFilter`);
     return {
       multipleFilter,
       entities
@@ -225,11 +309,68 @@ const filterByRAndD = (
   entities: TDataTable[],
   selectedValue: (number | string | null)[]
 ) => {
+
   return entities.filter(
     e =>
       e.rAndDInfo?.some(r => selectedValue?.some(s => s === r.group)) ||
       (!e.rAndDInfo?.length && selectedValue?.some(s => !s))
   );
+};
+
+const filterByTurnoverPeriod = (
+  entities: TDataTable[],
+  filterInfo: TMultipleFilter
+) => {
+  if (!filterInfo.turnoverPeriod || !filterInfo.turnoverPeriod.selected) {
+    return {
+      filterInfo,
+      entities
+    };
+  }
+  const selectedValue = filterInfo.turnoverPeriod.selected.map(s => s.value);
+  if (!selectedValue) {
+    return {
+      filterInfo,
+      entities
+    };
+  }
+  return {
+    filterInfo,
+    entities: entities.filter(e =>
+      e.turnoverPeriod?.some(period =>
+        selectedValue.some(s => s === period.value)
+      ) || false
+    )
+  };
+};
+
+const filterByMarginPeriod = (
+  entities: TDataTable[],
+  filterInfo: TMultipleFilter
+) => {
+  if (!filterInfo.marginPeriod || !filterInfo.marginPeriod.selected) {
+    return {
+      filterInfo,
+      entities
+    };
+  }
+  const selectedValue = filterInfo.marginPeriod.selected.map(s => s.value);
+
+  if (!selectedValue) {
+    return {
+      filterInfo,
+      entities
+    };
+  }
+
+  return {
+    filterInfo,
+    entities: entities.filter(e =>
+      e.marginPeriod?.some(period =>
+        selectedValue.some(s => s === period.value)
+      ) || false
+    )
+  };
 };
 
 const executeFilterTable = (
@@ -280,13 +421,30 @@ const executeFilterTable = (
       multipleFilterCommon(
         props.entities,
         props.filterInfo,
-        COLUMN_KEY['NO.OF_HDP'] as TColumnKey
+        COLUMN_KEY.LST_NOTE as TColumnKey
       ),
     (props: TMultipleFilterPipe) =>
-      filterByRAndD(
+      filterByTurnoverPeriod(
+        props.entities,
+        props.filterInfo
+      ),
+    (props: TMultipleFilterPipe) =>
+      filterByMarginPeriod(
+        props.entities,
+        props.filterInfo
+      ),
+    (props: TMultipleFilterPipe) =>
+      multipleFilterCommon(
+        props.entities,
+        props.filterInfo,
+        COLUMN_KEY['NO.OF_HDP'] as TColumnKey
+      ),
+    (props: TMultipleFilterPipe) => {
+      return filterByRAndD(
         props.entities,
         props.filterInfo.rAndDInfo.selected.map(s => s.value)
-      )
+      );
+    }
   )({
     entities: state.entities,
     filterInfo: state.multipleFilter
