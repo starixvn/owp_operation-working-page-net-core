@@ -78,7 +78,7 @@ public static class ExcelColorHelper
 
     private static void FillTextColor(EventPickingModel match, ExcelWorksheet templateSheet, int row, int column)
     {
-        if (match.MarginExport.Contains("-"))
+        if (match.MarginExport is < 0)
         {
             SetTextColor(templateSheet.Cells[row, column],Color.Red);
         }
