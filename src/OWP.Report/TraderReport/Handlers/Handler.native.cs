@@ -23,9 +23,9 @@ public class Handler : IRequestHandler<ReportRequest, IEnumerable<ReportModel>>
     {
         var dataReport = (await repository.GetLstReportDataByDate(request)).ToList();
         var traderIds = dataReport.Select(x => x.UserId).Distinct().ToList();
-        var traderPerformanceDetails = await tGRSReportService.GetTraderPerformanceDetails(traderIds, request);
+        var traderPerformanceDetails = await tGRSReportService.GetTraderPerformanceDetails(traderIds, request) ?? [];
 
-        AssignTraderPerformanceDetail(dataReport, traderPerformanceDetails.ToList());
+        AssignTraderPerformanceDetail(dataReport, traderPerformanceDetails?.ToList());
 
         return dataReport.OrderBy(x => x.SectionName).ThenBy(y => y.Username);
     }
@@ -35,7 +35,7 @@ public class Handler : IRequestHandler<ReportRequest, IEnumerable<ReportModel>>
         foreach (var item in dataReport)
         {
             const int bettypeOther = 0;
-            var traders = traderPerformanceDetails.Where(x => x.TraderId == item.UserId).ToArray();
+            var traders = traderPerformanceDetails.Where(x => x.TraderId == item.UserId).ToArray()?? [];
             item.TurnOver_FT_HDP = traders.Where(x => x.BetType == Bettype.Handicap).Sum(x => x.Turnover);
             item.TurnOver_FT_OU = traders.Where(x => x.BetType == Bettype.OverUnder).Sum(x => x.Turnover);
             item.TurnOver_1H_HDP = traders.Where(x => x.BetType == Bettype.FirstHalfHandicap).Sum(x => x.Turnover);
