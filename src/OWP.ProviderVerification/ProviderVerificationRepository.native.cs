@@ -78,7 +78,7 @@ public class ProviderVerificationRepositoryImp(IDynamicRepository dynamicReposit
                 LstBookProvider = match.LstBookProvider,
                 InHouseProviderId = string.Equals(match.MatchStatus, "cancel", StringComparison.OrdinalIgnoreCase)
                     ? null
-                    : string.Join("/", providerMatches
+                    : string.Join("/ ", providerMatches
                         .Where(p => p.OWPMatchId == match.OWPMatchId)
                         .Select(p => p.ProviderMatchId)),
                 Remark = match.Remark,
