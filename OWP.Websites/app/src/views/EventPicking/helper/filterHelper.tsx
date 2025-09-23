@@ -164,7 +164,14 @@ const buildTurnoverPeriodOptions = (entities: TDataTable[]) => {
       }))
       : []
   );
-  return uniqBy(allPeriods, i => i.value);
+  const periods = uniqBy(allPeriods, i => i.value);
+  
+  return periods.sort((a, b) => {
+    if (a.value === null && b.value === null) return 0;
+    if (a.value === null) return 1;
+    if (b.value === null) return -1;
+    return a.value - b.value;
+  });
 };
 
 const buildMarginPeriodOptions = (entities: TDataTable[]) => {
@@ -176,7 +183,14 @@ const buildMarginPeriodOptions = (entities: TDataTable[]) => {
       }))
       : []
   );
-  return uniqBy(allPeriods, i => i.value);
+  const periods = uniqBy(allPeriods, i => i.value);
+  
+  return periods.sort((a, b) => {
+    if (a.value === null && b.value === null) return 0;
+    if (a.value === null) return 1;
+    if (b.value === null) return -1;
+    return a.value - b.value;
+  });
 };
 const buildTableMultipleFilterOptions = (
   entities: TDataTable[],
