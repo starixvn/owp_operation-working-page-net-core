@@ -40,7 +40,7 @@ const ActionCell = (props: Props) => {
 
   return (
     <td style={{ textAlign: 'center' }}>
-      <span onClick={handleCopySetting}>
+      <span onClick={handleCopySetting} style={{ marginRight: '5px' }}>
         <CopyIcon className='icon-copy' size={13} />
       </span>
       {leagueSettingId ?
