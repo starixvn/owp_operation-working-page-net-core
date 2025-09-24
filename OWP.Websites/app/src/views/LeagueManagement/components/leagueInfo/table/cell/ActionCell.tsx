@@ -1,5 +1,6 @@
 import DeleteIcon from 'mdi-react/DeleteIcon';
 import CopyIcon from 'mdi-react/ContentCopyIcon';
+import HistoryIcon from 'mdi-react/HistoryIcon';
 import ToastrWrapper from '../../../../../components/ToastrWrapper';
 import Spinner from '../../../../../components/Spinner';
 import { removeSettingService } from '../../service/service';
@@ -37,17 +38,21 @@ const ActionCell = (props: Props) => {
     dispatch(setIsOpenAddNewSetting());
   };
 
-
   return (
     <td style={{ textAlign: 'center' }}>
-      <span onClick={handleCopySetting} style={{ marginRight: '5px' }}>
-        <CopyIcon className='icon-copy' size={13} />
+      <span onClick={handleCopySetting}>
+        <CopyIcon className='icon-copy' size={17} />
       </span>
-      {leagueSettingId ?
+      {leagueSettingId ? (
         <span onClick={handleRemoveSetting}>
-          <DeleteIcon className='icon-delete' size={13} />
+          <DeleteIcon className='icon-delete' size={17} />
         </span>
-        : <></>}
+      ) : (
+        <></>
+      )}
+      <span>
+        <HistoryIcon className='icon-history-event' size={17} />
+      </span>
     </td>
   );
 };
