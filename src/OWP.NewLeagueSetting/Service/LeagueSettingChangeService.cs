@@ -1,6 +1,7 @@
 ﻿using OWP.NewLeagueSetting.Models;
 using System.Reflection;
 using Newtonsoft.Json;
+using NPOI.SS.UserModel;
 
 namespace OWP.NewLeagueSetting.Service;
 
@@ -80,12 +81,26 @@ public class LeagueSettingChangeService : ILeagueSettingChangeService
     
     public string FormatValue(object value)
     {
-        if (value == null) return "null";
-        if (value is string str && string.IsNullOrEmpty(str)) return "";
+        if (value == null || (value is string str && string.IsNullOrEmpty(str)))
+        {
+            return "";
+        }
         if (value is System.Collections.IEnumerable enumValue && !(value is string))
         {
             var list = enumValue.Cast<object>().ToList();
-            return list.Count == 0 ? "[]" : JsonConvert.SerializeObject(list);
+            var formattedItems = new List<string>();
+            foreach (var item in list)
+            {
+                if (item is Condition condition)
+                {
+                    formattedItems.Add($"{condition.Type} - {condition.Value}");
+                }
+                else
+                {
+                    formattedItems.Add($"{item?.GetType().Name ?? "null"} - {JsonConvert.SerializeObject(item)}");
+                }
+            }
+            return string.Join("\n", formattedItems);
         }
         return value?.ToString() ?? "";
     }
