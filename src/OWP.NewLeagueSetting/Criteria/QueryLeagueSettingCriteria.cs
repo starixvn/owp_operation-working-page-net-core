@@ -1,8 +1,7 @@
-﻿
-
-using Fanex.Data.Repository;
+﻿using Fanex.Data.Repository;
 
 namespace OWP.NewLeagueSetting.Criteria;
+
 public class QueryLeagueSettingCriteria : CriteriaBase
 {
     public string League { get; set; }
@@ -13,4 +12,3 @@ public class QueryLeagueSettingCriteria : CriteriaBase
 
     public override bool IsValid() => true;
 }
-

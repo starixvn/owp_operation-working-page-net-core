@@ -1,4 +1,5 @@
 using Fanex.Data.Repository;
+using Fanex.Logging;
 using NSubstitute;
 using OWP.NewLeagueSetting.Criteria;
 using OWP.NewLeagueSetting.Data;
@@ -14,8 +15,9 @@ public class RepositoryUnitTests
 
     public RepositoryUnitTests()
     {
+        var logger = Substitute.For<ILogger>();
         dynamicRepository = Substitute.For<IDynamicRepository>();
-        repository = new RepositoryImp(dynamicRepository);
+        repository = new RepositoryImp(logger, dynamicRepository);
     }
 
     [Fact]
