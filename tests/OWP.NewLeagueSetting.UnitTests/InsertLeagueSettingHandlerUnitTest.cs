@@ -8,6 +8,7 @@ using OWP.CQRS;
 using OWP.NewLeagueSetting.Command;
 using OWP.NewLeagueSetting.Criteria;
 using OWP.NewLeagueSetting.Data;
+using OWP.NewLeagueSetting.Service;
 using Xunit;
 
 namespace OWP.NewLeagueSetting.UnitTests;
@@ -21,10 +22,11 @@ public class InsertLeagueSettingHandlerUnitTest
         var repository = Substitute.For<Repository>();
         var session = Substitute.For<INapSession>();
         var mapper = Substitute.For<IMapper>();
+        var changeService = Substitute.For<ILeagueSettingChangeService>();
 
         session.UserId.Returns(123);
 
-        var handler = new InsertLeagueSettingHandler(repository, session, mapper);
+        var handler = new InsertLeagueSettingHandler(repository, session, mapper, changeService);
 
         var request = new InsertLeagueSettingRequest
         {
@@ -61,10 +63,11 @@ public class InsertLeagueSettingHandlerUnitTest
         var repository = Substitute.For<Repository>();
         var session = Substitute.For<INapSession>();
         var mapper = Substitute.For<IMapper>();
+        var changeService = Substitute.For<ILeagueSettingChangeService>();
 
         session.UserId.Returns(789);
 
-        var handler = new InsertLeagueSettingHandler(repository, session, mapper);
+        var handler = new InsertLeagueSettingHandler(repository, session, mapper, changeService);
 
         var request = new InsertLeagueSettingRequest
         {

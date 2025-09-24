@@ -8,9 +8,14 @@ public class LogInfo
     public DateTime CreatedDate { get; set; }
 
     public string ModifiedBy { get; set; }
+
     public string Action { get; set; }
 
-    public string Content { get; set; }
+    public string Field { get; set; }
+
+    public string OldValue { get; set; }
+
+    public string NewValue { get; set; }
 
 
 }
