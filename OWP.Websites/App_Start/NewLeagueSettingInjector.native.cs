@@ -10,5 +10,6 @@ public static class NewLeagueSettingInjector
 
         services.AddScoped<Repository, RepositoryImp>();
         services.AddScoped<DuplicateSettingService, DuplicateSettingServiceImp>();
+        services.AddScoped<ILeagueSettingChangeService, LeagueSettingChangeService>();
     }
 }
