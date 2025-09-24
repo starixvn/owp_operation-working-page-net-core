@@ -1,5 +1,6 @@
 ﻿using OWP.NewLeagueSetting.Models;
 using System.Reflection;
+using Newtonsoft.Json;
 
 namespace OWP.NewLeagueSetting.Service;
 
@@ -44,13 +45,9 @@ public class LeagueSettingChangeService : ILeagueSettingChangeService
         
         if (changes.Any())
         {
-            Console.WriteLine("=== CHANGES DURING PROCESSING ===");
             foreach (var change in changes)
             {
-                Console.WriteLine($"Property: {change.GetType().GetProperty("Key")?.GetValue(change)}");
-                Console.WriteLine($"  Old Value: {change.GetType().GetProperty("OldValue")?.GetValue(change)}");
-                Console.WriteLine($"  New Value: {change.GetType().GetProperty("NewValue")?.GetValue(change)}");
-                Console.WriteLine("---");
+                
             }
         }
         else
@@ -84,12 +81,12 @@ public class LeagueSettingChangeService : ILeagueSettingChangeService
     public string FormatValue(object value)
     {
         if (value == null) return "null";
-        if (value is string str && string.IsNullOrEmpty(str)) return "empty";
+        if (value is string str && string.IsNullOrEmpty(str)) return "";
         if (value is System.Collections.IEnumerable enumValue && !(value is string))
         {
             var list = enumValue.Cast<object>().ToList();
-            return list.Count == 0 ? "empty collection" : $"collection[{list.Count}]";
+            return list.Count == 0 ? "[]" : JsonConvert.SerializeObject(list);
         }
-        return value.ToString();
+        return value?.ToString() ?? "";
     }
 }
