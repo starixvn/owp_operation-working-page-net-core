@@ -17,13 +17,14 @@ type FilterHeaderProps = {
 const FilterHeader = ({ columnKey }: FilterHeaderProps) => {
   const dispatch = useAppDispatch();
   const model = useSelector((state: RootState) => state.eventPickingTable);
-
+  const hasReadPermission = useSelector((state: RootState) => state.turnOverMarginPolicy.permission.HasRead);
+  
   const handleClickFilterCallback = (value: string) => {
     dispatch(setColumnKeyValue(value));
   };
   const handleClearFilterCallback = () => dispatch(clearFilter());
   const handleFilterBySearchKeyCallback = (filterState: TFilterState) =>
-    dispatch(filterBySearchKey(filterState));
+    dispatch(filterBySearchKey({ filterState, hasReadPermission }));
   const handleValueFilterCallback = (columnHaveBeenFiltered: TFilterState) =>
     dispatch(setValueFilter(columnHaveBeenFiltered));
   return (

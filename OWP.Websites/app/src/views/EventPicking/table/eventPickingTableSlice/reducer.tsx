@@ -157,10 +157,10 @@ const EventPickingTableSlice = createSlice({
                 action.payload
             );
         },
-        filterBySearchKey: (state, action) => {
-            const { filterState } = state;
-            state.filterState = addOrReplaceFilterState(filterState, action.payload);
-            state.entities = executeFilterTable(state, filterByKeyword);
+        filterBySearchKey: (state, action: PayloadAction<{ filterState: TFilterState; hasReadPermission?: boolean }>) => {
+            const { filterState, hasReadPermission } = action.payload;
+            state.filterState = addOrReplaceFilterState(state.filterState, filterState);
+            state.entities = executeFilterTable(state, filterByKeyword, hasReadPermission);
             state.entities = executeOrderTable(state.entities, state.order);
             const options = buildTableMultipleFilterOptions(
                 state.entities,
@@ -197,15 +197,16 @@ const EventPickingTableSlice = createSlice({
             action: PayloadAction<{
                 columnKey: Required<TColumnKey>;
                 selected: Option[];
+                hasReadPermission?: boolean;
             }>
         ) => {
-            const { columnKey, selected } = action.payload;
+            const { columnKey, selected, hasReadPermission } = action.payload;
             state.multipleFilter[columnKey] = {
                 ...state.multipleFilter[columnKey],
                 isFilter: true,
                 selected
             };
-            state.entities = executeFilterTable(state, filterByKeyword);
+            state.entities = executeFilterTable(state, filterByKeyword, hasReadPermission);
             state.entities = executeOrderTable(state.entities, state.order);
             const options = buildTableMultipleFilterOptions(
                 state.entities,
