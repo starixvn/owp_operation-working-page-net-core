@@ -319,8 +319,15 @@ const filterByRAndD = (
 
 const filterByTurnoverPeriod = (
   entities: TDataTable[],
-  filterInfo: TMultipleFilter
+  filterInfo: TMultipleFilter,
+  hasReadPermission: boolean = true
 ) => {
+  if (!hasReadPermission) {
+    return {
+      filterInfo,
+      entities
+    };
+  }
   if (!filterInfo.turnoverPeriod || !filterInfo.turnoverPeriod.selected) {
     return {
       filterInfo,
@@ -346,8 +353,15 @@ const filterByTurnoverPeriod = (
 
 const filterByMarginPeriod = (
   entities: TDataTable[],
-  filterInfo: TMultipleFilter
+  filterInfo: TMultipleFilter,
+  hasReadPermission: boolean = true
 ) => {
+  if (!hasReadPermission) {
+    return {
+      filterInfo,
+      entities
+    };
+  }
   if (!filterInfo.marginPeriod || !filterInfo.marginPeriod.selected) {
     return {
       filterInfo,
@@ -378,7 +392,8 @@ const executeFilterTable = (
   filterByKeyword: (
     arraySource: any, //NOSONAR
     { keyword, columnKey }: { keyword: undefined; columnKey: undefined }
-  ) => any //NOSONAR
+  ) => any, //NOSONAR
+  hasReadPermission: boolean = true
 ) => {
   state.entities = filterDataTable(
     state.entitiesOriginal,
@@ -426,12 +441,14 @@ const executeFilterTable = (
     (props: TMultipleFilterPipe) =>
       filterByTurnoverPeriod(
         props.entities,
-        props.filterInfo
+        props.filterInfo,
+        hasReadPermission
       ),
     (props: TMultipleFilterPipe) =>
       filterByMarginPeriod(
         props.entities,
-        props.filterInfo
+        props.filterInfo,
+        hasReadPermission
       ),
     (props: TMultipleFilterPipe) =>
       multipleFilterCommon(
