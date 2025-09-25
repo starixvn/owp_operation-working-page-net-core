@@ -7,7 +7,7 @@ namespace OWP.NewLeagueSetting.Service;
 
 public interface ILeagueSettingChangeService
 {
-    void LogProcessingChanges(LeagueSettingChangeModel before, LeagueSettingChangeModel after);
+    List<object> LogProcessingChanges(LeagueSettingChangeModel before, LeagueSettingChangeModel after);
 }
 
 
@@ -32,21 +32,11 @@ public class LeagueSettingChangeService : ILeagueSettingChangeService
         { "Remark2", "Remark 2" }
     };
 
-    public void LogProcessingChanges(LeagueSettingChangeModel before, LeagueSettingChangeModel after)
+    public List<object> LogProcessingChanges(LeagueSettingChangeModel before, LeagueSettingChangeModel after)
     {
         var changes = GetChanges(before, after);
 
-        if (changes.Count != 0)
-        {
-            foreach (var change in changes)
-            {
-
-            }
-        }
-        else
-        {
-            Console.WriteLine("=== NO CHANGES DURING PROCESSING ===");
-        }
+        return changes;
     }
 
     public static List<object> GetChanges(LeagueSettingChangeModel before, LeagueSettingChangeModel after)

@@ -20,7 +20,7 @@ public class InsertLeagueSettingHandler(Repository repository, INapSession sessi
         StandardizedLeagueInfo.BuildSpread(request, request.Spread);
         
         
-        LogProcessingChanges(beforeProcessing, request);
+        var logsInfo = LogProcessingChanges(beforeProcessing, request);
         
         var criteria = mapper.Map<InsertLeagueSettingCriteria>(request);
         criteria.ActorId = session.UserId;
@@ -28,11 +28,11 @@ public class InsertLeagueSettingHandler(Repository repository, INapSession sessi
         return criteria.LeagueSettingId;
     }
     
-    private void LogProcessingChanges(InsertLeagueSettingRequest before, InsertLeagueSettingRequest after)
+    private List<object> LogProcessingChanges(InsertLeagueSettingRequest before, InsertLeagueSettingRequest after)
     {
         var beforeModel = MapToChangeModel(before);
         var afterModel = MapToChangeModel(after);
-        changeService.LogProcessingChanges(beforeModel, afterModel);
+        return changeService.LogProcessingChanges(beforeModel, afterModel);
     }
     
     private static LeagueSettingChangeModel MapToChangeModel(InsertLeagueSettingRequest request)
