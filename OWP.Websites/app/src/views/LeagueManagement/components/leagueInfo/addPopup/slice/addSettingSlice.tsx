@@ -4,6 +4,9 @@ import { REQUEST_STATUS } from '../../../../../Shared/Constants';
 import { TCondition } from '../../table/TableType';
 import { TOption, TAddSetting, TAddExpressionKey } from '../../component/Type';
 import { getLeagueGroupOptionsThunk } from '../../component/commonThunk';
+import { TDataSource } from '../../table/TableType';
+import { mapEditSettingFromDataSource } from '../../helper/helper';
+
 interface ConditionPayLoad {
   key: 'type' | 'value';
   property: keyof TAddExpressionKey;
@@ -32,7 +35,9 @@ const addSetting = {
   division: [{ value: '', type: 'Contains' }] as Array<TCondition>,
   shortLeague: '',
   isBlackList: false,
-  noOfferLive: false
+  noOfferLive: false,
+  remark2WD: '',
+  remark2WK: ''
 };
 
 const AddSettingSlice = createSlice({
@@ -88,6 +93,53 @@ const AddSettingSlice = createSlice({
       state.shortLeague = shortLeague;
       state.isBlackList = isBlackList;
       state.noOfferLive = noOfferLive;
+    },
+    setInitSetting: (state, action: PayloadAction<TDataSource>) => {
+      const {
+        league,
+        leagueGroupId,
+        leagueGroup,
+        spread,
+        maxbetWD_HDP,
+        wD_NoOfHDP,
+        maxbetWK_HDP,
+        wK_NoOfHDP,
+        lstNote,
+        remark2,
+        remark2WD,
+        remark2WK,
+        comment,
+        hasTv,
+        hasIpTv,
+        remark,
+        round,
+        division,
+        shortLeague,
+        isBlackList,
+        noOfferLive,
+      } = mapEditSettingFromDataSource(action.payload);
+      state.leagueSettingId = 0;
+      state.league = league;
+      state.leagueGroupId = leagueGroupId;
+      state.leagueGroup = leagueGroup;
+      state.spread = spread;
+      state.maxbetWD_HDP = maxbetWD_HDP;
+      state.wD_NoOfHDP = wD_NoOfHDP;
+      state.maxbetWK_HDP = maxbetWK_HDP;
+      state.wK_NoOfHDP = wK_NoOfHDP;
+      state.lstNote = lstNote;
+      state.remark2 = remark2;
+      state.comment = comment;
+      state.hasTv = hasTv;
+      state.hasIpTv = hasIpTv;
+      state.remark = remark;
+      state.round = round;
+      state.division = division;
+      state.shortLeague = shortLeague;
+      state.isBlackList = isBlackList;
+      state.noOfferLive = noOfferLive;
+      state.remark2WD = remark2WD || '';
+      state.remark2WK = remark2WK || '';
     },
     updateObjectAddPopup: (
       state,
@@ -147,7 +199,8 @@ const {
   addRowExpressionsAddPopup,
   removeRowExpressionsAddPopup,
   updateExpressionAddPopup,
-  setValueDefault
+  setValueDefault,
+  setInitSetting
 } = actions;
 
 export default reducer;
@@ -156,5 +209,6 @@ export {
   addRowExpressionsAddPopup,
   removeRowExpressionsAddPopup,
   updateExpressionAddPopup,
-  setValueDefault
+  setValueDefault,
+  setInitSetting
 };

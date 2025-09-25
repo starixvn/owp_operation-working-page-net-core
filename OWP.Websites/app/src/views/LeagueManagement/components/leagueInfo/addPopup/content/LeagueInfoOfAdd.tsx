@@ -1,8 +1,15 @@
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { updateObjectAddPopup } from '../slice/addSettingSlice';
 
 const LeagueInfoOfAdd = () => {
   const dispatch = useAppDispatch();
+  const { league, noOfferLive } = useAppSelector(
+    state => state.addSettingSlice
+  );
+
+  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(updateObjectAddPopup({ property: 'league', value: event.target.value }));
+  };
 
   return (
     <div className='list'>
@@ -16,14 +23,15 @@ const LeagueInfoOfAdd = () => {
         <input
           style={{ 'width': '500px' }}
           className='input'
-          onBlur={event => dispatch(updateObjectAddPopup({ property: 'league', value: event.target.value }))}
+          onChange={handleOnChange}
+          value={league}
         />
       </div>
       <div className='content'>
         <div className='left'>League Type</div>
         <div className='checkbox form-check-league-type'>
           <input
-
+            checked={noOfferLive}
             id='chb-no-offer-live-league'
             type='checkbox'
             name='oldLeague'
