@@ -13,6 +13,25 @@ public interface ILeagueSettingChangeService
 
 public class LeagueSettingChangeService : ILeagueSettingChangeService
 {
+    private static readonly Dictionary<string, string> PropertyDisplayNames = new Dictionary<string, string>
+    {
+        { "League", "League name" },
+        { "NoOfferLive", "No OfferLive" },
+        { "HasTv", "Condition HasTv" },
+        { "HasIpTv", "Condition HasIpTv" },
+        { "IpTv", "Condition IpTv" },
+        { "Round", "Condition Round" },
+        { "Division", "Condition Division" },
+        { "Remark", "Remark" },
+        { "Spread", "FT Spread" },
+        { "MaxbetWD_HDP", "MB Weekday HDP" },
+        { "WD_NoOfHDP", "MB Weekday NO.HDP" },
+        { "MaxbetWK_HDP", "MB Weekend HDP" },
+        { "WK_NoOfHDP", "MB Weekend NO.HDP" },
+        { "LstNote", "LST Note" },
+        { "Remark2", "Remark 2" }
+    };
+
     public void LogProcessingChanges(LeagueSettingChangeModel before, LeagueSettingChangeModel after)
     {
         var changes = GetChanges(before, after);
@@ -42,9 +61,13 @@ public class LeagueSettingChangeService : ILeagueSettingChangeService
             
             if (!AreValuesEqual(beforeValue, afterValue))
             {
+                var displayName = PropertyDisplayNames.ContainsKey(property.Name) 
+                    ? PropertyDisplayNames[property.Name] 
+                    : property.Name;
+                    
                 changes.Add(new
                 {
-                    Key = property.Name,
+                    Key = displayName,
                     OldValue = FormatValue(beforeValue),
                     NewValue = FormatValue(afterValue)
                 });
