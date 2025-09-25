@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using Fanex.NAP.Client;
-using System.Reflection;
-using OWP.NewLeagueSetting.Models;
 using OWP.NewLeagueSetting.Service;
 
 namespace OWP.NewLeagueSetting.Command;
@@ -20,10 +18,12 @@ public class InsertLeagueSettingHandler(Repository repository, INapSession sessi
         StandardizedLeagueInfo.BuildSpread(request, request.Spread);
         
         
-        var logsInfo = LogProcessingChanges(beforeProcessing, request);
+        var LogData = LogProcessingChanges(beforeProcessing, request);
+        var LogDataJson = System.Text.Json.JsonSerializer.Serialize(LogData);
         
         var criteria = mapper.Map<InsertLeagueSettingCriteria>(request);
         criteria.ActorId = session.UserId;
+        criteria.LogData = LogDataJson;
         await repository.ExecuteNonQueryCommand(criteria);
         return criteria.LeagueSettingId;
     }
