@@ -1,12 +1,11 @@
 import { uniqueId } from 'lodash';
-import { useAppSelector } from '../app/hooks';
 import { classNameCells, itemRowHeight } from './TableSchema.json';
 import { TDataSource } from './TableType';
 import CommonCell from './cell/CommonCell';
 import LeagueCell from './cell/LeagueCell';
 import ActionCell from './cell/ActionCell';
 import Remark2Cell from './cell/Remark2Cell';
-import { convertDivisionResponseToDisplayValue } from '../helper/helper';
+import { convertConditionResponseToDisplayValue } from '../helper/helper';
 
 type TProp = {
   data: TDataSource[];
@@ -55,13 +54,11 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }: TProp) => {
           />
           <CommonCell
             className={classNameCells.roundCell.className}
-            value={row.condition.round
-              .map(x => (x.type === 'Contains' ? `*${x.value}*` : x.value))
-              .join('/')}
+            value={convertConditionResponseToDisplayValue(row.condition.round)}
           />
           <CommonCell
             className={classNameCells.leagueDivisionCell.className}
-            value={convertDivisionResponseToDisplayValue(row.condition.division)}
+            value={convertConditionResponseToDisplayValue(row.condition.division)}
           />
           <CommonCell
             className={classNameCells.remarkCell.className}
@@ -97,7 +94,7 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }: TProp) => {
             remark2WD={row.remark2WD}
             remark2WK={row.remark2WK}
           />
-          
+
           <ActionCell
             leagueSettingId={row.leagueSettingId}
             dataSource={row}

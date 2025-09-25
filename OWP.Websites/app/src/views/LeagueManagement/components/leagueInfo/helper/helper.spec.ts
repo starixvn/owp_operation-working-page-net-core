@@ -3,7 +3,7 @@ import {
   convertResponseToCondition,
   mapEditSettingFromDataSource,
   convertDivisionResponseToCondition,
-  convertDivisionResponseToDisplayValue,
+  convertConditionResponseToDisplayValue,
   hasInvalidDivision
 } from './helper';
 import { TCondition, TDataSource } from '../table/TableType';
@@ -28,11 +28,11 @@ jest.mock('../../../constants/MaxbetConst', () => ({
 }));
 
 describe('helper.ts', () => {
-  describe('convertDivisionResponseToDisplayValue', () => {
+  describe('convertConditionResponseToDisplayValue', () => {
     it('should return empty string for empty or null response', () => {
-      expect(convertDivisionResponseToDisplayValue([])).toBe('');
-      expect(convertDivisionResponseToDisplayValue(null as any)).toBe('');
-      expect(convertDivisionResponseToDisplayValue(undefined as any)).toBe('');
+      expect(convertConditionResponseToDisplayValue([])).toBe('');
+      expect(convertConditionResponseToDisplayValue(null as any)).toBe('');
+      expect(convertConditionResponseToDisplayValue(undefined as any)).toBe('');
     });
 
     it('should handle Contains conditions', () => {
@@ -40,7 +40,7 @@ describe('helper.ts', () => {
         { type: 'Contains', value: 'D1' },
         { type: 'Contains', value: 'D2' }
       ];
-      expect(convertDivisionResponseToDisplayValue(response)).toBe('*D1*;*D2*');
+      expect(convertConditionResponseToDisplayValue(response)).toBe('*D1*;*D2*');
     });
 
     it('should handle Equals conditions', () => {
@@ -48,14 +48,14 @@ describe('helper.ts', () => {
         { type: 'Equals', value: 'D1,D2' },
         { type: 'Equals', value: 'D3' }
       ];
-      expect(convertDivisionResponseToDisplayValue(response)).toBe('D1,D2;D3');
+      expect(convertConditionResponseToDisplayValue(response)).toBe('D1,D2;D3');
     });
 
     it('should handle Pairwise Contains conditions', () => {
       const response: TCondition[] = [
         { type: 'Pairwise Contains', value: 'D1,D2' }
       ];
-      expect(convertDivisionResponseToDisplayValue(response)).toBe('*(D1)*-vs-*(D2)*');
+      expect(convertConditionResponseToDisplayValue(response)).toBe('*(D1)*-vs-*(D2)*');
     });
 
     it('should handle mixed conditions in order', () => {
@@ -64,7 +64,7 @@ describe('helper.ts', () => {
         { type: 'Equals', value: 'D1,D2' },
         { type: 'Pairwise Contains', value: 'D1,D2' }
       ];
-      expect(convertDivisionResponseToDisplayValue(response)).toBe('*D2*;D1,D2;*(D1)*-vs-*(D2)*');
+      expect(convertConditionResponseToDisplayValue(response)).toBe('*D2*;D1,D2;*(D1)*-vs-*(D2)*');
     });
 
     it('should handle multiple Pairwise Contains conditions', () => {
@@ -72,7 +72,7 @@ describe('helper.ts', () => {
         { type: 'Pairwise Contains', value: 'D2,D3' },
         { type: 'Pairwise Contains', value: 'D1,D2' }
       ];
-      expect(convertDivisionResponseToDisplayValue(response)).toBe('*(D2)*-vs-*(D3)*;*(D1)*-vs-*(D2)*');
+      expect(convertConditionResponseToDisplayValue(response)).toBe('*(D2)*-vs-*(D3)*;*(D1)*-vs-*(D2)*');
     });
 
     it('should handle Pairwise Contains with same second value', () => {
@@ -80,7 +80,7 @@ describe('helper.ts', () => {
         { type: 'Pairwise Contains', value: 'D1,D3' },
         { type: 'Pairwise Contains', value: 'D2,D3' }
       ];
-      expect(convertDivisionResponseToDisplayValue(response)).toBe('*(D1)*-vs-*(D3)*;*(D2)*-vs-*(D3)*');
+      expect(convertConditionResponseToDisplayValue(response)).toBe('*(D1)*-vs-*(D3)*;*(D2)*-vs-*(D3)*');
     });
 
     it('should handle complex mixed conditions', () => {
@@ -90,7 +90,7 @@ describe('helper.ts', () => {
         { type: 'Pairwise Contains', value: 'D2,D3' },
         { type: 'Pairwise Contains', value: 'D2,D4' }
       ];
-      expect(convertDivisionResponseToDisplayValue(response)).toBe('*(D1)*-vs-*(D3)*;*(D1)*-vs-*(D4)*;*(D2)*-vs-*(D3)*;*(D2)*-vs-*(D4)*');
+      expect(convertConditionResponseToDisplayValue(response)).toBe('*(D1)*-vs-*(D3)*;*(D1)*-vs-*(D4)*;*(D2)*-vs-*(D3)*;*(D2)*-vs-*(D4)*');
     });
 
     it('should handle Pairwise Contains with invalid format', () => {
@@ -98,7 +98,7 @@ describe('helper.ts', () => {
         { type: 'Pairwise Contains', value: 'D1' }, // missing comma
         { type: 'Pairwise Contains', value: 'D1,D2' } // valid
       ];
-      expect(convertDivisionResponseToDisplayValue(response)).toBe('*(D1)*-vs-*(D2)*');
+      expect(convertConditionResponseToDisplayValue(response)).toBe('*(D1)*-vs-*(D2)*');
     });
   });
 

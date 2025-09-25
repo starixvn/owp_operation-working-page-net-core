@@ -95,7 +95,7 @@ const convertResourceToOptions = (resource: TLeagueCategory[]) => {
   }));
 };
 
-const convertDivisionResponseToDisplayValue = (response: TCondition[]) => {
+const convertConditionResponseToDisplayValue = (response: TCondition[]) => {
   if (!response || response.length === 0){
     return '';
   }
@@ -135,6 +135,6 @@ export {
   convertResponseToCondition,
   mapEditSettingFromDataSource,
   convertDivisionResponseToCondition,
-  convertDivisionResponseToDisplayValue,
+  convertConditionResponseToDisplayValue,
   hasInvalidDivision
 };
