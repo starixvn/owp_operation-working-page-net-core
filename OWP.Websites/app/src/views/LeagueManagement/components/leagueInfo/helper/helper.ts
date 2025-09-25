@@ -100,35 +100,24 @@ const convertDivisionResponseToDisplayValue = (response: TCondition[]) => {
     return '';
   }
 
-  if(!response.some(condition => condition.type === 'Pairwise Contains')){
-    return response.map(condition => (condition.type === 'Contains' ?
-      `*${condition.value}*`
-      : condition.value)).join('/');
-  }
-  const groupedBySecondValue: { [key: string]: string[] } = {};
+  const resultParts: string[] = [];
   
   response.forEach(condition => {
-    if (condition.type === 'Pairwise Contains' && condition.value) {
+    if (condition.type === 'Contains') {
+      resultParts.push(`*${condition.value}*`);
+    }
+    if (condition.type === 'Equals') {
+      resultParts.push(condition.value);
+    }
+    if (condition.type === 'Pairwise Contains') {
       const [first, second] = condition.value.split(',');
       if (first && second) {
-        if (!groupedBySecondValue[second]) {
-          groupedBySecondValue[second] = [];
-        }
-        groupedBySecondValue[second].push(first);
+        resultParts.push(`*(${first})*-vs-*(${second})*`);
       }
     }
   });
 
-  const resultParts: string[] = [];
-  
-  Object.keys(groupedBySecondValue).forEach(secondValue => {
-    const firstValues = groupedBySecondValue[secondValue];
-    const firstPart = firstValues.map(val => `*(${val})*`).join('/');
-    const secondPart = `*(${secondValue})*`;
-    resultParts.push(`${firstPart}-vs-${secondPart}`);
-  });
-
-  return resultParts.join(', ');
+  return resultParts.join(';');
 };
 
 const hasInvalidDivision=(division: TCondition[])=>division.some(d => {
