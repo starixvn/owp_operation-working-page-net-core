@@ -1,7 +1,4 @@
-﻿using OWP.NewLeagueSetting.Models;
-using System.Reflection;
-using Newtonsoft.Json;
-using NPOI.SS.UserModel;
+﻿using System.Reflection;
 
 namespace OWP.NewLeagueSetting.Service;
 
@@ -83,14 +80,19 @@ public class LeagueSettingChangeService : ILeagueSettingChangeService
                    str1Value == str2Value;
         }
         
-        if (value1 is System.Collections.IEnumerable enum1 || value2 is System.Collections.IEnumerable enum2)
+        if (value1 is System.Collections.IEnumerable || value2 is System.Collections.IEnumerable)
         {
-            var list1 = (value1 as System.Collections.IEnumerable)?.Cast<object>().ToList() ?? new List<object>();
-            var list2 = (value2 as System.Collections.IEnumerable)?.Cast<object>().ToList() ?? new List<object>();
-            return list1.Count == list2.Count && !list1.Except(list2).Any();
+            return AreEnumerablesEqual(value1, value2);
         }
         
         return Equals(value1, value2);
+    }
+    
+    private static bool AreEnumerablesEqual(object value1, object value2)
+    {
+        var list1 = (value1 as System.Collections.IEnumerable)?.Cast<object>().ToList() ?? new List<object>();
+        var list2 = (value2 as System.Collections.IEnumerable)?.Cast<object>().ToList() ?? new List<object>();
+        return list1.Count == list2.Count && !list1.Except(list2).Any();
     }
     
     public static string FormatValue(object value)
