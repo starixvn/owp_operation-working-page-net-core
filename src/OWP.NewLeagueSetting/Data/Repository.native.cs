@@ -16,7 +16,7 @@ public interface Repository
 
     Task ExecuteNonQueryCommand(NonQueryCommand criteria);
 
-    Task<IList<LogInfo>> QueryLog(int leagueSettingId);
+    Task<IList<DbLogInfo>> QueryLog(int leagueSettingId);
 }
 
 public class RepositoryImp(
@@ -108,9 +108,9 @@ public class RepositoryImp(
     public async Task ExecuteNonQueryCommand(NonQueryCommand criteria)
         => await repository.ExecuteAsync(criteria);
 
-    public async Task<IList<LogInfo>> QueryLog(int leagueSettingId)
+    public async Task<IList<DbLogInfo>> QueryLog(int leagueSettingId)
     {
-        var logs=await repository.FetchAsync<LogInfo>(new QueryLogCriteria
+        var logs=await repository.FetchAsync<DbLogInfo>(new QueryLogCriteria
         {
             SettingId = leagueSettingId
         });
