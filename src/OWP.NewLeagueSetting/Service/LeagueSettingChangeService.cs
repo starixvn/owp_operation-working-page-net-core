@@ -7,7 +7,7 @@ namespace OWP.NewLeagueSetting.Service;
 
 public interface ILeagueSettingChangeService
 {
-    List<object> LogProcessingChanges(LeagueSettingChangeModel before, LeagueSettingChangeModel after);
+    List<LogDetail> LogProcessingChanges(LeagueSettingChangeModel before, LeagueSettingChangeModel after);
 }
 
 
@@ -32,16 +32,16 @@ public class LeagueSettingChangeService : ILeagueSettingChangeService
         { "Remark2", "Remark 2" }
     };
 
-    public List<object> LogProcessingChanges(LeagueSettingChangeModel before, LeagueSettingChangeModel after)
+    public List<LogDetail> LogProcessingChanges(LeagueSettingChangeModel before, LeagueSettingChangeModel after)
     {
         var changes = GetChanges(before, after);
 
         return changes;
     }
 
-    public static List<object> GetChanges(LeagueSettingChangeModel before, LeagueSettingChangeModel after)
+    public static List<LogDetail> GetChanges(LeagueSettingChangeModel before, LeagueSettingChangeModel after)
     {
-        var changes = new List<object>();
+        var changes = new List<LogDetail>();
         var properties = typeof(LeagueSettingChangeModel).GetProperties(BindingFlags.Public | BindingFlags.Instance);
         
         foreach (var property in properties)
@@ -55,9 +55,9 @@ public class LeagueSettingChangeService : ILeagueSettingChangeService
                     ? PropertyDisplayNames[property.Name] 
                     : property.Name;
                     
-                changes.Add(new
+                changes.Add(new LogDetail
                 {
-                    Key = displayName,
+                    Field = displayName,
                     OldValue = FormatValue(beforeValue),
                     NewValue = FormatValue(afterValue)
                 });

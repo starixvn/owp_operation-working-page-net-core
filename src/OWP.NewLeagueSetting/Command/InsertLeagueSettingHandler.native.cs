@@ -28,7 +28,7 @@ public class InsertLeagueSettingHandler(Repository repository, INapSession sessi
         return criteria.LeagueSettingId;
     }
     
-    private List<object> LogProcessingChanges(InsertLeagueSettingRequest before, InsertLeagueSettingRequest after)
+    private List<LogDetail> LogProcessingChanges(InsertLeagueSettingRequest before, InsertLeagueSettingRequest after)
     {
         var beforeModel = MapToChangeModel(before);
         var afterModel = MapToChangeModel(after);
