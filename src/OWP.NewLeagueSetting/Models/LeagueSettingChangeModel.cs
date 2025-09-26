@@ -2,7 +2,6 @@ namespace OWP.NewLeagueSetting.Models;
 
 public class LeagueSettingChangeModel
 {
-    public int LeagueGroupId { get; set; }
     public string League { get; set; }
     public string LeagueGroup { get; set; }
     public string Spread { get; set; }

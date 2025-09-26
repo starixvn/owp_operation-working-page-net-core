@@ -10,14 +10,11 @@ public class InsertLeagueSettingHandler(Repository repository, INapSession sessi
 {
     public async Task<int> Handle(InsertLeagueSettingRequest request, CancellationToken cancellationToken)
     {
-        
-        var beforeProcessing = new InsertLeagueSettingRequest { };
-        
         StandardizedLeagueInfo.BuildMaxbet(request, request.MaxbetWD_HDP, request.MaxbetWK_HDP);
         StandardizedLeagueInfo.BuildNoHdp(request, request.WD_NoOfHDP, request.WK_NoOfHDP);
         StandardizedLeagueInfo.BuildSpread(request, request.Spread);
-        
-        
+
+        var beforeProcessing = new InsertLeagueSettingRequest { };
         var LogData = LogProcessingChanges(beforeProcessing, request);
         var LogDataJson = System.Text.Json.JsonSerializer.Serialize(LogData);
         
@@ -39,7 +36,6 @@ public class InsertLeagueSettingHandler(Repository repository, INapSession sessi
     {
         return new LeagueSettingChangeModel
         {
-            LeagueGroupId = request.LeagueGroupId,
             League = request.League,
             LeagueGroup = request.LeagueGroup,
             Spread = request.Spread,
