@@ -202,6 +202,99 @@ public class LeagueSettingChangeServiceUnitTest
     }
 
     [Fact]
+    public void AreValuesEqual_WithEqualConditionLists_DifferentOrder_ShouldReturnTrue()
+    {
+        // Arrange
+        var list1 = new List<Condition> 
+        { 
+            new Condition("Type1", "Value1"),
+            new Condition("Type2", "Value2")
+        };
+        var list2 = new List<Condition> 
+        { 
+            new Condition("Type2", "Value2"),
+            new Condition("Type1", "Value1")
+        };
+
+        // Act
+        var result = LeagueSettingChangeService.AreValuesEqual(list1, list2);
+
+        // Assert
+        Assert.True(result);
+    }
+
+    [Fact]
+    public void AreValuesEqual_WithDifferentConditionLists_ShouldReturnFalse()
+    {
+        // Arrange
+        var list1 = new List<Condition> 
+        { 
+            new Condition("Type1", "Value1"),
+            new Condition("Type2", "Value2")
+        };
+        var list2 = new List<Condition> 
+        { 
+            new Condition("Type1", "Value1"),
+            new Condition("Type3", "Value3")
+        };
+
+        // Act
+        var result = LeagueSettingChangeService.AreValuesEqual(list1, list2);
+
+        // Assert
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void AreValuesEqual_WithConditionLists_DifferentCounts_ShouldReturnFalse()
+    {
+        // Arrange
+        var list1 = new List<Condition> 
+        { 
+            new Condition("Type1", "Value1"),
+            new Condition("Type2", "Value2")
+        };
+        var list2 = new List<Condition> 
+        { 
+            new Condition("Type1", "Value1")
+        };
+
+        // Act
+        var result = LeagueSettingChangeService.AreValuesEqual(list1, list2);
+
+        // Assert
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void AreValuesEqual_WithEmptyConditionLists_ShouldReturnTrue()
+    {
+        // Arrange
+        var list1 = new List<Condition>();
+        var list2 = new List<Condition>();
+
+        // Act
+        var result = LeagueSettingChangeService.AreValuesEqual(list1, list2);
+
+        // Assert
+        Assert.True(result);
+    }
+
+    [Fact]
+    public void AreValuesEqual_WithConditionLists_CaseInsensitive_ShouldReturnTrue()
+    {
+        // Arrange
+        var list1 = new List<Condition> { new Condition("Type1", "Value1") };
+        var list2 = new List<Condition> { new Condition("TYPE1", "VALUE1") };
+
+        // Act
+        var result = LeagueSettingChangeService.AreValuesEqual(list1, list2);
+
+        // Assert
+        Assert.True(result);
+    }
+
+    [Fact]
     public void AreValuesEqual_WithDifferentEnumerables_ShouldReturnFalse()
     {
         // Arrange
@@ -315,6 +408,56 @@ public class LeagueSettingChangeServiceUnitTest
         Assert.Equal("Condition IpTv", result[0].Field);
         Assert.Equal("", result[0].OldValue);
         Assert.Equal("IpTv - Test", result[0].NewValue);
+    }
+
+    [Fact]
+    public void LogProcessingChanges_WithDifferentConditionLists_ShouldReturnChanges()
+    {
+        // Arrange
+        var before = CreateTestLeagueSettingChangeModel();
+        before.Round = new List<Condition> { new Condition("Round", "1") };
+        
+        var after = CreateTestLeagueSettingChangeModel();
+        after.Round = new List<Condition> 
+        { 
+            new Condition("Round", "1"),
+            new Condition("Round", "2")
+        };
+
+        // Act
+        var result = _service.LogProcessingChanges(before, after);
+
+        // Assert
+        Assert.Single(result);
+        Assert.Equal("Condition Round", result[0].Field);
+        Assert.Equal("Round - 1", result[0].OldValue);
+        Assert.Contains("Round - 1", result[0].NewValue);
+        Assert.Contains("Round - 2", result[0].NewValue);
+    }
+
+    [Fact]
+    public void LogProcessingChanges_WithSameConditionLists_DifferentOrder_ShouldNotReturnChanges()
+    {
+        // Arrange
+        var before = CreateTestLeagueSettingChangeModel();
+        before.Division = new List<Condition> 
+        { 
+            new Condition("Division", "A"),
+            new Condition("Division", "B")
+        };
+        
+        var after = CreateTestLeagueSettingChangeModel();
+        after.Division = new List<Condition> 
+        { 
+            new Condition("Division", "B"),
+            new Condition("Division", "A")
+        };
+
+        // Act
+        var result = _service.LogProcessingChanges(before, after);
+
+        // Assert
+        Assert.Empty(result);
     }
 
     [Fact]
