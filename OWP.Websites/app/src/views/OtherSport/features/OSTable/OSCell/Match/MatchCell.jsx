@@ -31,7 +31,7 @@ export const MatchCell = props => {
 
   const tradingLinkItem = {
     'Badminton': () =>
-      `AllInOneView/Trader?matchid=${adminsiteMatchId}&range=L`,
+      `/AllInOneView/Trader?matchid=${adminsiteMatchId}&range=L`,
     'Baseball': () => `/Os/Index?matchid=${adminsiteMatchId}&range=L`,
     'Basketball': () =>
       `/Market/LinkInfoSite.aspx?type=BasketballAIO&page=Control&marketType=Live&range=L&matchid=${adminsiteMatchId}&bettype=20`,
