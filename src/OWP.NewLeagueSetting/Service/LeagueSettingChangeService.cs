@@ -133,8 +133,9 @@ public class LeagueSettingChangeService : ILeagueSettingChangeService
         var formattedItems = new List<string>();
         foreach (var item in list)
         {
-           item is Condition condition ? formattedItems.Add($"{condition.Type} - {condition.Value}"),
-                                    : formattedItems.Add($"{item?.GetType().Name ?? "null"} ");
+            formattedItems.Add(item is Condition condition 
+                ? $"{condition.Type} - {condition.Value}"
+                : $"{item?.GetType().Name ?? "null"}");
         }
         return string.Join("\n", formattedItems);
     }
