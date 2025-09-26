@@ -53,7 +53,6 @@ export const MatchCell = props => {
 
   const buildAdminSiteUrl = async (sport, adminSiteLeagueId) => {
     const adminSiteUrlInfo = await getTradingLinkInfo();
-    console.log('adminSiteUrlInfo', adminSiteUrlInfo);
 
     const url = tradingLinkItem[sport](adminSiteLeagueId);
     let domain = adminSiteUrlInfo.general;
