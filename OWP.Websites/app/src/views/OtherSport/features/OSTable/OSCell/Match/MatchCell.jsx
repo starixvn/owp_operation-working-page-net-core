@@ -31,8 +31,8 @@ export const MatchCell = props => {
 
   const tradingLinkItem = {
     'Badminton': () =>
-      `/AllInOneView/Trader?matchid=${adminsiteMatchId}&range=L`,
-    'Baseball': () => `/Os/Index?matchid=${adminsiteMatchId}&range=L`,
+      `/bmaio?match_id=${adminsiteMatchId}`,
+    'Baseball': () => `/baseball-aio?match_id=${adminsiteMatchId}`,
     'Basketball': () =>
       `/Market/LinkInfoSite.aspx?type=BasketballAIO&page=Control&marketType=Live&range=L&matchid=${adminsiteMatchId}&bettype=20`,
     'Cricket': () => `/AllInOneView/Trader?matchid=${adminsiteMatchId}&range=L`,
@@ -53,6 +53,7 @@ export const MatchCell = props => {
 
   const buildAdminSiteUrl = async (sport, adminSiteLeagueId) => {
     const adminSiteUrlInfo = await getTradingLinkInfo();
+    console.log('adminSiteUrlInfo', adminSiteUrlInfo);
 
     const url = tradingLinkItem[sport](adminSiteLeagueId);
     let domain = adminSiteUrlInfo.general;
@@ -62,6 +63,9 @@ export const MatchCell = props => {
         break;
       case 'cricket':
         domain = adminSiteUrlInfo.cricket;
+        break;
+      case 'baseball':
+        domain = adminSiteUrlInfo.baseball;
         break;
       case 'basketball':
         domain = adminSiteUrlInfo.basketball;
