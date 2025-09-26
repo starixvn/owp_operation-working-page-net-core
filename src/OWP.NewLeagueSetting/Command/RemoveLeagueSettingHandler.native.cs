@@ -43,7 +43,6 @@ public class RemoveLeagueSettingHandler(Repository repository, INapSession sessi
             WK_NoOfHDP = leagueSetting.WK_NoOfHDP_Show,
             LstNote = leagueSetting.LstNote,
             Remark2 = leagueSetting.Remark2,
-            Comment = leagueSetting.Comment,
             HasTv = leagueSetting.Condition.HasTv,
             HasIpTv = leagueSetting.Condition.HasIpTv,
             IpTv = leagueSetting.Condition.IpTv?.ToList() ?? new List<Condition>(),

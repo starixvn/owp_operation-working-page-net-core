@@ -45,7 +45,6 @@ public class InsertLeagueSettingHandler(Repository repository, INapSession sessi
             WK_NoOfHDP = request.WK_NoOfHDP,
             LstNote = request.LstNote,
             Remark2 = request.Remark2,
-            Comment = request.Comment,
             HasTv = request.HasTv,
             HasIpTv = request.HasIpTv,
             IpTv = request.IpTv,
