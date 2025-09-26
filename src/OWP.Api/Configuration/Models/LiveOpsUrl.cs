@@ -16,6 +16,7 @@ public class OsUrls
     public string Cricket { get; set; }
     public string Basketball { get; set; }
     public string Tennis { get; set; }
+    public string Baseball { get; set; }
 }
 
 [Serializable]
