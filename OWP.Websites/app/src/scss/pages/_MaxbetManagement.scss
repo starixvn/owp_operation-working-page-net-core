@@ -2035,3 +2035,50 @@ textarea {
   margin-right: 10px;
   margin-left: 0;
 }
+
+.league-setting-modal {
+  max-width: 1200px;
+}
+
+.league-setting-modal-body {
+  padding: 1.9rem 2rem;
+}
+
+.league-setting-log-history-table {
+  border-collapse: collapse;
+  min-width: 530px;
+  width: 100%;
+
+  thead {
+    th,
+    td {
+      background: #dedede;
+      border: 1px solid #0000002b;
+    }
+  }
+
+  tr {
+    th,
+    td {
+      border-collapse: collapse;
+      padding: 6px;
+      border: 1px solid #0000002b;
+
+      &:first-child {
+        width: 13%;
+      }
+
+      &:nth-child(2) {
+        width: 10%;
+      }
+
+      &:nth-child(3) {
+        width: 13%;
+      }
+
+      &:nth-child(4) {
+        width: 13%;
+      }
+    }
+  }
+}

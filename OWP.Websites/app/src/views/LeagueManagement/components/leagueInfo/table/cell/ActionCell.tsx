@@ -9,12 +9,16 @@ import { removeBySettingId } from '../leagueInfoTableSlice/reducer';
 import { setIsOpenAddNewSetting } from '../../table/leagueInfoTableSlice/reducer';
 import { TDataSource } from '../TableType';
 import { setInitSetting } from '../../addPopup/slice/addSettingSlice';
+import { useState } from 'react';
+import HistoryModal from '../../modal/HistoryModal';
+
 interface Props {
   leagueSettingId: number;
   dataSource: TDataSource;
 }
 const ActionCell = (props: Props) => {
   const { leagueSettingId, dataSource } = props;
+  const [openLog, setOpenLog] = useState(false);
   const dispatch = useAppDispatch();
 
   const handleRemoveSetting = async () => {
@@ -39,21 +43,30 @@ const ActionCell = (props: Props) => {
   };
 
   return (
-    <td style={{ textAlign: 'center' }}>
-      <span onClick={handleCopySetting}>
-        <CopyIcon className='icon-copy' size={17} />
-      </span>
-      {leagueSettingId ? (
-        <span onClick={handleRemoveSetting}>
-          <DeleteIcon className='icon-delete' size={17} />
+    <>
+      <td style={{ textAlign: 'center' }}>
+        <span onClick={handleCopySetting}>
+          <CopyIcon className='icon-copy' size={17} />
         </span>
-      ) : (
-        <></>
+        {leagueSettingId ? (
+          <span onClick={handleRemoveSetting}>
+            <DeleteIcon className='icon-delete' size={17} />
+          </span>
+        ) : (
+          <></>
+        )}
+        <span onClick={() => setOpenLog(true)}>
+          <HistoryIcon className='icon-history-event' size={17} />
+        </span>
+      </td>
+      {openLog && (
+        <HistoryModal
+          leagueSettingId={leagueSettingId}
+          leagueName={dataSource.league}
+          onToggle={() => setOpenLog(false)}
+        />
       )}
-      <span>
-        <HistoryIcon className='icon-history-event' size={17} />
-      </span>
-    </td>
+    </>
   );
 };
 

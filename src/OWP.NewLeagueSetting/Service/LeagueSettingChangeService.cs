@@ -10,9 +10,10 @@ public interface ILeagueSettingChangeService
 
 public class LeagueSettingChangeService : ILeagueSettingChangeService
 {
-    private static readonly Dictionary<string, string> PropertyDisplayNames = new Dictionary<string, string>
+    private static readonly Dictionary<string, string> PropertyDisplayNames = new()
     {
-        { "League", "League name" },
+        { "League", "League Name" },
+        { "LeagueGroup", "League Group" },
         { "NoOfferLive", "No OfferLive" },
         { "HasTv", "Condition HasTv" },
         { "HasIpTv", "Condition HasIpTv" },
