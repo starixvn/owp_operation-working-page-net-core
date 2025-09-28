@@ -491,7 +491,6 @@ public class LeagueSettingChangeServiceUnitTest
             WK_NoOfHDP = "10",
             LstNote = "Test Note",
             Remark2 = "Test Remark 2",
-            Comment = "Test Comment",
             HasTv = false,
             HasIpTv = false,
             IpTv = new List<Condition>(),
