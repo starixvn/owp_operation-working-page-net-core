@@ -1,33 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Fanex.NAP.Client;
+using OWP.Extensions;
+using OWP.NewLeagueSetting.Command;
 
 namespace OWP.NewLeagueSetting.Service;
+
+public record LogRequest(
+    string Action,
+    int leagueSettingId,
+    LeagueSettingChangeModel CurrentSetting,
+    LeagueSettingChangeModel NewSetting);
 public  interface LogService
 {
-
+    Task LogUpdateOrDeleteSetting(LogRequest request);
 }
 
-public class LoggerServiceImp(Repository repository) : LogService
+public class LoggerServiceImp(ILeagueSettingChangeService changeSettingService, Repository repository, INapSession session) : LogService
 {
-    public async Task WriteLogUpdateOrDeleteSetting(int leagueSettingId)
+    public async Task LogUpdateOrDeleteSetting(LogRequest request)
     {
-        var leagueSetting = await repository.QueryLeagueSettingDetail(leagueSettingId);
-        var beforeProcessing = MapToChangeModel(leagueSetting);
-
-        var afterProcessing = new LeagueSettingChangeModel();
-
-        var logData = LeagueSettingChangeService.GetChanges(beforeProcessing, afterProcessing);
+        
+        var logData = changeSettingService.LogProcessingChanges(request.CurrentSetting, request.NewSetting);
         var logDataJson = System.Text.Json.JsonSerializer.Serialize(logData);
+        await repository.ExecuteNonQueryCommand(new InsertLogCriteria
+        {
+            Action = request.Action,
+            Content = logDataJson,
+            CreatedDate = DateTimeOffset.Now.DateTime.ToGmt8(),
+            ModifiedBy = session.UserName,
+            SettingId = request.leagueSettingId
+        });
     }
 
-    public async Task WriteLogCreateSetting()
-    {
-
-    }
-    private static LeagueSettingChangeModel MapToChangeModel(LeagueSettingInfoSender leagueSetting)
+    
+    public static LeagueSettingChangeModel MapToChangeModel(LeagueSettingInfoSender leagueSetting)
     {
         return new LeagueSettingChangeModel
         {
@@ -48,6 +53,30 @@ public class LoggerServiceImp(Repository repository) : LogService
             Remark = leagueSetting.Condition.Remark,
             IsBlackList = leagueSetting.IsBlackList,
             NoOfferLive = leagueSetting.NoOfferLive
+        };
+    }
+
+    public static LeagueSettingChangeModel MapToChangeModel(UpdateLeagueSettingRequest request)
+    {
+        return new LeagueSettingChangeModel
+        {
+            League = request.League,
+            LeagueGroup = request.LeagueGroup,
+            Spread = request.Spread,
+            MaxbetWD_HDP = request.MaxbetWD_HDP,
+            WD_NoOfHDP = request.WD_NoOfHDP,
+            MaxbetWK_HDP = request.MaxbetWK_HDP,
+            WK_NoOfHDP = request.WK_NoOfHDP,
+            LstNote = request.LstNote,
+            Remark2 = request.Remark2,
+            HasTv = request.HasTv,
+            HasIpTv = request.HasIpTv,
+            IpTv = request.IpTv?.ToList() ?? new List<Condition>(),
+            Round = request.Round?.ToList() ?? new List<Condition>(),
+            Division = request.Division?.ToList() ?? new List<Condition>(),
+            Remark = request.Remark,
+            IsBlackList = request.IsBlackList,
+            NoOfferLive = request.NoOfferLive
         };
     }
 }

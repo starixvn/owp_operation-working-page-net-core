@@ -95,10 +95,12 @@ public class LeagueSettingChangeService : ILeagueSettingChangeService
     {
         var list1 = (value1 as System.Collections.IEnumerable)?.Cast<object>().ToList() ?? new List<object>();
         var list2 = (value2 as System.Collections.IEnumerable)?.Cast<object>().ToList() ?? new List<object>();
-        
+
         if (list1.Count != list2.Count)
+        {
             return false;
-            
+        }
+
         if (list1.Count > 0 && list1[0] is Condition)
         {
             var conditionList1 = list1.Cast<Condition>().ToList();
@@ -106,7 +108,7 @@ public class LeagueSettingChangeService : ILeagueSettingChangeService
             var comparer = new ConditionComparer();
             
             return conditionList1.Count == conditionList2.Count && 
-                   conditionList1.All(c1 => conditionList2.Any(c2 => comparer.Equals(c1, c2)));
+                   conditionList1.TrueForAll(c1 => conditionList2.Exists(c2 => comparer.Equals(c1, c2)));
         }
         
         return !list1.Except(list2).Any();

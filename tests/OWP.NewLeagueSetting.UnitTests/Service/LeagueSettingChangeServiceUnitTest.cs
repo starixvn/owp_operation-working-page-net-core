@@ -41,7 +41,7 @@ public class LeagueSettingChangeServiceUnitTest
 
         // Assert
         Assert.Single(result);
-        Assert.Equal("League name", result[0].Field);
+        Assert.Equal("League Name", result[0].Field);
         Assert.Equal("Test League", result[0].OldValue);
         Assert.Equal("Different League", result[0].NewValue);
     }
@@ -116,7 +116,7 @@ public class LeagueSettingChangeServiceUnitTest
 
         // Assert
         Assert.Equal(4, result.Count);
-        Assert.Contains(result, r => r.Field == "League name");
+        Assert.Contains(result, r => r.Field == "League Name");
         Assert.Contains(result, r => r.Field == "FT Spread");
         Assert.Contains(result, r => r.Field == "Condition HasTv");
         Assert.Contains(result, r => r.Field == "No OfferLive");
@@ -205,13 +205,13 @@ public class LeagueSettingChangeServiceUnitTest
     public void AreValuesEqual_WithEqualConditionLists_DifferentOrder_ShouldReturnTrue()
     {
         // Arrange
-        var list1 = new List<Condition> 
-        { 
+        var list1 = new List<Condition>
+        {
             new Condition("Type1", "Value1"),
             new Condition("Type2", "Value2")
         };
-        var list2 = new List<Condition> 
-        { 
+        var list2 = new List<Condition>
+        {
             new Condition("Type2", "Value2"),
             new Condition("Type1", "Value1")
         };
@@ -227,13 +227,13 @@ public class LeagueSettingChangeServiceUnitTest
     public void AreValuesEqual_WithDifferentConditionLists_ShouldReturnFalse()
     {
         // Arrange
-        var list1 = new List<Condition> 
-        { 
+        var list1 = new List<Condition>
+        {
             new Condition("Type1", "Value1"),
             new Condition("Type2", "Value2")
         };
-        var list2 = new List<Condition> 
-        { 
+        var list2 = new List<Condition>
+        {
             new Condition("Type1", "Value1"),
             new Condition("Type3", "Value3")
         };
@@ -249,13 +249,13 @@ public class LeagueSettingChangeServiceUnitTest
     public void AreValuesEqual_WithConditionLists_DifferentCounts_ShouldReturnFalse()
     {
         // Arrange
-        var list1 = new List<Condition> 
-        { 
+        var list1 = new List<Condition>
+        {
             new Condition("Type1", "Value1"),
             new Condition("Type2", "Value2")
         };
-        var list2 = new List<Condition> 
-        { 
+        var list2 = new List<Condition>
+        {
             new Condition("Type1", "Value1")
         };
 
@@ -342,8 +342,8 @@ public class LeagueSettingChangeServiceUnitTest
     public void FormatValue_WithEnumerables_ShouldReturnFormattedString()
     {
         // Arrange
-        var conditions = new List<Condition> 
-        { 
+        var conditions = new List<Condition>
+        {
             new Condition("Test", "Value1"),
             new Condition("Test2", "Value2")
         };
@@ -416,10 +416,10 @@ public class LeagueSettingChangeServiceUnitTest
         // Arrange
         var before = CreateTestLeagueSettingChangeModel();
         before.Round = new List<Condition> { new Condition("Round", "1") };
-        
+
         var after = CreateTestLeagueSettingChangeModel();
-        after.Round = new List<Condition> 
-        { 
+        after.Round = new List<Condition>
+        {
             new Condition("Round", "1"),
             new Condition("Round", "2")
         };
@@ -440,15 +440,15 @@ public class LeagueSettingChangeServiceUnitTest
     {
         // Arrange
         var before = CreateTestLeagueSettingChangeModel();
-        before.Division = new List<Condition> 
-        { 
+        before.Division = new List<Condition>
+        {
             new Condition("Division", "A"),
             new Condition("Division", "B")
         };
-        
+
         var after = CreateTestLeagueSettingChangeModel();
-        after.Division = new List<Condition> 
-        { 
+        after.Division = new List<Condition>
+        {
             new Condition("Division", "B"),
             new Condition("Division", "A")
         };
