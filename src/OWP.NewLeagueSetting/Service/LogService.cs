@@ -11,12 +11,12 @@ public record LogRequest(
     LeagueSettingChangeModel NewSetting);
 public  interface LogService
 {
-    Task LogUpdateOrDeleteSetting(LogRequest request);
+    Task LogSetting(LogRequest request);
 }
 
 public class LoggerServiceImp(ILeagueSettingChangeService changeSettingService, Repository repository, INapSession session) : LogService
 {
-    public async Task LogUpdateOrDeleteSetting(LogRequest request)
+    public async Task LogSetting(LogRequest request)
     {
         
         var logData = changeSettingService.LogProcessingChanges(request.CurrentSetting, request.NewSetting);
@@ -74,6 +74,30 @@ public class LoggerServiceImp(ILeagueSettingChangeService changeSettingService, 
             IpTv = request.IpTv?.ToList() ?? new List<Condition>(),
             Round = request.Round?.ToList() ?? new List<Condition>(),
             Division = request.Division?.ToList() ?? new List<Condition>(),
+            Remark = request.Remark,
+            IsBlackList = request.IsBlackList,
+            NoOfferLive = request.NoOfferLive
+        };
+    }
+
+    public static LeagueSettingChangeModel MapToChangeModel(InsertLeagueSettingRequest request)
+    {
+        return new LeagueSettingChangeModel
+        {
+            League = request.League,
+            LeagueGroup = request.LeagueGroup,
+            Spread = request.Spread,
+            MaxbetWD_HDP = request.MaxbetWD_HDP,
+            WD_NoOfHDP = request.WD_NoOfHDP,
+            MaxbetWK_HDP = request.MaxbetWK_HDP,
+            WK_NoOfHDP = request.WK_NoOfHDP,
+            LstNote = request.LstNote,
+            Remark2 = request.Remark2,
+            HasTv = request.HasTv,
+            HasIpTv = request.HasIpTv,
+            IpTv = request.IpTv,
+            Round = request.Round,
+            Division = request.Division,
             Remark = request.Remark,
             IsBlackList = request.IsBlackList,
             NoOfferLive = request.NoOfferLive

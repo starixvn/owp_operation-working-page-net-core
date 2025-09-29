@@ -16,7 +16,7 @@ namespace OWP.NewLeagueSetting.UnitTests.Service;
 public class LoggerServiceImpUnitTests
 {
     [Fact]
-    public async Task LogUpdateOrDeleteSetting_WithValidRequest_ShouldCallChangeServiceAndRepository()
+    public async Task LogSetting_WithValidRequest_ShouldCallChangeServiceAndRepository()
     {
         // Arrange
         var changeService = Substitute.For<ILeagueSettingChangeService>();
@@ -38,7 +38,7 @@ public class LoggerServiceImpUnitTests
         session.UserName.Returns("testuser");
 
         // Act
-        await logService.LogUpdateOrDeleteSetting(request);
+        await logService.LogSetting(request);
 
         // Assert
         changeService.Received(1).LogProcessingChanges(currentSetting, newSetting);
@@ -53,7 +53,7 @@ public class LoggerServiceImpUnitTests
     }
 
     [Fact]
-    public async Task LogUpdateOrDeleteSetting_WithEmptyChanges_ShouldStillLogToRepository()
+    public async Task LogSetting_WithEmptyChanges_ShouldStillLogToRepository()
     {
         // Arrange
         var changeService = Substitute.For<ILeagueSettingChangeService>();
@@ -70,7 +70,7 @@ public class LoggerServiceImpUnitTests
         session.UserName.Returns("testuser");
 
         // Act
-        await logService.LogUpdateOrDeleteSetting(request);
+        await logService.LogSetting(request);
 
         // Assert
         changeService.Received(1).LogProcessingChanges(currentSetting, newSetting);
@@ -83,7 +83,7 @@ public class LoggerServiceImpUnitTests
     }
 
     [Fact]
-    public async Task LogUpdateOrDeleteSetting_WithNullChanges_ShouldHandleGracefully()
+    public async Task LogSetting_WithNullChanges_ShouldHandleGracefully()
     {
         // Arrange
         var changeService = Substitute.For<ILeagueSettingChangeService>();
@@ -100,7 +100,7 @@ public class LoggerServiceImpUnitTests
         session.UserName.Returns("testuser");
 
         // Act
-        await logService.LogUpdateOrDeleteSetting(request);
+        await logService.LogSetting(request);
 
         // Assert
         changeService.Received(1).LogProcessingChanges(currentSetting, newSetting);
@@ -273,7 +273,7 @@ public class LoggerServiceImpUnitTests
     }
 
     [Fact]
-    public async Task LogUpdateOrDeleteSetting_WithDifferentActions_ShouldLogCorrectAction()
+    public async Task LogSetting_WithDifferentActions_ShouldLogCorrectAction()
     {
         // Arrange
         var changeService = Substitute.For<ILeagueSettingChangeService>();
@@ -290,9 +290,9 @@ public class LoggerServiceImpUnitTests
         session.UserName.Returns("testuser");
 
         // Act
-        await logService.LogUpdateOrDeleteSetting(new LogRequest("Created the setting", 111, currentSetting, newSetting));
-        await logService.LogUpdateOrDeleteSetting(new LogRequest("Updated the setting", 222, currentSetting, newSetting));
-        await logService.LogUpdateOrDeleteSetting(new LogRequest("Deleted the setting", 333, currentSetting, newSetting));
+        await logService.LogSetting(new LogRequest("Created the setting", 111, currentSetting, newSetting));
+        await logService.LogSetting(new LogRequest("Updated the setting", 222, currentSetting, newSetting));
+        await logService.LogSetting(new LogRequest("Deleted the setting", 333, currentSetting, newSetting));
 
         // Assert
         await repository.Received(1).ExecuteNonQueryCommand(Arg.Is<InsertLogCriteria>(c => c.Action == "Created the setting" && c.SettingId == 111));
@@ -301,7 +301,7 @@ public class LoggerServiceImpUnitTests
     }
 
     [Fact]
-    public async Task LogUpdateOrDeleteSetting_ShouldSetCorrectCreatedDate()
+    public async Task LogSetting_ShouldSetCorrectCreatedDate()
     {
         // Arrange
         var changeService = Substitute.For<ILeagueSettingChangeService>();
@@ -318,7 +318,7 @@ public class LoggerServiceImpUnitTests
         session.UserName.Returns("testuser");
 
         // Act
-        await logService.LogUpdateOrDeleteSetting(request);
+        await logService.LogSetting(request);
 
         // Assert
         await repository.Received(1).ExecuteNonQueryCommand(Arg.Is<InsertLogCriteria>(criteria =>

@@ -19,7 +19,7 @@ public class UpdateLeagueSettingHandler(Repository repository, INapSession sessi
         
         await repository.UpdateLeagueSetting(request, session.UserId);
 
-        await logService.LogUpdateOrDeleteSetting(new LogRequest("Updated the setting", request.LeagueSettingId, currentSetting, newSetting));
+        await logService.LogSetting(new LogRequest("Updated the setting", request.LeagueSettingId, currentSetting, newSetting));
 
         return Unit.Value;
     }

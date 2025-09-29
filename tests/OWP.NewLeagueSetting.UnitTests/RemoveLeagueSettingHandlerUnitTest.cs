@@ -191,15 +191,12 @@ public class RemoveLeagueSettingHandlerUnitTest
     }
 
     [Fact]
-    public async Task Handle_ShouldQueryLeagueSettingDetail_AndCallChangeService_AndSerializeLogData()
+    public async Task Handle_ShouldCallLogService_WithCorrectLogRequest()
     {
         // Arrange
         var repository = Substitute.For<Repository>();
         var session = Substitute.For<INapSession>();
-        var changeService = Substitute.For<ILeagueSettingChangeService>();
-        changeService.LogProcessingChanges(Arg.Any<LeagueSettingChangeModel>(), Arg.Any<LeagueSettingChangeModel>())
-            .Returns(new List<LogDetail>());
-        var logService = new LoggerServiceImp(changeService, repository, session);
+        var logService = Substitute.For<LogService>();
 
         session.UserId.Returns(123);
 
@@ -231,14 +228,7 @@ public class RemoveLeagueSettingHandlerUnitTest
             NoOfferLive = false
         };
 
-        var logData = new List<LogDetail>
-        {
-            new LogDetail { Field = "League name", OldValue = "Test League", NewValue = "" },
-            new LogDetail { Field = "FT Spread", OldValue = "1.0", NewValue = "" }
-        };
-
         repository.QueryLeagueSettingDetail(456).Returns(leagueSetting);
-        // LogService doesn't have LogProcessingChanges method, so we'll skip this setup
 
         var handler = new RemoveLeagueSettingHandler(repository, session, logService);
 
@@ -250,71 +240,19 @@ public class RemoveLeagueSettingHandlerUnitTest
         // Assert
         await repository.Received(1).QueryLeagueSettingDetail(456);
 
-        // LogService doesn't have LogProcessingChanges method, so we'll skip this assertion
+        await logService.Received(1).LogSetting(
+            Arg.Is<LogRequest>(lr =>
+                lr.Action == "Deleted the setting" &&
+                lr.leagueSettingId == 456 &&
+                lr.CurrentSetting != null &&
+                lr.NewSetting != null));
 
         await repository.Received(1).ExecuteNonQueryCommand(
             Arg.Is<RemoveSettingCriteria>(c =>
                 c.LeagueSettingId == 456 &&
                 c.ActorId == 123));
 
-        await repository.Received(1).ExecuteNonQueryCommand(
-            Arg.Is<InsertLogCriteria>(c =>
-                c.SettingId == 456 &&
-                c.Action == "Created the setting"));
-
         Assert.Equal(Unit.Value, result);
-    }
-
-    [Fact]
-    public async Task Handle_ShouldMapLeagueSettingToChangeModel_ForLogging()
-    {
-        // Arrange
-        var repository = Substitute.For<Repository>();
-        var session = Substitute.For<INapSession>();
-        var logService = Substitute.For<LogService>();
-
-        session.UserId.Returns(123);
-
-        var leagueSetting = new LeagueSettingInfoSender
-        {
-            League = "Test League",
-            LeagueGroup = "Test Group",
-            Spread_HDP_Value = 0.01m,
-            Spread_OU_Value = 0.01m,
-            MaxbetWD_HDP_Value = 1000000m,
-            MaxbetWD_HDP_Note = "1000K",
-            WD_NoOfHDP_Value = "5",
-            MaxbetWK_HDP_Value = 2000000m,
-            MaxbetWK_HDP_Note = "2000K",
-            WK_NoOfHDP_Value = "10",
-            LstNote = "Test Note",
-            Remark2 = "Test Remark 2",
-            Comment = "Test Comment",
-            FullConditionDescription = System.Text.Json.JsonSerializer.Serialize(new LeagueSettingCondition
-            {
-                HasTv = true,
-                HasIpTv = false,
-                IpTv = new List<Condition> { new Condition("IpTv", "Test") },
-                Round = new List<Condition> { new Condition("Round", "1") },
-                Division = new List<Condition> { new Condition("Division", "A") },
-                Remark = "Test Remark"
-            }),
-            IsBlackList = true,
-            NoOfferLive = true
-        };
-
-        repository.QueryLeagueSettingDetail(456).Returns(leagueSetting);
-        // LogService doesn't have LogProcessingChanges method, so we'll skip this setup
-
-        var handler = new RemoveLeagueSettingHandler(repository, session, logService);
-
-        var request = new RemoveLeagueSettingRequest(456);
-
-        // Act
-        await handler.Handle(request, CancellationToken.None);
-
-        // Assert
-        // LogService doesn't have LogProcessingChanges method, so we'll skip this assertion
     }
 
     [Fact]
@@ -330,7 +268,6 @@ public class RemoveLeagueSettingHandlerUnitTest
         var emptyLeagueSetting = new LeagueSettingInfoSender();
 
         repository.QueryLeagueSettingDetail(456).Returns(emptyLeagueSetting);
-        // LogService doesn't have LogProcessingChanges method, so we'll skip this setup
 
         var handler = new RemoveLeagueSettingHandler(repository, session, logService);
 
@@ -341,7 +278,13 @@ public class RemoveLeagueSettingHandlerUnitTest
 
         // Assert
         await repository.Received(1).QueryLeagueSettingDetail(456);
-        // LogService doesn't have LogProcessingChanges method, so we'll skip this assertion
+
+        await logService.Received(1).LogSetting(
+            Arg.Is<LogRequest>(lr =>
+                lr.Action == "Deleted the setting" &&
+                lr.leagueSettingId == 456 &&
+                lr.CurrentSetting != null &&
+                lr.NewSetting != null));
 
         Assert.Equal(Unit.Value, result);
     }

@@ -20,7 +20,7 @@ public class RemoveLeagueSettingHandler(Repository repository, INapSession sessi
             ActorId = session.UserId
         });
         
-        await logService.LogUpdateOrDeleteSetting(new LogRequest("Created the setting",request.LeagueSettingId, currentSetting, new LeagueSettingChangeModel()));
+        await logService.LogSetting(new LogRequest("Deleted the setting",request.LeagueSettingId, currentSetting, new LeagueSettingChangeModel()));
         return Unit.Value;
     }
 }

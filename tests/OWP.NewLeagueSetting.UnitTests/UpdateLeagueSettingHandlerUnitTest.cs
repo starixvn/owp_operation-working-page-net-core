@@ -184,4 +184,40 @@ public class UpdateLeagueSettingHandlerUnitTest
         await repository.Received(1).UpdateLeagueSetting(request, -1);
         Assert.Equal(Unit.Value, result);
     }
+
+    [Fact]
+    public async Task Handle_ShouldCallLogService_WithCorrectLogRequest()
+    {
+        // Arrange
+        var repository = Substitute.For<Repository>();
+        var session = Substitute.For<INapSession>();
+        var logService = Substitute.For<LogService>();
+
+        session.UserId.Returns(123);
+
+        var handler = new UpdateLeagueSettingHandler(repository, session, logService);
+
+        SetupRepositoryMock(repository);
+
+        var request = new UpdateLeagueSettingRequest
+        {
+            LeagueSettingId = 456,
+            League = "Updated League",
+            Spread = "2.0",
+            MaxbetWD_HDP = "1500"
+        };
+
+        // Act
+        var result = await handler.Handle(request, CancellationToken.None);
+
+        // Assert
+        await logService.Received(1).LogSetting(
+            Arg.Is<LogRequest>(lr =>
+                lr.Action == "Updated the setting" &&
+                lr.leagueSettingId == 456 &&
+                lr.CurrentSetting != null &&
+                lr.NewSetting != null));
+
+        Assert.Equal(Unit.Value, result);
+    }
 }

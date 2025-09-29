@@ -5,8 +5,6 @@ public class RemoveSettingCriteria: NonQueryCommand
 {
     public int LeagueSettingId { get; set; }
     public int ActorId { get; set; }
-    public string LogData { get; set; }
-
     public override string GetSettingKey()
         => "OWP_NewLeagueSetting_RemoveLeagueSetting";
 

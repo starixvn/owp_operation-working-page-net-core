@@ -24,11 +24,11 @@ public class InsertLeagueSettingHandlerUnitTest
         var repository = Substitute.For<Repository>();
         var session = Substitute.For<INapSession>();
         var mapper = Substitute.For<IMapper>();
-        var changeService = Substitute.For<ILeagueSettingChangeService>();
+        var logService = Substitute.For<LogService>();
 
         session.UserId.Returns(123);
 
-        var handler = new InsertLeagueSettingHandler(repository, session, mapper, changeService);
+        var handler = new InsertLeagueSettingHandler(repository, session, mapper, logService);
 
         var request = new InsertLeagueSettingRequest
         {
@@ -65,11 +65,11 @@ public class InsertLeagueSettingHandlerUnitTest
         var repository = Substitute.For<Repository>();
         var session = Substitute.For<INapSession>();
         var mapper = Substitute.For<IMapper>();
-        var changeService = Substitute.For<ILeagueSettingChangeService>();
+        var logService = Substitute.For<LogService>();
 
         session.UserId.Returns(789);
 
-        var handler = new InsertLeagueSettingHandler(repository, session, mapper, changeService);
+        var handler = new InsertLeagueSettingHandler(repository, session, mapper, logService);
 
         var request = new InsertLeagueSettingRequest
         {
@@ -100,23 +100,24 @@ public class InsertLeagueSettingHandlerUnitTest
     }
 
     [Fact]
-    public async Task Handle_ShouldCallChangeService_AndSerializeLogData()
+    public async Task Handle_ShouldCallLogService_WithCorrectLogRequest()
     {
         // Arrange
         var repository = Substitute.For<Repository>();
         var session = Substitute.For<INapSession>();
         var mapper = Substitute.For<IMapper>();
-        var changeService = Substitute.For<ILeagueSettingChangeService>();
+        var logService = Substitute.For<LogService>();
 
         session.UserId.Returns(123);
 
-        var handler = new InsertLeagueSettingHandler(repository, session, mapper, changeService);
+        var handler = new InsertLeagueSettingHandler(repository, session, mapper, logService);
 
         var request = new InsertLeagueSettingRequest
         {
             League = "Test League",
             Spread = "1.0",
-            MaxbetWD_HDP = "1000"
+            MaxbetWD_HDP = "1000",
+            LeagueSettingId = 456
         };
 
         var criteria = new InsertLeagueSettingCriteria
@@ -124,29 +125,18 @@ public class InsertLeagueSettingHandlerUnitTest
             LeagueSettingId = 456
         };
 
-        var logData = new List<LogDetail>
-        {
-            new LogDetail { Field = "League name", OldValue = "", NewValue = "Test League" },
-            new LogDetail { Field = "FT Spread", OldValue = "", NewValue = "1.0" }
-        };
-
         mapper.Map<InsertLeagueSettingCriteria>(request).Returns(criteria);
-        changeService.LogProcessingChanges(Arg.Any<LeagueSettingChangeModel>(), Arg.Any<LeagueSettingChangeModel>())
-            .Returns(logData);
 
         // Act
         var result = await handler.Handle(request, CancellationToken.None);
 
         // Assert
-        changeService.Received(1).LogProcessingChanges(
-            Arg.Any<LeagueSettingChangeModel>(),
-            Arg.Any<LeagueSettingChangeModel>());
-
-        await repository.Received(1).ExecuteNonQueryCommand(
-            Arg.Is<InsertLeagueSettingCriteria>(c =>
-                c.ActorId == 123 &&
-                c.LeagueSettingId == 456 &&
-                !string.IsNullOrEmpty(c.LogData)));
+        await logService.Received(1).LogSetting(
+            Arg.Is<LogRequest>(lr =>
+                lr.Action == "Created the setting" &&
+                lr.leagueSettingId == 456 &&
+                lr.CurrentSetting != null &&
+                lr.NewSetting != null));
 
         Assert.Equal(456, result);
     }
@@ -158,11 +148,11 @@ public class InsertLeagueSettingHandlerUnitTest
         var repository = Substitute.For<Repository>();
         var session = Substitute.For<INapSession>();
         var mapper = Substitute.For<IMapper>();
-        var changeService = Substitute.For<ILeagueSettingChangeService>();
+        var logService = Substitute.For<LogService>();
 
         session.UserId.Returns(123);
 
-        var handler = new InsertLeagueSettingHandler(repository, session, mapper, changeService);
+        var handler = new InsertLeagueSettingHandler(repository, session, mapper, logService);
 
         var request = new InsertLeagueSettingRequest
         {
@@ -183,7 +173,8 @@ public class InsertLeagueSettingHandlerUnitTest
             Division = new List<Condition>(),
             Remark = "Test Remark",
             IsBlackList = false,
-            NoOfferLive = false
+            NoOfferLive = false,
+            LeagueSettingId = 456
         };
 
         var criteria = new InsertLeagueSettingCriteria
@@ -192,15 +183,16 @@ public class InsertLeagueSettingHandlerUnitTest
         };
 
         mapper.Map<InsertLeagueSettingCriteria>(request).Returns(criteria);
-        changeService.LogProcessingChanges(Arg.Any<LeagueSettingChangeModel>(), Arg.Any<LeagueSettingChangeModel>())
-            .Returns(new List<LogDetail>());
 
         // Act
         await handler.Handle(request, CancellationToken.None);
 
         // Assert
-        changeService.Received(1).LogProcessingChanges(
-            Arg.Any<LeagueSettingChangeModel>(),
-            Arg.Any<LeagueSettingChangeModel>());
+        await logService.Received(1).LogSetting(
+            Arg.Is<LogRequest>(lr =>
+                lr.Action == "Created the setting" &&
+                lr.leagueSettingId == 456 &&
+                lr.CurrentSetting != null &&
+                lr.NewSetting != null));
     }
 }
