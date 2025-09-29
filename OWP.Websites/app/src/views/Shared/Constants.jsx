@@ -102,6 +102,7 @@ export const FunctionKeys = {
   LeagueManagement_General: 'LeagueManagement_General',
   LeagueManagement_LSTNote: 'LeagueManagement_LSTNote',
   LeagueManagement_TVList: 'LeagueManagement_TVList',
+  LeagueManagement_ViewLog: 'LeagueManagement_ViewLogs',
   EventPicking: 'EventPicking',
   EventPickingNew: 'EventPickingNew',
   EventPickingNew_EventAndPerformance: 'EventPickingNew_EventAndPerformance',
