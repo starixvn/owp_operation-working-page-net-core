@@ -46,20 +46,22 @@ public class LeagueSettingChangeService : ILeagueSettingChangeService
         {
             var beforeValue = property.GetValue(before);
             var afterValue = property.GetValue(after);
-            
-            if (!AreValuesEqual(beforeValue, afterValue))
+
+            if (AreValuesEqual(beforeValue, afterValue))
             {
-                var displayName = PropertyDisplayNames.ContainsKey(property.Name) 
-                    ? PropertyDisplayNames[property.Name] 
-                    : property.Name;
-                    
-                changes.Add(new LogDetail
-                {
-                    Field = displayName,
-                    OldValue = FormatValue(beforeValue),
-                    NewValue = FormatValue(afterValue)
-                });
+                continue;
             }
+
+            var displayName = PropertyDisplayNames.TryGetValue(property.Name, out var name)
+                ? name
+                : property.Name;
+
+            changes.Add(new LogDetail
+            {
+                Field = displayName,
+                OldValue = FormatValue(beforeValue),
+                NewValue = FormatValue(afterValue)
+            });
         }
         
         return changes;
@@ -83,13 +85,13 @@ public class LeagueSettingChangeService : ILeagueSettingChangeService
         
         if (value1 is System.Collections.IEnumerable || value2 is System.Collections.IEnumerable)
         {
-            return AreEnumerablesEqual(value1, value2);
+            return AreEnumerableEqual(value1, value2);
         }
         
         return Equals(value1, value2);
     }
     
-    private static bool AreEnumerablesEqual(object value1, object value2)
+    private static bool AreEnumerableEqual(object value1, object value2)
     {
         var list1 = (value1 as System.Collections.IEnumerable)?.Cast<object>().ToList() ?? new List<object>();
         var list2 = (value2 as System.Collections.IEnumerable)?.Cast<object>().ToList() ?? new List<object>();
