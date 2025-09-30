@@ -14,6 +14,7 @@ interface LogEntry {
   settingId: number;
   createdDate: string;
   modifiedBy: string;
+  action: string;
   details: FieldChange[];
 }
 
@@ -124,9 +125,7 @@ const HistoryModal = ({ leagueSettingId, leagueName, onToggle }: Props) => {
                     <td rowSpan={logEntry.details.length}>
                       {logEntry.modifiedBy}
                     </td>
-                    <td rowSpan={logEntry.details.length}>
-                      Updated the setting
-                    </td>
+                    <td rowSpan={logEntry.details.length}>{logEntry.action}</td>
                   </>
                 )}
                 <td>{fieldChange.field}</td>

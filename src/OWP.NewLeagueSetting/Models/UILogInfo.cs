@@ -9,6 +9,8 @@ public class UILogInfo
 
     public string ModifiedBy { get; set; }
 
+    public string Action { get; set; }
+
    public IList<LogDetail> Details { get; set; }
 }
 

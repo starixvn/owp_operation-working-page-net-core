@@ -14,6 +14,7 @@ public class QueryLogHandler(Repository repository)
             SettingId=l.SettingId,
             CreatedDate =l.CreatedDate,
             ModifiedBy= l.ModifiedBy,
+            Action = l.Action,
             Details = JsonConvert.DeserializeObject<IList<LogDetail>>(l.Content)
         }).ToList();
     } 
