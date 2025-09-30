@@ -18,7 +18,7 @@ public class InsertLeagueSettingHandler(Repository repository, INapSession sessi
         criteria.ActorId = session.UserId;
         await repository.ExecuteNonQueryCommand(criteria);
         
-        var setting = await repository.QueryLeagueSettingDetail(request.LeagueSettingId);
+        var setting = await repository.QueryLeagueSettingDetail(criteria.LeagueSettingId);
         var currentSetting = LoggerServiceImp.MapToChangeModel(new InsertLeagueSettingRequest { });
         var newSetting = LoggerServiceImp.MapToChangeModel(setting);
 
