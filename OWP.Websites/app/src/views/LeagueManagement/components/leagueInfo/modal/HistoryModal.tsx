@@ -129,8 +129,12 @@ const HistoryModal = ({ leagueSettingId, leagueName, onToggle }: Props) => {
                   </>
                 )}
                 <td>{fieldChange.field}</td>
-                <td>{fieldChange.oldValue}</td>
-                <td>{fieldChange.newValue}</td>
+                <td style={{ whiteSpace: 'pre-line' }}>
+                  {fieldChange.oldValue}
+                </td>
+                <td style={{ whiteSpace: 'pre-line' }}>
+                  {fieldChange.newValue}
+                </td>
               </tr>
             )) || []
         )}
