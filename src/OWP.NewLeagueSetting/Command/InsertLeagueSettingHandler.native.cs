@@ -14,12 +14,13 @@ public class InsertLeagueSettingHandler(Repository repository, INapSession sessi
         StandardizedLeagueInfo.BuildNoHdp(request, request.WD_NoOfHDP, request.WK_NoOfHDP);
         StandardizedLeagueInfo.BuildSpread(request, request.Spread);
 
-        var currentSetting = LoggerServiceImp.MapToChangeModel(new InsertLeagueSettingRequest { });
-        var newSetting = LoggerServiceImp.MapToChangeModel(request);
-
         var criteria = mapper.Map<InsertLeagueSettingCriteria>(request);
         criteria.ActorId = session.UserId;
         await repository.ExecuteNonQueryCommand(criteria);
+        
+        var setting = await repository.QueryLeagueSettingDetail(request.LeagueSettingId);
+        var currentSetting = LoggerServiceImp.MapToChangeModel(new InsertLeagueSettingRequest { });
+        var newSetting = LoggerServiceImp.MapToChangeModel(setting);
 
         await logService.LogSetting(new LogRequest("Created the setting", criteria.LeagueSettingId, currentSetting, newSetting));
 

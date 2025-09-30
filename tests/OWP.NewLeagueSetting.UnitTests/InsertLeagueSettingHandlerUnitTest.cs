@@ -44,7 +44,17 @@ public class InsertLeagueSettingHandlerUnitTest
             LeagueSettingId = 456
         };
 
+        var leagueSettingDetail = new OWP.NewLeagueSetting.Models.LeagueSettingInfoSender
+        {
+            League = "Test League",
+            Spread_HDP_Value = 0.01m,
+            Spread_OU_Value = 0.01m,
+            MaxbetWD_HDP_Value = 1000000m,
+            MaxbetWD_HDP_Note = "1000K"
+        };
+
         mapper.Map<InsertLeagueSettingCriteria>(request).Returns(criteria);
+        repository.QueryLeagueSettingDetail(Arg.Any<int>()).Returns(leagueSettingDetail);
 
         // Act
         var result = await handler.Handle(request, CancellationToken.None);
@@ -85,7 +95,17 @@ public class InsertLeagueSettingHandlerUnitTest
             LeagueSettingId = 999
         };
 
+        var leagueSettingDetail = new OWP.NewLeagueSetting.Models.LeagueSettingInfoSender
+        {
+            League = "Test League 2",
+            Spread_HDP_Value = 0.10m,
+            Spread_OU_Value = 0.10m,
+            MaxbetWD_HDP_Value = 3000000m,
+            MaxbetWD_HDP_Note = "3000K"
+        };
+
         mapper.Map<InsertLeagueSettingCriteria>(request).Returns(criteria);
+        repository.QueryLeagueSettingDetail(Arg.Any<int>()).Returns(leagueSettingDetail);
 
         // Act
         var result = await handler.Handle(request, CancellationToken.None);
@@ -125,12 +145,23 @@ public class InsertLeagueSettingHandlerUnitTest
             LeagueSettingId = 456
         };
 
+        var leagueSettingDetail = new OWP.NewLeagueSetting.Models.LeagueSettingInfoSender
+        {
+            League = "Test League",
+            Spread_HDP_Value = 0.01m,
+            Spread_OU_Value = 0.01m,
+            MaxbetWD_HDP_Value = 1000000m,
+            MaxbetWD_HDP_Note = "1000K"
+        };
+
         mapper.Map<InsertLeagueSettingCriteria>(request).Returns(criteria);
+        repository.QueryLeagueSettingDetail(Arg.Any<int>()).Returns(leagueSettingDetail);
 
         // Act
         var result = await handler.Handle(request, CancellationToken.None);
 
         // Assert
+        await repository.Received(1).QueryLeagueSettingDetail(456);
         await logService.Received(1).LogSetting(
             Arg.Is<LogRequest>(lr =>
                 lr.Action == "Created the setting" &&
@@ -182,12 +213,34 @@ public class InsertLeagueSettingHandlerUnitTest
             LeagueSettingId = 456
         };
 
+        var leagueSettingDetail = new OWP.NewLeagueSetting.Models.LeagueSettingInfoSender
+        {
+            League = "Test League",
+            LeagueGroup = "Test Group",
+            Spread_HDP_Value = 0.01m,
+            Spread_OU_Value = 0.01m,
+            MaxbetWD_HDP_Value = 1000000m,
+            MaxbetWD_HDP_Note = "1000K",
+            WD_NoOfHDP_Value = "5",
+            MaxbetWK_HDP_Value = 2000000m,
+            MaxbetWK_HDP_Note = "2000K",
+            WK_NoOfHDP_Value = "10",
+            LstNote = "Test Note",
+            Remark2 = "Test Remark 2",
+            Comment = "Test Comment",
+            FullConditionDescription = "{\"HasTv\":false,\"HasIpTv\":false,\"IpTv\":[],\"Round\":[],\"Division\":[],\"Remark\":\"Test Remark\"}",
+            IsBlackList = false,
+            NoOfferLive = false
+        };
+
         mapper.Map<InsertLeagueSettingCriteria>(request).Returns(criteria);
+        repository.QueryLeagueSettingDetail(Arg.Any<int>()).Returns(leagueSettingDetail);
 
         // Act
         await handler.Handle(request, CancellationToken.None);
 
         // Assert
+        await repository.Received(1).QueryLeagueSettingDetail(456);
         await logService.Received(1).LogSetting(
             Arg.Is<LogRequest>(lr =>
                 lr.Action == "Created the setting" &&
