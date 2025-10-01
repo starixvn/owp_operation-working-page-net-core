@@ -3,8 +3,10 @@ import {
   CategoryCell,
   RoundCell,
   SummaryCell,
-  MaxBetCell,
-  SpreadCell,
+  MaxBetHDPCell,
+  MaxBetOUCell,
+  SpreadHDPCell,
+  SpreadOUCell,
   ActionCell,
   LeagueCell
 } from './OsLeagueSettingCell';
@@ -12,8 +14,10 @@ import {
   No,
   Category,
   League,
-  MaxBet,
-  Spread,
+  MaxBetHDP,
+  MaxBetOU,
+  SpreadHDP,
+  SpreadOU,
   Round,
   Summary,
   Action
@@ -29,10 +33,14 @@ const dynamicCell = (rowIndex: number, cellModel: CellModel) => {
       return <CategoryCell dataSource={dataSource} rowIndex={rowIndex} />;
     case League.columnKey:
       return <LeagueCell dataSource={dataSource} rowIndex={rowIndex} />;
-    case MaxBet.columnKey:
-      return <MaxBetCell dataSource={dataSource} rowIndex={rowIndex} />;
-    case Spread.columnKey:
-      return <SpreadCell dataSource={dataSource} rowIndex={rowIndex} />;
+    case MaxBetHDP.columnKey:
+      return <MaxBetHDPCell dataSource={dataSource} rowIndex={rowIndex} />;
+    case MaxBetOU.columnKey:
+      return <MaxBetOUCell dataSource={dataSource} rowIndex={rowIndex} />;
+    case SpreadHDP.columnKey:
+      return <SpreadHDPCell dataSource={dataSource} rowIndex={rowIndex} />;
+    case SpreadOU.columnKey:
+      return <SpreadOUCell dataSource={dataSource} rowIndex={rowIndex} />;
     case Round.columnKey:
       return <RoundCell dataSource={dataSource} rowIndex={rowIndex} />;
     case Summary.columnKey:

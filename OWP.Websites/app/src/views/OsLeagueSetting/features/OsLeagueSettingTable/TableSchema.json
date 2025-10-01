@@ -13,10 +13,12 @@
     "NoSize": 0.02,
     "CategorySize": 0.06,
     "LeagueSize": 0.21,
-    "MaxBetSize": 0.08,
-    "SpreadSize": 0.06,
+    "MaxBetHDPSize": 0.05,
+    "MaxBetOUSize": 0.05,
+    "SpreadHDPSize": 0.05,
+    "SpreadOUSize": 0.05,
     "RoundSize": 0.06,
-    "SummarySize": 0.47,
+    "SummarySize": 0.41,
     "ActionSize": 0.04,
     "MaximumLengthOfText": 150
   },
@@ -33,13 +35,21 @@
     "headerName": "League",
     "columnKey": "League"
   },
-  "MaxBet": {
-    "headerName": "MaxBet",
-    "columnKey": "MaxBet"
+  "MaxBetHDP": {
+    "headerName": "MaxBet HDP",
+    "columnKey": "MaxBetHDP"
   },
-  "Spread": {
-    "headerName": "Spread",
-    "columnKey": "Spread"
+  "MaxBetOU": {
+    "headerName": "MaxBet OU",
+    "columnKey": "MaxBetOU"
+  },
+  "SpreadHDP": {
+    "headerName": "Spread HDP",
+    "columnKey": "SpreadHDP"
+  },
+  "SpreadOU": {
+    "headerName": "Spread OU",
+    "columnKey": "SpreadOU"
   },
   "Round": {
     "headerName": "Round",
