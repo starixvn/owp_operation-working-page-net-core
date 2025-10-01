@@ -122,7 +122,8 @@ const convertConditionResponseToDisplayValue = (response: TCondition[]) => {
 
 const hasInvalidDivision=(division: TCondition[])=>division.some(d => {
           const trimmedValue = d.value.trim();
-          return d.type === MaxbetConst.divisionExpressionOption[1].label &&
+          return d.type === MaxbetConst.divisionExpressionOption[1].label && 
+            trimmedValue.length >0 &&
             (trimmedValue.startsWith(',') ||
              trimmedValue.endsWith(',') ||
              (trimmedValue.match(/,/g) || []).length!==1 ||
