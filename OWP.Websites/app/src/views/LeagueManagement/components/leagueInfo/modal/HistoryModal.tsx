@@ -129,12 +129,18 @@ const HistoryModal = ({ leagueSettingId, leagueName, onToggle }: Props) => {
                   </>
                 )}
                 <td>{fieldChange.field}</td>
-                <td style={{ whiteSpace: 'pre-line' }}>
-                  {fieldChange.oldValue}
-                </td>
-                <td style={{ whiteSpace: 'pre-line' }}>
-                  {fieldChange.newValue}
-                </td>
+                <td 
+                  style={{ wordBreak: 'break-word' }}
+                  dangerouslySetInnerHTML={{
+                    __html: fieldChange.oldValue || ''
+                  }}
+                />
+                <td 
+                  style={{ wordBreak: 'break-word' }}
+                  dangerouslySetInnerHTML={{
+                    __html: fieldChange.newValue || ''
+                  }}
+                />
               </tr>
             )) || []
         )}

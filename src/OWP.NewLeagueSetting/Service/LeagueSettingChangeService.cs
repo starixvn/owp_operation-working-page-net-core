@@ -142,6 +142,6 @@ public class LeagueSettingChangeService : ILeagueSettingChangeService
                 ? $"{condition.Type} - {condition.Value}"
                 : $"{item?.GetType().Name ?? "null"}");
         }
-        return string.Join("\n", formattedItems);
+        return string.Join("<br />", formattedItems);
     }
 }
