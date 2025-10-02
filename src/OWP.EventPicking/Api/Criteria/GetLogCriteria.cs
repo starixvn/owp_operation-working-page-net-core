@@ -1,6 +1,4 @@
-﻿using Fanex.Data.Repository;
-
-namespace OWP.EventPicking.Api.Criteria;
+﻿namespace OWP.EventPicking.Api.Criteria;
 
 public class GetLogCriteria : CriteriaBase
 {

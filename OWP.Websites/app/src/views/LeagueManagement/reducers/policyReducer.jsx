@@ -22,7 +22,8 @@ const handleSuccess = (state, action) => {
       generalPolicy: data.generalPolicy,
       conditionPolicy: data.conditionPolicy,
       lstNotePolicy: data.lstNotePolicy,
-      tvListPolicy: data.tvListPolicy
+      tvListPolicy: data.tvListPolicy,
+      viewLogPolicy: data.viewLogPolicy
     }
   };
 };

@@ -1,20 +1,26 @@
 import DeleteIcon from 'mdi-react/DeleteIcon';
 import CopyIcon from 'mdi-react/ContentCopyIcon';
+import HistoryIcon from 'mdi-react/HistoryIcon';
 import ToastrWrapper from '../../../../../components/ToastrWrapper';
 import Spinner from '../../../../../components/Spinner';
 import { removeSettingService } from '../../service/service';
 import { useAppDispatch } from '../../app/hooks';
-import { removeBySettingId } from '../leagueInfoTableSlice/reducer';
-import { setIsOpenAddNewSetting } from '../../table/leagueInfoTableSlice/reducer';
+import { removeBySettingId, setIsOpenAddNewSetting } from '../leagueInfoTableSlice/reducer';
 import { TDataSource } from '../TableType';
 import { setInitSetting } from '../../addPopup/slice/addSettingSlice';
+import { useState } from 'react';
+import HistoryModal from '../../modal/HistoryModal';
+import store from '../../../../store/store';
+
 interface Props {
   leagueSettingId: number;
   dataSource: TDataSource;
 }
 const ActionCell = (props: Props) => {
   const { leagueSettingId, dataSource } = props;
+  const [openLog, setOpenLog] = useState(false);
   const dispatch = useAppDispatch();
+  const { policyData } = store.getState().policyReducer;
 
   const handleRemoveSetting = async () => {
     const confirmResult = await ToastrWrapper.confirmYesNo(
@@ -37,18 +43,33 @@ const ActionCell = (props: Props) => {
     dispatch(setIsOpenAddNewSetting());
   };
 
-
   return (
-    <td style={{ textAlign: 'center' }}>
-      <span onClick={handleCopySetting} style={{ marginRight: '5px' }}>
-        <CopyIcon className='icon-copy' size={13} />
-      </span>
-      {leagueSettingId ?
-        <span onClick={handleRemoveSetting}>
-          <DeleteIcon className='icon-delete' size={13} />
+    <>
+      <td style={{ textAlign: 'center' }}>
+        <span onClick={handleCopySetting}>
+          <CopyIcon className='icon-copy' size={17} />
         </span>
-        : <></>}
-    </td>
+        {leagueSettingId ? (
+          <span onClick={handleRemoveSetting}>
+            <DeleteIcon className='icon-delete' size={17} />
+          </span>
+        ) : (
+          <></>
+        )}
+        {policyData.viewLogPolicy.HasRead && (
+        <span onClick={() => setOpenLog(true)}>
+            <HistoryIcon className='icon-history-event' size={17} />
+          </span>
+        )}
+      </td>
+      {openLog && (
+        <HistoryModal
+          leagueSettingId={leagueSettingId}
+          leagueName={dataSource.league}
+          onToggle={() => setOpenLog(false)}
+        />
+      )}
+    </>
   );
 };
 

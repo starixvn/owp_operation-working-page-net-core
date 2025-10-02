@@ -71,12 +71,14 @@ const queryPolicyMiddleware = ({ dispatch }) => next => async action => {
     generalPolicy,
     conditionPolicy,
     lstNotePolicy,
-    tvListPolicy
+    tvListPolicy,
+    viewLogPolicy
   ] = await axios.all([
     AuthorizeService.authorize(FunctionKeys.LeagueManagement_General),
     AuthorizeService.authorize(FunctionKeys.LeagueManagement_EditConditions),
     AuthorizeService.authorize(FunctionKeys.LeagueManagement_LSTNote),
-    AuthorizeService.authorize(FunctionKeys.LeagueManagement_TVList)
+    AuthorizeService.authorize(FunctionKeys.LeagueManagement_TVList),
+    AuthorizeService.authorize(FunctionKeys.LeagueManagement_ViewLog)
   ]);
   dispatch({
     type: SUCCESS,
@@ -84,7 +86,8 @@ const queryPolicyMiddleware = ({ dispatch }) => next => async action => {
       generalPolicy,
       conditionPolicy,
       lstNotePolicy,
-      tvListPolicy
+      tvListPolicy,
+      viewLogPolicy
     }
   });
   return undefined;

@@ -47,5 +47,11 @@ public class NewLeagueSettingEndPoint : ICarterModule
             await sender.Send(request);
             return Results.Ok();
         });
+
+        groupEndpoint.MapGet("/get-logs", async (int leagueSettingId, ISender sender) =>
+        {
+            var result = await sender.Send(new QueryLogRequest(leagueSettingId));
+            return Results.Json(result);
+        });
     }
 }

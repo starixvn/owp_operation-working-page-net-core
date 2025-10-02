@@ -49,6 +49,7 @@ public class NotificationServiceImp : NotificationService
 
     public async Task NotifyNewMessageIncome(List<string> userIds, TicketInfo ticketInfo, MessageDetailViewModel messageResponse = null)
     {
+        #region NotifyNewMessageIncome
         var ticketReaders = await repository.GetTickerReaderInfoByTicketId(ticketInfo.TicketId);
         var lastComments = (await repository.GetTwoLastComment(new List<int> { ticketInfo.TicketId })).ToList();
         var (_, avatarFileName) = await profileRepository.QueryUserProfileInfo(messageResponse.UserId);
@@ -57,6 +58,9 @@ public class NotificationServiceImp : NotificationService
         ticketInfo.LastCommentDate = lastComments.Count != 0
             ? lastComments[0].CreatedDate
             : new MessageInfoModel().CreatedDate;
+
+        #endregion
+
         foreach (var ticketReader in ticketReaders)
         {
             ticketInfo.IsPinned = ticketReader.IsPinned;
