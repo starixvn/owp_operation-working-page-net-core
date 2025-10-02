@@ -796,6 +796,44 @@ button {
     align-items: center;
   }
 }
+
+// New styles for separated MaxBet columns
+.maxbet-hdp-cell,
+.maxbet-ou-cell {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  padding-left: 10px;
+
+  .maxbet-status {
+    padding-right: 5px;
+    display: flex;
+    align-items: center;
+  }
+
+  .maxbet-value {
+    font-weight: 500;
+    color: #333;
+  }
+}
+
+// New styles for separated Spread columns
+.spread-hdp-cell,
+.spread-ou-cell {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  padding-left: 10px;
+
+  .spread-value {
+    font-weight: 500;
+    color: #333;
+  }
+}
 // status history popup
 .tableFixHead-log {
   overflow: auto;
