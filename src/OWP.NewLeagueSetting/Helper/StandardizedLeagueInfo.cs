@@ -133,34 +133,10 @@ public static class StandardizedLeagueInfo
 
     public static void BuildRemark2(LeagueSettingInfo leagueInfo, string remark2Source)
     {
-        if (string.IsNullOrWhiteSpace(remark2Source))
+        if (remark2Source != null)
         {
-            return;
+            leagueInfo.Remark2WD = remark2Source.Replace("\n", "");
         }
-
-        var splitRemarks = remark2Source.Split('\n')
-            .Select(item => item.Trim());
-
-        foreach (var remarkLine in splitRemarks)
-        {
-            SetRemarkProperty(leagueInfo, remarkLine);
-        }
-    }
-
-    private static void SetRemarkProperty(LeagueSettingInfo leagueInfo, string remarkLine)
-    {
-        if (remarkLine.StartsWith("(WK)", StringComparison.OrdinalIgnoreCase))
-        {
-            leagueInfo.Remark2WK = remarkLine;
-            return;
-        }
-
-        if (remarkLine.StartsWith("(WD)", StringComparison.OrdinalIgnoreCase))
-        {
-            leagueInfo.Remark2WD = remarkLine;
-            return;
-        }
-        leagueInfo.Remark2 = remarkLine;
     }
 
     private static bool CanBuildDivision(LeagueSettingExcelInfo excelInfo)

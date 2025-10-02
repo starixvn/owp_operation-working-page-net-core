@@ -195,9 +195,7 @@ describe('helper.ts', () => {
       },
       shortLeague: 'TL',
       isBlackList: false,
-      noOfferLive: true,
-      remark2WD: 'wd remark',
-      remark2WK: 'wk remark'
+      noOfferLive: true
     };
 
     it('should map dataSource to edit setting format', () => {
@@ -226,9 +224,7 @@ describe('helper.ts', () => {
         remark: 'condition remark',
         shortLeague: 'TL',
         isBlackList: false,
-        noOfferLive: true,
-        remark2WD: 'wd remark',
-        remark2WK: 'wk remark'
+        noOfferLive: true
       });
     });
 

@@ -32,8 +32,6 @@ const EditSettingSlice = createSlice({
     wK_NoOfHDP: '',
     lstNote: '',
     remark2: '',
-    remark2WD: '',
-    remark2WK: '',
     comment: '',
     hasTv: false,
     hasIpTv: false,
@@ -57,8 +55,6 @@ const EditSettingSlice = createSlice({
         wK_NoOfHDP,
         lstNote,
         remark2,
-        remark2WD,
-        remark2WK,
         comment,
         hasTv,
         hasIpTv,
@@ -91,8 +87,6 @@ const EditSettingSlice = createSlice({
       state.shortLeague = shortLeague;
       state.isBlackList = isBlackList;
       state.noOfferLive = noOfferLive;
-      state.remark2WD = remark2WD || '';
-      state.remark2WK = remark2WK || '';
     },
     updateObject: (
       state,

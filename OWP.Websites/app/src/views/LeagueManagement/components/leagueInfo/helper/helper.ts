@@ -23,9 +23,7 @@ const mapEditSettingFromDataSource = (dataSource: TDataSource) => {
     condition,
     shortLeague,
     isBlackList,
-    noOfferLive,
-    remark2WD,
-    remark2WK
+    noOfferLive
   } = dataSource;
   const result = {
     leagueSettingId,
@@ -50,9 +48,7 @@ const mapEditSettingFromDataSource = (dataSource: TDataSource) => {
     remark: condition.remark,
     shortLeague,
     isBlackList,
-    noOfferLive,
-    remark2WD,
-    remark2WK
+    noOfferLive
   };
 
   return result;
