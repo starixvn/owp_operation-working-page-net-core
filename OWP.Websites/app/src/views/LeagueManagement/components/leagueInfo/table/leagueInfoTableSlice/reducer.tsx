@@ -75,6 +75,7 @@ const LeagueInfoTableSlice = createSlice({
       state.focusSettingId = actions.payload;
     },
     filterBySearchKey: (state, action) => {
+      console.log('filterBySearchKey');
       const { filterState } = state;
       state.filterState = addOrReplaceFilterState(filterState, action.payload);
       state.entities = executeFilterTable(state, filterByKeyword);
@@ -123,12 +124,11 @@ const LeagueInfoTableSlice = createSlice({
         state.loading = REQUEST_STATUS.pending;
       })
       .addCase(getLeagueInfoThunk.fulfilled, (state, { payload }) => {
-        state.entities = payload;
         state.entitiesOriginal = payload;
         state.loading = REQUEST_STATUS.idle;
-        state.filterState = [];
-        state.valueFilterAllColumn = {};
         buildDefaultTableFilter(state.entitiesOriginal, state.multipleFilter);
+        state.entities = executeFilterTable(state, filterByKeyword);
+       
       });
   }
 });
