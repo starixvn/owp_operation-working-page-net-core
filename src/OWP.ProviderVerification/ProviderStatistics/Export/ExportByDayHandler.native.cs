@@ -16,7 +16,7 @@ public class ExportByDayHandler(ConfigurationService configuration, IDynamicRepo
     private ExcelWorksheet reportSheet;
     const int START_ROW_TITLE_INDEX = 3;
     const int START_ROW_INDEX = 4;
-    const int TOTAL_COLUMNS = 14;
+    const int TOTAL_COLUMNS = 15;
 
     public async Task<ExcelPackage> Handle(ExportByDayRequest request, CancellationToken cancellationToken)
     {
@@ -145,6 +145,7 @@ public class ExportByDayHandler(ConfigurationService configuration, IDynamicRepo
 
                 var _365gv = GetCount(AgentIds._365gv);
                 var betradar = GetCount(AgentIds.Betradar);
+                var betradar2 = GetCount(AgentIds.Betradar2);
                 var bg = GetCount(AgentIds.Bg);
                 var fc = GetCount(AgentIds.Fc);
                 var img = GetCount(AgentIds.Img);
@@ -155,13 +156,14 @@ public class ExportByDayHandler(ConfigurationService configuration, IDynamicRepo
                 var streaming = GetCount(AgentIds.Streaming);
                 var cancel = GetCount(AgentIds.Cancel);
 
-                var totalMatches = _365gv + betradar + bg + fc + img + rb2 + rts + slr + woo + streaming;
+                var totalMatches = _365gv + betradar + betradar2 + bg + fc + img + rb2 + rts + slr + woo + streaming;
                 var total = totalMatches + cancel;
 
                 return new ProviderStatisticInfoByDay
                 {
                     _365Gv = _365gv,
                     Betradar = betradar,
+                    Betradar2 = betradar2,
                     Bg = bg,
                     Fc = fc,
                     Img = img,
