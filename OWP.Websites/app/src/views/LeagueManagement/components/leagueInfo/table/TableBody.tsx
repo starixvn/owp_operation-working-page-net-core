@@ -91,8 +91,6 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }: TProp) => {
           <Remark2Cell
             className={classNameCells.remark2Cell.className}
             remark2={row.remark2}
-            remark2WD={row.remark2WD}
-            remark2WK={row.remark2WK}
           />
 
           <ActionCell

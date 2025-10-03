@@ -1,10 +1,9 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import { REQUEST_STATUS } from '../../../../../Shared/Constants';
-import { TCondition } from '../../table/TableType';
+import { TDataSource, TCondition } from '../../table/TableType';
 import { TOption, TAddSetting, TAddExpressionKey } from '../../component/Type';
 import { getLeagueGroupOptionsThunk } from '../../component/commonThunk';
-import { TDataSource } from '../../table/TableType';
 import { mapEditSettingFromDataSource } from '../../helper/helper';
 
 interface ConditionPayLoad {
@@ -35,9 +34,7 @@ const addSetting = {
   division: [{ value: '', type: 'Contains' }] as Array<TCondition>,
   shortLeague: '',
   isBlackList: false,
-  noOfferLive: false,
-  remark2WD: '',
-  remark2WK: ''
+  noOfferLive: false
 };
 
 const AddSettingSlice = createSlice({
@@ -106,8 +103,6 @@ const AddSettingSlice = createSlice({
         wK_NoOfHDP,
         lstNote,
         remark2,
-        remark2WD,
-        remark2WK,
         comment,
         hasTv,
         hasIpTv,
@@ -138,8 +133,6 @@ const AddSettingSlice = createSlice({
       state.shortLeague = shortLeague;
       state.isBlackList = isBlackList;
       state.noOfferLive = noOfferLive;
-      state.remark2WD = remark2WD || '';
-      state.remark2WK = remark2WK || '';
     },
     updateObjectAddPopup: (
       state,

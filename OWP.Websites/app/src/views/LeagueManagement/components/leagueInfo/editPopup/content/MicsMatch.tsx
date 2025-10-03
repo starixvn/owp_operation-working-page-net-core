@@ -3,8 +3,8 @@ import { useAppDispatch } from '../../app/hooks';
 import { updateObject } from '../slice/editSettingSlice';
 import { TEditSetting } from '../../component/Type';
 
-const MicsMatch = (props: { lstNote: string; remark2: string; remark2WK: string, remark2WD: string }) => {
-  const { lstNote, remark2, remark2WD, remark2WK } = props;
+const MicsMatch = (props: { lstNote: string; remark2: string; }) => {
+  const { lstNote, remark2 } = props;
   const dispatch = useAppDispatch();
   const handleOnChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -28,7 +28,7 @@ const MicsMatch = (props: { lstNote: string; remark2: string; remark2WK: string,
       <div className='content-column'>
         <InputItem
           label='Remark 2 (Show under Match)'
-          value={`${remark2}${remark2WD}${remark2WK}`}
+          value={remark2}
           handleOnChange={event => handleOnChange(event, remark2, 'remark2')}
         />
       </div>

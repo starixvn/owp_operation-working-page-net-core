@@ -14,11 +14,8 @@ const checkRemark = (arraySource, keyWordFormat) =>
   );
 
 const checkRemark2 = (arraySource, keyWordFormat) => {
-  return arraySource.filter(
-    item =>
-      item.remark2?.toLowerCase().includes(keyWordFormat) ||
-      item.remark2WD?.toLowerCase().includes(keyWordFormat) ||
-      item.remark2WK?.toLowerCase().includes(keyWordFormat)
+  return arraySource.filter(item =>
+    item.remark2?.toLowerCase().includes(keyWordFormat)
   );
 };
 

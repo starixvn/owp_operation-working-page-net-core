@@ -77,7 +77,7 @@ public class LeagueSettingChangeServiceUnitTest
 
         // Assert
         Assert.Single(result);
-        Assert.Equal("Condition HasTv", result[0].Field);
+        Assert.Equal("Condition TV", result[0].Field);
         Assert.Equal("False", result[0].OldValue);
         Assert.Equal("True", result[0].NewValue);
     }
@@ -118,8 +118,8 @@ public class LeagueSettingChangeServiceUnitTest
         Assert.Equal(4, result.Count);
         Assert.Contains(result, r => r.Field == "League Name");
         Assert.Contains(result, r => r.Field == "FT Spread");
-        Assert.Contains(result, r => r.Field == "Condition HasTv");
-        Assert.Contains(result, r => r.Field == "No OfferLive");
+        Assert.Contains(result, r => r.Field == "Condition TV");
+        Assert.Contains(result, r => r.Field == "No Offer Live");
     }
 
     [Fact]
@@ -405,7 +405,7 @@ public class LeagueSettingChangeServiceUnitTest
 
         // Assert
         Assert.Single(result);
-        Assert.Equal("Condition IpTv", result[0].Field);
+        Assert.Equal("Condition IPTV", result[0].Field);
         Assert.Equal("", result[0].OldValue);
         Assert.Equal("IpTv - Test", result[0].NewValue);
     }

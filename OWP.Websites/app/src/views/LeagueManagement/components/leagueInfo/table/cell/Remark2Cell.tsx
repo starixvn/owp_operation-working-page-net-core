@@ -5,13 +5,11 @@ import { v4 as uuidv4 } from 'uuid';
 type TProp = {
   className?: string;
   remark2?: string;
-  remark2WD?: string;
-  remark2WK?: string;
 }
 
-const Remark2Cell = ({ className, remark2, remark2WD, remark2WK }: TProp) => {
+const Remark2Cell = ({ className, remark2 }: TProp) => {
   const uuidKey = `${className}_${uuidv4()}`;
-  const remark = [remark2, remark2WD, remark2WK].filter(r => r);
+  const remark = [remark2].filter(r => r);
   return (
     <td className={className}>
       <div className='row-table' id={uuidKey}>

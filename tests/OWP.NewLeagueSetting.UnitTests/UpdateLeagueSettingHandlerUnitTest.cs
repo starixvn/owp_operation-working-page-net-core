@@ -30,7 +30,6 @@ public class UpdateLeagueSettingHandlerUnitTest
         // Arrange
         var repository = Substitute.For<Repository>();
         var session = Substitute.For<INapSession>();
-
         session.UserId.Returns(123);
 
         var logService = Substitute.For<LogService>();
@@ -62,7 +61,6 @@ public class UpdateLeagueSettingHandlerUnitTest
         // Arrange
         var repository = Substitute.For<Repository>();
         var session = Substitute.For<INapSession>();
-
         session.UserId.Returns(789);
 
         var logService = Substitute.For<LogService>();
@@ -94,7 +92,6 @@ public class UpdateLeagueSettingHandlerUnitTest
         // Arrange
         var repository = Substitute.For<Repository>();
         var session = Substitute.For<INapSession>();
-
         session.UserId.Returns(123);
 
         var logService = Substitute.For<LogService>();
@@ -127,7 +124,6 @@ public class UpdateLeagueSettingHandlerUnitTest
         // Arrange
         var repository = Substitute.For<Repository>();
         var session = Substitute.For<INapSession>();
-
         session.UserId.Returns(0);
 
         var logService = Substitute.For<LogService>();
@@ -159,7 +155,6 @@ public class UpdateLeagueSettingHandlerUnitTest
         // Arrange
         var repository = Substitute.For<Repository>();
         var session = Substitute.For<INapSession>();
-
         session.UserId.Returns(-1);
 
         var logService = Substitute.For<LogService>();
