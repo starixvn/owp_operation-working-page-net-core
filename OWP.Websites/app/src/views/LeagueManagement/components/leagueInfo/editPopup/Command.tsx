@@ -2,7 +2,7 @@ import ToastrWrapper from '../../../../components/ToastrWrapper';
 import { useAppDispatch } from '../app/hooks';
 import store from '../app/storeNative';
 import { fetchLeagueSettingInfo } from '../table/leagueInfoTableSlice/leagueInfoThunk';
-import { setFocusSettingId } from '../table/leagueInfoTableSlice/reducer';
+import { setFocusSettingId, setIsSaveAction } from '../table/leagueInfoTableSlice/reducer';
 import { updateSettingService } from '../service/service';
 import { AxiosError } from 'axios';
 import { TExpectedResponseType } from '../component/Type';
@@ -85,6 +85,7 @@ const Command = (props: { closePopup: Function }) => {
         await ToastrWrapper.showInfo(
           'The setting has been edited successfully!'
         );
+        dispatch(setIsSaveAction(true));
         dispatch(fetchLeagueSettingInfo(leagueFilterHeader, false));
         dispatch(setFocusSettingId(leagueSettingId));
       }

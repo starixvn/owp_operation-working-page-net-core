@@ -55,7 +55,8 @@ const LeagueInfoTableSlice = createSlice({
     isOpenAddNewSetting: false,
     valueFilterAllColumn: {} as FilterAllColumn,
     columnKeyFilterCurrent: '',
-    filterState: [] as TFilterState[]
+    filterState: [] as TFilterState[],
+    isSaveAction: false
   } as TTableSlice,
   reducers: {
     setIsOpenAddNewSetting: state => {
@@ -66,7 +67,7 @@ const LeagueInfoTableSlice = createSlice({
       state.filterState = [];
       state.valueFilterAllColumn = {};
       state.entities = entitiesOriginal;
-      buildDefaultTableFilter(state.entitiesOriginal, state.multipleFilter);
+      buildDefaultTableFilter(state.entitiesOriginal, state.multipleFilter, state.isSaveAction);
     },
     setLeagueHeaderFiler: (state, actions) => {
       state.leagueFilterHeader = actions.payload;
@@ -75,7 +76,6 @@ const LeagueInfoTableSlice = createSlice({
       state.focusSettingId = actions.payload;
     },
     filterBySearchKey: (state, action) => {
-      console.log('filterBySearchKey');
       const { filterState } = state;
       state.filterState = addOrReplaceFilterState(filterState, action.payload);
       state.entities = executeFilterTable(state, filterByKeyword);
@@ -116,6 +116,9 @@ const LeagueInfoTableSlice = createSlice({
         valueFilterAllColumn,
         action.payload
       );
+    },
+    setIsSaveAction: (state, action) => {
+      state.isSaveAction = action.payload;
     }
   },
   extraReducers: builder => {
@@ -126,9 +129,13 @@ const LeagueInfoTableSlice = createSlice({
       .addCase(getLeagueInfoThunk.fulfilled, (state, { payload }) => {
         state.entitiesOriginal = payload;
         state.loading = REQUEST_STATUS.idle;
-        buildDefaultTableFilter(state.entitiesOriginal, state.multipleFilter);
+        if(!state.isSaveAction) {
+          state.filterState = [];
+          state.valueFilterAllColumn = {};
+        }
+        buildDefaultTableFilter(state.entitiesOriginal, state.multipleFilter, state.isSaveAction);
         state.entities = executeFilterTable(state, filterByKeyword);
-       
+        state.isSaveAction = false;
       });
   }
 });
@@ -143,7 +150,8 @@ const {
   removeBySettingId,
   setColumnKeyValue,
   setValueFilter,
-  filterBySearchKey
+  filterBySearchKey,
+  setIsSaveAction
 } = actions;
 
 export {
@@ -155,7 +163,8 @@ export {
   removeBySettingId,
   setColumnKeyValue,
   setValueFilter,
-  filterBySearchKey
+  filterBySearchKey,
+  setIsSaveAction
 };
 
 export default reducer;

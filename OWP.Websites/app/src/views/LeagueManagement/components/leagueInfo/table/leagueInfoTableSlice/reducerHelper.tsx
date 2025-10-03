@@ -21,7 +21,8 @@ const createFilterConfig = (
 
 const buildDefaultTableFilter = (
   dataSource: TDataSource[],
-  tableFilter: TMultipleFilter
+  tableFilter: TMultipleFilter,
+  isSaveAction: boolean
 ) => {
   const filterConfigs = {
     League_Group: () => helper.League_Group(dataSource),
@@ -43,9 +44,9 @@ const buildDefaultTableFilter = (
     const newFilter = createFilterConfig(key, dataSource, helperFn);
     const currentFilter = tableFilter[key as TColumnHasMultipleFilterKey];
 
-    const hasMatchingSelectedOptions = currentFilter?.isFilter && 
-      newFilter.options.some(option => 
-        currentFilter.selected.some(selected => selected.label === option.label)
+    const hasMatchingSelectedOptions = currentFilter?.isFilter && isSaveAction && 
+      newFilter.options.some((option: any) => 
+        currentFilter.selected.some((selected: any) => selected.label === option.label)
       );
 
     tableFilter[key as TColumnHasMultipleFilterKey] = {
