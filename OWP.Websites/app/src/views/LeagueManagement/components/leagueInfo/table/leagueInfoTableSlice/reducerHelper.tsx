@@ -42,10 +42,16 @@ const buildDefaultTableFilter = (
   Object.entries(filterConfigs).forEach(([key, helperFn]) => {
     const newFilter = createFilterConfig(key, dataSource, helperFn);
     const currentFilter = tableFilter[key as TColumnHasMultipleFilterKey];
+
+    const hasMatchingSelectedOptions = currentFilter?.isFilter && 
+      newFilter.options.some(option => 
+        currentFilter.selected.some(selected => selected.label === option.label)
+      );
+
     tableFilter[key as TColumnHasMultipleFilterKey] = {
       ...newFilter,
-      selected: currentFilter?.isFilter ? currentFilter.selected : newFilter.selected,
-      isFilter: currentFilter?.isFilter ? currentFilter.isFilter : newFilter.isFilter
+      selected: hasMatchingSelectedOptions ? currentFilter.selected : newFilter.selected,
+      isFilter: hasMatchingSelectedOptions ? currentFilter.isFilter : newFilter.isFilter
     };
   });
 };
