@@ -129,12 +129,22 @@ const LeagueInfoTableSlice = createSlice({
       .addCase(getLeagueInfoThunk.fulfilled, (state, { payload }) => {
         state.entitiesOriginal = payload;
         state.loading = REQUEST_STATUS.idle;
+        
         if(!state.isSaveAction) {
           state.filterState = [];
           state.valueFilterAllColumn = {};
         }
         buildDefaultTableFilter(state.entitiesOriginal, state.multipleFilter, state.isSaveAction);
-        state.entities = executeFilterTable(state, filterByKeyword);
+        const filterData = executeFilterTable(state, filterByKeyword);
+        if(filterData.length > 0) {
+          state.entities = filterData;
+        } else if(state.isSaveAction) {
+          buildDefaultTableFilter(state.entitiesOriginal, state.multipleFilter, false);
+          state.filterState = [];
+          state.valueFilterAllColumn = {};
+          state.entities = state.entitiesOriginal;
+        }
+       
         state.isSaveAction = false;
       });
   }
