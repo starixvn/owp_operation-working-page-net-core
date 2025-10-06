@@ -28,7 +28,7 @@ public class BuildProviderUnitTests
         Assert.Equal("TV", matches[0].Provider);
         Assert.Equal("TV/RB2", matches[1].Provider);
         Assert.Equal("RB2", matches[2].Provider);
-        Assert.Equal(null, matches[3].Provider);
+        Assert.Null(matches[3].Provider);
     }
 
 

@@ -1,21 +1,28 @@
-using OWP.EventPicking.Api.Models;
-
 namespace OWP.EventPicking.Api.Services;
 
 public interface LogService
 {
     Task<IList<LogModel>> GetLog(int infoSiteMatchId);
+
+    Task SaveMBSpreadsToCache(DateTime eventDate, List<EventPickingModel> matchFiltered);
 }
 
-public class LogServiceImp : LogService
+public class LogServiceImp(Repository repository, CacheManipulator cacheManipulator) : LogService
 {
-    private readonly Repository repository;
-
-    public LogServiceImp(Repository repository)
-    {
-        this.repository = repository;
-    }
-
     public async Task<IList<LogModel>> GetLog(int infoSiteMatchId)
         => await repository.GetLog(infoSiteMatchId);
+
+    public async Task SaveMBSpreadsToCache(DateTime eventDate, List<EventPickingModel> matchFiltered)
+    {
+        var mbSpreads = matchFiltered.Select(match => new EventMBSpread
+        {
+            InfoSiteMatchId = match.InfoSiteMatchId,
+            MaxbetHdp = match.MaxbetHdp,
+            SpreadHdp = match.SpreadHdp,
+            SpreadOu = match.SpreadOu,
+            IsReferenceLeagueManagement = match.IsReferenceLeagueManagement
+        }).ToList();
+
+        await cacheManipulator.SaveMBSpreadsByDate(eventDate, mbSpreads);
+    }
 }

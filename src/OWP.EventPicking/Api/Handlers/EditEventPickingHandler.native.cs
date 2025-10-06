@@ -50,8 +50,6 @@ public class EditEventPickingHandler(
                 var leagueSettingByLeagueId = leagueSetting.Where(x => x.OWPLeagueId == match.OWPLeagueId).ToList();
                 ProcessLeagueSettingsForMatch(leagueSettingByLeagueId, match, tvList);
             }
-
-
         }
 
         // Save MB data from matchFiltered to cache

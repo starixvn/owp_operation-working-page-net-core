@@ -21,7 +21,8 @@ public class EditEventPickingHandlerUnitTest
         PullMainLeagueService? pullMainLeagueService = null,
         MapMainLeagueForEventService? mapMainLeagueForEventService = null,
         BuildMBForClubFriendlyMajorLeagueBuilder? mbBuilder = null,
-        MappingRuleSyncMBLeagueFriendlyService? mappingRuleSyncMBLeagueFriendlyService = null)
+        MappingRuleSyncMBLeagueFriendlyService? mappingRuleSyncMBLeagueFriendlyService = null,
+        CacheManipulator? cacheManipulator = null)
     {
         service ??= Substitute.For<QueryEventPickingService>();
         repository ??= Substitute.For<OWP.EventPicking.Repository>();
@@ -29,6 +30,7 @@ public class EditEventPickingHandlerUnitTest
         mapMainLeagueForEventService ??= Substitute.For<MapMainLeagueForEventService>();
         mbBuilder ??= Substitute.For<BuildMBForClubFriendlyMajorLeagueBuilder>();
         mappingRuleSyncMBLeagueFriendlyService ??= Substitute.For<MappingRuleSyncMBLeagueFriendlyService>();
+        cacheManipulator ??= Substitute.For<CacheManipulator>();
 
         return new EditEventPickingHandler(
             service,
@@ -36,7 +38,8 @@ public class EditEventPickingHandlerUnitTest
             pullMainLeagueService,
             mapMainLeagueForEventService,
             mbBuilder,
-            mappingRuleSyncMBLeagueFriendlyService);
+            mappingRuleSyncMBLeagueFriendlyService,
+            cacheManipulator);
     }
 
     private static EventPickingResult BuildServiceResult(params EventPickingModel[] matches)
