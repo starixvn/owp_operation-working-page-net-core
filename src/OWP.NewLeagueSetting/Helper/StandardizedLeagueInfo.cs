@@ -135,7 +135,7 @@ public static class StandardizedLeagueInfo
     {
         if (remark2Source != null)
         {
-            leagueInfo.Remark2WD = remark2Source.Replace("\n", "");
+            leagueInfo.Remark2 = remark2Source.Replace("\n", "");
         }
     }
 
