@@ -9,6 +9,8 @@ public class EventMBSpread
 
     public decimal? MaxbetHdp { get; set; }
 
+    public string? NoOfHDP { get; set; }
+
     public bool IsReferenceLeagueManagement { get; set; }
 
 }
