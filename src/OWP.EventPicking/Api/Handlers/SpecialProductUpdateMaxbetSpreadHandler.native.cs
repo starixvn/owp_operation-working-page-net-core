@@ -29,8 +29,7 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
     public async Task<Unit> Handle(UpdateEventsRequest request, CancellationToken cancellationToken)
     {
         var cachedMBSpreads = await cacheManipulator.GetMBSpreadsByDate(request.EventDate);
-        
-        var rAndDInfos = CompareAndGenerateRAndDInfo(request.Events, cachedMBSpreads);
+        var logData = CompareAndGenerateRAndDInfo(request.Events, cachedMBSpreads);
         
         var TargetJson = JsonConvert.SerializeObject(request.Events);
         var criteria = new UpdateMaxbetSpreadCriteria
@@ -40,14 +39,17 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
         };
         await repository.UpdateEvent(criteria);
 
+        var xml = XmlConverter.Serialize(logData);
+        await repository.SaveEventLog(new SaveEditEventLogsCriteria { Xml = xml });
+
         await SaveUpdatedDataToCache(request.EventDate, request.Events, cachedMBSpreads);
 
         return Unit.Value;
     }
 
-    private List<RAndDInfo> CompareAndGenerateRAndDInfo(IList<UpdateEvents> requestEvents, List<EventMBSpread> cachedMBSpreads)
+    private List<LoggedChangeModel> CompareAndGenerateRAndDInfo(IList<UpdateEvents> requestEvents, List<EventMBSpread> cachedMBSpreads)
     {
-        var rAndDInfos = new List<RAndDInfo>();
+        var rAndDInfos = new List<LoggedChangeModel>();
 
         foreach (var requestEvent in requestEvents)
         {
@@ -67,7 +69,7 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
         return rAndDInfos;
     }
     
-    private void CheckAndAddNumberChange(List<RAndDInfo> rAndDInfos, int infoSiteMatchId, string fieldName, decimal? newValue, decimal? oldValue)
+    private void CheckAndAddNumberChange(List<LoggedChangeModel> rAndDInfos, int infoSiteMatchId, string fieldName, decimal? newValue, decimal? oldValue)
     {
         if (HasNumberChanged(newValue, oldValue))
         {
@@ -76,7 +78,7 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
         }
     }
     
-    private void CheckAndAddStringChange(List<RAndDInfo> rAndDInfos, int infoSiteMatchId, string fieldName, string newValue, string oldValue)
+    private void CheckAndAddStringChange(List<LoggedChangeModel> rAndDInfos, int infoSiteMatchId, string fieldName, string newValue, string oldValue)
     {
         if ((newValue ?? "") != (oldValue ?? ""))
         {
@@ -92,16 +94,17 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
         return Math.Abs(newValue.Value - oldValue.Value) > 0.0001m; // Small tolerance for decimal comparison
     }
     
-    private RAndDInfo CreateRAndDInfo(int infoSiteMatchId, string fieldName, string oldValue, string newValue)
+    private LoggedChangeModel CreateRAndDInfo(int infoSiteMatchId, string fieldName, string oldValue, string newValue)
     {
-        return new RAndDInfo
+        return new LoggedChangeModel
         {
-            InfositeId = infoSiteMatchId,
-            UpdateTypeId = 0,
-            RAndDUpdate = fieldName,
+            InfoSiteMatchId = infoSiteMatchId,
+            UpdateTypeId = null,
+            ModifiedBy = session.UserName,
+            Action = fieldName,
             OldValue = oldValue,
             NewValue = newValue,
-            Group = "MaxBet/Spread Update"
+            UpDateTime = DateTime.Now.AddHours(12)
         };
     }
     
