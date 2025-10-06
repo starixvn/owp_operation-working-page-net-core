@@ -55,7 +55,7 @@ public class EditEventPickingHandler(
         }
 
         // Save MB data from matchFiltered to cache
-        await SaveMBSpreadsToCache(request.EventDate, matchFiltered);
+        await SaveMBSpreadsToCache(request.Date, matchFiltered);
 
         return new EventPickingResult
         {
@@ -402,6 +402,7 @@ public class EditEventPickingHandler(
             MaxbetHdp = match.MaxbetHdp,
             SpreadHdp = match.SpreadHdp,
             SpreadOu = match.SpreadOu,
+            NoOfHDP = match.NoOfHDP,
             IsReferenceLeagueManagement = match.IsReferenceLeagueManagement
         }).ToList();
 

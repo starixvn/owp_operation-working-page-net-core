@@ -8,8 +8,10 @@ import {
 
 const Save = ({ onSetMode }: { onSetMode: () => void }) => {
   const dispatch = useAppDispatch();
+
   const handleSave = async () => {
     Spinner.show();
+    const { param } = store.getState().filter;
     const { entities } = store.getState().eventPickingTable;
     const eventModified = entities.filter(
       e => e.isModified || e.isReferenceLeagueManagement
@@ -26,11 +28,12 @@ const Save = ({ onSetMode }: { onSetMode: () => void }) => {
         Remark2LeagueManagement: e.remark2LeagueManagement || null
       }));
 
+
     await Promise.allSettled([
-      dispatch(updateMainEventsThunk(mainEvents))
+      dispatch(updateMainEventsThunk({Events: mainEvents, EventDate: param.date as string}))
     ]);
     Spinner.hide();
-    const { param } = store.getState().filter;
+   
     await dispatch(getEventPickings(param));
     onSetMode();
   };

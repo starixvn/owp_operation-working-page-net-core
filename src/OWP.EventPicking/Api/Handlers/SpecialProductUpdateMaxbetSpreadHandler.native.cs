@@ -3,6 +3,7 @@
 using Fanex.NAP.Client;
 using Newtonsoft.Json;
 using OWP.EventPicking.Api.Services;
+using System.Linq;
 
 namespace OWP.EventPicking.Api.Handlers;
 
@@ -39,6 +40,8 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
         };
         await repository.UpdateEvent(criteria);
 
+        await SaveUpdatedDataToCache(request.EventDate, request.Events, cachedMBSpreads);
+
         return Unit.Value;
     }
 
@@ -55,39 +58,34 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
                 continue;
             }
 
-            if (HasValueChanged(requestEvent.SpreadHdp, cachedEvent.SpreadHdp))
-            {
-                rAndDInfos.Add(CreateRAndDInfo(requestEvent.InfoSiteMatchId, "Update <b>SpreadHdp<b/>",
-                    cachedEvent.SpreadHdp?.ToString() ?? "",
-                    requestEvent.SpreadHdp?.ToString() ?? ""));
-            }
-
-            if (HasValueChanged(requestEvent.SpreadOu, cachedEvent.SpreadOu))
-            {
-                rAndDInfos.Add(CreateRAndDInfo(requestEvent.InfoSiteMatchId, "Update <b>SpreadOu<b/>",
-                    cachedEvent.SpreadOu?.ToString() ?? "",
-                    requestEvent.SpreadOu?.ToString() ?? ""));
-            }
-
-            if (HasValueChanged(requestEvent.MaxbetHdp, cachedEvent.MaxbetHdp))
-            {
-                rAndDInfos.Add(CreateRAndDInfo(requestEvent.InfoSiteMatchId, "Update <b>MaxbetHdp<b/>",
-                    cachedEvent.MaxbetHdp?.ToString() ?? "",
-                    requestEvent.MaxbetHdp?.ToString() ?? ""));
-            }
-            
-            if(requestEvent.NoOfHDP != cachedEvent.NoOfHDP)
-            {
-                rAndDInfos.Add(CreateRAndDInfo(requestEvent.InfoSiteMatchId, "Update <b>NoOfHDP<b/>",
-                    cachedEvent.NoOfHDP,
-                    requestEvent.NoOfHDP));
-            }
+            CheckAndAddNumberChange(rAndDInfos, requestEvent.InfoSiteMatchId, "SpreadHdp", requestEvent.SpreadHdp, cachedEvent.SpreadHdp);
+            CheckAndAddNumberChange(rAndDInfos, requestEvent.InfoSiteMatchId, "SpreadOu", requestEvent.SpreadOu, cachedEvent.SpreadOu);
+            CheckAndAddNumberChange(rAndDInfos, requestEvent.InfoSiteMatchId, "MaxbetHdp", requestEvent.MaxbetHdp, cachedEvent.MaxbetHdp);
+            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "NoOfHDP", requestEvent.NoOfHDP, cachedEvent.NoOfHDP);
         }
         
         return rAndDInfos;
     }
     
-    private bool HasValueChanged(decimal? newValue, decimal? oldValue)
+    private void CheckAndAddNumberChange(List<RAndDInfo> rAndDInfos, int infoSiteMatchId, string fieldName, decimal? newValue, decimal? oldValue)
+    {
+        if (HasNumberChanged(newValue, oldValue))
+        {
+            rAndDInfos.Add(CreateRAndDInfo(infoSiteMatchId, $"Update <b>{fieldName}<b/>", 
+                oldValue?.ToString() ?? "", newValue?.ToString() ?? ""));
+        }
+    }
+    
+    private void CheckAndAddStringChange(List<RAndDInfo> rAndDInfos, int infoSiteMatchId, string fieldName, string newValue, string oldValue)
+    {
+        if ((newValue ?? "") != (oldValue ?? ""))
+        {
+            rAndDInfos.Add(CreateRAndDInfo(infoSiteMatchId, $"Update <b>{fieldName}<b/>", 
+                oldValue ?? "", newValue ?? ""));
+        }
+    }
+    
+    private bool HasNumberChanged(decimal? newValue, decimal? oldValue)
     {
         if (newValue == null && oldValue == null) return false;
         if (newValue == null || oldValue == null) return true;
@@ -105,6 +103,20 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
             NewValue = newValue,
             Group = "MaxBet/Spread Update"
         };
+    }
+    
+    private async Task SaveUpdatedDataToCache(DateTime eventDate, IList<UpdateEvents> requestEvents, List<EventMBSpread> cachedMBSpreads)
+    {
+        var newCacheData = requestEvents.Select(requestEvent => new EventMBSpread
+        {
+            InfoSiteMatchId = requestEvent.InfoSiteMatchId,
+            SpreadHdp = requestEvent.SpreadHdp,
+            SpreadOu = requestEvent.SpreadOu,
+            MaxbetHdp = requestEvent.MaxbetHdp,
+            IsReferenceLeagueManagement = false // Default value for updated events
+        }).ToList();
+        
+        await cacheManipulator.SaveMBSpreadsByDate(eventDate, newCacheData);
     }
     
 }

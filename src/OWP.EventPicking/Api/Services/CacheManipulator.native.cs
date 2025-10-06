@@ -15,7 +15,7 @@ public class CacheManipulatorImp : CacheManipulator
 {
     private readonly ICache cache;
 
-    private const string MBSpreadKey = "OWP-AssignmentUpload";
+    private const string MBSpreadKey = "MBSpreadKey";
     private const int MBSpreadKey_Expired_Day = 1;
 
     public CacheManipulatorImp(ICache cache)
@@ -25,8 +25,7 @@ public class CacheManipulatorImp : CacheManipulator
 
     public async Task<List<EventMBSpread>> GetMBSpreadsByDate(DateTime eventDate)
     {
-        var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromDays(MBSpreadKey_Expired_Day));
-        var cacheKey = $"{MBSpreadKey}-{eventDate}";
+        var cacheKey = $"{MBSpreadKey}-{eventDate:yyyy/MM/dd}";
 
         var cacheResult = await cache.TryGetAsync<string>(cacheKey);
 
@@ -39,8 +38,9 @@ public class CacheManipulatorImp : CacheManipulator
     public async Task SaveMBSpreadsByDate(DateTime eventDate, List<EventMBSpread> data)
     {
         var cachePolicy = new CacheItemOptions().SetAbsoluteExpiration(TimeSpan.FromDays(MBSpreadKey_Expired_Day));
-        var cacheKey = $"{MBSpreadKey}-{eventDate}";
-        await cache.SetAsync(cacheKey, data, cachePolicy);
+        var cacheKey = $"{MBSpreadKey}-{eventDate:yyyy/MM/dd}";
+        var snapshotInJson = JsonConvert.SerializeObject(data);
+        await cache.SetAsync(cacheKey, snapshotInJson, cachePolicy);
     }
 
     
