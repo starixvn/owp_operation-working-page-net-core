@@ -16,6 +16,7 @@
     <PackageReference Include="Fanex.NAP.Client" Version="2.0.3" />
     <PackageReference Include="Olympus.OWP.Constants" Version="9.0.0.10" />
     <PackageReference Include="Olympus.Xml" Version="1.0.0.5" />
+    <PackageReference Include="Fanex.Caching.Redis" Version="2.2.8" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OWP\OWP.csproj" />
