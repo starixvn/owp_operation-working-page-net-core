@@ -37,7 +37,6 @@ public class StandardizedLeagueInfoUnitTest
         Assert.Equal("Group1", leagueInfo.LeagueGroup);
         Assert.Equal("League1", leagueInfo.League);
         Assert.Equal("LstNote1", leagueInfo.LstNote);
-        Assert.Equal("Remark2", leagueInfo.Remark2WD);
         Assert.Equal("10-20", leagueInfo.Spread_Note);
     }
 
@@ -498,7 +497,7 @@ public class StandardizedLeagueInfoUnitTest
 
     #region BuildRemark2 Method Tests
     [Fact]
-    public void BuildRemark2_WithWKRemark_SetsRemarkWKProperty()
+    public void BuildRemark2_WithWKRemark_SetsRemark2Property()
     {
         // Arrange
         var leagueInfo = new LeagueSettingInfo();
@@ -508,13 +507,11 @@ public class StandardizedLeagueInfoUnitTest
         StandardizedLeagueInfo.BuildRemark2(leagueInfo, remark2Source);
 
         // Assert
-        Assert.Equal("(WK) Weekend special condition", leagueInfo.Remark2WD);
-        Assert.Null(leagueInfo.Remark2WK);
-        Assert.Null(leagueInfo.Remark2);
+        Assert.Equal("(WK) Weekend special condition", leagueInfo.Remark2);
     }
 
     [Fact]
-    public void BuildRemark2_WithWDRemark_SetsRemarkWDProperty()
+    public void BuildRemark2_WithWDRemark_SetsRemark2Property()
     {
         // Arrange
         var leagueInfo = new LeagueSettingInfo();
@@ -524,9 +521,7 @@ public class StandardizedLeagueInfoUnitTest
         StandardizedLeagueInfo.BuildRemark2(leagueInfo, remark2Source);
 
         // Assert
-        Assert.Equal("(WD) Weekday special condition", leagueInfo.Remark2WD);
-        Assert.Null(leagueInfo.Remark2WK);
-        Assert.Null(leagueInfo.Remark2);
+        Assert.Equal("(WD) Weekday special condition", leagueInfo.Remark2);
     }
 
     [Fact]
@@ -540,9 +535,7 @@ public class StandardizedLeagueInfoUnitTest
         StandardizedLeagueInfo.BuildRemark2(leagueInfo, remark2Source);
 
         // Assert
-        Assert.Equal("Regular remark without prefix", leagueInfo.Remark2WD);
-        Assert.Null(leagueInfo.Remark2WK);
-        Assert.Null(leagueInfo.Remark2);
+        Assert.Equal("Regular remark without prefix", leagueInfo.Remark2);
     }
 
     [Fact]
@@ -556,9 +549,7 @@ public class StandardizedLeagueInfoUnitTest
         StandardizedLeagueInfo.BuildRemark2(leagueInfo, remark2Source);
 
         // Assert
-        Assert.Equal("(WK) Weekend condition(WD) Weekday conditionRegular remark", leagueInfo.Remark2WD);
-        Assert.Null(leagueInfo.Remark2WK);
-        Assert.Null(leagueInfo.Remark2);
+        Assert.Equal("(WK) Weekend condition(WD) Weekday conditionRegular remark", leagueInfo.Remark2);
     }
 
     [Fact]
@@ -572,9 +563,7 @@ public class StandardizedLeagueInfoUnitTest
         StandardizedLeagueInfo.BuildRemark2(leagueInfo, remark2Source);
 
         // Assert
-        Assert.Equal("(WK) Weekend condition(WD) Weekday condition  Regular remark", leagueInfo.Remark2WD);
-        Assert.Null(leagueInfo.Remark2WK);
-        Assert.Null(leagueInfo.Remark2);
+        Assert.Equal("(WK) Weekend condition(WD) Weekday condition  Regular remark", leagueInfo.Remark2);
     }
 
     [Fact]
@@ -587,8 +576,6 @@ public class StandardizedLeagueInfoUnitTest
         StandardizedLeagueInfo.BuildRemark2(leagueInfo, null);
 
         // Assert
-        Assert.Null(leagueInfo.Remark2WK);
-        Assert.Null(leagueInfo.Remark2WD);
         Assert.Null(leagueInfo.Remark2);
     }
 
@@ -602,9 +589,7 @@ public class StandardizedLeagueInfoUnitTest
         StandardizedLeagueInfo.BuildRemark2(leagueInfo, string.Empty);
 
         // Assert
-        Assert.Equal(string.Empty, leagueInfo.Remark2WD);
-        Assert.Null(leagueInfo.Remark2WK);
-        Assert.Null(leagueInfo.Remark2);
+        Assert.Equal(string.Empty, leagueInfo.Remark2);
     }
 
     [Fact]
@@ -617,9 +602,7 @@ public class StandardizedLeagueInfoUnitTest
         StandardizedLeagueInfo.BuildRemark2(leagueInfo, "   \n\t  ");
 
         // Assert
-        Assert.Equal("   \t  ", leagueInfo.Remark2WD);
-        Assert.Null(leagueInfo.Remark2WK);
-        Assert.Null(leagueInfo.Remark2);
+        Assert.Equal("   \t  ", leagueInfo.Remark2);
     }
 
     [Fact]
@@ -633,9 +616,7 @@ public class StandardizedLeagueInfoUnitTest
         StandardizedLeagueInfo.BuildRemark2(leagueInfo, remark2Source);
 
         // Assert
-        Assert.Equal("(wk) Lowercase weekend(Wd) Mixed case weekdayRegular remark", leagueInfo.Remark2WD);
-        Assert.Null(leagueInfo.Remark2WK);
-        Assert.Null(leagueInfo.Remark2);
+        Assert.Equal("(wk) Lowercase weekend(Wd) Mixed case weekdayRegular remark", leagueInfo.Remark2);
     }
 
     [Fact]
@@ -649,27 +630,9 @@ public class StandardizedLeagueInfoUnitTest
         StandardizedLeagueInfo.BuildRemark2(leagueInfo, remark2Source);
 
         // Assert
-        Assert.Equal("(WK) First weekend(WK) Second weekend(WD) Weekday", leagueInfo.Remark2WD);
-        Assert.Null(leagueInfo.Remark2WK);
-        Assert.Null(leagueInfo.Remark2);
+        Assert.Equal("(WK) First weekend(WK) Second weekend(WD) Weekday", leagueInfo.Remark2);
     }
 
-    [Fact]
-    public void BuildRemark2_DebugTest_DirectPropertyAssignment()
-    {
-        // Arrange
-        var leagueInfo = new LeagueSettingInfo();
-
-        // Act - Directly set properties to test if they work
-        leagueInfo.Remark2WK = "(WK) Weekend condition";
-        leagueInfo.Remark2WD = "(WD) Weekday condition";
-        leagueInfo.Remark2 = "Regular remark";
-
-        // Assert
-        Assert.Equal("(WK) Weekend condition", leagueInfo.Remark2WK);
-        Assert.Equal("(WD) Weekday condition", leagueInfo.Remark2WD);
-        Assert.Equal("Regular remark", leagueInfo.Remark2);
-    }
 
 
 
@@ -742,9 +705,7 @@ public class StandardizedLeagueInfoUnitTest
         // Assert
         Assert.Single(result);
         var leagueInfo = result[0];
-        Assert.Equal("(WK) Weekend condition(WD) Weekday conditionRegular remark", leagueInfo.Remark2WD);
-        Assert.Null(leagueInfo.Remark2WK);
-        Assert.Null(leagueInfo.Remark2);
+        Assert.Equal("(WK) Weekend condition(WD) Weekday conditionRegular remark", leagueInfo.Remark2);
     }
 
     [Theory]

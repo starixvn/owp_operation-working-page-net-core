@@ -19,8 +19,4 @@ public class LeagueSettingInfo : LeagueSettingCore
     public string LstNote { get; set; }
 
     public string Remark2 { get; set; }
-
-    public string Remark2WD { get; set; }
-
-    public string Remark2WK { get; set; }
 }
