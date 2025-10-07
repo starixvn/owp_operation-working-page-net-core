@@ -60,9 +60,9 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
                 continue;
             }
 
-            CheckAndAddNumberChange(rAndDInfos, requestEvent.InfoSiteMatchId, "SpreadHdp", requestEvent.SpreadHdp, cachedEvent.SpreadHdp);
-            CheckAndAddNumberChange(rAndDInfos, requestEvent.InfoSiteMatchId, "SpreadOu", requestEvent.SpreadOu, cachedEvent.SpreadOu);
-            CheckAndAddNumberChange(rAndDInfos, requestEvent.InfoSiteMatchId, "MaxbetHdp", requestEvent.MaxbetHdp, cachedEvent.MaxbetHdp);
+            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "SpreadHdp", formatSpread(requestEvent.SpreadHdp), formatSpread(cachedEvent.SpreadHdp));
+            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "SpreadOu", formatSpread(requestEvent.SpreadOu), formatSpread(cachedEvent.SpreadOu));
+            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "MaxbetHdp", formatMaxbet(requestEvent.MaxbetHdp), formatMaxbet(cachedEvent.MaxbetHdp));
             CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "NoOfHDP", requestEvent.NoOfHDP, cachedEvent.NoOfHDP);
         }
         
@@ -121,5 +121,14 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
         
         await cacheManipulator.SaveMBSpreadsByDate(eventDate, newCacheData);
     }
-    
+
+    private string  formatSpread(decimal? spread)
+    {
+        return spread.HasValue ? $"{Math.Round(spread.Value*100)}%" : string.Empty;
+    }
+
+    private string formatMaxbet(decimal? maxbet)
+    {
+        return maxbet.HasValue ? $"{Math.Round(maxbet.Value/1000)}K" : string.Empty;
+    }
 }
