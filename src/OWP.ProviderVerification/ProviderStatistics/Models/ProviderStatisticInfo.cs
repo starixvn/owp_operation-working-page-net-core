@@ -22,26 +22,29 @@ public class ProviderStatisticInfo
     public int? Rts { get; set; }
 
     [Cell("G4")]
-    public int? Fc { get; set; }
+    public int? Betradar2 { get; set; }
 
     [Cell("H4")]
-    public int? Slr { get; set; }
+    public int? Fc { get; set; }
 
     [Cell("I4")]
-    public int? Woo { get; set; }
+    public int? Slr { get; set; }
 
     [Cell("J4")]
-    public int? Streaming { get; set; }
+    public int? Woo { get; set; }
 
     [Cell("K4")]
-    public int? _365Gv { get; set; }
+    public int? Streaming { get; set; }
 
     [Cell("L4")]
-    public int? TotalMatches { get; set; }
+    public int? _365Gv { get; set; }
 
     [Cell("M4")]
-    public int? CancelMatches { get; set; }
+    public int? TotalMatches { get; set; }
 
     [Cell("N4")]
+    public int? CancelMatches { get; set; }
+
+    [Cell("O4")]
     public int? Total { get; set; }
 }

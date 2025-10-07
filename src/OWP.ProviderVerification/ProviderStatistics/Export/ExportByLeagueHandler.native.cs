@@ -14,7 +14,7 @@ public class ExportByLeagueHandler(ConfigurationService configuration, IDynamicR
     private ExcelPackage ExcelPackage { get; set; }
     private ExcelWorksheet reportSheet;
     const int START_ROW_INDEX = 4;
-    const int TOTAL_COLUMNS = 14;
+    const int TOTAL_COLUMNS = 15;
 
     public async Task<ExcelPackage> Handle(ExportByLeagueRequest request, CancellationToken cancellationToken)
     {
@@ -145,6 +145,7 @@ public class ExportByLeagueHandler(ConfigurationService configuration, IDynamicR
 
             var gv365 = GetCount(AgentIds._365gv);
             var betradar = GetCount(AgentIds.Betradar);
+            var betradar2 = GetCount(AgentIds.Betradar2);
             var bg = GetCount(AgentIds.Bg);
             var fc = GetCount(AgentIds.Fc);
             var img = GetCount(AgentIds.Img);
@@ -155,13 +156,14 @@ public class ExportByLeagueHandler(ConfigurationService configuration, IDynamicR
             var streaming = GetCount(AgentIds.Streaming);
             var cancel = GetCount(AgentIds.Cancel);
 
-            var totalMatches = gv365 + betradar + bg + fc + img + rb2 + rts + slr + woo + streaming;
+            var totalMatches = gv365 + betradar + betradar2 + bg + fc + img + rb2 + rts + slr + woo + streaming;
             var total = totalMatches + cancel;
 
             return new ProviderStatisticInfoByLeague
             {
                 _365Gv = gv365,
-                Betradar = betradar,
+                Betradar = betradar, 
+                Betradar2 = betradar2, 
                 Bg = bg,
                 Fc = fc,
                 Img = img,

@@ -13,5 +13,6 @@
         public const int Woo = 10;
         public const int Streaming = 11;
         public const int Cancel = 12;
+        public const int Betradar2 = 13;
     }
 }
