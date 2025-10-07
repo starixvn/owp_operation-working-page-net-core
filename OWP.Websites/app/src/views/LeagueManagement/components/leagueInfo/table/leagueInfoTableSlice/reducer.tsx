@@ -17,10 +17,46 @@ import {
 } from '../../filter/filterConst.json';
 import {
   addOrReplaceFilterState,
-  pushOrUpdateObject
+  pushOrUpdateObject,
+  filterDataTable
 } from '../../../../../Shared/Utils';
 import filterByKeyword from '../filterByKeyword';
-import { filterDataTable } from '../../../../../Shared/Utils';
+
+const applyFiltersToData = (state: TTableSlice) => {
+  const filterData = executeFilterTable(state, filterByKeyword);
+  return filterDataTable(filterData, state.filterState, filterByKeyword);
+};
+
+const cleanupEmptyFilters = (state: TTableSlice, filterData: any[]) => {
+  let isRemoveFilter = false;
+  
+  if (state.filterState.length > 0) {
+    state.filterState = state.filterState.filter(filterItem => {
+      if (!filterItem.keyword || !filterItem.columnKey) {
+        return false;
+      }
+      
+      const testFilterData = filterByKeyword(filterData, {
+        keyword: filterItem.keyword,
+        columnKey: filterItem.columnKey
+      } as any);
+      
+      if (testFilterData && testFilterData.length) {
+        state.valueFilterAllColumn = Object.fromEntries(
+          Object.entries(state.valueFilterAllColumn).filter(([key]) => 
+            key === filterItem.columnKey
+          )
+        );
+        return true;
+      } else {
+        isRemoveFilter = true;
+        return false;
+      }
+    });
+  }
+  
+  return isRemoveFilter;
+};
 
 const buildMultipleFilterDefault = () => ({
   isFilter: false,
@@ -79,8 +115,7 @@ const LeagueInfoTableSlice = createSlice({
     filterBySearchKey: (state, action) => {
       const { filterState } = state;
       state.filterState = addOrReplaceFilterState(filterState, action.payload);
-      const filterData = executeFilterTable(state, filterByKeyword);
-      state.entities = filterDataTable(filterData, state.filterState, filterByKeyword);
+      state.entities = applyFiltersToData(state);
     },
     setMultipleFilter: (
       state,
@@ -96,8 +131,7 @@ const LeagueInfoTableSlice = createSlice({
         selected,
         isFilter
       };
-      const filterData = executeFilterTable(state, filterByKeyword);
-      state.entities = filterDataTable(filterData, state.filterState, filterByKeyword);
+      state.entities = applyFiltersToData(state);
     },
     removeBySettingId: (
       state,
@@ -139,34 +173,10 @@ const LeagueInfoTableSlice = createSlice({
         }
         buildDefaultTableFilter(state.entitiesOriginal, state.multipleFilter, state.isSaveAction);
         let filterData = executeFilterTable(state, filterByKeyword);
-        let isRemoveFilter = false;
-        if(state.filterState.length > 0) {
-          state.filterState = state.filterState.filter(filterItem => {
-            if (!filterItem.keyword || !filterItem.columnKey) {
-              return false;
-            }
-            
-            const testFilterData = filterByKeyword(filterData, {
-              keyword: filterItem.keyword,
-              columnKey: filterItem.columnKey
-            } as any);
-            
-            if(testFilterData && testFilterData.length) {
-              state.valueFilterAllColumn = Object.fromEntries(
-                Object.entries(state.valueFilterAllColumn).filter(([key]) => 
-                  key === filterItem.columnKey
-                )
-              );
-              return true;
-            } else {
-              isRemoveFilter = true;
-              return false;
-            }
-          });
-        }
-        if(isRemoveFilter) {
-          filterData = filterDataTable(filterData, state.filterState, filterByKeyword);
-        }
+        
+        cleanupEmptyFilters(state, filterData);
+        
+        filterData = filterDataTable(filterData, state.filterState, filterByKeyword);
 
         state.entities = filterData;
         state.isSaveAction = false;
