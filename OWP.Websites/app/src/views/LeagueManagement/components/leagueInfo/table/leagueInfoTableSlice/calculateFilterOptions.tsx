@@ -25,25 +25,36 @@ const buildLeagueOptions = (entities: TDataSource[]) =>
     )
   );
 
-const buildTvOptions = () => {
-  const options = [
-    {
+const buildTvOptions = (entities: TDataSource[]) => {
+  const hasTv = entities.some(o => o.condition?.hasTv && !o.condition?.hasIpTv);
+  const hasIpTv = entities.some(o => o.condition?.hasIpTv && !o.condition?.hasTv);
+  const hasTvAndIpTv = entities.some(o => o.condition?.hasTv && o.condition?.hasIpTv);
+  const blanks = entities.some(o => !o.condition?.hasTv && !o.condition?.hasIpTv);
+  const options = [];
+  if (hasIpTv) {
+    options.push({
       value: 'IPTV',
       label: 'IPTV'
-    },
-    {
+    });
+  }
+  if (hasTv) {
+    options.push({
       value: 'TV',
       label: 'TV'
-    },
-    {
+    });
+  }
+  if (hasTvAndIpTv) {
+    options.push({
       value: 'TV/IPTV',
       label: 'TV/IPTV'
-    },
-    {
+    });
+  }
+  if (blanks) {
+    options.push({
       value: null,
       label: '(Blanks)'
-    }
-  ];
+    });
+  }
   return options;
 };
 
@@ -205,7 +216,7 @@ const helper = {
   League_Group: (dataSource: TDataSource[]) =>
     buildLeagueGroupOptions(dataSource),
   League: (dataSource: TDataSource[]) => buildLeagueOptions(dataSource),
-  Tv: () => buildTvOptions(),
+  Tv: (dataSource: TDataSource[]) => buildTvOptions(dataSource),
   Round: (dataSource: TDataSource[]) =>
     buildConditionOptions(
       dataSource.map(x => x.condition.round),

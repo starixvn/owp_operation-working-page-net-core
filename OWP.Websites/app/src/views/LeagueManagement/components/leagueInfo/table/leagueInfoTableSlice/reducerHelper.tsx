@@ -26,7 +26,7 @@ const buildDefaultTableFilter = (
 ) => {
   const filterConfigs = {
     League_Group: () => helper.League_Group(dataSource),
-    Tv: () => helper.Tv(),
+    Tv: () => helper.Tv(dataSource),
     Round: () => helper.Round(dataSource),
     League_Division: () => helper.League_Division(dataSource),
     Remark: () => helper.Remark(dataSource),
@@ -43,7 +43,6 @@ const buildDefaultTableFilter = (
   Object.entries(filterConfigs).forEach(([key, helperFn]) => {
     const newFilter = createFilterConfig(key, dataSource, helperFn);
     const currentFilter = tableFilter[key as TColumnHasMultipleFilterKey];
-
     const hasMatchingSelectedOptions = currentFilter?.isFilter && isSaveAction && 
       newFilter.options.some((option: any) => 
         currentFilter.selected.some((selected: any) => selected.label === option.label)
@@ -79,9 +78,8 @@ const executeFilterTable = (
     Comment
   } = multipleFilter;
 
-  let result = filterDataTable(entitiesOriginal, filterState, filterByKeyword);
 
-  result = result.filter(
+  const result = entitiesOriginal.filter(
     (
       e: TDataSource //NOSONAR
     ) =>

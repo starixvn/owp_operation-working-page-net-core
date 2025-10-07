@@ -20,6 +20,7 @@ import {
   pushOrUpdateObject
 } from '../../../../../Shared/Utils';
 import filterByKeyword from '../filterByKeyword';
+import { filterDataTable } from '../../../../../Shared/Utils';
 
 const buildMultipleFilterDefault = () => ({
   isFilter: false,
@@ -78,7 +79,8 @@ const LeagueInfoTableSlice = createSlice({
     filterBySearchKey: (state, action) => {
       const { filterState } = state;
       state.filterState = addOrReplaceFilterState(filterState, action.payload);
-      state.entities = executeFilterTable(state, filterByKeyword);
+      const filterData = executeFilterTable(state, filterByKeyword);
+      state.entities = filterDataTable(filterData, state.filterState, filterByKeyword);
     },
     setMultipleFilter: (
       state,
@@ -94,7 +96,8 @@ const LeagueInfoTableSlice = createSlice({
         selected,
         isFilter
       };
-      state.entities = executeFilterTable(state, filterByKeyword);
+      const filterData = executeFilterTable(state, filterByKeyword);
+      state.entities = filterDataTable(filterData, state.filterState, filterByKeyword);
     },
     removeBySettingId: (
       state,
@@ -135,16 +138,37 @@ const LeagueInfoTableSlice = createSlice({
           state.valueFilterAllColumn = {};
         }
         buildDefaultTableFilter(state.entitiesOriginal, state.multipleFilter, state.isSaveAction);
-        const filterData = executeFilterTable(state, filterByKeyword);
-        if(filterData.length > 0) {
-          state.entities = filterData;
-        } else if(state.isSaveAction) {
-          buildDefaultTableFilter(state.entitiesOriginal, state.multipleFilter, false);
-          state.filterState = [];
-          state.valueFilterAllColumn = {};
-          state.entities = state.entitiesOriginal;
+        let filterData = executeFilterTable(state, filterByKeyword);
+        let isRemoveFilter = false;
+        if(state.filterState.length > 0) {
+          state.filterState = state.filterState.filter(filterItem => {
+            if (!filterItem.keyword || !filterItem.columnKey) {
+              return false;
+            }
+            
+            const testFilterData = filterByKeyword(filterData, {
+              keyword: filterItem.keyword,
+              columnKey: filterItem.columnKey
+            } as any);
+            
+            if(testFilterData && testFilterData.length) {
+              state.valueFilterAllColumn = Object.fromEntries(
+                Object.entries(state.valueFilterAllColumn).filter(([key]) => 
+                  key === filterItem.columnKey
+                )
+              );
+              return true;
+            } else {
+              isRemoveFilter = true;
+              return false;
+            }
+          });
         }
-       
+        if(isRemoveFilter) {
+          filterData = filterDataTable(filterData, state.filterState, filterByKeyword);
+        }
+
+        state.entities = filterData;
         state.isSaveAction = false;
       });
   }
