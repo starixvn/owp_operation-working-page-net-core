@@ -14,9 +14,10 @@ const store = configureStore({
     sumProvider: sumProviderSlice,
     mode: modeSlice
   },
-  middleware: getDefaultMiddleware => getDefaultMiddleware({
-    serializableCheck: false
-  }),
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: false
+    }),
   devTools: true
 });
 

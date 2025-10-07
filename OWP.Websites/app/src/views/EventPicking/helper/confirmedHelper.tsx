@@ -16,8 +16,9 @@ const updateConfirmAllEvent = async (event: ChangeEvent<HTMLInputElement>) => {
     if (confirmResult.value) {
       Spinner.show();
       const infoSiteMatchIds = (entities as TDataSource[])
-        .filter(match => !match.isMovedEventDate)
+        .filter(match => !match.isMovedEventDate && !match.isCheck)
         .map(element => element.infoSiteMatchId);
+
       await store.dispatch(
         updateConfirmedThunk({
           infoSiteMatchIds,
