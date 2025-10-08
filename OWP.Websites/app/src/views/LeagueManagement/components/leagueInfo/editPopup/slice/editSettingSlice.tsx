@@ -38,7 +38,8 @@ const EditSettingSlice = createSlice({
     remark: '',
     oldLeagueGroupId: 0,
     round: [] as Array<TCondition>,
-    division: [] as Array<TCondition>
+    division: [] as Array<TCondition>,
+    oldData: null as TDataSource | null
   },
   reducers: {
     setInitSetting: (state, action: PayloadAction<TDataSource>) => {
@@ -87,6 +88,10 @@ const EditSettingSlice = createSlice({
       state.shortLeague = shortLeague;
       state.isBlackList = isBlackList;
       state.noOfferLive = noOfferLive;
+      state.oldData = action.payload;
+    },
+    setOldData: (state, action: PayloadAction<TDataSource>) => {
+      state.oldData = action.payload;
     },
     updateObject: (
       state,
@@ -143,6 +148,7 @@ const {
   updateObject,
   updateExpression,
   setInitSetting,
+  setOldData,
   addRowExpressions,
   removeRowExpressions
 } = actions;
@@ -152,6 +158,7 @@ export {
   addRowExpressions,
   removeRowExpressions,
   setInitSetting,
+  setOldData,
   updateExpression,
   updateObject
 };

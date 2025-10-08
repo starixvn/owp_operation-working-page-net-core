@@ -78,8 +78,8 @@ const executeFilterTable = (
     Comment
   } = multipleFilter;
 
-
-  const result = entitiesOriginal.filter(
+  let result = filterDataTable(entitiesOriginal, filterState, filterByKeyword);
+  result = result.filter(
     (
       e: TDataSource //NOSONAR
     ) =>

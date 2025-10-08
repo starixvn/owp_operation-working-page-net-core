@@ -17,46 +17,44 @@ import {
 } from '../../filter/filterConst.json';
 import {
   addOrReplaceFilterState,
-  pushOrUpdateObject,
-  filterDataTable
+  pushOrUpdateObject
 } from '../../../../../Shared/Utils';
 import filterByKeyword from '../filterByKeyword';
 
 const applyFiltersToData = (state: TTableSlice) => {
-  const filterData = executeFilterTable(state, filterByKeyword);
-  return filterDataTable(filterData, state.filterState, filterByKeyword);
+  return executeFilterTable(state, filterByKeyword);
 };
 
-const cleanupEmptyFilters = (state: TTableSlice, filterData: any[]) => {
-  let isRemoveFilter = false;
-  
-  if (state.filterState.length > 0) {
-    state.filterState = state.filterState.filter(filterItem => {
-      if (!filterItem.keyword || !filterItem.columnKey) {
-        return false;
+const resetFiltersForChangedFields = (state: TTableSlice, filterData: any[]) => {
+  if (filterData.length === 0 && state.valueFilterChange.length > 0) {
+    state.valueFilterChange.forEach((filterChange: TFilterState) => {
+      if (state.multipleFilter[filterChange.columnKey as TColumnHasMultipleFilterKey]?.isFilter) {
+        state.multipleFilter[filterChange.columnKey as TColumnHasMultipleFilterKey] = {
+          ...state.multipleFilter[filterChange.columnKey as TColumnHasMultipleFilterKey],
+          isFilter: false,
+          selected: []
+        };
       }
       
-      const testFilterData = filterByKeyword(filterData, {
-        keyword: filterItem.keyword,
-        columnKey: filterItem.columnKey
-      } as any);
+      state.filterState = state.filterState.filter(filter => 
+        filter.columnKey !== filterChange.columnKey
+      );
       
-      if (testFilterData && testFilterData.length) {
-        state.valueFilterAllColumn = Object.fromEntries(
-          Object.entries(state.valueFilterAllColumn).filter(([key]) => 
-            key === filterItem.columnKey
-          )
-        );
-        return true;
-      } else {
-        isRemoveFilter = true;
-        return false;
-      }
+      state.valueFilterAllColumn = Object.fromEntries(
+        Object.entries(state.valueFilterAllColumn).filter(([key]) => 
+          key !== filterChange.columnKey
+        )
+      );
     });
+    
+    state.valueFilterChange = [];
+    
+    return executeFilterTable(state, filterByKeyword);
   }
   
-  return isRemoveFilter;
+  return filterData;
 };
+
 
 const buildMultipleFilterDefault = () => ({
   isFilter: false,
@@ -93,7 +91,8 @@ const LeagueInfoTableSlice = createSlice({
     valueFilterAllColumn: {} as FilterAllColumn,
     columnKeyFilterCurrent: '',
     filterState: [] as TFilterState[],
-    isSaveAction: false
+    isSaveAction: false,
+    valueFilterChange: [] as TFilterState[]
   } as TTableSlice,
   reducers: {
     setIsOpenAddNewSetting: state => {
@@ -136,7 +135,7 @@ const LeagueInfoTableSlice = createSlice({
     removeBySettingId: (
       state,
       actions: PayloadAction<{ settingId: number }>
-    ) => /*NOSONAR*/ {
+    ) => {
       state.entities = state.entities.filter(
         l => l.leagueSettingId !== actions.payload.settingId
       );
@@ -156,6 +155,9 @@ const LeagueInfoTableSlice = createSlice({
     },
     setIsSaveAction: (state, action) => {
       state.isSaveAction = action.payload;
+    },
+    setFilterChange: (state, action: PayloadAction<TFilterState[]>) => {
+      state.valueFilterChange = action.payload;
     }
   },
   extraReducers: builder => {
@@ -174,9 +176,7 @@ const LeagueInfoTableSlice = createSlice({
         buildDefaultTableFilter(state.entitiesOriginal, state.multipleFilter, state.isSaveAction);
         let filterData = executeFilterTable(state, filterByKeyword);
         
-        cleanupEmptyFilters(state, filterData);
-        
-        filterData = filterDataTable(filterData, state.filterState, filterByKeyword);
+        filterData = resetFiltersForChangedFields(state, filterData);
 
         state.entities = filterData;
         state.isSaveAction = false;
@@ -195,7 +195,8 @@ const {
   setColumnKeyValue,
   setValueFilter,
   filterBySearchKey,
-  setIsSaveAction
+  setIsSaveAction,
+  setFilterChange
 } = actions;
 
 export {
@@ -208,7 +209,8 @@ export {
   setColumnKeyValue,
   setValueFilter,
   filterBySearchKey,
-  setIsSaveAction
+  setIsSaveAction,
+  setFilterChange
 };
 
 export default reducer;

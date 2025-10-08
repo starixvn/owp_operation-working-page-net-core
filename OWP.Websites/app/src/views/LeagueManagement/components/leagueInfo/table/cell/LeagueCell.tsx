@@ -1,7 +1,7 @@
 import { MouseEvent, useState } from 'react';
 import EditSettingPopup from '../../editPopup/EditSettingPopup';
 import { TDataSource } from '../TableType';
-import { setInitSetting } from '../../editPopup/slice/editSettingSlice';
+import { setInitSetting, setOldData } from '../../editPopup/slice/editSettingSlice';
 import { useAppDispatch } from '../../app/hooks';
 
 interface Props {
@@ -16,6 +16,7 @@ const LeagueCell = (props: Props) => {
 
   const handleOpenPopup = (event: MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
+    dispatch(setOldData(dataSource));
     dispatch(setInitSetting(dataSource));
     setIsOpenPopup(true);
   };
