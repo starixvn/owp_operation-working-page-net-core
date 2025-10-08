@@ -46,9 +46,7 @@ const resetFiltersForChangedFields = (state: TTableSlice, filterData: any[]) => 
         )
       );
     });
-    
     state.valueFilterChange = [];
-    
     return executeFilterTable(state, filterByKeyword);
   }
   

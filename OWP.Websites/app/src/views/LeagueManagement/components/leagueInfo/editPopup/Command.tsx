@@ -154,9 +154,6 @@ const Command = (props: { closePopup: Function }) => {
         await ToastrWrapper.showInfo(
           'The setting has been edited successfully!'
         );
-        dispatch(setIsSaveAction(true));
-        dispatch(fetchLeagueSettingInfo(leagueFilterHeader, false));
-        dispatch(setFocusSettingId(leagueSettingId));
 
         const newData = {
           leagueGroup,
@@ -173,7 +170,10 @@ const Command = (props: { closePopup: Function }) => {
           remark,
           lstNote
         };
-        
+
+        dispatch(setIsSaveAction(true));
+        dispatch(fetchLeagueSettingInfo(leagueFilterHeader, false));
+        dispatch(setFocusSettingId(leagueSettingId));
         handleFilterResetAfterDataChange(oldData, newData);
       }
 
