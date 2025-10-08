@@ -80,6 +80,9 @@ const Command = (props: { closePopup: Function }) => {
     if (oldData.condition.remark !== newData.remark) {
       changes.push('Remark');
     }
+    if(oldData.remark2 !== newData.remark2) {
+      changes.push('Remark2');
+    }
     if(oldData.lstNote !== newData.lstNote) {
       changes.push('LST_Note');
     }
@@ -168,6 +171,7 @@ const Command = (props: { closePopup: Function }) => {
           wD_NoOfHDP,
           comment,
           remark,
+          remark2,
           lstNote
         };
 

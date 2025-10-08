@@ -40,7 +40,7 @@ const LeagueNameFilter = () => {
 
   return (
     <div className='league-filter'>
-      <span> League search 111</span>
+      <span> League search</span>
       <input
         type='text'
         onKeyDown={handleKeyDown}
