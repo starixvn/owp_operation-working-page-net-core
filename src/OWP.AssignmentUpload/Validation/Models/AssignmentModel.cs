@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace OWP.AssignmentUpload.Validation.Models;
 
 public class AssignmentModel

@@ -1,9 +1,11 @@
-﻿namespace OWP.Event.EventShared.Helper;
+﻿using System.Collections.Immutable;
+
+namespace OWP.Event.EventShared.Helper;
 
 
 public static class MappingShortName
 {
-    public static readonly Dictionary<string, string> ShortNameMapping = new Dictionary<string, string>
+    public static readonly IImmutableDictionary<string,string> ShortNameMapping = new Dictionary<string, string>
     {
         { "KO+15", "KO+15" },
         { "Fast Market", "FM" },
@@ -72,15 +74,12 @@ public static class MappingShortName
         { "23BT", "23BT" },
         { "19BT", "19BT" },
         { "8BT", "8BT" }
-    };
+    }.ToImmutableDictionary();
 
 
     public static string GetShortName(string fullName)
     {
-        if (string.IsNullOrEmpty(fullName))
-            return fullName;
-
-        return ShortNameMapping.TryGetValue(fullName, out string shortName) ? shortName : fullName;
+       return CollectionExtensions.GetValueOrDefault(ShortNameMapping, fullName, fullName);
     }
 
 }
