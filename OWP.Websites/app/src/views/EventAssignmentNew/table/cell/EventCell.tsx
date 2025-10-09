@@ -87,7 +87,7 @@ const EventCell = (props: TCellModel) => {
 
       <MatchInfo dataSource={dataSource} rowIndex={rowIndex} />
 
-      {event.AdminSiteId && (
+      {event.AdminSiteId !== 0 && event.AdminSiteId !== null && (
         <>
           <Button className='button-link-trader' id={`Event${rowIndex}`}>
             <span className='icon-link'></span>
