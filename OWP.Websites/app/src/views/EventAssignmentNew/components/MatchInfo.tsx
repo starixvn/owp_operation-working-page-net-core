@@ -10,7 +10,7 @@ const MatchInfo = (props: TCellModel) => {
       </p>
       {event.NoOfHDP && (
         <span className={`badge-label badge-hdp-${event.NoOfHDPId}`}>
-          {event.NoOfHDP}
+          {event.NoOfHDPShort || event.NoOfHDP}
         </span>
       )}
       {event.MatchOffers.map((element, index) => (
@@ -20,7 +20,7 @@ const MatchInfo = (props: TCellModel) => {
               ? 'off-vr-offer'
               : 'match-offer'
             } `}>
-          {element.MatchOfferValue}
+          {element.MatchOfferShortName || element.MatchOfferValue}
         </span>
       ))}
       {event.MatchCode && <span className='match-code'>{event.MatchCode}</span>}

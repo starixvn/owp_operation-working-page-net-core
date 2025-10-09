@@ -84,11 +84,16 @@ type TDataSource = {
   IsRead: boolean | null;
   HasTicket: boolean;
   NoOfHDP: string | null;
+  NoOfHDPShort: string | null;
+  AIOName: string | null;
+  AIOShortName: string | null;
+  SOP: string | null;
   IsAllowedToViewDetail: boolean;
   MatchOffers: Array<{
     Id: number;
     OWPMatchId: number;
     MatchOfferValue: string;
+    MatchOfferShortName: string;
   }>;
   Notes: Array<TNote>;
   Handicap: Array<TAssignment>;

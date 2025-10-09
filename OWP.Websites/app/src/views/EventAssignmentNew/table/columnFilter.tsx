@@ -41,15 +41,23 @@ const filterEvent = (events: TDataTable, keyword: string) => {
       includes(toLowerCaseForFilter(event.Home), keyword) ||
       includes(toLowerCaseForFilter(event.Away), keyword);
     const isIncludeNoOfHDP =
-      event.NoOfHDP && includes(toLowerCaseForFilter(event.NoOfHDP), keyword);
+      event.NoOfHDP && (includes(toLowerCaseForFilter(event.NoOfHDP), keyword) 
+              || includes(toLowerCaseForFilter(event.NoOfHDPShort), keyword));
+
+    const isIncludeMatchOffers = findIndex(event.MatchOffers, mo =>
+      includes(toLowerCaseForFilter(mo.MatchOfferValue), keyword) ||
+      includes(toLowerCaseForFilter(mo.MatchOfferShortName), keyword)
+    ) >= 0;
+
+    const isIncludeAIO =
+      event.AIO && includes(toLowerCaseForFilter(event.AIO), keyword) ||
+      includes(toLowerCaseForFilter(event.AIOShortName), keyword);
 
     return (
       isIncludeEventInfo ||
-      (isIncludeNoOfHDP ??
-        findIndex(event.MatchOffers, mo =>
-          includes(toLowerCaseForFilter(mo.MatchOfferValue), keyword)
-        ) >= 0)
-    );
+      isIncludeNoOfHDP ||
+      isIncludeMatchOffers ||
+      isIncludeAIO);
   });
 };
 
