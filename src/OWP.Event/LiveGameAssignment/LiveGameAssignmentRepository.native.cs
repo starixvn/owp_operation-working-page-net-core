@@ -9,6 +9,7 @@ using Extensions;
 using Fanex.Data.Repository;
 using Models;
 using OWP.Event.EventShared.Enum;
+using OWP.Event.EventShared.Helper;
 using OWP.Event.EventShared.Models;
 using OWP.Models;
 using OWP.Services;
@@ -618,6 +619,7 @@ public class LiveGameAssignmentRepositoryImp : LiveGameAssignmentRepository
 
         foreach (var match in matches)
         {
+            var matchOffer = GetMatchOffers(matchOffers, match.OWPMatchId);
             var eventInstance = new EventModel
             {
                 OWPMatchId = match.OWPMatchId,
@@ -626,6 +628,7 @@ public class LiveGameAssignmentRepositoryImp : LiveGameAssignmentRepository
                 MatchNo = match.MatchNo,
                 MatchStatus = match.MatchStatus,
                 NoOfHDP = match.NoOfHDP,
+                NoOfHDPShort = MappingShortName.GetShortName(match.NoOfHDP),
                 NoOfHDPId = match.NoOfHDPId,
                 EventDateTime = match.EventDateTime,
                 KickOffTime = match.KickOffTime.ToKOTime(),
@@ -647,6 +650,9 @@ public class LiveGameAssignmentRepositoryImp : LiveGameAssignmentRepository
                 Agent = match.Agent,
                 WatchBet = match.WatchBet,
                 Phone = match.Phone,
+                AIOName = match.AIO,
+                AIOShortName = MappingShortName.GetShortName(match.AIO),
+                SOP = match.SOP,
                 Notes = GetMatchNotes(notes, match.OWPMatchId),
                 Televisions = GetTelevisions(televisions, match.OWPMatchId),
                 MatchOffers = GetMatchOffers(matchOffers, match.OWPMatchId),
@@ -785,7 +791,15 @@ public class LiveGameAssignmentRepositoryImp : LiveGameAssignmentRepository
 
     private static IList<MatchOffer> GetMatchOffers(IList<MatchOffer> matchOffers, int owpMatchId)
     {
-        return matchOffers.Where(x => x.OWPMatchId == owpMatchId).ToList();
+        var offers = matchOffers.Where(x => x.OWPMatchId == owpMatchId).ToList();
+        
+        // Populate MatchOfferShortName for each offer
+        foreach (var offer in offers)
+        {
+            offer.MatchOfferShortName = MappingShortName.GetShortName(offer.MatchOfferValue);
+        }
+        
+        return offers;
     }
 
     public async Task<IList<InfoSiteTimeModel>> GetInfoSiteTime(string ids)
