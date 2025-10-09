@@ -22,28 +22,13 @@ public class SubmitResponse
     public bool IsSuccessful { get; set; } = true;
 }
 
-public class Handler : IRequestHandler<SubmitRequest, SubmitResponse>
+public class Handler(
+    QueryRepository queryRepository,
+    CacheManipulator cacheManipulator,
+    CommandRepository commandRepository,
+    INapSession currentSession)
+    : IRequestHandler<SubmitRequest, SubmitResponse>
 {
-    private readonly QueryRepository queryRepository;
-
-    private readonly CommandRepository commandRepository;
-
-    private readonly CacheManipulator cacheManipulator;
-
-    private readonly INapSession currentSession;
-
-    public Handler(
-        QueryRepository queryRepository,
-        CacheManipulator cacheManipulator,
-        CommandRepository commandRepository,
-        INapSession currentSession)
-    {
-        this.queryRepository = queryRepository;
-        this.cacheManipulator = cacheManipulator;
-        this.commandRepository = commandRepository;
-        this.currentSession = currentSession;
-    }
-
     public async Task<SubmitResponse> Handle(SubmitRequest request, CancellationToken cancellationToken)
     {
         var userWhoIsUploadingAssignment = await cacheManipulator.GetUserWhoIsUploadingAssignment(request.EventDate);

@@ -11,15 +11,8 @@ public interface QueryRepository
     Task<List<OldMatch>> GetOldMatchIds(DateTime eventDate);
 }
 
-public class QueryRepositoryImp : QueryRepository
+public class QueryRepositoryImp(IDynamicRepository repository) : QueryRepository
 {
-    private readonly IDynamicRepository repository;
-
-    public QueryRepositoryImp(IDynamicRepository repository)
-    {
-        this.repository = repository;
-    }
-
     public async Task<AssignmentSnapshot> Query(DateTime eventDate)
     {
         var matchesTask = repository.FetchAsync<GeneralMatch>(new GetAllMatchesByTimeRangeCriteria { EventDate = eventDate });
