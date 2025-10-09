@@ -8,6 +8,7 @@ using NSubstitute;
 using OWP.EventPicking.Api.Criteria;
 using OWP.EventPicking.Api.Handlers;
 using OWP.EventPicking.Api.Models;
+using OWP.EventPicking.Api.Services;
 using Xunit;
 
 namespace OWP.EventPicking.UnitTests.Handler;
@@ -22,7 +23,8 @@ public class UpdateMaxbetHandlerUnitTest
         var session = Substitute.For<INapSession>();
         session.UserId.Returns(456);
 
-        var handler = new UpdateMaxbetHandler(repository, session);
+        var cacheManipulator = Substitute.For<CacheManipulator>();
+        var handler = new UpdateMaxbetHandler(repository, session, cacheManipulator);
 
         var events = new List<UpdateEvents>
         {
@@ -32,8 +34,12 @@ public class UpdateMaxbetHandlerUnitTest
 
         var request = new UpdateEventsRequest
         {
-            Events = events
+            Events = events,
+            EventDate = DateTime.Now
         };
+
+        // Mock the cache to return empty list to avoid null reference
+        cacheManipulator.GetMBSpreadsByDate(request.EventDate).Returns(new List<EventMBSpread>());
 
         var expectedJson = JsonConvert.SerializeObject(events);
 
@@ -57,14 +63,19 @@ public class UpdateMaxbetHandlerUnitTest
         var session = Substitute.For<INapSession>();
         session.UserId.Returns(789);
 
-        var handler = new UpdateMaxbetHandler(repository, session);
+        var cacheManipulator = Substitute.For<CacheManipulator>();
+        var handler = new UpdateMaxbetHandler(repository, session, cacheManipulator);
 
         var events = new List<UpdateEvents>();
 
         var request = new UpdateEventsRequest
         {
-            Events = events
+            Events = events,
+            EventDate = DateTime.Now
         };
+
+        // Mock the cache to return empty list to avoid null reference
+        cacheManipulator.GetMBSpreadsByDate(request.EventDate).Returns(new List<EventMBSpread>());
 
         var expectedJson = JsonConvert.SerializeObject(events);
 

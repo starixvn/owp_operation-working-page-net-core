@@ -38,6 +38,8 @@ public interface Repository
 
     Task ExecuteNonQuery(INonQueryCommand criteria);
 
+    Task SaveEventLog(SaveEditEventLogsCriteria criteria);
+
     Task<List<EventPickingModel>> QueryEventPickingChildMatch(DateTime date);
 }
 
@@ -167,6 +169,9 @@ public class RepositoryImp : Repository
 
     public async Task UpdateEvent(UpdateMaxbetSpreadCriteria criteria)
         => await dynamicRepository.ExecuteAsync(criteria);
+
+    public async Task SaveEventLog(SaveEditEventLogsCriteria criteria)
+       => await dynamicRepository.ExecuteAsync(criteria);
 
     public async Task ExecuteNonQuery(INonQueryCommand criteria)
     => await dynamicRepository.ExecuteAsync(criteria);

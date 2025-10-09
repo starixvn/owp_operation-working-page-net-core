@@ -8,7 +8,6 @@ using OWP.EventPicking.Api.Services;
 using Xunit;
 using Fanex.Data.Repository;
 using Olympus.OWP.Log.Criteria;
-using OWP.EventPicking.Api.Models;
 
 namespace OWP.EventPicking.UnitTests.Services;
 
@@ -24,7 +23,7 @@ public class PullMainLeagueServiceUnitTests
         mockHttpClientFactory = Substitute.For<IHttpClientFactory>();
         mockDynamicRepository = Substitute.For<IDynamicRepository>();
         mockLogger = Substitute.For<ILogger>();
-        
+
         service = new PullMainLeagueServiceImp(
             mockHttpClientFactory,
             mockDynamicRepository,

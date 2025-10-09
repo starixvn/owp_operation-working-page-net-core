@@ -16,6 +16,7 @@ public class QueryEventPickingServiceImpTests
     private readonly TGRSService _mockTGRSService;
     private readonly BuildMainAndChildMatches _mockBuildMainAndChildMatches;
     private readonly PermissionService _mockPermissionService;
+    private readonly LogService _mockLogService;
     private readonly QueryEventPickingServiceImp _service;
 
     public QueryEventPickingServiceImpTests()
@@ -23,7 +24,8 @@ public class QueryEventPickingServiceImpTests
         _mockTGRSService = Substitute.For<TGRSService>();
         _mockBuildMainAndChildMatches = Substitute.For<BuildMainAndChildMatches>();
         _mockPermissionService = Substitute.For<PermissionService>();
-        _service = new QueryEventPickingServiceImp(_mockTGRSService, _mockBuildMainAndChildMatches, _mockPermissionService);
+        _mockLogService = Substitute.For<LogService>();
+        _service = new QueryEventPickingServiceImp(_mockTGRSService, _mockBuildMainAndChildMatches, _mockPermissionService, _mockLogService);
     }
 
     [Fact]
@@ -78,7 +80,7 @@ public class QueryEventPickingServiceImpTests
                 }, true)));
 
         // Act
-        var result = await _service.Execute(request,new List<short>() );
+        var result = await _service.Execute(request, new List<short>());
 
         // Assert
         Assert.NotNull(result);

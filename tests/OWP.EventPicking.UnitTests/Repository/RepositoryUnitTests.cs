@@ -127,7 +127,7 @@ public class RepositoryUnitTests
         // Assert
         Assert.Equal(2, result.Count);
         Assert.Equal(2, result[1].Count);
-        Assert.Equal(1, result[2].Count);
+        Assert.Single(result[2]);
         Assert.Equal("League 1", result[1][0].LeagueName);
         Assert.Equal("League 2", result[2][0].LeagueName);
     }

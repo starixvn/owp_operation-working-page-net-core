@@ -5,39 +5,39 @@ import Spinner from '../../components/Spinner';
 import updateConfirmedThunk from '../table/updateConfirmedThunkNative';
 
 const exportAndConfirmAllEvent = async exportCallback => {
-  const { param } = store.getState().filter;
-  const confirmResult = await ToastrWrapper.confirm(
-    MESSAGE.EXPORT_AND_CONFIRM_ALL
-  );
-  const { lastSearchTime } = store.getState().filter;
+    const { param } = store.getState().filter;
+    const confirmResult = await ToastrWrapper.confirm(
+        MESSAGE.EXPORT_AND_CONFIRM_ALL
+    );
+    const { lastSearchTime } = store.getState().filter;
 
-  if (confirmResult.value) {
-    Spinner.show();
-    const { entities } = store.getState().eventPickingTable;
-    await store.dispatch(exportCallback(param));
-    if (entities.length) {
-      const infoSiteMatchIds = entities
-        .filter(element => !element.isMovedEventDate)
-        .map(element => element.infoSiteMatchId);
-      await store.dispatch(
-        updateConfirmedThunk({
-          infoSiteMatchIds,
-          confirmed: true,
-          timestampConfirm: lastSearchTime
-        })
-      );
+    if (confirmResult.value) {
+        Spinner.show();
+        const { entities } = store.getState().eventPickingTable;
+        await store.dispatch(exportCallback(param));
+        if (entities.length) {
+            const infoSiteMatchIds = entities
+                .filter(element => !element.isMovedEventDate && !element.isCheck)
+                .map(element => element.infoSiteMatchId);
+            await store.dispatch(
+                updateConfirmedThunk({
+                    infoSiteMatchIds,
+                    confirmed: true,
+                    timestampConfirm: lastSearchTime
+                })
+            );
+        }
+        Spinner.hide();
     }
-    Spinner.hide();
-  }
 };
 
 const exportOnly = exportCallback => {
-  (async () => {
-    const { param } = store.getState().filter;
-    Spinner.show();
-    await store.dispatch(exportCallback(param));
-    Spinner.hide();
-  })();
+    (async () => {
+        const { param } = store.getState().filter;
+        Spinner.show();
+        await store.dispatch(exportCallback(param));
+        Spinner.hide();
+    })();
 };
 
 export { exportAndConfirmAllEvent, exportOnly };

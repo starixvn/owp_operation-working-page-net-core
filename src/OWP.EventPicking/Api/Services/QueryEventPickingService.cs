@@ -13,7 +13,8 @@ public interface QueryEventPickingService
 public class QueryEventPickingServiceImp(
     TGRSService tGrsService,
     BuildMainAndChildMatches buildMainAndChildMatches,
-    PermissionService permissionService)
+    PermissionService permissionService,
+    LogService logService)
     : QueryEventPickingService
 {
     private const string InfoToHideMatch = "no need include miscmatch";
@@ -35,10 +36,15 @@ public class QueryEventPickingServiceImp(
 
         HideNoNeedIncludeMiscMatch(ref allMatches, InfoToHideMatch);
 
+        var matchesByDate = SelectMatchOfferInfos(ExcludeUpdateType(matches, excludedUpdateTypes));
+        var filteredMatches = ExcludeUpdateType(allMatches, excludedUpdateTypes);
+
+
+        await logService.SaveMBSpreadsToCache(request.Date, filteredMatches);
         return new EventPickingResult
         {
-            MatchesByDate = SelectMatchOfferInfos(ExcludeUpdateType(matches, excludedUpdateTypes)),
-            FilteredMatches = ExcludeUpdateType(allMatches,excludedUpdateTypes)
+            MatchesByDate = matchesByDate,
+            FilteredMatches = filteredMatches
         };
     }
 

@@ -8,6 +8,8 @@ public class LoggedChangeModel
 
     public int? UpdateTypeId { get; set; }
 
+    public string ModifiedBy { get; set; } = "System";
+
     public string Action { get; set; }
 
     public string NewValue { get; set; }

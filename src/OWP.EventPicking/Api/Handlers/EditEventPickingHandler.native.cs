@@ -14,7 +14,8 @@ public class EditEventPickingHandler(
     PullMainLeagueService pullMainLeagueService,
     MapMainLeagueForEventService mainLeagueForEventMapper,
     BuildMBForClubFriendlyMajorLeagueBuilder buildMBForClubFriendlyMajorLeagueBuilder,
-    MappingRuleSyncMBLeagueFriendlyService mappingRuleSyncMBLeagueFriendlyService) : IRequestHandler<EditEventPickingRequest, EventPickingResult>
+    MappingRuleSyncMBLeagueFriendlyService mappingRuleSyncMBLeagueFriendlyService,
+    CacheManipulator cacheManipulator) : IRequestHandler<EditEventPickingRequest, EventPickingResult>
 {
 
     private readonly IList<string> FiveMajorLeague = new List<string>()
@@ -49,9 +50,10 @@ public class EditEventPickingHandler(
                 var leagueSettingByLeagueId = leagueSetting.Where(x => x.OWPLeagueId == match.OWPLeagueId).ToList();
                 ProcessLeagueSettingsForMatch(leagueSettingByLeagueId, match, tvList);
             }
-
-
         }
+
+        // Save MB data from matchFiltered to cache
+        await SaveMBSpreadsToCache(request.Date, matchFiltered);
 
         return new EventPickingResult
         {
@@ -388,5 +390,20 @@ public class EditEventPickingHandler(
             "Equals" => tvField.Equals(tvCondition.Value, StringComparison.OrdinalIgnoreCase),
             _ => false
         };
+    }
+
+    private async Task SaveMBSpreadsToCache(DateTime eventDate, List<EventPickingModel> matchFiltered)
+    {
+        var mbSpreads = matchFiltered.Select(match => new EventMBSpread
+        {
+            InfoSiteMatchId = match.InfoSiteMatchId,
+            MaxbetHdp = match.MaxbetHdp,
+            SpreadHdp = match.SpreadHdp,
+            SpreadOu = match.SpreadOu,
+            NoOfHDP = match.NoOfHDP,
+            IsReferenceLeagueManagement = match.IsReferenceLeagueManagement
+        }).ToList();
+
+        await cacheManipulator.SaveMBSpreadsByDate(eventDate, mbSpreads);
     }
 }
