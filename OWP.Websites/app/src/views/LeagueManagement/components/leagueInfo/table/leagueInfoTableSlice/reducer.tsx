@@ -21,6 +21,39 @@ import {
 } from '../../../../../Shared/Utils';
 import filterByKeyword from '../filterByKeyword';
 
+const applyFiltersToData = (state: TTableSlice) => {
+  return executeFilterTable(state, filterByKeyword);
+};
+
+const resetFiltersForChangedFields = (state: TTableSlice, filterData: any[]) => {
+  if (filterData.length === 0 && state.valueFilterChange.length > 0) {
+    state.valueFilterChange.forEach((filterChange: TFilterState) => {
+      if (state.multipleFilter[filterChange.columnKey as TColumnHasMultipleFilterKey]?.isFilter) {
+        state.multipleFilter[filterChange.columnKey as TColumnHasMultipleFilterKey] = {
+          ...state.multipleFilter[filterChange.columnKey as TColumnHasMultipleFilterKey],
+          isFilter: false,
+          selected: []
+        };
+      }
+      
+      state.filterState = state.filterState.filter(filter => 
+        filter.columnKey !== filterChange.columnKey
+      );
+      
+      state.valueFilterAllColumn = Object.fromEntries(
+        Object.entries(state.valueFilterAllColumn).filter(([key]) => 
+          key !== filterChange.columnKey
+        )
+      );
+    });
+    state.valueFilterChange = [];
+    return executeFilterTable(state, filterByKeyword);
+  }
+  
+  return filterData;
+};
+
+
 const buildMultipleFilterDefault = () => ({
   isFilter: false,
   selected: [],
@@ -55,7 +88,9 @@ const LeagueInfoTableSlice = createSlice({
     isOpenAddNewSetting: false,
     valueFilterAllColumn: {} as FilterAllColumn,
     columnKeyFilterCurrent: '',
-    filterState: [] as TFilterState[]
+    filterState: [] as TFilterState[],
+    isSaveAction: false,
+    valueFilterChange: [] as TFilterState[]
   } as TTableSlice,
   reducers: {
     setIsOpenAddNewSetting: state => {
@@ -66,7 +101,7 @@ const LeagueInfoTableSlice = createSlice({
       state.filterState = [];
       state.valueFilterAllColumn = {};
       state.entities = entitiesOriginal;
-      buildDefaultTableFilter(state.entitiesOriginal, state.multipleFilter);
+      buildDefaultTableFilter(state.entitiesOriginal, state.multipleFilter, state.isSaveAction);
     },
     setLeagueHeaderFiler: (state, actions) => {
       state.leagueFilterHeader = actions.payload;
@@ -77,7 +112,7 @@ const LeagueInfoTableSlice = createSlice({
     filterBySearchKey: (state, action) => {
       const { filterState } = state;
       state.filterState = addOrReplaceFilterState(filterState, action.payload);
-      state.entities = executeFilterTable(state, filterByKeyword);
+      state.entities = applyFiltersToData(state);
     },
     setMultipleFilter: (
       state,
@@ -93,12 +128,12 @@ const LeagueInfoTableSlice = createSlice({
         selected,
         isFilter
       };
-      state.entities = executeFilterTable(state, filterByKeyword);
+      state.entities = applyFiltersToData(state);
     },
     removeBySettingId: (
       state,
       actions: PayloadAction<{ settingId: number }>
-    ) => /*NOSONAR*/ {
+    ) => {
       state.entities = state.entities.filter(
         l => l.leagueSettingId !== actions.payload.settingId
       );
@@ -115,6 +150,12 @@ const LeagueInfoTableSlice = createSlice({
         valueFilterAllColumn,
         action.payload
       );
+    },
+    setIsSaveAction: (state, action) => {
+      state.isSaveAction = action.payload;
+    },
+    setFilterChange: (state, action: PayloadAction<TFilterState[]>) => {
+      state.valueFilterChange = action.payload;
     }
   },
   extraReducers: builder => {
@@ -123,12 +164,20 @@ const LeagueInfoTableSlice = createSlice({
         state.loading = REQUEST_STATUS.pending;
       })
       .addCase(getLeagueInfoThunk.fulfilled, (state, { payload }) => {
-        state.entities = payload;
         state.entitiesOriginal = payload;
         state.loading = REQUEST_STATUS.idle;
-        state.filterState = [];
-        state.valueFilterAllColumn = {};
-        buildDefaultTableFilter(state.entitiesOriginal, state.multipleFilter);
+        
+        if(!state.isSaveAction) {
+          state.filterState = [];
+          state.valueFilterAllColumn = {};
+        }
+        buildDefaultTableFilter(state.entitiesOriginal, state.multipleFilter, state.isSaveAction);
+        let filterData = executeFilterTable(state, filterByKeyword);
+        
+        filterData = resetFiltersForChangedFields(state, filterData);
+
+        state.entities = filterData;
+        state.isSaveAction = false;
       });
   }
 });
@@ -143,7 +192,9 @@ const {
   removeBySettingId,
   setColumnKeyValue,
   setValueFilter,
-  filterBySearchKey
+  filterBySearchKey,
+  setIsSaveAction,
+  setFilterChange
 } = actions;
 
 export {
@@ -155,7 +206,9 @@ export {
   removeBySettingId,
   setColumnKeyValue,
   setValueFilter,
-  filterBySearchKey
+  filterBySearchKey,
+  setIsSaveAction,
+  setFilterChange
 };
 
 export default reducer;

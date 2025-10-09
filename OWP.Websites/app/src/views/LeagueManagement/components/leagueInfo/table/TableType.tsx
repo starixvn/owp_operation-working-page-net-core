@@ -55,6 +55,8 @@ type TTableSlice = {
   valueFilterAllColumn: FilterAllColumn;
   columnKeyFilterCurrent: string;
   filterState: Array<TFilterState>;
+  isSaveAction: boolean;
+  valueFilterChange: Array<TFilterState>;
 };
 
 type TFilterState = {
