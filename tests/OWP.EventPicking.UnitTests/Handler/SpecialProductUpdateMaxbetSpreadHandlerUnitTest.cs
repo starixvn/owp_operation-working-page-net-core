@@ -105,10 +105,10 @@ public class SpecialProductUpdateMaxbetSpreadHandlerUnitTest
         await repository.Received(1).SaveEventLog(
             Arg.Is<SaveEditEventLogsCriteria>(c => 
                 !string.IsNullOrEmpty(c.Xml) && 
-                c.Xml.Contains("MaxbetHdp") && 
-                c.Xml.Contains("SpreadHdp") &&
-                c.Xml.Contains("SpreadOu") &&
-                c.Xml.Contains("NoOfHDP")));
+                c.Xml.Contains("MB") && 
+                c.Xml.Contains("SpreadHDP") &&
+                c.Xml.Contains("SpreadOU") &&
+                c.Xml.Contains("No.HDP")));
 
         Assert.Equal(Unit.Value, result);
     }
@@ -150,7 +150,7 @@ public class SpecialProductUpdateMaxbetSpreadHandlerUnitTest
         // Assert
         await repository.Received(1).SaveEventLog(
             Arg.Is<SaveEditEventLogsCriteria>(c => 
-                string.IsNullOrEmpty(c.Xml) || !c.Xml.Contains("MaxbetHdp")));
+                string.IsNullOrEmpty(c.Xml) || !c.Xml.Contains("MB")));
 
         Assert.Equal(Unit.Value, result);
     }
@@ -238,9 +238,9 @@ public class SpecialProductUpdateMaxbetSpreadHandlerUnitTest
         await repository.Received(1).SaveEventLog(
             Arg.Is<SaveEditEventLogsCriteria>(c => 
                 !string.IsNullOrEmpty(c.Xml) && 
-                c.Xml.Contains("MaxbetHdp") && 
-                c.Xml.Contains("SpreadHdp") &&
-                c.Xml.Contains("NoOfHDP")));
+                c.Xml.Contains("MB") && 
+                c.Xml.Contains("SpreadHDP") &&
+                c.Xml.Contains("No.HDP")));
 
         Assert.Equal(Unit.Value, result);
     }
@@ -285,8 +285,8 @@ public class SpecialProductUpdateMaxbetSpreadHandlerUnitTest
         await repository.Received(1).SaveEventLog(
             Arg.Is<SaveEditEventLogsCriteria>(c => 
                 !string.IsNullOrEmpty(c.Xml) && 
-                c.Xml.Contains("MaxbetHdp") && 
-                c.Xml.Contains("SpreadHdp")));
+                c.Xml.Contains("MB") && 
+                c.Xml.Contains("SpreadHDP")));
 
         Assert.Equal(Unit.Value, result);
     }
