@@ -60,10 +60,10 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
                 continue;
             }
 
-            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "SpreadHdp", formatSpread(requestEvent.SpreadHdp), formatSpread(cachedEvent.SpreadHdp));
-            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "SpreadOu", formatSpread(requestEvent.SpreadOu), formatSpread(cachedEvent.SpreadOu));
-            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "MaxbetHdp", formatMaxbet(requestEvent.MaxbetHdp), formatMaxbet(cachedEvent.MaxbetHdp));
-            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "NoOfHDP", requestEvent.NoOfHDP, cachedEvent.NoOfHDP);
+            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "SpreadHDP", formatSpread(requestEvent.SpreadHdp), formatSpread(cachedEvent.SpreadHdp));
+            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "SpreadOU", formatSpread(requestEvent.SpreadOu), formatSpread(cachedEvent.SpreadOu));
+            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "MB", formatMaxbet(requestEvent.MaxbetHdp), formatMaxbet(cachedEvent.MaxbetHdp));
+            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "No.HDP", requestEvent.NoOfHDP, cachedEvent.NoOfHDP);
         }
         
         return rAndDInfos;
@@ -82,7 +82,7 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
     {
         if ((newValue ?? "") != (oldValue ?? ""))
         {
-            rAndDInfos.Add(CreateRAndDInfo(infoSiteMatchId, $"Update <b>{fieldName}<b/>", 
+            rAndDInfos.Add(CreateRAndDInfo(infoSiteMatchId, $"Update the <b>{fieldName}<b/>", 
                 oldValue ?? "", newValue ?? ""));
         }
     }
@@ -110,16 +110,39 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
     
     private async Task SaveUpdatedDataToCache(DateTime eventDate, IList<UpdateEvents> requestEvents, List<EventMBSpread> cachedMBSpreads)
     {
-        var newCacheData = requestEvents.Select(requestEvent => new EventMBSpread
-        {
-            InfoSiteMatchId = requestEvent.InfoSiteMatchId,
-            SpreadHdp = requestEvent.SpreadHdp,
-            SpreadOu = requestEvent.SpreadOu,
-            MaxbetHdp = requestEvent.MaxbetHdp,
-            IsReferenceLeagueManagement = false // Default value for updated events
-        }).ToList();
+        // Create a copy of the existing cached data
+        var updatedCacheData = cachedMBSpreads.ToList();
         
-        await cacheManipulator.SaveMBSpreadsByDate(eventDate, newCacheData);
+        // Update only the events that were modified
+        foreach (var requestEvent in requestEvents)
+        {
+            var existingEvent = updatedCacheData.FirstOrDefault(c => c.InfoSiteMatchId == requestEvent.InfoSiteMatchId);
+            
+            if (existingEvent != null)
+            {
+                // Update existing event in cache
+                existingEvent.SpreadHdp = requestEvent.SpreadHdp;
+                existingEvent.SpreadOu = requestEvent.SpreadOu;
+                existingEvent.MaxbetHdp = requestEvent.MaxbetHdp;
+                existingEvent.NoOfHDP = requestEvent.NoOfHDP;
+                existingEvent.IsReferenceLeagueManagement = false; // Mark as updated
+            }
+            else
+            {
+                // Add new event to cache
+                updatedCacheData.Add(new EventMBSpread
+                {
+                    InfoSiteMatchId = requestEvent.InfoSiteMatchId,
+                    SpreadHdp = requestEvent.SpreadHdp,
+                    SpreadOu = requestEvent.SpreadOu,
+                    MaxbetHdp = requestEvent.MaxbetHdp,
+                    NoOfHDP = requestEvent.NoOfHDP,
+                    IsReferenceLeagueManagement = false
+                });
+            }
+        }
+        
+        await cacheManipulator.SaveMBSpreadsByDate(eventDate, updatedCacheData);
     }
 
     private string  formatSpread(decimal? spread)

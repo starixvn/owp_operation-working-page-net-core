@@ -40,7 +40,6 @@ public class QueryEventPickingServiceImp(
         var filteredMatches = ExcludeUpdateType(allMatches, excludedUpdateTypes);
 
 
-        await logService.SaveMBSpreadsToCache(request.Date, filteredMatches);
         return new EventPickingResult
         {
             MatchesByDate = matchesByDate,

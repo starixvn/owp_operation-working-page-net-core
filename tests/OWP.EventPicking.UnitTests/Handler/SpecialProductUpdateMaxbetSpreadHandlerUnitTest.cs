@@ -62,7 +62,11 @@ public class SpecialProductUpdateMaxbetSpreadHandlerUnitTest
                 c.TargetJson == expectedJson));
         await repository.Received(1).SaveEventLog(
             Arg.Is<SaveEditEventLogsCriteria>(c => !string.IsNullOrEmpty(c.Xml)));
-        await cacheManipulator.Received(1).SaveMBSpreadsByDate(request.EventDate, Arg.Any<List<EventMBSpread>>());
+        await cacheManipulator.Received(1).SaveMBSpreadsByDate(request.EventDate, 
+            Arg.Is<List<EventMBSpread>>(cachedData => 
+                cachedData.Count == 2 && // Should contain both original cached events
+                cachedData.Any(c => c.InfoSiteMatchId == 123 && c.MaxbetHdp == 100) && // Updated event
+                cachedData.Any(c => c.InfoSiteMatchId == 456 && c.MaxbetHdp == 200))); // Updated event
 
         Assert.Equal(Unit.Value, result);
     }
@@ -105,10 +109,10 @@ public class SpecialProductUpdateMaxbetSpreadHandlerUnitTest
         await repository.Received(1).SaveEventLog(
             Arg.Is<SaveEditEventLogsCriteria>(c => 
                 !string.IsNullOrEmpty(c.Xml) && 
-                c.Xml.Contains("MaxbetHdp") && 
-                c.Xml.Contains("SpreadHdp") &&
-                c.Xml.Contains("SpreadOu") &&
-                c.Xml.Contains("NoOfHDP")));
+                c.Xml.Contains("MB") && 
+                c.Xml.Contains("SpreadHDP") &&
+                c.Xml.Contains("SpreadOU") &&
+                c.Xml.Contains("No.HDP")));
 
         Assert.Equal(Unit.Value, result);
     }
@@ -150,7 +154,7 @@ public class SpecialProductUpdateMaxbetSpreadHandlerUnitTest
         // Assert
         await repository.Received(1).SaveEventLog(
             Arg.Is<SaveEditEventLogsCriteria>(c => 
-                string.IsNullOrEmpty(c.Xml) || !c.Xml.Contains("MaxbetHdp")));
+                string.IsNullOrEmpty(c.Xml) || !c.Xml.Contains("MB")));
 
         Assert.Equal(Unit.Value, result);
     }
@@ -238,9 +242,9 @@ public class SpecialProductUpdateMaxbetSpreadHandlerUnitTest
         await repository.Received(1).SaveEventLog(
             Arg.Is<SaveEditEventLogsCriteria>(c => 
                 !string.IsNullOrEmpty(c.Xml) && 
-                c.Xml.Contains("MaxbetHdp") && 
-                c.Xml.Contains("SpreadHdp") &&
-                c.Xml.Contains("NoOfHDP")));
+                c.Xml.Contains("MB") && 
+                c.Xml.Contains("SpreadHDP") &&
+                c.Xml.Contains("No.HDP")));
 
         Assert.Equal(Unit.Value, result);
     }
@@ -285,8 +289,8 @@ public class SpecialProductUpdateMaxbetSpreadHandlerUnitTest
         await repository.Received(1).SaveEventLog(
             Arg.Is<SaveEditEventLogsCriteria>(c => 
                 !string.IsNullOrEmpty(c.Xml) && 
-                c.Xml.Contains("MaxbetHdp") && 
-                c.Xml.Contains("SpreadHdp")));
+                c.Xml.Contains("MB") && 
+                c.Xml.Contains("SpreadHDP")));
 
         Assert.Equal(Unit.Value, result);
     }
@@ -331,6 +335,53 @@ public class SpecialProductUpdateMaxbetSpreadHandlerUnitTest
                 !string.IsNullOrEmpty(c.Xml) && 
                 c.Xml.Contains("20K") && // Should be 20K, not 20.0K
                 c.Xml.Contains("21K"))); // Should be 21K, not 21.0K
+
+        Assert.Equal(Unit.Value, result);
+    }
+
+    [Fact]
+    public async Task Handle_ShouldMergeCacheData_WhenUpdatingExistingAndAddingNewEvents()
+    {
+        // Arrange
+        var repository = Substitute.For<OWP.EventPicking.Repository>();
+        var session = Substitute.For<INapSession>();
+        var cacheManipulator = Substitute.For<CacheManipulator>();
+        
+        session.UserId.Returns(789);
+        session.UserName.Returns("testuser");
+
+        var handler = new UpdateMaxbetHandler(repository, session, cacheManipulator);
+
+        var events = new List<UpdateEvents>
+        {
+            new() { InfoSiteMatchId = 123, MaxbetHdp = 100, SpreadHdp = 0.5m }, // Existing event - should be updated
+            new() { InfoSiteMatchId = 999, MaxbetHdp = 300, SpreadHdp = 1.0m }  // New event - should be added
+        };
+
+        var request = new UpdateEventsRequest
+        {
+            Events = events,
+            EventDate = new DateTime(2024, 1, 15)
+        };
+
+        var cachedMBSpreads = new List<EventMBSpread>
+        {
+            new() { InfoSiteMatchId = 123, MaxbetHdp = 50, SpreadHdp = 0.3m, IsReferenceLeagueManagement = true },
+            new() { InfoSiteMatchId = 456, MaxbetHdp = 150, SpreadOu = 0.8m, IsReferenceLeagueManagement = true } // Should remain unchanged
+        };
+
+        cacheManipulator.GetMBSpreadsByDate(request.EventDate).Returns(cachedMBSpreads);
+
+        // Act
+        var result = await handler.Handle(request, CancellationToken.None);
+
+        // Assert
+        await cacheManipulator.Received(1).SaveMBSpreadsByDate(request.EventDate, 
+            Arg.Is<List<EventMBSpread>>(cachedData => 
+                cachedData.Count == 3 && // Should contain all 3 events
+                cachedData.Any(c => c.InfoSiteMatchId == 123 && c.MaxbetHdp == 100 && !c.IsReferenceLeagueManagement) && // Updated existing event
+                cachedData.Any(c => c.InfoSiteMatchId == 999 && c.MaxbetHdp == 300 && !c.IsReferenceLeagueManagement) && // Added new event
+                cachedData.Any(c => c.InfoSiteMatchId == 456 && c.MaxbetHdp == 150 && c.IsReferenceLeagueManagement))); // Unchanged existing event
 
         Assert.Equal(Unit.Value, result);
     }
