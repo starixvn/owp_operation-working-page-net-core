@@ -2,13 +2,13 @@ import { CellProps } from '../../../type/TableType';
 import { OFF_VR } from '../../../LiveGameListConst.json';
 
 const LeagueCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
-  const { League, MatchOffers, NoOfHDP, NoOfHDPId, LeagueGroup } =
+  const { League, MatchOffers, NoOfHDP, NoOfHDPId, LeagueGroup, NoOfHDPShort, AIOBTShortName, SOP } =
     dataSource[rowIndex];
 
   const renderNoOfHdpInfo = () =>
     NoOfHDP && (
       <span className={`badge-label badge-hdp-${NoOfHDPId}`}>
-        {NoOfHDP.trim().replace(' ', '')}
+        {NoOfHDPShort || NoOfHDP.trim().replace(' ', '')}
       </span>
     );
 
@@ -19,9 +19,17 @@ const LeagueCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
         className={`badge-label ${
           x.MatchOfferValue.includes(OFF_VR) ? 'off-vr-offer' : 'match-offer'
         } `}>
-        {x.MatchOfferValue}
+        {x.MatchOfferShortName || x.MatchOfferValue}
       </span>
     ));
+    
+    const renderAIOBT = () => 
+      AIOBTShortName && (
+        <span className={`badge-label badge-hdp-${AIOBTShortName}`}>
+          {AIOBTShortName}
+        </span>
+      );
+  
 
   return (
     <div className='league-cell'>
@@ -32,6 +40,7 @@ const LeagueCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
         <span className='league-group league-name'>{League}</span>
       </p>
       <p>
+        {renderAIOBT()}
         {renderNoOfHdpInfo()}
         {renderMatchOffer()}
       </p>

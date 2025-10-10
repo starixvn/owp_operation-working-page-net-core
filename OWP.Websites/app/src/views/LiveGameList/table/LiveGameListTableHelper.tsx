@@ -86,20 +86,52 @@ const traderKeys: { [key: string]: Array<keyof AssignmentModel> } = {
   ['LA']: ['LA', 'LAOthers']
 };
 
+const toLowerCaseForFilter = value => {
+  if (value) {
+    return value.toString().trim().toLowerCase();
+  }
+  return '';
+};
+
 const searchLeagueInfo = (
   source: MatchInfo[],
-  leagueKeys: Array<keyof MatchInfo>,
   keyword: string
-) => source.filter(x => x.League?.toLowerCase().includes(keyword.trim()));
+) => {
+  return source.filter(event => {
+    const isIncludeEventInfo =
+      toLowerCaseForFilter(event.League).includes(keyword) ||
+      toLowerCaseForFilter(event.Home).includes(keyword) ||
+      toLowerCaseForFilter(event.Away).includes(keyword);
+      
+    const isIncludeNoOfHDP =
+      toLowerCaseForFilter(event.NoOfHDP).includes(keyword) ||
+      toLowerCaseForFilter(event.NoOfHDPShort).includes(keyword);
+
+    const isIncludeMatchOffers = event.MatchOffers?.findIndex(mo =>
+      toLowerCaseForFilter(mo.MatchOfferValue).includes(keyword) ||
+      toLowerCaseForFilter(mo.MatchOfferShortName).includes(keyword)
+    ) >= 0;
+
+    const isIncludeAIO =
+      event.AIOBT && toLowerCaseForFilter(event.AIOBT).includes(keyword) ||
+      toLowerCaseForFilter(event.AIOBTShortName).includes(keyword);
+
+    return (
+      isIncludeEventInfo ||
+      isIncludeNoOfHDP ||
+      isIncludeMatchOffers ||
+      isIncludeAIO);
+  });
+};
 
 const filterDataByKeys = (
   source: MatchInfo[],
   columnKey: string,
   keyword: string
 ) => {
-  // if (columnKey === 'League') {
-  //   return searchLeagueInfo(source, ['League'], keyword);
-  // }
+  if (columnKey === 'League') {
+    return searchLeagueInfo(source, keyword);
+  }
   if (columnKey in commonKeys) {
     return searchCommonInfo(source, commonKeys[columnKey], keyword);
   }

@@ -76,9 +76,9 @@ public class MatchInfo : TaskListMatchInfo
 
     public string WatchBet { get; set; }
 
-    public string AIOName { get; set; }
+    public string AIOBT { get; set; }
 
-    public string AIOShortName  => MappingShortName.GetShortName(AIOName);
+    public string AIOBTShortName  => MappingShortName.GetShortName(AIOBT);
 
     public string SOP { get; set; }
 

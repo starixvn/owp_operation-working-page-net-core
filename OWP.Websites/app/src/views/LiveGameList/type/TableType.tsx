@@ -122,6 +122,7 @@ interface Television {
 interface MatchOffer {
   OWPMatchId: number;
   MatchOfferValue: string;
+  MatchOfferShortName: string;
 }
 interface TicketInfo {
   OwpMatchId: number;
@@ -163,6 +164,7 @@ interface MatchInfo {
   MinorBettypeId: number;
   NoOfHDP: string;
   NoOfHDPId: number;
+  NoOfHDPShort: string;
   OWPMatchId: number;
   OtherProvider: string | null;
   OtherTime: string | null;
@@ -184,6 +186,9 @@ interface MatchInfo {
   InfoSiteTimeDisplay: string;
   IsShowAbsenceIcon: boolean;
   IsSaba: boolean;
+  AIOBT: string;
+  AIOBTShortName: string;
+  SOP: string;
 }
 interface FilterAllColumn {
   [x: string]: string;
