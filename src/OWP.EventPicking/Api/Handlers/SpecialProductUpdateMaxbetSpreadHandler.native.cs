@@ -82,7 +82,7 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
     {
         if ((newValue ?? "") != (oldValue ?? ""))
         {
-            rAndDInfos.Add(CreateRAndDInfo(infoSiteMatchId, $"Update <b>{fieldName}<b/>", 
+            rAndDInfos.Add(CreateRAndDInfo(infoSiteMatchId, $"Update the <b>{fieldName}<b/>", 
                 oldValue ?? "", newValue ?? ""));
         }
     }
