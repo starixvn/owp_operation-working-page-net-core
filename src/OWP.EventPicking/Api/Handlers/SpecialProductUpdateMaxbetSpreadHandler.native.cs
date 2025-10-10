@@ -110,17 +110,39 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
     
     private async Task SaveUpdatedDataToCache(DateTime eventDate, IList<UpdateEvents> requestEvents, List<EventMBSpread> cachedMBSpreads)
     {
-        var newCacheData = requestEvents.Select(requestEvent => new EventMBSpread
-        {
-            InfoSiteMatchId = requestEvent.InfoSiteMatchId,
-            SpreadHdp = requestEvent.SpreadHdp,
-            SpreadOu = requestEvent.SpreadOu,
-            MaxbetHdp = requestEvent.MaxbetHdp,
-            NoOfHDP = requestEvent.NoOfHDP,
-            IsReferenceLeagueManagement = false // Default value for updated events
-        }).ToList();
+        // Create a copy of the existing cached data
+        var updatedCacheData = cachedMBSpreads.ToList();
         
-        await cacheManipulator.SaveMBSpreadsByDate(eventDate, newCacheData);
+        // Update only the events that were modified
+        foreach (var requestEvent in requestEvents)
+        {
+            var existingEvent = updatedCacheData.FirstOrDefault(c => c.InfoSiteMatchId == requestEvent.InfoSiteMatchId);
+            
+            if (existingEvent != null)
+            {
+                // Update existing event in cache
+                existingEvent.SpreadHdp = requestEvent.SpreadHdp;
+                existingEvent.SpreadOu = requestEvent.SpreadOu;
+                existingEvent.MaxbetHdp = requestEvent.MaxbetHdp;
+                existingEvent.NoOfHDP = requestEvent.NoOfHDP;
+                existingEvent.IsReferenceLeagueManagement = false; // Mark as updated
+            }
+            else
+            {
+                // Add new event to cache
+                updatedCacheData.Add(new EventMBSpread
+                {
+                    InfoSiteMatchId = requestEvent.InfoSiteMatchId,
+                    SpreadHdp = requestEvent.SpreadHdp,
+                    SpreadOu = requestEvent.SpreadOu,
+                    MaxbetHdp = requestEvent.MaxbetHdp,
+                    NoOfHDP = requestEvent.NoOfHDP,
+                    IsReferenceLeagueManagement = false
+                });
+            }
+        }
+        
+        await cacheManipulator.SaveMBSpreadsByDate(eventDate, updatedCacheData);
     }
 
     private string  formatSpread(decimal? spread)
