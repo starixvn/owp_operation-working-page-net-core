@@ -116,6 +116,7 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
             SpreadHdp = requestEvent.SpreadHdp,
             SpreadOu = requestEvent.SpreadOu,
             MaxbetHdp = requestEvent.MaxbetHdp,
+            NoOfHDP = requestEvent.NoOfHDP,
             IsReferenceLeagueManagement = false // Default value for updated events
         }).ToList();
         
