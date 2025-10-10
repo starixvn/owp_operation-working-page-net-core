@@ -60,10 +60,10 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
                 continue;
             }
 
-            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "SpreadHdp", formatSpread(requestEvent.SpreadHdp), formatSpread(cachedEvent.SpreadHdp));
-            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "SpreadOu", formatSpread(requestEvent.SpreadOu), formatSpread(cachedEvent.SpreadOu));
-            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "MaxbetHdp", formatMaxbet(requestEvent.MaxbetHdp), formatMaxbet(cachedEvent.MaxbetHdp));
-            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "NoOfHDP", requestEvent.NoOfHDP, cachedEvent.NoOfHDP);
+            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "SpreadHDP", formatSpread(requestEvent.SpreadHdp), formatSpread(cachedEvent.SpreadHdp));
+            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "SpreadOU", formatSpread(requestEvent.SpreadOu), formatSpread(cachedEvent.SpreadOu));
+            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "MB", formatMaxbet(requestEvent.MaxbetHdp), formatMaxbet(cachedEvent.MaxbetHdp));
+            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "No.HDP", requestEvent.NoOfHDP, cachedEvent.NoOfHDP);
         }
         
         return rAndDInfos;
