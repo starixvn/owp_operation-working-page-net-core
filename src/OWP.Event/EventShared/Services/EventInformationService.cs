@@ -1,4 +1,5 @@
 ﻿using OWP.Event.EventShared.Builder;
+using OWP.Event.EventShared.Helper;
 using OWP.Event.EventShared.Models;
 using OWP.Models;
 
@@ -77,10 +78,12 @@ public class EventInformationServiceImp : EventInformationService
     }
 
     private static IEnumerable<MatchOffer> BuildMatchOffers(EventInformation eventInfo, int owpMatchId)
+
         => eventInfo.MatchOffersPair.GetValueOrDefault(owpMatchId, [])
             .Select(x => new MatchOffer
             {
                 OWPMatchId = x.OWPMatchId,
-                MatchOfferValue = x.MatchOfferValue
+                MatchOfferValue = x.MatchOfferValue,
+                MatchOfferShortName = MappingShortName.GetShortName(x.MatchOfferValue)
             });
 }

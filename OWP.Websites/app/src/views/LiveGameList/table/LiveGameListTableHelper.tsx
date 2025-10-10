@@ -86,17 +86,27 @@ const traderKeys: { [key: string]: Array<keyof AssignmentModel> } = {
   ['LA']: ['LA', 'LAOthers']
 };
 
+const searchLeagueInfo = (
+  source: MatchInfo[],
+  leagueKeys: Array<keyof MatchInfo>,
+  keyword: string
+) => source.filter(x => x.League?.toLowerCase().includes(keyword.trim()));
+
 const filterDataByKeys = (
   source: MatchInfo[],
   columnKey: string,
   keyword: string
 ) => {
+  // if (columnKey === 'League') {
+  //   return searchLeagueInfo(source, ['League'], keyword);
+  // }
   if (columnKey in commonKeys) {
     return searchCommonInfo(source, commonKeys[columnKey], keyword);
   }
   if (columnKey in traderKeys) {
     return searchTraderInfo(source, traderKeys[columnKey], keyword);
   }
+  
   return [];
 };
 
