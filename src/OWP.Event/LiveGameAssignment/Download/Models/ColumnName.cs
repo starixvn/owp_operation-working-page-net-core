@@ -212,5 +212,11 @@ public enum ColumnName
     MaxBet_FM,
 
     [Description("Spread (FM)")]
-    Spread_FM
+    Spread_FM,
+    
+    [Description("AIO BT")]
+    AIOBT,
+
+    [Description("SOP")]
+    SOP
 }

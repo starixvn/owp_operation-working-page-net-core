@@ -19,30 +19,15 @@ using System.Threading.Tasks;
 [Route("api/event-assignment")]
 [ApiController]
 [Authorize]
-public class EventAssignmentController : ControllerBase
+public class EventAssignmentController(
+    LiveGameAssignmentRepository repository,
+    MessageClient messageClient,
+    EventAssignmentPermission eventAssignmentPermission,
+    GetAdminSiteMatchIdService getAdminSiteMatchIdService,
+    IEventAssignmentService service,
+    SyncOffVRService syncOffVrService)
+    : ControllerBase
 {
-    private readonly LiveGameAssignmentRepository repository;
-    private readonly MessageClient messageClient;
-    private readonly EventAssignmentPermission eventAssignmentPermission;
-    private readonly GetAdminSiteMatchIdService getAdminSiteMatchIdService;
-    private readonly SyncOffVRService syncOffVrService;
-    private readonly IEventAssignmentService service;
-
-    public EventAssignmentController(LiveGameAssignmentRepository repository,
-        MessageClient messageClient,
-        EventAssignmentPermission eventAssignmentPermission,
-        GetAdminSiteMatchIdService getAdminSiteMatchIdService,
-        IEventAssignmentService service,
-        SyncOffVRService syncOffVrService)
-    {
-        this.repository = repository;
-        this.messageClient = messageClient;
-        this.eventAssignmentPermission = eventAssignmentPermission;
-        this.getAdminSiteMatchIdService = getAdminSiteMatchIdService;
-        this.syncOffVrService = syncOffVrService;
-        this.service = service;
-    }
-
     [HttpPost("")]
     [NapAuth(FunctionKey = FunctionKeys.LiveGameAssignment, Policy = Constant.Policy.Read)]
     public async Task<IActionResult> Query(EventQueryModel queryModel)

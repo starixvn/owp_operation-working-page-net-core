@@ -21,16 +21,11 @@ public interface IEventAssignmentRepository
     Task<IEnumerable<EventModel>> GetEventInformationByEventDate(ICriteria criteria);
 }
 
-public class EventAssignmentRepository : IEventAssignmentRepository
+public class EventAssignmentRepository(
+    CheckIsLiveStatusServices checkIsLiveStatusServices,
+    IDynamicRepository dynamicRepository)
+    : IEventAssignmentRepository
 {
-    private readonly CheckIsLiveStatusServices checkIsLiveStatusServices;
-    private readonly IDynamicRepository dynamicRepository;
-
-    public EventAssignmentRepository(CheckIsLiveStatusServices checkIsLiveStatusServices, IDynamicRepository dynamicRepository)
-    {
-        this.checkIsLiveStatusServices = checkIsLiveStatusServices;
-        this.dynamicRepository = dynamicRepository;
-    }
     public async Task<IEnumerable<EventModel>> GetEventInformationByEventDate(ICriteria criteria)
     {
         var result = await dynamicRepository.FetchMultipleAsync<MatchInfo, MatchTrader, MatchNote, MatchMoney, Television, MatchOffer>(criteria);

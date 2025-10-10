@@ -57,13 +57,13 @@ public class EventAssignmentService : IEventAssignmentService
             EventDate = model.EventDate,
             MatchStatusIds = model.MatchStatusIds
         };
-        var eventInfos = (await eventAssignmentRepository.GetEventInformationByEventDate(criteria)).ToList();
+        var events = (await eventAssignmentRepository.GetEventInformationByEventDate(criteria)).ToList();
 
-        eventInfos = eventAssignmentExportFilter.Filter(eventInfos, model.PermissionModel, model.Username, model.SyncLiveStatus, model.MatchType, model.OffVRs);
-        var maxNote = eventInfos.Any() ? eventInfos.Max(n => n.Notes.Count()) : 0;
+        events = eventAssignmentExportFilter.Filter(events, model.PermissionModel, model.Username, model.SyncLiveStatus, model.MatchType, model.OffVRs);
+        var maxNote = events.Any() ? events.Max(n => n.Notes.Count()) : 0;
         var writer = new AssignmentWriter(maxNote, model);
 
-        var lstNoteMapped = await lstNoteMapperService.ApplyLstTNote(eventInfos);
+        var lstNoteMapped = await lstNoteMapperService.ApplyLstTNote(events);
         lstNoteMapped.WriteExcel(writer, file, typeof(EventModel));
     }
 }
