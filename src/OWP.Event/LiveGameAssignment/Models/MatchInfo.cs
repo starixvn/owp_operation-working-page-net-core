@@ -79,7 +79,7 @@ public class MatchInfo
 
     public bool IsShowAbsenceIcon { get; set; }
 
-    public string AIO { get; set; }
+    public string AIOBT { get; set; }
 
     public string SOP { get; set; }
 }

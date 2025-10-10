@@ -85,8 +85,8 @@ type TDataSource = {
   HasTicket: boolean;
   NoOfHDP: string | null;
   NoOfHDPShort: string | null;
-  AIOName: string | null;
-  AIOShortName: string | null;
+  AIOBT: string | null;
+  AIOBTShortName: string | null;
   SOP: string | null;
   IsAllowedToViewDetail: boolean;
   MatchOffers: Array<{

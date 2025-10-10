@@ -130,9 +130,9 @@ public class EventModel
 
     public TimeSpan? OtherTimeStr { get; set; }
 
-    public string AIOName { get; set; }
+    public string AIOBT { get; set; }
 
-    public string AIOShortName { get; set; }
+    public string AIOBTShortName { get; set; }
     
     public string SOP { get; set; }
 }
