@@ -79,10 +79,6 @@ public static class MappingShortName
 
     public static string GetShortName(string fullName)
     {
-        if (fullName == null)
-            return null;
-            
-        return CollectionExtensions.GetValueOrDefault(ShortNameMapping, fullName, fullName);
+        return fullName == null ? null : CollectionExtensions.GetValueOrDefault(ShortNameMapping, fullName, fullName);
     }
-
 }

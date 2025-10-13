@@ -33,8 +33,10 @@ interface DataSource extends KOTimeProps, PesOrFiFa {
   OtherProvider: string;
   NoOfHDPId: number;
   NoOfHDP: string;
+  NoOfHDPShort: string;
   MatchOffers: Array<{
     MatchOfferValue: string;
+    MatchOfferShortName: string;
   }>;
   IsAllowedToViewDetail: boolean;
   Home: Required<string>;
@@ -51,6 +53,8 @@ interface DataSource extends KOTimeProps, PesOrFiFa {
   TeamRound: string;
   Division: string;
   Channel: string;
+  AIOBT: string;
+  AIOBTShortName: string;
   ReadyDateTimeDisplay: string;
   IsReady: boolean;
   IsCompletedMatch: boolean;

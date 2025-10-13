@@ -1,35 +1,65 @@
 import { CellProps } from '../../../type/TableType';
 import { OFF_VR } from '../../../LiveGameListConst.json';
+import { UncontrolledTooltip } from 'reactstrap';
 
 const LeagueCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
-  const { League, MatchOffers, NoOfHDP, NoOfHDPId, LeagueGroup, NoOfHDPShort, AIOBTShortName, SOP } =
-    dataSource[rowIndex];
+  const {
+    League,
+    MatchOffers,
+    NoOfHDP,
+    NoOfHDPId,
+    LeagueGroup,
+    NoOfHDPShort,
+    AIOBT,
+    AIOBTShortName,
+    SOP
+  } = dataSource[rowIndex];
 
   const renderNoOfHdpInfo = () =>
     NoOfHDP && (
-      <span className={`badge-label badge-hdp-${NoOfHDPId}`}>
-        {NoOfHDPShort || NoOfHDP.trim().replace(' ', '')}
-      </span>
+      <>
+        <span
+          id={`noOfHdp-${rowIndex}-${NoOfHDPId}`}
+          className={`badge-label badge-hdp-${NoOfHDPId}`}>
+          {NoOfHDPShort || NoOfHDP.trim().replace(' ', '')}
+        </span>
+        <UncontrolledTooltip target={`noOfHdp-${rowIndex}-${NoOfHDPId}`}>
+          {NoOfHDP}
+        </UncontrolledTooltip>
+      </>
     );
 
   const renderMatchOffer = () =>
-    MatchOffers.map(x => (
-      <span
-        key={`matchOffer-${x.OWPMatchId}-${x.MatchOfferValue}-${rowIndex}`}
-        className={`badge-label ${
-          x.MatchOfferValue.includes(OFF_VR) ? 'off-vr-offer' : 'match-offer'
-        } `}>
-        {x.MatchOfferShortName || x.MatchOfferValue}
+    MatchOffers.map((x, index) => (
+      <span key={`matchOffer-${x.OWPMatchId}-${index}-${rowIndex}`}>
+        <span
+          id={`matchOffer-${x.OWPMatchId}-${index}-${rowIndex}`}
+          className={`badge-label ${
+            x.MatchOfferValue.includes(OFF_VR) ? 'off-vr-offer' : 'match-offer'
+          } `}>
+          {x.MatchOfferShortName || x.MatchOfferValue}
+        </span>
+        <UncontrolledTooltip
+          target={`matchOffer-${x.OWPMatchId}-${index}-${rowIndex}`}>
+          {x.MatchOfferValue}
+        </UncontrolledTooltip>
       </span>
     ));
-    
-    const renderAIOBT = () => 
-      AIOBTShortName && (
-        <span className={`badge-label badge-hdp-${AIOBTShortName}`}>
-          {AIOBTShortName}
+
+  const renderAIOBT = () =>
+    AIOBT && (
+      <>
+        <span
+          id={`aiobt-${rowIndex}-${AIOBTShortName ? 'short' : 'full'}`}
+          className={`badge-label badge-aiobt`}>
+          {AIOBTShortName || AIOBT}
         </span>
-      );
-  
+        <UncontrolledTooltip
+          target={`aiobt-${rowIndex}-${AIOBTShortName ? 'short' : 'full'}`}>
+          {AIOBT}
+        </UncontrolledTooltip>
+      </>
+    );
 
   return (
     <div className='league-cell'>
@@ -40,9 +70,9 @@ const LeagueCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
         <span className='league-group league-name'>{League}</span>
       </p>
       <p>
-        {renderAIOBT()}
         {renderNoOfHdpInfo()}
         {renderMatchOffer()}
+        {renderAIOBT()}
       </p>
     </div>
   );
