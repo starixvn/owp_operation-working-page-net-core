@@ -50,7 +50,7 @@ const filterEvent = (events: TDataTable, keyword: string) => {
     ) >= 0;
 
     const isIncludeAIO =
-      event.AIO && includes(toLowerCaseForFilter(event.AIO), keyword) ||
+      includes(toLowerCaseForFilter(event.AIOBT), keyword) ||
       includes(toLowerCaseForFilter(event.AIOBTShortName), keyword);
 
     return (
