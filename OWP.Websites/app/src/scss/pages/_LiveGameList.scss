@@ -634,6 +634,7 @@
     }
 
     .icon-content_copy,
+    .icon-message,
     .icon-link {
       font-size: 17px;
     }
@@ -648,6 +649,14 @@
   .btn-copy-content {
     margin-left: 2px;
     transform: rotate(0deg) !important;
+  }
+
+  .icon-message {
+    color: #ff0000 !important;
+    margin-right: 2px;
+    margin-bottom: 2px;
+    width: 17px !important;
+    height: 17px !important;
   }
 
   .list-button {

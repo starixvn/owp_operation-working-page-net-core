@@ -2244,6 +2244,24 @@ button.toast-close-button {
   }
 }
 
+.icon-message {
+  color: #ff0000 !important;
+  margin-right: 23px;
+  margin-bottom: 4px;
+  width: 17px !important;
+  height: 17px !important;
+  position: relative;
+  display: inline-block;
+}
+
+.buttons-container {
+  position: absolute;
+  right: 3px;
+  bottom: 5px;
+  display: flex;
+  align-items: center;
+}
+
 .btn-copy-content {
   padding: 0;
   margin: 0;

@@ -7,6 +7,8 @@ import { openPopupDetail } from '../../tableSlice/tableSlice';
 import { two, three } from '../../../LiveGameListConst.json';
 import { AppContext } from '../../../../Shared/Context';
 import store from '../../../app/storeNative';
+import { MessageTextIcon } from 'mdi-react';
+import { UncontrolledTooltip } from 'reactstrap';
 
 const MatchCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
   const {
@@ -21,7 +23,8 @@ const MatchCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
     KickOffTimeDisplay,
     IPTVCopy,
     Provider,
-    MinorBettypeId
+    MinorBettypeId,
+    SOP
   } = dataSource[rowIndex];
 
   const { laTradingPage, tradingPage, servers } = store.getState()
@@ -92,6 +95,16 @@ const MatchCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
           </>
         )}
         <>
+          {SOP && (
+            <>
+              <span id={`sop-${rowIndex}`}>
+                <MessageTextIcon className='icon-message' />
+              </span>
+              <UncontrolledTooltip target={`sop-${rowIndex}`}>
+                {SOP}
+              </UncontrolledTooltip>
+            </>
+          )}
           <Button className='btn-copy-content' onClick={handleToCopy}>
             <span className='icon-content_copy'></span>
           </Button>

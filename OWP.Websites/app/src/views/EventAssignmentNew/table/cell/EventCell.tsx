@@ -1,6 +1,7 @@
 import { TCellModel } from '../../type/type';
-import { PlusIcon, ArrowRightIcon } from 'mdi-react';
+import { PlusIcon, ArrowRightIcon, MessageTextIcon } from 'mdi-react';
 import { Button } from 'reactstrap';
+import { UncontrolledTooltip } from 'reactstrap';
 import store from '../../app/store';
 import MatchInfo from '../../components/MatchInfo';
 import EventPopup from '../../../Shared/EventPopup';
@@ -105,9 +106,22 @@ const EventCell = (props: TCellModel) => {
           />
         </>
       )}
-      <Button className='btn-copy-content' onClick={handleCopy}>
-        <span className='icon-content_copy'></span>
-      </Button>
+
+      <div className='buttons-container'>
+        {event.SOP && (
+          <>
+            <span id={`eventCell-sop-${rowIndex}`}>
+              <MessageTextIcon className='icon-message' />
+            </span>
+            <UncontrolledTooltip target={`eventCell-sop-${rowIndex}`}>
+              {event.SOP}
+            </UncontrolledTooltip>
+          </>
+        )}
+        <Button className='btn-copy-content' onClick={handleCopy}>
+          <span className='icon-content_copy'></span>
+        </Button>
+      </div>
     </div>
   );
 };
