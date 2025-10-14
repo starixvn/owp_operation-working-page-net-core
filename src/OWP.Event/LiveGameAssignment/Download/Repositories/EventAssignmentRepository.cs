@@ -331,6 +331,8 @@ public class EventAssignmentRepository(
                 Website2 = matchInfo.Website2,
                 Website3 = matchInfo.Website3,
                 Website4 = matchInfo.Website4,
+                AIOBT = matchInfo.AIOBT,
+                SOP = matchInfo.SOP,
                 IsSyncLive = matchInfo.IsLive &&
                     checkIsLiveStatusServices.GetOfferLiveStatus(matchInfo.MinorBettypeId, matchInfo.ParentAdminSiteId, mainDBResult)
             };

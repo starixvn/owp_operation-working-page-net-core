@@ -80,4 +80,12 @@ public class MatchInfo
     {
         get; set;
     }
+    public string AIOBT
+    {
+        get; set;
+    }
+    public string SOP
+    {
+        get; set;
+    }
 }
