@@ -100,8 +100,7 @@ const searchLeagueInfo = (
   return source.filter(event => {
     const isIncludeEventInfo =
       toLowerCaseForFilter(event.League).includes(keyword) ||
-      toLowerCaseForFilter(event.Home).includes(keyword) ||
-      toLowerCaseForFilter(event.Away).includes(keyword);
+      toLowerCaseForFilter(event.LeagueGroup).includes(keyword);
       
     const isIncludeNoOfHDP =
       toLowerCaseForFilter(event.NoOfHDP).includes(keyword) ||
