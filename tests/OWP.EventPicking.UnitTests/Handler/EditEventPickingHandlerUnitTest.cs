@@ -487,4 +487,362 @@ public class EditEventPickingHandlerUnitTest
         await repository.Received(1).GetTVList();
         mapper.Received(1).Execute(Arg.Any<IList<EventPickingModel>>(), Arg.Any<IList<main_league_info>>());
     }
+
+    [Fact]
+    public async Task Handle_RoundConditionContains_ShouldMatchWholeWordOnly()
+    {
+        // Arrange
+        var service = Substitute.For<QueryEventPickingService>();
+        var repository = Substitute.For<OWP.EventPicking.Repository>();
+        var pullMainLeagueService = Substitute.For<PullMainLeagueService>();
+        var mapper = Substitute.For<MapMainLeagueForEventService>();
+        var mbBuilder = Substitute.For<BuildMBForClubFriendlyMajorLeagueBuilder>();
+        var mappingRuleSyncMBLeagueFriendlyService = Substitute.For<MappingRuleSyncMBLeagueFriendlyService>();
+        var handler = CreateHandler(service, repository, pullMainLeagueService, mapper, mbBuilder, mappingRuleSyncMBLeagueFriendlyService);
+
+        var match = new EventPickingModel
+        {
+            LeagueName = "EPL",
+            OWPLeagueId = 1,
+            EventDateTime = new DateTime(2025, 1, 6, 12, 0, 0, DateTimeKind.Utc),
+            Round = "Round 1", // Should match "1" as whole word
+            Division = "" // Empty division to avoid null reference
+        };
+
+        service.Execute(Arg.Any<EventPickingRequest>(), Arg.Any<IList<short>>())
+            .Returns(BuildServiceResult(match));
+
+        repository.QueryLeagueSetting().Returns(new List<LeagueSettingInfoSender>
+        {
+            new()
+            {
+                OWPLeagueId = 1,
+                MaxbetWD_HDP_Value = 20000,
+                Spread_HDP_Value = 0.10m,
+                Spread_OU_Value = 0.12m,
+                WD_NoOfHDP_Value = "3 lines",
+                League = "EPL",
+                FullConditionDescription = JsonConvert.SerializeObject(new NewLeagueSettingCondition
+                {
+                    HasTv = false,
+                    HasIpTv = false,
+                    Round = new List<Condition>
+                    {
+                        new() { Type = "Contains", Value = "1" } // Should match "Round 1"
+                    },
+                    Division = new List<Condition>()
+                })
+            }
+        });
+
+        repository.GetTVList().Returns(new List<Condition>());
+        pullMainLeagueService.GetMainLeague(Arg.Any<List<EventPickingModel>>(), Arg.Any<CancellationToken>())
+            .Returns(new List<main_league_info>());
+
+        var request = new EditEventPickingRequest { Date = match.EventDateTime };
+
+        // Act
+        var result = await handler.Handle(request, CancellationToken.None);
+
+        // Assert - Should match because "1" is a whole word in "Round 1"
+        Assert.True(match.IsReferenceLeagueManagement);
+        Assert.Equal(20000, match.MaxbetHdp);
+    }
+
+    [Fact]
+    public async Task Handle_RoundConditionContains_ShouldNotMatchPartialWord()
+    {
+        // Arrange
+        var service = Substitute.For<QueryEventPickingService>();
+        var repository = Substitute.For<OWP.EventPicking.Repository>();
+        var pullMainLeagueService = Substitute.For<PullMainLeagueService>();
+        var mapper = Substitute.For<MapMainLeagueForEventService>();
+        var mbBuilder = Substitute.For<BuildMBForClubFriendlyMajorLeagueBuilder>();
+        var mappingRuleSyncMBLeagueFriendlyService = Substitute.For<MappingRuleSyncMBLeagueFriendlyService>();
+        var handler = CreateHandler(service, repository, pullMainLeagueService, mapper, mbBuilder, mappingRuleSyncMBLeagueFriendlyService);
+
+        var match = new EventPickingModel
+        {
+            LeagueName = "EPL",
+            OWPLeagueId = 1,
+            EventDateTime = new DateTime(2025, 1, 6, 12, 0, 0, DateTimeKind.Utc),
+            Round = "Round 16", // Should NOT match "1" as it's part of "16"
+            Division = "" // Empty division to avoid null reference
+        };
+
+        service.Execute(Arg.Any<EventPickingRequest>(), Arg.Any<IList<short>>())
+            .Returns(BuildServiceResult(match));
+
+        repository.QueryLeagueSetting().Returns(new List<LeagueSettingInfoSender>
+        {
+            new()
+            {
+                OWPLeagueId = 1,
+                MaxbetWD_HDP_Value = 20000,
+                Spread_HDP_Value = 0.10m,
+                Spread_OU_Value = 0.12m,
+                WD_NoOfHDP_Value = "3 lines",
+                League = "EPL",
+                FullConditionDescription = JsonConvert.SerializeObject(new NewLeagueSettingCondition
+                {
+                    HasTv = false,
+                    HasIpTv = false,
+                    Round = new List<Condition>
+                    {
+                        new() { Type = "Contains", Value = "1" } // Should NOT match "Round 16"
+                    },
+                    Division = new List<Condition>()
+                })
+            }
+        });
+
+        repository.GetTVList().Returns(new List<Condition>());
+        pullMainLeagueService.GetMainLeague(Arg.Any<List<EventPickingModel>>(), Arg.Any<CancellationToken>())
+            .Returns(new List<main_league_info>());
+
+        var request = new EditEventPickingRequest { Date = match.EventDateTime };
+
+        // Act
+        var result = await handler.Handle(request, CancellationToken.None);
+
+        // Assert - Should NOT match because "1" is not a whole word in "Round 16"
+        Assert.False(match.IsReferenceLeagueManagement);
+    }
+
+    [Fact]
+    public async Task Handle_DivisionConditionContains_ShouldMatchWholeWordCaseInsensitive()
+    {
+        // Arrange
+        var service = Substitute.For<QueryEventPickingService>();
+        var repository = Substitute.For<OWP.EventPicking.Repository>();
+        var pullMainLeagueService = Substitute.For<PullMainLeagueService>();
+        var mapper = Substitute.For<MapMainLeagueForEventService>();
+        var mbBuilder = Substitute.For<BuildMBForClubFriendlyMajorLeagueBuilder>();
+        var mappingRuleSyncMBLeagueFriendlyService = Substitute.For<MappingRuleSyncMBLeagueFriendlyService>();
+        var handler = CreateHandler(service, repository, pullMainLeagueService, mapper, mbBuilder, mappingRuleSyncMBLeagueFriendlyService);
+
+        var match = new EventPickingModel
+        {
+            LeagueName = "EPL",
+            OWPLeagueId = 1,
+            EventDateTime = new DateTime(2025, 1, 6, 12, 0, 0, DateTimeKind.Utc),
+            Division = "premier league", // Should match "Premier" case-insensitively
+            Round = "" // Empty round to avoid null reference
+        };
+
+        service.Execute(Arg.Any<EventPickingRequest>(), Arg.Any<IList<short>>())
+            .Returns(BuildServiceResult(match));
+
+        repository.QueryLeagueSetting().Returns(new List<LeagueSettingInfoSender>
+        {
+            new()
+            {
+                OWPLeagueId = 1,
+                MaxbetWD_HDP_Value = 25000,
+                Spread_HDP_Value = 0.11m,
+                Spread_OU_Value = 0.13m,
+                WD_NoOfHDP_Value = "4 lines",
+                League = "EPL",
+                FullConditionDescription = JsonConvert.SerializeObject(new NewLeagueSettingCondition
+                {
+                    HasTv = false,
+                    HasIpTv = false,
+                    Round = new List<Condition>(),
+                    Division = new List<Condition>
+                    {
+                        new() { Type = "Contains", Value = "Premier" } // Should match case-insensitively
+                    }
+                })
+            }
+        });
+
+        repository.GetTVList().Returns(new List<Condition>());
+        pullMainLeagueService.GetMainLeague(Arg.Any<List<EventPickingModel>>(), Arg.Any<CancellationToken>())
+            .Returns(new List<main_league_info>());
+
+        var request = new EditEventPickingRequest { Date = match.EventDateTime };
+
+        // Act
+        var result = await handler.Handle(request, CancellationToken.None);
+
+        // Assert - Should match case-insensitively
+        Assert.True(match.IsReferenceLeagueManagement);
+        Assert.Equal(25000, match.MaxbetHdp);
+    }
+
+    [Fact]
+    public async Task Handle_DivisionConditionContains_ShouldNotMatchPartialWordInCompound()
+    {
+        // Arrange
+        var service = Substitute.For<QueryEventPickingService>();
+        var repository = Substitute.For<OWP.EventPicking.Repository>();
+        var pullMainLeagueService = Substitute.For<PullMainLeagueService>();
+        var mapper = Substitute.For<MapMainLeagueForEventService>();
+        var mbBuilder = Substitute.For<BuildMBForClubFriendlyMajorLeagueBuilder>();
+        var mappingRuleSyncMBLeagueFriendlyService = Substitute.For<MappingRuleSyncMBLeagueFriendlyService>();
+        var handler = CreateHandler(service, repository, pullMainLeagueService, mapper, mbBuilder, mappingRuleSyncMBLeagueFriendlyService);
+
+        var match = new EventPickingModel
+        {
+            LeagueName = "EPL",
+            OWPLeagueId = 1,
+            EventDateTime = new DateTime(2025, 1, 6, 12, 0, 0, DateTimeKind.Utc),
+            Division = "Premiership", // Should NOT match "Premier" as it's not a whole word
+            Round = "" // Empty round to avoid null reference
+        };
+
+        service.Execute(Arg.Any<EventPickingRequest>(), Arg.Any<IList<short>>())
+            .Returns(BuildServiceResult(match));
+
+        repository.QueryLeagueSetting().Returns(new List<LeagueSettingInfoSender>
+        {
+            new()
+            {
+                OWPLeagueId = 1,
+                MaxbetWD_HDP_Value = 25000,
+                Spread_HDP_Value = 0.11m,
+                Spread_OU_Value = 0.13m,
+                WD_NoOfHDP_Value = "4 lines",
+                League = "EPL",
+                FullConditionDescription = JsonConvert.SerializeObject(new NewLeagueSettingCondition
+                {
+                    HasTv = false,
+                    HasIpTv = false,
+                    Round = new List<Condition>(),
+                    Division = new List<Condition>
+                    {
+                        new() { Type = "Contains", Value = "Premier" } // Should NOT match "Premiership"
+                    }
+                })
+            }
+        });
+
+        repository.GetTVList().Returns(new List<Condition>());
+        pullMainLeagueService.GetMainLeague(Arg.Any<List<EventPickingModel>>(), Arg.Any<CancellationToken>())
+            .Returns(new List<main_league_info>());
+
+        var request = new EditEventPickingRequest { Date = match.EventDateTime };
+
+        // Act
+        var result = await handler.Handle(request, CancellationToken.None);
+
+        // Assert - Should NOT match because "Premier" is not a whole word in "Premiership"
+        Assert.False(match.IsReferenceLeagueManagement);
+    }
+
+    [Fact]
+    public async Task Handle_RoundConditionContains_ShouldMatchWithPunctuation()
+    {
+        // Arrange
+        var service = Substitute.For<QueryEventPickingService>();
+        var repository = Substitute.For<OWP.EventPicking.Repository>();
+        var pullMainLeagueService = Substitute.For<PullMainLeagueService>();
+        var mapper = Substitute.For<MapMainLeagueForEventService>();
+        var mbBuilder = Substitute.For<BuildMBForClubFriendlyMajorLeagueBuilder>();
+        var mappingRuleSyncMBLeagueFriendlyService = Substitute.For<MappingRuleSyncMBLeagueFriendlyService>();
+        var handler = CreateHandler(service, repository, pullMainLeagueService, mapper, mbBuilder, mappingRuleSyncMBLeagueFriendlyService);
+
+        var match = new EventPickingModel
+        {
+            LeagueName = "EPL",
+            OWPLeagueId = 1,
+            EventDateTime = new DateTime(2025, 1, 6, 12, 0, 0, DateTimeKind.Utc),
+            Round = "Division 1, 2, 3", // Should match "1" as whole word
+            Division = "" // Empty division to avoid null reference
+        };
+
+        service.Execute(Arg.Any<EventPickingRequest>(), Arg.Any<IList<short>>())
+            .Returns(BuildServiceResult(match));
+
+        repository.QueryLeagueSetting().Returns(new List<LeagueSettingInfoSender>
+        {
+            new()
+            {
+                OWPLeagueId = 1,
+                MaxbetWD_HDP_Value = 30000,
+                Spread_HDP_Value = 0.12m,
+                Spread_OU_Value = 0.14m,
+                WD_NoOfHDP_Value = "5 lines",
+                League = "EPL",
+                FullConditionDescription = JsonConvert.SerializeObject(new NewLeagueSettingCondition
+                {
+                    HasTv = false,
+                    HasIpTv = false,
+                    Round = new List<Condition>
+                    {
+                        new() { Type = "Contains", Value = "1" } // Should match "1" in "1, 2, 3"
+                    },
+                    Division = new List<Condition>()
+                })
+            }
+        });
+
+        repository.GetTVList().Returns(new List<Condition>());
+        pullMainLeagueService.GetMainLeague(Arg.Any<List<EventPickingModel>>(), Arg.Any<CancellationToken>())
+            .Returns(new List<main_league_info>());
+
+        var request = new EditEventPickingRequest { Date = match.EventDateTime };
+
+        // Act
+        var result = await handler.Handle(request, CancellationToken.None);
+
+        // Assert - Should match because "1" is a whole word (comma creates boundary)
+        Assert.True(match.IsReferenceLeagueManagement);
+        Assert.Equal(30000, match.MaxbetHdp);
+    }
+
+    [Fact]
+    public async Task Handle_ShouldSaveMBSpreadsToCache()
+    {
+        // Arrange
+        var service = Substitute.For<QueryEventPickingService>();
+        var repository = Substitute.For<OWP.EventPicking.Repository>();
+        var pullMainLeagueService = Substitute.For<PullMainLeagueService>();
+        var mapper = Substitute.For<MapMainLeagueForEventService>();
+        var mbBuilder = Substitute.For<BuildMBForClubFriendlyMajorLeagueBuilder>();
+        var mappingRuleSyncMBLeagueFriendlyService = Substitute.For<MappingRuleSyncMBLeagueFriendlyService>();
+        var cacheManipulator = Substitute.For<CacheManipulator>();
+        var handler = CreateHandler(service, repository, pullMainLeagueService, mapper, mbBuilder, mappingRuleSyncMBLeagueFriendlyService, cacheManipulator);
+
+        var eventDate = new DateTime(2025, 1, 6, 12, 0, 0, DateTimeKind.Utc);
+        var match = new EventPickingModel
+        {
+            LeagueName = "EPL",
+            OWPLeagueId = 1,
+            EventDateTime = eventDate,
+            InfoSiteMatchId = 12345,
+            MaxbetHdp = 25000,
+            SpreadHdp = 0.10m,
+            SpreadOu = 0.12m,
+            NoOfHDP = "4 lines",
+            IsReferenceLeagueManagement = true
+        };
+
+        service.Execute(Arg.Any<EventPickingRequest>(), Arg.Any<IList<short>>())
+            .Returns(BuildServiceResult(match));
+
+        repository.QueryLeagueSetting().Returns(new List<LeagueSettingInfoSender>());
+        repository.GetTVList().Returns(new List<Condition>());
+        pullMainLeagueService.GetMainLeague(Arg.Any<List<EventPickingModel>>(), Arg.Any<CancellationToken>())
+            .Returns(new List<main_league_info>());
+
+        var request = new EditEventPickingRequest { Date = eventDate };
+
+        // Act
+        var result = await handler.Handle(request, CancellationToken.None);
+
+        // Assert - Cache should be saved with MB spreads
+        await cacheManipulator.Received(1).SaveMBSpreadsByDate(
+            eventDate,
+            Arg.Is<List<EventMBSpread>>(list =>
+                list.Count == 1 &&
+                list[0].InfoSiteMatchId == 12345 &&
+                list[0].MaxbetHdp == 25000 &&
+                list[0].SpreadHdp == 0.10m &&
+                list[0].SpreadOu == 0.12m &&
+                list[0].NoOfHDP == "4 lines" &&
+                list[0].IsReferenceLeagueManagement == true
+            )
+        );
+    }
 }
