@@ -7,7 +7,7 @@ import useStableDispatch from '../../../../Shared/customHook/useStableDispatch';
 import { openPopupDetail } from '../taskListSlice';
 import { two, three } from '../../const/TableSchema.json';
 import store from '../../../app/storeNative';
-import { MessageTextIcon } from 'mdi-react';
+import { MessageTextOutlineIcon } from 'mdi-react';
 import { UncontrolledTooltip } from 'reactstrap';
 
 const MatchContainLinkDetailCell = (props: CellProps) => {
@@ -102,22 +102,19 @@ const MatchContainLinkDetailCell = (props: CellProps) => {
     );
   };
 
-  const renderIcon = () => {
+  const renderSOPIcon = () => {
     return (
       <>
         {SOP && (
           <>
             <span id={`taskList-sop-${rowIndex}`}>
-              <MessageTextIcon className='icon-sop' />
+              <MessageTextOutlineIcon className='icon-sop' />
             </span>
             <UncontrolledTooltip target={`taskList-sop-${rowIndex}`}>
               {SOP}
             </UncontrolledTooltip>
           </>
         )}
-        <Button className='btn-copy-content' onClick={handleCopy}>
-          <span className='icon-content_copy'></span>
-        </Button>
       </>
     );
   };
@@ -127,8 +124,11 @@ const MatchContainLinkDetailCell = (props: CellProps) => {
       {renderLeagueHomeAway()}
       <p className='match-code'>{MatchCode}</p>
       <div className='list-button'>
+        {renderSOPIcon()}
         {Boolean(AdminSiteId) && renderLinkIcon()}
-        {renderIcon()}
+        <Button className='btn-copy-content' onClick={handleCopy}>
+          <span className='icon-content_copy'></span>
+        </Button>
       </div>
     </>
   );

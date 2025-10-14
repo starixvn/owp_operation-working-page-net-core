@@ -578,9 +578,9 @@
 }
 
 .list-button {
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
+  position: absolute;
+  right: 3px;
+  bottom: 3px;
 
   span {
     color: #1e88e5 !important;

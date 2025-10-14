@@ -771,76 +771,56 @@
 }
 
 .list-button {
-  position: absolute;
-  right: 3px;
-  bottom: 1px;
-  display: flex;
-}
+    position: absolute;
+    right: 3px;
+    bottom: 3px;
 
-.icon-sop {
-  color: #ff0000 !important;
-  margin-right: -2px;
-  margin-bottom: 2px;
-  width: 17px !important;
-  height: 17px !important;
-  right: 25px;
-  bottom: 2px;
-}
-
-.btn-copy-content {
-  padding: 0;
-  margin: 0;
-  border: 0;
-  border-radius: 0;
-  position: absolute;
-  right: 3px;
-  bottom: 5px;
-  background-color: transparent;
-
-  &:hover,
-  &:focus,
-  &:active {
-    background-color: transparent !important;
-    border: 0 !important;
-    outline: none;
-    box-shadow: none !important;
+    span {
+      color: #1e88e5 !important;
+      padding: 0px !important;
+      margin: 0px !important;
+    }
+  
+    .btn-copy-content,
+    .button-link-trader {
+      padding: 0;
+      background: transparent;
+      border: 0;
+  
+      &:focus {
+        outline: none;
+        box-shadow: none;
+      }
+  
+      &:hover {
+        background: transparent;
+        color: #1e88e5;
+        opacity: 0.6;
+      }
+    }
+  
+    .icon-content_copy {
+      font-size: 17px;
+    }
+  
+    .icon-link {
+      font-size: 20px;
+    }
+  
+    .button-link-trader {
+      transform: rotate(-45deg);
+    }
+  
+    .btn-copy-content {
+      transform: rotate(0deg);
+    }
+  
+    .icon-sop {
+      color: #ff0000 !important;
+      margin-right: 3px;
+      margin-bottom: 3px;
+    }
   }
-
-  .icon-content_copy {
-    font-size: 17px;
-    margin: 0;
-    display: block;
-    color: #1e88e5;
-  }
-}
-
-.button-link-trader {
-  padding: 0;
-  margin: 0;
-  background: transparent;
-  border: 0;
-  border-radius: 0;
-  position: absolute;
-  right: 24px;
-  bottom: 3px;
-
-  &:hover,
-  &:focus,
-  &:active {
-    background-color: transparent !important;
-    border: 0 !important;
-    outline: none;
-    box-shadow: none !important;
-  }
-
-  .icon-link {
-    font-size: 20px;
-    margin: 0;
-    display: block;
-    transform: rotate(-45deg);
-    color: #1e88e5;
-  }
-}
 
 .last-popup {
   &.popup-trader {
