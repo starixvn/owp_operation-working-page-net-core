@@ -7,7 +7,7 @@ import { openPopupDetail } from '../../tableSlice/tableSlice';
 import { two, three } from '../../../LiveGameListConst.json';
 import { AppContext } from '../../../../Shared/Context';
 import store from '../../../app/storeNative';
-import { MessageTextIcon } from 'mdi-react';
+import { MessageTextOutlineIcon } from 'mdi-react';
 import { UncontrolledTooltip } from 'reactstrap';
 
 const MatchCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
@@ -76,6 +76,17 @@ const MatchCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
       </div>
       {MatchCode && <p className='match-code'> {MatchCode}</p>}
       <div className='list-button'>
+        {SOP && (
+          <>
+            <span id={`sop-${rowIndex}`}>
+              <MessageTextOutlineIcon className='icon-message' />
+            </span>
+            <UncontrolledTooltip target={`sop-${rowIndex}`}>
+              {SOP}
+            </UncontrolledTooltip>
+          </>
+        )}
+
         {AdminSiteId > 0 && (
           <>
             <Button className='button-link-trader' id={`Event${rowIndex}`}>
@@ -94,21 +105,10 @@ const MatchCell = ({ rowIndex, dataSource }: CellProps): JSX.Element => {
             />
           </>
         )}
-        <>
-          {SOP && (
-            <>
-              <span id={`sop-${rowIndex}`}>
-                <MessageTextIcon className='icon-message' />
-              </span>
-              <UncontrolledTooltip target={`sop-${rowIndex}`}>
-                {SOP}
-              </UncontrolledTooltip>
-            </>
-          )}
-          <Button className='btn-copy-content' onClick={handleToCopy}>
-            <span className='icon-content_copy'></span>
-          </Button>
-        </>
+
+        <Button className='btn-copy-content' onClick={handleToCopy}>
+          <span className='icon-content_copy'></span>
+        </Button>
       </div>
     </div>
   );

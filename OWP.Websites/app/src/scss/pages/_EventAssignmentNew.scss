@@ -577,6 +577,58 @@
   }
 }
 
+.list-button {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+
+  span {
+    color: #1e88e5 !important;
+    padding: 0px !important;
+    margin: 0px !important;
+  }
+
+  .btn-copy-content,
+  .button-link-trader {
+    padding: 0;
+    background: transparent;
+    border: 0;
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+
+    &:hover {
+      background: transparent;
+      color: #1e88e5;
+      opacity: 0.6;
+    }
+  }
+
+  .icon-content_copy {
+    font-size: 17px;
+  }
+
+  .icon-link {
+    font-size: 20px;
+  }
+
+  .button-link-trader {
+    transform: rotate(-45deg);
+  }
+
+  .btn-copy-content {
+    transform: rotate(0deg);
+  }
+
+  .icon-message {
+    color: #ff0000 !important;
+    margin-right: 3px;
+    margin-bottom: 3px;
+  }
+}
+
 .provider-cell {
   padding: 0 3px;
 
@@ -1800,35 +1852,6 @@ body.swal2-shown .chat-board-popup {
   display: block;
 }
 
-// link trader page
-.button-link-trader {
-  padding: 0;
-  margin: 0;
-  background: transparent;
-  border: 0;
-  border-radius: 0;
-  position: absolute;
-  right: 24px;
-  bottom: 3px;
-
-  &:hover,
-  &:focus,
-  &:active {
-    background-color: transparent !important;
-    border: 0 !important;
-    outline: none;
-    box-shadow: none !important;
-  }
-
-  .icon-link {
-    font-size: 20px;
-    margin: 0;
-    display: block;
-    transform: rotate(-45deg);
-    color: #1e88e5;
-  }
-}
-
 .last-popup {
   &.popup-trader {
     .popover {
@@ -1963,7 +1986,7 @@ body.swal2-shown .chat-board-popup {
   box-shadow: none;
 }
 
-.copy-btn .icon-content_copy {
+.copy-btn {
   color: #1e88e5;
   font-size: 15px;
 }
@@ -2252,41 +2275,6 @@ button.toast-close-button {
   height: 17px !important;
   position: relative;
   display: inline-block;
-}
-
-.buttons-container {
-  position: absolute;
-  right: 3px;
-  bottom: 5px;
-  display: flex;
-  align-items: center;
-}
-
-.btn-copy-content {
-  padding: 0;
-  margin: 0;
-  border: 0;
-  border-radius: 0;
-  position: absolute;
-  right: 3px;
-  bottom: 5px;
-  background-color: transparent;
-
-  &:hover,
-  &:focus,
-  &:active {
-    background-color: transparent !important;
-    border: 0 !important;
-    outline: none;
-    box-shadow: none !important;
-  }
-
-  .icon-content_copy {
-    font-size: 17px;
-    margin: 0;
-    display: block;
-    color: #1e88e5;
-  }
 }
 
 #toast-container.toast-coppy .toast .toast-message {

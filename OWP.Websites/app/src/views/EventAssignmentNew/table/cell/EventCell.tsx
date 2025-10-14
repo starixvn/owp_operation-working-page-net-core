@@ -1,5 +1,5 @@
 import { TCellModel } from '../../type/type';
-import { PlusIcon, ArrowRightIcon, MessageTextIcon } from 'mdi-react';
+import { PlusIcon, ArrowRightIcon, MessageTextOutlineIcon } from 'mdi-react';
 import { Button } from 'reactstrap';
 import { UncontrolledTooltip } from 'reactstrap';
 import store from '../../app/store';
@@ -87,37 +87,37 @@ const EventCell = (props: TCellModel) => {
       )}
 
       <MatchInfo dataSource={dataSource} rowIndex={rowIndex} />
-
-      {event.AdminSiteId !== 0 && event.AdminSiteId !== null && (
-        <>
-          <Button className='button-link-trader' id={`Event${rowIndex}`}>
-            <span className='icon-link'></span>
-          </Button>
-          <EventPopup
-            className={className}
-            adminSiteId={event.AdminSiteId}
-            isFantasy={event.IsFantasy}
-            rowIndex={rowIndex}
-            minorBettypeId={event.MinorBettypeId}
-            league={event.League}
-            laTradingPage={laTradingPage}
-            tradingPage={tradingPage}
-            serverSetting={serverSetting}
-          />
-        </>
-      )}
-
-      <div className='buttons-container'>
+      <div className='list-button'>
         {event.SOP && (
           <>
             <span id={`eventCell-sop-${rowIndex}`}>
-              <MessageTextIcon className='icon-message' />
+              <MessageTextOutlineIcon className='icon-message' />
             </span>
             <UncontrolledTooltip target={`eventCell-sop-${rowIndex}`}>
               {event.SOP}
             </UncontrolledTooltip>
           </>
         )}
+
+        {event.AdminSiteId !== 0 && event.AdminSiteId !== null && (
+          <>
+            <Button className='button-link-trader' id={`Event${rowIndex}`}>
+              <span className='icon-link'></span>
+            </Button>
+            <EventPopup
+              className={className}
+              adminSiteId={event.AdminSiteId}
+              isFantasy={event.IsFantasy}
+              rowIndex={rowIndex}
+              minorBettypeId={event.MinorBettypeId}
+              league={event.League}
+              laTradingPage={laTradingPage}
+              tradingPage={tradingPage}
+              serverSetting={serverSetting}
+            />
+          </>
+        )}
+
         <Button className='btn-copy-content' onClick={handleCopy}>
           <span className='icon-content_copy'></span>
         </Button>
