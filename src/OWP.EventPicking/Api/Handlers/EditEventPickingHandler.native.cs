@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using NPOI.SS.Formula.Functions;
 using OWP.EventPicking.Api.Middleware.Models;
@@ -286,7 +287,24 @@ public class EditEventPickingHandler(
     {
         var containsValues = GetValueContains(conditions);
 
-       return containsValues.Any(x => matchValues.Contains(x, StringComparison.CurrentCultureIgnoreCase)) && !string.IsNullOrEmpty(matchValues);
+        if (string.IsNullOrEmpty(matchValues))
+        {
+            return false;
+        }
+
+        return containsValues.Any(conditionValue => 
+            ContainsWholeWord(matchValues, conditionValue));
+    }
+
+    private static bool ContainsWholeWord(string text, string word)
+    {
+        if (string.IsNullOrEmpty(text) || string.IsNullOrEmpty(word))
+        {
+            return false;
+        }
+
+        var pattern = $@"\b{Regex.Escape(word)}\b";
+        return Regex.IsMatch(text, pattern, RegexOptions.IgnoreCase);
     }
 
     private static bool CheckConditionEqual(string matchValues, IList<Condition> conditions)
