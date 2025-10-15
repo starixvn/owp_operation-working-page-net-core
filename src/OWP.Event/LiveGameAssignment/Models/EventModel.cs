@@ -22,6 +22,8 @@ public class EventModel
 
     public string NoOfHDP { get; set; }
 
+    public string NoOfHDPShort { get; set; }
+
     public int NoOfHDPId { get; set; }
 
     public DateTime EventDateTime { get; set; }
@@ -127,4 +129,10 @@ public class EventModel
     public TimeSpan KickOffTimeStr { get; set; }
 
     public TimeSpan? OtherTimeStr { get; set; }
+
+    public string AIOBT { get; set; }
+
+    public string AIOBTShortName { get; set; }
+    
+    public string SOP { get; set; }
 }

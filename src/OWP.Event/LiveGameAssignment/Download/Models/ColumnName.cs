@@ -103,6 +103,9 @@ public enum ColumnName
     [Description("Division")]
     Division,
 
+    [Description("SOP")]
+    SOP,
+
     [Description("Remark")]
     Remark,
 
@@ -212,5 +215,8 @@ public enum ColumnName
     MaxBet_FM,
 
     [Description("Spread (FM)")]
-    Spread_FM
+    Spread_FM,
+    
+    [Description("AIO BT")]
+    AIOBT
 }

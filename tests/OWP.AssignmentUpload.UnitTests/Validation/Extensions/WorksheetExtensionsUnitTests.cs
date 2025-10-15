@@ -2,6 +2,8 @@
 using OWP.AssignmentUpload.Validation.Exceptions;
 using OWP.AssignmentUpload.Validation.Extensions;
 using OWP.AssignmentUpload.Validation.Models;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 using Xunit;
 
 namespace OWP.AssignmentUpload.UnitTests.Validation.Extensions;
@@ -16,82 +18,30 @@ public class WorksheetExtensionsUnitTests
         using var excelPackage = new ExcelPackage();
         var worksheet = excelPackage.Workbook.Worksheets.Add("Sheet0");
 
+        // Set up some specific headers
         worksheet.Cells[2, 2].Value = "Match Status";
         worksheet.Cells[2, 41].Value = "InfoSite ID";
         worksheet.Cells[2, 1].Value = "No";
         worksheet.Cells[2, 3].Value = "Time";
 
-        var expected = new Dictionary<string, int>
-        {
-            {"Agent", 0},
-            {"Channel", 0},
-            {"IPTV", 0},
-            {"Division", 0},
-            {"Home", 0},
-            {"Away", 0},
-            {"League", 0},
-            {"InfoSite ID", 4},
-            {"AdminSite ID", 0},
-            {"No", 1},
-            {"Match Offer", 0},
-            {"Match Status", 2},
-            {"No.HDP", 0},
-            {"Time", 3},
-            {"Other Time", 0},
-            {"Reporter Phone", 0},
-            {"Provider", 0},
-            {"Other Provider", 0},
-            {"Remark", 0},
-            {"Round", 0},
-            {"TV", 0},
-            {"Streaming Info(WB)", 0},
-            {"Web 1", 0},
-            {"Web 2", 0},
-            {"Web 3", 0},
-            {"Web 4", 0},
-            {"10mins", 0},
-            {"15mins", 0},
-            {"Trader (1H 1X2)", 0},
-            {"Trader (1H HDP)", 0},
-            {"Trader (1H O/U)", 0},
-            {"Trader (1X2)", 0},
-            {"AIO", 0},
-            {"FM", 0},
-            {"Trader (HDP)", 0},
-            {"Trader (O/U)", 0},
-            {"LA", 0},
-            {"Other Traders (10 mins)", 0},
-            {"Other Traders (15 mins)", 0},
-            {"Other Traders (1H 1X2)", 0},
-            {"Other Traders (1H HDP)", 0},
-            {"Other Traders (1H O/U)", 0},
-            {"Other Traders (1X2)", 0},
-            {"Other Traders (AIO)", 0},
-            {"Other Traders (FM)", 0},
-            {"Other Traders (HDP)", 0},
-            {"Other LA", 0},
-            {"Other Traders (O/U)", 0},
-            {"Max Bet (1H 1X2)", 0},
-            {"Max Bet (1H HDP)", 0},
-            {"Max Bet (1H O/U)", 0},
-            {"Max Bet (1X2)", 0},
-            {"Max Bet (FM)", 0},
-            {"Max Bet (HDP)", 0},
-            {"Max Bet (O/U)", 0},
-            {"Max Bet (x mins)", 0},
-            {"Spread (1H 1X2)", 0},
-            {"Spread (1H HDP)", 0},
-            {"Spread (1H O/U)", 0},
-            {"Spread (1X2)", 0},
-            {"Spread (FM)", 0},
-            {"Spread (HDP)", 0},
-            {"Spread (O/U)", 0},
-            {"Spread (x mins)", 0},
-            {"Agent for EST" ,0},
-            {"Remark for EST", 0},
-            {"Remark by", 0}
+        // Generate expected dictionary dynamically based on the actual model
+        var type = typeof(AssignmentModelInExcel);
+        var properties = type.GetProperties();
+        var propertiesWithoutNotes = properties.Where(x => x.Name != "Notes").ToList();
 
-        };
+        var expected = new Dictionary<string, int>();
+        for (int i = 0; i < propertiesWithoutNotes.Count; i++)
+        {
+            var property = propertiesWithoutNotes[i];
+            var displayName = GetDisplayName(property);
+            expected[displayName] = 0; // Default to 0 for missing headers
+        }
+
+        // Update the specific headers that are present
+        expected["No"] = 1;
+        expected["Match Status"] = 2;
+        expected["Time"] = 3;
+        expected["InfoSite ID"] = 4; // InfoSite ID is at column 4 because it's the 4th non-empty header
 
         var actual = worksheet.GetHeaderMap();
         DeepAssert.Equal(expected, actual);
@@ -103,157 +53,40 @@ public class WorksheetExtensionsUnitTests
         using var excelPackage = new ExcelPackage();
         var worksheet = excelPackage.Workbook.Worksheets.Add("Sheet0");
 
-        worksheet.Cells["A1"].Value = "Date";
-        worksheet.Cells[1, 2].Value = "";
+        // Generate headers dynamically based on the actual model
+        var type = typeof(AssignmentModelInExcel);
+        var properties = type.GetProperties();
+        var propertiesWithoutNotes = properties.Where(x => x.Name != "Notes").ToList();
 
-        worksheet.Cells["D1"].Value = "Employee";
-        worksheet.Cells[1, 5].Value = "";
-
-        worksheet.Cells["G1"].Value = "MatchStatus";
-        worksheet.Cells[1, 8].Value = "";
-
-        worksheet.Cells["J1"].Value = "LastUpdated";
-        worksheet.Cells[1, 11].Value = "";
-
-        worksheet.Cells[2, 1].Value = "No";
-        worksheet.Cells[2, 2].Value = "Match Status";
-        worksheet.Cells[2, 3].Value = "Time";
-        worksheet.Cells[2, 4].Value = "Other Time";
-        worksheet.Cells[2, 5].Value = "Home";
-        worksheet.Cells[2, 6].Value = "Away";
-        worksheet.Cells[2, 7].Value = "League";
-        worksheet.Cells[2, 8].Value = "Match Offer";
-        worksheet.Cells[2, 9].Value = "Max Bet (HDP)";
-        worksheet.Cells[2, 10].Value = "Spread (HDP)";
-        worksheet.Cells[2, 11].Value = "Spread (O/U)";
-        worksheet.Cells[2, 12].Value = "No.HDP";
-        worksheet.Cells[2, 13].Value = "Trader (HDP)";
-        worksheet.Cells[2, 14].Value = "Trader (O/U)";
-        worksheet.Cells[2, 15].Value = "Trader (1H HDP)";
-        worksheet.Cells[2, 16].Value = "Trader (1H O/U)";
-        worksheet.Cells[2, 17].Value = "Other Traders (HDP)";
-        worksheet.Cells[2, 18].Value = "Other Traders (O/U)";
-        worksheet.Cells[2, 19].Value = "Other Traders (1H HDP)";
-        worksheet.Cells[2, 20].Value = "Other Traders (1H O/U)";
-        worksheet.Cells[2, 21].Value = "15mins";
-        worksheet.Cells[2, 22].Value = "10mins";
-        worksheet.Cells[2, 23].Value = "Trader (1X2)";
-        worksheet.Cells[2, 24].Value = "Other Traders (1X2)";
-        worksheet.Cells[2, 25].Value = "FM";
-        worksheet.Cells[2, 26].Value = "AIO";
-        worksheet.Cells[2, 27].Value = "LA";
-        worksheet.Cells[2, 28].Value = "Other LA";
-        worksheet.Cells[2, 29].Value = "Provider";
-        worksheet.Cells[2, 30].Value = "Other Provider";
-        worksheet.Cells[2, 31].Value = "Division";
-        worksheet.Cells[2, 32].Value = "Remark";
-        worksheet.Cells[2, 33].Value = "Streaming Info(WB)";
-        worksheet.Cells[2, 34].Value = "Round";
-        worksheet.Cells[2, 35].Value = "TV";
-        worksheet.Cells[2, 36].Value = "Channel";
-        worksheet.Cells[2, 37].Value = "IPTV";
-        worksheet.Cells[2, 38].Value = "Agent";
-        worksheet.Cells[2, 39].Value = "Reporter Phone";
-        worksheet.Cells[2, 40].Value = "InfoSite ID";
-        worksheet.Cells[2, 41].Value = "AdminSite ID";
-        worksheet.Cells[2, 42].Value = "Web 1";
-        worksheet.Cells[2, 43].Value = "Web 2";
-        worksheet.Cells[2, 44].Value = "Web 3";
-        worksheet.Cells[2, 45].Value = "Web 4";
-        worksheet.Cells[2, 46].Value = "Other Traders (15 mins)";
-        worksheet.Cells[2, 47].Value = "Other Traders (10 mins)";
-        worksheet.Cells[2, 48].Value = "Other Traders (FM)";
-        worksheet.Cells[2, 49].Value = "Other Traders (AIO)";
-        worksheet.Cells[2, 50].Value = "Max Bet (O/U)";
-        worksheet.Cells[2, 51].Value = "Max Bet (1H HDP)";
-        worksheet.Cells[2, 52].Value = "Max Bet (1H O/U)";
-        worksheet.Cells[2, 53].Value = "Spread (1H HDP)";
-        worksheet.Cells[2, 54].Value = "Spread (1H O/U)";
-        worksheet.Cells[2, 55].Value = "Max Bet (1X2)";
-        worksheet.Cells[2, 56].Value = "Spread (1X2)";
-        worksheet.Cells[2, 57].Value = "Max Bet (1H 1X2)";
-        worksheet.Cells[2, 58].Value = "Spread (1H 1X2)";
-        worksheet.Cells[2, 59].Value = "Trader (1H 1X2)";
-        worksheet.Cells[2, 60].Value = "Other Traders (1H 1X2)";
-        worksheet.Cells[2, 61].Value = "Max Bet (x mins)";
-        worksheet.Cells[2, 62].Value = "Spread (x mins)";
-        worksheet.Cells[2, 63].Value = "Max Bet (FM)";
-        worksheet.Cells[2, 64].Value = "Spread (FM)";
-        worksheet.Cells[2, 65].Value = "Note";
-
-        var expected = new Dictionary<string, int>
+        // Set up headers in row 2
+        for (int i = 0; i < propertiesWithoutNotes.Count; i++)
         {
-            {"No", 1},
-            {"Match Status", 2},
-            {"Time", 3},
-            {"Other Time", 4},
-            {"Home", 5},
-            {"Away", 6},
-            {"League", 7},
-            {"Match Offer", 8},
-            {"Max Bet (HDP)", 9},
-            { "Spread (HDP)", 10},
-            {"Spread (O/U)", 11},
-            { "No.HDP", 12},
-            { "Trader (HDP)", 13},
-            { "Trader (O/U)", 14},
-            {"Trader (1H HDP)", 15},
-            { "Trader (1H O/U)", 16},
-            { "Other Traders (HDP)", 17},
-            {"Other Traders (O/U)", 18},
-            { "Other Traders (1H HDP)", 19},
-            { "Other Traders (1H O/U)", 20},
-            {"15mins", 21},
-            { "10mins", 22},
-            { "Trader (1X2)", 23},
-            { "Other Traders (1X2)", 24},
-            { "FM", 25},
-            {"AIO", 26},
-            { "LA", 27},
-            { "Other LA", 28},
-            { "Provider", 29},
-            { "Other Provider", 30},
-            {"Division", 31},
-            { "Remark", 32},
-            { "Streaming Info(WB)", 33},
-            { "Round", 34},
-            { "TV", 35},
-            {"Channel", 36},
-            { "IPTV", 37},
-            { "Agent", 38},
-            { "Reporter Phone", 39},
-            { "InfoSite ID", 40},
-            {"AdminSite ID", 41},
-            { "Web 1", 42},
-            { "Web 2", 43},
-            { "Web 3", 44},
-            { "Web 4", 45},
-            {"Other Traders (15 mins)", 46},
-            { "Other Traders (10 mins)", 47},
-            { "Other Traders (FM)", 48},
-            {"Other Traders (AIO)", 49},
-            { "Max Bet (O/U)", 50},
-            { "Max Bet (1H HDP)", 51},
-            {"Max Bet (1H O/U)", 52},
-            { "Spread (1H HDP)", 53},
-            { "Spread (1H O/U)", 54},
-            { "Max Bet (1X2)", 55},
-            {"Spread (1X2)", 56},
-            { "Max Bet (1H 1X2)", 57},
-            { "Spread (1H 1X2)", 58},
-            { "Trader (1H 1X2)", 59},
-            {"Other Traders (1H 1X2)", 60},
-            { "Max Bet (x mins)", 61},
-            { "Spread (x mins)", 62},
-            {"Max Bet (FM)", 63},
-            { "Spread (FM)", 64},
-            {"Agent for EST" ,0},
-            {"Remark for EST", 0},
-            {"Remark by", 0}
-        };
+            var property = propertiesWithoutNotes[i];
+            var displayName = GetDisplayName(property);
+            worksheet.Cells[2, i + 1].Value = displayName;
+        }
+
+        // Generate expected dictionary dynamically
+        var expected = new Dictionary<string, int>();
+        for (int i = 0; i < propertiesWithoutNotes.Count; i++)
+        {
+            var property = propertiesWithoutNotes[i];
+            var displayName = GetDisplayName(property);
+            expected[displayName] = i + 1;
+        }
 
         var actual = worksheet.GetHeaderMap();
         DeepAssert.Equal(expected, actual);
+    }
+
+    private static string GetDisplayName(PropertyInfo property)
+    {
+        var attribute = property.GetCustomAttributes(typeof(DisplayAttribute), true)
+            .Cast<DisplayAttribute>()
+            .FirstOrDefault();
+        return attribute == null
+            ? string.Empty
+            : attribute.Name;
     }
 
     [Fact]

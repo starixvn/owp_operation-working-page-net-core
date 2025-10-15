@@ -18,27 +18,13 @@ namespace OWP.AssignmentUpload;
 [ApiController]
 [Authorize]
 
-public class AssignmentUploadingApiController : ControllerBase
+public class AssignmentUploadingApiController(
+    IMediator mediator,
+    MessageClient rabbitMqClient,
+    INapSession currentSession,
+    AccessCounter accessCounter)
+    : ControllerBase
 {
-    private readonly IMediator mediator;
-
-    private readonly MessageClient rabbitMqClient;
-
-    private readonly INapSession currentSession;
-
-    private readonly AccessCounter accessCounter;
-
-    public AssignmentUploadingApiController(IMediator mediator,
-        MessageClient rabbitMqClient,
-        INapSession currentSession,
-        AccessCounter accessCounter)
-    {
-        this.mediator = mediator;
-        this.rabbitMqClient = rabbitMqClient;
-        this.currentSession = currentSession;
-        this.accessCounter = accessCounter;
-    }
-
     [HttpPost]
     [Route("validate/{eventDate:datetime}/{isUploadFMAndAIO:bool}")]
     public async Task<IActionResult> Validate(DateTime eventDate, bool isUploadFMAndAIO)

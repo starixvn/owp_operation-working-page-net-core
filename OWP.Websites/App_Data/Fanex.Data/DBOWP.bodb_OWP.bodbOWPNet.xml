@@ -101,6 +101,7 @@
         <Setting Key="OWP_RecommendOdds_GetByMatchId" SpName="OWP_RecommendOdds_GetByMatchId" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_MatchNote_GetByMatchId" SpName="OWP_MatchNote_GetByMatchId" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_LiveDetail_UpdateNoOfHDP" SpName="OWP_LiveDetail_UpdateNoOfHDP" DbName="DBOWP.bodb_OWP.wsv_owp" />
+        <Setting Key="OWP_LiveDetail_UpdateTradingInfo" SpName="OWP_LiveDetail_UpdateTradingInfo" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_LiveDetail_InsertRecommendOdds" SpName="OWP_LiveDetail_InsertRecommendOdds" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_LiveDetail_UpdateRecommendOdds" SpName="OWP_LiveDetail_UpdateRecommendOdds" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_LiveDetail_DeleteRecommendOdds" SpName="OWP_LiveDetail_DeleteRecommendOdds" DbName="DBOWP.bodb_OWP.wsv_owp" />

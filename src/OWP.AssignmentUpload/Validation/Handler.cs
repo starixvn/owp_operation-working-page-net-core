@@ -24,32 +24,13 @@ public class ValidationRequest : IRequest<AssignmentValidationResult>
     public bool IsUploadFMAndAIO { get; set; }
 }
 
-public class Handler : IRequestHandler<ValidationRequest, AssignmentValidationResult>
+public class Handler(
+    Analyzer analyzer,
+    ExcelValidator excelValidator,
+    CacheManipulator cacheManipulator,
+    INapSession currentSession,
+    IWebHostEnvironment hostEnvironment) : IRequestHandler<ValidationRequest, AssignmentValidationResult>
 {
-    private readonly Analyzer analyzer;
-
-    private readonly CacheManipulator cacheManipulator;
-
-    private readonly ExcelValidator excelValidator;
-
-    private readonly INapSession currentSession;
-
-    private readonly IWebHostEnvironment hostEnvironment;
-
-    public Handler(
-        Analyzer analyzer,
-        ExcelValidator excelValidator,
-        CacheManipulator cacheManipulator,
-        INapSession currentSession,
-        IWebHostEnvironment hostEnvironment)
-    {
-        this.analyzer = analyzer;
-        this.cacheManipulator = cacheManipulator;
-        this.excelValidator = excelValidator;
-        this.currentSession = currentSession;
-        this.hostEnvironment = hostEnvironment;
-    }
-
     public async Task<AssignmentValidationResult> Handle(ValidationRequest request, CancellationToken cancellationToken)
     {
         var result = new AssignmentValidationResult

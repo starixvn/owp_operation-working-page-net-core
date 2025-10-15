@@ -149,6 +149,12 @@ public class EventModel
 
     [Column(ColumnName.Web4)]
     public string Website4 { get; set; }
+    
+    [Column(ColumnName.AIOBT)]
+    public string AIOBT { get; set; } 
+    
+    [Column(ColumnName.SOP)]
+    public string SOP { get; set; }
 
     [ExcelIgnore]
     public bool IsSelected => false;

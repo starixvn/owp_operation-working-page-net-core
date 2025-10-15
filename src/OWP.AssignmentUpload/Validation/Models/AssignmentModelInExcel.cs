@@ -288,4 +288,10 @@ public class AssignmentModelInExcel
     [Display(Name = "Spread (x mins)")]
     [Spread]
     public decimal? SpreadXMins { get; set; }
+
+    [Display(Name = "AIO BT")]
+    public string AIOBT { get; set; }
+
+    [Display(Name = "SOP")]
+    public string SOP { get; set; }
 }

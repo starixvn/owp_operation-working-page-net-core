@@ -1,6 +1,7 @@
 ﻿using OWP.Extensions;
 using OWP.Utils;
 using System.Diagnostics.CodeAnalysis;
+using OWP.Event.EventShared.Helper;
 
 namespace OWP.Event.EventShared.Models;
 
@@ -33,7 +34,7 @@ public class MatchInfo : TaskListMatchInfo
 
     public TimeSpan? OtherTime { get; set; }
 
-    public string OtherTimeDisplay => OtherTime?.ToOWPTimeFormat();
+    public string OtherTimeDisplay => OtherTime.HasValue ? ConvertTypeService.ToOWPTimeFormat(OtherTime.Value) : null;
 
     public string Home { get; set; }
 
@@ -61,6 +62,8 @@ public class MatchInfo : TaskListMatchInfo
 
     public string NoOfHDP { get; set; }
 
+    public string NoOfHDPShort => MappingShortName.GetShortName(NoOfHDP);
+
     public int NoOfHDPId { get; set; }
 
     public string Channel { get; set; }
@@ -72,6 +75,12 @@ public class MatchInfo : TaskListMatchInfo
     public string Phone { get; set; }
 
     public string WatchBet { get; set; }
+
+    public string AIOBT { get; set; }
+
+    public string AIOBTShortName  => MappingShortName.GetShortName(AIOBT);
+
+    public string SOP { get; set; }
 
     public string Round { get; set; }
 
@@ -108,7 +117,7 @@ public class MatchInfo : TaskListMatchInfo
 
     public IEnumerable<MatchOffer> MatchOffers { get; set; }
 
-    public string KickOffTimeDisplay => KickOffTime.ToOWPTimeFormat();
+    public string KickOffTimeDisplay => ConvertTypeService.ToOWPTimeFormat(KickOffTime);
 
     public int Rowspan
     {
@@ -181,6 +190,7 @@ public class MatchInfo : TaskListMatchInfo
     public string ReadyDateTimeDisplay => ReadyDateTime.ToString("hh:mm tt MMM dd, yyyy");
 
     public bool IsSaba => League.Contains("SABA", StringComparison.CurrentCultureIgnoreCase);
+
 }
 
 public class TaskListMatchInfo

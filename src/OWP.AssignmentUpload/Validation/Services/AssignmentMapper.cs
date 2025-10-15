@@ -37,16 +37,9 @@ public interface AssignmentMapper
     string GetMatchStatus(string matchStatus);
 }
 
-public class AssignmentMapperImp : AssignmentMapper
+public class AssignmentMapperImp(IMapper mapper) : AssignmentMapper
 {
-    private readonly IMapper mapper;
-
     private static readonly Regex otherTraderRegex = new(@"#[^\s#]+", RegexOptions.IgnoreCase, TimeSpan.FromSeconds(5));
-
-    public AssignmentMapperImp(IMapper mapper)
-    {
-        this.mapper = mapper;
-    }
 
     public List<Trader> Traders { get; set; }
 

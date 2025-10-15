@@ -78,4 +78,8 @@ public class MatchInfo
     public string TeamRound { get; set; }
 
     public bool IsShowAbsenceIcon { get; set; }
+
+    public string AIOBT { get; set; }
+
+    public string SOP { get; set; }
 }

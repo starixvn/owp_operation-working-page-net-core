@@ -11,7 +11,7 @@ public interface ExcelValidator
 
 public class ExcelValidatorImp : ExcelValidator
 {
-    private readonly string[] OptionalColumn = ["Agent for EST", "Remark for EST", "Remark by"];
+    private readonly string[] OptionalColumn = ["Agent for EST", "Remark for EST", "Remark by", "SOP"];
 
     public void Validate(Stream stream)
     {

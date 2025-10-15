@@ -37,7 +37,7 @@ public class DownloadAssignmentController(IEventAssignmentService eventAssignmen
             UploadDateTime = lastUpdated.UploadDateTime,
             PermissionModel = eventAssignmentPermission.BuildPermission()
         };
-        return await DownLoadExport(eventDownLoadModel);
+        return await CreateFile(eventDownLoadModel);
     }
 
     [HttpGet("download-live-game")]
@@ -57,21 +57,19 @@ public class DownloadAssignmentController(IEventAssignmentService eventAssignmen
             OffVRs = offVRs
         };
         await accessCounter.UpdateCounter(AccessCounterConst.LiveGameAssignment_Export);
-        return await DownLoadExport(eventExportModel);
+        return await CreateFile(eventExportModel);
     }
 
-    public async Task<FileResult> DownLoadExport(DownLoadExportModel model)
+    public async Task<FileResult> CreateFile(DownLoadExportModel model)
     {
-        using (var tmpFiles = new TempFileCollection())
+        using var tmpFiles = new TempFileCollection();
+        var file = tmpFiles.AddExtension("xlsx");
+        await using (var fileStream = System.IO.File.Open(file, FileMode.OpenOrCreate))
         {
-            var file = tmpFiles.AddExtension("xlsx");
-            using (var fileStream = System.IO.File.Open(file, FileMode.OpenOrCreate))
-            {
-                await eventAssignmentService.DownloadAssignment(model, fileStream);
-            }
-
-            var fileName = string.Format(CultureInfo.InvariantCulture, "Assignment - {0}.xlsx", model.EventDate.ToString("yyyyMMdd", CultureInfo.InvariantCulture));
-            return File(System.IO.File.Open(file, FileMode.OpenOrCreate), "application/vnd.ms-excel", fileName);
+            await eventAssignmentService.DownloadAssignment(model, fileStream);
         }
+
+        var fileName = string.Format(CultureInfo.InvariantCulture, "Assignment - {0}.xlsx", model.EventDate.ToString("yyyyMMdd", CultureInfo.InvariantCulture));
+        return File(System.IO.File.Open(file, FileMode.OpenOrCreate), "application/vnd.ms-excel", fileName);
     }
 }
