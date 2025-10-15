@@ -42,6 +42,7 @@ public static class ColumnStyle
         {ColumnName.Provider, Color.Black},
         {ColumnName.OtherProvider, Color.Black},
         {ColumnName.Division, Color.Black},
+        {ColumnName.SOP, Color.Black},
         {ColumnName.Remark, Color.Black},
         {ColumnName.StreamingInfoWB, Color.Black},
         {ColumnName.Round, Color.Black},
@@ -80,7 +81,6 @@ public static class ColumnStyle
         {ColumnName.MaxBet_FM, Color.FromArgb(204, 204, 255)},
         {ColumnName.Spread_FM, Color.FromArgb(204, 204, 255)},
         {ColumnName.AIOBT, Color.FromArgb(204, 204, 255)},
-        {ColumnName.SOP, Color.FromArgb(204, 204, 255)},
     }.ToImmutableDictionary();
 
     public static readonly ImmutableDictionary<ColumnName, IndexedColors> FontColorMap = new Dictionary<ColumnName, IndexedColors>
@@ -156,7 +156,7 @@ public static class ColumnStyle
         {ColumnName.MaxBet_FM, IndexedColors.Black},
         {ColumnName.Spread_FM, IndexedColors.Black},
         {ColumnName.AIOBT, IndexedColors.Black},
-        {ColumnName.SOP, IndexedColors.Black}
+        {ColumnName.SOP, IndexedColors.White}
     }.ToImmutableDictionary();
 
     public static Color GetBackgroundColor(ColumnName name) => BackgroundColorMap.GetValueOrDefault(name);
