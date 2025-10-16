@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Fastenshtein;
 using NPOI.SS.Formula.Functions;
 using OWP.EventPicking.Api.Middleware.Models;
 using OWP.EventPicking.Api.Models;
@@ -140,40 +141,55 @@ public class EditEventPickingHandler(
 
     private LeagueSettingInfoSender HandleMappingForMultipleSettings(EventPickingModel match, IList<LeagueSettingInfoSender> leagueSettingByLeagueId, List<Condition> tvList)
     {
-        var leagueIsMappingWithCondition = leagueSettingByLeagueId
-            .Where(league => league.FullConditionDescription is null || CheckMatchValidMappingWithLeagueManagement(match, league, tvList)).ToList();
+        var leagueWithMatches = leagueSettingByLeagueId
+            .Select(league => new
+            {
+                League = league,
+                RoundDistance = league.FullConditionDescription is null 
+                    ? 0 
+                    : CheckMatchValidMappingWithLeagueManagementAndGetDistance(match, league, tvList)
+            })
+            .Where(x => x.RoundDistance.HasValue)
+            .ToList();
 
-        if (leagueIsMappingWithCondition.Count > 1)
+        if (leagueWithMatches.Count == 0)
         {
-            return GetLeagueSettingByPriority(leagueIsMappingWithCondition, match);
+            return null;
+        }
+
+        if (leagueWithMatches.Count > 1)
+        {
+            return GetLeagueSettingByPriority(leagueWithMatches, match);
         }
         else
         {
-            if (leagueIsMappingWithCondition.Count == 1)
-            {
-                SuggestionValue(match, leagueIsMappingWithCondition.First());
-            }
-            return leagueIsMappingWithCondition.LastOrDefault();
+            SuggestionValue(match, leagueWithMatches.First().League);
+            return leagueWithMatches.First().League;
         }
-
     }
 
-    private LeagueSettingInfoSender GetLeagueSettingByPriority(List<LeagueSettingInfoSender> leagueSettings, EventPickingModel match)
+    private LeagueSettingInfoSender GetLeagueSettingByPriority<T>(List<T> leagueSettings, EventPickingModel match) where T : class
     {
-        // Order by priority first, then by ID (descending) to get the last ID
+        // Order by priority, round distance (lowest first), then by ID (descending)
         var orderedLeagues = leagueSettings
-            .OrderBy(league => GetPriority(league.Condition))
-            .ThenByDescending(league => league.LeagueSettingId)
+            .Select(x => new
+            {
+                League = (LeagueSettingInfoSender)x.GetType().GetProperty("League").GetValue(x),
+                RoundDistance = (int?)x.GetType().GetProperty("RoundDistance").GetValue(x)
+            })
+            .OrderBy(x => GetPriority(x.League.Condition))
+            .ThenBy(x => x.RoundDistance ?? int.MaxValue)
+            .ThenByDescending(x => x.League.LeagueSettingId)
             .ToList();
 
         var bestMatch = orderedLeagues.FirstOrDefault();
         
         if (bestMatch != null)
         {
-            SuggestionValue(match, bestMatch);
+            SuggestionValue(match, bestMatch.League);
         }
 
-        return bestMatch;
+        return bestMatch?.League;
     }
 
     private int GetPriority(NewLeagueSettingCondition condition)
@@ -239,11 +255,39 @@ public class EditEventPickingHandler(
         match.IsReferenceLeagueManagement = true;
     }
 
-    private static bool CheckRoundConditions(string matchValues, IList<Condition> conditions)
+    private static int? CheckRoundConditions(string matchValues, IList<Condition> conditions)
     {
-        var isContains = CheckConditionContain(matchValues, conditions);
         var isEquals = CheckConditionEqual(matchValues, conditions);
-        return !conditions.Any() || isContains || isEquals;
+        var isContains = CheckConditionContain(matchValues, conditions);
+        if (isEquals)
+        {
+            return 0;
+        }
+        if(!conditions.Any())
+        {
+            return int.MaxValue;
+        }
+
+        // Use Levenshtein distance to find the most similar round
+        var allConditionValues = conditions
+            .Where(c => !string.IsNullOrEmpty(c.Value))
+            .Select(c => c.Value)
+            .ToList();
+
+        // Calculate Levenshtein distance for each condition value
+        var similarities = allConditionValues
+            .Select(conditionValue => new
+            {
+                Value = conditionValue,
+                Distance = Levenshtein.Distance(matchValues.ToLower(), conditionValue.ToLower())
+            })
+            .OrderBy(x => x.Distance)
+            .ToList();
+
+        // Get the best match (lowest distance)
+        var bestMatch = similarities.First();
+
+        return bestMatch.Distance;
     }
 
     private static bool CheckDivisionConditions(string matchValues, IList<Condition> conditions)
@@ -253,6 +297,7 @@ public class EditEventPickingHandler(
         var isPairWiseContains = CheckConditionPairWiseContain(matchValues, conditions);
         return !conditions.Any() || isContains || isEquals || isPairWiseContains;
     }
+    
     private static bool CheckConditionPairWiseContain(string matchValues, IList<Condition> conditions)
     {
         var containsValues = GetValuePairWiseContains(conditions);
@@ -336,10 +381,24 @@ public class EditEventPickingHandler(
     }
     private bool CheckMatchValidMappingWithLeagueManagement(EventPickingModel match, LeagueSettingInfoSender leagueSetting, List<Condition> tvList)
     {
-        var roundConditions = CheckRoundConditions(match.Round, leagueSetting.Condition.Round);
+        var roundDistance = CheckRoundConditions(match.Round, leagueSetting.Condition.Round);
         var divisionConditions = CheckDivisionConditions(match.Division, leagueSetting.Condition.Division);
         var tvConditions = CheckTVConditions(match, leagueSetting, tvList);
-        return roundConditions && divisionConditions && tvConditions;
+        return roundDistance.HasValue && divisionConditions && tvConditions;
+    }
+
+    private int? CheckMatchValidMappingWithLeagueManagementAndGetDistance(EventPickingModel match, LeagueSettingInfoSender leagueSetting, List<Condition> tvList)
+    {
+        var roundDistance = CheckRoundConditions(match.Round, leagueSetting.Condition.Round);
+        var divisionConditions = CheckDivisionConditions(match.Division, leagueSetting.Condition.Division);
+        var tvConditions = CheckTVConditions(match, leagueSetting, tvList);
+        
+        if (roundDistance.HasValue && divisionConditions && tvConditions)
+        {
+            return roundDistance.Value;
+        }
+        
+        return null;
     }
 
     private static IList<string> GetValuePairWiseContains(IList<Condition> conditions)

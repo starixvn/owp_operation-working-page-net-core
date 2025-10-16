@@ -11,6 +11,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="14.0.0" />
     <PackageReference Include="EPPlus" Version="7.5.3" />
+    <PackageReference Include="Fastenshtein" Version="1.0.11" />
     <PackageReference Include="Olympus.OWP.Log" Version="9.0.1" />
     <PackageReference Include="Epplus.Mapper" Version="7.5.0" />
     <PackageReference Include="Fanex.NAP.Client" Version="2.0.3" />
