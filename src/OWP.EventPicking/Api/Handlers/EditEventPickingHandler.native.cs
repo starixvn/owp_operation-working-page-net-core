@@ -258,7 +258,6 @@ public class EditEventPickingHandler(
     private static int? CheckRoundConditions(string matchValues, IList<Condition> conditions)
     {
         var isEquals = CheckConditionEqual(matchValues, conditions);
-        var isContains = CheckConditionContain(matchValues, conditions);
         if (isEquals)
         {
             return 0;
@@ -267,25 +266,23 @@ public class EditEventPickingHandler(
         {
             return int.MaxValue;
         }
+        var conditionContains = GetConditionContain(matchValues, conditions);
+        if(!conditionContains.Any())
+        {
+            return null;
+        }
 
-        // Use Levenshtein distance to find the most similar round
-        var allConditionValues = conditions
-            .Where(c => !string.IsNullOrEmpty(c.Value))
-            .Select(c => c.Value)
-            .ToList();
-
-        // Calculate Levenshtein distance for each condition value
-        var similarities = allConditionValues
-            .Select(conditionValue => new
+        var allConditionValues = conditionContains
+            .Select(c => new
             {
-                Value = conditionValue,
-                Distance = Levenshtein.Distance(matchValues.ToLower(), conditionValue.ToLower())
+                Value = c.Value,
+                Distance = Levenshtein.Distance(matchValues.ToLower(), c.Value.ToLower())
             })
             .OrderBy(x => x.Distance)
             .ToList();
 
         // Get the best match (lowest distance)
-        var bestMatch = similarities.First();
+        var bestMatch = allConditionValues.First();
 
         return bestMatch.Distance;
     }
@@ -337,20 +334,23 @@ public class EditEventPickingHandler(
             return false;
         }
 
-        return containsValues.Any(conditionValue => 
-            ContainsWholeWord(matchValues, conditionValue));
+        return containsValues.Any(x => matchValues.Contains(x, StringComparison.CurrentCultureIgnoreCase)) && !string.IsNullOrEmpty(matchValues);
     }
 
-    private static bool ContainsWholeWord(string text, string word)
+    private static List<Condition> GetConditionContain(string matchValues, IList<Condition> conditions)
     {
-        if (string.IsNullOrEmpty(text) || string.IsNullOrEmpty(word))
+        if (string.IsNullOrEmpty(matchValues))
         {
-            return false;
+            return new List<Condition>();
         }
 
-        var pattern = $@"\b{Regex.Escape(word)}\b";
-        return Regex.IsMatch(text, pattern, RegexOptions.IgnoreCase);
+        return conditions
+            .Where(c => c.Type == "Contains" && 
+                        !string.IsNullOrEmpty(c.Value) && 
+                        matchValues.Contains(c.Value, StringComparison.CurrentCultureIgnoreCase))
+            .ToList();
     }
+
 
     private static bool CheckConditionEqual(string matchValues, IList<Condition> conditions)
     {
