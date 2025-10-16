@@ -107,13 +107,13 @@ public class MappingRuleSyncMBLeagueFriendlyServiceImp : MappingRuleSyncMBLeague
         {
             var higherMaxbet = Math.Max(homeMaxbet, awayMaxbet);
 
-            // Rule 8: Higher MB > 12K
-            if (higherMaxbet > 12000)
+            // Rule 8: Higher MB >= 12K
+            if (higherMaxbet >= 12000)
             {
                 return (12000, 0.10m, 0.12m);
             }
 
-            // Rule 9: Higher MB <= 12K
+            // Rule 9: Higher MB < 12K
             else
             {
                 return (6000, 0.16m, 0.18m);
