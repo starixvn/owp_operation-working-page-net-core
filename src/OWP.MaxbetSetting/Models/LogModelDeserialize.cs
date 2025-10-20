@@ -41,4 +41,22 @@ public class LogModelDeserialize
     public string SecondAccept_TotalBooking { get; set; }
     [XmlAttribute("secondAccept_Fantasy")]
     public string SecondAccept_Fantasy { get; set; }
+
+    [XmlAttribute("noOfCorner_FT_Spread_HDP")]
+    public string NoOfCorner_FT_Spread_HDP { get; set; }
+
+    [XmlAttribute("noOfCorner_FT_Spread_OU")]
+    public string NoOfCorner_FT_Spread_OU { get; set; }
+
+    [XmlAttribute("nextCorner_FT_Spread_HDP")]
+    public string NextCorner_FT_Spread_HDP { get; set; }
+
+    [XmlAttribute("totalBooking_FT_Spread_HDP")]
+    public string TotalBooking_FT_Spread_HDP { get; set; }
+
+    [XmlAttribute("totalBooking_FT_Spread_OU")]
+    public string TotalBooking_FT_Spread_OU { get; set; }
+
+    [XmlAttribute("nextBooking_FT_Spread_HDP")]
+    public string NextBooking_FT_Spread_HDP { get; set; }
 }

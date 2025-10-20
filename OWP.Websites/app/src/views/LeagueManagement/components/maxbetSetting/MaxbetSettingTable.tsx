@@ -6,7 +6,12 @@ import withFixedColumns from 'react-table-hoc-fixed-columns-ts';
 import Loading from '../../../components/Loading';
 import { REQUEST_STATUS } from '../../../Shared/Constants';
 import { editPopupType, maxbetSettingTable } from './Const.json';
-import { formatMaxbetValue, getGroupColumnId, isColumnKey } from './helper/helper';
+import {
+  formatMaxbetValue,
+  formatSpreadValue,
+  getGroupColumnId,
+  isColumnKey
+} from './helper/helper';
 import useStore, { RootState } from './store/storeNative';
 import { ColumnModel, SubColumnModel } from './typeNative';
 
@@ -42,7 +47,7 @@ const MaxbetSettingTable = () => {
     setOpenLogPopup,
     setOpenEditPopup,
     setPopupType,
-    editModel,
+    editModel
   } = useStore<RootState>(state => state);
 
   useEffect(() => {
@@ -50,7 +55,13 @@ const MaxbetSettingTable = () => {
     getSecondAcceptValues();
   }, []);
 
-  const handleEditPopup = (column: string, columnKey: number, oldValue: number | string, popupType: number) => {
+  const handleEditPopup = (
+    column: string,
+    columnKey: number,
+    oldValue: number | string,
+    popupType: number
+  ) => {
+
     if (!policy.HasWrite) {
       return;
     }
@@ -75,49 +86,68 @@ const MaxbetSettingTable = () => {
     const renderCellValue = () => {
       switch (getGroupColumnId(id)) {
         case lastUpdate.id:
-          return <>
-            <span className='username'>{value}</span>
-            <div onClick={() => handleOpenPopup(maxBetValue)}>
-              <HistoryIcon size={16} />
-            </div>
-          </>;
+          return (
+            <>
+              <span className='username'>{value}</span>
+              <div onClick={() => handleOpenPopup(maxBetValue)}>
+                <HistoryIcon size={16} />
+              </div>
+            </>
+          );
         case secondAcceptValue.id:
-          return <div
-            className='cell-test'
-            style={{ width: '100%', height: '100%' }}
-            onDoubleClick={() => handleEditPopup(id, maxBetValue, value, editPopupType.secondAccept)}>
-            {value}
-          </div>;
-        case 'spread':
-          return value ?
+          return (
             <div
               className='cell-test'
               style={{ width: '100%', height: '100%' }}
-            >
-              {((value as number) * 100).toLocaleString()}%
+              onDoubleClick={() =>
+                handleEditPopup(
+                  id,
+                  maxBetValue,
+                  value,
+                  editPopupType.secondAccept
+                )
+              }>
+              {value}
             </div>
-            : null;
+          );
+        case 'spread':
+          return (
+            <div
+              className='cell-test'
+              style={{ width: '100%', height: '100%' }}
+              onDoubleClick={() =>
+                handleEditPopup(id, maxBetValue, value, editPopupType.spread)
+              }>
+              {formatSpreadValue(value as number)}
+            </div>
+          );
         default:
-          return <div
-            className='cell-test-2'
-            style={{ width: '100%', height: '100%' }}
-            onDoubleClick={() => handleEditPopup(id, maxBetValue, value, editPopupType.maxbet)}>
-            {formatMaxbetValue(value as number)}
-          </div>;
+          return (
+            <div
+              className='cell-test-2'
+              style={{ width: '100%', height: '100%' }}
+              onDoubleClick={() =>
+                handleEditPopup(id, maxBetValue, value, editPopupType.maxbet)
+              }>
+              {formatMaxbetValue(value as number)}
+            </div>
+          );
       }
     };
 
     const handleClick = (e: MouseEvent<HTMLDivElement>) => {
-      const list: HTMLCollectionOf<Element> = document.getElementsByClassName(ACTIVE_CLICK);
+      const list: HTMLCollectionOf<Element> =
+        document.getElementsByClassName(ACTIVE_CLICK);
       for (const element of Array.from(list)) {
         element.className = element.className.replace(ACTIVE_CLICK, '');
       }
       e.currentTarget.className += ACTIVE_CLICK;
     };
 
-    const getActiveClassName = maxBetValue === editModel.fTHDP && id === editModel.column
-      ? ACTIVE_CLICK
-      : '';
+    const getActiveClassName =
+      maxBetValue === editModel.fTHDP && id === editModel.column
+        ? ACTIVE_CLICK
+        : '';
 
     return (
       <div
@@ -170,11 +200,12 @@ const MaxbetSettingTable = () => {
           accessor: `${subCol.id}`,
           width,
           id: `${subCol.id}`,
-          Cell: (cellInfo: CellInfo) => renderValue(
-            cellInfo.original[`${subCol.id}`],
-            subCol.id,
-            cellInfo.row.fT_HDP
-          )
+          Cell: (cellInfo: CellInfo) =>
+            renderValue(
+              cellInfo.original[`${subCol.id}`],
+              subCol.id,
+              cellInfo.row.fT_HDP
+            )
         };
       });
     };
@@ -185,11 +216,8 @@ const MaxbetSettingTable = () => {
         headerClassName: `${column.id}-group-header`,
         accessor: column.name,
         id: column.id,
-        columns: renderSubColumn(
-          column.subColumn,
-          column.subColWidth,
-          column.headerClassName
-        )
+        columns: renderSubColumn(column.subColumn, column.subColWidth,column.headerClassName)
+
       };
     });
   };
@@ -198,7 +226,11 @@ const MaxbetSettingTable = () => {
     const keyFixedCol = renderFixedColumns(key);
     const groupCols = renderGroupColumn();
     const lastUpdatedFixedCol = renderFixedColumns(lastUpdate);
-    return [...keyFixedCol, ...groupCols, ...lastUpdatedFixedCol] as Array<Column>;
+    return [
+      ...keyFixedCol,
+      ...groupCols,
+      ...lastUpdatedFixedCol
+    ] as Array<Column>;
   };
 
   if (isEqual(loading, REQUEST_STATUS.pending)) {

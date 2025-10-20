@@ -19,8 +19,7 @@ const MAXBET = {
 const isSecondAcceptValue = (columnId: string) =>
   columnId.startsWith('secondAccept');
 
-const isSpreadValue = (columnId: string) =>
-  columnId.startsWith('Spread');
+const isSpreadValue = (columnId: string) => columnId.includes('Spread');
 
 const isColumnKey = (columnId: string) =>
   isEqual(columnId, maxbetSettingTable.key.id);
@@ -30,7 +29,7 @@ const getGroupColumnId = (columnId: string) => {
     return secondAcceptValue.id;
   }
 
-  if(isSpreadValue(columnId)){
+  if (isSpreadValue(columnId)) {
     return 'spread';
   }
   return columnId;
@@ -46,6 +45,15 @@ const formatMaxbetValue = (value: number | null) => {
       return 'Follow FT';
     default:
       return `${(value / MAXBET.Thousand).toLocaleString()}K`;
+  }
+};
+
+const formatSpreadValue = (value: number | null) => {
+  switch (value) {
+    case null:
+      return null;
+    default:
+      return `${(value * 100).toLocaleString()}%`;
   }
 };
 
@@ -79,6 +87,7 @@ export {
   isColumnKey,
   getGroupColumnId,
   formatMaxbetValue,
+  formatSpreadValue,
   formatMaxbetValueForLog,
   validateMaxbet,
   covertToNumber,

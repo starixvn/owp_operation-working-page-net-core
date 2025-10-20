@@ -30,4 +30,10 @@ public class MaxBetLogSettingModel
     public string SecondAccept_TotalBooking { get; set; }
     public string SecondAccept_Fantasy { get; set; }
     public string LastUpdatedBy { get; set; }
+    public string NoOfCorner_FT_Spread_HDP { get; set; }
+    public string NoOfCorner_FT_Spread_OU { get; set; }
+    public string NextCorner_FT_Spread_HDP { get; set; }
+    public string TotalBooking_FT_Spread_HDP { get; set; }
+    public string TotalBooking_FT_Spread_OU { get; set; }
+    public string NextBooking_FT_Spread_HDP { get; set; }
 }

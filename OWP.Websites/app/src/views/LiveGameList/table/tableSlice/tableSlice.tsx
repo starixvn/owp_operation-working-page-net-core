@@ -82,7 +82,7 @@ const tableSlice = createSlice({
     filterBySearchKey: (state, action) => {
       const { entitiesOriginal, filterState, isShowUnReadTicketOnly } = state;
       state.filterState = addOrReplaceFilterState(filterState, action.payload);
-      console.log('filterBySearchKey', JSON.parse(JSON.stringify(state.filterState)));
+
       state.entities = filterData(entitiesOriginal)(isShowUnReadTicketOnly)(
         state.filterState
       );
