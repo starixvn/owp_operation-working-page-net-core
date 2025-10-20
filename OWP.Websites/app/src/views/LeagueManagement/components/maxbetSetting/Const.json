@@ -9,12 +9,14 @@
       "name": "",
       "id": "fT_HDP",
       "subColWidth": 60,
+       "headerClassName":"fT_HDP",
       "fixed": "left",
       "subColumn": [{ "name": "FT HDP", "id": "fT_HDP" }]
     },
     "mainMatch": {
       "name": "Main Match",
       "id": "mainMatch",
+        "headerClassName":"mainMatch",
       "subColWidth": 70,
       "subColumn": [
         { "name": "FT OU", "id": "fT_OU" },
@@ -26,6 +28,7 @@
       "name": "No. Of Corners",
       "id": "noOfCorners",
       "subColWidth": 95,
+      "headerClassName":"noOfCorners",
       "subColumn": [
         { "name": "FT HDP", "id": "noOfCorner_FT_HDP" },
         { "name": "FT OU", "id": "noOfCorner_FT_OU" },
@@ -38,6 +41,7 @@
     "nextCorners": {
       "name": "Next Corner",
       "id": "nextCorners",
+      "headerClassName":"nextCorners",
       "subColWidth": 95,
       "subColumn": [
         { "name": "FT HDP", "id": "nextCorner_FT_HDP" },
@@ -47,6 +51,7 @@
     "totalBookings": {
       "name": "Total Bookings",
       "id": "totalBookings",
+      "headerClassName":"totalBookings",
      "subColWidth": 95,
       "subColumn": [
         { "name": "FT HDP", "id": "totalBooking_FT_HDP" },
@@ -54,19 +59,21 @@
         { "name": "1H HDP", "id": "totalBooking_1H_HDP" },
         { "name": "1H OU", "id": "totalBooking_1H_OU" },
          { "name": "Spread FT HDP", "id": "Spread_FT_HDP" },
-        { "name": "Spread FT OU", "id": "Spread_FT_HDP_OU" }
+        { "name": "Spread FT OU", "id": "Spread_FT_OU" }
       ]
     },
     "nextBooking": {
       "name": "Next Booking",
       "id": "nextBooking",
       "subColWidth": 95,
+       "headerClassName":"nextBooking",
       "subColumn": [{ "name": "FT HDP", "id": "nextBooking_FT_HDP" },
      { "name": "Spread FT HDP", "id": "Spread_FT_HDP" }]
     },
     "secondAcceptValue": {
       "name": "Second Accept Value",
       "id": "secondAcceptValue",
+      "headerClassName":"secondAcceptValue",
       "subColWidth": 130,
       "subColumn": [
         { "name": "Main", "id": "secondAccept_Main" },
@@ -78,6 +85,7 @@
     "lastUpdate": {
       "name": "Last Update",
       "id": "lastUpdatedBy",
+       "headerClassName":"lastUpdatedBy",
       "subColWidth": 60,
       "fixed": "right",
       "subColumn": [{ "name": "", "id": "lastUpdatedBy" }]

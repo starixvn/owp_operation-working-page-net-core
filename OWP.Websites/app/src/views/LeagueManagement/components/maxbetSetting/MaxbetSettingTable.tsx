@@ -159,10 +159,14 @@ const MaxbetSettingTable = () => {
   };
 
   const renderGroupColumn = () => {
-    const renderSubColumn = (subColumns: SubColumnModel[], width: number) => {
+    const renderSubColumn = (
+      subColumns: SubColumnModel[],
+      width: number,
+      headerClassName: string) => {
       return subColumns.map(subCol => {
         return {
           Header: subCol.name,
+          headerClassName: `${headerClassName}-header`,
           accessor: `${subCol.id}`,
           width,
           id: `${subCol.id}`,
@@ -183,7 +187,8 @@ const MaxbetSettingTable = () => {
         id: column.id,
         columns: renderSubColumn(
           column.subColumn,
-          column.subColWidth
+          column.subColWidth,
+          column.headerClassName
         )
       };
     });

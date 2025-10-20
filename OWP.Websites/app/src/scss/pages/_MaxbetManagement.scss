@@ -1019,8 +1019,16 @@
       .rt-th {
         border-bottom: 1px solid #c8ced3 !important;
         border-right: 1px solid #c8ced3 !important;
-        background-color: #dfdfdf !important;
-
+        &.fT_HDP-group-header{
+          background-color: #31859c !important;
+        }
+        &.noOfCorners-group-header, &.nextCorners-group-header{
+          background-color: #984807 !important;
+          color: white;
+        }
+        &.totalBookings-group-header, &.nextBooking-group-header{
+          background-color: yellow !important;
+        }
         &.secondAcceptValue-group-header,
         &.lastUpdatedBy-group-header {
           background-color: #f1f1f1 !important;
@@ -1036,13 +1044,20 @@
       .rt-th {
         border-bottom: 1px solid #c8ced3 !important;
         border-right: 1px solid #c8ced3 !important;
-        background-color: #f1f1f1 !important;
-        background-image: linear-gradient(
-          180deg,
-          rgba(0, 0, 0, 0.1),
-          rgba(0, 0, 0, 0)
-        );
         text-align: right;
+        &.fT_HDP-header{
+          background-color: #31859c !important;
+          color: white;
+        }
+        &.noOfCorners-header,
+        &.nextCorners-header{
+          background-color: #984807 !important;
+            color: white;
+        }
+        &.totalBookings-header,
+        &.nextBooking-header{
+          background-color: yellow !important;
+        }
       }
     }
   }
