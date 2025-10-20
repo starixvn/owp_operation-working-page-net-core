@@ -29,7 +29,6 @@ const MaxbetManagement = () => {
     const navbarList = [
         { ...MaxbetConst.leagueInfo },
         { ...MaxbetConst.maxbetInfo },
-        { ...MaxbetConst.SpecialLiveProductInfo },
         { ...MaxbetConst.maxbetSetting }
     ];
 
