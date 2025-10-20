@@ -9,14 +9,8 @@ public interface MaxbetSettingService
     Task<IList<MaxBetSettingModel>> QueryMaxbetSetting();
 };
 
-public class MaxbetSettingServiceImp : MaxbetSettingService
+public class MaxbetSettingServiceImp(IDynamicRepository dynamicRepository) : MaxbetSettingService
 {
-    private readonly IDynamicRepository dynamicRepository;
-
-    public MaxbetSettingServiceImp(IDynamicRepository dynamicRepository)
-    {
-        this.dynamicRepository = dynamicRepository;
-    }
     public async Task<IList<MaxBetSettingModel>> QueryMaxbetSetting()
     {
         var criteria = new QueryMaxbetSettingCriteria();

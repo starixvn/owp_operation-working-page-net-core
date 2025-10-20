@@ -19,12 +19,19 @@ const MAXBET = {
 const isSecondAcceptValue = (columnId: string) =>
   columnId.startsWith('secondAccept');
 
+const isSpreadValue = (columnId: string) =>
+  columnId.startsWith('Spread');
+
 const isColumnKey = (columnId: string) =>
   isEqual(columnId, maxbetSettingTable.key.id);
 
 const getGroupColumnId = (columnId: string) => {
   if (isSecondAcceptValue(columnId)) {
     return secondAcceptValue.id;
+  }
+
+  if(isSpreadValue(columnId)){
+    return 'spread';
   }
   return columnId;
 };

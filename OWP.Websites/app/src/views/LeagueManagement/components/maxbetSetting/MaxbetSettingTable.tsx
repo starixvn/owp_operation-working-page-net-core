@@ -88,6 +88,15 @@ const MaxbetSettingTable = () => {
             onDoubleClick={() => handleEditPopup(id, maxBetValue, value, editPopupType.secondAccept)}>
             {value}
           </div>;
+        case 'spread':
+          return value ?
+            <div
+              className='cell-test'
+              style={{ width: '100%', height: '100%' }}
+            >
+              {((value as number) * 100).toLocaleString()}%
+            </div>
+            : null;
         default:
           return <div
             className='cell-test-2'
