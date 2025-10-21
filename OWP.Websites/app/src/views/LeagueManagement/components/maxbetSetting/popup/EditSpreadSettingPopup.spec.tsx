@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import useStore from '../store/storeNative';
 import { EditModel } from '../typeNative';
 import EditSpreadSettingPopup from './EditSpreadSettingPopup';
@@ -258,7 +258,7 @@ describe('EditSpreadSettingPopup', () => {
       expect(mockClosePopup).toHaveBeenCalled();
     });
 
-    it('should call getMaxbetSettings after 200ms delay when save successfully', async () => {
+    it('should call getMaxbetSettings after 200ms delay when save successfully', () => {
       render(<EditSpreadSettingPopup />);
       const input = screen.getByPlaceholderText('New value');
       const saveButton = screen.getByText('Save');
@@ -269,10 +269,9 @@ describe('EditSpreadSettingPopup', () => {
       expect(mockGetMaxbetSettings).not.toHaveBeenCalled();
 
       // Fast-forward time by 200ms
-      await waitFor(() => {
-        jest.advanceTimersByTime(200);
-        expect(mockGetMaxbetSettings).toHaveBeenCalled();
-      });
+      jest.advanceTimersByTime(200);
+
+      expect(mockGetMaxbetSettings).toHaveBeenCalled();
     });
 
     it('should NOT call getMaxbetSettings when value is unchanged', () => {
@@ -458,10 +457,12 @@ describe('EditSpreadSettingPopup', () => {
         getMaxbetSettings: mockGetMaxbetSettings
       });
 
-      const { container } = render(<EditSpreadSettingPopup />);
-      const modal = container.querySelector('.modal.show');
+      render(<EditSpreadSettingPopup />);
 
-      expect(modal).not.toBeInTheDocument();
+      // When modal is closed, the input should not be visible
+      expect(
+        screen.queryByPlaceholderText('New value')
+      ).not.toBeInTheDocument();
     });
   });
 });
