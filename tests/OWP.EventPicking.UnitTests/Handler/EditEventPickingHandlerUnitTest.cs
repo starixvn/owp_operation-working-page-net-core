@@ -505,7 +505,7 @@ public class EditEventPickingHandlerUnitTest
             LeagueName = "EPL",
             OWPLeagueId = 1,
             EventDateTime = new DateTime(2025, 1, 6, 12, 0, 0, DateTimeKind.Utc),
-            Round = "Round 16", // Should match "Round 15" with Levenshtein distance (distance = 1)
+            Round = "Round 16", // Should match "Round 1" using Contains with Levenshtein distance
             Division = "" // Empty division to avoid null reference
         };
 
@@ -528,7 +528,7 @@ public class EditEventPickingHandlerUnitTest
                     HasIpTv = false,
                     Round = new List<Condition>
                     {
-                        new() { Type = "Equals", Value = "Round 15" } // Similar to "Round 16"
+                        new() { Type = "Contains", Value = "Round 1" } // "Round 16" contains "Round 1"
                     },
                     Division = new List<Condition>()
                 })
@@ -544,7 +544,7 @@ public class EditEventPickingHandlerUnitTest
         // Act
         var result = await handler.Handle(request, CancellationToken.None);
 
-        // Assert - Should match because Levenshtein distance between "Round 16" and "Round 15" is 1 (< threshold 3)
+        // Assert - Should match because "Round 16" contains "Round 1"
         Assert.True(match.IsReferenceLeagueManagement);
         Assert.Equal(22000, match.MaxbetHdp);
     }
@@ -626,7 +626,7 @@ public class EditEventPickingHandlerUnitTest
             LeagueName = "EPL",
             OWPLeagueId = 1,
             EventDateTime = new DateTime(2025, 1, 6, 12, 0, 0, DateTimeKind.Utc),
-            Round = "Round 8", // Should match most similar: "Round 8" > "Round 7" > "Round 12"
+            Round = "Round 12", // Should match "Round 1" using Contains - Levenshtein distance prefers closest match
             Division = "" // Empty division to avoid null reference
         };
 
@@ -649,8 +649,8 @@ public class EditEventPickingHandlerUnitTest
                     HasIpTv = false,
                     Round = new List<Condition>
                     {
-                        new() { Type = "Equals", Value = "Round 12" }, // Distance = 1 (8 -> 12)
-                        new() { Type = "Equals", Value = "Round 7" }   // Distance = 1 (8 -> 7)
+                        new() { Type = "Contains", Value = "Round 1" }, // "Round 12" contains "Round 1"
+                        new() { Type = "Contains", Value = "Round 2" }   // "Round 12" contains "Round 2" but has higher distance
                     },
                     Division = new List<Condition>()
                 })
@@ -666,7 +666,7 @@ public class EditEventPickingHandlerUnitTest
         // Act
         var result = await handler.Handle(request, CancellationToken.None);
 
-        // Assert - Should match with most similar round (distance <= threshold)
+        // Assert - Should match and select the condition with lowest Levenshtein distance
         Assert.True(match.IsReferenceLeagueManagement);
         Assert.Equal(24000, match.MaxbetHdp);
     }
