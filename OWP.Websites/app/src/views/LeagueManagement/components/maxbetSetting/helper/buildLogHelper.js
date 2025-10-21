@@ -1,4 +1,9 @@
-import { formatMaxbetValueForLog, isSecondAcceptValue } from './helper';
+import {
+  formatMaxbetValueForLog,
+  isSecondAcceptValue,
+  formatSpreadValue,
+  isSpreadValue
+} from './helper';
 import { isEmpty } from 'lodash';
 const detectLogChanged = (item, secondAccepts) => {
   const logChanged = [];
@@ -30,11 +35,15 @@ const buildTextForSecondAccept = (key, value, secondAccepts) => {
     if (isEmpty(value)) {
       return 'None';
     }
-    const items = secondAccepts.filter(x => x.value === Number(value));
-    return items ? items[0].label : '';
-  } else {
-    return formatMaxbetValueForLog(value);
+    const matchedItem = secondAccepts.find(x => x.value === Number(value));
+    return matchedItem?.label ?? '';
   }
+
+  if (isSpreadValue(key)) {
+    return formatSpreadValue(value);
+  }
+
+  return formatMaxbetValueForLog(value);
 };
 
 const buildNameOfProductSetting = key => {
@@ -56,7 +65,13 @@ const buildNameOfProductSetting = key => {
     'totalBooking_1H_HDP': 'Maxbet - Total Bookings - 1H HDP',
     'totalBooking_1H_OU': 'Maxbet - Total Bookings - 1H OU',
     'totalBooking_FT_HDP': 'Maxbet - Total Bookings - FT HDP',
-    'totalBooking_FT_OU': 'Maxbet - Total Bookings - FT OU'
+    'totalBooking_FT_OU': 'Maxbet - Total Bookings - FT OU',
+    'noOfCorner_FT_Spread_HDP': 'Spread - No. Of Corners - FT HDP',
+    'noOfCorner_FT_Spread_OU': 'Spread - No. Of Corners - FT OU',
+    'nextCorner_FT_Spread_HDP': 'Spread - Next Corner - FT HDP',
+    'totalBooking_FT_Spread_HDP': 'Spread - Total Bookings - FT HDP',
+    'totalBooking_FT_Spread_OU': 'Spread - Total Bookings - FT OU',
+    'nextBooking_FT_Spread_HDP': 'Spread - Next Booking - FT HDP'
   };
   return product[key];
 };

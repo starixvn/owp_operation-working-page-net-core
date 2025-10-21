@@ -92,5 +92,6 @@ export {
   validateMaxbet,
   covertToNumber,
   buildURL,
-  buildMatchOfferURL
+  buildMatchOfferURL,
+  isSpreadValue
 };
