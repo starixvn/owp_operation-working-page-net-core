@@ -22,7 +22,7 @@ const isSecondAcceptValue = (columnId: string) =>
 const isSpreadValue = (columnId: string) => columnId.includes('Spread');
 
 const isColumnKey = (columnId: string) =>
-  isEqual(columnId, maxbetSettingTable.key.id);
+  isEqual(columnId, maxbetSettingTable.fullTimeMaxbetRefer.id);
 
 const getGroupColumnId = (columnId: string) => {
   if (isSecondAcceptValue(columnId)) {

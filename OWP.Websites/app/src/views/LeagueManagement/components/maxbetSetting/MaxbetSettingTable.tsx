@@ -1,23 +1,17 @@
 import { isEqual } from 'lodash';
-import { HistoryIcon } from 'mdi-react';
-import { MouseEvent, useEffect } from 'react';
+import { useEffect } from 'react';
 import ReactTable, { CellInfo, Column } from 'react-table';
 import withFixedColumns from 'react-table-hoc-fixed-columns-ts';
 import Loading from '../../../components/Loading';
 import { REQUEST_STATUS } from '../../../Shared/Constants';
-import { editPopupType, maxbetSettingTable } from './Const.json';
-import {
-  formatMaxbetValue,
-  formatSpreadValue,
-  getGroupColumnId,
-  isColumnKey
-} from './helper/helper';
+import { maxbetSettingTable } from './Const.json';
 import useStore, { RootState } from './store/storeNative';
 import { ColumnModel, SubColumnModel } from './typeNative';
+import Cell from './Cell';
 
 const ReactTableFixedColumns = withFixedColumns(ReactTable);
 const {
-  key,
+  fullTimeMaxbetRefer,
   mainMatch,
   noOfCorners,
   nextCorners,
@@ -40,124 +34,13 @@ const MaxbetSettingTable = () => {
     getMaxbetSettings,
     getSecondAcceptValues,
     maxbetSettings,
-    loading,
-    policy,
-    setEditModel,
-    setLogData,
-    setOpenLogPopup,
-    setOpenEditPopup,
-    setPopupType,
-    editModel
+    loading
   } = useStore<RootState>(state => state);
 
   useEffect(() => {
     getMaxbetSettings();
     getSecondAcceptValues();
   }, []);
-
-  const handleEditPopup = (
-    column: string,
-    columnKey: number,
-    oldValue: number | string,
-    popupType: number
-  ) => {
-
-    if (!policy.HasWrite) {
-      return;
-    }
-    if (!isColumnKey(column)) {
-      setEditModel({ column, fTHDP: columnKey, oldValue });
-      setPopupType(popupType);
-      setOpenEditPopup();
-    }
-  };
-
-  const handleOpenPopup = (maxBetValue: number) => {
-    setLogData(maxBetValue);
-    setOpenLogPopup();
-  };
-
-  const renderValue = (
-    value: number | string,
-    id: string,
-    maxBetValue: number
-  ) => {
-    const ACTIVE_CLICK = ' activeClick';
-    const renderCellValue = () => {
-      switch (getGroupColumnId(id)) {
-        case lastUpdate.id:
-          return (
-            <>
-              <span className='username'>{value}</span>
-              <div onClick={() => handleOpenPopup(maxBetValue)}>
-                <HistoryIcon size={16} />
-              </div>
-            </>
-          );
-        case secondAcceptValue.id:
-          return (
-            <div
-              className='cell-test'
-              style={{ width: '100%', height: '100%' }}
-              onDoubleClick={() =>
-                handleEditPopup(
-                  id,
-                  maxBetValue,
-                  value,
-                  editPopupType.secondAccept
-                )
-              }>
-              {value}
-            </div>
-          );
-        case 'spread':
-          return (
-            <div
-              className='cell-test'
-              style={{ width: '100%', height: '100%' }}
-              onDoubleClick={() =>
-                handleEditPopup(id, maxBetValue, value, editPopupType.spread)
-              }>
-              {formatSpreadValue(value as number)}
-            </div>
-          );
-        default:
-          return (
-            <div
-              className='cell-test-2'
-              style={{ width: '100%', height: '100%' }}
-              onDoubleClick={() =>
-                handleEditPopup(id, maxBetValue, value, editPopupType.maxbet)
-              }>
-              {formatMaxbetValue(value as number)}
-            </div>
-          );
-      }
-    };
-
-    const handleClick = (e: MouseEvent<HTMLDivElement>) => {
-      const list: HTMLCollectionOf<Element> =
-        document.getElementsByClassName(ACTIVE_CLICK);
-      for (const element of Array.from(list)) {
-        element.className = element.className.replace(ACTIVE_CLICK, '');
-      }
-      e.currentTarget.className += ACTIVE_CLICK;
-    };
-
-    const getActiveClassName =
-      maxBetValue === editModel.fTHDP && id === editModel.column
-        ? ACTIVE_CLICK
-        : '';
-
-    return (
-      <div
-        className={`${id} cell${getActiveClassName}`}
-        onClick={handleClick}
-        style={{ userSelect: 'none' }}>
-        {renderCellValue()}
-      </div>
-    );
-  };
 
   const renderFixedColumns = (column: ColumnModel) => {
     const renderFixedColumn = (subCol: SubColumnModel) => {
@@ -167,12 +50,11 @@ const MaxbetSettingTable = () => {
         id: `${subCol.id}`,
         accessor: `${subCol.id}`,
         className: `${subCol.id}-value`,
-        Cell: (cellInfo: CellInfo) =>
-          renderValue(
-            cellInfo.original[subCol.id],
-            subCol.id,
-            cellInfo.row.fT_HDP
-          )
+        Cell: (cellInfo: CellInfo) => <Cell
+          value={cellInfo.original[subCol.id]}
+          id={subCol.id}
+          maxBetValue={cellInfo.row.fT_HDP}
+        />
       };
     };
 
@@ -200,12 +82,10 @@ const MaxbetSettingTable = () => {
           accessor: `${subCol.id}`,
           width,
           id: `${subCol.id}`,
-          Cell: (cellInfo: CellInfo) =>
-            renderValue(
-              cellInfo.original[`${subCol.id}`],
-              subCol.id,
-              cellInfo.row.fT_HDP
-            )
+          Cell: (cellInfo: CellInfo) => <Cell
+            value={cellInfo.original[`${subCol.id}`]}
+            id={subCol.id}
+            maxBetValue={cellInfo.row.fT_HDP} />
         };
       });
     };
@@ -216,18 +96,17 @@ const MaxbetSettingTable = () => {
         headerClassName: `${column.id}-group-header`,
         accessor: column.name,
         id: column.id,
-        columns: renderSubColumn(column.subColumn, column.subColWidth,column.headerClassName)
-
+        columns: renderSubColumn(column.subColumn, column.subColWidth, column.headerClassName)
       };
     });
   };
 
   const renderColumn = () => {
-    const keyFixedCol = renderFixedColumns(key);
+    const fullTimeMaxbetReferCol = renderFixedColumns(fullTimeMaxbetRefer);
     const groupCols = renderGroupColumn();
     const lastUpdatedFixedCol = renderFixedColumns(lastUpdate);
     return [
-      ...keyFixedCol,
+      ...fullTimeMaxbetReferCol,
       ...groupCols,
       ...lastUpdatedFixedCol
     ] as Array<Column>;

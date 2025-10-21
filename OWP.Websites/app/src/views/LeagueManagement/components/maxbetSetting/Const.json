@@ -5,7 +5,7 @@
   "matchOfferParam": "?refName=MatchOffer",
   "getLog": "get-log",
   "maxbetSettingTable": {
-    "key": {
+    "fullTimeMaxbetRefer": {
       "name": "",
       "id": "fT_HDP",
       "subColWidth": 60,
@@ -65,6 +65,7 @@
     "nextBooking": {
       "name": "Next Booking",
       "id": "nextBooking",
+       "headerClassName":"nextBooking",
       "subColWidth": 95,
       "subColumn": [
         { "name": "FT HDP", "id": "nextBooking_FT_HDP" },
