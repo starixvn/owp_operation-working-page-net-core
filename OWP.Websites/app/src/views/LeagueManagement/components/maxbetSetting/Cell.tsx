@@ -4,7 +4,7 @@ import {
   formatMaxbetValue,
   formatSpreadValue,
   getGroupColumnId,
-  isColumnKey
+  isFullTimeMaxbetReferColumn
 } from './helper/helper';
 import { editPopupType, maxbetSettingTable } from './Const.json';
 import useStore, { RootState } from './store/storeNative';
@@ -49,8 +49,8 @@ const Cell = (props: TCellProps) => {
     if (!policy.HasWrite) {
       return;
     }
-    debugger
-    if (!isColumnKey(column)) {
+
+    if (!isFullTimeMaxbetReferColumn(column)) {
       setEditModel({ column, fTHDP: columnKey, oldValue });
       setPopupType(popupType);
       setOpenEditPopup();
@@ -58,6 +58,18 @@ const Cell = (props: TCellProps) => {
   };
 
   const renderCellValue = () => {
+    const renderCell = (cellProps: {
+      onEditPopup: () => void;
+      value: number | string | null;
+    }) => {
+      return <div
+        className='cell-test'
+        style={{ width: '100%', height: '100%' }}
+        onDoubleClick={cellProps.onEditPopup}>
+        {cellProps.value}
+      </div>;
+    };
+
     switch (getGroupColumnId(id)) {
       case lastUpdate.id:
         return (
@@ -69,43 +81,23 @@ const Cell = (props: TCellProps) => {
           </>
         );
       case secondAcceptValue.id:
-        return (
-          <div
-            className='cell-test'
-            style={{ width: '100%', height: '100%' }}
-            onDoubleClick={() =>
-              handleEditPopup(
-                id,
-                maxBetValue,
-                value,
-                editPopupType.secondAccept
-              )
-            }>
-            {value}
-          </div>
-        );
+        return renderCell({
+          onEditPopup: () =>
+            handleEditPopup(id, maxBetValue, value, editPopupType.secondAccept),
+          value
+        });
       case 'spread':
-        return (
-          <div
-            className='cell-test'
-            style={{ width: '100%', height: '100%' }}
-            onDoubleClick={() =>
-              handleEditPopup(id, maxBetValue, value, editPopupType.spread)
-            }>
-            {formatSpreadValue(value as number)}
-          </div>
-        );
+        return renderCell({
+          onEditPopup: () =>
+            handleEditPopup(id, maxBetValue, value, editPopupType.spread),
+          value: formatSpreadValue(value as number)
+        });
       default:
-        return (
-          <div
-            className='cell-test-2'
-            style={{ width: '100%', height: '100%' }}
-            onDoubleClick={() =>
-              handleEditPopup(id, maxBetValue, value, editPopupType.maxbet)
-            }>
-            {formatMaxbetValue(value as number)}
-          </div>
-        );
+        return renderCell({
+          onEditPopup: () =>
+            handleEditPopup(id, maxBetValue, value, editPopupType.maxbet),
+          value: formatMaxbetValue(value as number)
+        });
     }
   };
 
