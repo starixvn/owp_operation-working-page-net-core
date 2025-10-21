@@ -1,4 +1,5 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import React from 'react';
+import { fireEvent, render, screen, act } from '@testing-library/react';
 import useStore from '../store/storeNative';
 import { EditModel } from '../typeNative';
 import EditSpreadSettingPopup from './EditSpreadSettingPopup';
@@ -21,7 +22,7 @@ describe('EditSpreadSettingPopup', () => {
 
     useStore.setState({
       editModel: {
-        fT_HDP: 500000,
+        fTHDP: 500000,
         oldValue: 0.5,
         column: 'noOfCorner_FT_Spread_HDP'
       } as EditModel,
@@ -120,19 +121,23 @@ describe('EditSpreadSettingPopup', () => {
       expect(mockUpdateMaxbetSetting).not.toHaveBeenCalled();
     });
 
-    it('should show error when input is empty', () => {
+    it('should clear value when input is empty', () => {
       render(<EditSpreadSettingPopup />);
       const saveButton = screen.getByText('Save');
 
       fireEvent.click(saveButton);
 
-      expect(ToastrWrapper.showError).toHaveBeenCalledWith(
-        'Please input the correct value'
-      );
-      expect(mockUpdateMaxbetSetting).not.toHaveBeenCalled();
+      // Empty input is treated as null, which is valid and clears the value
+      expect(mockUpdateMaxbetSetting).toHaveBeenCalledWith({
+        fTHDP: 500000,
+        oldValue: 0.5,
+        column: 'noOfCorner_FT_Spread_HDP',
+        value: null
+      });
+      expect(ToastrWrapper.showError).not.toHaveBeenCalled();
     });
 
-    it('should show error when input is null', () => {
+    it('should clear value when input is set to empty string', () => {
       render(<EditSpreadSettingPopup />);
       const input = screen.getByPlaceholderText('New value');
       const saveButton = screen.getByText('Save');
@@ -140,10 +145,14 @@ describe('EditSpreadSettingPopup', () => {
       fireEvent.change(input, { target: { value: '' } });
       fireEvent.click(saveButton);
 
-      expect(ToastrWrapper.showError).toHaveBeenCalledWith(
-        'Please input the correct value'
-      );
-      expect(mockUpdateMaxbetSetting).not.toHaveBeenCalled();
+      // Empty string is treated as null, which is valid and clears the value
+      expect(mockUpdateMaxbetSetting).toHaveBeenCalledWith({
+        fTHDP: 500000,
+        oldValue: 0.5,
+        column: 'noOfCorner_FT_Spread_HDP',
+        value: null
+      });
+      expect(ToastrWrapper.showError).not.toHaveBeenCalled();
     });
 
     it('should show error when input is negative number', () => {
@@ -169,7 +178,7 @@ describe('EditSpreadSettingPopup', () => {
       fireEvent.click(saveButton);
 
       expect(mockUpdateMaxbetSetting).toHaveBeenCalledWith({
-        fT_HDP: 500000,
+        fTHDP: 500000,
         oldValue: 0.5,
         column: 'noOfCorner_FT_Spread_HDP',
         value: 0.01
@@ -186,7 +195,7 @@ describe('EditSpreadSettingPopup', () => {
       fireEvent.click(saveButton);
 
       expect(mockUpdateMaxbetSetting).toHaveBeenCalledWith({
-        fT_HDP: 500000,
+        fTHDP: 500000,
         oldValue: 0.5,
         column: 'noOfCorner_FT_Spread_HDP',
         value: 1
@@ -205,7 +214,7 @@ describe('EditSpreadSettingPopup', () => {
       fireEvent.click(saveButton);
 
       expect(mockUpdateMaxbetSetting).toHaveBeenCalledWith({
-        fT_HDP: 500000,
+        fTHDP: 500000,
         oldValue: 0.5,
         column: 'noOfCorner_FT_Spread_HDP',
         value: 0.75
@@ -238,7 +247,7 @@ describe('EditSpreadSettingPopup', () => {
       fireEvent.click(saveButton);
 
       expect(mockUpdateMaxbetSetting).toHaveBeenCalledWith({
-        fT_HDP: 500000,
+        fTHDP: 500000,
         oldValue: 0.5,
         column: 'noOfCorner_FT_Spread_HDP',
         value: 0.505
@@ -269,7 +278,9 @@ describe('EditSpreadSettingPopup', () => {
       expect(mockGetMaxbetSettings).not.toHaveBeenCalled();
 
       // Fast-forward time by 200ms
-      jest.advanceTimersByTime(200);
+      act(() => {
+        jest.advanceTimersByTime(200);
+      });
 
       expect(mockGetMaxbetSettings).toHaveBeenCalled();
     });
@@ -282,7 +293,9 @@ describe('EditSpreadSettingPopup', () => {
       fireEvent.change(input, { target: { value: '50' } });
       fireEvent.click(saveButton);
 
-      jest.advanceTimersByTime(200);
+      act(() => {
+        jest.advanceTimersByTime(200);
+      });
 
       expect(mockGetMaxbetSettings).not.toHaveBeenCalled();
     });
@@ -308,7 +321,7 @@ describe('EditSpreadSettingPopup', () => {
       fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
 
       expect(mockUpdateMaxbetSetting).toHaveBeenCalledWith({
-        fT_HDP: 500000,
+        fTHDP: 500000,
         oldValue: 0.5,
         column: 'noOfCorner_FT_Spread_HDP',
         value: 0.75
@@ -416,7 +429,7 @@ describe('EditSpreadSettingPopup', () => {
   describe('Store Integration', () => {
     it('should read editModel from store correctly', () => {
       const customEditModel = {
-        fT_HDP: 123456,
+        fTHDP: 123456,
         oldValue: 0.25,
         column: 'test_column'
       } as EditModel;
@@ -437,7 +450,7 @@ describe('EditSpreadSettingPopup', () => {
       fireEvent.click(saveButton);
 
       expect(mockUpdateMaxbetSetting).toHaveBeenCalledWith({
-        fT_HDP: 123456,
+        fTHDP: 123456,
         oldValue: 0.25,
         column: 'test_column',
         value: 0.3
@@ -447,7 +460,7 @@ describe('EditSpreadSettingPopup', () => {
     it('should respect isOpenEditPopup state', () => {
       useStore.setState({
         editModel: {
-          fT_HDP: 500000,
+          fTHDP: 500000,
           oldValue: 0.5,
           column: 'noOfCorner_FT_Spread_HDP'
         } as EditModel,
