@@ -487,4 +487,187 @@ public class EditEventPickingHandlerUnitTest
         await repository.Received(1).GetTVList();
         mapper.Received(1).Execute(Arg.Any<IList<EventPickingModel>>(), Arg.Any<IList<main_league_info>>());
     }
+
+    [Fact]
+    public async Task Handle_RoundCondition_ShouldMatchUsingSimilarityLevenshtein()
+    {
+        // Arrange
+        var service = Substitute.For<QueryEventPickingService>();
+        var repository = Substitute.For<OWP.EventPicking.Repository>();
+        var pullMainLeagueService = Substitute.For<PullMainLeagueService>();
+        var mapper = Substitute.For<MapMainLeagueForEventService>();
+        var mbBuilder = Substitute.For<BuildMBForClubFriendlyMajorLeagueBuilder>();
+        var mappingRuleSyncMBLeagueFriendlyService = Substitute.For<MappingRuleSyncMBLeagueFriendlyService>();
+        var handler = CreateHandler(service, repository, pullMainLeagueService, mapper, mbBuilder, mappingRuleSyncMBLeagueFriendlyService);
+
+        var match = new EventPickingModel
+        {
+            LeagueName = "EPL",
+            OWPLeagueId = 1,
+            EventDateTime = new DateTime(2025, 1, 6, 12, 0, 0, DateTimeKind.Utc),
+            Round = "Round 16", // Should match "Round 15" with Levenshtein distance (distance = 1)
+            Division = "" // Empty division to avoid null reference
+        };
+
+        service.Execute(Arg.Any<EventPickingRequest>(), Arg.Any<IList<short>>())
+            .Returns(BuildServiceResult(match));
+
+        repository.QueryLeagueSetting().Returns(new List<LeagueSettingInfoSender>
+        {
+            new()
+            {
+                OWPLeagueId = 1,
+                MaxbetWD_HDP_Value = 22000,
+                Spread_HDP_Value = 0.11m,
+                Spread_OU_Value = 0.13m,
+                WD_NoOfHDP_Value = "4 lines",
+                League = "EPL",
+                FullConditionDescription = JsonConvert.SerializeObject(new NewLeagueSettingCondition
+                {
+                    HasTv = false,
+                    HasIpTv = false,
+                    Round = new List<Condition>
+                    {
+                        new() { Type = "Equals", Value = "Round 15" } // Similar to "Round 16"
+                    },
+                    Division = new List<Condition>()
+                })
+            }
+        });
+
+        repository.GetTVList().Returns(new List<Condition>());
+        pullMainLeagueService.GetMainLeague(Arg.Any<List<EventPickingModel>>(), Arg.Any<CancellationToken>())
+            .Returns(new List<main_league_info>());
+
+        var request = new EditEventPickingRequest { Date = match.EventDateTime };
+
+        // Act
+        var result = await handler.Handle(request, CancellationToken.None);
+
+        // Assert - Should match because Levenshtein distance between "Round 16" and "Round 15" is 1 (< threshold 3)
+        Assert.True(match.IsReferenceLeagueManagement);
+        Assert.Equal(22000, match.MaxbetHdp);
+    }
+
+    [Fact]
+    public async Task Handle_RoundCondition_ShouldNotMatchWithLargeDifference()
+    {
+        // Arrange
+        var service = Substitute.For<QueryEventPickingService>();
+        var repository = Substitute.For<OWP.EventPicking.Repository>();
+        var pullMainLeagueService = Substitute.For<PullMainLeagueService>();
+        var mapper = Substitute.For<MapMainLeagueForEventService>();
+        var mbBuilder = Substitute.For<BuildMBForClubFriendlyMajorLeagueBuilder>();
+        var mappingRuleSyncMBLeagueFriendlyService = Substitute.For<MappingRuleSyncMBLeagueFriendlyService>();
+        var handler = CreateHandler(service, repository, pullMainLeagueService, mapper, mbBuilder, mappingRuleSyncMBLeagueFriendlyService);
+
+        var match = new EventPickingModel
+        {
+            LeagueName = "EPL",
+            OWPLeagueId = 1,
+            EventDateTime = new DateTime(2025, 1, 6, 12, 0, 0, DateTimeKind.Utc),
+            Round = "Quarter Final", // Should NOT match "Round 1" (completely different format, distance > threshold)
+            Division = "" // Empty division to avoid null reference
+        };
+
+        service.Execute(Arg.Any<EventPickingRequest>(), Arg.Any<IList<short>>())
+            .Returns(BuildServiceResult(match));
+
+        repository.QueryLeagueSetting().Returns(new List<LeagueSettingInfoSender>
+        {
+            new()
+            {
+                OWPLeagueId = 1,
+                MaxbetWD_HDP_Value = 20000,
+                Spread_HDP_Value = 0.10m,
+                Spread_OU_Value = 0.12m,
+                WD_NoOfHDP_Value = "3 lines",
+                League = "EPL",
+                FullConditionDescription = JsonConvert.SerializeObject(new NewLeagueSettingCondition
+                {
+                    HasTv = false,
+                    HasIpTv = false,
+                    Round = new List<Condition>
+                    {
+                        new() { Type = "Equals", Value = "Round 1" } // Very different from "Quarter Final"
+                    },
+                    Division = new List<Condition>()
+                })
+            }
+        });
+
+        repository.GetTVList().Returns(new List<Condition>());
+        pullMainLeagueService.GetMainLeague(Arg.Any<List<EventPickingModel>>(), Arg.Any<CancellationToken>())
+            .Returns(new List<main_league_info>());
+
+        var request = new EditEventPickingRequest { Date = match.EventDateTime };
+
+        // Act
+        var result = await handler.Handle(request, CancellationToken.None);
+
+        // Assert - Should NOT match because Levenshtein distance is > threshold
+        Assert.False(match.IsReferenceLeagueManagement);
+    }
+
+    [Fact]
+    public async Task Handle_RoundCondition_ShouldSelectMostSimilarRound()
+    {
+        // Arrange
+        var service = Substitute.For<QueryEventPickingService>();
+        var repository = Substitute.For<OWP.EventPicking.Repository>();
+        var pullMainLeagueService = Substitute.For<PullMainLeagueService>();
+        var mapper = Substitute.For<MapMainLeagueForEventService>();
+        var mbBuilder = Substitute.For<BuildMBForClubFriendlyMajorLeagueBuilder>();
+        var mappingRuleSyncMBLeagueFriendlyService = Substitute.For<MappingRuleSyncMBLeagueFriendlyService>();
+        var handler = CreateHandler(service, repository, pullMainLeagueService, mapper, mbBuilder, mappingRuleSyncMBLeagueFriendlyService);
+
+        var match = new EventPickingModel
+        {
+            LeagueName = "EPL",
+            OWPLeagueId = 1,
+            EventDateTime = new DateTime(2025, 1, 6, 12, 0, 0, DateTimeKind.Utc),
+            Round = "Round 8", // Should match most similar: "Round 8" > "Round 7" > "Round 12"
+            Division = "" // Empty division to avoid null reference
+        };
+
+        service.Execute(Arg.Any<EventPickingRequest>(), Arg.Any<IList<short>>())
+            .Returns(BuildServiceResult(match));
+
+        repository.QueryLeagueSetting().Returns(new List<LeagueSettingInfoSender>
+        {
+            new()
+            {
+                OWPLeagueId = 1,
+                MaxbetWD_HDP_Value = 24000,
+                Spread_HDP_Value = 0.12m,
+                Spread_OU_Value = 0.14m,
+                WD_NoOfHDP_Value = "5 lines",
+                League = "EPL",
+                FullConditionDescription = JsonConvert.SerializeObject(new NewLeagueSettingCondition
+                {
+                    HasTv = false,
+                    HasIpTv = false,
+                    Round = new List<Condition>
+                    {
+                        new() { Type = "Equals", Value = "Round 12" }, // Distance = 1 (8 -> 12)
+                        new() { Type = "Equals", Value = "Round 7" }   // Distance = 1 (8 -> 7)
+                    },
+                    Division = new List<Condition>()
+                })
+            }
+        });
+
+        repository.GetTVList().Returns(new List<Condition>());
+        pullMainLeagueService.GetMainLeague(Arg.Any<List<EventPickingModel>>(), Arg.Any<CancellationToken>())
+            .Returns(new List<main_league_info>());
+
+        var request = new EditEventPickingRequest { Date = match.EventDateTime };
+
+        // Act
+        var result = await handler.Handle(request, CancellationToken.None);
+
+        // Assert - Should match with most similar round (distance <= threshold)
+        Assert.True(match.IsReferenceLeagueManagement);
+        Assert.Equal(24000, match.MaxbetHdp);
+    }
 }
