@@ -16,6 +16,12 @@ const MAXBET = {
   Thousand: 1000
 };
 
+const SPREAD = {
+  Min: 1,
+  Max: 100,
+  Percentage: 100
+};
+
 const isSecondAcceptValue = (columnId: string) =>
   columnId.startsWith('secondAccept');
 
@@ -75,6 +81,9 @@ const validateMaxbet = (value: number | null) =>
   (value >= MAXBET.Min && value <= MAXBET.Max) ||
   value === -1;
 
+const validateSpread = (value: number | null) =>
+  value === null || (value >= SPREAD.Min && value <= SPREAD.Max);
+
 const buildURL = (urlName: string) => `${netCoreURLMaxbetSetting}/${urlName}`;
 
 const buildMatchOfferURL = () =>
@@ -88,6 +97,7 @@ export {
   formatSpreadValue,
   formatMaxbetValueForLog,
   validateMaxbet,
+  validateSpread,
   covertToNumber,
   buildURL,
   buildMatchOfferURL,

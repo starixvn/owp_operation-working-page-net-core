@@ -3,7 +3,7 @@ import { useRef, KeyboardEvent } from 'react';
 import { Input, Modal, ModalBody, ModalHeader } from 'reactstrap';
 import ToastrWrapper from '../../../../components/ToastrWrapper';
 import useStore, { RootState } from '../store/storeNative';
-
+import { validateSpread } from '../helper/helper';
 const EditSpreadSettingPopup = () => {
   const {
     editModel,
@@ -19,10 +19,10 @@ const EditSpreadSettingPopup = () => {
     const value = inputRef?.current?.value;
     const inputValue = value ? Number(value) : null;
     const DELAY_TIME = 200;
-    if (inputValue === null || inputValue < 1 || inputValue > 100) {
+    if (!validateSpread(inputValue)) {
       ToastrWrapper.showError('Please input the correct value');
     } else {
-      const formattedNumber = inputValue / 100;
+      const formattedNumber = inputValue ? inputValue / 100 : null;
       if (!isEqual(editModel.oldValue, formattedNumber)) {
         updateMaxbetSetting({ ...editModel, value: formattedNumber });
         setTimeout(() => {
