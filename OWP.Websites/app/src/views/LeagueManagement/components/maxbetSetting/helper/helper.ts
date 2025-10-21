@@ -48,13 +48,11 @@ const formatMaxbetValue = (value: number | null) => {
   }
 };
 
-const formatSpreadValue = (value: number | null) => {
-  switch (value) {
-    case null:
-      return null;
-    default:
-      return `${(value * 100).toLocaleString()}%`;
+const formatSpreadValue = (value: number | string | null): string | null => {
+  if (value === null || value === '') {
+    return null;
   }
+  return `${(Number(value) * 100).toLocaleString()}%`;
 };
 
 const formatMaxbetValueForLog = (value: string) => {
