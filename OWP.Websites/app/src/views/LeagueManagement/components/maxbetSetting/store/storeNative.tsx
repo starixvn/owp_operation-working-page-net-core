@@ -6,7 +6,8 @@ import {
   functionKey,
   getLog,
   query,
-  update
+  update,
+  maxbetSettingTable
 } from '../Const.json';
 import { buildMatchOfferURL, buildURL } from '../helper/helper';
 import {
@@ -29,6 +30,10 @@ const useStore = create<MaxbetSettingState>((set, _) => ({
   isOpenEditPopup: false,
   popupType: null,
   policy: {} as Policy,
+  orderInfo: {
+    columnId: maxbetSettingTable.fullTimeMaxbetRefer.id,
+    orderType: 'NONE'
+  },
   maxbetSettings: [] as MaxBetSettingModel[],
   secondAcceptValues: [] as SelectOption[],
   getMaxbetSettings: async () => {
@@ -75,7 +80,13 @@ const useStore = create<MaxbetSettingState>((set, _) => ({
     set({ maxBetValue });
   },
   setOpenLogPopup: () => set({ isOpenLogPopup: true }),
-  setCloseLogPopup: () => set({ isOpenLogPopup: false })
+  setCloseLogPopup: () => set({ isOpenLogPopup: false }),
+  sortMaxbetSettings: async (columnId: string, orderType: 'ORDER_DESC' | 'ORDER_ASC') => {
+    set({ orderInfo: { columnId, orderType } });
+    set(state => ({
+      maxbetSettings: [...state.maxbetSettings].sort((a, b) => orderType === 'ORDER_ASC' ? b.fT_HDP - a.fT_HDP : a.fT_HDP - b.fT_HDP)
+    }));
+  }
 }));
 
 export type RootState = ReturnType<typeof useStore.getState>;

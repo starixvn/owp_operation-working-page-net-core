@@ -15,7 +15,8 @@ const MaxbetSettingTable = () => {
     getMaxbetSettings,
     getSecondAcceptValues,
     maxbetSettings,
-    loading
+    loading,
+    orderInfo
   } = useStore<RootState>(state => state);
 
   useEffect(() => {
@@ -34,7 +35,7 @@ const MaxbetSettingTable = () => {
           <ReactTableFixedColumns
             data={maxbetSettings}
             noDataText='There is no data.'
-            columns={renderColumn()}
+            columns={renderColumn(orderInfo)}
             resizable={false}
             sortable={false}
             filterable={false}

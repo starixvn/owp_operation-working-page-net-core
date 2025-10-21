@@ -2,8 +2,8 @@ import { maxbetSettingTable } from './Const.json';
 import { CellInfo, Column } from 'react-table';
 import { ColumnModel, SubColumnModel } from './typeNative';
 import Cell from './Cell';
-import { Component } from 'react';
-import OrderHeader from '../../../Shared/common/CustomTable/TableFactory/OrderHeader';
+import OrderHeader from '../../../Shared/common/CustomTable/commonCell/OrderCell/OrderableCell';
+import store from './store/storeNative';
 
 const {
   fullTimeMaxbetRefer,
@@ -25,19 +25,13 @@ const groupColumns = [
   secondAcceptValue
 ];
 
-const sortFunc = (columnKey: string, orderType: string) => {
-  console.log(columnKey, orderType);
-};
-
-const renderColumn = () => {
+const renderColumn = (orderInfo: { columnId: string, orderType: 'ORDER_DESC' | 'ORDER_ASC' }) => {
   const fullTimeMaxbetReferCol = renderFixedColumns(fullTimeMaxbetRefer,
-    <div>
-      {fullTimeMaxbetRefer.subColumn[0].name}
+    <div className='fullTimeMaxbetRefer-header'>
       <OrderHeader
-        headerName={fullTimeMaxbetRefer.name}
-        columnKey={fullTimeMaxbetRefer.id}
-        sortState={{ columnKey: fullTimeMaxbetRefer.id, orderType: 'asc' }}
-        sortFunc={sortFunc}
+        headerName={fullTimeMaxbetRefer.subColumn[0].name}
+        orderType={orderInfo.orderType}
+        onOrder={orderType => store.getState().sortMaxbetSettings(fullTimeMaxbetRefer.id, orderType)}
       /></div>);
   const groupCols = renderGroupColumn();
   const lastUpdatedFixedCol = renderFixedColumns(lastUpdate, lastUpdate.name);

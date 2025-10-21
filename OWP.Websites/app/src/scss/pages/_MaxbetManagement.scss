@@ -1044,10 +1044,54 @@
       .rt-th {
         border-bottom: 1px solid #c8ced3 !important;
         border-right: 1px solid #c8ced3 !important;
-        text-align: right;
         &.fT_HDP-header{
           background-color: #31859c !important;
           color: white;
+          .sort-icon {
+                position: absolute;
+                  right: 12px;
+                  width: 12px;
+                  height: 12px;
+                  cursor: pointer;
+                  top: 0px;
+          
+              &.ORDER_DESC {
+                &:before {
+                  border-color: transparent transparent #4b595c transparent;
+                }
+              }
+          
+              &.ORDER_ASC {
+                &:after {
+                  border-color: #4b595c transparent transparent transparent;
+                }
+              }
+          
+              &:before {
+                content: '';
+                content: "";
+                width: 0px;
+                height: 3px;
+                border-style: solid;
+                top: 17px;
+                left: 6px;
+                border-color: transparent transparent #93a9aa transparent;
+                border-width: 0 3px 5px 3px;
+                position: absolute;
+              }
+          
+              &:after {
+                content: '';
+                width: 0;
+                height: 0;
+                border-style: solid;
+                left: 6px;
+                top: 10px;
+                border-color: #93a9aa transparent transparent transparent;
+                border-width: 5px 3px 0 3px;
+                position: absolute;
+              }
+            }
         }
         &.noOfCorners-header,
         &.nextCorners-header{
