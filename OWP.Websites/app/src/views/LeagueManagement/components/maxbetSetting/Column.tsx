@@ -2,6 +2,8 @@ import { maxbetSettingTable } from './Const.json';
 import { CellInfo, Column } from 'react-table';
 import { ColumnModel, SubColumnModel } from './typeNative';
 import Cell from './Cell';
+import { Component } from 'react';
+import OrderHeader from '../../../Shared/common/CustomTable/TableFactory/OrderHeader';
 
 const {
   fullTimeMaxbetRefer,
@@ -23,10 +25,22 @@ const groupColumns = [
   secondAcceptValue
 ];
 
+const sortFunc = (columnKey: string, orderType: string) => {
+  console.log(columnKey, orderType);
+};
+
 const renderColumn = () => {
-  const fullTimeMaxbetReferCol = renderFixedColumns(fullTimeMaxbetRefer);
+  const fullTimeMaxbetReferCol = renderFixedColumns(fullTimeMaxbetRefer,
+    <div>
+      {fullTimeMaxbetRefer.subColumn[0].name}
+      <OrderHeader
+        headerName={fullTimeMaxbetRefer.name}
+        columnKey={fullTimeMaxbetRefer.id}
+        sortState={{ columnKey: fullTimeMaxbetRefer.id, orderType: 'asc' }}
+        sortFunc={sortFunc}
+      /></div>);
   const groupCols = renderGroupColumn();
-  const lastUpdatedFixedCol = renderFixedColumns(lastUpdate);
+  const lastUpdatedFixedCol = renderFixedColumns(lastUpdate, lastUpdate.name);
   return [
     ...fullTimeMaxbetReferCol,
     ...groupCols,
@@ -65,22 +79,8 @@ const renderGroupColumn = () => {
   });
 };
 
-const renderFixedColumns = (column: ColumnModel) => {
-  const renderFixedColumn = (subCol: SubColumnModel) => {
-    return {
-      Header: <div>{subCol.name}</div>,
-      headerClassName: `${subCol.id}-header`,
-      id: `${subCol.id}`,
-      accessor: `${subCol.id}`,
-      className: `${subCol.id}-value`,
-      Cell: (cellInfo: CellInfo) => <Cell
-        value={cellInfo.original[subCol.id]}
-        id={subCol.id}
-        maxBetValue={cellInfo.row.fT_HDP}
-      />
-    };
-  };
-
+const renderFixedColumns = (column: ColumnModel, header: React.ReactElement | string) => {
+  const subCol = column.subColumn[0];
   return [
     {
       Header: column.name,
@@ -88,7 +88,20 @@ const renderFixedColumns = (column: ColumnModel) => {
       headerClassName: `${column.id}-group-header`,
       fixed: column.fixed,
       id: column.id,
-      columns: [renderFixedColumn(column.subColumn[0])]
+      columns: [
+        {
+          Header: header,
+          headerClassName: `${subCol.id}-header`,
+          id: `${subCol.id}`,
+          accessor: `${subCol.id}`,
+          className: `${subCol.id}-value`,
+          Cell: (cellInfo: CellInfo) => <Cell
+            value={cellInfo.original[subCol.id]}
+            id={subCol.id}
+            maxBetValue={cellInfo.row.fT_HDP}
+          />
+        }
+      ]
     }
   ];
 };
