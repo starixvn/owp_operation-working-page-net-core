@@ -46,9 +46,9 @@ public class BuildMainAndChildMatchesImp: BuildMainAndChildMatches
     {
         var mainMatches = await repository.QueryMainMatch(date);
         var childMatches = await repository.QueryChildMatch(date);
-        var maxBet = await GetMaxBetDefaultSetting();
+        var maxBet = await buildChildMatchMaxBet.GetMaxBetDefaultSetting();
 
-        buildChildMatchMaxBet.Build(mainMatches, childMatches, maxBet);
+        buildChildMatchMaxBet.BuildExport(mainMatches, childMatches, maxBet);
         buildMatchOffer.Build(mainMatches, childMatches, maxBet);
         var filteredMainMatches = MainMatchHelper.Filter(mainMatches, appSettings.ShowTestMatchEventPicking);
         var allMatches = SpecialProductHelper.CombineMainAndChildMatchAndAddMatchNo(filteredMainMatches, childMatches);
@@ -61,7 +61,7 @@ public class BuildMainAndChildMatchesImp: BuildMainAndChildMatches
     public async Task<List<EventPickingModel>> GetMainEvent(DateTime date)
     {
         var mainMatches = repository.QueryMainMatch(date);
-        var maxBet = GetMaxBetDefaultSetting();
+        var maxBet = buildChildMatchMaxBet.GetMaxBetDefaultSetting();
         var rAndDInfo = repository.GetRAndDUpdateInfo(date);
         var (movedEventDateMatches, movedEventDateMatchesRnD) = await repository.QueryMovedEventDateMatch(date);
         await Task.WhenAll(mainMatches, maxBet, rAndDInfo);
@@ -95,11 +95,5 @@ public class BuildMainAndChildMatchesImp: BuildMainAndChildMatches
         await buildProvider.Build(generatedChildMatch);
 
         return generatedChildMatch;
-    }
-
-    private async Task<Dictionary<decimal, MaxBetSettingModel>> GetMaxBetDefaultSetting()
-    {
-        var maxBet = await maxbetSettingService.QueryMaxbetSetting();
-        return maxBet.ToDictionary(x => x.FT_HDP);
     }
 }

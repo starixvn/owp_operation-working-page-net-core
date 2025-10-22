@@ -1,4 +1,6 @@
+using NSubstitute;
 using OWP.Models;
+using OWP.Services;
 using Xunit;
 
 namespace OWP.EventPicking.UnitTests.Services;
@@ -13,7 +15,8 @@ public class BuildChildMatchMaxBetUnitTests
 
     public BuildChildMatchMaxBetUnitTests()
     {
-        services = new BuildChildMatchMaxBetImp();
+        var maxbetSettingService = Substitute.For<MaxbetSettingService>();
+        services = new BuildChildMatchMaxBetImp(maxbetSettingService);
     }
 
     [Fact]
@@ -34,7 +37,7 @@ public class BuildChildMatchMaxBetUnitTests
             { -1000, new() { FT_HDP = -1000, NextCorner_FT_HDP = 200, NextBooking_FT_HDP = 333 }}
         };
 
-        services.Build(mainMatches, childMatches, maxbetSettings);
+        services.BuildExport(mainMatches, childMatches, maxbetSettings);
 
         DeepAssert.Equal(MockExpectedMatches().First().MaxBetHDP, childMatches.First().MaxBetHDP);
     }

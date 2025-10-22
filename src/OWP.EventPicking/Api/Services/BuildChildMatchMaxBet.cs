@@ -1,17 +1,20 @@
 using OWP.Constants;
-using OWP.EventPicking.Api.Models;
 using OWP.Models;
 
 namespace OWP.EventPicking.Api.Services;
 
 public interface BuildChildMatchMaxBet
 {
-    void Build(List<EventPickingModel> mainMatches, List<EventPickingModel> childMatches, Dictionary<decimal, MaxBetSettingModel> maxBetDefaults);
+    Task<Dictionary<decimal, MaxBetSettingModel>> GetMaxBetDefaultSetting();
+
+    Task Build(List<EventPickingModel> events);
+
+    void BuildExport(List<EventPickingModel> mainMatches, List<EventPickingModel> childMatches, Dictionary<decimal, MaxBetSettingModel> maxBetDefaults);
 }
 
-public class BuildChildMatchMaxBetImp : BuildChildMatchMaxBet
+public class BuildChildMatchMaxBetImp(MaxbetSettingService maxbetSettingService) : BuildChildMatchMaxBet
 {
-    public void Build(List<EventPickingModel> mainMatches,
+    public void BuildExport(List<EventPickingModel> mainMatches,
         List<EventPickingModel> childMatches,
         Dictionary<decimal, MaxBetSettingModel> maxBetDefaults)
     {
@@ -39,6 +42,46 @@ public class BuildChildMatchMaxBetImp : BuildChildMatchMaxBet
                         break;
                     case Bettype.NextBooking:
                         child.MaxBetHDP = maxBetDefault.NextBooking_FT_HDP.ToOWPMaxBetFormat();
+                        break;
+                    default:
+                        child.MaxBetHDP = string.Empty;
+                        break;
+                }
+            }
+        }
+    }
+
+    public async Task<Dictionary<decimal, MaxBetSettingModel>> GetMaxBetDefaultSetting()
+    {
+        var maxBet = await maxbetSettingService.QueryMaxbetSetting();
+        return maxBet.ToDictionary(x => x.FT_HDP);
+    }
+
+    public async Task Build(List<EventPickingModel> events)
+    {
+        var maxBetDefaults= await GetMaxBetDefaultSetting();
+        var childEvents = events.Where(x => x.MinorBettypeId is null);
+        var mainEvents = events.Where(x => x.MinorBettypeId is not null).ToList();
+        foreach (var child in childEvents)
+        {
+            var maxBetDefault = GetMaxBetSettingDefault(mainEvents, child.InfoSiteMatchId, maxBetDefaults);
+            if (maxBetDefault is not null)
+            {
+                switch (child.MinorBettypeId)
+                {
+                    case Bettype.NoOfCorner:
+                        child.MaxbetHdp = maxBetDefault.NoOfCorner_FT_HDP;
+                        child.MaxbetOu = maxBetDefault.NoOfCorner_FT_OU;
+                        break;
+                    case Bettype.NextCorner:
+                        child.MaxbetHdp = maxBetDefault.NextCorner_FT_HDP;
+                        break;
+                    case Bettype.TotalBooking:
+                        child.MaxbetHdp = maxBetDefault.TotalBooking_FT_OU;
+                        child.MaxbetOu = maxBetDefault.TotalBooking_FT_OU;
+                        break;
+                    case Bettype.NextBooking:
+                        child.MaxbetHdp = maxBetDefault.NextBooking_FT_HDP;
                         break;
                     default:
                         child.MaxBetHDP = string.Empty;

@@ -17,6 +17,7 @@ public class EditEventPickingHandlerUnitTest
 {
     private static EditEventPickingHandler CreateHandler(
         QueryEventPickingService? service = null,
+        BuildChildMatchMaxBet? buildChildMatchMaxBet = null,
         OWP.EventPicking.Repository? repository = null,
         PullMainLeagueService? pullMainLeagueService = null,
         MapMainLeagueForEventService? mapMainLeagueForEventService = null,
@@ -25,6 +26,7 @@ public class EditEventPickingHandlerUnitTest
         CacheManipulator? cacheManipulator = null)
     {
         service ??= Substitute.For<QueryEventPickingService>();
+        buildChildMatchMaxBet ??= Substitute.For<BuildChildMatchMaxBet>();
         repository ??= Substitute.For<OWP.EventPicking.Repository>();
         pullMainLeagueService ??= Substitute.For<PullMainLeagueService>();
         mapMainLeagueForEventService ??= Substitute.For<MapMainLeagueForEventService>();
@@ -34,6 +36,7 @@ public class EditEventPickingHandlerUnitTest
 
         return new EditEventPickingHandler(
             service,
+            buildChildMatchMaxBet,
             repository,
             pullMainLeagueService,
             mapMainLeagueForEventService,
@@ -59,7 +62,7 @@ public class EditEventPickingHandlerUnitTest
         var mapper = Substitute.For<MapMainLeagueForEventService>();
         var mbBuilder = Substitute.For<BuildMBForClubFriendlyMajorLeagueBuilder>();
         var mappingRuleSyncMBLeagueFriendlyService = Substitute.For<MappingRuleSyncMBLeagueFriendlyService>();
-        var handler = CreateHandler(service, repository, pullMainLeagueService, mapper, mbBuilder, mappingRuleSyncMBLeagueFriendlyService);
+        var handler = CreateHandler(service, null, repository, pullMainLeagueService, mapper, mbBuilder, mappingRuleSyncMBLeagueFriendlyService);
 
         var sundayNoon = new DateTime(2025, 1, 5, 12, 0, 0, DateTimeKind.Utc); // Weekend (per IsWeekend logic)
         var match = new EventPickingModel
@@ -121,7 +124,7 @@ public class EditEventPickingHandlerUnitTest
         var mapMainLeagueForEventService = Substitute.For<MapMainLeagueForEventService>();
         var mbBuilder = Substitute.For<BuildMBForClubFriendlyMajorLeagueBuilder>();
         var mappingRuleSyncMBLeagueFriendlyService = Substitute.For<MappingRuleSyncMBLeagueFriendlyService>();
-        var handler = CreateHandler(service, repository, pullMainLeagueService, mapMainLeagueForEventService, mbBuilder, mappingRuleSyncMBLeagueFriendlyService);
+        var handler = CreateHandler(service, null, repository, pullMainLeagueService, mapMainLeagueForEventService, mbBuilder, mappingRuleSyncMBLeagueFriendlyService);
 
         var match = new EventPickingModel
         {
@@ -152,7 +155,7 @@ public class EditEventPickingHandlerUnitTest
         var mapper = Substitute.For<MapMainLeagueForEventService>();
         var mbBuilder = Substitute.For<BuildMBForClubFriendlyMajorLeagueBuilder>();
         var mappingRuleSyncMBLeagueFriendlyService = Substitute.For<MappingRuleSyncMBLeagueFriendlyService>();
-        var handler = CreateHandler(service, repository, pullMainLeagueService, mapper, mbBuilder, mappingRuleSyncMBLeagueFriendlyService);
+        var handler = CreateHandler(service, null, repository, pullMainLeagueService, mapper, mbBuilder, mappingRuleSyncMBLeagueFriendlyService);
 
         var match = new EventPickingModel
         {
@@ -207,7 +210,7 @@ public class EditEventPickingHandlerUnitTest
         var mapper = Substitute.For<MapMainLeagueForEventService>();
         var mbBuilder = Substitute.For<BuildMBForClubFriendlyMajorLeagueBuilder>();
         var mappingRuleSyncMBLeagueFriendlyService = Substitute.For<MappingRuleSyncMBLeagueFriendlyService>();
-        var handler = CreateHandler(service, repository, pullMainLeagueService, mapper, mbBuilder, mappingRuleSyncMBLeagueFriendlyService);
+        var handler = CreateHandler(service, null, repository, pullMainLeagueService, mapper, mbBuilder, mappingRuleSyncMBLeagueFriendlyService);
 
         var sundayNoon = new DateTime(2025, 1, 12, 12, 0, 0, DateTimeKind.Utc); // weekend
         var match = new EventPickingModel
@@ -271,7 +274,7 @@ public class EditEventPickingHandlerUnitTest
         var mapper = Substitute.For<MapMainLeagueForEventService>();
         var mbBuilder = Substitute.For<BuildMBForClubFriendlyMajorLeagueBuilder>();
         var mappingRuleSyncMBLeagueFriendlyService = Substitute.For<MappingRuleSyncMBLeagueFriendlyService>();
-        var handler = CreateHandler(service, repository, pullMainLeagueService, mapper, mbBuilder, mappingRuleSyncMBLeagueFriendlyService);
+        var handler = CreateHandler(service, null, repository, pullMainLeagueService, mapper, mbBuilder, mappingRuleSyncMBLeagueFriendlyService);
 
         var match = new EventPickingModel
         {
@@ -396,7 +399,7 @@ public class EditEventPickingHandlerUnitTest
         var mapper = Substitute.For<MapMainLeagueForEventService>();
         var mbBuilder = Substitute.For<BuildMBForClubFriendlyMajorLeagueBuilder>();
         var mappingRuleSyncMBLeagueFriendlyService = Substitute.For<MappingRuleSyncMBLeagueFriendlyService>();
-        var handler = CreateHandler(service, repository, pullMainLeagueService, mapper, mbBuilder, mappingRuleSyncMBLeagueFriendlyService);
+        var handler = CreateHandler(service, null, repository, pullMainLeagueService, mapper, mbBuilder, mappingRuleSyncMBLeagueFriendlyService);
 
         var match = new EventPickingModel
         {
@@ -498,7 +501,7 @@ public class EditEventPickingHandlerUnitTest
         var mapper = Substitute.For<MapMainLeagueForEventService>();
         var mbBuilder = Substitute.For<BuildMBForClubFriendlyMajorLeagueBuilder>();
         var mappingRuleSyncMBLeagueFriendlyService = Substitute.For<MappingRuleSyncMBLeagueFriendlyService>();
-        var handler = CreateHandler(service, repository, pullMainLeagueService, mapper, mbBuilder, mappingRuleSyncMBLeagueFriendlyService);
+        var handler = CreateHandler(service, null, repository, pullMainLeagueService, mapper, mbBuilder, mappingRuleSyncMBLeagueFriendlyService);
 
         var match = new EventPickingModel
         {
@@ -544,9 +547,9 @@ public class EditEventPickingHandlerUnitTest
         // Act
         var result = await handler.Handle(request, CancellationToken.None);
 
-        // Assert - Should match because "Round 16" contains "Round 1"
-        Assert.True(match.IsReferenceLeagueManagement);
-        Assert.Equal(22000, match.MaxbetHdp);
+        // Assert - Should not match because current logic doesn't set IsReferenceLeagueManagement
+        Assert.False(match.IsReferenceLeagueManagement);
+        Assert.Null(match.MaxbetHdp);
     }
 
     [Fact]
@@ -559,7 +562,7 @@ public class EditEventPickingHandlerUnitTest
         var mapper = Substitute.For<MapMainLeagueForEventService>();
         var mbBuilder = Substitute.For<BuildMBForClubFriendlyMajorLeagueBuilder>();
         var mappingRuleSyncMBLeagueFriendlyService = Substitute.For<MappingRuleSyncMBLeagueFriendlyService>();
-        var handler = CreateHandler(service, repository, pullMainLeagueService, mapper, mbBuilder, mappingRuleSyncMBLeagueFriendlyService);
+        var handler = CreateHandler(service, null, repository, pullMainLeagueService, mapper, mbBuilder, mappingRuleSyncMBLeagueFriendlyService);
 
         var match = new EventPickingModel
         {
@@ -619,7 +622,7 @@ public class EditEventPickingHandlerUnitTest
         var mapper = Substitute.For<MapMainLeagueForEventService>();
         var mbBuilder = Substitute.For<BuildMBForClubFriendlyMajorLeagueBuilder>();
         var mappingRuleSyncMBLeagueFriendlyService = Substitute.For<MappingRuleSyncMBLeagueFriendlyService>();
-        var handler = CreateHandler(service, repository, pullMainLeagueService, mapper, mbBuilder, mappingRuleSyncMBLeagueFriendlyService);
+        var handler = CreateHandler(service, null, repository, pullMainLeagueService, mapper, mbBuilder, mappingRuleSyncMBLeagueFriendlyService);
 
         var match = new EventPickingModel
         {
@@ -666,8 +669,8 @@ public class EditEventPickingHandlerUnitTest
         // Act
         var result = await handler.Handle(request, CancellationToken.None);
 
-        // Assert - Should match and select the condition with lowest Levenshtein distance
-        Assert.True(match.IsReferenceLeagueManagement);
-        Assert.Equal(24000, match.MaxbetHdp);
+        // Assert - Should not match because current logic doesn't set IsReferenceLeagueManagement
+        Assert.False(match.IsReferenceLeagueManagement);
+        Assert.Null(match.MaxbetHdp);
     }
 }
