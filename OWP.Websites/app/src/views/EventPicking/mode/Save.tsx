@@ -2,9 +2,7 @@ import Spinner from '../../components/Spinner';
 import { useAppDispatch } from '../app/hooks';
 import store from '../app/store';
 import { getEventPickings } from '../table/eventPickingTableSlice/eventSliceThunkNative';
-import {
-  updateMainEventsThunk
-} from './updateEventThunkNative';
+import { updateMainEventsThunk } from './updateEventThunkNative';
 
 const Save = ({ onSetMode }: { onSetMode: () => void }) => {
   const dispatch = useAppDispatch();
@@ -16,24 +14,30 @@ const Save = ({ onSetMode }: { onSetMode: () => void }) => {
     const eventModified = entities.filter(
       e => e.isModified || e.isReferenceLeagueManagement
     );
-    const mainEvents = eventModified
-      .filter(e => !e.isChildMatch)
-      .map(e => ({
-        InfoSiteMatchId: e.infoSiteMatchId,
-        SpreadHdp: e.spreadHdp || null,
-        SpreadOu: e.spreadOu || null,
-        NoOfHDP: e.noOfHDP || null,
-        MaxbetHdp: e.maxbetHdp || null,
-        LstNote: e.lstNote || null,
-        Remark2LeagueManagement: e.remark2LeagueManagement || null
-      }));
 
+    const mainEvents = eventModified.map(e => ({
+      InfoSiteMatchId: e.infoSiteMatchId,
+      SpreadHdp: e.spreadHdp || null,
+      SpreadOu: e.spreadOu || null,
+      NoOfHDP: e.noOfHDP || null,
+      MaxbetHdp: e.maxbetHdp || null,
+      MaxbetOu: e.maxbetOu || null,
+      LstNote: e.lstNote || null,
+      Remark2LeagueManagement: e.remark2LeagueManagement || null,
+      IsChildMatch: e.isChildMatch,
+      MinorBettypeId: e.minorBettypeId || null
+    }));
 
     await Promise.allSettled([
-      dispatch(updateMainEventsThunk({Events: mainEvents, EventDate: param.date as string}))
+      dispatch(
+        updateMainEventsThunk({
+          Events: mainEvents,
+          EventDate: param.date as string
+        })
+      )
     ]);
     Spinner.hide();
-   
+
     await dispatch(getEventPickings(param));
     onSetMode();
   };

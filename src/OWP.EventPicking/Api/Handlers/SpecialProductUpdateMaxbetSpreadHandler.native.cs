@@ -53,7 +53,8 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
 
         foreach (var requestEvent in requestEvents)
         {
-            var cachedEvent = cachedMBSpreads.FirstOrDefault(c => c.InfoSiteMatchId == requestEvent.InfoSiteMatchId);
+            var cachedEvent = cachedMBSpreads.FirstOrDefault(c => c.InfoSiteMatchId == requestEvent.InfoSiteMatchId 
+                                                                  && c.MinorBettypeId == requestEvent.MinorBettypeId);
 
             if (cachedEvent == null)
             {
@@ -62,7 +63,8 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
 
             CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "SpreadHDP", formatSpread(requestEvent.SpreadHdp), formatSpread(cachedEvent.SpreadHdp));
             CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "SpreadOU", formatSpread(requestEvent.SpreadOu), formatSpread(cachedEvent.SpreadOu));
-            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "MB", formatMaxbet(requestEvent.MaxbetHdp), formatMaxbet(cachedEvent.MaxbetHdp));
+            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "MB HDP", formatMaxbet(requestEvent.MaxbetHdp), formatMaxbet(cachedEvent.MaxbetHdp));
+            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "MB OU", formatMaxbet(requestEvent.MaxbetOu), formatMaxbet(cachedEvent.MaxbetOU));
             CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "No.HDP", requestEvent.NoOfHDP, cachedEvent.NoOfHDP);
         }
         

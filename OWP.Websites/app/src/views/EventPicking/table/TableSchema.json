@@ -49,7 +49,6 @@
     {
       "headerName": "MB OU",
       "size": 5,
-      "isFilterMultiple": true,
       "columnKey": "maxbetOu"
     },
     {

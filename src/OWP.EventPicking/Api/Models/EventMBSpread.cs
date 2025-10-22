@@ -9,8 +9,13 @@ public class EventMBSpread
 
     public decimal? MaxbetHdp { get; set; }
 
+    public decimal? MaxbetOU { get; set; }
+
     public string? NoOfHDP { get; set; }
 
     public bool IsReferenceLeagueManagement { get; set; }
 
+    public bool IsChildMatch { get; set; }
+
+    public int MinorBettypeId { get; set; }
 }

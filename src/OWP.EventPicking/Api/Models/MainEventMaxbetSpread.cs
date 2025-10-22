@@ -30,4 +30,7 @@ public class MainEventMaxbetSpread
     public string LstNote { get; set; }
 
     public string Remark2LeagueManagement { get; set; }
+
+    public bool IsChildMatch { get; set; }
+    public int MinorBettypeId { get; set; }
 }
