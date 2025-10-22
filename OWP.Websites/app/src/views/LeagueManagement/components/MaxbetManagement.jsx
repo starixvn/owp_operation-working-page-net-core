@@ -13,6 +13,7 @@ import MaxbetDetail from './maxbet/maxbetdetail/MaxbetDetail';
 import MaxbetSettingTab from './maxbetSetting/MaxbetSettingTab';
 import SpecialProduct from './SpecialProduct';
 import LeagueInfoManagement from './leagueInfo/LeagueInfoManagement';
+import useStore from './maxbetSetting/store/storeNative';
 
 const MaxbetManagement = () => {
     const dispatch = useDispatch();
@@ -21,15 +22,17 @@ const MaxbetManagement = () => {
     const model = useSelector(selectPolicy);
     const stableDispatch = useCallback(dispatch, [dispatch]);
     const history = useHistory();
+    const { policy, queryPolicy: queryMaxbetSettingPolicy } = useStore(state => state);
 
     useEffect(() => {
         stableDispatch(queryPolicy());
+        queryMaxbetSettingPolicy();
     }, [stableDispatch]);
 
     const navbarList = [
         { ...MaxbetConst.leagueInfo },
         { ...MaxbetConst.maxbetInfo },
-        { ...MaxbetConst.maxbetSetting }
+        ...(policy.HasRead === true ? [{ ...MaxbetConst.maxbetSetting }] : [])
     ];
 
     const handleNavigation = id => {

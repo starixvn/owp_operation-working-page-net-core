@@ -9,17 +9,13 @@ import {
 import { editPopupType, maxbetSettingTable } from './Const.json';
 import useStore, { RootState } from './store/storeNative';
 
-
 type TCellProps = {
-  value: number | string,
-  id: string,
-  maxBetValue: number
+  value: number | string;
+  id: string;
+  maxBetValue: number;
 };
 
-const {
-  secondAcceptValue,
-  lastUpdate
-} = maxbetSettingTable;
+const { secondAcceptValue, lastUpdate } = maxbetSettingTable;
 
 const Cell = (props: TCellProps) => {
   const { value, id, maxBetValue } = props;
@@ -45,7 +41,6 @@ const Cell = (props: TCellProps) => {
     oldValue: number | string,
     popupType: number
   ) => {
-
     if (!policy.HasWrite) {
       return;
     }
@@ -62,12 +57,14 @@ const Cell = (props: TCellProps) => {
       onEditPopup: () => void;
       value: number | string | null;
     }) => {
-      return <div
-        className='cell-test'
-        style={{ width: '100%', height: '100%' }}
-        onDoubleClick={cellProps.onEditPopup}>
-        {cellProps.value}
-      </div>;
+      return (
+        <div
+          className='cell-test'
+          style={{ width: '100%', height: '100%' }}
+          onDoubleClick={cellProps.onEditPopup}>
+          {cellProps.value}
+        </div>
+      );
     };
 
     switch (getGroupColumnId(id)) {
