@@ -6,6 +6,12 @@ const checkLeague = (arraySource, keyWordFormat) =>
       item.noHDP?.toLowerCase().includes(keyWordFormat)
   );
 
+const checkMatchNo = (arraySource, keyWordFormat) =>
+  arraySource.filter(
+    item =>
+      item.matchNo?.toLowerCase().includes(keyWordFormat)
+  );
+
 const checkMatch = (arraySource, keyWordFormat) =>
   arraySource.filter(
     item =>
@@ -60,6 +66,7 @@ const checkRemark = (arraySource, keyWordFormat) => {
 };
 
 const columnFilter = {
+  'No #': checkMatchNo,
   'League': checkLeague,
   'Match': checkMatch,
   'TV/IPTV': checkIpTV,
