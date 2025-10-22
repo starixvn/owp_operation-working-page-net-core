@@ -4,6 +4,7 @@ import {
   netCoreURLMaxbetSetting,
   netCoreURLResourceAssignment
 } from '../../../constants/Const';
+import { MaxBetSettingModel } from '../typeNative';
 
 const { secondAcceptValue } = maxbetSettingTable;
 const SPECIAL_MAXBET = {
@@ -89,6 +90,13 @@ const buildURL = (urlName: string) => `${netCoreURLMaxbetSetting}/${urlName}`;
 const buildMatchOfferURL = () =>
   `${netCoreURLResourceAssignment}/${matchOfferParam}`;
 
+const orderMaxbetSettingByFtHdp = (settings: MaxBetSettingModel[], orderType: 'ORDER_DESC' | 'ORDER_ASC' | 'NONE') => {
+  if (orderType === 'NONE') {
+    return settings;
+  }
+  return settings.sort((a, b) => orderType === 'ORDER_ASC' ? b.fT_HDP - a.fT_HDP : a.fT_HDP - b.fT_HDP);
+};
+
 export {
   isSecondAcceptValue,
   isFullTimeMaxbetReferColumn,
@@ -101,5 +109,6 @@ export {
   covertToNumber,
   buildURL,
   buildMatchOfferURL,
-  isSpreadValue
+  isSpreadValue,
+  orderMaxbetSettingByFtHdp
 };

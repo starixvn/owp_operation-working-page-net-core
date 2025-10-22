@@ -1022,7 +1022,8 @@
         &.fT_HDP-group-header, &.mainMatch-group-header{
           background-color: #31859c !important;
         }
-        &.noOfCorners-group-header, &.nextCorners-group-header{
+        &.noOfCorners-group-header, &.nextCorners-group-header,
+        &.totalBookings-group-header{
           background-color: #C08A5D !important;
           color: white;
         }
@@ -1033,7 +1034,9 @@
         &.lastUpdatedBy-group-header {
           background-color: #f1f1f1 !important;
         }
-
+        &.mainMatch-group-header, &.nextBooking-group-header{
+          color: white !important;
+        }
         &.lastUpdatedBy-group-header {
           border-bottom: none !important;
         }
@@ -1101,6 +1104,9 @@
         &.totalBookings-header,
         &.nextBooking-header{
           background-color: #D9B64E !important;
+        }
+        &.totalBookings-header, &.nextBooking-header{
+          color: white !important;
         }
       }
     }

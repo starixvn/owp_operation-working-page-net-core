@@ -9,7 +9,7 @@ import {
   update,
   maxbetSettingTable
 } from '../Const.json';
-import { buildMatchOfferURL, buildURL } from '../helper/helper';
+import { buildMatchOfferURL, buildURL, orderMaxbetSettingByFtHdp } from '../helper/helper';
 import {
   EditModel,
   EditPopupModel,
@@ -42,7 +42,9 @@ const useStore = create<MaxbetSettingState>((set, _) => ({
     const url = buildURL(query);
     const response = await axios.get(url);
     set({ loading: REQUEST_STATUS.idle });
-    set({ maxbetSettings: response.data });
+    set(state => ({
+      maxbetSettings: orderMaxbetSettingByFtHdp(response.data, state.orderInfo.orderType)
+    }));
   },
   queryPolicy: async () => {
     const policy = await getPermission(functionKey);
@@ -81,10 +83,10 @@ const useStore = create<MaxbetSettingState>((set, _) => ({
   },
   setOpenLogPopup: () => set({ isOpenLogPopup: true }),
   setCloseLogPopup: () => set({ isOpenLogPopup: false }),
-  sortMaxbetSettings: async (columnId: string, orderType: 'ORDER_DESC' | 'ORDER_ASC') => {
+  sortMaxbetSettings: async (columnId: string, orderType: 'ORDER_DESC' | 'ORDER_ASC' | 'NONE') => {
     set({ orderInfo: { columnId, orderType } });
     set(state => ({
-      maxbetSettings: [...state.maxbetSettings].sort((a, b) => orderType === 'ORDER_ASC' ? b.fT_HDP - a.fT_HDP : a.fT_HDP - b.fT_HDP)
+      maxbetSettings: orderMaxbetSettingByFtHdp([...state.maxbetSettings], orderType)
     }));
   }
 }));
