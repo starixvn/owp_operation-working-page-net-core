@@ -25,7 +25,7 @@ const groupColumns = [
   secondAcceptValue
 ];
 
-const renderColumn = (orderInfo: { columnId: string, orderType: 'ORDER_DESC' | 'ORDER_ASC' }) => {
+const renderColumn = (orderInfo: { columnId: string, orderType: 'ORDER_DESC' | 'ORDER_ASC' | 'NONE' }) => {
   const fullTimeMaxbetReferCol = renderFixedColumns(fullTimeMaxbetRefer,
     <div className='fullTimeMaxbetRefer-header'>
       <OrderHeader
@@ -34,7 +34,7 @@ const renderColumn = (orderInfo: { columnId: string, orderType: 'ORDER_DESC' | '
         onOrder={orderType => store.getState().sortMaxbetSettings(fullTimeMaxbetRefer.id, orderType)}
       /></div>);
   const groupCols = renderGroupColumn();
-  const lastUpdatedFixedCol = renderFixedColumns(lastUpdate, lastUpdate.name);
+  const lastUpdatedFixedCol = renderFixedColumns(lastUpdate, '');
   return [
     ...fullTimeMaxbetReferCol,
     ...groupCols,
