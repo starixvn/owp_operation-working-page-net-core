@@ -24,6 +24,6 @@ public static class EventPickingInjector
         services.AddScoped<MapMainLeagueForEventService, MapMainLeagueForEventServiceImp>();
         services.AddScoped<MappingRuleSyncMBLeagueFriendlyService, MappingRuleSyncMBLeagueFriendlyServiceImp>();
         services.AddScoped<CacheManipulator, CacheManipulatorImp>();
-        services.AddScoped<BuildMaxbetSpreadChildMatch, BuildMaxbetSpreadChildMatchImp>();
+        services.AddScoped<MaxbetSpreadChildMatchBuilder, MaxbetSpreadChildMatchBuilderImp>();
     }
 }
