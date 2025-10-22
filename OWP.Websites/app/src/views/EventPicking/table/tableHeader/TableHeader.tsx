@@ -38,7 +38,7 @@ const TableHeader = () => {
                         <div className='header-table'>
                             <span>{item.headerName}</span>
                             {item?.isOrder && <Order columnKey={item.columnKey} />}
-                            {item?.isFilter && <FilterHeader columnKey={item.columnKey} />}
+                            {item?.isFilter && !item?.isCheckAll && <FilterHeader columnKey={item.columnKey} />}
                             {item?.isFilterMultiple && (
                                 <MultipleFilterHeader
                                     columnKey={item.columnKey as TColumnKey}
@@ -58,6 +58,10 @@ const TableHeader = () => {
                                     columnKey={item.columnKey}
                                 />
                             )}
+                            {item?.isFilter && item?.isCheckAll &&
+                                <FilterHeader columnKey={item.columnKey} />
+                            }
+
                             {item?.isHaveDropdown && HasWrite && (
                                 <div className='dropdown-wrap'>
                                     <DropdownIcon

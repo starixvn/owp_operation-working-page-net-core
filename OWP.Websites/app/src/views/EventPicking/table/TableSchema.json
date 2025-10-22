@@ -122,7 +122,7 @@
   "TABLE_HEADER_TURN_OVER_MARGIN": [
     {
       "headerName": "No #",
-      "size": 3,
+      "size": 5,
       "isHaveDropdown": true,
       "isCheckAll": true,
       "isFilter": true,

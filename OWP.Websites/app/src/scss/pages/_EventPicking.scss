@@ -516,6 +516,15 @@
             }
         }
 
+        .group-multiple-select {
+            .filter-header {
+                margin-left: 15px;
+            }
+            .filter-popup {
+                left: 3px;
+            }
+        }
+
         &:nth-child(1) {
             width: 40px !important;
         }
@@ -550,7 +559,7 @@
     }
 
     .no-cell {
-        width: 40px;
+        width: 50px;
     }
 
     .ko-time-cell {
