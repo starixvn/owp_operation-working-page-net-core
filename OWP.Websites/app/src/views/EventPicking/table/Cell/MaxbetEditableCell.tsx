@@ -61,7 +61,6 @@ const MaxbetEditableCell = ({
   });
 
   return (
-    !isChildMatch && (
       <>
         <div className='input-value'>
           <NumericTextbox
@@ -84,12 +83,11 @@ const MaxbetEditableCell = ({
         {isShowCheckButton && !maxBet && !minorBettypeId && (
           <a
             className='mb__check'
-            onClick={() => handleCheckButton(leagueName)}>
+            onClick={() => handleCheckButton(leagueName, isChildMatch)}>
             Check
           </a>
-        )}
-      </>
-    )
+      )}
+    </>
   );
 };
 

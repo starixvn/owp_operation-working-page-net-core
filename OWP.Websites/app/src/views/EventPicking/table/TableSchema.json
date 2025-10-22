@@ -39,10 +39,16 @@
       "columnKey": "Match"
     },
     {
-      "headerName": "MB",
+      "headerName": "MB HDP",
       "size": 5,
       "isFilterMultiple": true,
       "columnKey": "maxbetHdp"
+    },
+    {
+      "headerName": "MB OU",
+      "size": 5,
+      "isFilterMultiple": true,
+      "columnKey": "maxbetOu"
     },
     {
       "headerName": "Spread HDP",
@@ -138,10 +144,16 @@
       "columnKey": "Match"
     },
     {
-      "headerName": "MB",
+      "headerName": "MB HDP",
       "size": 5,
       "isFilterMultiple": true,
       "columnKey": "maxbetHdp"
+    },
+    {
+      "headerName": "MB OU",
+      "size": 5,
+      "isFilter": true,
+      "columnKey": "maxbetOu"
     },
     {
       "headerName": "Spread HDP",

@@ -9,7 +9,7 @@ const SpreadViewCell = ({
   leagueName: string;
   isChildMatch: boolean;
 }) => {
-  return !isChildMatch ? (
+  return  (
     <div className='spread-cell'>
       {spread ? (
         <p className='spread-cell__value'>{spread}%</p>
@@ -18,15 +18,13 @@ const SpreadViewCell = ({
           {
             <a
               className='spread__check'
-              onClick={() => handleCheckButton(leagueName)}>
+              onClick={() => handleCheckButton(leagueName, isChildMatch)}>
               Check
             </a>
           }
         </>
       )}
     </div>
-  ) : (
-    <></>
   );
 };
 

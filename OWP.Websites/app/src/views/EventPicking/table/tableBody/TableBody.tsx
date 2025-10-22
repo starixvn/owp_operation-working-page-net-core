@@ -3,7 +3,8 @@ import NoCell from '../Cell/NoCell';
 import KOTimeCell from '../Cell/KOTimeCell';
 import LeagueCell from '../Cell/LeagueCell';
 import MatchCell from '../Cell/MatchCell';
-import MaxBetCell from '../Cell/MaxBetCell';
+import MaxBetCellHdp from '../Cell/MaxBetCellHdp';
+import MaxBetCellOu from '../Cell/MaxBetOuCell';
 import IPTvStreamingCell from '../Cell/IPTvStreamingCell';
 import TurnOverCell from '../Cell/TurnOverCell';
 import MarginCell from '../Cell/MarginCell';
@@ -100,7 +101,10 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
                             <MatchCell dataSource={data} rowIndex={i} />
                         </td>
                         <td rowSpan={rowSpan} className={className}>
-                            <MaxBetCell dataSource={data} rowIndex={i} />
+                            <MaxBetCellHdp dataSource={data} rowIndex={i} />
+                        </td>
+                        <td rowSpan={rowSpan} className={className}>
+                            <MaxBetCellOu dataSource={data} rowIndex={i} />
                         </td>
                         <td rowSpan={rowSpan} className={className}>
                             <SpreadHdpCell dataSource={data} rowIndex={i} />

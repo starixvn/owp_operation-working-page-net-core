@@ -30,8 +30,11 @@ const minDate = new Date(
 const buildUrl = (methodRoute: Required<string>) =>
   `${netCoreURLEventPicking}/${methodRoute}`;
 
-const handleCheckButton = (leagueName: string) => {
-  const url = `LeagueManagement?leagueName=${leagueName}&isEqualLeague=true`;
+const handleCheckButton = (leagueName: string, isChildMatch: boolean) => {
+  let url = `LeagueManagement?leagueName=${leagueName}&isEqualLeague=true`;
+  if (isChildMatch) {
+    url = `LeagueManagement?tab=liveSetting`;
+  } 
   window.open(url, '_blank');
 };
 

@@ -56,7 +56,7 @@ const SpreadEditableCell = ({
     };
   });
 
-  return !isChildMatch ? (
+  return  (
     <>
       <div className='input-value'>
         <NumericTextbox
@@ -76,13 +76,11 @@ const SpreadEditableCell = ({
         <span>%</span>
       </div>
       {isShowCheckButton && !spread && !minorBettypeId && (
-        <a className='mb__check' onClick={() => handleCheckButton(leagueName)}>
+        <a className='mb__check' onClick={() => handleCheckButton(leagueName, isChildMatch)}>
           Check
         </a>
       )}
     </>
-  ) : (
-    <></>
   );
 };
 

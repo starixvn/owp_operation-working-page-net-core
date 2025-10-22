@@ -44,6 +44,7 @@ type TDataTable = TMatchOfferInfo & {
   homeName: string;
   awayName: string;
   maxbetHdp: number | undefined;
+  maxbetOu: number | undefined;
   maxBetHDPNumber: number | undefined;
   noOfHDP: string | undefined;
   spreadOu: number | undefined;

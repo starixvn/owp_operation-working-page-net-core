@@ -12,11 +12,11 @@ const propTypes = {
   rowIndex: PropTypes.number.isRequired
 };
 
-const MaxBetCell = props => {
+const MaxBetCellOu = props => {
   const { mode } = store.getState().mode;
   const { rowIndex, dataSource } = props;
   const {
-    maxbetHdp,
+    maxbetOu,
     infoSiteMatchId,
     leagueName,
     minorBettypeId,
@@ -27,7 +27,7 @@ const MaxBetCell = props => {
   const component = {
     [VIEW]: (
       <MaxBetViewCell
-        maxBet={convertThousandToK(maxbetHdp, true) || undefined}
+        maxBet={convertThousandToK(maxbetOu, true) || undefined}
         leagueName={leagueName}
         isChildMatch={isChildMatch}
       />
@@ -35,7 +35,7 @@ const MaxBetCell = props => {
     [EDIT]: (
       <MaxbetEditableCell
         infoSiteMatchId={infoSiteMatchId}
-        maxBet={convertThousandToK(maxbetHdp, false) || undefined}
+        maxBet={convertThousandToK(maxbetOu, false) || undefined}
         leagueName={leagueName}
         minorBettypeId={minorBettypeId}
         isChildMatch={isChildMatch}
@@ -46,5 +46,5 @@ const MaxBetCell = props => {
   return component[mode];
 };
 
-MaxBetCell.propTypes = propTypes;
-export default MaxBetCell;
+MaxBetCellOu.propTypes = propTypes;
+export default MaxBetCellOu;

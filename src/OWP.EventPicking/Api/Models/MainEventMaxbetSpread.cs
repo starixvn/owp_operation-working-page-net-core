@@ -16,6 +16,8 @@ public class MainEventMaxbetSpread
 
     public decimal? MaxbetHdp { get; set; }
 
+    public decimal? MaxbetOu { get; set; }
+
     [Cell("N2")]
     public string MaxbetHdpExcel => MaxbetHdp.HasValue ? $"{MaxbetHdp.Value/1000}K" : string.Empty;
 

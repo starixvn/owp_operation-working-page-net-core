@@ -10,7 +10,6 @@ const NoOfHdpEditableCell = ({
   isChildMatch: boolean;
 }) => {
   return (
-    !isChildMatch && (
       <div className='noOf__hdp-cell'>
         {value ? (
           <p className='noOf__hdp__value'>{value}</p>
@@ -18,13 +17,12 @@ const NoOfHdpEditableCell = ({
           !value && (
             <a
               className='noOf__hdp__check'
-              onClick={() => handleCheckButton(leagueName)}>
+              onClick={() => handleCheckButton(leagueName, isChildMatch)}>
               Check
             </a>
           )
-        )}
-      </div>
-    )
+      )}
+    </div>
   );
 };
 
