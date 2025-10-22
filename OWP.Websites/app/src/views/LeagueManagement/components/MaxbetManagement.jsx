@@ -1,7 +1,7 @@
 import isEqual from 'lodash.isequal';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Route, Switch, useHistory } from 'react-router-dom';
+import { Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import Loading from '../../components/Loading';
 import NavigationBar from '../../Shared/NavigationBar/NavigationBar';
 import { queryPolicy } from '../actions/action';
@@ -17,12 +17,26 @@ import useStore from './maxbetSetting/store/storeNative';
 
 const MaxbetManagement = () => {
     const dispatch = useDispatch();
-    const [navigationId, setNavigationId] = useState(MaxbetConst.leagueInfo.id);
+    const location = useLocation();
     const maxbetUrl = buildMaxbetUrl();
     const model = useSelector(selectPolicy);
     const stableDispatch = useCallback(dispatch, [dispatch]);
     const history = useHistory();
     const { policy, queryPolicy: queryMaxbetSettingPolicy } = useStore(state => state);
+
+    const getInitialTab = () => {
+        const searchParams = new URLSearchParams(location.search);
+        const tabFromQuery = searchParams.get('tab');
+        const validTabs = [
+            MaxbetConst.leagueInfo.id,
+            MaxbetConst.maxbetInfo.id,
+            MaxbetConst.SpecialLiveProductInfo.id,
+            MaxbetConst.maxbetSetting.id
+        ];
+        return validTabs.includes(tabFromQuery) ? tabFromQuery : MaxbetConst.leagueInfo.id;
+    };
+
+    const [navigationId, setNavigationId] = useState(getInitialTab());
 
     useEffect(() => {
         stableDispatch(queryPolicy());
@@ -36,7 +50,7 @@ const MaxbetManagement = () => {
     ];
 
     const handleNavigation = id => {
-        history.push(maxbetUrl.maxbetGeneralUrl);
+        history.replace(maxbetUrl.maxbetGeneralUrl);
         setNavigationId(id);
     };
 
