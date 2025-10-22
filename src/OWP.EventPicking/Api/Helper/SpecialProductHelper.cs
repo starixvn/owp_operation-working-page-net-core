@@ -38,11 +38,6 @@ public static class SpecialProductHelper
 
     private static bool AssignMatchNo<T>(T mainMatch, int matchNo, List<T> childMatchesOfThisMainMatch) where T : class, EventProductCommon
     {
-        if (mainMatch.IsSaba || mainMatch.IsNoOffer)
-        {
-            return false;
-        }
-
         mainMatch.MatchNo = MatchNoHelper.BuildMainMatchNo(matchNo);
         foreach (var childMatch in childMatchesOfThisMainMatch)
         {
