@@ -28,6 +28,7 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
 
     public async Task<Unit> Handle(UpdateEventsRequest request, CancellationToken cancellationToken)
     {
+        //var test = cacheManipulator.Remove(request.EventDate);
         var cachedMBSpreads = await cacheManipulator.GetMBSpreadsByDate(request.EventDate);
         var logData = CompareAndGenerateRAndDInfo(request.Events, cachedMBSpreads);
         
@@ -118,7 +119,8 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
         // Update only the events that were modified
         foreach (var requestEvent in requestEvents)
         {
-            var existingEvent = updatedCacheData.FirstOrDefault(c => c.InfoSiteMatchId == requestEvent.InfoSiteMatchId);
+            var existingEvent = updatedCacheData.FirstOrDefault(c => c.InfoSiteMatchId == requestEvent.InfoSiteMatchId
+                                                                     && c.MinorBettypeId == requestEvent.MinorBettypeId);
             
             if (existingEvent != null)
             {
@@ -126,7 +128,10 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
                 existingEvent.SpreadHdp = requestEvent.SpreadHdp;
                 existingEvent.SpreadOu = requestEvent.SpreadOu;
                 existingEvent.MaxbetHdp = requestEvent.MaxbetHdp;
+                existingEvent.MaxbetOU = requestEvent.MaxbetOu;
                 existingEvent.NoOfHDP = requestEvent.NoOfHDP;
+                existingEvent.IsChildMatch = requestEvent.IsChildMatch;
+                existingEvent.MinorBettypeId = requestEvent.MinorBettypeId;
                 existingEvent.IsReferenceLeagueManagement = false; // Mark as updated
             }
             else
@@ -138,7 +143,10 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
                     SpreadHdp = requestEvent.SpreadHdp,
                     SpreadOu = requestEvent.SpreadOu,
                     MaxbetHdp = requestEvent.MaxbetHdp,
+                    MaxbetOU = requestEvent.MaxbetOu,
                     NoOfHDP = requestEvent.NoOfHDP,
+                    IsChildMatch = requestEvent.IsChildMatch,
+                    MinorBettypeId = requestEvent.MinorBettypeId,
                     IsReferenceLeagueManagement = false
                 });
             }

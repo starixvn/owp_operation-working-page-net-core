@@ -476,9 +476,12 @@ public class EditEventPickingHandler(
         {
             InfoSiteMatchId = match.InfoSiteMatchId,
             MaxbetHdp = match.MaxbetHdp,
+            MaxbetOU = match.MaxbetOu,
             SpreadHdp = match.SpreadHdp,
             SpreadOu = match.SpreadOu,
             NoOfHDP = match.NoOfHDP,
+            IsChildMatch = match.IsChildMatch,
+            MinorBettypeId = match.MinorBettypeId ?? 0,
             IsReferenceLeagueManagement = match.IsReferenceLeagueManagement
         }).ToList();
 

@@ -9,6 +9,7 @@ public interface CacheManipulator
 
     Task SaveMBSpreadsByDate(DateTime eventDate, List<EventMBSpread> data);
 
+    Task<bool> Remove(DateTime eventDate);
 }
 
 public class CacheManipulatorImp : CacheManipulator
@@ -33,6 +34,13 @@ public class CacheManipulatorImp : CacheManipulator
             ? []
             : JsonConvert.DeserializeObject<List<EventMBSpread>>(cacheResult.Item2);
         return MBSpread ?? [];
+    }
+
+    public async Task<bool> Remove(DateTime eventDate)
+    {
+        var cacheKey = $"{MBSpreadKey}-{eventDate:yyyy/MM/dd}";
+        await cache.RemoveAsync(cacheKey);
+        return true;
     }
 
     public async Task SaveMBSpreadsByDate(DateTime eventDate, List<EventMBSpread> data)

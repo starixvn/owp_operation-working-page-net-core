@@ -25,7 +25,7 @@ const Save = ({ onSetMode }: { onSetMode: () => void }) => {
       LstNote: e.lstNote || null,
       Remark2LeagueManagement: e.remark2LeagueManagement || null,
       IsChildMatch: e.isChildMatch,
-      MinorBettypeId: e.minorBettypeId || null
+      MinorBettypeId: e.minorBettypeId || 0
     }));
 
     await Promise.allSettled([

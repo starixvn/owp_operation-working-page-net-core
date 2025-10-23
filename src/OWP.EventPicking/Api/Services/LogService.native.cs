@@ -18,8 +18,11 @@ public class LogServiceImp(Repository repository, CacheManipulator cacheManipula
         {
             InfoSiteMatchId = match.InfoSiteMatchId,
             MaxbetHdp = match.MaxbetHdp,
+            MaxbetOU = match.MaxbetOu,
             SpreadHdp = match.SpreadHdp,
             SpreadOu = match.SpreadOu,
+            IsChildMatch = match.IsChildMatch,
+            MinorBettypeId = match.MinorBettypeId ?? 0,
             IsReferenceLeagueManagement = match.IsReferenceLeagueManagement
         }).ToList();
 
