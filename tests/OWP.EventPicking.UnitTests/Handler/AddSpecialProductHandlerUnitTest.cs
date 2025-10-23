@@ -223,4 +223,41 @@ public class AddSpecialProductHandlerUnitTest
                 list.Any(x => x.ParentMatchId == 2 && x.MinorBettypeId == 20)),
             Arg.Any<List<EventPickingModel>>());
     }
+
+    [Fact]
+    public async Task Handle_ShouldRemoveDuplicateIds()
+    {
+        // Arrange
+        var session = Substitute.For<INapSession>();
+        var repository = Substitute.For<OWP.EventPicking.Repository>();
+        var childMatchMaxBet = Substitute.For<BuildChildMatchMaxBet>();
+
+        repository.QueryMainMatch(Arg.Any<string>()).Returns(new List<EventPickingModel>
+        {
+            new() { InfoSiteMatchId = 1, MaxbetHdp = 5000 },
+            new() { InfoSiteMatchId = 2, MaxbetHdp = 10000 }
+        });
+
+        var handler = new AddSpecialProductHandler(session, repository, childMatchMaxBet);
+
+        var addInfo = new AddSpecialProduct
+        {
+            ParentId = "1,1,2,2,1",
+            MinorBettypeId = "10,20,10,20"
+        };
+        var request = new AddSpecialProductRequest(addInfo);
+
+        // Act
+        await handler.Handle(request, CancellationToken.None);
+
+        // Assert - Should only generate 4 products (2 unique parents × 2 unique minors)
+        await childMatchMaxBet.Received(1).BuildMBForAddSpecialProduct(
+            Arg.Is<List<ChildMatchModel>>(list =>
+                list.Count == 4 &&
+                list.Any(x => x.ParentMatchId == 1 && x.MinorBettypeId == 10) &&
+                list.Any(x => x.ParentMatchId == 1 && x.MinorBettypeId == 20) &&
+                list.Any(x => x.ParentMatchId == 2 && x.MinorBettypeId == 10) &&
+                list.Any(x => x.ParentMatchId == 2 && x.MinorBettypeId == 20)),
+            Arg.Any<List<EventPickingModel>>());
+    }
 }

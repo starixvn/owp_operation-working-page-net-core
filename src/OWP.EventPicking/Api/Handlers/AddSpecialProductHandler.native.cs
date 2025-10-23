@@ -15,9 +15,14 @@ public class AddSpecialProductHandler(
 {
     public async Task<Unit> Handle(AddSpecialProductRequest request, CancellationToken cancellationToken)
     {
-        var mainEvent = await repository.QueryMainMatch(request.AddInfo.ParentId);
-
         var specialProducts = GenerateSpecialProducts(request.AddInfo.ParentId, request.AddInfo.MinorBettypeId);
+
+        if(specialProducts.Count == 0)
+        {
+            return Unit.Value;
+        }
+
+        var mainEvent = await repository.QueryMainMatch(request.AddInfo.ParentId);
 
         await childMatchMaxBet.BuildMBForAddSpecialProduct(specialProducts, mainEvent);
         await repository.ExecuteNonQuery(new AddSpecialProductCriteria
@@ -28,30 +33,32 @@ public class AddSpecialProductHandler(
         return Unit.Value;
     }
 
-    private static List<ChildMatchModel> GenerateSpecialProducts(string parentMatchIds, string minorBettypeIds)
+    private static List<SpecialProductMaxbetSpread> GenerateSpecialProducts(string parentMatchIds, string minorBettypeIds)
     {
         var parentIds = parentMatchIds.Split(',', StringSplitOptions.RemoveEmptyEntries)
             .Select(x => int.Parse(x.Trim()))
+            .Distinct()
             .ToList();
 
         var minorIds = minorBettypeIds.Split(',', StringSplitOptions.RemoveEmptyEntries)
             .Select(x => int.Parse(x.Trim()))
+            .Distinct()
             .ToList();
 
-        var specialProducts = new List<ChildMatchModel>();
+        var specialProducts = new List<SpecialProductMaxbetSpread>();
 
         foreach (var parentId in parentIds)
         {
             foreach (var minorId in minorIds)
             {
-                specialProducts.Add(new ChildMatchModel
+                specialProducts.Add(new SpecialProductMaxbetSpread
                 {
-                    ParentMatchId = parentId,
+                    ParentId = parentId,
                     MinorBettypeId = minorId,
-                    MaxbetHDP = null,
-                    MaxbetOU = null,
-                    SpreadHDP = null,
-                    SpreadOU = null,
+                    MaxbetHdp = null,
+                    MaxbetOu = null,
+                    SpreadHdp = null,
+                    SpreadOu = null,
                     NoOfHDP = null
                 });
             }
