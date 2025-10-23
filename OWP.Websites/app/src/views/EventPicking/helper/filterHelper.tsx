@@ -315,7 +315,6 @@ const multipleFilterCommon = (
   filterProps: TColumnKey
 ) => {
   if (!multipleFilter || !multipleFilter[filterProps]) {
-
     return {
       multipleFilter,
       entities
