@@ -33,19 +33,33 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
 
         await UpdateMaxbetSpreadMainMatches(request.Events);
         await UpdateMaxbetSpreadMinorMatches(request.Events);
-
-        var xml = XmlConverter.Serialize(logData);
-        await repository.SaveEventLog(new SaveEditEventLogsCriteria { Xml = xml });
-
+        await SaveEventLogAsync(logData);
         await SaveUpdatedDataToCache(request.EventDate, request.Events, cachedMBSpreads);
 
         return Unit.Value;
     }
 
+    private async Task SaveEventLogAsync(List<LoggedChangeModel> logData)
+    {
+        if (logData == null)
+        {
+            return;
+        }
+
+        var xml = XmlConverter.Serialize(logData);
+        var criteria = new SaveEditEventLogsCriteria { Xml = xml };
+        await repository.SaveEventLog(criteria).ConfigureAwait(false);
+    }
+
     private async Task UpdateMaxbetSpreadMinorMatches(IList<UpdateEvents> events)
     {
-        var minorMatches = events.Where(e => e.IsChildMatch).ToList();
-        var mapModel = minorMatches
+        if (events == null || !events.Any())
+        {
+            return;
+        }
+            
+        var minorMatches = events
+            .Where(e => e.IsChildMatch)
             .Select(a => new SpecialProductMaxbetSpread
             {
                 ParentId = a.InfoSiteMatchId,
@@ -57,10 +71,15 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
                 SpreadOu = a.SpreadOu
             })
             .ToList();
-        var TargetJson = JsonConvert.SerializeObject(mapModel);
+
+        if (minorMatches.Count == 0)
+        {
+            return;
+        }
+
         var criteria = new SpecialProductUpdateMaxbetSpreadCriteria()
         {
-            TargetJson = TargetJson,
+            TargetJson = JsonConvert.SerializeObject(minorMatches),
             ActorId = session.UserId
         };
         await repository.ExecuteNonQuery(criteria);
@@ -68,11 +87,21 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
 
     private async Task UpdateMaxbetSpreadMainMatches(IList<UpdateEvents> events)
     {
+        if (events == null || !events.Any())
+        {
+            return;
+        }
+
         var mainMatches = events.Where(e => !e.IsChildMatch).ToList();
-        var TargetJson = JsonConvert.SerializeObject(mainMatches);
+
+        if (mainMatches.Count == 0)
+        {
+            return;
+        }
+
         var criteria = new UpdateMaxbetSpreadCriteria
         {
-            TargetJson = TargetJson,
+            TargetJson = JsonConvert.SerializeObject(mainMatches),
             ActorId = session.UserId
         };
         await repository.UpdateEvent(criteria);
