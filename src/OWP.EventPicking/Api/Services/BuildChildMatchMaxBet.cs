@@ -111,7 +111,7 @@ public class BuildChildMatchMaxBetImp(MaxbetSettingService maxbetSettingService)
                         child.MaxbetHDP = maxBetDefault.NextCorner_FT_HDP;
                         break;
                     case Bettype.TotalBooking:
-                        child.MaxbetHDP = maxBetDefault.TotalBooking_FT_OU;
+                        child.MaxbetHDP = maxBetDefault.TotalBooking_FT_HDP;
                         child.MaxbetOU = maxBetDefault.TotalBooking_FT_OU;
                         break;
                     case Bettype.NextBooking:
