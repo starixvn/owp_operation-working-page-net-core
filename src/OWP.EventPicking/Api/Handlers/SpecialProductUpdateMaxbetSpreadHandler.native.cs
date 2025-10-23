@@ -28,17 +28,11 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
 
     public async Task<Unit> Handle(UpdateEventsRequest request, CancellationToken cancellationToken)
     {
-        //var test = cacheManipulator.Remove(request.EventDate);
         var cachedMBSpreads = await cacheManipulator.GetMBSpreadsByDate(request.EventDate);
         var logData = CompareAndGenerateRAndDInfo(request.Events, cachedMBSpreads);
-        
-        var TargetJson = JsonConvert.SerializeObject(request.Events);
-        var criteria = new UpdateMaxbetSpreadCriteria
-        {
-            TargetJson = TargetJson,
-            ActorId = session.UserId
-        };
-        await repository.UpdateEvent(criteria);
+
+        await UpdateMaxbetSpreadMainMatches(request.Events);
+        await UpdateMaxbetSpreadMinorMatches(request.Events);
 
         var xml = XmlConverter.Serialize(logData);
         await repository.SaveEventLog(new SaveEditEventLogsCriteria { Xml = xml });
@@ -46,6 +40,42 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
         await SaveUpdatedDataToCache(request.EventDate, request.Events, cachedMBSpreads);
 
         return Unit.Value;
+    }
+
+    private async Task UpdateMaxbetSpreadMinorMatches(IList<UpdateEvents> events)
+    {
+        var minorMatches = events.Where(e => e.IsChildMatch).ToList();
+        var mapModel = minorMatches
+            .Select(a => new SpecialProductMaxbetSpread
+            {
+                ParentId = a.InfoSiteMatchId,
+                MinorBettypeId = a.MinorBettypeId,
+                MaxbetHdp = a.MaxbetHdp,
+                MaxbetOu = a.MaxbetOu,
+                NoOfHDP = a.NoOfHDP,
+                SpreadHdp = a.SpreadHdp,
+                SpreadOu = a.SpreadOu
+            })
+            .ToList();
+        var TargetJson = JsonConvert.SerializeObject(mapModel);
+        var criteria = new SpecialProductUpdateMaxbetSpreadCriteria()
+        {
+            TargetJson = TargetJson,
+            ActorId = session.UserId
+        };
+        await repository.ExecuteNonQuery(criteria);
+    }
+
+    private async Task UpdateMaxbetSpreadMainMatches(IList<UpdateEvents> events)
+    {
+        var mainMatches = events.Where(e => !e.IsChildMatch).ToList();
+        var TargetJson = JsonConvert.SerializeObject(mainMatches);
+        var criteria = new UpdateMaxbetSpreadCriteria
+        {
+            TargetJson = TargetJson,
+            ActorId = session.UserId
+        };
+        await repository.UpdateEvent(criteria);
     }
 
     private List<LoggedChangeModel> CompareAndGenerateRAndDInfo(IList<UpdateEvents> requestEvents, List<EventMBSpread> cachedMBSpreads)
