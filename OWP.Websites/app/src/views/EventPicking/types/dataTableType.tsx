@@ -88,6 +88,7 @@ type TWinLoss = {
 
 type TColumnKey =
   | 'maxbetHdp'
+  | 'maxbetOu'
   | 'time'
   | 'leagueName'
   | 'spreadHdp'

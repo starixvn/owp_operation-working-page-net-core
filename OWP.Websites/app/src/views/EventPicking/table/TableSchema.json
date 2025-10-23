@@ -3,6 +3,7 @@
     "No": "No #",
     "KO_TIME": "time",
     "MB": "maxbetHdp",
+    "MB_OU": "maxbetOu",
     "LEAGUE": "leagueName",
     "SPREAD_HDP": "spreadHdp",
     "SPREAD_OU": "spreadOu",
@@ -49,6 +50,7 @@
     {
       "headerName": "MB OU",
       "size": 5,
+      "isFilterMultiple": true,
       "columnKey": "maxbetOu"
     },
     {
@@ -154,7 +156,7 @@
     {
       "headerName": "MB OU",
       "size": 5,
-      "isFilter": true,
+      "isFilterMultiple": true,
       "columnKey": "maxbetOu"
     },
     {

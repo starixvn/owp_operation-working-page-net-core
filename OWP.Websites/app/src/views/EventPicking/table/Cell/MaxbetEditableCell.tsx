@@ -11,7 +11,8 @@ const MaxbetEditableCell = ({
   minorBettypeId,
   leagueName,
   isChildMatch,
-  isShowCheckButton
+  isShowCheckButton,
+  columnKey = 'maxbetHdp'
 }: {
   maxBet: string | number | undefined;
   infoSiteMatchId: number;
@@ -19,6 +20,7 @@ const MaxbetEditableCell = ({
   minorBettypeId: number;
   isChildMatch: boolean;
   isShowCheckButton: boolean;
+  columnKey?: 'maxbetHdp' | 'maxbetOu';
 }) => {
   let newValue = -999999999;
   const dispatch = useAppDispatch();
@@ -26,7 +28,9 @@ const MaxbetEditableCell = ({
   const handleBlur = () => {
     const valueInput = Number(inputRef?.current?.value);
     if (!isNaN(valueInput) && valueInput >= 100) {
-      ToastrWrapper.showWarning(<span>Please enter a MaxBet value that is less than 3 digits!</span>);
+      ToastrWrapper.showWarning(
+        <span>Please enter a MaxBet value that is less than 3 digits!</span>
+      );
     }
 
     const valueNumber =
@@ -37,7 +41,7 @@ const MaxbetEditableCell = ({
     dispatch(
       setValueMaxbetSpread({
         value: valueNumber,
-        key: 'maxbetHdp',
+        key: columnKey,
         infoSiteMatchId,
         minorBettypeId
       })
@@ -50,7 +54,7 @@ const MaxbetEditableCell = ({
         dispatch(
           setValueMaxbetSpread({
             value: newValue * 1000,
-            key: 'maxbetHdp',
+            key: columnKey,
             infoSiteMatchId,
             minorBettypeId
           })
@@ -61,31 +65,31 @@ const MaxbetEditableCell = ({
   });
 
   return (
-      <>
-        <div className='input-value'>
-          <NumericTextbox
-            ref={inputRef}
-            className='input-field'
-            value={maxBet ?? undefined}
-            min={0}
-            max={999999}
-            decimals={3}
-            autoCorrect
-            format=''
-            name='maxbet'
-            onBlur={handleBlur}
-            onChange={(v: number) => {
-              newValue = v;
-            }}
-          />
-          <span>K</span>
-        </div>
-        {isShowCheckButton && !maxBet && !minorBettypeId && (
-          <a
-            className='mb__check'
-            onClick={() => handleCheckButton(leagueName, isChildMatch)}>
-            Check
-          </a>
+    <>
+      <div className='input-value'>
+        <NumericTextbox
+          ref={inputRef}
+          className='input-field'
+          value={maxBet ?? undefined}
+          min={0}
+          max={999999}
+          decimals={3}
+          autoCorrect
+          format=''
+          name='maxbet'
+          onBlur={handleBlur}
+          onChange={(v: number) => {
+            newValue = v;
+          }}
+        />
+        <span>K</span>
+      </div>
+      {isShowCheckButton && !maxBet && !minorBettypeId && (
+        <a
+          className='mb__check'
+          onClick={() => handleCheckButton(leagueName, isChildMatch)}>
+          Check
+        </a>
       )}
     </>
   );

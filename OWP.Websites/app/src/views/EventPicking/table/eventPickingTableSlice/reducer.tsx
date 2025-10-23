@@ -66,6 +66,11 @@ const EventPickingTableSlice = createSlice({
         selected: [],
         options: []
       },
+      maxbetOu: {
+        isFilter: false,
+        selected: [],
+        options: []
+      },
       leagueName: {
         isFilter: false,
         selected: [],
@@ -186,6 +191,7 @@ const EventPickingTableSlice = createSlice({
 
       state.multipleFilter.time.options = options.time;
       state.multipleFilter.maxbetHdp.options = options.maxbetHdp;
+      state.multipleFilter.maxbetOu.options = options.maxbetOu;
       state.multipleFilter.spreadHdp.options = options.spreadHdp;
       state.multipleFilter.spreadOu.options = options.spreadOu;
       state.multipleFilter.noOfHDP.options = options.noOfHDP;
@@ -236,6 +242,7 @@ const EventPickingTableSlice = createSlice({
 
       state.multipleFilter.time.options = options.time;
       state.multipleFilter.maxbetHdp.options = options.maxbetHdp;
+      state.multipleFilter.maxbetOu.options = options.maxbetOu;
       state.multipleFilter.spreadHdp.options = options.spreadHdp;
       state.multipleFilter.spreadOu.options = options.spreadOu;
       state.multipleFilter.noOfHDP.options = options.noOfHDP;
@@ -251,7 +258,7 @@ const EventPickingTableSlice = createSlice({
     setValueMaxbetSpread: (
       state,
       action: PayloadAction<{
-        key: 'maxbetHdp' | 'spreadOu' | 'spreadHdp';
+        key: 'maxbetHdp' | 'maxbetOu' | 'spreadOu' | 'spreadHdp';
         infoSiteMatchId: number;
         value: number | undefined;
         minorBettypeId: number;
