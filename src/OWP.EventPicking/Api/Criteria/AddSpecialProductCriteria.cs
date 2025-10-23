@@ -6,9 +6,7 @@ public class AddSpecialProductCriteria : NonQueryCommand
 {
     public int ActorId { get; set; }
 
-    public string ParentId { get; set; }
-
-    public string MinorBettypeId { get; set; }
+    public string ChildMatches { get; set; }
 
     public override string GetSettingKey() => "OWP_EventPicking_AddSpecialProduct";
 

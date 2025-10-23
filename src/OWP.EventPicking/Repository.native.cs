@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client;
 using Newtonsoft.Json;
@@ -11,6 +12,8 @@ namespace OWP.EventPicking;
 public interface Repository
 {
     Task<List<EventPickingModel>> QueryMainMatch(DateTime date);
+
+    Task<List<EventPickingModel>> QueryMainMatch(string infoSiteIds);
 
     Task<List<EventPickingModel>> QueryChildMatch(DateTime date);
 
@@ -60,6 +63,18 @@ public class RepositoryImp : Repository
         var criteria = new QueryMainMatchCriteria
         {
             Date = date
+        };
+
+        var result = await dynamicRepository.FetchAsync<EventPickingModel>(criteria);
+
+        return result.ToList();
+    }
+
+    public async Task<List<EventPickingModel>> QueryMainMatch(string infoSiteIds)
+    {
+        var criteria = new QueryEventPickingByIdsCriteria
+        {
+            InfoSiteIds = infoSiteIds
         };
 
         var result = await dynamicRepository.FetchAsync<EventPickingModel>(criteria);

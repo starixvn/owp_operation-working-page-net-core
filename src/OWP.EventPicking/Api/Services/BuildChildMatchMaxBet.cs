@@ -9,6 +9,8 @@ public interface BuildChildMatchMaxBet
 
     Task Build(List<EventPickingModel> events);
 
+    Task BuildMBForAddSpecialProduct(List<ChildMatchModel> events, List<EventPickingModel> mainEvents);
+
     void BuildExport(List<EventPickingModel> mainMatches, List<EventPickingModel> childMatches, Dictionary<decimal, MaxBetSettingModel> maxBetDefaults);
 }
 
@@ -91,17 +93,49 @@ public class BuildChildMatchMaxBetImp(MaxbetSettingService maxbetSettingService)
         }
     }
 
+    public async Task BuildMBForAddSpecialProduct(List<ChildMatchModel> events, List<EventPickingModel> mainEvents)
+    {
+        var maxBetDefaults= await GetMaxBetDefaultSetting();
+        foreach (var child in events)
+        {
+            var maxBetDefault = GetMaxBetSettingDefault(mainEvents, child.ParentMatchId, maxBetDefaults);
+            if (maxBetDefault is not null)
+            {
+                switch (child.MinorBettypeId)   
+                {
+                    case Bettype.NoOfCorner:
+                        child.MaxbetHDP = maxBetDefault.NoOfCorner_FT_HDP;
+                        child.MaxbetOU = maxBetDefault.NoOfCorner_FT_OU;
+                        break;
+                    case Bettype.NextCorner:
+                        child.MaxbetHDP = maxBetDefault.NextCorner_FT_HDP;
+                        break;
+                    case Bettype.TotalBooking:
+                        child.MaxbetHDP = maxBetDefault.TotalBooking_FT_OU;
+                        child.MaxbetOU = maxBetDefault.TotalBooking_FT_OU;
+                        break;
+                    case Bettype.NextBooking:
+                        child.MaxbetHDP = maxBetDefault.NextBooking_FT_HDP;
+                        break;
+                    default:
+                        child.MaxbetHDP = null;
+                        break;
+                }
+            }
+        }
+    }
+
     public static MaxBetSettingModel GetMaxBetSettingDefault(List<EventPickingModel> mainMatches, int parentInfositeId, Dictionary<decimal, MaxBetSettingModel> maxBetDefault)
     {
         var parentMaxBet = mainMatches.Find(x => x.InfoSiteMatchId == parentInfositeId);
-        if (parentMaxBet?.MaxBetHDPNumber == null)
+        if (parentMaxBet?.MaxbetHdp == null)
         {
             return null;
         }
 
         const decimal otherKey = -1000m;
-        return maxBetDefault.ContainsKey((decimal)parentMaxBet.MaxBetHDPNumber)
-            ? maxBetDefault.GetValue((decimal)parentMaxBet.MaxBetHDPNumber)
+        return maxBetDefault.ContainsKey((decimal)parentMaxBet.MaxbetHdp)
+            ? maxBetDefault.GetValue((decimal)parentMaxBet.MaxbetHdp)
             : maxBetDefault.GetValue(otherKey);
     }
 }
