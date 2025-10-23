@@ -4,6 +4,7 @@ import {
   netCoreURLMaxbetSetting,
   netCoreURLResourceAssignment
 } from '../../../constants/Const';
+import { MaxBetSettingModel } from '../typeNative';
 
 const { secondAcceptValue } = maxbetSettingTable;
 const SPECIAL_MAXBET = {
@@ -16,15 +17,27 @@ const MAXBET = {
   Thousand: 1000
 };
 
+const SPREAD = {
+  Min: 1,
+  Max: 100,
+  Percentage: 100
+};
+
 const isSecondAcceptValue = (columnId: string) =>
   columnId.startsWith('secondAccept');
 
-const isColumnKey = (columnId: string) =>
-  isEqual(columnId, maxbetSettingTable.key.id);
+const isSpreadValue = (columnId: string) => columnId.includes('Spread');
+
+const isFullTimeMaxbetReferColumn = (columnId: string) =>
+  isEqual(columnId, maxbetSettingTable.fullTimeMaxbetRefer.id);
 
 const getGroupColumnId = (columnId: string) => {
   if (isSecondAcceptValue(columnId)) {
     return secondAcceptValue.id;
+  }
+
+  if (isSpreadValue(columnId)) {
+    return 'spread';
   }
   return columnId;
 };
@@ -40,6 +53,13 @@ const formatMaxbetValue = (value: number | null) => {
     default:
       return `${(value / MAXBET.Thousand).toLocaleString()}K`;
   }
+};
+
+const formatSpreadValue = (value: number | string | null): string | null => {
+  if (value === null || value === '') {
+    return null;
+  }
+  return `${(Number(value) * 100).toLocaleString()}%`;
 };
 
 const formatMaxbetValueForLog = (value: string) => {
@@ -62,19 +82,33 @@ const validateMaxbet = (value: number | null) =>
   (value >= MAXBET.Min && value <= MAXBET.Max) ||
   value === -1;
 
+const validateSpread = (value: number | null) =>
+  value === null || (value >= SPREAD.Min && value <= SPREAD.Max);
+
 const buildURL = (urlName: string) => `${netCoreURLMaxbetSetting}/${urlName}`;
 
 const buildMatchOfferURL = () =>
   `${netCoreURLResourceAssignment}/${matchOfferParam}`;
 
+const orderMaxbetSettingByFtHdp = (settings: MaxBetSettingModel[], orderType: 'ORDER_DESC' | 'ORDER_ASC' | 'NONE') => {
+  if (orderType === 'NONE') {
+    return settings;
+  }
+  return settings.sort((a, b) => orderType === 'ORDER_ASC' ? b.fT_HDP - a.fT_HDP : a.fT_HDP - b.fT_HDP);
+};
+
 export {
   isSecondAcceptValue,
-  isColumnKey,
+  isFullTimeMaxbetReferColumn,
   getGroupColumnId,
   formatMaxbetValue,
+  formatSpreadValue,
   formatMaxbetValueForLog,
   validateMaxbet,
+  validateSpread,
   covertToNumber,
   buildURL,
-  buildMatchOfferURL
+  buildMatchOfferURL,
+  isSpreadValue,
+  orderMaxbetSettingByFtHdp
 };

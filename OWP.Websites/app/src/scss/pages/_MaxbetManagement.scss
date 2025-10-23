@@ -1019,13 +1019,24 @@
       .rt-th {
         border-bottom: 1px solid #c8ced3 !important;
         border-right: 1px solid #c8ced3 !important;
-        background-color: #dfdfdf !important;
-
+        &.fT_HDP-group-header, &.mainMatch-group-header{
+          background-color: #31859c !important;
+        }
+        &.noOfCorners-group-header, &.nextCorners-group-header,
+        &.totalBookings-group-header{
+          background-color: #C08A5D !important;
+          color: white;
+        }
+        &.totalBookings-group-header, &.nextBooking-group-header{
+          background-color: #D9B64E !important;
+        }
         &.secondAcceptValue-group-header,
         &.lastUpdatedBy-group-header {
           background-color: #f1f1f1 !important;
         }
-
+        &.mainMatch-group-header, &.nextBooking-group-header{
+          color: white !important;
+        }
         &.lastUpdatedBy-group-header {
           border-bottom: none !important;
         }
@@ -1036,13 +1047,67 @@
       .rt-th {
         border-bottom: 1px solid #c8ced3 !important;
         border-right: 1px solid #c8ced3 !important;
-        background-color: #f1f1f1 !important;
-        background-image: linear-gradient(
-          180deg,
-          rgba(0, 0, 0, 0.1),
-          rgba(0, 0, 0, 0)
-        );
-        text-align: right;
+        &.fT_HDP-header, &.mainMatch-header{
+          background-color: #31859c !important;
+          color: white;
+          .sort-icon {
+                position: absolute;
+                  right: 3px;
+                  width: 12px;
+                  height: 12px;
+                  cursor: pointer;
+                  top: 0px;
+          
+              &.ORDER_DESC {
+                &:before {
+                  border-color: transparent transparent #4b595c transparent;
+                }
+              }
+          
+              &.ORDER_ASC {
+                &:after {
+                  border-color: #4b595c transparent transparent transparent;
+                }
+              }
+          
+              &:before {
+                content: '';
+                content: "";
+                width: 0px;
+                height: 3px;
+                border-style: solid;
+                top: 17px;
+                left: 6px;
+                border-color: transparent transparent #93a9aa transparent;
+                border-width: 0 3px 5px 3px;
+                position: absolute;
+              }
+          
+              &:after {
+                content: '';
+                width: 0;
+                height: 0;
+                border-style: solid;
+                left: 6px;
+                top: 10px;
+                border-color: #93a9aa transparent transparent transparent;
+                border-width: 5px 3px 0 3px;
+                position: absolute;
+              }
+            }
+        }
+        &.noOfCorners-header,
+        &.nextCorners-header{
+          background-color: #C08A5D !important;
+            color: white;
+        }
+        &.totalBookings-header,
+        &.nextBooking-header{
+          background-color: #D9B64E !important;
+        }
+        &.totalBookings-header, &.nextBooking-header{
+          color: white !important;
+        }
       }
     }
   }

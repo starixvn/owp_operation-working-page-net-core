@@ -5,60 +5,77 @@
   "matchOfferParam": "?refName=MatchOffer",
   "getLog": "get-log",
   "maxbetSettingTable": {
-    "key": {
+    "fullTimeMaxbetRefer": {
       "name": "",
       "id": "fT_HDP",
       "subColWidth": 80,
+       "headerClassName":"fT_HDP",
       "fixed": "left",
-      "subColumn": [{ "name": "FT HDP", "id": "fT_HDP" }]
+      "subColumn": [{ "name": "MB FT HDP", "id": "fT_HDP" }]
     },
     "mainMatch": {
       "name": "Main Match",
       "id": "mainMatch",
+        "headerClassName":"mainMatch",
       "subColWidth": 80,
       "subColumn": [
-        { "name": "FT OU", "id": "fT_OU" },
-        { "name": "1H HDP", "id": "firstHalf_HDP" },
-        { "name": "1H OU", "id": "firstHalf_OU" }
+        { "name": "MB FT OU", "id": "fT_OU" },
+        { "name": "MB 1H HDP", "id": "firstHalf_HDP" },
+        { "name": "MB 1H OU", "id": "firstHalf_OU" }
       ]
     },
     "noOfCorners": {
       "name": "No. Of Corners",
       "id": "noOfCorners",
-      "subColWidth": 80,
+      "subColWidth": 95,
+      "headerClassName":"noOfCorners",
       "subColumn": [
-        { "name": "FT HDP", "id": "noOfCorner_FT_HDP" },
-        { "name": "FT OU", "id": "noOfCorner_FT_OU" },
-        { "name": "1H HDP", "id": "noOfCorner_1H_HDP" },
-        { "name": "1H OU", "id": "noOfCorner_1H_OU" }
+        { "name": "MB FT HDP", "id": "noOfCorner_FT_HDP" },
+        { "name": "MB FT OU", "id": "noOfCorner_FT_OU" },
+          { "name": "Spread FT HDP", "id": "noOfCorner_FT_Spread_HDP" },
+        { "name": "Spread FT OU", "id": "noOfCorner_FT_Spread_OU" },
+        { "name": "MB 1H HDP", "id": "noOfCorner_1H_HDP" },
+        { "name": "MB 1H OU", "id": "noOfCorner_1H_OU" }
       ]
     },
     "nextCorners": {
       "name": "Next Corner",
       "id": "nextCorners",
-      "subColWidth": 80,
-      "subColumn": [{ "name": "FT HDP", "id": "nextCorner_FT_HDP" }]
+      "headerClassName":"nextCorners",
+      "subColWidth": 95,
+      "subColumn": [
+        { "name": "MB FT HDP", "id": "nextCorner_FT_HDP" },
+        { "name": "Spread FT HDP", "id": "nextCorner_FT_Spread_HDP" }
+      ]
     },
     "totalBookings": {
       "name": "Total Bookings",
       "id": "totalBookings",
-      "subColWidth": 80,
+      "headerClassName":"totalBookings",
+      "subColWidth": 95,
       "subColumn": [
-        { "name": "FT HDP", "id": "totalBooking_FT_HDP" },
-        { "name": "FT OU", "id": "totalBooking_FT_OU" },
-        { "name": "1H HDP", "id": "totalBooking_1H_HDP" },
-        { "name": "1H OU", "id": "totalBooking_1H_OU" }
+        { "name": "MB FT HDP", "id": "totalBooking_FT_HDP" },
+        { "name": "MB FT OU", "id": "totalBooking_FT_OU" },
+         { "name": "Spread FT HDP", "id": "totalBooking_FT_Spread_HDP" },
+        { "name": "Spread FT OU", "id": "totalBooking_FT_Spread_OU" },
+        { "name": "MB 1H HDP", "id": "totalBooking_1H_HDP" },
+        { "name": "MB 1H OU", "id": "totalBooking_1H_OU" }
       ]
     },
     "nextBooking": {
       "name": "Next Booking",
       "id": "nextBooking",
-      "subColWidth": 80,
-      "subColumn": [{ "name": "FT HDP", "id": "nextBooking_FT_HDP" }]
+       "headerClassName":"nextBooking",
+      "subColWidth": 95,
+      "subColumn": [
+        { "name": "MB FT HDP", "id": "nextBooking_FT_HDP" },
+        { "name": "Spread FT HDP", "id": "nextBooking_FT_Spread_HDP" }
+      ]
     },
     "secondAcceptValue": {
       "name": "Second Accept Value",
       "id": "secondAcceptValue",
+      "headerClassName":"secondAcceptValue",
       "subColWidth": 130,
       "subColumn": [
         { "name": "Main", "id": "secondAccept_Main" },
@@ -70,6 +87,7 @@
     "lastUpdate": {
       "name": "Last Update",
       "id": "lastUpdatedBy",
+       "headerClassName":"lastUpdatedBy",
       "subColWidth": 60,
       "fixed": "right",
       "subColumn": [{ "name": "", "id": "lastUpdatedBy" }]
@@ -77,7 +95,8 @@
   },
   "editPopupType": {
     "maxbet": 1,
-    "secondAccept": 2
+    "secondAccept": 2,
+    "spread": 3
   },
   "unit": 1000
 }

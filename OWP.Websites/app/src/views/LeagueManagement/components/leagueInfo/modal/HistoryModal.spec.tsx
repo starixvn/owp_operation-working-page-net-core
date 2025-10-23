@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import '@testing-library/jest-dom';
 import HistoryModal from './HistoryModal';
 
 // Mock dependencies
@@ -27,9 +28,9 @@ jest.mock('../../../../Shared/Service/Service', () => ({
 }));
 
 jest.mock('dayjs', () => {
-  const mockDayjs = jest.fn((dateString: string) => ({
-    format: jest.fn(() => {
-      // Mock format based on input
+  const mockDayjs = jest.fn((dateString: string, format?: string) => ({
+    format: jest.fn((formatString: string) => {
+      // Mock format based on input date string
       if (dateString.includes('2025-09-28')) {
         return '09/28/2025 04:02 PM';
       }
@@ -59,6 +60,7 @@ describe('HistoryModal', () => {
       settingId: 123,
       createdDate: '2025-09-28T16:02:22.04',
       modifiedBy: 'user1',
+      action: 'Updated the setting',
       details: [
         {
           field: 'League name',
@@ -77,6 +79,7 @@ describe('HistoryModal', () => {
       settingId: 123,
       createdDate: '2025-09-27T14:30:15.00',
       modifiedBy: 'user2',
+      action: 'Updated the setting',
       details: [
         {
           field: 'Max Bet',
@@ -137,7 +140,8 @@ describe('HistoryModal', () => {
       await waitFor(() => {
         expect(screen.getByText('09/28/2025 04:02 PM')).toBeInTheDocument();
         expect(screen.getByText('user1')).toBeInTheDocument();
-        expect(screen.getByText('Updated the setting')).toBeInTheDocument();
+        const actionCells = screen.getAllByText('Updated the setting');
+        expect(actionCells.length).toBeGreaterThan(0);
         expect(screen.getByText('League name')).toBeInTheDocument();
         expect(screen.getByText('Test League Updated')).toBeInTheDocument();
       });
@@ -339,6 +343,14 @@ describe('HistoryModal', () => {
         screen.getByText('Log History - Custom League Name')
       ).toBeInTheDocument();
     });
+
+    it('should render modal header with toggle functionality', () => {
+      const onToggle = jest.fn();
+      renderComponent({ onToggle });
+
+      const modalHeader = screen.getByTestId('modal-header');
+      expect(modalHeader).toBeInTheDocument();
+    });
   });
 
   describe('Edge Cases', () => {
@@ -349,6 +361,7 @@ describe('HistoryModal', () => {
           settingId: 123,
           createdDate: '2025-09-28T16:02:22.04',
           modifiedBy: 'user1',
+          action: 'Updated the setting',
           details: []
         }
       ];
@@ -371,6 +384,7 @@ describe('HistoryModal', () => {
           settingId: 123,
           createdDate: '2025-09-28T16:02:22.04',
           modifiedBy: 'user1',
+          action: 'Updated the setting',
           details: null
         }
       ];
@@ -393,6 +407,7 @@ describe('HistoryModal', () => {
           settingId: 123,
           createdDate: '2025-09-28T16:02:22.04',
           modifiedBy: 'user1',
+          action: 'Updated the setting',
           details: [
             {
               field: '',
@@ -411,6 +426,80 @@ describe('HistoryModal', () => {
         // Should render empty cells without crashing
         const table = screen.getByRole('table');
         expect(table).toBeInTheDocument();
+      });
+    });
+
+    it('should handle HTML content in field values', async () => {
+      const logDataWithHtml = [
+        {
+          logId: 1,
+          settingId: 123,
+          createdDate: '2025-09-28T16:02:22.04',
+          modifiedBy: 'user1',
+          action: 'Updated the setting',
+          details: [
+            {
+              field: 'Description',
+              oldValue: '<b>Old</b> value',
+              newValue: '<i>New</i> value'
+            }
+          ]
+        }
+      ];
+
+      (get as jest.Mock).mockResolvedValue({ data: logDataWithHtml });
+
+      renderComponent();
+
+      await waitFor(() => {
+        // Check that HTML is rendered via dangerouslySetInnerHTML
+        const table = screen.getByRole('table');
+        expect(table).toBeInTheDocument();
+        expect(screen.getByText('Description')).toBeInTheDocument();
+      });
+    });
+
+    it('should render multiple log entries correctly', async () => {
+      const multipleLogData = [
+        {
+          logId: 1,
+          settingId: 123,
+          createdDate: '2025-09-28T16:02:22.04',
+          modifiedBy: 'user1',
+          action: 'Created',
+          details: [
+            {
+              field: 'League name',
+              oldValue: '',
+              newValue: 'New League'
+            }
+          ]
+        },
+        {
+          logId: 2,
+          settingId: 123,
+          createdDate: '2025-09-27T14:30:15.00',
+          modifiedBy: 'user2',
+          action: 'Updated',
+          details: [
+            {
+              field: 'Status',
+              oldValue: 'Active',
+              newValue: 'Inactive'
+            }
+          ]
+        }
+      ];
+
+      (get as jest.Mock).mockResolvedValue({ data: multipleLogData });
+
+      renderComponent();
+
+      await waitFor(() => {
+        expect(screen.getByText('Created')).toBeInTheDocument();
+        expect(screen.getByText('Updated')).toBeInTheDocument();
+        expect(screen.getByText('user1')).toBeInTheDocument();
+        expect(screen.getByText('user2')).toBeInTheDocument();
       });
     });
   });
@@ -433,6 +522,106 @@ describe('HistoryModal', () => {
 
       await waitFor(() => {
         expect(get).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('Table Content Rendering', () => {
+    it('should render table with correct CSS class', async () => {
+      (get as jest.Mock).mockResolvedValue({ data: mockLogData });
+
+      renderComponent();
+
+      await waitFor(() => {
+        const table = screen.getByRole('table');
+        expect(table).toHaveClass('league-setting-log-history-table');
+      });
+    });
+
+    it('should render modal body with correct CSS class', () => {
+      renderComponent();
+
+      const modalBody = screen.getByTestId('modal-body');
+      expect(modalBody).toHaveClass('league-setting-modal-body');
+    });
+
+    it('should render action column correctly', async () => {
+      (get as jest.Mock).mockResolvedValue({ data: mockLogData });
+
+      renderComponent();
+
+      await waitFor(() => {
+        const actionCells = screen.getAllByText('Updated the setting');
+        expect(actionCells.length).toBeGreaterThan(0);
+      });
+    });
+
+    it('should render old values correctly', async () => {
+      (get as jest.Mock).mockResolvedValue({ data: mockLogData });
+
+      renderComponent();
+
+      await waitFor(() => {
+        expect(screen.getByText('Active')).toBeInTheDocument();
+        expect(screen.getByText('1000')).toBeInTheDocument();
+      });
+    });
+
+    it('should render new values correctly', async () => {
+      (get as jest.Mock).mockResolvedValue({ data: mockLogData });
+
+      renderComponent();
+
+      await waitFor(() => {
+        expect(screen.getByText('Inactive')).toBeInTheDocument();
+        expect(screen.getByText('2000')).toBeInTheDocument();
+        expect(screen.getByText('Test League Updated')).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('Loading and Error States', () => {
+    it('should reset error state when fetching new data', async () => {
+      // First call fails
+      (get as jest.Mock).mockRejectedValueOnce(new Error('API Error'));
+
+      const { rerender } = renderComponent({ leagueSettingId: 123 });
+
+      await waitFor(() => {
+        expect(
+          screen.getByText('Failed to load log history')
+        ).toBeInTheDocument();
+      });
+
+      // Second call succeeds
+      (get as jest.Mock).mockResolvedValueOnce({ data: mockLogData });
+
+      rerender(<HistoryModal {...mockProps} leagueSettingId={456} />);
+
+      await waitFor(() => {
+        expect(
+          screen.queryByText('Failed to load log history')
+        ).not.toBeInTheDocument();
+        expect(screen.getByText('09/28/2025 04:02 PM')).toBeInTheDocument();
+      });
+    });
+
+    it('should show loading before error', async () => {
+      (get as jest.Mock).mockImplementation(
+        () =>
+          new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('API Error')), 100)
+          )
+      );
+
+      renderComponent();
+
+      expect(screen.getByText('Loading...')).toBeInTheDocument();
+
+      await waitFor(() => {
+        expect(
+          screen.getByText('Failed to load log history')
+        ).toBeInTheDocument();
       });
     });
   });

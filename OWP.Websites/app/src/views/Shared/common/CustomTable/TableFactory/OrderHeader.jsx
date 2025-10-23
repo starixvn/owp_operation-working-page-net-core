@@ -6,7 +6,9 @@ import { useDispatch } from 'react-redux';
 
 const propTypes = {
   columnKey: PropTypes.string.isRequired,
-  headerName: PropTypes.string.isRequired
+  headerName: PropTypes.string.isRequired,
+  sortState: PropTypes.object.isRequired,
+  sortFunc: PropTypes.func.isRequired
 };
 
 const OrderHeader = headerModel => {

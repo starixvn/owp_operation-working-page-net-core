@@ -2,29 +2,18 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OWP.MaxbetSetting.Handlers;
-using OWP.Services;
 
 namespace OWP.MaxbetSetting;
 
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]
-public class MaxbetSettingController
+public class MaxbetSettingController(IMediator mediator)
 {
-    private readonly MaxbetSettingService maxbetSettingService;
-
-    private readonly IMediator mediator;
-
-    public MaxbetSettingController(MaxbetSettingService maxbetSettingService, IMediator mediator)
-    {
-        this.maxbetSettingService = maxbetSettingService;
-        this.mediator = mediator;
-    }
-
     [HttpGet("get-maxbet-setting")]
     public async Task<IActionResult> QueryMaxbetSetting()
     {
-        var result = await maxbetSettingService.QueryMaxbetSetting();
+        var result = await mediator.Send(new GetMaxbetSettingRequest());
 
         return new JsonResult(result);
     }

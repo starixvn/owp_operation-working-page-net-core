@@ -6,9 +6,10 @@ import {
   functionKey,
   getLog,
   query,
-  update
+  update,
+  maxbetSettingTable
 } from '../Const.json';
-import { buildMatchOfferURL, buildURL } from '../helper/helper';
+import { buildMatchOfferURL, buildURL, orderMaxbetSettingByFtHdp } from '../helper/helper';
 import {
   EditModel,
   EditPopupModel,
@@ -29,6 +30,10 @@ const useStore = create<MaxbetSettingState>((set, _) => ({
   isOpenEditPopup: false,
   popupType: null,
   policy: {} as Policy,
+  orderInfo: {
+    columnId: maxbetSettingTable.fullTimeMaxbetRefer.id,
+    orderType: 'NONE'
+  },
   maxbetSettings: [] as MaxBetSettingModel[],
   secondAcceptValues: [] as SelectOption[],
   getMaxbetSettings: async () => {
@@ -37,7 +42,9 @@ const useStore = create<MaxbetSettingState>((set, _) => ({
     const url = buildURL(query);
     const response = await axios.get(url);
     set({ loading: REQUEST_STATUS.idle });
-    set({ maxbetSettings: response.data });
+    set(state => ({
+      maxbetSettings: orderMaxbetSettingByFtHdp(response.data, state.orderInfo.orderType)
+    }));
   },
   queryPolicy: async () => {
     const policy = await getPermission(functionKey);
@@ -75,7 +82,13 @@ const useStore = create<MaxbetSettingState>((set, _) => ({
     set({ maxBetValue });
   },
   setOpenLogPopup: () => set({ isOpenLogPopup: true }),
-  setCloseLogPopup: () => set({ isOpenLogPopup: false })
+  setCloseLogPopup: () => set({ isOpenLogPopup: false }),
+  sortMaxbetSettings: async (columnId: string, orderType: 'ORDER_DESC' | 'ORDER_ASC' | 'NONE') => {
+    set({ orderInfo: { columnId, orderType } });
+    set(state => ({
+      maxbetSettings: orderMaxbetSettingByFtHdp([...state.maxbetSettings], orderType)
+    }));
+  }
 }));
 
 export type RootState = ReturnType<typeof useStore.getState>;

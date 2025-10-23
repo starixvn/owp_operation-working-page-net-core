@@ -93,6 +93,10 @@ type MaxbetSettingState = {
   policy: Policy;
   maxbetSettings: MaxBetSettingModel[];
   secondAcceptValues: SelectOption[];
+  orderInfo: {
+    columnId: string;
+    orderType: 'ORDER_DESC' | 'ORDER_ASC' | 'NONE'
+  };
   getMaxbetSettings: () => Promise<void>;
   queryPolicy: () => Promise<void>;
   setOpenEditPopup: () => void;
@@ -104,6 +108,7 @@ type MaxbetSettingState = {
   setLogData: (maxBetValue: number) => Promise<void>;
   setOpenLogPopup: () => void;
   setCloseLogPopup: () => void;
+  sortMaxbetSettings: (columnKey: string, orderType: 'ORDER_DESC' | 'ORDER_ASC') => void;
 };
 
 export {

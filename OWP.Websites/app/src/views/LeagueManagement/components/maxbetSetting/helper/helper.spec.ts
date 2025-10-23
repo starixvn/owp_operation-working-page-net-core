@@ -1,11 +1,6 @@
 import {
   isSecondAcceptValue,
-  isColumnKey,
-  getGroupColumnId,
-  formatMaxbetValue,
-  validateMaxbet,
-  covertToNumber,
-  buildURL
+  isFullTimeMaxbetReferColumn
 } from './helper';
 
 describe('test helper', () => {
@@ -14,8 +9,8 @@ describe('test helper', () => {
     expect(false).toEqual(isSecondAcceptValue('id'));
   });
 
-  it('test isColumnKey', () => {
-    expect(true).toEqual(isColumnKey('fT_HDP'));
-    expect(false).toEqual(isColumnKey('id'));
+  it('test isFullTimeMaxbetReferColumn', () => {
+    expect(true).toEqual(isFullTimeMaxbetReferColumn('fT_HDP'));
+    expect(false).toEqual(isFullTimeMaxbetReferColumn('id'));
   });
 });

@@ -1,10 +1,16 @@
+import React from 'react';
+import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import ActionCell from './ActionCell';
+import useStore from '../../../../app/store';
+
+const mockGetLogSettingQuery = jest.fn();
 
 const dataSource = [
   {
     categoryName: 'Major',
     isActive: false,
+    isActiveMaxBet: false,
     leagueSettingId: 1,
     maxBetHDP: 1,
     maxBetOU: 1,
@@ -32,11 +38,20 @@ const props = {
 };
 
 describe('ActionCell under test', () => {
+  beforeEach(() => {
+    useStore.setState({
+      logData: [],
+      getLogSettingQuery: mockGetLogSettingQuery
+    });
+    mockGetLogSettingQuery.mockClear();
+  });
+
   it('should open Popup', async () => {
     const { container } = render(<ActionCell {...props} />);
     const element = container.querySelector(`[class="action-cell"]`);
     fireEvent.click(element!);
     const league = await screen.findByText('Log History - ABC');
     expect(league).toBeInTheDocument();
+    expect(mockGetLogSettingQuery).toHaveBeenCalledWith(1);
   });
 });

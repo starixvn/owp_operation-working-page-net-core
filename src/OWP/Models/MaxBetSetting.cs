@@ -22,6 +22,14 @@ public class MaxBetSettingModel
     public string SecondAccept_Fantasy { get; set; }
     public string LastUpdatedBy { get; set; }
 
+    public decimal? NoOfCorner_FT_Spread_HDP { get; set; }
+
+    public decimal? NoOfCorner_FT_Spread_OU { get; set; }
+    public decimal? NextCorner_FT_Spread_HDP { get; set; }
+    public decimal? TotalBooking_FT_Spread_HDP { get; set; }
+    public decimal? TotalBooking_FT_Spread_OU { get; set; }
+    public decimal? NextBooking_FT_Spread_HDP { get; set; }
+
     public void MapsFollowFTHDP()
     {
         FT_OU = MapsFollowFTHDP(FT_OU);

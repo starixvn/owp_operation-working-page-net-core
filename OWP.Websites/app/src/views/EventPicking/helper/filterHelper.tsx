@@ -289,7 +289,7 @@ const multipleFilterCommon = (
   filterProps: TColumnKey
 ) => {
   if (!multipleFilter || !multipleFilter[filterProps]) {
-    console.log(`Filter ${filterProps} not found in multipleFilter`);
+
     return {
       multipleFilter,
       entities
