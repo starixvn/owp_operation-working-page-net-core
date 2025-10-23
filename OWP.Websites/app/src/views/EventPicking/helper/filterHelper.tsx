@@ -33,7 +33,7 @@ const buildUrl = (methodRoute: Required<string>) =>
 const handleCheckButton = (leagueName: string, isChildMatch: boolean) => {
   let url = `LeagueManagement?leagueName=${leagueName}&isEqualLeague=true`;
   if (isChildMatch) {
-    url = `LeagueManagement?tab=liveSetting`;
+    url = `LeagueManagement?tab=maxbet-setting`;
   } 
   window.open(url, '_blank');
 };
