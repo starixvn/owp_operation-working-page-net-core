@@ -1,9 +1,9 @@
-
+﻿
 
 using Fanex.NAP.Client;
 using Newtonsoft.Json;
 using OWP.EventPicking.Api.Services;
-using System.Linq;
+using OWP.EventPicking.Api.Helper;
 
 namespace OWP.EventPicking.Api.Handlers;
 
@@ -121,39 +121,46 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
                 continue;
             }
 
-            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "SpreadHDP", formatSpread(requestEvent.SpreadHdp), formatSpread(cachedEvent.SpreadHdp));
-            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "SpreadOU", formatSpread(requestEvent.SpreadOu), formatSpread(cachedEvent.SpreadOu));
-            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "MB HDP", formatMaxbet(requestEvent.MaxbetHdp), formatMaxbet(cachedEvent.MaxbetHdp));
-            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "MB OU", formatMaxbet(requestEvent.MaxbetOu), formatMaxbet(cachedEvent.MaxbetOU));
-            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, "No.HDP", requestEvent.NoOfHDP, cachedEvent.NoOfHDP);
+            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, requestEvent.MinorBettypeId, "SpreadHDP", formatSpread(requestEvent.SpreadHdp), formatSpread(cachedEvent.SpreadHdp));
+            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, requestEvent.MinorBettypeId, "SpreadOU", formatSpread(requestEvent.SpreadOu), formatSpread(cachedEvent.SpreadOu));
+            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, requestEvent.MinorBettypeId, "MB HDP", formatMaxbet(requestEvent.MaxbetHdp), formatMaxbet(cachedEvent.MaxbetHdp));
+            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, requestEvent.MinorBettypeId, "MB OU", formatMaxbet(requestEvent.MaxbetOu), formatMaxbet(cachedEvent.MaxbetOU));
+            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, requestEvent.MinorBettypeId, "No.HDP", requestEvent.NoOfHDP, cachedEvent.NoOfHDP);
         }
         
         return rAndDInfos;
     }
     
-    private void CheckAndAddNumberChange(List<LoggedChangeModel> rAndDInfos, int infoSiteMatchId, string fieldName, decimal? newValue, decimal? oldValue)
+    private void CheckAndAddStringChange(
+        List<LoggedChangeModel> rAndDInfos,
+        int infoSiteMatchId,
+        int minorBettypeId,
+        string fieldName,
+        string newValue,
+        string oldValue)
     {
-        if (HasNumberChanged(newValue, oldValue))
+        if (string.Equals(newValue ?? string.Empty, oldValue ?? string.Empty, StringComparison.Ordinal))
         {
-            rAndDInfos.Add(CreateRAndDInfo(infoSiteMatchId, $"Update <b>{fieldName}<b/>", 
-                oldValue?.ToString() ?? "", newValue?.ToString() ?? ""));
+            return;
         }
-    }
-    
-    private void CheckAndAddStringChange(List<LoggedChangeModel> rAndDInfos, int infoSiteMatchId, string fieldName, string newValue, string oldValue)
-    {
-        if ((newValue ?? "") != (oldValue ?? ""))
+
+        var (_, teamPostfix) = SpecialProductHelper.BuildPostFixSpecialProduct(minorBettypeId);
+        if (!string.IsNullOrEmpty(teamPostfix))
         {
-            rAndDInfos.Add(CreateRAndDInfo(infoSiteMatchId, $"Update the <b>{fieldName}<b/>", 
-                oldValue ?? "", newValue ?? ""));
+            teamPostfix = teamPostfix.TrimStart('-', ' ').Trim();
         }
-    }
-    
-    private bool HasNumberChanged(decimal? newValue, decimal? oldValue)
-    {
-        if (newValue == null && oldValue == null) return false;
-        if (newValue == null || oldValue == null) return true;
-        return Math.Abs(newValue.Value - oldValue.Value) > 0.0001m; // Small tolerance for decimal comparison
+
+        var boldText = string.IsNullOrEmpty(teamPostfix)
+            ? fieldName
+            : $"{fieldName} of {teamPostfix}";
+
+        var message = $"Update the <b>{boldText}</b>";
+
+        rAndDInfos.Add(CreateRAndDInfo(
+            infoSiteMatchId,
+            message,
+            oldValue ?? string.Empty,
+            newValue ?? string.Empty));
     }
     
     private LoggedChangeModel CreateRAndDInfo(int infoSiteMatchId, string fieldName, string oldValue, string newValue)
@@ -214,7 +221,7 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
         await cacheManipulator.SaveMBSpreadsByDate(eventDate, updatedCacheData);
     }
 
-    private string  formatSpread(decimal? spread)
+    private string formatSpread(decimal? spread)
     {
         return spread.HasValue ? $"{Math.Round(spread.Value*100)}%" : string.Empty;
     }
