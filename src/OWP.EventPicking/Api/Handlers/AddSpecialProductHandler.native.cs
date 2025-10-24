@@ -49,7 +49,7 @@ public class AddSpecialProductHandler(
                 parentId,
                 session.UserName,
                 action,
-                "Initialize",
+                null,
                 null));
         }
 
