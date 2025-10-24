@@ -61,78 +61,107 @@ public class BuildChildMatchMaxBetImp(MaxbetSettingService maxbetSettingService)
 
     public async Task Build(List<EventPickingModel> events)
     {
-        var maxBetDefaults= await GetMaxBetDefaultSetting();
+        var maxBetDefaults = await GetMaxBetDefaultSetting();
         var childEvents = events.Where(x => x.IsChildMatch);
         var mainEvents = events.Where(x => !x.IsChildMatch).ToList();
         foreach (var child in childEvents)
         {
             var maxBetDefault = GetMaxBetSettingDefault(mainEvents, child.InfoSiteMatchId, maxBetDefaults);
-            if (maxBetDefault is not null)
+            ApplyMaxBetSetting(maxBetDefault, child);
+        }
+    }
+
+    private static void ApplyMaxBetSetting(MaxBetSettingModel maxBetDefault, EventPickingModel child)
+    {
+        if (maxBetDefault is not null)
+        {
+            switch (child.MinorBettypeId)
             {
-                switch (child.MinorBettypeId)
-                {
-                    case Bettype.NoOfCorner:
-                        child.MaxbetHdp ??= maxBetDefault.NoOfCorner_FT_HDP;
-                        child.MaxbetOu ??= maxBetDefault.NoOfCorner_FT_OU;
-                        child.SpreadHdp ??= maxBetDefault.NoOfCorner_FT_Spread_HDP;
-                        child.SpreadOu ??= maxBetDefault.NoOfCorner_FT_Spread_OU;
-                        break;
-                    case Bettype.NextCorner:
-                        child.MaxbetHdp ??= maxBetDefault.NextCorner_FT_HDP;
-                        child.SpreadHdp ??= maxBetDefault.NextCorner_FT_Spread_HDP;
-                        break;
-                    case Bettype.TotalBooking:
-                        child.MaxbetHdp ??= maxBetDefault.TotalBooking_FT_OU;
-                        child.MaxbetOu ??= maxBetDefault.TotalBooking_FT_OU;
-                        child.SpreadHdp ??= maxBetDefault.TotalBooking_FT_Spread_HDP;
-                        child.SpreadOu ??= maxBetDefault.TotalBooking_FT_Spread_OU;
-                        break;
-                    case Bettype.NextBooking:
-                        child.MaxbetHdp ??= maxBetDefault.NextBooking_FT_HDP;
-                        child.SpreadHdp ??= maxBetDefault.NextBooking_FT_Spread_HDP;
-                        break;
-                    default:
-                        child.MaxbetHdp = null;
-                        break;
-                }
+                case Bettype.NoOfCorner:
+                    ApplyNoOfCornerSettings(child, maxBetDefault);
+                    break;
+                case Bettype.NextCorner:
+                    ApplyNextCornerSettings(child, maxBetDefault);
+                    break;
+                case Bettype.TotalBooking:
+                    ApplyTotalBookingSettings(child, maxBetDefault);
+                    break;
+                case Bettype.NextBooking:
+                    ApplyNextBookingSettings(child, maxBetDefault);
+                    break;
+                default:
+                    child.MaxbetHdp = null;
+                    break;
             }
         }
     }
 
+    private static void ApplyNoOfCornerSettings(EventPickingModel child, MaxBetSettingModel maxBetDefault)
+    {
+        child.MaxbetHdp ??= maxBetDefault.NoOfCorner_FT_HDP;
+        child.MaxbetOu ??= maxBetDefault.NoOfCorner_FT_OU;
+        child.SpreadHdp ??= maxBetDefault.NoOfCorner_FT_Spread_HDP;
+        child.SpreadOu ??= maxBetDefault.NoOfCorner_FT_Spread_OU;
+    }
+
+    private static void ApplyNextCornerSettings(EventPickingModel child, MaxBetSettingModel maxBetDefault)
+    {
+        child.MaxbetHdp ??= maxBetDefault.NextCorner_FT_HDP;
+        child.SpreadHdp ??= maxBetDefault.NextCorner_FT_Spread_HDP;
+    }
+
+    private static void ApplyTotalBookingSettings(EventPickingModel child, MaxBetSettingModel maxBetDefault)
+    {
+        child.MaxbetHdp ??= maxBetDefault.TotalBooking_FT_HDP;
+        child.MaxbetOu ??= maxBetDefault.TotalBooking_FT_OU;
+        child.SpreadHdp ??= maxBetDefault.TotalBooking_FT_Spread_HDP;
+        child.SpreadOu ??= maxBetDefault.TotalBooking_FT_Spread_OU;
+    }
+
+    private static void ApplyNextBookingSettings(EventPickingModel child, MaxBetSettingModel maxBetDefault)
+    {
+        child.MaxbetHdp ??= maxBetDefault.NextBooking_FT_HDP;
+        child.SpreadHdp ??= maxBetDefault.NextBooking_FT_Spread_HDP;
+    }
     public async Task BuildMBForAddSpecialProduct(List<SpecialProductMaxbetSpread> events, List<EventPickingModel> mainEvents)
     {
-        var maxBetDefaults= await GetMaxBetDefaultSetting();
+        var maxBetDefaults = await GetMaxBetDefaultSetting();
         foreach (var child in events)
         {
             var maxBetDefault = GetMaxBetSettingDefault(mainEvents, child.ParentId, maxBetDefaults);
-            if (maxBetDefault is not null)
+            ApplyMaxBetSettingForSpecialProduct(maxBetDefault, child);
+        }
+    }
+
+    private static void ApplyMaxBetSettingForSpecialProduct(MaxBetSettingModel maxBetDefault, SpecialProductMaxbetSpread child)
+    {
+        if (maxBetDefault is not null)
+        {
+            switch (child.MinorBettypeId)
             {
-                switch (child.MinorBettypeId)   
-                {
-                    case Bettype.NoOfCorner:
-                        child.MaxbetHdp = maxBetDefault.NoOfCorner_FT_HDP;
-                        child.MaxbetOu = maxBetDefault.NoOfCorner_FT_OU;
-                        child.SpreadHdp = maxBetDefault.NoOfCorner_FT_Spread_HDP;
-                        child.SpreadOu = maxBetDefault.NoOfCorner_FT_Spread_OU;
-                        break;
-                    case Bettype.NextCorner:
-                        child.MaxbetHdp = maxBetDefault.NextCorner_FT_HDP;
-                        child.SpreadHdp = maxBetDefault.NextCorner_FT_Spread_HDP;
-                        break;
-                    case Bettype.TotalBooking:
-                        child.MaxbetHdp = maxBetDefault.TotalBooking_FT_HDP;
-                        child.MaxbetOu = maxBetDefault.TotalBooking_FT_OU;
-                        child.SpreadHdp = maxBetDefault.TotalBooking_FT_Spread_HDP;
-                        child.SpreadOu = maxBetDefault.TotalBooking_FT_Spread_OU;
-                        break;
-                    case Bettype.NextBooking:
-                        child.MaxbetHdp = maxBetDefault.NextBooking_FT_HDP;
-                        child.SpreadHdp = maxBetDefault.NextBooking_FT_Spread_HDP;
-                        break;
-                    default:
-                        child.MaxbetHdp = null;
-                        break;
-                }
+                case Bettype.NoOfCorner:
+                    child.MaxbetHdp = maxBetDefault.NoOfCorner_FT_HDP;
+                    child.MaxbetOu = maxBetDefault.NoOfCorner_FT_OU;
+                    child.SpreadHdp = maxBetDefault.NoOfCorner_FT_Spread_HDP;
+                    child.SpreadOu = maxBetDefault.NoOfCorner_FT_Spread_OU;
+                    break;
+                case Bettype.NextCorner:
+                    child.MaxbetHdp = maxBetDefault.NextCorner_FT_HDP;
+                    child.SpreadHdp = maxBetDefault.NextCorner_FT_Spread_HDP;
+                    break;
+                case Bettype.TotalBooking:
+                    child.MaxbetHdp = maxBetDefault.TotalBooking_FT_HDP;
+                    child.MaxbetOu = maxBetDefault.TotalBooking_FT_OU;
+                    child.SpreadHdp = maxBetDefault.TotalBooking_FT_Spread_HDP;
+                    child.SpreadOu = maxBetDefault.TotalBooking_FT_Spread_OU;
+                    break;
+                case Bettype.NextBooking:
+                    child.MaxbetHdp = maxBetDefault.NextBooking_FT_HDP;
+                    child.SpreadHdp = maxBetDefault.NextBooking_FT_Spread_HDP;
+                    break;
+                default:
+                    child.MaxbetHdp = null;
+                    break;
             }
         }
     }

@@ -493,4 +493,336 @@ public class BuildChildMatchMaxBetUnitTests
         Assert.Equal(999, childMatches[0].MaxbetHdp);
         Assert.Equal(888, childMatches[0].MaxbetOu);
     }
+
+    #region Build Method Tests
+
+    [Fact]
+    public async Task Build_WithNoChildMatches_ShouldNotProcessAnyMatches()
+    {
+        // Arrange
+        var maxbetSettingService = Substitute.For<MaxbetSettingService>();
+        maxbetSettingService.QueryMaxbetSetting().Returns(Task.FromResult<IList<MaxBetSettingModel>>(
+            new List<MaxBetSettingModel>
+            {
+                new() { FT_HDP = 5000, NoOfCorner_FT_HDP = 2000 }
+            }));
+
+        var service = new BuildChildMatchMaxBetImp(maxbetSettingService);
+        var events = new List<EventPickingModel>
+        {
+            new() { InfoSiteMatchId = 1, MaxbetHdp = 5000 } // No MinorBettypeId = not a child match
+        };
+
+        // Act
+        await service.Build(events);
+
+        // Assert - No child matches to process, so no changes expected
+        Assert.False(events[0].IsChildMatch); // IsChildMatch is computed from MinorBettypeId.HasValue
+    }
+
+    [Fact]
+    public async Task Build_WithChildMatches_ShouldApplyCorrectSettings()
+    {
+        // Arrange
+        var maxbetSettingService = Substitute.For<MaxbetSettingService>();
+        maxbetSettingService.QueryMaxbetSetting().Returns(Task.FromResult<IList<MaxBetSettingModel>>(
+            new List<MaxBetSettingModel>
+            {
+                new()
+                {
+                    FT_HDP = 5000,
+                    NoOfCorner_FT_HDP = 2000,
+                    NoOfCorner_FT_OU = 1000,
+                    NoOfCorner_FT_Spread_HDP = 0.05m,
+                    NoOfCorner_FT_Spread_OU = 0.03m,
+                    NextCorner_FT_HDP = 3000,
+                    NextCorner_FT_Spread_HDP = 0.04m,
+                    TotalBooking_FT_HDP = 1500,
+                    TotalBooking_FT_OU = 800,
+                    TotalBooking_FT_Spread_HDP = 0.06m,
+                    TotalBooking_FT_Spread_OU = 0.02m,
+                    NextBooking_FT_HDP = 2500,
+                    NextBooking_FT_Spread_HDP = 0.07m
+                }
+            }));
+
+        var service = new BuildChildMatchMaxBetImp(maxbetSettingService);
+        var events = new List<EventPickingModel>
+        {
+            // Main match
+            new() { InfoSiteMatchId = 1, MaxbetHdp = 5000 }, // No MinorBettypeId = not a child match
+            // Child matches
+            new() { InfoSiteMatchId = 1, MinorBettypeId = -3 }, // NoOfCorner
+            new() { InfoSiteMatchId = 1, MinorBettypeId = -4 }, // NextCorner
+            new() { InfoSiteMatchId = 1, MinorBettypeId = -6 }, // TotalBooking
+            new() { InfoSiteMatchId = 1, MinorBettypeId = -7 }  // NextBooking
+        };
+
+        // Act
+        await service.Build(events);
+
+        // Assert - Check NoOfCorner settings
+        var noOfCornerChild = events[1];
+        Assert.Equal(2000, noOfCornerChild.MaxbetHdp);
+        Assert.Equal(1000, noOfCornerChild.MaxbetOu);
+        Assert.Equal(0.05m, noOfCornerChild.SpreadHdp);
+        Assert.Equal(0.03m, noOfCornerChild.SpreadOu);
+
+        // Assert - Check NextCorner settings
+        var nextCornerChild = events[2];
+        Assert.Equal(3000, nextCornerChild.MaxbetHdp);
+        Assert.Equal(0.04m, nextCornerChild.SpreadHdp);
+
+        // Assert - Check TotalBooking settings
+        var totalBookingChild = events[3];
+        Assert.Equal(1500, totalBookingChild.MaxbetHdp);
+        Assert.Equal(800, totalBookingChild.MaxbetOu);
+        Assert.Equal(0.06m, totalBookingChild.SpreadHdp);
+        Assert.Equal(0.02m, totalBookingChild.SpreadOu);
+
+        // Assert - Check NextBooking settings
+        var nextBookingChild = events[4];
+        Assert.Equal(2500, nextBookingChild.MaxbetHdp);
+        Assert.Equal(0.07m, nextBookingChild.SpreadHdp);
+    }
+
+    [Fact]
+    public async Task Build_WithNullCoalescing_ShouldNotOverwriteExistingValues()
+    {
+        // Arrange
+        var maxbetSettingService = Substitute.For<MaxbetSettingService>();
+        maxbetSettingService.QueryMaxbetSetting().Returns(Task.FromResult<IList<MaxBetSettingModel>>(
+            new List<MaxBetSettingModel>
+            {
+                new()
+                {
+                    FT_HDP = 5000,
+                    NoOfCorner_FT_HDP = 2000,
+                    NoOfCorner_FT_OU = 1000,
+                    NoOfCorner_FT_Spread_HDP = 0.05m,
+                    NoOfCorner_FT_Spread_OU = 0.03m
+                }
+            }));
+
+        var service = new BuildChildMatchMaxBetImp(maxbetSettingService);
+        var events = new List<EventPickingModel>
+        {
+            // Main match
+            new() { InfoSiteMatchId = 1, MaxbetHdp = 5000 }, // No MinorBettypeId = not a child match
+            // Child match with existing values
+            new()
+            {
+                InfoSiteMatchId = 1,
+                MinorBettypeId = -3,
+                MaxbetHdp = 9999, // Existing value
+                MaxbetOu = 8888,  // Existing value
+                SpreadHdp = 0.99m, // Existing value
+                SpreadOu = 0.88m   // Existing value
+            }
+        };
+
+        // Act
+        await service.Build(events);
+
+        // Assert - Existing values should not be overwritten due to null-coalescing
+        var child = events[1];
+        Assert.Equal(9999, child.MaxbetHdp); // Should remain unchanged
+        Assert.Equal(8888, child.MaxbetOu);  // Should remain unchanged
+        Assert.Equal(0.99m, child.SpreadHdp); // Should remain unchanged
+        Assert.Equal(0.88m, child.SpreadOu);  // Should remain unchanged
+    }
+
+    [Fact]
+    public async Task Build_WithNullValues_ShouldApplyDefaultSettings()
+    {
+        // Arrange
+        var maxbetSettingService = Substitute.For<MaxbetSettingService>();
+        maxbetSettingService.QueryMaxbetSetting().Returns(Task.FromResult<IList<MaxBetSettingModel>>(
+            new List<MaxBetSettingModel>
+            {
+                new()
+                {
+                    FT_HDP = 5000,
+                    NoOfCorner_FT_HDP = 2000,
+                    NoOfCorner_FT_OU = 1000,
+                    NoOfCorner_FT_Spread_HDP = 0.05m,
+                    NoOfCorner_FT_Spread_OU = 0.03m
+                }
+            }));
+
+        var service = new BuildChildMatchMaxBetImp(maxbetSettingService);
+        var events = new List<EventPickingModel>
+        {
+            // Main match
+            new() { InfoSiteMatchId = 1, MaxbetHdp = 5000 }, // No MinorBettypeId = not a child match
+            // Child match with null values
+            new()
+            {
+                InfoSiteMatchId = 1,
+                MinorBettypeId = -3,
+                MaxbetHdp = null, // Null value
+                MaxbetOu = null,  // Null value
+                SpreadHdp = null, // Null value
+                SpreadOu = null   // Null value
+            }
+        };
+
+        // Act
+        await service.Build(events);
+
+        // Assert - Null values should be replaced with default settings
+        var child = events[1];
+        Assert.Equal(2000, child.MaxbetHdp);
+        Assert.Equal(1000, child.MaxbetOu);
+        Assert.Equal(0.05m, child.SpreadHdp);
+        Assert.Equal(0.03m, child.SpreadOu);
+    }
+
+    [Fact]
+    public async Task Build_WithUnknownBetType_ShouldSetMaxbetHdpToNull()
+    {
+        // Arrange
+        var maxbetSettingService = Substitute.For<MaxbetSettingService>();
+        maxbetSettingService.QueryMaxbetSetting().Returns(Task.FromResult<IList<MaxBetSettingModel>>(
+            new List<MaxBetSettingModel>
+            {
+                new() { FT_HDP = 5000 }
+            }));
+
+        var service = new BuildChildMatchMaxBetImp(maxbetSettingService);
+        var events = new List<EventPickingModel>
+        {
+            // Main match
+            new() { InfoSiteMatchId = 1, MaxbetHdp = 5000 }, // No MinorBettypeId = not a child match
+            // Child match with unknown bet type
+            new()
+            {
+                InfoSiteMatchId = 1,
+                MinorBettypeId = -999 // Unknown bet type
+            }
+        };
+
+        // Act
+        await service.Build(events);
+
+        // Assert - Unknown bet type should set MaxbetHdp to null
+        var child = events[1];
+        Assert.Null(child.MaxbetHdp);
+    }
+
+    [Fact]
+    public async Task Build_WithNoMatchingMainMatch_ShouldNotApplySettings()
+    {
+        // Arrange
+        var maxbetSettingService = Substitute.For<MaxbetSettingService>();
+        maxbetSettingService.QueryMaxbetSetting().Returns(Task.FromResult<IList<MaxBetSettingModel>>(
+            new List<MaxBetSettingModel>
+            {
+                new() { FT_HDP = 5000, NoOfCorner_FT_HDP = 2000 }
+            }));
+
+        var service = new BuildChildMatchMaxBetImp(maxbetSettingService);
+        var events = new List<EventPickingModel>
+        {
+            // Main match with different InfoSiteMatchId
+            new() { InfoSiteMatchId = 999, MaxbetHdp = 5000 }, // No MinorBettypeId = not a child match
+            // Child match looking for non-existent parent
+            new()
+            {
+                InfoSiteMatchId = 1, // No matching main match
+                MinorBettypeId = -3
+            }
+        };
+
+        // Act
+        await service.Build(events);
+
+        // Assert - No settings should be applied since no matching main match
+        var child = events[1];
+        Assert.Null(child.MaxbetHdp);
+        Assert.Null(child.MaxbetOu);
+        Assert.Null(child.SpreadHdp);
+        Assert.Null(child.SpreadOu);
+    }
+
+    [Fact]
+    public async Task Build_WithMainMatchHavingNullMaxbetHdp_ShouldNotApplySettings()
+    {
+        // Arrange
+        var maxbetSettingService = Substitute.For<MaxbetSettingService>();
+        maxbetSettingService.QueryMaxbetSetting().Returns(Task.FromResult<IList<MaxBetSettingModel>>(
+            new List<MaxBetSettingModel>
+            {
+                new() { FT_HDP = 5000, NoOfCorner_FT_HDP = 2000 }
+            }));
+
+        var service = new BuildChildMatchMaxBetImp(maxbetSettingService);
+        var events = new List<EventPickingModel>
+        {
+            // Main match with null MaxbetHdp
+            new() { InfoSiteMatchId = 1, MaxbetHdp = null }, // No MinorBettypeId = not a child match
+            // Child match
+            new()
+            {
+                InfoSiteMatchId = 1,
+                MinorBettypeId = -3
+            }
+        };
+
+        // Act
+        await service.Build(events);
+
+        // Assert - No settings should be applied since main match has null MaxbetHdp
+        var child = events[1];
+        Assert.Null(child.MaxbetHdp);
+        Assert.Null(child.MaxbetOu);
+        Assert.Null(child.SpreadHdp);
+        Assert.Null(child.SpreadOu);
+    }
+
+    [Fact]
+    public async Task Build_WithMultipleChildMatches_ShouldProcessAllCorrectly()
+    {
+        // Arrange
+        var maxbetSettingService = Substitute.For<MaxbetSettingService>();
+        maxbetSettingService.QueryMaxbetSetting().Returns(Task.FromResult<IList<MaxBetSettingModel>>(
+            new List<MaxBetSettingModel>
+            {
+                new()
+                {
+                    FT_HDP = 5000,
+                    NoOfCorner_FT_HDP = 2000,
+                    NoOfCorner_FT_OU = 1000,
+                    NextCorner_FT_HDP = 3000,
+                    TotalBooking_FT_HDP = 1500,
+                    TotalBooking_FT_OU = 800,
+                    NextBooking_FT_HDP = 2500
+                }
+            }));
+
+        var service = new BuildChildMatchMaxBetImp(maxbetSettingService);
+        var events = new List<EventPickingModel>
+        {
+            // Main match
+            new() { InfoSiteMatchId = 1, MaxbetHdp = 5000 }, // No MinorBettypeId = not a child match
+            // Multiple child matches
+            new() { InfoSiteMatchId = 1, MinorBettypeId = -3 }, // NoOfCorner
+            new() { InfoSiteMatchId = 1, MinorBettypeId = -4 }, // NextCorner
+            new() { InfoSiteMatchId = 1, MinorBettypeId = -6 }, // TotalBooking
+            new() { InfoSiteMatchId = 1, MinorBettypeId = -7 }, // NextBooking
+            new() { InfoSiteMatchId = 1, MinorBettypeId = -3 }  // Another NoOfCorner
+        };
+
+        // Act
+        await service.Build(events);
+
+        // Assert - All child matches should be processed
+        Assert.Equal(2000, events[1].MaxbetHdp); // First NoOfCorner
+        Assert.Equal(3000, events[2].MaxbetHdp); // NextCorner
+        Assert.Equal(1500, events[3].MaxbetHdp); // TotalBooking
+        Assert.Equal(2500, events[4].MaxbetHdp); // NextBooking
+        Assert.Equal(2000, events[5].MaxbetHdp); // Second NoOfCorner
+    }
+
+    #endregion
 }
