@@ -15,7 +15,7 @@ public class AddSpecialProductHandler(
     {
         var specialProducts = GenerateSpecialProducts(request.AddInfo.ParentId, request.AddInfo.MinorBettypeId);
 
-        if(specialProducts.Count == 0)
+        if (specialProducts.Count == 0)
         {
             return Unit.Value;
         }
@@ -26,48 +26,34 @@ public class AddSpecialProductHandler(
         await repository.ExecuteNonQuery(new AddSpecialProductCriteria
         {
             ActorId = session.UserId,
-            ChildMatches =  XmlConverter.Serialize(specialProducts),
+            ChildMatches = XmlConverter.Serialize(specialProducts),
         });
-        await WriteLogWhenAddSpecialProduct(specialProducts);
+
+        var specialProductIds = request.AddInfo.MinorBettypeId
+            .Split(',')
+            .Select(int.Parse)
+            .ToList();
+        await WriteLogWhenAddSpecialProduct(specialProductIds, int.Parse(request.AddInfo.ParentId), cancellationToken);
+
         return Unit.Value;
     }
 
-    private async Task WriteLogWhenAddSpecialProduct(List<SpecialProductMaxbetSpread> specialProducts)
+    private async Task WriteLogWhenAddSpecialProduct(List<int> specialProductIds, int parentId, CancellationToken cancellationToken = default)
     {
         var logData = new List<LoggedChangeModel>();
-        foreach (var sp in specialProducts)
+        foreach (var sp in specialProductIds)
         {
-            var (_, teamPostfix) = SpecialProductHelper.BuildPostFixSpecialProduct(sp.MinorBettypeId);
-            if (!string.IsNullOrEmpty(teamPostfix))
-            {
-                teamPostfix = teamPostfix.TrimStart('-', ' ').Trim();
-            }
+            var teamPostfix = SpecialProductHelper.GetCleanedTeamPostfix(sp);
             var action = $"Add a new product <b>{teamPostfix}</b>";
-            logData.Add(new LoggedChangeModel
-            {
-                InfoSiteMatchId = sp.ParentId,
-                UpdateTypeId = null,
-                ModifiedBy = session.UserName,
-                Action = action,
-                OldValue = "Initialize",
-                NewValue = null,
-                UpDateTime = DateTime.Now.ToGmt8(),
-            });
+            logData.Add(SpecialProductHelper.CreateLoggedChangeModel(
+                parentId,
+                session.UserName,
+                action,
+                "Initialize",
+                null));
         }
 
-        await SaveEventLogAsync(logData);
-    }
-
-    private async Task SaveEventLogAsync(List<LoggedChangeModel> logData)
-    {
-        if (logData == null)
-        {
-            return;
-        }
-
-        var xml = XmlConverter.Serialize(logData);
-        var criteria = new SaveEditEventLogsCriteria { Xml = xml };
-        await repository.SaveEventLog(criteria).ConfigureAwait(false);
+        await SpecialProductHelper.SaveEventLogAsync(repository, logData, cancellationToken);
     }
 
     private static List<SpecialProductMaxbetSpread> GenerateSpecialProducts(string parentMatchIds, string minorBettypeIds)

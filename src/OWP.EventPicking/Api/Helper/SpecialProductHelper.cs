@@ -1,10 +1,12 @@
 ﻿using OWP.Constants;
-using OWP.EventPicking.Api.Models;
+using static System.DateTime;
 
 namespace OWP.EventPicking.Api.Helper;
 
 public static class SpecialProductHelper
 {
+    private const int SpreadPercentageMultiplier = 100;
+    private const int MaxbetKiloDivisor = 1000;
     public static void BuildSpecialProduct<T>(IList<T> events) where T : class, EventProductCommon
     {
         foreach (var @event in events)
@@ -24,19 +26,17 @@ public static class SpecialProductHelper
         foreach (var mainMatch in mainMatches)
         {
             var childMatchesOfThisMainMatch = childMatches.Where(childMatch => childMatch.InfoSiteMatchId == mainMatch.InfoSiteMatchId).ToList();
-            if (AssignMatchNo(mainMatch, matchNo, childMatchesOfThisMainMatch))
-            {
-                matchNo++;
-            }
+            AssignMatchNo(mainMatch, matchNo, childMatchesOfThisMainMatch);
+            matchNo++;
 
             matches.Add(mainMatch);
             matches.AddRange(childMatchesOfThisMainMatch);
         }
 
-        return matches.ToList();
+        return matches;
     }
 
-    private static bool AssignMatchNo<T>(T mainMatch, int matchNo, List<T> childMatchesOfThisMainMatch) where T : class, EventProductCommon
+    private static void AssignMatchNo<T>(T mainMatch, int matchNo, List<T> childMatchesOfThisMainMatch) where T : class, EventProductCommon
     {
         mainMatch.MatchNo = MatchNoHelper.BuildMainMatchNo(matchNo);
         foreach (var childMatch in childMatchesOfThisMainMatch)
@@ -45,7 +45,6 @@ public static class SpecialProductHelper
         }
 
         childMatchesOfThisMainMatch.Sort((x, y) => string.CompareOrdinal(x.MatchNo, y.MatchNo));
-        return true;
     }
 
     public static (string leaguePostfix, string teamPostfix) BuildPostFixSpecialProduct(int? minorBettypeId)
@@ -61,5 +60,50 @@ public static class SpecialProductHelper
     }
 
     public static bool CheckMatchHaveBeenExclude(string homeName)
-        => homeName.IsContains("(ET)") || homeName.IsContains("(PEN)");
+        => !string.IsNullOrEmpty(homeName) && (homeName.IsContains("(ET)") || homeName.IsContains("(PEN)"));
+
+    public static string GetCleanedTeamPostfix(int? minorBettypeId)
+    {
+        var (_, teamPostfix) = BuildPostFixSpecialProduct(minorBettypeId);
+        return string.IsNullOrEmpty(teamPostfix)
+            ? teamPostfix
+            : teamPostfix.TrimStart('-', ' ').Trim();
+    }
+
+    public static LoggedChangeModel CreateLoggedChangeModel(
+        int infoSiteMatchId,
+        string modifiedBy,
+        string action,
+        string oldValue = null,
+        string newValue = null)
+    {
+        return new LoggedChangeModel
+        {
+            InfoSiteMatchId = infoSiteMatchId,
+            UpdateTypeId = null,
+            ModifiedBy = modifiedBy,
+            Action = action,
+            OldValue = oldValue,
+            NewValue = newValue,
+            UpDateTime = Now.ToGmt8(),
+        };
+    }
+
+    public static async Task SaveEventLogAsync(Repository repository, List<LoggedChangeModel> logData, CancellationToken cancellationToken = default)
+    {
+        if (logData is not { Count: > 0 })
+        {
+            return;
+        }
+
+        var xml = XmlConverter.Serialize(logData);
+        var criteria = new SaveEditEventLogsCriteria { Xml = xml };
+        await repository.SaveEventLog(criteria).ConfigureAwait(false);
+    }
+
+    public static string FormatSpread(decimal? spread)
+        => spread.HasValue ? $"{Math.Round(spread.Value * SpreadPercentageMultiplier)}%" : string.Empty;
+
+    public static string FormatMaxbet(decimal? maxbet)
+        => maxbet.HasValue ? $"{Math.Round(maxbet.Value / MaxbetKiloDivisor)}K" : string.Empty;
 }

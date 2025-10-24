@@ -33,23 +33,12 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
 
         await UpdateMaxbetSpreadMainMatches(request.Events);
         await UpdateMaxbetSpreadMinorMatches(request.Events);
-        await SaveEventLogAsync(logData);
+        await SpecialProductHelper.SaveEventLogAsync(repository, logData, cancellationToken);
         await SaveUpdatedDataToCache(request.EventDate, request.Events, cachedMBSpreads);
 
         return Unit.Value;
     }
 
-    private async Task SaveEventLogAsync(List<LoggedChangeModel> logData)
-    {
-        if (logData == null)
-        {
-            return;
-        }
-
-        var xml = XmlConverter.Serialize(logData);
-        var criteria = new SaveEditEventLogsCriteria { Xml = xml };
-        await repository.SaveEventLog(criteria).ConfigureAwait(false);
-    }
 
     private async Task UpdateMaxbetSpreadMinorMatches(IList<UpdateEvents> events)
     {
@@ -57,7 +46,7 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
         {
             return;
         }
-            
+
         var minorMatches = events
             .Where(e => e.IsChildMatch)
             .Select(a => new SpecialProductMaxbetSpread
@@ -113,7 +102,7 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
 
         foreach (var requestEvent in requestEvents)
         {
-            var cachedEvent = cachedMBSpreads.FirstOrDefault(c => c.InfoSiteMatchId == requestEvent.InfoSiteMatchId 
+            var cachedEvent = cachedMBSpreads.FirstOrDefault(c => c.InfoSiteMatchId == requestEvent.InfoSiteMatchId
                                                                   && c.MinorBettypeId == requestEvent.MinorBettypeId);
 
             if (cachedEvent == null)
@@ -121,16 +110,16 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
                 continue;
             }
 
-            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, requestEvent.MinorBettypeId, "SpreadHDP", formatSpread(requestEvent.SpreadHdp), formatSpread(cachedEvent.SpreadHdp));
-            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, requestEvent.MinorBettypeId, "SpreadOU", formatSpread(requestEvent.SpreadOu), formatSpread(cachedEvent.SpreadOu));
-            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, requestEvent.MinorBettypeId, "MB HDP", formatMaxbet(requestEvent.MaxbetHdp), formatMaxbet(cachedEvent.MaxbetHdp));
-            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, requestEvent.MinorBettypeId, "MB OU", formatMaxbet(requestEvent.MaxbetOu), formatMaxbet(cachedEvent.MaxbetOU));
+            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, requestEvent.MinorBettypeId, "SpreadHDP", SpecialProductHelper.FormatSpread(requestEvent.SpreadHdp), SpecialProductHelper.FormatSpread(cachedEvent.SpreadHdp));
+            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, requestEvent.MinorBettypeId, "SpreadOU", SpecialProductHelper.FormatSpread(requestEvent.SpreadOu), SpecialProductHelper.FormatSpread(cachedEvent.SpreadOu));
+            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, requestEvent.MinorBettypeId, "MB HDP", SpecialProductHelper.FormatMaxbet(requestEvent.MaxbetHdp), SpecialProductHelper.FormatMaxbet(cachedEvent.MaxbetHdp));
+            CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, requestEvent.MinorBettypeId, "MB OU", SpecialProductHelper.FormatMaxbet(requestEvent.MaxbetOu), SpecialProductHelper.FormatMaxbet(cachedEvent.MaxbetOU));
             CheckAndAddStringChange(rAndDInfos, requestEvent.InfoSiteMatchId, requestEvent.MinorBettypeId, "No.HDP", requestEvent.NoOfHDP, cachedEvent.NoOfHDP);
         }
-        
+
         return rAndDInfos;
     }
-    
+
     private void CheckAndAddStringChange(
         List<LoggedChangeModel> rAndDInfos,
         int infoSiteMatchId,
@@ -144,11 +133,7 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
             return;
         }
 
-        var (_, teamPostfix) = SpecialProductHelper.BuildPostFixSpecialProduct(minorBettypeId);
-        if (!string.IsNullOrEmpty(teamPostfix))
-        {
-            teamPostfix = teamPostfix.TrimStart('-', ' ').Trim();
-        }
+        var teamPostfix = SpecialProductHelper.GetCleanedTeamPostfix(minorBettypeId);
 
         var boldText = string.IsNullOrEmpty(teamPostfix)
             ? fieldName
@@ -156,38 +141,25 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
 
         var message = $"Update the <b>{boldText}</b>";
 
-        rAndDInfos.Add(CreateRAndDInfo(
+        rAndDInfos.Add(SpecialProductHelper.CreateLoggedChangeModel(
             infoSiteMatchId,
+            session.UserName,
             message,
             oldValue ?? string.Empty,
             newValue ?? string.Empty));
     }
-    
-    private LoggedChangeModel CreateRAndDInfo(int infoSiteMatchId, string fieldName, string oldValue, string newValue)
-    {
-        return new LoggedChangeModel
-        {
-            InfoSiteMatchId = infoSiteMatchId,
-            UpdateTypeId = null,
-            ModifiedBy = session.UserName,
-            Action = fieldName,
-            OldValue = oldValue,
-            NewValue = newValue,
-            UpDateTime = DateTime.Now.ToGmt8(),
-        };
-    }
-    
+
     private async Task SaveUpdatedDataToCache(DateTime eventDate, IList<UpdateEvents> requestEvents, List<EventMBSpread> cachedMBSpreads)
     {
         // Create a copy of the existing cached data
         var updatedCacheData = cachedMBSpreads.ToList();
-        
+
         // Update only the events that were modified
         foreach (var requestEvent in requestEvents)
         {
             var existingEvent = updatedCacheData.FirstOrDefault(c => c.InfoSiteMatchId == requestEvent.InfoSiteMatchId
                                                                      && c.MinorBettypeId == requestEvent.MinorBettypeId);
-            
+
             if (existingEvent != null)
             {
                 // Update existing event in cache
@@ -217,17 +189,7 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
                 });
             }
         }
-        
+
         await cacheManipulator.SaveMBSpreadsByDate(eventDate, updatedCacheData);
-    }
-
-    private string formatSpread(decimal? spread)
-    {
-        return spread.HasValue ? $"{Math.Round(spread.Value*100)}%" : string.Empty;
-    }
-
-    private string formatMaxbet(decimal? maxbet)
-    {
-        return maxbet.HasValue ? $"{Math.Round(maxbet.Value/1000)}K" : string.Empty;
     }
 }

@@ -20,46 +20,26 @@ public class RemoveSpecialProductHandler(INapSession session, Repository reposit
             .Split(',')
             .Select(int.Parse)
             .ToList();
-        await WriteLogWhenRemoveSpecialProduct(specialProductIds, int.Parse(request.RemoveInfo.ParentId));
+        await WriteLogWhenRemoveSpecialProduct(specialProductIds, int.Parse(request.RemoveInfo.ParentId), cancellationToken);
 
         return Unit.Value;
     }
 
-    private async Task WriteLogWhenRemoveSpecialProduct(List<int> specialProductIds, int parentId)
+    private async Task WriteLogWhenRemoveSpecialProduct(List<int> specialProductIds, int parentId, CancellationToken cancellationToken = default)
     {
         var logData = new List<LoggedChangeModel>();
         foreach (var sp in specialProductIds)
         {
-            var (_, teamPostfix) = SpecialProductHelper.BuildPostFixSpecialProduct(sp);
-            if (!string.IsNullOrEmpty(teamPostfix))
-            {
-                teamPostfix = teamPostfix.TrimStart('-', ' ').Trim();
-            }
+            var teamPostfix = SpecialProductHelper.GetCleanedTeamPostfix(sp);
             var action = $"Delete the product <b>{teamPostfix}</b>";
-            logData.Add(new LoggedChangeModel
-            {
-                InfoSiteMatchId = parentId,
-                UpdateTypeId = null,
-                ModifiedBy = session.UserName,
-                Action = action,
-                OldValue = null,
-                NewValue = null,
-                UpDateTime = DateTime.Now.ToGmt8(),
-            });
+            logData.Add(SpecialProductHelper.CreateLoggedChangeModel(
+                parentId,
+                session.UserName,
+                action,
+                null,
+                null));
         }
 
-        await SaveEventLogAsync(logData);
-    }
-
-    private async Task SaveEventLogAsync(List<LoggedChangeModel> logData)
-    {
-        if (logData == null)
-        {
-            return;
-        }
-
-        var xml = XmlConverter.Serialize(logData);
-        var criteria = new SaveEditEventLogsCriteria { Xml = xml };
-        await repository.SaveEventLog(criteria).ConfigureAwait(false);
+        await SpecialProductHelper.SaveEventLogAsync(repository, logData, cancellationToken);
     }
 }
