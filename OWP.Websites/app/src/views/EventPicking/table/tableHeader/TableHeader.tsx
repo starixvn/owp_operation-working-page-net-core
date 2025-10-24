@@ -14,7 +14,6 @@ import DropdownActionHeader from './DropdownActionHeader';
 import CheckAllHeader from './CheckAllHeader';
 import Order from './Order';
 import { useAppSelector } from '../../app/hooks';
-import { EDIT } from '../../mode/mode.json';
 
 const TableHeader = () => {
   const {
@@ -67,14 +66,14 @@ const TableHeader = () => {
                 <FilterHeader columnKey={item.columnKey} />
               )}
 
-              {item?.isHaveDropdown && HasWrite && mode !== EDIT && (
+              {item?.isHaveDropdown && HasWrite && (
                 <div className='dropdown-wrap'>
                   <DropdownIcon
                     colorDropdown='black'
                     handleOnClick={() => setIsDropdownAction(true)}
                   />
                   {isShowDropdownAction && (
-                    <DropdownActionHeader refValue={ref} />
+                    <DropdownActionHeader refValue={ref} mode={mode} />
                   )}
                 </div>
               )}

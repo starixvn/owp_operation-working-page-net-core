@@ -4,12 +4,14 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { TOpenPopupState } from '../../types/dataTableType';
 import { setOpenPopupState } from '../eventPickingTableSlice/reducer';
 import updateNoOfferMatchThunk from '../updateNoOfferMatchThunkNative';
+import { EDIT } from '../../mode/mode.json';
 
 type TDropdownActionHeader = {
   refValue: React.RefObject<HTMLDivElement>;
+  mode: string;
 };
 
-const DropdownActionHeader = ({ refValue }: TDropdownActionHeader) => {
+const DropdownActionHeader = ({ refValue, mode }: TDropdownActionHeader) => {
   const dispatch = useAppDispatch();
   const matchSelected = useAppSelector(
     state => state.eventPickingTable.matchSelected
@@ -48,16 +50,20 @@ const DropdownActionHeader = ({ refValue }: TDropdownActionHeader) => {
 
   return (
     <div className='dropdown-action is-show' ref={refValue}>
-      <li
-        className='add-special-product'
-        onClick={() => handleOpenPopup('isOpenAddSpecialProduct', true)}>
-        Add Special Product
-      </li>
-      <li
-        className='remove-special-product'
-        onClick={() => handleOpenPopup('isOpenRemoveSpecialProduct', true)}>
-        Remove Special Product
-      </li>
+      {mode !== EDIT && (
+        <>
+          <li
+            className='add-special-product'
+            onClick={() => handleOpenPopup('isOpenAddSpecialProduct', true)}>
+            Add Special Product
+          </li>
+          <li
+            className='remove-special-product'
+            onClick={() => handleOpenPopup('isOpenRemoveSpecialProduct', true)}>
+            Remove Special Product
+          </li>
+        </>
+      )}
       <li className='offer' onClick={() => handleMatchSelection(false)}>
         Offer
       </li>
