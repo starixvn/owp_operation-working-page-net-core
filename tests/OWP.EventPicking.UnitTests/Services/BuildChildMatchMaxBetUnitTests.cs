@@ -82,19 +82,19 @@ public class BuildChildMatchMaxBetUnitTests
             new EventPickingModel { MaxBetHDP = null },
             new EventPickingModel
             {
-                MaxBetHDPNumber = 5000,
+                MaxbetHdp = 5000,
                 InfoSiteMatchId = 3333
             },
 
             new EventPickingModel
             {
-                MaxBetHDPNumber = 3000,
+                MaxbetHdp = 3000,
                 InfoSiteMatchId = 4444
             },
 
             new EventPickingModel
             {
-                MaxBetHDPNumber = 100,
+                MaxbetHdp = 100,
                 InfoSiteMatchId = 5555
             }
         ];
@@ -158,11 +158,11 @@ public class BuildChildMatchMaxBetUnitTests
 
         var service = new BuildChildMatchMaxBetImp(maxbetSettingService);
 
-        var childMatches = new List<ChildMatchModel>
+        var childMatches = new List<SpecialProductMaxbetSpread>
         {
             new()
             {
-                ParentMatchId = 100,
+                ParentId = 100,
                 MinorBettypeId = -3 // NoOfCorner
             }
         };
@@ -180,8 +180,8 @@ public class BuildChildMatchMaxBetUnitTests
         await service.BuildMBForAddSpecialProduct(childMatches, mainEvents);
 
         // Assert
-        Assert.Equal(2000, childMatches[0].MaxbetHDP);
-        Assert.Equal(1500, childMatches[0].MaxbetOU);
+        Assert.Equal(2000, childMatches[0].MaxbetHdp);
+        Assert.Equal(1500, childMatches[0].MaxbetOu);
     }
 
     [Fact]
@@ -201,11 +201,11 @@ public class BuildChildMatchMaxBetUnitTests
 
         var service = new BuildChildMatchMaxBetImp(maxbetSettingService);
 
-        var childMatches = new List<ChildMatchModel>
+        var childMatches = new List<SpecialProductMaxbetSpread>
         {
             new()
             {
-                ParentMatchId = 200,
+                ParentId = 200,
                 MinorBettypeId = -4 // NextCorner
             }
         };
@@ -223,8 +223,8 @@ public class BuildChildMatchMaxBetUnitTests
         await service.BuildMBForAddSpecialProduct(childMatches, mainEvents);
 
         // Assert
-        Assert.Equal(3000, childMatches[0].MaxbetHDP);
-        Assert.Null(childMatches[0].MaxbetOU);
+        Assert.Equal(3000, childMatches[0].MaxbetHdp);
+        Assert.Null(childMatches[0].MaxbetOu);
     }
 
     [Fact]
@@ -245,11 +245,11 @@ public class BuildChildMatchMaxBetUnitTests
 
         var service = new BuildChildMatchMaxBetImp(maxbetSettingService);
 
-        var childMatches = new List<ChildMatchModel>
+        var childMatches = new List<SpecialProductMaxbetSpread>
         {
             new()
             {
-                ParentMatchId = 300,
+                ParentId = 300,
                 MinorBettypeId = -6 // TotalBooking
             }
         };
@@ -267,8 +267,8 @@ public class BuildChildMatchMaxBetUnitTests
         await service.BuildMBForAddSpecialProduct(childMatches, mainEvents);
 
         // Assert
-        Assert.Equal(2500, childMatches[0].MaxbetHDP);
-        Assert.Equal(2000, childMatches[0].MaxbetOU);
+        Assert.Equal(2500, childMatches[0].MaxbetHdp);
+        Assert.Equal(2000, childMatches[0].MaxbetOu);
     }
 
     [Fact]
@@ -288,11 +288,11 @@ public class BuildChildMatchMaxBetUnitTests
 
         var service = new BuildChildMatchMaxBetImp(maxbetSettingService);
 
-        var childMatches = new List<ChildMatchModel>
+        var childMatches = new List<SpecialProductMaxbetSpread>
         {
             new()
             {
-                ParentMatchId = 400,
+                ParentId = 400,
                 MinorBettypeId = -7 // NextBooking
             }
         };
@@ -310,8 +310,8 @@ public class BuildChildMatchMaxBetUnitTests
         await service.BuildMBForAddSpecialProduct(childMatches, mainEvents);
 
         // Assert
-        Assert.Equal(1800, childMatches[0].MaxbetHDP);
-        Assert.Null(childMatches[0].MaxbetOU);
+        Assert.Equal(1800, childMatches[0].MaxbetHdp);
+        Assert.Null(childMatches[0].MaxbetOu);
     }
 
     [Fact]
@@ -331,11 +331,11 @@ public class BuildChildMatchMaxBetUnitTests
 
         var service = new BuildChildMatchMaxBetImp(maxbetSettingService);
 
-        var childMatches = new List<ChildMatchModel>
+        var childMatches = new List<SpecialProductMaxbetSpread>
         {
             new()
             {
-                ParentMatchId = 500,
+                ParentId = 500,
                 MinorBettypeId = -999 // Unknown bettype
             }
         };
@@ -353,7 +353,7 @@ public class BuildChildMatchMaxBetUnitTests
         await service.BuildMBForAddSpecialProduct(childMatches, mainEvents);
 
         // Assert
-        Assert.Null(childMatches[0].MaxbetHDP);
+        Assert.Null(childMatches[0].MaxbetHdp);
     }
 
     [Fact]
@@ -373,11 +373,11 @@ public class BuildChildMatchMaxBetUnitTests
 
         var service = new BuildChildMatchMaxBetImp(maxbetSettingService);
 
-        var childMatches = new List<ChildMatchModel>
+        var childMatches = new List<SpecialProductMaxbetSpread>
         {
             new()
             {
-                ParentMatchId = 999, // Parent not in mainEvents
+                ParentId = 999, // Parent not in mainEvents
                 MinorBettypeId = -3
             }
         };
@@ -395,7 +395,7 @@ public class BuildChildMatchMaxBetUnitTests
         await service.BuildMBForAddSpecialProduct(childMatches, mainEvents);
 
         // Assert - Should remain null when parent not found
-        Assert.Null(childMatches[0].MaxbetHDP);
+        Assert.Null(childMatches[0].MaxbetHdp);
     }
 
     [Fact]
@@ -417,16 +417,16 @@ public class BuildChildMatchMaxBetUnitTests
 
         var service = new BuildChildMatchMaxBetImp(maxbetSettingService);
 
-        var childMatches = new List<ChildMatchModel>
+        var childMatches = new List<SpecialProductMaxbetSpread>
         {
             new()
             {
-                ParentMatchId = 100,
+                ParentId = 100,
                 MinorBettypeId = -3 // NoOfCorner
             },
             new()
             {
-                ParentMatchId = 100,
+                ParentId = 100,
                 MinorBettypeId = -4 // NextCorner
             }
         };
@@ -444,10 +444,10 @@ public class BuildChildMatchMaxBetUnitTests
         await service.BuildMBForAddSpecialProduct(childMatches, mainEvents);
 
         // Assert
-        Assert.Equal(2500, childMatches[0].MaxbetHDP);
-        Assert.Equal(2000, childMatches[0].MaxbetOU);
-        Assert.Equal(3500, childMatches[1].MaxbetHDP);
-        Assert.Null(childMatches[1].MaxbetOU);
+        Assert.Equal(2500, childMatches[0].MaxbetHdp);
+        Assert.Equal(2000, childMatches[0].MaxbetOu);
+        Assert.Equal(3500, childMatches[1].MaxbetHdp);
+        Assert.Null(childMatches[1].MaxbetOu);
     }
 
     [Fact]
@@ -468,11 +468,11 @@ public class BuildChildMatchMaxBetUnitTests
 
         var service = new BuildChildMatchMaxBetImp(maxbetSettingService);
 
-        var childMatches = new List<ChildMatchModel>
+        var childMatches = new List<SpecialProductMaxbetSpread>
         {
             new()
             {
-                ParentMatchId = 100,
+                ParentId = 100,
                 MinorBettypeId = -3 // NoOfCorner
             }
         };
@@ -490,7 +490,7 @@ public class BuildChildMatchMaxBetUnitTests
         await service.BuildMBForAddSpecialProduct(childMatches, mainEvents);
 
         // Assert - Should use -1000 (other key) settings
-        Assert.Equal(999, childMatches[0].MaxbetHDP);
-        Assert.Equal(888, childMatches[0].MaxbetOU);
+        Assert.Equal(999, childMatches[0].MaxbetHdp);
+        Assert.Equal(888, childMatches[0].MaxbetOu);
     }
 }

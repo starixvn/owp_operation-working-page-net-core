@@ -52,14 +52,14 @@ public class AddSpecialProductHandlerUnitTest
         await repository.Received(1).QueryMainMatch("10,20,30");
         
         await childMatchMaxBet.Received(1).BuildMBForAddSpecialProduct(
-            Arg.Is<List<ChildMatchModel>>(list =>
+            Arg.Is<List<SpecialProductMaxbetSpread>>(list =>
                 list.Count == 6 &&
-                list.Any(x => x.ParentMatchId == 10 && x.MinorBettypeId == 101) &&
-                list.Any(x => x.ParentMatchId == 10 && x.MinorBettypeId == 102) &&
-                list.Any(x => x.ParentMatchId == 20 && x.MinorBettypeId == 101) &&
-                list.Any(x => x.ParentMatchId == 20 && x.MinorBettypeId == 102) &&
-                list.Any(x => x.ParentMatchId == 30 && x.MinorBettypeId == 101) &&
-                list.Any(x => x.ParentMatchId == 30 && x.MinorBettypeId == 102)),
+                list.Any(x => x.ParentId == 10 && x.MinorBettypeId == 101) &&
+                list.Any(x => x.ParentId == 10 && x.MinorBettypeId == 102) &&
+                list.Any(x => x.ParentId == 20 && x.MinorBettypeId == 101) &&
+                list.Any(x => x.ParentId == 20 && x.MinorBettypeId == 102) &&
+                list.Any(x => x.ParentId == 30 && x.MinorBettypeId == 101) &&
+                list.Any(x => x.ParentId == 30 && x.MinorBettypeId == 102)),
             Arg.Is<List<EventPickingModel>>(m => m == mainEvents));
 
         await repository.Received(1).ExecuteNonQuery(
@@ -101,14 +101,14 @@ public class AddSpecialProductHandlerUnitTest
 
         // Assert
         await childMatchMaxBet.Received(1).BuildMBForAddSpecialProduct(
-            Arg.Is<List<ChildMatchModel>>(list =>
+            Arg.Is<List<SpecialProductMaxbetSpread>>(list =>
                 list.Count == 1 &&
-                list[0].ParentMatchId == 100 &&
+                list[0].ParentId == 100 &&
                 list[0].MinorBettypeId == 50 &&
-                list[0].MaxbetHDP == null &&
-                list[0].MaxbetOU == null &&
-                list[0].SpreadHDP == null &&
-                list[0].SpreadOU == null &&
+                list[0].MaxbetHdp == null &&
+                list[0].MaxbetOu == null &&
+                list[0].SpreadHdp == null &&
+                list[0].SpreadOu == null &&
                 list[0].NoOfHDP == null),
             Arg.Any<List<EventPickingModel>>());
     }
@@ -140,9 +140,9 @@ public class AddSpecialProductHandlerUnitTest
 
         // Assert
         await childMatchMaxBet.Received(1).BuildMBForAddSpecialProduct(
-            Arg.Is<List<ChildMatchModel>>(list =>
+            Arg.Is<List<SpecialProductMaxbetSpread>>(list =>
                 list.Count == 3 &&
-                list.All(x => x.ParentMatchId == 1) &&
+                list.All(x => x.ParentId == 1) &&
                 list.Any(x => x.MinorBettypeId == 10) &&
                 list.Any(x => x.MinorBettypeId == 20) &&
                 list.Any(x => x.MinorBettypeId == 30)),
@@ -178,12 +178,12 @@ public class AddSpecialProductHandlerUnitTest
 
         // Assert
         await childMatchMaxBet.Received(1).BuildMBForAddSpecialProduct(
-            Arg.Is<List<ChildMatchModel>>(list =>
+            Arg.Is<List<SpecialProductMaxbetSpread>>(list =>
                 list.Count == 3 &&
                 list.All(x => x.MinorBettypeId == 5) &&
-                list.Any(x => x.ParentMatchId == 100) &&
-                list.Any(x => x.ParentMatchId == 200) &&
-                list.Any(x => x.ParentMatchId == 300)),
+                list.Any(x => x.ParentId == 100) &&
+                list.Any(x => x.ParentId == 200) &&
+                list.Any(x => x.ParentId == 300)),
             Arg.Any<List<EventPickingModel>>());
     }
 
@@ -215,12 +215,12 @@ public class AddSpecialProductHandlerUnitTest
 
         // Assert
         await childMatchMaxBet.Received(1).BuildMBForAddSpecialProduct(
-            Arg.Is<List<ChildMatchModel>>(list =>
+            Arg.Is<List<SpecialProductMaxbetSpread>>(list =>
                 list.Count == 4 &&
-                list.Any(x => x.ParentMatchId == 1 && x.MinorBettypeId == 10) &&
-                list.Any(x => x.ParentMatchId == 1 && x.MinorBettypeId == 20) &&
-                list.Any(x => x.ParentMatchId == 2 && x.MinorBettypeId == 10) &&
-                list.Any(x => x.ParentMatchId == 2 && x.MinorBettypeId == 20)),
+                list.Any(x => x.ParentId == 1 && x.MinorBettypeId == 10) &&
+                list.Any(x => x.ParentId == 1 && x.MinorBettypeId == 20) &&
+                list.Any(x => x.ParentId == 2 && x.MinorBettypeId == 10) &&
+                list.Any(x => x.ParentId == 2 && x.MinorBettypeId == 20)),
             Arg.Any<List<EventPickingModel>>());
     }
 
@@ -252,12 +252,12 @@ public class AddSpecialProductHandlerUnitTest
 
         // Assert - Should only generate 4 products (2 unique parents × 2 unique minors)
         await childMatchMaxBet.Received(1).BuildMBForAddSpecialProduct(
-            Arg.Is<List<ChildMatchModel>>(list =>
+            Arg.Is<List<SpecialProductMaxbetSpread>>(list =>
                 list.Count == 4 &&
-                list.Any(x => x.ParentMatchId == 1 && x.MinorBettypeId == 10) &&
-                list.Any(x => x.ParentMatchId == 1 && x.MinorBettypeId == 20) &&
-                list.Any(x => x.ParentMatchId == 2 && x.MinorBettypeId == 10) &&
-                list.Any(x => x.ParentMatchId == 2 && x.MinorBettypeId == 20)),
+                list.Any(x => x.ParentId == 1 && x.MinorBettypeId == 10) &&
+                list.Any(x => x.ParentId == 1 && x.MinorBettypeId == 20) &&
+                list.Any(x => x.ParentId == 2 && x.MinorBettypeId == 10) &&
+                list.Any(x => x.ParentId == 2 && x.MinorBettypeId == 20)),
             Arg.Any<List<EventPickingModel>>());
     }
 }
