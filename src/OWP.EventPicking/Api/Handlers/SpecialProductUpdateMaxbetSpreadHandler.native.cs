@@ -173,7 +173,7 @@ public class UpdateMaxbetHandler : IRequestHandler<UpdateEventsRequest, Unit>
             Action = fieldName,
             OldValue = oldValue,
             NewValue = newValue,
-            UpDateTime = DateTime.Now.AddHours(12)
+            UpDateTime = DateTime.Now.ToGmt8(),
         };
     }
     
