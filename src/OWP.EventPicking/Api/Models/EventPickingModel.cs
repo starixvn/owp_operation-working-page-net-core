@@ -215,9 +215,11 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
     public string Channel { get; set; }
 
     [Cell("AX2")]
+    [JsonIgnore]
     public string InfoSiteIdExport => IsChildMatch ? string.Empty : InfoSiteMatchId.ToString();
 
     [Cell("AY2")]
+    [JsonIgnore]
     public string AdminSiteIdExport => IsChildMatch ? string.Empty : AdminSiteMatchId.ToString();
 
     [Cell("AZ2")]

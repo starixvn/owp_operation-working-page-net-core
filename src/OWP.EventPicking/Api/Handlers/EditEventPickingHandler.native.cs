@@ -59,7 +59,7 @@ public class EditEventPickingHandler(
 
         // Save MB data from matchFiltered to cache
         await SaveMBSpreadsToCache(request.Date, matchFiltered);
-
+        SyncMaxbetOUForMainEvent(matchFiltered);
         return new EventPickingResult
         {
             MatchesByDate = mainMatches.MatchesByDate,
@@ -121,14 +121,7 @@ public class EditEventPickingHandler(
 
     private decimal? GetMaxbet(LeagueSettingInfoSender leagueSetting, EventPickingModel match)
     {
-        if (IsWeekend(match.EventDateTime))
-        {
-            return leagueSetting.MaxbetWK_HDP_Value;
-        }
-        else
-        {
-            return leagueSetting.MaxbetWD_HDP_Value;
-        }
+        return IsWeekend(match.EventDateTime) ? leagueSetting.MaxbetWK_HDP_Value : leagueSetting.MaxbetWD_HDP_Value;
     }
     private LeagueSettingInfoSender ProcessLeagueSettingsForMatch(List<LeagueSettingInfoSender> leagueSettingByLeagueId, EventPickingModel match, List<Condition> tvList)
     {
@@ -258,6 +251,16 @@ public class EditEventPickingHandler(
         match.IsReferenceLeagueManagement = true;
     }
 
+    private void SyncMaxbetOUForMainEvent(IList<EventPickingModel> eventPickingModels)
+    {
+        foreach (var eventPicking in eventPickingModels)
+        {
+            if (!eventPicking.IsChildMatch && eventPicking.IsReferenceLeagueManagement)
+            {
+                eventPicking.MaxbetOu = eventPicking.MaxbetHdp;
+            }
+        }
+    }
     private static int? CheckRoundConditions(string matchValues, IList<Condition> conditions)
     {
         var isEquals = CheckConditionEqual(matchValues, conditions);
