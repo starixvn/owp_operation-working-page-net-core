@@ -35,7 +35,7 @@ public class EditEventPickingHandler(
         var mainMatches = await service.Execute(request, new List<short>());
 
         var matchFiltered = mainMatches.FilteredMatches;
-        childMatchMaxBet.Build(matchFiltered);
+       
         var leagueSetting = (await repository.QueryLeagueSetting()).ToList();
         var tvList = (await repository.GetTVList()).ToList();
 
@@ -54,6 +54,8 @@ public class EditEventPickingHandler(
                 ProcessLeagueSettingsForMatch(leagueSettingByLeagueId, match, tvList);
             }
         }
+
+        await childMatchMaxBet.Build(matchFiltered);
 
         // Save MB data from matchFiltered to cache
         await SaveMBSpreadsToCache(request.Date, matchFiltered);

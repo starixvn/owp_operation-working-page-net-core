@@ -21,10 +21,6 @@ public class MaintenanceMiddleware(RequestDelegate next, MaintenanceService main
     }
 }
 
-/// <summary>
-/// 
-/// </summary>
-/// <param name="maintenanceService"></param>
 public class MaintenanceController(MaintenanceService maintenanceService) : Controller
 {
     [HttpGet]
