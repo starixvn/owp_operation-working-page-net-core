@@ -325,4 +325,186 @@ public class LoggerServiceImpUnitTests
             criteria.CreatedDate != default(DateTime)
         ));
     }
+
+    [Fact]
+    public void MapToChangeModel_WithInsertLeagueSettingRequest_ShouldMapCorrectly()
+    {
+        // Arrange
+        var request = new InsertLeagueSettingRequest
+        {
+            League = "Bundesliga",
+            LeagueGroup = "Football",
+            Spread = "3.0",
+            MaxbetWD_HDP = "2000",
+            WD_NoOfHDP = "8",
+            MaxbetWK_HDP = "3000",
+            WK_NoOfHDP = "15",
+            LstNote = "Insert Note",
+            Remark2 = "Insert Remark 2",
+            HasTv = false,
+            HasIpTv = true,
+            IpTv = new List<Condition> { new Condition("Contains", "IPTV3") },
+            Round = new List<Condition> { new Condition("Contains", "Round3") },
+            Division = new List<Condition> { new Condition("Contains", "Div3") },
+            Remark = "Insert Remark",
+            IsBlackList = false,
+            NoOfferLive = true
+        };
+
+        // Act
+        var result = LoggerServiceImp.MapToChangeModel(request);
+
+        // Assert
+        Assert.Equal("Bundesliga", result.League);
+        Assert.Equal("Football", result.LeagueGroup);
+        Assert.Equal("3.0", result.Spread);
+        Assert.Equal("2000", result.MaxbetWD_HDP);
+        Assert.Equal("8", result.WD_NoOfHDP);
+        Assert.Equal("3000", result.MaxbetWK_HDP);
+        Assert.Equal("15", result.WK_NoOfHDP);
+        Assert.Equal("Insert Note", result.LstNote);
+        Assert.Equal("Insert Remark 2", result.Remark2);
+        Assert.False(result.HasTv);
+        Assert.True(result.HasIpTv);
+        Assert.Single(result.IpTv);
+        Assert.Equal("IPTV3", result.IpTv[0].Value);
+        Assert.Single(result.Round);
+        Assert.Equal("Round3", result.Round[0].Value);
+        Assert.Single(result.Division);
+        Assert.Equal("Div3", result.Division[0].Value);
+        Assert.Equal("Insert Remark", result.Remark);
+        Assert.False(result.IsBlackList);
+        Assert.True(result.NoOfferLive);
+    }
+
+    [Fact]
+    public void MapToChangeModel_WithInsertRequest_WithNullProperties_ShouldHandleGracefully()
+    {
+        // Arrange
+        var request = new InsertLeagueSettingRequest
+        {
+            League = "Test League",
+            LeagueGroup = "Test Group",
+            IpTv = null,
+            Round = null,
+            Division = null,
+            Remark = null
+        };
+
+        // Act
+        var result = LoggerServiceImp.MapToChangeModel(request);
+
+        // Assert
+        Assert.Equal("Test League", result.League);
+        Assert.Equal("Test Group", result.LeagueGroup);
+        Assert.Null(result.IpTv);
+        Assert.Null(result.Round);
+        Assert.Null(result.Division);
+        Assert.Null(result.Remark);
+    }
+
+    [Fact]
+    public void MapToChangeModel_WithInsertRequest_WithEmptyLists_ShouldMapCorrectly()
+    {
+        // Arrange
+        var request = new InsertLeagueSettingRequest
+        {
+            League = "Empty Lists League",
+            LeagueGroup = "Test Group",
+            IpTv = new List<Condition>(),
+            Round = new List<Condition>(),
+            Division = new List<Condition>()
+        };
+
+        // Act
+        var result = LoggerServiceImp.MapToChangeModel(request);
+
+        // Assert
+        Assert.Equal("Empty Lists League", result.League);
+        Assert.NotNull(result.IpTv);
+        Assert.Empty(result.IpTv);
+        Assert.NotNull(result.Round);
+        Assert.Empty(result.Round);
+        Assert.NotNull(result.Division);
+        Assert.Empty(result.Division);
+    }
+
+    [Fact]
+    public void MapToChangeModel_WithInsertRequest_WithMultipleConditions_ShouldMapAll()
+    {
+        // Arrange
+        var request = new InsertLeagueSettingRequest
+        {
+            League = "Multi Condition League",
+            LeagueGroup = "Test Group",
+            IpTv = new List<Condition>
+            {
+                new Condition("Contains", "IPTV1"),
+                new Condition("Equals", "IPTV2")
+            },
+            Round = new List<Condition>
+            {
+                new Condition("Contains", "Round1"),
+                new Condition("Contains", "Round2"),
+                new Condition("Equals", "Round3")
+            },
+            Division = new List<Condition>
+            {
+                new Condition("Equals", "DivA"),
+                new Condition("Contains", "DivB")
+            }
+        };
+
+        // Act
+        var result = LoggerServiceImp.MapToChangeModel(request);
+
+        // Assert
+        Assert.Equal(2, result.IpTv.Count);
+        Assert.Equal("IPTV1", result.IpTv[0].Value);
+        Assert.Equal("IPTV2", result.IpTv[1].Value);
+        Assert.Equal(3, result.Round.Count);
+        Assert.Equal("Round1", result.Round[0].Value);
+        Assert.Equal("Round2", result.Round[1].Value);
+        Assert.Equal("Round3", result.Round[2].Value);
+        Assert.Equal(2, result.Division.Count);
+        Assert.Equal("DivA", result.Division[0].Value);
+        Assert.Equal("DivB", result.Division[1].Value);
+    }
+
+    [Fact]
+    public async Task LogSetting_WithMultipleChanges_ShouldSerializeAllChangesToJson()
+    {
+        // Arrange
+        var changeService = Substitute.For<ILeagueSettingChangeService>();
+        var repository = Substitute.For<Repository>();
+        var session = Substitute.For<INapSession>();
+
+        var logService = new LoggerServiceImp(changeService, repository, session);
+
+        var currentSetting = new LeagueSettingChangeModel { League = "Old League", Spread = "1.0" };
+        var newSetting = new LeagueSettingChangeModel { League = "New League", Spread = "2.0" };
+        var request = new LogRequest("Multiple changes", 999, currentSetting, newSetting);
+
+        var logDetails = new List<LogDetail>
+        {
+            new LogDetail { Field = "League Name", OldValue = "Old League", NewValue = "New League" },
+            new LogDetail { Field = "FT Spread", OldValue = "1.0", NewValue = "2.0" }
+        };
+
+        changeService.LogProcessingChanges(currentSetting, newSetting).Returns(logDetails);
+        session.UserName.Returns("admin");
+
+        // Act
+        await logService.LogSetting(request);
+
+        // Assert
+        await repository.Received(1).ExecuteNonQueryCommand(Arg.Is<InsertLogCriteria>(criteria =>
+            criteria.Content.Contains("League Name") &&
+            criteria.Content.Contains("Old League") &&
+            criteria.Content.Contains("New League") &&
+            criteria.Content.Contains("FT Spread") &&
+            criteria.Content.Contains("1.0") &&
+            criteria.Content.Contains("2.0")
+        ));
+    }
 }
