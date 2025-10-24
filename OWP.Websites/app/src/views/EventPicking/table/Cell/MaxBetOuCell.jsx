@@ -12,7 +12,7 @@ const propTypes = {
     rowIndex: PropTypes.number.isRequired
 };
 
-const MaxBetCellOu = props => {
+const MaxBetOuCell = props => {
     const { mode } = store.getState().mode;
     const { rowIndex, dataSource } = props;
     const {
@@ -47,5 +47,5 @@ const MaxBetCellOu = props => {
     return component[mode];
 };
 
-MaxBetCellOu.propTypes = propTypes;
-export default MaxBetCellOu;
+MaxBetOuCell.propTypes = propTypes;
+export default MaxBetOuCell;

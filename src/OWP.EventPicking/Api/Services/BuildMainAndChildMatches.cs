@@ -22,7 +22,6 @@ public class BuildMainAndChildMatchesImp: BuildMainAndChildMatches
     private readonly BuildRowColor buildRowColor;
     private readonly BuildMatchOfferByLiveSetting buildMatchOffer;
     private readonly BuildProvider buildProvider;
-    private readonly MaxbetSettingService maxbetSettingService;
 
     public BuildMainAndChildMatchesImp(
         Repository repository,
@@ -39,7 +38,6 @@ public class BuildMainAndChildMatchesImp: BuildMainAndChildMatches
         this.buildRowColor = buildRowColor;
         this.buildMatchOffer = buildMatchOffer;
         this.buildProvider = buildProvider;
-        this.maxbetSettingService = maxbetSettingService;
     }
 
     public async Task<List<EventPickingModel>> GetMainAndChildMatchEvent(DateTime date)
