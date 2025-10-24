@@ -124,7 +124,7 @@ public class RepositoryImp : Repository
 
     public async Task InsertOrUpdateNoOfferMatch(InsertOrUpdateNoOfferMatchRequest request)
     {
-        var matchInfoJson = JsonConvert.SerializeObject(request.NoOfferMatch);
+        var matchInfoJson = JsonConvert.SerializeObject(request.NoOfferMatch.Where(match => match.ChildMatchId == null));
         var criteria = new InsertOrUpdateNoOfferMatchCriteria
         {
             MatchInfoJson = matchInfoJson,
