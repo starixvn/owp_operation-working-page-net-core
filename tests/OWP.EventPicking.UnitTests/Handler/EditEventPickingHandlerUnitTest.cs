@@ -547,9 +547,12 @@ public class EditEventPickingHandlerUnitTest
         // Act
         var result = await handler.Handle(request, CancellationToken.None);
 
-        // Assert - Should not match because current logic doesn't set IsReferenceLeagueManagement
-        Assert.False(match.IsReferenceLeagueManagement);
-        Assert.Null(match.MaxbetHdp);
+        // Assert - Should match because "Round 16" contains "Round 1"
+        Assert.True(match.IsReferenceLeagueManagement);
+        Assert.Equal(22000, match.MaxbetHdp);
+        Assert.Equal(0.11m, match.SpreadHdp);
+        Assert.Equal(0.13m, match.SpreadOu);
+        Assert.Equal("4 lines", match.NoOfHDP);
     }
 
     [Fact]
@@ -669,8 +672,11 @@ public class EditEventPickingHandlerUnitTest
         // Act
         var result = await handler.Handle(request, CancellationToken.None);
 
-        // Assert - Should not match because current logic doesn't set IsReferenceLeagueManagement
-        Assert.False(match.IsReferenceLeagueManagement);
-        Assert.Null(match.MaxbetHdp);
+        // Assert - Should match because "Round 12" contains both "Round 1" and "Round 2"
+        Assert.True(match.IsReferenceLeagueManagement);
+        Assert.Equal(24000, match.MaxbetHdp);
+        Assert.Equal(0.12m, match.SpreadHdp);
+        Assert.Equal(0.14m, match.SpreadOu);
+        Assert.Equal("5 lines", match.NoOfHDP);
     }
 }

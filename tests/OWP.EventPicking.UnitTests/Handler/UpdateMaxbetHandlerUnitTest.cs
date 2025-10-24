@@ -56,7 +56,7 @@ public class UpdateMaxbetHandlerUnitTest
     }
 
     [Fact]
-    public async Task Handle_WithEmptyEvents_ShouldCallRepository_AndReturnUnit()
+    public async Task Handle_WithEmptyEvents_ShouldNotCallUpdateEvent_AndReturnUnit()
     {
         // Arrange
         var repository = Substitute.For<OWP.EventPicking.Repository>();
@@ -77,16 +77,15 @@ public class UpdateMaxbetHandlerUnitTest
         // Mock the cache to return empty list to avoid null reference
         cacheManipulator.GetMBSpreadsByDate(request.EventDate).Returns(new List<EventMBSpread>());
 
-        var expectedJson = JsonConvert.SerializeObject(events);
-
         // Act
         var result = await handler.Handle(request, CancellationToken.None);
 
-        // Assert
-        await repository.Received(1).UpdateEvent(
-            Arg.Is<UpdateMaxbetSpreadCriteria>(c =>
-                c.ActorId == 789 &&
-                c.TargetJson == expectedJson));
+        // Assert - Should NOT call UpdateEvent when events list is empty (early return)
+        await repository.DidNotReceive().UpdateEvent(Arg.Any<UpdateMaxbetSpreadCriteria>());
+        await repository.DidNotReceive().ExecuteNonQuery(Arg.Any<SpecialProductUpdateMaxbetSpreadCriteria>());
+
+        // Should still save empty cache
+        await cacheManipulator.Received(1).SaveMBSpreadsByDate(request.EventDate, Arg.Any<List<EventMBSpread>>());
 
         Assert.Equal(Unit.Value, result);
     }
