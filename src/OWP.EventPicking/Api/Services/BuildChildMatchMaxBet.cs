@@ -25,6 +25,7 @@ public class BuildChildMatchMaxBetImp(MaxbetSettingService maxbetSettingService)
             var maxBetDefault = GetMaxBetSettingDefault(mainMatches, child.InfoSiteMatchId, maxBetDefaults);
             if (maxBetDefault != null)
             {
+                child.IsReferenceLeagueManagement = true;
                 switch (child.MinorBettypeId)
                 {
                     case Bettype.NoOfCorner:
@@ -75,6 +76,7 @@ public class BuildChildMatchMaxBetImp(MaxbetSettingService maxbetSettingService)
     {
         if (maxBetDefault is not null)
         {
+            child.IsReferenceLeagueManagement = true;
             switch (child.MinorBettypeId)
             {
                 case Bettype.NoOfCorner:
@@ -91,6 +93,7 @@ public class BuildChildMatchMaxBetImp(MaxbetSettingService maxbetSettingService)
                     break;
                 default:
                     child.MaxbetHdp = null;
+                    child.IsReferenceLeagueManagement = false;
                     break;
             }
         }
