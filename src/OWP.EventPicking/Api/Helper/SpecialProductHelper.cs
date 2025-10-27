@@ -125,27 +125,23 @@ public static class SpecialProductHelper
         try
         {
             var mapping = JsonConvert.DeserializeObject<Dictionary<string, string>>(existingMinorBettypeIdsJson);
-            if (mapping != null)
+            if (mapping == null)
             {
-                foreach (var kvp in mapping)
-                {
-                    if (!int.TryParse(kvp.Key, out var parentId))
-                    {
-                        continue;
-                    }
-
-                    var minorIds = ParseCommaSeparatedInts(kvp.Value);
-                    result[parentId] = minorIds;
-                }
+                return result;
             }
+
+            return mapping
+                .Where(kvp => int.TryParse(kvp.Key, out _))
+                .ToDictionary(
+                    kvp => int.Parse(kvp.Key),
+                    kvp => ParseCommaSeparatedInts(kvp.Value));
         }
         catch (JsonException)
         {
             // Return empty dictionary if JSON deserialization fails
             // This is expected behavior when the JSON format is invalid
+            return result;
         }
-
-        return result;
     }
 
     private static List<int> ParseCommaSeparatedInts(string value)

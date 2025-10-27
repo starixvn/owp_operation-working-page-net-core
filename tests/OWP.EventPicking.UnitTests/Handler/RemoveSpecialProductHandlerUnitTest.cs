@@ -27,7 +27,8 @@ public class RemoveSpecialProductHandlerUnitTest
         var removeInfo = new RemoveSpecialProduct
         {
             ParentId = "50",
-            MinorBettypeId = "201,202,203"
+            MinorBettypeId = "201,202,203",
+            ExistingMinorBettypeIds = "{\"50\": \"201,202,203,204\"}" // Include the IDs being removed
         };
         var request = new RemoveSpecialProductRequest(removeInfo);
 
@@ -60,7 +61,8 @@ public class RemoveSpecialProductHandlerUnitTest
         var removeInfo = new RemoveSpecialProduct
         {
             ParentId = "100",
-            MinorBettypeId = "5"
+            MinorBettypeId = "5",
+            ExistingMinorBettypeIds = "{\"100\": \"5,6,7\"}" // Include the ID being removed
         };
         var request = new RemoveSpecialProductRequest(removeInfo);
 
