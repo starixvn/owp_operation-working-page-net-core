@@ -152,7 +152,7 @@ public static class SpecialProductHelper
     {
         if (string.IsNullOrWhiteSpace(value))
         {
-            return new List<int>();
+            return [];
         }
 
         return value.Split(',', StringSplitOptions.RemoveEmptyEntries)
@@ -206,6 +206,7 @@ public static class SpecialProductHelper
             cancellationToken);
     }
 
+#pragma warning disable S107
     private static async Task WriteSpecialProductLog(
         Repository repository,
         List<int> specialProductIds,
@@ -215,6 +216,7 @@ public static class SpecialProductHelper
         Func<List<int>, List<int>, List<int>> filterFunc,
         Func<int, string> actionFactory,
         CancellationToken cancellationToken)
+#pragma warning restore S107
     {
         var logData = BuildLogDataForSpecialProducts(
             specialProductIds,
@@ -245,7 +247,7 @@ public static class SpecialProductHelper
             foreach (var minorBettypeId in filteredMinorBettypeIds)
             {
                 var action = actionFactory(minorBettypeId);
-                logData.Add(CreateLoggedChangeModel(parentId, userName, action, null, null));
+                logData.Add(CreateLoggedChangeModel(parentId, userName, action));
             }
         }
 
@@ -259,7 +261,7 @@ public static class SpecialProductHelper
 
     private static List<int> FilterExistingMinorBettypeIds(List<int> specialProductIds, List<int> existingMinorBettypeIds)
     {
-        return specialProductIds.Where(id => existingMinorBettypeIds.Contains(id)).ToList();
+        return specialProductIds.Where(existingMinorBettypeIds.Contains).ToList();
     }
 
     private static string CreateAddLogAction(int minorBettypeId)
