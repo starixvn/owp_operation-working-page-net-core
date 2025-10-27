@@ -1,4 +1,5 @@
-﻿using OWP.Constants;
+﻿using Newtonsoft.Json;
+using OWP.Constants;
 using static System.DateTime;
 
 namespace OWP.EventPicking.Api.Helper;
@@ -106,4 +107,170 @@ public static class SpecialProductHelper
 
     public static string FormatMaxbet(decimal? maxbet)
         => maxbet.HasValue ? $"{Math.Round(maxbet.Value / MaxbetKiloDivisor)}K" : string.Empty;
+
+    /// <summary>
+    /// Parse JSON string mapping of ParentId to existing MinorBettypeIds
+    /// </summary>
+    /// <param name="existingMinorBettypeIdsJson">JSON format: {"parentId1": "1,2", "parentId2": "3,4"}</param>
+    /// <returns>Dictionary mapping parentId to list of existing MinorBettypeIds</returns>
+    public static Dictionary<int, List<int>> ParseExistingMinorBettypeIds(string existingMinorBettypeIdsJson)
+    {
+        var result = new Dictionary<int, List<int>>();
+
+        if (string.IsNullOrWhiteSpace(existingMinorBettypeIdsJson))
+        {
+            return result;
+        }
+
+        try
+        {
+            var mapping = JsonConvert.DeserializeObject<Dictionary<string, string>>(existingMinorBettypeIdsJson);
+            if (mapping != null)
+            {
+                foreach (var kvp in mapping)
+                {
+                    if (!int.TryParse(kvp.Key, out var parentId))
+                    {
+                        continue;
+                    }
+
+                    var minorIds = ParseCommaSeparatedInts(kvp.Value);
+                    result[parentId] = minorIds;
+                }
+            }
+        }
+        catch (JsonException)
+        {
+            // Return empty dictionary if JSON deserialization fails
+            // This is expected behavior when the JSON format is invalid
+        }
+
+        return result;
+    }
+
+    private static List<int> ParseCommaSeparatedInts(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return new List<int>();
+        }
+
+        return value.Split(',', StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => x.Trim())
+            .Where(x => int.TryParse(x, out _))
+            .Select(int.Parse)
+            .ToList();
+    }
+
+    /// <summary>
+    /// Write log for adding special products - only logs for NEW MinorBettypeIds
+    /// </summary>
+    public static Task WriteLogForAddSpecialProduct(
+        Repository repository,
+        List<int> specialProductIds,
+        List<int> parentIds,
+        Dictionary<int, List<int>> existingMinorBettypeIdsMap,
+        string userName,
+        CancellationToken cancellationToken = default)
+    {
+        return WriteSpecialProductLog(
+            repository,
+            specialProductIds,
+            parentIds,
+            existingMinorBettypeIdsMap,
+            userName,
+            FilterNewMinorBettypeIds,
+            CreateAddLogAction,
+            cancellationToken);
+    }
+
+    /// <summary>
+    /// Write log for removing special products - only logs for EXISTING MinorBettypeIds
+    /// </summary>
+    public static Task WriteLogForRemoveSpecialProduct(
+        Repository repository,
+        List<int> specialProductIds,
+        List<int> parentIds,
+        Dictionary<int, List<int>> existingMinorBettypeIdsMap,
+        string userName,
+        CancellationToken cancellationToken = default)
+    {
+        return WriteSpecialProductLog(
+            repository,
+            specialProductIds,
+            parentIds,
+            existingMinorBettypeIdsMap,
+            userName,
+            FilterExistingMinorBettypeIds,
+            CreateRemoveLogAction,
+            cancellationToken);
+    }
+
+    private static async Task WriteSpecialProductLog(
+        Repository repository,
+        List<int> specialProductIds,
+        List<int> parentIds,
+        Dictionary<int, List<int>> existingMinorBettypeIdsMap,
+        string userName,
+        Func<List<int>, List<int>, List<int>> filterFunc,
+        Func<int, string> actionFactory,
+        CancellationToken cancellationToken)
+    {
+        var logData = BuildLogDataForSpecialProducts(
+            specialProductIds,
+            parentIds,
+            existingMinorBettypeIdsMap,
+            userName,
+            filterFunc,
+            actionFactory);
+
+        await SaveEventLogAsync(repository, logData, cancellationToken);
+    }
+
+    private static List<LoggedChangeModel> BuildLogDataForSpecialProducts(
+        List<int> specialProductIds,
+        List<int> parentIds,
+        Dictionary<int, List<int>> existingMinorBettypeIdsMap,
+        string userName,
+        Func<List<int>, List<int>, List<int>> filterFunc,
+        Func<int, string> actionFactory)
+    {
+        var logData = new List<LoggedChangeModel>();
+
+        foreach (var parentId in parentIds)
+        {
+            var existingMinorBettypeIds = existingMinorBettypeIdsMap.GetValueOrDefault(parentId, new List<int>());
+            var filteredMinorBettypeIds = filterFunc(specialProductIds, existingMinorBettypeIds);
+
+            foreach (var minorBettypeId in filteredMinorBettypeIds)
+            {
+                var action = actionFactory(minorBettypeId);
+                logData.Add(CreateLoggedChangeModel(parentId, userName, action, null, null));
+            }
+        }
+
+        return logData;
+    }
+
+    private static List<int> FilterNewMinorBettypeIds(List<int> specialProductIds, List<int> existingMinorBettypeIds)
+    {
+        return specialProductIds.Where(id => !existingMinorBettypeIds.Contains(id)).ToList();
+    }
+
+    private static List<int> FilterExistingMinorBettypeIds(List<int> specialProductIds, List<int> existingMinorBettypeIds)
+    {
+        return specialProductIds.Where(id => existingMinorBettypeIds.Contains(id)).ToList();
+    }
+
+    private static string CreateAddLogAction(int minorBettypeId)
+    {
+        var teamPostfix = GetCleanedTeamPostfix(minorBettypeId);
+        return $"Add a new product <b>{teamPostfix}</b>";
+    }
+
+    private static string CreateRemoveLogAction(int minorBettypeId)
+    {
+        var teamPostfix = GetCleanedTeamPostfix(minorBettypeId);
+        return $"Delete the product <b>{teamPostfix}</b>";
+    }
 }

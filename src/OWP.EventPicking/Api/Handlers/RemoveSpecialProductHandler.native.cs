@@ -20,35 +20,24 @@ public class RemoveSpecialProductHandler(INapSession session, Repository reposit
             .Split(',')
             .Select(int.Parse)
             .ToList();
-        
+
         var parentIds = request.RemoveInfo.ParentId
             .Split(',', StringSplitOptions.RemoveEmptyEntries)
             .Select(x => int.Parse(x.Trim()))
             .ToList();
-        
-        await WriteLogWhenRemoveSpecialProduct(specialProductIds, parentIds, cancellationToken);
+
+        // Parse existing MinorBettypeIds mapping (JSON format: {"parentId": "1,2,3"})
+        var existingMinorBettypeIdsMap = SpecialProductHelper.ParseExistingMinorBettypeIds(request.RemoveInfo.ExistingMinorBettypeIds);
+
+        // Write log only for existing MinorBettypeIds that are actually removed
+        await SpecialProductHelper.WriteLogForRemoveSpecialProduct(
+            repository,
+            specialProductIds,
+            parentIds,
+            existingMinorBettypeIdsMap,
+            session.UserName,
+            cancellationToken);
 
         return Unit.Value;
-    }
-
-    private async Task WriteLogWhenRemoveSpecialProduct(List<int> specialProductIds, List<int> parentIds, CancellationToken cancellationToken = default)
-    {
-        var logData = new List<LoggedChangeModel>();
-        foreach (var parentId in parentIds)
-        {
-            foreach (var sp in specialProductIds)
-            {
-                var teamPostfix = SpecialProductHelper.GetCleanedTeamPostfix(sp);
-                var action = $"Delete the product <b>{teamPostfix}</b>";
-                logData.Add(SpecialProductHelper.CreateLoggedChangeModel(
-                    parentId,
-                    session.UserName,
-                    action,
-                    null,
-                    null));
-            }
-        }
-
-        await SpecialProductHelper.SaveEventLogAsync(repository, logData, cancellationToken);
     }
 }

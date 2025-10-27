@@ -180,6 +180,7 @@ type TPermission = {
 type TActionOfSpecialProduct = {
   ParentId: string;
   MinorBettypeId: string;
+  ExistingMinorBettypeIds?: string;
 };
 
 export default TDataTable;
