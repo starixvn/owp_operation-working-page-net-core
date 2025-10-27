@@ -49,7 +49,10 @@ describe('ActionCell under test', () => {
   it('should open Popup', async () => {
     const { container } = render(<ActionCell {...props} />);
     const element = container.querySelector(`[class="action-cell"]`);
-    fireEvent.click(element!);
+    expect(element).toBeInTheDocument();
+    if (element) {
+      fireEvent.click(element);
+    }
     const league = await screen.findByText('Log History - ABC');
     expect(league).toBeInTheDocument();
     expect(mockGetLogSettingQuery).toHaveBeenCalledWith(1);
