@@ -33,24 +33,33 @@ public class AddSpecialProductHandler(
             .Split(',')
             .Select(int.Parse)
             .ToList();
-        await WriteLogWhenAddSpecialProduct(specialProductIds, int.Parse(request.AddInfo.ParentId), cancellationToken);
+        
+        var parentIds = request.AddInfo.ParentId
+            .Split(',', StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => int.Parse(x.Trim()))
+            .ToList();
+        
+        await WriteLogWhenAddSpecialProduct(specialProductIds, parentIds, cancellationToken);
 
         return Unit.Value;
     }
 
-    private async Task WriteLogWhenAddSpecialProduct(List<int> specialProductIds, int parentId, CancellationToken cancellationToken = default)
+    private async Task WriteLogWhenAddSpecialProduct(List<int> specialProductIds, List<int> parentIds, CancellationToken cancellationToken = default)
     {
         var logData = new List<LoggedChangeModel>();
-        foreach (var sp in specialProductIds)
+        foreach (var parentId in parentIds)
         {
-            var teamPostfix = SpecialProductHelper.GetCleanedTeamPostfix(sp);
-            var action = $"Add a new product <b>{teamPostfix}</b>";
-            logData.Add(SpecialProductHelper.CreateLoggedChangeModel(
-                parentId,
-                session.UserName,
-                action,
-                null,
-                null));
+            foreach (var sp in specialProductIds)
+            {
+                var teamPostfix = SpecialProductHelper.GetCleanedTeamPostfix(sp);
+                var action = $"Add a new product <b>{teamPostfix}</b>";
+                logData.Add(SpecialProductHelper.CreateLoggedChangeModel(
+                    parentId,
+                    session.UserName,
+                    action,
+                    null,
+                    null));
+            }
         }
 
         await SpecialProductHelper.SaveEventLogAsync(repository, logData, cancellationToken);
