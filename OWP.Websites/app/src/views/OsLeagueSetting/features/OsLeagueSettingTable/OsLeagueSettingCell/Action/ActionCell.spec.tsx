@@ -38,12 +38,26 @@ const props = {
 };
 
 describe('ActionCell under test', () => {
+  const originalError = console.error;
+
   beforeEach(() => {
     useStore.setState({
       logData: [],
       getLogSettingQuery: mockGetLogSettingQuery
     });
     mockGetLogSettingQuery.mockClear();
+    
+    // Suppress known reactstrap prop-types warnings
+    console.error = jest.fn((message) => {
+      if (message?.includes?.('transition.timeout')) {
+        return;
+      }
+      originalError(message);
+    });
+  });
+
+  afterEach(() => {
+    console.error = originalError;
   });
 
   it('should open Popup', async () => {
