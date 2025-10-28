@@ -230,6 +230,7 @@ public class EditEventPickingHandler(
     private void BuildMaxBet(EventPickingModel match, LeagueSettingInfoSender league)
     {
         match.MaxbetHdp = IsWeekend(match.EventDateTime) ? league.MaxbetWK_HDP_Value : league.MaxbetWD_HDP_Value;
+        match.MaxbetOu = IsWeekend(match.EventDateTime) ? league.MaxbetWK_HDP_Value : league.MaxbetWD_HDP_Value;
         match.IsReferenceLeagueManagement = true;
     }
 
