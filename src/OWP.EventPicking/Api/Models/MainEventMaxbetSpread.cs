@@ -7,19 +7,22 @@ public class MainEventMaxbetSpread
     public decimal? SpreadHdp { get; set; }
 
     [Cell("O2")]
-    public string SpreadHdpExcel => SpreadHdp.HasValue ? $"{Math.Round(SpreadHdp.Value*100)}%" : string.Empty;
+    public string SpreadHdpExcel => SpreadHdp.ToOWPSpreadFormatPercent();
 
     public decimal? SpreadOu { get; set; }
 
     [Cell("P2")]
-    public string SpreadOuExcel => SpreadOu.HasValue ? $"{Math.Round(SpreadOu.Value * 100)}%" : string.Empty;
+    public string SpreadOuExcel => SpreadOu.ToOWPSpreadFormatPercent();
 
     public decimal? MaxbetHdp { get; set; }
 
-    public decimal? MaxbetOu { get; set; }
 
     [Cell("N2")]
-    public string MaxbetHdpExcel => MaxbetHdp.HasValue ? $"{MaxbetHdp.Value/1000}K" : string.Empty;
+    public string MaxbetHdpExcel => MaxbetHdp.ToOWPMaxBetFormat();
+
+    public decimal? MaxbetOu { get; set; }
+    [Cell("BH2")]
+    public string MaxbetOuExcel => MaxbetOu.ToOWPMaxBetFormat();
 
     public bool IsReferenceLeagueManagement { get; set; }
 

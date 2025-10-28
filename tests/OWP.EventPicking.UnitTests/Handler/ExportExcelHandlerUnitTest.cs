@@ -79,7 +79,7 @@ public class ExportExcelHandlerUnitTest
         await queryService.Received(1).Execute(request, Arg.Is<List<short>>(list => list.Count == 0));
         await exportService.Received(1).BuildFileStream(
             Arg.Is<IList<EventPickingModel>>(filteredMatches =>
-                filteredMatches.Count == 3), // Only main matches
+                filteredMatches.Count == 3),
             false);
 
         Assert.Equal(expectedFileResult, result);

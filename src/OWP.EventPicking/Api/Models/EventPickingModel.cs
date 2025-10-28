@@ -106,15 +106,6 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
     [Cell("L2")]
     public string MatchOffer { get; set; }
 
-    [Cell("N2")]
-    public string MaxBetHDP { get; set; }
-
-    [Cell("O2")]
-    public string SpreadHDP { get; set; }
-
-    [Cell("P2")]
-    public string SpreadOU { get; set; }
-
     [Cell("Q2")]
     public string NoHDP { get; set; }
 
@@ -246,14 +237,11 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
     [Cell("BG2")]
     public string OtherTradersAIO { get; set; }
 
-    [Cell("BH2")]
-    public string MaxBetOU { get; set; } = string.Empty;
-
     [Cell("BI2")]
-    public string MaxBet1HHDP { get; set; } = string.Empty;
+    public string MaxBet1HHDPExcel { get; set; } = string.Empty;
 
     [Cell("BJ2")]
-    public string MaxBet1HOU { get; set; } = string.Empty;
+    public string MaxBet1HOUExcel { get; set; } = string.Empty;
 
     [Cell("BK2")]
     public string Spread1HHDP { get; set; } = string.Empty;
@@ -382,46 +370,6 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
     {
         var marginPeriodValues = MarginPeriod?.FirstOrDefault()?.Value;
         return marginPeriodValues;
-    }
-
-    public void MapWeekendSettings(LeagueSetting leagueSetting)
-    {
-        MatchOffer = leagueSetting.MaxbetWK_MatchOffer;
-        LstNote = leagueSetting.FormatedLSTNote;
-        MaxBetHDPNumber = leagueSetting.MaxbetWK_HDP;
-        MaxBetHDP = leagueSetting.MaxbetWK_HDP.ToOWPMaxBetFormat();
-        SpreadHDP = leagueSetting.Spread_HDP.ToOWPSpreadFormatPercent();
-        NoHDP = leagueSetting.MaxbetWK_NoOfHDP;
-        MaxBetOU = leagueSetting.MaxbetWK_OU.ToOWPMaxBetFormat();
-        SpreadOU = leagueSetting.Spread_OU.ToOWPSpreadFormatPercent();
-        MaxBet1HHDP = leagueSetting.MaxbetWK_1HHDP.ToOWPMaxBetFormat();
-        MaxBet1HOU = leagueSetting.MaxbetWK_1HOU.ToOWPMaxBetFormat();
-        Spread1HHDP = leagueSetting.Spread_1HHDP.ToOWPSpreadFormatPercent();
-        Spread1HOU = leagueSetting.Spread_1HOU.ToOWPSpreadFormatPercent();
-        MaxBetFT1X2 = leagueSetting.MaxBet_FT1X2.ToOWPMaxBetFormat();
-        Spread1X2 = leagueSetting.MaxBet_1X2Spread.ToOWPSpreadFormatPercent();
-        MaxBet1H1X2 = leagueSetting.MaxBet_1H1X2.ToOWPMaxBetFormat();
-        Spread1H1X2 = leagueSetting.Spread_1H1X2.ToOWPSpreadFormatPercent();
-    }
-
-    public void MapWeekdaySettings(LeagueSetting leagueSetting)
-    {
-        MatchOffer = leagueSetting.MaxbetWD_MatchOffer;
-        LstNote = leagueSetting.FormatedLSTNote;
-        MaxBetHDPNumber = leagueSetting.MaxbetWD_HDP;
-        MaxBetHDP = leagueSetting.MaxbetWD_HDP.ToOWPMaxBetFormat();
-        SpreadHDP = leagueSetting.Spread_HDP.ToOWPSpreadFormatPercent();
-        MaxBetOU = leagueSetting.MaxbetWD_OU.ToOWPMaxBetFormat();
-        SpreadOU = leagueSetting.Spread_OU.ToOWPSpreadFormatPercent();
-        NoHDP = leagueSetting.MaxbetWD_NoOfHDP;
-        MaxBet1HHDP = leagueSetting.MaxbetWD_1HHDP.ToOWPMaxBetFormat();
-        MaxBet1HOU = leagueSetting.MaxbetWD_1HOU.ToOWPMaxBetFormat();
-        Spread1HHDP = leagueSetting.Spread_1HHDP.ToOWPSpreadFormatPercent();
-        Spread1HOU = leagueSetting.Spread_1HOU.ToOWPSpreadFormatPercent();
-        MaxBetFT1X2 = leagueSetting.MaxBet_FT1X2.ToOWPMaxBetFormat();
-        Spread1X2 = leagueSetting.MaxBet_1X2Spread.ToOWPSpreadFormatPercent();
-        MaxBet1H1X2 = leagueSetting.MaxBet_1H1X2.ToOWPMaxBetFormat();
-        Spread1H1X2 = leagueSetting.Spread_1H1X2.ToOWPSpreadFormatPercent();
     }
 }
 
