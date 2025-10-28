@@ -30,6 +30,7 @@ public class MappingRuleSyncMBLeagueFriendlyServiceImp : MappingRuleSyncMBLeague
         if (finalMaxbet > 0)
         {
             match.MaxbetHdp = finalMaxbet;
+            match.MaxbetOu = finalMaxbet;
             match.SpreadHdp = finalSpreadHdp;
             match.SpreadOu = finalSpreadOu;
             match.IsReferenceLeagueManagement = true;
