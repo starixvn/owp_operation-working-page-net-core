@@ -39,7 +39,7 @@ public class BuildChildMatchMaxBetUnitTests
 
         services.BuildExport(mainMatches, childMatches, maxbetSettings);
 
-        DeepAssert.Equal(MockExpectedMatches().First().MaxBetHDP, childMatches.First().MaxBetHDP);
+        DeepAssert.Equal(MockExpectedMatches().First().MaxbetHdpExcel, childMatches.First().MaxbetHdpExcel);
     }
 
     public List<EventPickingModel> MockChildMatches()
@@ -79,7 +79,7 @@ public class BuildChildMatchMaxBetUnitTests
     public List<EventPickingModel> MockMainMatches()
         =>
         [
-            new EventPickingModel { MaxBetHDP = null },
+            new EventPickingModel { MaxbetHdp = null },
             new EventPickingModel
             {
                 MaxbetHdp = 5000,
@@ -106,37 +106,37 @@ public class BuildChildMatchMaxBetUnitTests
             {
                 InfoSiteMatchId = 3333,
                 MinorBettypeId = -3,
-                MaxBetHDP = "2K",
-                MaxBetOU = "0.1K"
+                MaxbetHdp = 2000,
+                MaxbetOu = 100
             },
 
             new EventPickingModel
             {
                 InfoSiteMatchId = 3333,
                 MinorBettypeId = -4,
-                MaxBetHDP = "12K"
+                MaxbetHdp = 12000
             },
 
             new EventPickingModel
             {
                 InfoSiteMatchId = 4444,
                 MinorBettypeId = -6,
-                MaxBetHDP = "0.3K",
-                MaxBetOU = "0.1K"
+                MaxbetHdp = 300,
+                MaxbetOu = 100
             },
 
             new EventPickingModel
             {
                 InfoSiteMatchId = 5555,
                 MinorBettypeId = -7,
-                MaxBetHDP = "0.333K"
+                MaxbetHdp = 333
             },
 
             new EventPickingModel
             {
                 InfoSiteMatchId = 4444,
                 MinorBettypeId = -99,
-                MaxBetHDP = ""
+                MaxbetHdp = null
             }
         ];
 
