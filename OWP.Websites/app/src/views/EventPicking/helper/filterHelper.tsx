@@ -121,7 +121,11 @@ const buildNoOfHdpOptions = (entities: TDataTable[]) =>
         value: o.noOfHDP || null,
         label: o.noOfHDP || '(Blanks)'
       }))
-      .sort((first, second) => first.index - second.index),
+      .sort((a, b) => {
+        if (a.label === '(Blanks)') { return 1; }
+        if (b.label === '(Blanks)') { return -1; }
+        return a.label.localeCompare(b.label, undefined, { numeric: true });
+      }),
     i => i.label
   );
 
