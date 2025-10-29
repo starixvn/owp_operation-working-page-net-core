@@ -265,15 +265,20 @@ const EventPickingTableSlice = createSlice({
       }>
     ) => {
       const { key, value, infoSiteMatchId, minorBettypeId } = action.payload;
-      const target = state.entities.find(
-        s =>
-          s.infoSiteMatchId === infoSiteMatchId &&
-          s.minorBettypeId === minorBettypeId
-      );
-      if (target) {
-        target.isModified = true;
-        target[key] = value;
-      }
+      [state.entitiesOriginal, state.entities]
+      .filter(Boolean)
+      .forEach(list => {
+        const target = list.find(
+          s =>
+            s.infoSiteMatchId === infoSiteMatchId &&
+            s.minorBettypeId === minorBettypeId
+        );
+        if (target) {
+          target.isModified = true;
+          target[key] = value;
+        }
+      });
+
     },
     setValueNoOfHdp: (
       state,
@@ -284,15 +289,19 @@ const EventPickingTableSlice = createSlice({
       }>
     ) => {
       const { value, infoSiteMatchId, minorBettypeId } = action.payload;
-      const target = state.entities.find(
-        s =>
-          s.infoSiteMatchId === infoSiteMatchId &&
-          s.minorBettypeId === minorBettypeId
-      );
-      if (target) {
-        target.noOfHDP = value;
-        target.isModified = true;
-      }
+      [state.entitiesOriginal, state.entities]
+      .filter(Boolean)
+      .forEach(list => {
+        const target = list.find(
+          s =>
+            s.infoSiteMatchId === infoSiteMatchId &&
+            s.minorBettypeId === minorBettypeId
+        );
+        if (target) {
+          target.isModified = true;
+          target.noOfHDP = value;
+        }
+      });
     },
     setMatchSelected: (
       state,
