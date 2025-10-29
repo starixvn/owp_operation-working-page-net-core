@@ -24,41 +24,20 @@ public class BuildChildMatchMaxBetImp(MaxbetSettingService maxbetSettingService)
         {
             var maxBetDefault = GetMaxBetSettingDefault(mainMatches, child.InfoSiteMatchId, maxBetDefaults);
             ApplyMaxBetSetting(maxBetDefault, child);
-            if (maxBetDefault != null)
+            switch (child.MinorBettypeId)
             {
-                child.IsReferenceLeagueManagement = true;
-                switch (child.MinorBettypeId)
-                {
-                    case Bettype.NoOfCorner:
-                        //child.MaxbetHdpExcel = child.MaxbetHdp.HasValue ? maxBetDefault.NoOfCorner_FT_HDP.ToOWPMaxBetFormat();
-                        //child.MaxbetOu = maxBetDefault.NoOfCorner_FT_OU.ToOWPMaxBetFormat();
-                        child.MaxBet1HHDPExcel = maxBetDefault.NoOfCorner_1H_HDP.ToOWPMaxBetFormat();
-                        child.MaxBet1HOUExcel = maxBetDefault.NoOfCorner_1H_OU.ToOWPMaxBetFormat();
-
-                        //child.MaxBetHDP ??= maxBetDefault.NoOfCorner_FT_HDP;
-                        //child.MaxBetOU ??= maxBetDefault.NoOfCorner_FT_OU;
-                        //child.MaxBet1HHDP ??= maxBetDefault.NoOfCorner_FT_Spread_HDP;
-                        //child.MaxBet1HOU ??= maxBetDefault.NoOfCorner_FT_Spread_OU;
-                        //child.SpreadHdpExcel = maxBetDefault.NoOfCorner_FT_Spread_HDP;
-                        //child.SpreadOu ??= maxBetDefault.NoOfCorner_FT_Spread_OU;
-                        break;
-                    case Bettype.TotalBooking:
-                        //child.MaxBetHDP = maxBetDefault.TotalBooking_FT_HDP.ToOWPMaxBetFormat();
-                        //child.MaxBetOU = maxBetDefault.TotalBooking_FT_OU.ToOWPMaxBetFormat();
-                        child.MaxBet1HHDPExcel = maxBetDefault.TotalBooking_1H_HDP.ToOWPMaxBetFormat();
-                        child.MaxBet1HOUExcel = maxBetDefault.TotalBooking_1H_OU.ToOWPMaxBetFormat();
-
-                        
-                        break;
-                    case Bettype.NextCorner:
-                        //child.MaxBetHDP = maxBetDefault.NextCorner_FT_HDP.ToOWPMaxBetFormat();
-                        break;
-                    case Bettype.NextBooking:
-                        //child.MaxBetHDP = maxBetDefault.NextBooking_FT_HDP.ToOWPMaxBetFormat();
-                        break;
-                    default:
-                        break;
-                }
+                case Bettype.NoOfCorner:
+                    child.MaxBet1HHDPExcel = maxBetDefault?.NoOfCorner_1H_HDP.ToOWPMaxBetFormat();
+                    child.MaxBet1HOUExcel = maxBetDefault?.NoOfCorner_1H_OU.ToOWPMaxBetFormat();
+                    break;
+                case Bettype.TotalBooking:
+                    child.MaxBet1HHDPExcel = maxBetDefault?.TotalBooking_1H_HDP.ToOWPMaxBetFormat();
+                    child.MaxBet1HOUExcel = maxBetDefault?.TotalBooking_1H_OU.ToOWPMaxBetFormat();
+                    break;
+                default:
+                    child.MaxBet1HHDPExcel = string.Empty;
+                    child.MaxBet1HOUExcel = string.Empty;
+                    break;
             }
         }
     }
@@ -83,28 +62,30 @@ public class BuildChildMatchMaxBetImp(MaxbetSettingService maxbetSettingService)
 
     private static void ApplyMaxBetSetting(MaxBetSettingModel maxBetDefault, EventPickingModel child)
     {
-        if (maxBetDefault is not null)
+        if (maxBetDefault is null)
         {
-            child.IsReferenceLeagueManagement = true;
-            switch (child.MinorBettypeId)
-            {
-                case Bettype.NoOfCorner:
-                    ApplyNoOfCornerSettings(child, maxBetDefault);
-                    break;
-                case Bettype.NextCorner:
-                    ApplyNextCornerSettings(child, maxBetDefault);
-                    break;
-                case Bettype.TotalBooking:
-                    ApplyTotalBookingSettings(child, maxBetDefault);
-                    break;
-                case Bettype.NextBooking:
-                    ApplyNextBookingSettings(child, maxBetDefault);
-                    break;
-                default:
-                    child.MaxbetHdp = null;
-                    child.IsReferenceLeagueManagement = false;
-                    break;
-            }
+            return;
+        }
+
+        child.IsReferenceLeagueManagement = true;
+        switch (child.MinorBettypeId)
+        {
+            case Bettype.NoOfCorner:
+                ApplyNoOfCornerSettings(child, maxBetDefault);
+                break;
+            case Bettype.NextCorner:
+                ApplyNextCornerSettings(child, maxBetDefault);
+                break;
+            case Bettype.TotalBooking:
+                ApplyTotalBookingSettings(child, maxBetDefault);
+                break;
+            case Bettype.NextBooking:
+                ApplyNextBookingSettings(child, maxBetDefault);
+                break;
+            default:
+                child.MaxbetHdp = null;
+                child.IsReferenceLeagueManagement = false;
+                break;
         }
     }
 
