@@ -21,7 +21,6 @@ using OWP.MaxbetSetting;
 using OWP.OSLeagueSetting;
 using OWP.OtherSport;
 using OWP.ProviderArrangement;
-using OWP.ProviderVerification;
 using OWP.RabbitMQ;
 using OWP.Report.LAReport;
 using OWP.Report.MatchCountLiveReport;
@@ -37,7 +36,6 @@ using OWP.TicketSetting.TicketEvent;
 using OWP.TicketSetting.TicketTypeRecipient;
 using StackExchange.Redis;
 using System.Reflection;
-using OWP.ProviderVerification.ProviderVerification.QueryProvider;
 using OWP.TeamManagement;
 
 namespace OWP.Websites;
@@ -47,13 +45,11 @@ using BackgroundWorker.Jobs;
 using EventPicking.Api;
 using Microsoft.Extensions.FileProviders;
 using Olympus.OWP.Log.Services;
-using ONEbook.UM.Filters;
 using OWP.AccountSetting.Profile;
 using OWP.ChatServer.Handler;
 using OWP.PrematchAssignment.QueryAndSave;
 using OWP.UserManagement.Controllers;
 using Quartz;
-using System.Net.Http;
 using WorkingShift.SyncWorkingShift;
 
 public static class ServiceCollectionExtensions
@@ -102,7 +98,6 @@ public static class ServiceCollectionExtensions
         });
         services.AddControllersWithViews(options =>
             {
-                options.Filters.Add(new ServiceFilterAttribute(typeof(CheckUMFilterAttribute)));
                 options.Filters.Add(new SessionAuthorizeAttribute());
             })
             .AddNewtonsoftJson(options =>
