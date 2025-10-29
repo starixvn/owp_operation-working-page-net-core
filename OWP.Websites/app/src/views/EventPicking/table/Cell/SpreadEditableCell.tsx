@@ -75,7 +75,7 @@ const SpreadEditableCell = ({
         />
         <span>%</span>
       </div>
-      {isShowCheckButton && !spread && !minorBettypeId && (
+      {isShowCheckButton && !spread  && (
         <a className='mb__check' onClick={() => handleCheckButton(leagueName, isChildMatch)}>
           Check
         </a>

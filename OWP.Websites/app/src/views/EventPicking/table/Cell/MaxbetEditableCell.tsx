@@ -84,7 +84,7 @@ const MaxbetEditableCell = ({
         />
         <span>K</span>
       </div>
-      {isShowCheckButton && !maxBet && !minorBettypeId && (
+      {isShowCheckButton && !maxBet &&  (
         <a
           className='mb__check'
           onClick={() => handleCheckButton(leagueName, isChildMatch)}>
