@@ -15,6 +15,8 @@ public interface EventProductCommon
 
     decimal? MaxBetHDPNumber { get; set; }
 
+    decimal? MaxbetHdp { get; set; }
+
     bool IsSaba { get; }
 
     public DateTime EventDateTime { get; set; }
@@ -24,4 +26,5 @@ public interface EventProductCommon
     public bool IsNoOffer { get; set; }
 
     public bool IsTestMatch { get; set; }
+
 }

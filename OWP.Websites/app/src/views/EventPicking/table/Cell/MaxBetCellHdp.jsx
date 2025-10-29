@@ -12,7 +12,7 @@ const propTypes = {
   rowIndex: PropTypes.number.isRequired
 };
 
-const MaxBetCell = props => {
+const MaxBetCellHdp = props => {
   const { mode } = store.getState().mode;
   const { rowIndex, dataSource } = props;
   const {
@@ -23,6 +23,7 @@ const MaxBetCell = props => {
     isChildMatch,
     isShowCheckButton
   } = dataSource[rowIndex];
+
 
   const component = {
     [VIEW]: (
@@ -46,5 +47,5 @@ const MaxBetCell = props => {
   return component[mode];
 };
 
-MaxBetCell.propTypes = propTypes;
-export default MaxBetCell;
+MaxBetCellHdp.propTypes = propTypes;
+export default MaxBetCellHdp;

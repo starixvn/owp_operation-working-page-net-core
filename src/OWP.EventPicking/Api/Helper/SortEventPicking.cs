@@ -16,21 +16,25 @@ public static class SortEventPicking
                  || x.LeagueName.IsContains(saba16mins)
                  || x.LeagueName.IsContains(saba20mins)))
             .OrderBy(x => x.EventDateTime)
+            .ThenByDescending(x => x.MaxbetHdp)
             .ThenByDescending(x => x.LeagueName.Contains(saba15mins))
             .ThenByDescending(x => x.LeagueName.Contains(saba20mins))
             .ThenByDescending(x => x.LeagueName.Contains(saba16mins))
             .ThenBy(x => x.InfoSiteMatchId);
         var orderPriority2ndSaba = matches.Where(x => x.IsSaba && x.LeagueName.IsContainsAll("PES", " - 5 Mins Play"))
             .OrderBy(x => x.EventDateTime)
+            .ThenByDescending(x => x.MaxbetHdp)
             .ThenBy(x => x.InfoSiteMatchId);
         var orderPriority3rdSaba = matches.Where(x => x.IsSaba && x.LeagueName.IsContains(" - PENALTY SHOOTOUTS"))
             .OrderBy(x => x.EventDateTime)
+            .ThenByDescending(x => x.MaxbetHdp)
             .ThenBy(x => x.InfoSiteMatchId);
 
         var sabaCombine = orderPriority1stSaba.Concat(orderPriority2ndSaba).Concat(orderPriority3rdSaba).ToList();
 
         var realMatches = matches.Except(sabaCombine)
             .OrderBy(x => x.EventDateTime)
+            .ThenByDescending(x => x.MaxbetHdp)
             .ThenBy(x => x.LeagueName)
             .ToList();
 

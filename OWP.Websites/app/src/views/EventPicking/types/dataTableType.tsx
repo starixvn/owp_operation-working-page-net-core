@@ -44,6 +44,7 @@ type TDataTable = TMatchOfferInfo & {
   homeName: string;
   awayName: string;
   maxbetHdp: number | undefined;
+  maxbetOu: number | undefined;
   maxBetHDPNumber: number | undefined;
   noOfHDP: string | undefined;
   spreadOu: number | undefined;
@@ -87,6 +88,7 @@ type TWinLoss = {
 
 type TColumnKey =
   | 'maxbetHdp'
+  | 'maxbetOu'
   | 'time'
   | 'leagueName'
   | 'spreadHdp'
@@ -178,6 +180,7 @@ type TPermission = {
 type TActionOfSpecialProduct = {
   ParentId: string;
   MinorBettypeId: string;
+  ExistingMinorBettypeIds?: string;
 };
 
 export default TDataTable;

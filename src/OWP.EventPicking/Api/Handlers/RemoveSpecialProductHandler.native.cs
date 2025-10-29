@@ -1,7 +1,5 @@
 using Fanex.NAP.Client;
-using OWP.CQRS;
-using OWP.EventPicking.Api.Criteria;
-using OWP.EventPicking.Api.Models;
+using OWP.EventPicking.Api.Helper;
 
 namespace OWP.EventPicking.Api.Handlers;
 
@@ -17,6 +15,29 @@ public class RemoveSpecialProductHandler(INapSession session, Repository reposit
             ParentId = request.RemoveInfo.ParentId,
             MinorBettypeId = request.RemoveInfo.MinorBettypeId,
         });
+
+        var specialProductIds = request.RemoveInfo.MinorBettypeId
+            .Split(',')
+            .Select(int.Parse)
+            .ToList();
+
+        var parentIds = request.RemoveInfo.ParentId
+            .Split(',', StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => int.Parse(x.Trim()))
+            .ToList();
+
+        // Parse existing MinorBettypeIds mapping (JSON format: {"parentId": "1,2,3"})
+        var existingMinorBettypeIdsMap = SpecialProductHelper.ParseExistingMinorBettypeIds(request.RemoveInfo.ExistingMinorBettypeIds);
+
+        // Write log only for existing MinorBettypeIds that are actually removed
+        await SpecialProductHelper.WriteLogForRemoveSpecialProduct(
+            repository,
+            specialProductIds,
+            parentIds,
+            existingMinorBettypeIdsMap,
+            session.UserName,
+            cancellationToken);
+
         return Unit.Value;
     }
 }

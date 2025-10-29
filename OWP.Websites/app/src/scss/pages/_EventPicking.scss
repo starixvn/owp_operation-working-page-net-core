@@ -342,7 +342,6 @@
                             top: 23px;
                             left: -13px;
                             width: 180px;
-                            height: 120px;
                             margin: 0;
                             list-style: none;
                             text-align: left;
@@ -516,6 +515,15 @@
             }
         }
 
+        .group-multiple-select {
+            .filter-header {
+                margin-left: 15px;
+            }
+            .filter-popup {
+                left: 3px;
+            }
+        }
+
         &:nth-child(1) {
             width: 40px !important;
         }
@@ -550,7 +558,7 @@
     }
 
     .no-cell {
-        width: 40px;
+        width: 50px;
     }
 
     .ko-time-cell {
@@ -566,7 +574,7 @@
     }
 
     .max-bet-cell {
-        width: 60px;
+        width: 75px;
     }
 
     .spread-cell {
@@ -588,15 +596,15 @@
     }
 
     .provider-cell {
-        width: 200px;
+        width: 140px;
     }
 
     .round-cell {
-        width: 200px;
+        width: 160px;
     }
 
     .remark-cell {
-        width: 200px;
+        width: 170px;
     }
 
     .r-and-d-update-cell {

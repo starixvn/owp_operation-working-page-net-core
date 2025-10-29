@@ -23,6 +23,7 @@ public class BuildMBForClubFriendlyMajorLeagueBuilderImp : BuildMBForClubFriendl
         };
         
         match.MaxbetHdp = maxbet;
+        match.MaxbetOu = maxbet;
         match.SpreadHdp = spreadHdp;
         match.SpreadOu = spreadOu;
         match.NoOfHDP = noOfHdp;

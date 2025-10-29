@@ -12,6 +12,7 @@ public class EditEventPickingRequest : EventPickingRequest, IRequest<EventPickin
 
 public class EditEventPickingHandler(
     QueryEventPickingService service,
+    BuildChildMatchMaxBet childMatchMaxBet,
     Repository repository,
     PullMainLeagueService pullMainLeagueService,
     MapMainLeagueForEventService mainLeagueForEventMapper,
@@ -34,7 +35,7 @@ public class EditEventPickingHandler(
         var mainMatches = await service.Execute(request, new List<short>());
 
         var matchFiltered = mainMatches.FilteredMatches;
-
+       
         var leagueSetting = (await repository.QueryLeagueSetting()).ToList();
         var tvList = (await repository.GetTVList()).ToList();
 
@@ -54,9 +55,11 @@ public class EditEventPickingHandler(
             }
         }
 
+        await childMatchMaxBet.Build(matchFiltered);
+
         // Save MB data from matchFiltered to cache
         await SaveMBSpreadsToCache(request.Date, matchFiltered);
-
+        SyncMaxbetOUForMainEvent(matchFiltered);
         return new EventPickingResult
         {
             MatchesByDate = mainMatches.MatchesByDate,
@@ -118,14 +121,7 @@ public class EditEventPickingHandler(
 
     private decimal? GetMaxbet(LeagueSettingInfoSender leagueSetting, EventPickingModel match)
     {
-        if (IsWeekend(match.EventDateTime))
-        {
-            return leagueSetting.MaxbetWK_HDP_Value;
-        }
-        else
-        {
-            return leagueSetting.MaxbetWD_HDP_Value;
-        }
+        return IsWeekend(match.EventDateTime) ? leagueSetting.MaxbetWK_HDP_Value : leagueSetting.MaxbetWD_HDP_Value;
     }
     private LeagueSettingInfoSender ProcessLeagueSettingsForMatch(List<LeagueSettingInfoSender> leagueSettingByLeagueId, EventPickingModel match, List<Condition> tvList)
     {
@@ -145,8 +141,8 @@ public class EditEventPickingHandler(
             .Select(league => new
             {
                 League = league,
-                RoundDistance = league.FullConditionDescription is null 
-                    ? 0 
+                RoundDistance = league.FullConditionDescription is null
+                    ? 0
                     : CheckMatchValidMappingWithLeagueManagementAndGetDistance(match, league, tvList)
             })
             .Where(x => x.RoundDistance.HasValue)
@@ -183,7 +179,7 @@ public class EditEventPickingHandler(
             .ToList();
 
         var bestMatch = orderedLeagues.FirstOrDefault();
-        
+
         if (bestMatch != null)
         {
             SuggestionValue(match, bestMatch.League);
@@ -234,6 +230,7 @@ public class EditEventPickingHandler(
     private void BuildMaxBet(EventPickingModel match, LeagueSettingInfoSender league)
     {
         match.MaxbetHdp = IsWeekend(match.EventDateTime) ? league.MaxbetWK_HDP_Value : league.MaxbetWD_HDP_Value;
+        match.MaxbetOu = IsWeekend(match.EventDateTime) ? league.MaxbetWK_HDP_Value : league.MaxbetWD_HDP_Value;
         match.IsReferenceLeagueManagement = true;
     }
 
@@ -255,6 +252,16 @@ public class EditEventPickingHandler(
         match.IsReferenceLeagueManagement = true;
     }
 
+    private void SyncMaxbetOUForMainEvent(IList<EventPickingModel> eventPickingModels)
+    {
+        foreach (var eventPicking in eventPickingModels)
+        {
+            if (!eventPicking.IsChildMatch && eventPicking.IsReferenceLeagueManagement)
+            {
+                eventPicking.MaxbetOu = eventPicking.MaxbetHdp;
+            }
+        }
+    }
     private static int? CheckRoundConditions(string matchValues, IList<Condition> conditions)
     {
         var isEquals = CheckConditionEqual(matchValues, conditions);
@@ -262,12 +269,12 @@ public class EditEventPickingHandler(
         {
             return 0;
         }
-        if(!conditions.Any())
+        if (!conditions.Any())
         {
             return int.MaxValue;
         }
         var conditionContains = GetConditionContain(matchValues, conditions);
-        if(!conditionContains.Any())
+        if (!conditionContains.Any())
         {
             return null;
         }
@@ -294,7 +301,7 @@ public class EditEventPickingHandler(
         var isPairWiseContains = CheckConditionPairWiseContain(matchValues, conditions);
         return !conditions.Any() || isContains || isEquals || isPairWiseContains;
     }
-    
+
     private static bool CheckConditionPairWiseContain(string matchValues, IList<Condition> conditions)
     {
         var containsValues = GetValuePairWiseContains(conditions);
@@ -304,8 +311,8 @@ public class EditEventPickingHandler(
             return false;
         }
 
-        var homeDivision= homeAwayDivision[0];
-        var awayDivision= homeAwayDivision[1];
+        var homeDivision = homeAwayDivision[0];
+        var awayDivision = homeAwayDivision[1];
 
         return containsValues.Any(c =>
         {
@@ -318,7 +325,7 @@ public class EditEventPickingHandler(
             var secondConditionValue = homeAwayCondition[1].Trim();
 
             return (homeDivision.Contains(firstConditionValue) &&
-                   awayDivision.Contains(secondConditionValue)) 
+                   awayDivision.Contains(secondConditionValue))
                    ||
                    (homeDivision.Contains(secondConditionValue) &&
                    awayDivision.Contains(firstConditionValue));
@@ -345,8 +352,8 @@ public class EditEventPickingHandler(
         }
 
         return conditions
-            .Where(c => c.Type == "Contains" && 
-                        !string.IsNullOrEmpty(c.Value) && 
+            .Where(c => c.Type == "Contains" &&
+                        !string.IsNullOrEmpty(c.Value) &&
                         matchValues.Contains(c.Value, StringComparison.CurrentCultureIgnoreCase))
             .ToList();
     }
@@ -392,12 +399,12 @@ public class EditEventPickingHandler(
         var roundDistance = CheckRoundConditions(match.Round, leagueSetting.Condition.Round);
         var divisionConditions = CheckDivisionConditions(match.Division, leagueSetting.Condition.Division);
         var tvConditions = CheckTVConditions(match, leagueSetting, tvList);
-        
+
         if (roundDistance.HasValue && divisionConditions && tvConditions)
         {
             return roundDistance.Value;
         }
-        
+
         return null;
     }
 
@@ -442,7 +449,7 @@ public class EditEventPickingHandler(
         {
             return (true, true);
         }
-        else if(hasValidTv)
+        else if (hasValidTv)
         {
             return (true, false);
         }
@@ -475,9 +482,12 @@ public class EditEventPickingHandler(
         {
             InfoSiteMatchId = match.InfoSiteMatchId,
             MaxbetHdp = match.MaxbetHdp,
+            MaxbetOU = match.MaxbetOu,
             SpreadHdp = match.SpreadHdp,
             SpreadOu = match.SpreadOu,
             NoOfHDP = match.NoOfHDP,
+            IsChildMatch = match.IsChildMatch,
+            MinorBettypeId = match.MinorBettypeId ?? 0,
             IsReferenceLeagueManagement = match.IsReferenceLeagueManagement
         }).ToList();
 

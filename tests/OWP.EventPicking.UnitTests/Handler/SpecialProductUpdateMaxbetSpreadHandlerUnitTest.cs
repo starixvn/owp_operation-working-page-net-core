@@ -23,7 +23,7 @@ public class SpecialProductUpdateMaxbetSpreadHandlerUnitTest
         var repository = Substitute.For<OWP.EventPicking.Repository>();
         var session = Substitute.For<INapSession>();
         var cacheManipulator = Substitute.For<CacheManipulator>();
-        
+
         session.UserId.Returns(789);
         session.UserName.Returns("testuser");
 
@@ -62,8 +62,8 @@ public class SpecialProductUpdateMaxbetSpreadHandlerUnitTest
                 c.TargetJson == expectedJson));
         await repository.Received(1).SaveEventLog(
             Arg.Is<SaveEditEventLogsCriteria>(c => !string.IsNullOrEmpty(c.Xml)));
-        await cacheManipulator.Received(1).SaveMBSpreadsByDate(request.EventDate, 
-            Arg.Is<List<EventMBSpread>>(cachedData => 
+        await cacheManipulator.Received(1).SaveMBSpreadsByDate(request.EventDate,
+            Arg.Is<List<EventMBSpread>>(cachedData =>
                 cachedData.Count == 2 && // Should contain both original cached events
                 cachedData.Any(c => c.InfoSiteMatchId == 123 && c.MaxbetHdp == 100) && // Updated event
                 cachedData.Any(c => c.InfoSiteMatchId == 456 && c.MaxbetHdp == 200))); // Updated event
@@ -78,7 +78,7 @@ public class SpecialProductUpdateMaxbetSpreadHandlerUnitTest
         var repository = Substitute.For<OWP.EventPicking.Repository>();
         var session = Substitute.For<INapSession>();
         var cacheManipulator = Substitute.For<CacheManipulator>();
-        
+
         session.UserId.Returns(789);
         session.UserName.Returns("testuser");
 
@@ -107,9 +107,9 @@ public class SpecialProductUpdateMaxbetSpreadHandlerUnitTest
 
         // Assert
         await repository.Received(1).SaveEventLog(
-            Arg.Is<SaveEditEventLogsCriteria>(c => 
-                !string.IsNullOrEmpty(c.Xml) && 
-                c.Xml.Contains("MB") && 
+            Arg.Is<SaveEditEventLogsCriteria>(c =>
+                !string.IsNullOrEmpty(c.Xml) &&
+                c.Xml.Contains("MB") &&
                 c.Xml.Contains("SpreadHDP") &&
                 c.Xml.Contains("SpreadOU") &&
                 c.Xml.Contains("No.HDP")));
@@ -124,7 +124,7 @@ public class SpecialProductUpdateMaxbetSpreadHandlerUnitTest
         var repository = Substitute.For<OWP.EventPicking.Repository>();
         var session = Substitute.For<INapSession>();
         var cacheManipulator = Substitute.For<CacheManipulator>();
-        
+
         session.UserId.Returns(789);
         session.UserName.Returns("testuser");
 
@@ -151,10 +151,8 @@ public class SpecialProductUpdateMaxbetSpreadHandlerUnitTest
         // Act
         var result = await handler.Handle(request, CancellationToken.None);
 
-        // Assert
-        await repository.Received(1).SaveEventLog(
-            Arg.Is<SaveEditEventLogsCriteria>(c => 
-                string.IsNullOrEmpty(c.Xml) || !c.Xml.Contains("MB")));
+        // Assert - SaveEventLog should not be called at all when there are no changes
+        await repository.DidNotReceive().SaveEventLog(Arg.Any<SaveEditEventLogsCriteria>());
 
         Assert.Equal(Unit.Value, result);
     }
@@ -166,7 +164,7 @@ public class SpecialProductUpdateMaxbetSpreadHandlerUnitTest
         var repository = Substitute.For<OWP.EventPicking.Repository>();
         var session = Substitute.For<INapSession>();
         var cacheManipulator = Substitute.For<CacheManipulator>();
-        
+
         session.UserId.Returns(789);
         session.UserName.Returns("testuser");
 
@@ -195,8 +193,8 @@ public class SpecialProductUpdateMaxbetSpreadHandlerUnitTest
 
         // Assert
         await repository.Received(1).SaveEventLog(
-            Arg.Is<SaveEditEventLogsCriteria>(c => 
-                !string.IsNullOrEmpty(c.Xml) && 
+            Arg.Is<SaveEditEventLogsCriteria>(c =>
+                !string.IsNullOrEmpty(c.Xml) &&
                 c.Xml.Contains("100K") && // 100000/1000 = 100K (rounded)
                 c.Xml.Contains("50%") &&  // 0.5 * 100 = 50% (rounded)
                 c.Xml.Contains("25%"))); // 0.25 * 100 = 25% (rounded)
@@ -211,7 +209,7 @@ public class SpecialProductUpdateMaxbetSpreadHandlerUnitTest
         var repository = Substitute.For<OWP.EventPicking.Repository>();
         var session = Substitute.For<INapSession>();
         var cacheManipulator = Substitute.For<CacheManipulator>();
-        
+
         session.UserId.Returns(789);
         session.UserName.Returns("testuser");
 
@@ -240,9 +238,9 @@ public class SpecialProductUpdateMaxbetSpreadHandlerUnitTest
 
         // Assert
         await repository.Received(1).SaveEventLog(
-            Arg.Is<SaveEditEventLogsCriteria>(c => 
-                !string.IsNullOrEmpty(c.Xml) && 
-                c.Xml.Contains("MB") && 
+            Arg.Is<SaveEditEventLogsCriteria>(c =>
+                !string.IsNullOrEmpty(c.Xml) &&
+                c.Xml.Contains("MB") &&
                 c.Xml.Contains("SpreadHDP") &&
                 c.Xml.Contains("No.HDP")));
 
@@ -256,7 +254,7 @@ public class SpecialProductUpdateMaxbetSpreadHandlerUnitTest
         var repository = Substitute.For<OWP.EventPicking.Repository>();
         var session = Substitute.For<INapSession>();
         var cacheManipulator = Substitute.For<CacheManipulator>();
-        
+
         session.UserId.Returns(789);
         session.UserName.Returns("testuser");
 
@@ -287,9 +285,9 @@ public class SpecialProductUpdateMaxbetSpreadHandlerUnitTest
 
         // Assert
         await repository.Received(1).SaveEventLog(
-            Arg.Is<SaveEditEventLogsCriteria>(c => 
-                !string.IsNullOrEmpty(c.Xml) && 
-                c.Xml.Contains("MB") && 
+            Arg.Is<SaveEditEventLogsCriteria>(c =>
+                !string.IsNullOrEmpty(c.Xml) &&
+                c.Xml.Contains("MB") &&
                 c.Xml.Contains("SpreadHDP")));
 
         Assert.Equal(Unit.Value, result);
@@ -302,7 +300,7 @@ public class SpecialProductUpdateMaxbetSpreadHandlerUnitTest
         var repository = Substitute.For<OWP.EventPicking.Repository>();
         var session = Substitute.For<INapSession>();
         var cacheManipulator = Substitute.For<CacheManipulator>();
-        
+
         session.UserId.Returns(789);
         session.UserName.Returns("testuser");
 
@@ -331,8 +329,8 @@ public class SpecialProductUpdateMaxbetSpreadHandlerUnitTest
 
         // Assert
         await repository.Received(1).SaveEventLog(
-            Arg.Is<SaveEditEventLogsCriteria>(c => 
-                !string.IsNullOrEmpty(c.Xml) && 
+            Arg.Is<SaveEditEventLogsCriteria>(c =>
+                !string.IsNullOrEmpty(c.Xml) &&
                 c.Xml.Contains("20K") && // Should be 20K, not 20.0K
                 c.Xml.Contains("21K"))); // Should be 21K, not 21.0K
 
@@ -346,7 +344,7 @@ public class SpecialProductUpdateMaxbetSpreadHandlerUnitTest
         var repository = Substitute.For<OWP.EventPicking.Repository>();
         var session = Substitute.For<INapSession>();
         var cacheManipulator = Substitute.For<CacheManipulator>();
-        
+
         session.UserId.Returns(789);
         session.UserName.Returns("testuser");
 
@@ -376,8 +374,8 @@ public class SpecialProductUpdateMaxbetSpreadHandlerUnitTest
         var result = await handler.Handle(request, CancellationToken.None);
 
         // Assert
-        await cacheManipulator.Received(1).SaveMBSpreadsByDate(request.EventDate, 
-            Arg.Is<List<EventMBSpread>>(cachedData => 
+        await cacheManipulator.Received(1).SaveMBSpreadsByDate(request.EventDate,
+            Arg.Is<List<EventMBSpread>>(cachedData =>
                 cachedData.Count == 3 && // Should contain all 3 events
                 cachedData.Any(c => c.InfoSiteMatchId == 123 && c.MaxbetHdp == 100 && !c.IsReferenceLeagueManagement) && // Updated existing event
                 cachedData.Any(c => c.InfoSiteMatchId == 999 && c.MaxbetHdp == 300 && !c.IsReferenceLeagueManagement) && // Added new event

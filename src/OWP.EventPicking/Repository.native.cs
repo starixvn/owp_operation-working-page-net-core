@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Fanex.Data.Repository;
 using Fanex.NAP.Client;
 using Newtonsoft.Json;
@@ -11,6 +12,8 @@ namespace OWP.EventPicking;
 public interface Repository
 {
     Task<List<EventPickingModel>> QueryMainMatch(DateTime date);
+
+    Task<List<EventPickingModel>> QueryMainMatch(string infoSiteIds);
 
     Task<List<EventPickingModel>> QueryChildMatch(DateTime date);
 
@@ -67,6 +70,18 @@ public class RepositoryImp : Repository
         return result.ToList();
     }
 
+    public async Task<List<EventPickingModel>> QueryMainMatch(string infoSiteIds)
+    {
+        var criteria = new QueryEventPickingByIdsCriteria
+        {
+            InfoSiteIds = infoSiteIds
+        };
+
+        var result = await dynamicRepository.FetchAsync<EventPickingModel>(criteria);
+
+        return result.ToList();
+    }
+
     public async Task<(List<EventPickingModel>, List<RAndDInfo>)> QueryMovedEventDateMatch(DateTime date)
     {
         var criteria = new QueryMoveEventDateMatchCriteria
@@ -109,7 +124,7 @@ public class RepositoryImp : Repository
 
     public async Task InsertOrUpdateNoOfferMatch(InsertOrUpdateNoOfferMatchRequest request)
     {
-        var matchInfoJson = JsonConvert.SerializeObject(request.NoOfferMatch);
+        var matchInfoJson = JsonConvert.SerializeObject(request.NoOfferMatch.Where(match => match.ChildMatchId == null));
         var criteria = new InsertOrUpdateNoOfferMatchCriteria
         {
             MatchInfoJson = matchInfoJson,

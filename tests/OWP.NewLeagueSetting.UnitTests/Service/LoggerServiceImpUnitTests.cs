@@ -325,4 +325,691 @@ public class LoggerServiceImpUnitTests
             criteria.CreatedDate != default(DateTime)
         ));
     }
+
+    [Fact]
+    public void MapToChangeModel_WithInsertLeagueSettingRequest_ShouldMapCorrectly()
+    {
+        // Arrange
+        var request = new InsertLeagueSettingRequest
+        {
+            League = "Bundesliga",
+            LeagueGroup = "Football",
+            Spread = "3.0",
+            MaxbetWD_HDP = "2000",
+            WD_NoOfHDP = "8",
+            MaxbetWK_HDP = "3000",
+            WK_NoOfHDP = "15",
+            LstNote = "Insert Note",
+            Remark2 = "Insert Remark 2",
+            HasTv = false,
+            HasIpTv = true,
+            IpTv = new List<Condition> { new Condition("Contains", "IPTV3") },
+            Round = new List<Condition> { new Condition("Contains", "Round3") },
+            Division = new List<Condition> { new Condition("Contains", "Div3") },
+            Remark = "Insert Remark",
+            IsBlackList = false,
+            NoOfferLive = true
+        };
+
+        // Act
+        var result = LoggerServiceImp.MapToChangeModel(request);
+
+        // Assert
+        Assert.Equal("Bundesliga", result.League);
+        Assert.Equal("Football", result.LeagueGroup);
+        Assert.Equal("3.0", result.Spread);
+        Assert.Equal("2000", result.MaxbetWD_HDP);
+        Assert.Equal("8", result.WD_NoOfHDP);
+        Assert.Equal("3000", result.MaxbetWK_HDP);
+        Assert.Equal("15", result.WK_NoOfHDP);
+        Assert.Equal("Insert Note", result.LstNote);
+        Assert.Equal("Insert Remark 2", result.Remark2);
+        Assert.False(result.HasTv);
+        Assert.True(result.HasIpTv);
+        Assert.Single(result.IpTv);
+        Assert.Equal("IPTV3", result.IpTv[0].Value);
+        Assert.Single(result.Round);
+        Assert.Equal("Round3", result.Round[0].Value);
+        Assert.Single(result.Division);
+        Assert.Equal("Div3", result.Division[0].Value);
+        Assert.Equal("Insert Remark", result.Remark);
+        Assert.False(result.IsBlackList);
+        Assert.True(result.NoOfferLive);
+    }
+
+    [Fact]
+    public void MapToChangeModel_WithInsertRequest_WithNullProperties_ShouldHandleGracefully()
+    {
+        // Arrange
+        var request = new InsertLeagueSettingRequest
+        {
+            League = "Test League",
+            LeagueGroup = "Test Group",
+            IpTv = null,
+            Round = null,
+            Division = null,
+            Remark = null
+        };
+
+        // Act
+        var result = LoggerServiceImp.MapToChangeModel(request);
+
+        // Assert
+        Assert.Equal("Test League", result.League);
+        Assert.Equal("Test Group", result.LeagueGroup);
+        Assert.Null(result.IpTv);
+        Assert.Null(result.Round);
+        Assert.Null(result.Division);
+        Assert.Null(result.Remark);
+    }
+
+    [Fact]
+    public void MapToChangeModel_WithInsertRequest_WithEmptyLists_ShouldMapCorrectly()
+    {
+        // Arrange
+        var request = new InsertLeagueSettingRequest
+        {
+            League = "Empty Lists League",
+            LeagueGroup = "Test Group",
+            IpTv = new List<Condition>(),
+            Round = new List<Condition>(),
+            Division = new List<Condition>()
+        };
+
+        // Act
+        var result = LoggerServiceImp.MapToChangeModel(request);
+
+        // Assert
+        Assert.Equal("Empty Lists League", result.League);
+        Assert.NotNull(result.IpTv);
+        Assert.Empty(result.IpTv);
+        Assert.NotNull(result.Round);
+        Assert.Empty(result.Round);
+        Assert.NotNull(result.Division);
+        Assert.Empty(result.Division);
+    }
+
+    [Fact]
+    public void MapToChangeModel_WithInsertRequest_WithMultipleConditions_ShouldMapAll()
+    {
+        // Arrange
+        var request = new InsertLeagueSettingRequest
+        {
+            League = "Multi Condition League",
+            LeagueGroup = "Test Group",
+            IpTv = new List<Condition>
+            {
+                new Condition("Contains", "IPTV1"),
+                new Condition("Equals", "IPTV2")
+            },
+            Round = new List<Condition>
+            {
+                new Condition("Contains", "Round1"),
+                new Condition("Contains", "Round2"),
+                new Condition("Equals", "Round3")
+            },
+            Division = new List<Condition>
+            {
+                new Condition("Equals", "DivA"),
+                new Condition("Contains", "DivB")
+            }
+        };
+
+        // Act
+        var result = LoggerServiceImp.MapToChangeModel(request);
+
+        // Assert
+        Assert.Equal(2, result.IpTv.Count);
+        Assert.Equal("IPTV1", result.IpTv[0].Value);
+        Assert.Equal("IPTV2", result.IpTv[1].Value);
+        Assert.Equal(3, result.Round.Count);
+        Assert.Equal("Round1", result.Round[0].Value);
+        Assert.Equal("Round2", result.Round[1].Value);
+        Assert.Equal("Round3", result.Round[2].Value);
+        Assert.Equal(2, result.Division.Count);
+        Assert.Equal("DivA", result.Division[0].Value);
+        Assert.Equal("DivB", result.Division[1].Value);
+    }
+
+    [Fact]
+    public async Task LogSetting_WithMultipleChanges_ShouldSerializeAllChangesToJson()
+    {
+        // Arrange
+        var changeService = Substitute.For<ILeagueSettingChangeService>();
+        var repository = Substitute.For<Repository>();
+        var session = Substitute.For<INapSession>();
+
+        var logService = new LoggerServiceImp(changeService, repository, session);
+
+        var currentSetting = new LeagueSettingChangeModel { League = "Old League", Spread = "1.0" };
+        var newSetting = new LeagueSettingChangeModel { League = "New League", Spread = "2.0" };
+        var request = new LogRequest("Multiple changes", 999, currentSetting, newSetting);
+
+        var logDetails = new List<LogDetail>
+        {
+            new LogDetail { Field = "League Name", OldValue = "Old League", NewValue = "New League" },
+            new LogDetail { Field = "FT Spread", OldValue = "1.0", NewValue = "2.0" }
+        };
+
+        changeService.LogProcessingChanges(currentSetting, newSetting).Returns(logDetails);
+        session.UserName.Returns("admin");
+
+        // Act
+        await logService.LogSetting(request);
+
+        // Assert
+        await repository.Received(1).ExecuteNonQueryCommand(Arg.Is<InsertLogCriteria>(criteria =>
+            criteria.Content.Contains("League Name") &&
+            criteria.Content.Contains("Old League") &&
+            criteria.Content.Contains("New League") &&
+            criteria.Content.Contains("FT Spread") &&
+            criteria.Content.Contains("1.0") &&
+            criteria.Content.Contains("2.0")
+        ));
+    }
+
+    #region LeagueSettingInfoSender Computed Properties Tests
+
+    [Fact]
+    public void MapToChangeModel_WithLeagueSettingInfoSender_WithSpreadValues_ShouldFormatCorrectly()
+    {
+        // Arrange
+        var leagueSetting = new LeagueSettingInfoSender
+        {
+            League = "Test League",
+            LeagueGroup = "Test Group",
+            Spread_HDP_Value = 0.75m,
+            Spread_OU_Value = 2.5m,
+            FullConditionDescription = System.Text.Json.JsonSerializer.Serialize(new LeagueSettingCondition())
+        };
+
+        // Act
+        var result = LoggerServiceImp.MapToChangeModel(leagueSetting);
+
+        // Assert
+        Assert.Equal("75%-250%", result.Spread);
+    }
+
+    [Fact]
+    public void MapToChangeModel_WithLeagueSettingInfoSender_WithNullSpreadValues_ShouldReturnNull()
+    {
+        // Arrange
+        var leagueSetting = new LeagueSettingInfoSender
+        {
+            League = "Test League",
+            LeagueGroup = "Test Group",
+            Spread_HDP_Value = null,
+            Spread_OU_Value = null,
+            FullConditionDescription = System.Text.Json.JsonSerializer.Serialize(new LeagueSettingCondition())
+        };
+
+        // Act
+        var result = LoggerServiceImp.MapToChangeModel(leagueSetting);
+
+        // Assert
+        Assert.Null(result.Spread);
+    }
+
+    [Fact]
+    public void MapToChangeModel_WithLeagueSettingInfoSender_WithIntegerSpreadValues_ShouldFormatWithoutDecimal()
+    {
+        // Arrange
+        var leagueSetting = new LeagueSettingInfoSender
+        {
+            League = "Test League",
+            LeagueGroup = "Test Group",
+            Spread_HDP_Value = 1.0m,
+            Spread_OU_Value = 2.0m,
+            FullConditionDescription = System.Text.Json.JsonSerializer.Serialize(new LeagueSettingCondition())
+        };
+
+        // Act
+        var result = LoggerServiceImp.MapToChangeModel(leagueSetting);
+
+        // Assert
+        Assert.Equal("100%-200%", result.Spread);
+    }
+
+    [Fact]
+    public void MapToChangeModel_WithLeagueSettingInfoSender_WithMaxbetValues_ShouldFormatInK()
+    {
+        // Arrange
+        var leagueSetting = new LeagueSettingInfoSender
+        {
+            League = "Test League",
+            LeagueGroup = "Test Group",
+            MaxbetWD_HDP_Value = 5000,
+            MaxbetWK_HDP_Value = 10000,
+            MaxbetWD_HDP_Note = "",
+            FullConditionDescription = System.Text.Json.JsonSerializer.Serialize(new LeagueSettingCondition())
+        };
+
+        // Act
+        var result = LoggerServiceImp.MapToChangeModel(leagueSetting);
+
+        // Assert
+        Assert.Equal("5K", result.MaxbetWD_HDP);
+        Assert.Equal("10K", result.MaxbetWK_HDP);
+    }
+
+    [Fact]
+    public void MapToChangeModel_WithLeagueSettingInfoSender_WithNullMaxbetValues_ShouldUseNote()
+    {
+        // Arrange
+        var leagueSetting = new LeagueSettingInfoSender
+        {
+            League = "Test League",
+            LeagueGroup = "Test Group",
+            MaxbetWD_HDP_Value = null,
+            MaxbetWK_HDP_Value = null,
+            MaxbetWD_HDP_Note = "Standard",
+            FullConditionDescription = System.Text.Json.JsonSerializer.Serialize(new LeagueSettingCondition())
+        };
+
+        // Act
+        var result = LoggerServiceImp.MapToChangeModel(leagueSetting);
+
+        // Assert
+        Assert.Equal("Standard", result.MaxbetWD_HDP);
+        Assert.Equal("Standard", result.MaxbetWK_HDP);
+    }
+
+    [Fact]
+    public void MapToChangeModel_WithLeagueSettingInfoSender_WithNoOfHdpValues_ShouldMapCorrectly()
+    {
+        // Arrange
+        var leagueSetting = new LeagueSettingInfoSender
+        {
+            League = "Test League",
+            LeagueGroup = "Test Group",
+            WD_NoOfHDP_Value = "5",
+            WK_NoOfHDP_Value = "10",
+            FullConditionDescription = System.Text.Json.JsonSerializer.Serialize(new LeagueSettingCondition())
+        };
+
+        // Act
+        var result = LoggerServiceImp.MapToChangeModel(leagueSetting);
+
+        // Assert
+        Assert.Equal("5", result.WD_NoOfHDP);
+        Assert.Equal("10", result.WK_NoOfHDP);
+    }
+
+    [Fact]
+    public void MapToChangeModel_WithLeagueSettingInfoSender_WithEmptyNoOfHdpValues_ShouldReturnEmpty()
+    {
+        // Arrange
+        var leagueSetting = new LeagueSettingInfoSender
+        {
+            League = "Test League",
+            LeagueGroup = "Test Group",
+            WD_NoOfHDP_Value = "",
+            WK_NoOfHDP_Value = null,
+            FullConditionDescription = System.Text.Json.JsonSerializer.Serialize(new LeagueSettingCondition())
+        };
+
+        // Act
+        var result = LoggerServiceImp.MapToChangeModel(leagueSetting);
+
+        // Assert
+        Assert.Equal("", result.WD_NoOfHDP);
+        Assert.Equal("", result.WK_NoOfHDP);
+    }
+
+    [Fact]
+    public void MapToChangeModel_WithLeagueSettingInfoSender_WithEmptyConditionDescription_ShouldUseDefaultCondition()
+    {
+        // Arrange
+        var leagueSetting = new LeagueSettingInfoSender
+        {
+            League = "Test League",
+            LeagueGroup = "Test Group",
+            FullConditionDescription = ""
+        };
+
+        // Act
+        var result = LoggerServiceImp.MapToChangeModel(leagueSetting);
+
+        // Assert
+        Assert.False(result.HasTv);
+        Assert.False(result.HasIpTv);
+        Assert.Empty(result.IpTv);
+        Assert.Empty(result.Round);
+        Assert.Empty(result.Division);
+    }
+
+    [Fact]
+    public void MapToChangeModel_WithLeagueSettingInfoSender_WithNullConditionDescription_ShouldUseDefaultCondition()
+    {
+        // Arrange
+        var leagueSetting = new LeagueSettingInfoSender
+        {
+            League = "Test League",
+            LeagueGroup = "Test Group",
+            FullConditionDescription = null
+        };
+
+        // Act
+        var result = LoggerServiceImp.MapToChangeModel(leagueSetting);
+
+        // Assert
+        Assert.False(result.HasTv);
+        Assert.False(result.HasIpTv);
+        Assert.Empty(result.IpTv);
+        Assert.Empty(result.Round);
+        Assert.Empty(result.Division);
+    }
+
+    [Fact]
+    public void MapToChangeModel_WithLeagueSettingInfoSender_WithComplexSpreadValues_ShouldFormatCorrectly()
+    {
+        // Arrange
+        var leagueSetting = new LeagueSettingInfoSender
+        {
+            League = "Test League",
+            LeagueGroup = "Test Group",
+            Spread_HDP_Value = 0.25m,
+            Spread_OU_Value = 1.75m,
+            FullConditionDescription = System.Text.Json.JsonSerializer.Serialize(new LeagueSettingCondition())
+        };
+
+        // Act
+        var result = LoggerServiceImp.MapToChangeModel(leagueSetting);
+
+        // Assert
+        Assert.Equal("25%-175%", result.Spread);
+    }
+
+    [Fact]
+    public void MapToChangeModel_WithLeagueSettingInfoSender_WithDecimalMaxbetValues_ShouldFormatCorrectly()
+    {
+        // Arrange
+        var leagueSetting = new LeagueSettingInfoSender
+        {
+            League = "Test League",
+            LeagueGroup = "Test Group",
+            MaxbetWD_HDP_Value = 7500,
+            MaxbetWK_HDP_Value = 12500,
+            MaxbetWD_HDP_Note = "",
+            FullConditionDescription = System.Text.Json.JsonSerializer.Serialize(new LeagueSettingCondition())
+        };
+
+        // Act
+        var result = LoggerServiceImp.MapToChangeModel(leagueSetting);
+
+        // Assert
+        Assert.Equal("7.5K", result.MaxbetWD_HDP);
+        Assert.Equal("12.5K", result.MaxbetWK_HDP);
+    }
+
+    [Fact]
+    public void MapToChangeModel_WithLeagueSettingInfoSender_WithAllFields_ShouldMapCompletely()
+    {
+        // Arrange
+        var leagueSetting = new LeagueSettingInfoSender
+        {
+            League = "Premier League",
+            LeagueGroup = "England",
+            LstNote = "Important Note",
+            Remark2 = "Additional Remark",
+            IsBlackList = true,
+            NoOfferLive = false,
+            Spread_HDP_Value = 1.5m,
+            Spread_OU_Value = 3.5m,
+            MaxbetWD_HDP_Value = 15000,
+            MaxbetWK_HDP_Value = 25000,
+            MaxbetWD_HDP_Note = "",
+            WD_NoOfHDP_Value = "8",
+            WK_NoOfHDP_Value = "12",
+            FullConditionDescription = System.Text.Json.JsonSerializer.Serialize(new LeagueSettingCondition
+            {
+                HasTv = true,
+                HasIpTv = true,
+                IpTv = new List<Condition> { new Condition("Equals", "SkySports") },
+                Round = new List<Condition> { new Condition("Contains", "Final") },
+                Division = new List<Condition> { new Condition("Equals", "Premier") },
+                Remark = "Top League"
+            })
+        };
+
+        // Act
+        var result = LoggerServiceImp.MapToChangeModel(leagueSetting);
+
+        // Assert
+        Assert.Equal("Premier League", result.League);
+        Assert.Equal("England", result.LeagueGroup);
+        Assert.Equal("150%-350%", result.Spread);
+        Assert.Equal("15K", result.MaxbetWD_HDP);
+        Assert.Equal("25K", result.MaxbetWK_HDP);
+        Assert.Equal("8", result.WD_NoOfHDP);
+        Assert.Equal("12", result.WK_NoOfHDP);
+        Assert.Equal("Important Note", result.LstNote);
+        Assert.Equal("Additional Remark", result.Remark2);
+        Assert.True(result.HasTv);
+        Assert.True(result.HasIpTv);
+        Assert.Single(result.IpTv);
+        Assert.Equal("SkySports", result.IpTv[0].Value);
+        Assert.Single(result.Round);
+        Assert.Equal("Final", result.Round[0].Value);
+        Assert.Single(result.Division);
+        Assert.Equal("Premier", result.Division[0].Value);
+        Assert.Equal("Top League", result.Remark);
+        Assert.True(result.IsBlackList);
+        Assert.False(result.NoOfferLive);
+    }
+
+    #endregion
+
+    #region Edge Cases for Repository and Session
+
+    [Fact]
+    public async Task LogSetting_WithDifferentUserNames_ShouldLogCorrectUser()
+    {
+        // Arrange
+        var changeService = Substitute.For<ILeagueSettingChangeService>();
+        var repository = Substitute.For<Repository>();
+        var session = Substitute.For<INapSession>();
+
+        var logService = new LoggerServiceImp(changeService, repository, session);
+
+        var currentSetting = new LeagueSettingChangeModel();
+        var newSetting = new LeagueSettingChangeModel();
+        var request = new LogRequest("Test Action", 1, currentSetting, newSetting);
+
+        changeService.LogProcessingChanges(Arg.Any<LeagueSettingChangeModel>(), Arg.Any<LeagueSettingChangeModel>())
+            .Returns(new List<LogDetail>());
+
+        // Test different usernames
+        session.UserName.Returns("admin");
+        await logService.LogSetting(request);
+        await repository.Received().ExecuteNonQueryCommand(Arg.Is<InsertLogCriteria>(c => c.ModifiedBy == "admin"));
+
+        repository.ClearReceivedCalls();
+        session.UserName.Returns("user123");
+        await logService.LogSetting(request);
+        await repository.Received().ExecuteNonQueryCommand(Arg.Is<InsertLogCriteria>(c => c.ModifiedBy == "user123"));
+    }
+
+    [Fact]
+    public async Task LogSetting_WithLargeSettingId_ShouldHandleCorrectly()
+    {
+        // Arrange
+        var changeService = Substitute.For<ILeagueSettingChangeService>();
+        var repository = Substitute.For<Repository>();
+        var session = Substitute.For<INapSession>();
+
+        var logService = new LoggerServiceImp(changeService, repository, session);
+
+        var currentSetting = new LeagueSettingChangeModel();
+        var newSetting = new LeagueSettingChangeModel();
+        var request = new LogRequest("Test", int.MaxValue, currentSetting, newSetting);
+
+        changeService.LogProcessingChanges(Arg.Any<LeagueSettingChangeModel>(), Arg.Any<LeagueSettingChangeModel>())
+            .Returns(new List<LogDetail>());
+        session.UserName.Returns("testuser");
+
+        // Act
+        await logService.LogSetting(request);
+
+        // Assert
+        await repository.Received(1).ExecuteNonQueryCommand(Arg.Is<InsertLogCriteria>(criteria =>
+            criteria.SettingId == int.MaxValue
+        ));
+    }
+
+    [Fact]
+    public async Task LogSetting_WithSpecialCharactersInAction_ShouldHandleCorrectly()
+    {
+        // Arrange
+        var changeService = Substitute.For<ILeagueSettingChangeService>();
+        var repository = Substitute.For<Repository>();
+        var session = Substitute.For<INapSession>();
+
+        var logService = new LoggerServiceImp(changeService, repository, session);
+
+        var currentSetting = new LeagueSettingChangeModel();
+        var newSetting = new LeagueSettingChangeModel();
+        var request = new LogRequest("Updated: League \"Test\" & Settings <Important>", 1, currentSetting, newSetting);
+
+        changeService.LogProcessingChanges(Arg.Any<LeagueSettingChangeModel>(), Arg.Any<LeagueSettingChangeModel>())
+            .Returns(new List<LogDetail>());
+        session.UserName.Returns("testuser");
+
+        // Act
+        await logService.LogSetting(request);
+
+        // Assert
+        await repository.Received(1).ExecuteNonQueryCommand(Arg.Is<InsertLogCriteria>(criteria =>
+            criteria.Action == "Updated: League \"Test\" & Settings <Important>"
+        ));
+    }
+
+    [Fact]
+    public async Task LogSetting_WithVeryLongActionString_ShouldHandleCorrectly()
+    {
+        // Arrange
+        var changeService = Substitute.For<ILeagueSettingChangeService>();
+        var repository = Substitute.For<Repository>();
+        var session = Substitute.For<INapSession>();
+
+        var logService = new LoggerServiceImp(changeService, repository, session);
+
+        var currentSetting = new LeagueSettingChangeModel();
+        var newSetting = new LeagueSettingChangeModel();
+        var longAction = new string('A', 1000);
+        var request = new LogRequest(longAction, 1, currentSetting, newSetting);
+
+        changeService.LogProcessingChanges(Arg.Any<LeagueSettingChangeModel>(), Arg.Any<LeagueSettingChangeModel>())
+            .Returns(new List<LogDetail>());
+        session.UserName.Returns("testuser");
+
+        // Act
+        await logService.LogSetting(request);
+
+        // Assert
+        await repository.Received(1).ExecuteNonQueryCommand(Arg.Is<InsertLogCriteria>(criteria =>
+            criteria.Action == longAction
+        ));
+    }
+
+    #endregion
+
+    #region Update and Insert Request Edge Cases
+
+    [Fact]
+    public void MapToChangeModel_WithUpdateRequest_WithAllEmptyStrings_ShouldMapCorrectly()
+    {
+        // Arrange
+        var request = new UpdateLeagueSettingRequest
+        {
+            League = "",
+            LeagueGroup = "",
+            Spread = "",
+            MaxbetWD_HDP = "",
+            WD_NoOfHDP = "",
+            MaxbetWK_HDP = "",
+            WK_NoOfHDP = "",
+            LstNote = "",
+            Remark2 = "",
+            Remark = "",
+            IpTv = new List<Condition>(),
+            Round = new List<Condition>(),
+            Division = new List<Condition>()
+        };
+
+        // Act
+        var result = LoggerServiceImp.MapToChangeModel(request);
+
+        // Assert
+        Assert.Equal("", result.League);
+        Assert.Equal("", result.LeagueGroup);
+        Assert.Equal("", result.Spread);
+        Assert.Empty(result.IpTv);
+        Assert.Empty(result.Round);
+        Assert.Empty(result.Division);
+    }
+
+    [Fact]
+    public void MapToChangeModel_WithInsertRequest_WithWhitespaceStrings_ShouldPreserveWhitespace()
+    {
+        // Arrange
+        var request = new InsertLeagueSettingRequest
+        {
+            League = "   ",
+            LeagueGroup = " Test ",
+            LstNote = "\t\n",
+            Remark = "  "
+        };
+
+        // Act
+        var result = LoggerServiceImp.MapToChangeModel(request);
+
+        // Assert
+        Assert.Equal("   ", result.League);
+        Assert.Equal(" Test ", result.LeagueGroup);
+        Assert.Equal("\t\n", result.LstNote);
+        Assert.Equal("  ", result.Remark);
+    }
+
+    [Fact]
+    public void MapToChangeModel_WithUpdateRequest_WithBooleanEdgeCases_ShouldMapCorrectly()
+    {
+        // Arrange - All true
+        var requestAllTrue = new UpdateLeagueSettingRequest
+        {
+            HasTv = true,
+            HasIpTv = true,
+            IsBlackList = true,
+            NoOfferLive = true
+        };
+
+        // Act
+        var resultAllTrue = LoggerServiceImp.MapToChangeModel(requestAllTrue);
+
+        // Assert
+        Assert.True(resultAllTrue.HasTv);
+        Assert.True(resultAllTrue.HasIpTv);
+        Assert.True(resultAllTrue.IsBlackList);
+        Assert.True(resultAllTrue.NoOfferLive);
+
+        // Arrange - All false
+        var requestAllFalse = new UpdateLeagueSettingRequest
+        {
+            HasTv = false,
+            HasIpTv = false,
+            IsBlackList = false,
+            NoOfferLive = false
+        };
+
+        // Act
+        var resultAllFalse = LoggerServiceImp.MapToChangeModel(requestAllFalse);
+
+        // Assert
+        Assert.False(resultAllFalse.HasTv);
+        Assert.False(resultAllFalse.HasIpTv);
+        Assert.False(resultAllFalse.IsBlackList);
+        Assert.False(resultAllFalse.NoOfferLive);
+    }
+
+    #endregion
 }

@@ -56,7 +56,7 @@ const NoCell = props => {
 
   return (
     <div className='no-cell'>
-      <span>{rowIndex + 1}</span>
+      <span>{dataSource[rowIndex]?.matchNo}</span>
       {!dataSource[rowIndex]?.isChildMatch && (
         <Input
           type='checkbox'

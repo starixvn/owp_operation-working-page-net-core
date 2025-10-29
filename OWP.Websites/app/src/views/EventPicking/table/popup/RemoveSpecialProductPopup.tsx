@@ -11,6 +11,7 @@ import { getEventPickings } from '../eventPickingTableSlice/eventSliceThunkNativ
 import { removeSpecialProduct } from '../../service/Service';
 import ToastrWrapper from '../../../components/ToastrWrapper';
 import Spinner from '../../../components/Spinner';
+import { buildExistingMinorBettypeIdsMapping } from '../../helper/specialProductHelper';
 
 const RemoveSpecialProductPopup = () => {
   const { isOpenRemoveSpecialProduct } = useAppSelector(
@@ -19,6 +20,7 @@ const RemoveSpecialProductPopup = () => {
   const matchSelected = useAppSelector(
     state => state.eventPickingTable.matchSelected
   );
+  const entities = useAppSelector(state => state.eventPickingTable.entities);
   const param = useAppSelector(state => state.filter.param);
   const dispatch = useAppDispatch();
   const [specialProductType, setSpecialProductType] = useState(Array<number>);
@@ -29,9 +31,16 @@ const RemoveSpecialProductPopup = () => {
   };
 
   const handleRemove = async () => {
+    const parentIds = matchSelected.map(x => x.infoSiteMatchId);
+    const existingMinorBettypeIds = buildExistingMinorBettypeIdsMapping(
+      parentIds,
+      entities
+    );
+
     const model: TActionOfSpecialProduct = {
-      ParentId: matchSelected.map(x => x.infoSiteMatchId).join(','),
-      MinorBettypeId: specialProductType.join(',')
+      ParentId: parentIds.join(','),
+      MinorBettypeId: specialProductType.join(','),
+      ExistingMinorBettypeIds: existingMinorBettypeIds
     };
 
     const confirmResult = await ToastrWrapper.confirmYesNo(

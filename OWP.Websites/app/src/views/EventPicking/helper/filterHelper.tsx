@@ -30,8 +30,11 @@ const minDate = new Date(
 const buildUrl = (methodRoute: Required<string>) =>
   `${netCoreURLEventPicking}/${methodRoute}`;
 
-const handleCheckButton = (leagueName: string) => {
-  const url = `LeagueManagement?leagueName=${leagueName}&isEqualLeague=true`;
+const handleCheckButton = (leagueName: string, isChildMatch: boolean) => {
+  let url = `LeagueManagement?leagueName=${leagueName}&isEqualLeague=true`;
+  if (isChildMatch) {
+    url = `LeagueManagement?tab=maxbet-setting`;
+  }
   window.open(url, '_blank');
 };
 
@@ -62,6 +65,21 @@ const buildMbOptions = (entities: TDataTable[]) =>
       .map(o => ({
         value: o.maxbetHdp || null,
         label: Utils.convertThousandToK(o.maxbetHdp, true) || '(Blanks)'
+      })),
+    i => i.value
+  );
+
+const buildMbOuOptions = (entities: TDataTable[]) =>
+  uniqBy(
+    [...entities]
+      .sort(
+        (first, second) =>
+          (first.maxbetOu ?? Number.MAX_SAFE_INTEGER) -
+          (second.maxbetOu ?? Number.MAX_SAFE_INTEGER)
+      )
+      .map(o => ({
+        value: o.maxbetOu || null,
+        label: Utils.convertThousandToK(o.maxbetOu, true) || '(Blanks)'
       })),
     i => i.value
   );
@@ -159,13 +177,13 @@ const buildTurnoverPeriodOptions = (entities: TDataTable[]) => {
   const allPeriods = entities.flatMap(entity =>
     Array.isArray(entity.turnoverPeriod)
       ? entity.turnoverPeriod.map(period => ({
-        value: period.value,
-        label: String(period.valueDisplay || '(Blanks)')
-      }))
+          value: period.value,
+          label: String(period.valueDisplay || '(Blanks)')
+        }))
       : []
   );
   const periods = uniqBy(allPeriods, i => i.value);
-  
+
   return periods.sort((a, b) => {
     if (a.value === null && b.value === null) return 0;
     if (a.value === null) return 1;
@@ -178,13 +196,13 @@ const buildMarginPeriodOptions = (entities: TDataTable[]) => {
   const allPeriods = entities.flatMap(entity =>
     Array.isArray(entity.marginPeriod)
       ? entity.marginPeriod.map(period => ({
-        value: period.value,
-        label: String(period.value || '(Blanks)')
-      }))
+          value: period.value,
+          label: String(period.value || '(Blanks)')
+        }))
       : []
   );
   const periods = uniqBy(allPeriods, i => i.value);
-  
+
   return periods.sort((a, b) => {
     if (a.value === null && b.value === null) return 0;
     if (a.value === null) return 1;
@@ -198,6 +216,7 @@ const buildTableMultipleFilterOptions = (
 ) => {
   const koTimeOptions = buildKoOptions(entities);
   const mbOptions = buildMbOptions(entities);
+  const mbOuOptions = buildMbOuOptions(entities);
   const leagueOptions = buildLeagueOptions(entities);
   const spreadHdpOptions = buildSpreadOptions(entities, 'spreadHdp');
   const spreadOuOptions = buildSpreadOptions(entities, 'spreadOu');
@@ -213,6 +232,7 @@ const buildTableMultipleFilterOptions = (
   return {
     time: koTimeOptions,
     maxbetHdp: mbOptions,
+    maxbetOu: mbOuOptions,
     leagueName: leagueOptions,
     spreadHdp: spreadHdpOptions,
     spreadOu: spreadOuOptions,
@@ -227,6 +247,7 @@ const buildTableMultipleFilterOptions = (
 const buildMultipleFilterDefault = (entities: TDataTable[]) => {
   const koTimeOptions = buildKoOptions(entities);
   const mbOptions = buildMbOptions(entities);
+  const mbOuOptions = buildMbOuOptions(entities);
   const leagueOptions = buildLeagueOptions(entities);
   const spreadHdpOptions = buildSpreadOptions(entities, 'spreadHdp');
   const spreadOuOptions = buildSpreadOptions(entities, 'spreadOu');
@@ -244,6 +265,11 @@ const buildMultipleFilterDefault = (entities: TDataTable[]) => {
       isFilter: false,
       selected: mbOptions,
       options: mbOptions
+    },
+    [COLUMN_KEY.MB_OU]: {
+      isFilter: false,
+      selected: mbOuOptions,
+      options: mbOuOptions
     },
     [COLUMN_KEY.LEAGUE]: {
       isFilter: false,
@@ -289,7 +315,6 @@ const multipleFilterCommon = (
   filterProps: TColumnKey
 ) => {
   if (!multipleFilter || !multipleFilter[filterProps]) {
-
     return {
       multipleFilter,
       entities
@@ -309,7 +334,6 @@ const filterByRAndD = (
   entities: TDataTable[],
   selectedValue: (number | string | null)[]
 ) => {
-
   return entities.filter(
     e =>
       e.rAndDInfo?.some(r => selectedValue?.some(s => s === r.group)) ||
@@ -343,10 +367,11 @@ const filterByTurnoverPeriod = (
   }
   return {
     filterInfo,
-    entities: entities.filter(e =>
-      e.turnoverPeriod?.some(period =>
-        selectedValue.some(s => s === period.value)
-      ) || false
+    entities: entities.filter(
+      e =>
+        e.turnoverPeriod?.some(period =>
+          selectedValue.some(s => s === period.value)
+        ) || false
     )
   };
 };
@@ -379,10 +404,11 @@ const filterByMarginPeriod = (
 
   return {
     filterInfo,
-    entities: entities.filter(e =>
-      e.marginPeriod?.some(period =>
-        selectedValue.some(s => s === period.value)
-      ) || false
+    entities: entities.filter(
+      e =>
+        e.marginPeriod?.some(period =>
+          selectedValue.some(s => s === period.value)
+        ) || false
     )
   };
 };
@@ -424,6 +450,12 @@ const executeFilterTable = (
       multipleFilterCommon(
         props.entities,
         props.filterInfo,
+        COLUMN_KEY.MB_OU as TColumnKey
+      ),
+    (props: TMultipleFilterPipe) =>
+      multipleFilterCommon(
+        props.entities,
+        props.filterInfo,
         COLUMN_KEY.SPREAD_HDP as TColumnKey
       ),
     (props: TMultipleFilterPipe) =>
@@ -445,11 +477,7 @@ const executeFilterTable = (
         hasReadPermission
       ),
     (props: TMultipleFilterPipe) =>
-      filterByMarginPeriod(
-        props.entities,
-        props.filterInfo,
-        hasReadPermission
-      ),
+      filterByMarginPeriod(props.entities, props.filterInfo, hasReadPermission),
     (props: TMultipleFilterPipe) =>
       multipleFilterCommon(
         props.entities,

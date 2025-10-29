@@ -1,7 +1,9 @@
 {
   "COLUMN_KEY": {
+    "No": "No #",
     "KO_TIME": "time",
     "MB": "maxbetHdp",
+    "MB_OU": "maxbetOu",
     "LEAGUE": "leagueName",
     "SPREAD_HDP": "spreadHdp",
     "SPREAD_OU": "spreadOu",
@@ -17,6 +19,7 @@
       "size": 3,
       "isCheckAll": true,
       "isHaveDropdown": true,
+      "isFilter": true,
       "columnKey": "No #",
       "colSpan": 1
     },
@@ -39,10 +42,16 @@
       "columnKey": "Match"
     },
     {
-      "headerName": "MB",
+      "headerName": "MB HDP",
       "size": 5,
       "isFilterMultiple": true,
       "columnKey": "maxbetHdp"
+    },
+    {
+      "headerName": "MB OU",
+      "size": 5,
+      "isFilterMultiple": true,
+      "columnKey": "maxbetOu"
     },
     {
       "headerName": "Spread HDP",
@@ -114,9 +123,10 @@
   "TABLE_HEADER_TURN_OVER_MARGIN": [
     {
       "headerName": "No #",
-      "size": 3,
+      "size": 5,
       "isHaveDropdown": true,
       "isCheckAll": true,
+      "isFilter": true,
       "columnKey": "No #"
     },
     {
@@ -138,10 +148,16 @@
       "columnKey": "Match"
     },
     {
-      "headerName": "MB",
+      "headerName": "MB HDP",
       "size": 5,
       "isFilterMultiple": true,
       "columnKey": "maxbetHdp"
+    },
+    {
+      "headerName": "MB OU",
+      "size": 5,
+      "isFilterMultiple": true,
+      "columnKey": "maxbetOu"
     },
     {
       "headerName": "Spread HDP",

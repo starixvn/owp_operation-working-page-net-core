@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using OWP.EventPicking.Api.Handlers;
@@ -85,7 +79,7 @@ public class ExportExcelHandlerUnitTest
         await queryService.Received(1).Execute(request, Arg.Is<List<short>>(list => list.Count == 0));
         await exportService.Received(1).BuildFileStream(
             Arg.Is<IList<EventPickingModel>>(filteredMatches =>
-                filteredMatches.Count == 2), // Only main matches
+                filteredMatches.Count == 3),
             false);
 
         Assert.Equal(expectedFileResult, result);

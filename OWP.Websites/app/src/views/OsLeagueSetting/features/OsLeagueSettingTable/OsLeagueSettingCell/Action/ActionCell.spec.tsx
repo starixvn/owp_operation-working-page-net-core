@@ -38,18 +38,35 @@ const props = {
 };
 
 describe('ActionCell under test', () => {
+  const originalError = console.error;
+
   beforeEach(() => {
     useStore.setState({
       logData: [],
       getLogSettingQuery: mockGetLogSettingQuery
     });
     mockGetLogSettingQuery.mockClear();
+    
+    // Suppress known reactstrap prop-types warnings
+    console.error = jest.fn((message) => {
+      if (message?.includes?.('transition.timeout')) {
+        return;
+      }
+      originalError(message);
+    });
+  });
+
+  afterEach(() => {
+    console.error = originalError;
   });
 
   it('should open Popup', async () => {
     const { container } = render(<ActionCell {...props} />);
     const element = container.querySelector(`[class="action-cell"]`);
-    fireEvent.click(element!);
+    expect(element).toBeInTheDocument();
+    if (element) {
+      fireEvent.click(element);
+    }
     const league = await screen.findByText('Log History - ABC');
     expect(league).toBeInTheDocument();
     expect(mockGetLogSettingQuery).toHaveBeenCalledWith(1);

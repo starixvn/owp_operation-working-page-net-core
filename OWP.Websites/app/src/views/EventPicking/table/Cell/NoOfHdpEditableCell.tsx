@@ -47,7 +47,6 @@ const NoOfHdpEditableCell = ({
     };
   });
   return (
-    !isChildMatch && (
       <div key={uniqueId()} className='input-value'>
         <input
           ref={inputRef}
@@ -61,15 +60,14 @@ const NoOfHdpEditableCell = ({
             newValue = v.target?.value;
           }}
         />
-        {isShowCheckButton && !value && !minorBettypeId && (
+        {isShowCheckButton && !value && (
           <a
             className='mb__check'
-            onClick={() => handleCheckButton(leagueName)}>
+            onClick={() => handleCheckButton(leagueName, isChildMatch)}>
             Check
           </a>
-        )}
-      </div>
-    )
+      )}
+    </div>
   );
 };
 
