@@ -1,5 +1,4 @@
 using Fanex.Data.Repository;
-using Fanex.Logging;
 using OWP.NewLeagueSetting.Command;
 
 namespace OWP.NewLeagueSetting.Data;
@@ -19,9 +18,7 @@ public interface Repository
     Task<IList<DbLogInfo>> QueryLog(int leagueSettingId);
 }
 
-public class RepositoryImp(
-    ILogger logger,
-    IDynamicRepository repository) : Repository
+public class RepositoryImp(IDynamicRepository repository) : Repository
 {
     public async Task InitData(IList<LeagueSettingInfo> leagueInfo, CancellationToken cancellationToken)
     {
@@ -34,15 +31,12 @@ public class RepositoryImp(
 
     public async Task<IEnumerable<LeagueSettingInfoSender>> QueryLeagueSetting(LeagueParamRequest request)
     {
-        var startTime = DateTimeOffset.Now;
         var criteria = new QueryLeagueSettingCriteria
         {
             League = request.LeagueName,
             IsEqualLeague = request.IsEqualLeague
         };
         var result = await repository.FetchAsync<LeagueSettingInfoSender>(criteria);
-        var endTime = DateTimeOffset.Now;
-        await logger.InfoAsync($"Query New League Setting - params: {JsonConvert.SerializeObject(criteria)} - exec time: {(endTime - startTime).TotalSeconds}s");
 
         var filteredResult = FilterLeagueSettingsByRequest(result, request);
         var sortedResult = SortLeagueSettings(filteredResult);
@@ -110,7 +104,7 @@ public class RepositoryImp(
 
     public async Task<IList<DbLogInfo>> QueryLog(int leagueSettingId)
     {
-        var logs=await repository.FetchAsync<DbLogInfo>(new QueryLogCriteria
+        var logs = await repository.FetchAsync<DbLogInfo>(new QueryLogCriteria
         {
             SettingId = leagueSettingId
         });

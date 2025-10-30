@@ -1,8 +1,5 @@
-﻿
+﻿namespace OWP.EventPicking.Api.Criteria;
 
-using Fanex.Data.Repository;
-
-namespace OWP.EventPicking.Api.Criteria;
 public class QueryRAndDInfoCriteria : CriteriaBase
 {
     public DateTime Date { get; set; }

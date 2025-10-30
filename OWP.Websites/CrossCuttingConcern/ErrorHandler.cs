@@ -25,10 +25,16 @@ public class ErrorHandler(RequestDelegate next, ILogger logger, IConfiguration c
             .ToString();
         await logger.ErrorAsync(logMessage);
 
+        // If the response has already started, we can't modify headers or write to it
+        if (context.Response.HasStarted)
+        {
+            return;
+        }
+
         var requestedWith = context.Request.Headers["X-Requested-With"];
 
         var isAjaxRequest = requestedWith == "XMLHttpRequest";
-        if (!context.Response.HasStarted && isAjaxRequest)
+        if (isAjaxRequest)
         {
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
         }

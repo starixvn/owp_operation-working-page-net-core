@@ -1,4 +1,5 @@
-﻿using Fanex.NAP.Client.Models.ValueObject;
+﻿using Fanex.Logging;
+using Fanex.NAP.Client.Models.ValueObject;
 using NSubstitute;
 using OWP.Constants;
 using OWP.EventPicking.Api.Criteria;
@@ -16,7 +17,6 @@ public class QueryEventPickingServiceImpTests
     private readonly TGRSService _mockTGRSService;
     private readonly BuildMainAndChildMatches _mockBuildMainAndChildMatches;
     private readonly PermissionService _mockPermissionService;
-    private readonly LogService _mockLogService;
     private readonly QueryEventPickingServiceImp _service;
 
     public QueryEventPickingServiceImpTests()
@@ -24,8 +24,8 @@ public class QueryEventPickingServiceImpTests
         _mockTGRSService = Substitute.For<TGRSService>();
         _mockBuildMainAndChildMatches = Substitute.For<BuildMainAndChildMatches>();
         _mockPermissionService = Substitute.For<PermissionService>();
-        _mockLogService = Substitute.For<LogService>();
-        _service = new QueryEventPickingServiceImp(_mockTGRSService, _mockBuildMainAndChildMatches, _mockPermissionService, _mockLogService);
+        var logger = Substitute.For<ILogger>();
+        _service = new QueryEventPickingServiceImp(_mockTGRSService, _mockBuildMainAndChildMatches, _mockPermissionService, logger);
     }
 
     [Fact]

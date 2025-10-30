@@ -1,4 +1,5 @@
-﻿using OWP.Constants;
+﻿using Fanex.Logging;
+using OWP.Constants;
 using OWP.EventPicking.Api.Helper;
 using OWP.EventPicking.Api.Middleware.Models;
 
@@ -6,7 +7,6 @@ namespace OWP.EventPicking.Api.Services;
 
 public interface QueryEventPickingService
 {
-
     Task<EventPickingResult> Execute(EventPickingRequest request, IList<short> excludedUpdateTypes);
 }
 
@@ -14,14 +14,16 @@ public class QueryEventPickingServiceImp(
     TGRSService tGrsService,
     BuildMainAndChildMatches buildMainAndChildMatches,
     PermissionService permissionService,
-    LogService logService)
-    : QueryEventPickingService
+    ILogger logger) : QueryEventPickingService
 {
     private const string InfoToHideMatch = "no need include miscmatch";
 
     public async Task<EventPickingResult> Execute(EventPickingRequest request, IList<short> excludedUpdateTypes)
     {
+        var startTime = DateTimeOffset.Now;
         var matches = await buildMainAndChildMatches.GetMainEvent(request.Date);
+        var endTime = DateTimeOffset.Now;
+        await logger.InfoAsync($"Query Event Picking New - exec time: {(endTime - startTime).TotalSeconds}s");
         var eventPickingPolicy = permissionService.GetPermissions(FunctionKeys.EventPickingNew);
         var turnoverMarginPolicy = eventPickingPolicy.GetPermissionModel(FunctionKeys.EventPickingNew_EventAndPerformance);
         var validMatch = FilterAllMatchesByRequest(matches, request);
@@ -38,7 +40,6 @@ public class QueryEventPickingServiceImp(
 
         var matchesByDate = SelectMatchOfferInfos(ExcludeUpdateType(matches, excludedUpdateTypes));
         var filteredMatches = ExcludeUpdateType(allMatches, excludedUpdateTypes);
-
 
         return new EventPickingResult
         {
@@ -70,18 +71,21 @@ public class QueryEventPickingServiceImp(
         Utils.CalculateValueTurnover(turnover_winLoss, match.TurnoverOneMonth);
         Utils.CalculateValueWinLoss(turnover_winLoss, match.MarginOneMonth);
     }
+
     public static void CalculateTurnover_WinLoss_PeriodThreeMonth(IList<TurnOverWinLossModel> tw, EventPickingModel match)
     {
         var turnover_winLoss = tw.FirstOrDefault(t => string.Equals(t.LeagueName, match.LeagueName));
         Utils.CalculateValueTurnover(turnover_winLoss, match.TurnoverThreeMonths);
         Utils.CalculateValueWinLoss(turnover_winLoss, match.MarginThreeMonths);
     }
+
     public static void CalculateTurnover_WinLoss_PeriodSixMonth(IList<TurnOverWinLossModel> tw, EventPickingModel match)
     {
         var turnover_winLoss = tw.FirstOrDefault(t => string.Equals(t.LeagueName, match.LeagueName));
         Utils.CalculateValueTurnover(turnover_winLoss, match.TurnoverSixMonths);
         Utils.CalculateValueWinLoss(turnover_winLoss, match.MarginSixMonths);
     }
+
     public static void CalculateTurnover_WinLoss_PeriodTwelveMonths(IList<TurnOverWinLossModel> tw, EventPickingModel match)
     {
         var turnover_winLoss = tw.FirstOrDefault(t => string.Equals(t.LeagueName, match.LeagueName));
@@ -129,6 +133,7 @@ public class QueryEventPickingServiceImp(
             match.MarginTwelveMonths = new MarginInfo("12m");
         }
     }
+
     private static IList<string> GetLeagueName(List<EventPickingModel> matches)
     => matches.Select(x => x.LeagueName).Distinct().ToList();
 
@@ -163,7 +168,7 @@ public class QueryEventPickingServiceImp(
         return match.RAndDInfo
             .Where(info => !string.IsNullOrEmpty(info.Group))
             .Any(info => condition.UpdateType.Contains(info.Group) &&
-                         IsMatchingUpdateType(info.UpdateTypeId, match.InfoSiteMatchStatus)); 
+                         IsMatchingUpdateType(info.UpdateTypeId, match.InfoSiteMatchStatus));
     }
 
     private static bool IsMatchingUpdateType(int updateTypeId, byte? matchStatus)
@@ -205,6 +210,7 @@ public class QueryEventPickingServiceImp(
         }
         return eventPicking;
     }
+
     private static int ConvertBoolToInt(bool value) => value ? 1 : 0;
 
     private static List<MatchOfferInfo> SelectMatchOfferInfos(List<EventPickingModel> matches)
