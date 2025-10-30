@@ -11,7 +11,8 @@ import {
 import {
   buildMultipleFilterDefault,
   buildTableMultipleFilterOptions,
-  executeFilterTable
+  executeFilterTable,
+  preserveAndRestoreMultipleFilter
 } from '../../helper/filterHelper';
 import TDataTable, {
   TTableSlice,
@@ -265,9 +266,7 @@ const EventPickingTableSlice = createSlice({
       }>
     ) => {
       const { key, value, infoSiteMatchId, minorBettypeId } = action.payload;
-      [state.entitiesOriginal, state.entities]
-      .filter(Boolean)
-      .forEach(list => {
+      [state.entitiesOriginal, state.entities].filter(Boolean).forEach(list => {
         const target = list.find(
           s =>
             s.infoSiteMatchId === infoSiteMatchId &&
@@ -278,7 +277,6 @@ const EventPickingTableSlice = createSlice({
           target[key] = value;
         }
       });
-
     },
     setValueNoOfHdp: (
       state,
@@ -289,9 +287,7 @@ const EventPickingTableSlice = createSlice({
       }>
     ) => {
       const { value, infoSiteMatchId, minorBettypeId } = action.payload;
-      [state.entitiesOriginal, state.entities]
-      .filter(Boolean)
-      .forEach(list => {
+      [state.entitiesOriginal, state.entities].filter(Boolean).forEach(list => {
         const target = list.find(
           s =>
             s.infoSiteMatchId === infoSiteMatchId &&
@@ -370,20 +366,24 @@ const EventPickingTableSlice = createSlice({
         state.loading = REQUEST_STATUS.idle;
         state.entitiesByDate = matchesByDate;
         state.entitiesOriginal = filteredMatches;
-        state.entities = filterDataTable(
-          state.entitiesOriginal,
-          state.filterState,
-          filterByKeyword
+
+        // Preserve and restore multipleFilter state
+        state.multipleFilter = preserveAndRestoreMultipleFilter(
+          state.multipleFilter,
+          filteredMatches,
+          state.rAndDInfoFilterOriginal
         );
-        state.order = {};
+
+        // Apply both filterState and multipleFilter
+        state.entities = executeFilterTable(state, filterByKeyword);
+        state.order = {
+          columnKey: '',
+          turnoverPeriod: {},
+          marginPeriod: {}
+        } as TOrder;
 
         state.isConfirmAll = state.entities?.every(x => x.isCheck);
         state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
-        state.multipleFilter = {
-          ...state.multipleFilter,
-          ...buildMultipleFilterDefault(state.entities),
-          rAndDInfo: state.rAndDInfoFilterOriginal
-        };
       })
       .addCase(getEventPickings.rejected, state => {
         state.loading = REQUEST_STATUS.idle;
@@ -396,17 +396,17 @@ const EventPickingTableSlice = createSlice({
         state.loading = REQUEST_STATUS.idle;
         state.entitiesByDate = matchesByDate;
         state.entitiesOriginal = filteredMatches;
-        state.entities = filterDataTable(
-          state.entitiesOriginal,
-          state.filterState,
-          filterByKeyword
+
+        // Preserve and restore multipleFilter state
+        state.multipleFilter = preserveAndRestoreMultipleFilter(
+          state.multipleFilter,
+          filteredMatches,
+          state.rAndDInfoFilterOriginal
         );
 
-        state.multipleFilter = {
-          ...state.multipleFilter,
-          ...buildMultipleFilterDefault(state.entities),
-          rAndDInfo: state.rAndDInfoFilterOriginal
-        };
+        // Apply both filterState and multipleFilter
+        state.entities = executeFilterTable(state, filterByKeyword);
+
         state.isConfirmAll = state.entities?.every(x => x.isCheck);
         state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
       })

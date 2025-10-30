@@ -120,6 +120,15 @@ type TMultipleFilter = {
   };
 };
 
+type TMultipleFilterKey = keyof TMultipleFilter;
+
+type TSavedMultipleFilter = {
+  [key in TMultipleFilterKey]?: {
+    isFilter: boolean;
+    selected: Option[];
+  };
+};
+
 type TOrder = {
   turnoverPeriod: {
     key?: TOrderKey;
@@ -190,6 +199,8 @@ export {
   FilterAllColumn,
   TPermission,
   TMultipleFilter,
+  TMultipleFilterKey,
+  TSavedMultipleFilter,
   TOrder,
   TColumnKey,
   TResult,

@@ -8,7 +8,9 @@ import TDataTable, {
   TColumnKey,
   TMultipleFilter,
   TTableSlice,
-  TMultipleFilterPipe
+  TMultipleFilterPipe,
+  TMultipleFilterKey,
+  TSavedMultipleFilter
 } from '../types/dataTableType';
 import { pipe } from 'lodash/fp';
 import { NONE_OPTION } from '../filterArea/filterConst.json';
@@ -122,8 +124,12 @@ const buildNoOfHdpOptions = (entities: TDataTable[]) =>
         label: o.noOfHDP || '(Blanks)'
       }))
       .sort((a, b) => {
-        if (a.label === '(Blanks)') { return 1; }
-        if (b.label === '(Blanks)') { return -1; }
+        if (a.label === '(Blanks)') {
+          return 1;
+        }
+        if (b.label === '(Blanks)') {
+          return -1;
+        }
         return a.label.localeCompare(b.label, undefined, { numeric: true });
       }),
     i => i.label
@@ -163,14 +169,13 @@ const buildRAndDInfoOptions = (
   entities: TDataTable[],
   rAndDInfoOriginalOption: Option[]
 ) => {
-  const rAndDInfo = uniqBy(
-    entities
-      .map(entity =>
-        entity.rAndDInfo?.length ? entity.rAndDInfo : [{ group: null }]
-      )
-      .flat(Infinity),
-    i => i.group
-  );
+  const allRAndDInfo = entities
+    .map(entity =>
+      entity.rAndDInfo?.length ? entity.rAndDInfo : [{ group: null }]
+    )
+    .flat(1) as Array<{ group: string | null }>;
+
+  const rAndDInfo = uniqBy(allRAndDInfo, i => i.group);
 
   return rAndDInfoOriginalOption.filter(o =>
     rAndDInfo.some(r => r.group === o.value)
@@ -417,6 +422,55 @@ const filterByMarginPeriod = (
   };
 };
 
+/**
+ * Preserves and restores multipleFilter state when loading new data from server
+ * This ensures user's filter selections are maintained across data refreshes
+ * @param currentMultipleFilter - Current multipleFilter state
+ * @param newFilteredMatches - New data from server
+ * @param rAndDInfoFilterOriginal - Original R&D Info filter options
+ * @returns Restored multipleFilter with preserved user selections
+ */
+const preserveAndRestoreMultipleFilter = (
+  currentMultipleFilter: TMultipleFilter,
+  newFilteredMatches: TDataTable[],
+  rAndDInfoFilterOriginal: {
+    isFilter: boolean;
+    selected: Option[];
+    options: Option[];
+  }
+): TMultipleFilter => {
+  // Step 1: Save current filter state (isFilter and selected)
+  const savedMultipleFilter: TSavedMultipleFilter = {};
+  (Object.keys(currentMultipleFilter) as TMultipleFilterKey[]).forEach(key => {
+    savedMultipleFilter[key] = {
+      isFilter: currentMultipleFilter[key].isFilter,
+      selected: currentMultipleFilter[key].selected
+    };
+  });
+
+  // Step 2: Build new filter options from new data
+  const newFilterOptions = buildMultipleFilterDefault(newFilteredMatches);
+
+  // Step 3: Restore filter state
+  (Object.keys(savedMultipleFilter) as TMultipleFilterKey[]).forEach(key => {
+    if (newFilterOptions[key] && savedMultipleFilter[key]) {
+      newFilterOptions[key] = {
+        ...newFilterOptions[key],
+        isFilter: savedMultipleFilter[key]!.isFilter,
+        selected: savedMultipleFilter[key]!.isFilter
+          ? savedMultipleFilter[key]!.selected
+          : newFilterOptions[key].selected
+      };
+    }
+  });
+
+  return {
+    ...currentMultipleFilter,
+    ...newFilterOptions,
+    rAndDInfo: rAndDInfoFilterOriginal
+  };
+};
+
 const executeFilterTable = (
   state: TTableSlice,
   filterByKeyword: (
@@ -508,5 +562,6 @@ export {
   buildMultipleFilterDefault,
   executeFilterTable,
   buildDefaultRAndDInfoOptions,
-  buildTableMultipleFilterOptions
+  buildTableMultipleFilterOptions,
+  preserveAndRestoreMultipleFilter
 };
