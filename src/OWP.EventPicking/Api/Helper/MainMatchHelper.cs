@@ -9,7 +9,8 @@ public static class MainMatchHelper
     {
         return RemoveTestingMatches(mainMatches, includeTestMatches)
             .Where(x => !ChildMatchHelper.IsChildLeagues(x.LeagueName) &&
-                        !SpecialProductHelper.CheckMatchHaveBeenExclude(x.HomeName))
+                        !SpecialProductHelper.CheckMatchHaveBeenExclude(x.HomeName) &&
+                        !x.LeagueName.Contains(ReportConstant.HomeTeamAwayTeam, StringComparison.OrdinalIgnoreCase))
             .ToList();
     }
 
