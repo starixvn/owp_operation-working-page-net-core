@@ -27,9 +27,15 @@ const buildLeagueOptions = (entities: TDataSource[]) =>
 
 const buildTvOptions = (entities: TDataSource[]) => {
   const hasTv = entities.some(o => o.condition?.hasTv && !o.condition?.hasIpTv);
-  const hasIpTv = entities.some(o => o.condition?.hasIpTv && !o.condition?.hasTv);
-  const hasTvAndIpTv = entities.some(o => o.condition?.hasTv && o.condition?.hasIpTv);
-  const blanks = entities.some(o => !o.condition?.hasTv && !o.condition?.hasIpTv);
+  const hasIpTv = entities.some(
+    o => o.condition?.hasIpTv && !o.condition?.hasTv
+  );
+  const hasTvAndIpTv = entities.some(
+    o => o.condition?.hasTv && o.condition?.hasIpTv
+  );
+  const blanks = entities.some(
+    o => !o.condition?.hasTv && !o.condition?.hasIpTv
+  );
   const options = [];
   if (hasIpTv) {
     options.push({
@@ -99,10 +105,30 @@ const buildRemarkOptions = (data: string[]) =>
 const buildSpreadHDPAndOUOptions = (entities: TDataSource[]) =>
   swapBlanks(
     uniqBy(
-      [...entities].map(o => ({
-        value: o.spreadShow ?? null,
-        label: o.spreadShow ? o.spreadShow : '(Blanks)'
-      })),
+      [...entities]
+        .map(o => ({
+          value: o.spreadShow ?? null,
+          label: o.spreadShow ? o.spreadShow : '(Blanks)'
+        }))
+        .sort((first, second) => {
+          const firstValue = first.label;
+          const secondValue = second.label;
+
+          if (firstValue === '(Blanks)') {
+            return 1;
+          }
+          if (secondValue === '(Blanks)') {
+            return -1;
+          }
+
+          const firstMatch = firstValue.match(/^(\d+(?:\.\d+)?)/);
+          const secondMatch = secondValue.match(/^(\d+(?:\.\d+)?)/);
+
+          const firstNum = firstMatch ? parseFloat(firstMatch[1]) : 0;
+          const secondNum = secondMatch ? parseFloat(secondMatch[1]) : 0;
+
+          return firstNum - secondNum;
+        }),
       i => i.label
     )
   );
@@ -111,31 +137,66 @@ const buildMaxBetWeekdayHDPGroupOptions = (entities: TDataSource[]) =>
   swapBlanks(
     uniqBy(
       [...entities]
-        .sort((first, second) =>
-          (first.maxbetWD_HDP_Show || '').localeCompare(
-            second.maxbetWD_HDP_Show || ''
-          )
-        )
         .map(o => ({
           value: o.maxbetWD_HDP_Show ?? null,
           label:
             o.maxbetWD_HDP_Show && o.maxbetWD_HDP_Show.length > 0
               ? o.maxbetWD_HDP_Show
               : '(Blanks)'
-        })),
+        }))
+        .sort((first, second) => {
+          const firstValue = first.label;
+          const secondValue = second.label;
+
+          if (firstValue === '(Blanks)') {
+            return 1;
+          }
+          if (secondValue === '(Blanks)') {
+            return -1;
+          }
+
+          const firstEndsWithK = firstValue.endsWith('K');
+          const secondEndsWithK = secondValue.endsWith('K');
+
+          if (firstEndsWithK && secondEndsWithK) {
+            const firstNum = parseFloat(firstValue.slice(0, -1)) || 0;
+            const secondNum = parseFloat(secondValue.slice(0, -1)) || 0;
+            return firstNum - secondNum;
+          } else if (firstEndsWithK && !secondEndsWithK) {
+            return -1;
+          } else if (!firstEndsWithK && secondEndsWithK) {
+            return 1;
+          } else {
+            return firstValue.localeCompare(secondValue);
+          }
+        }),
       i => i.label
     )
   );
 const buildMaxBetWeekdayNoHDPGroupOptions = (entities: TDataSource[]) =>
   swapBlanks(
     uniqBy(
-      [...entities].map(o => ({
-        value: o.wD_NoOfHDP_Show ?? null,
-        label:
-          o.wD_NoOfHDP_Show && o.wD_NoOfHDP_Show.length
-            ? o.wD_NoOfHDP_Show
-            : '(Blanks)'
-      })),
+      [...entities]
+        .map(o => ({
+          value: o.wD_NoOfHDP_Show ?? null,
+          label:
+            o.wD_NoOfHDP_Show && o.wD_NoOfHDP_Show.length
+              ? o.wD_NoOfHDP_Show
+              : '(Blanks)'
+        }))
+        .sort((first, second) => {
+          const firstValue = first.label;
+          const secondValue = second.label;
+
+          if (firstValue === '(Blanks)') {
+            return 1;
+          }
+          if (secondValue === '(Blanks)') {
+            return -1;
+          }
+
+          return firstValue.localeCompare(secondValue);
+        }),
       i => i.label
     )
   );
@@ -143,31 +204,66 @@ const buildMaxBetWeekendHDPGroupOptions = (entities: TDataSource[]) =>
   swapBlanks(
     uniqBy(
       [...entities]
-        .sort((first, second) =>
-          (first.maxbetWK_HDP_Show || '').localeCompare(
-            second.maxbetWK_HDP_Show || ''
-          )
-        )
         .map(o => ({
           value: o.maxbetWK_HDP_Show ?? null,
           label:
             o.maxbetWK_HDP_Show && o.maxbetWK_HDP_Show.length
               ? o.maxbetWK_HDP_Show
               : '(Blanks)'
-        })),
+        }))
+        .sort((first, second) => {
+          const firstValue = first.label;
+          const secondValue = second.label;
+
+          if (firstValue === '(Blanks)') {
+            return 1;
+          }
+          if (secondValue === '(Blanks)') {
+            return -1;
+          }
+
+          const firstEndsWithK = firstValue.endsWith('K');
+          const secondEndsWithK = secondValue.endsWith('K');
+
+          if (firstEndsWithK && secondEndsWithK) {
+            const firstNum = parseFloat(firstValue.slice(0, -1)) || 0;
+            const secondNum = parseFloat(secondValue.slice(0, -1)) || 0;
+            return firstNum - secondNum;
+          } else if (firstEndsWithK && !secondEndsWithK) {
+            return -1;
+          } else if (!firstEndsWithK && secondEndsWithK) {
+            return 1;
+          } else {
+            return firstValue.localeCompare(secondValue);
+          }
+        }),
       i => i.label
     )
   );
 const buildMaxBetWeekendNoHDPGroupOptions = (entities: TDataSource[]) =>
   swapBlanks(
     uniqBy(
-      [...entities].map(o => ({
-        value: o.wK_NoOfHDP_Show ?? null,
-        label:
-          o.wK_NoOfHDP_Show && o.wK_NoOfHDP_Show.length
-            ? o.wK_NoOfHDP_Show
-            : '(Blanks)'
-      })),
+      [...entities]
+        .map(o => ({
+          value: o.wK_NoOfHDP_Show ?? null,
+          label:
+            o.wK_NoOfHDP_Show && o.wK_NoOfHDP_Show.length
+              ? o.wK_NoOfHDP_Show
+              : '(Blanks)'
+        }))
+        .sort((first, second) => {
+          const firstValue = first.label;
+          const secondValue = second.label;
+
+          if (firstValue === '(Blanks)') {
+            return 1;
+          }
+          if (secondValue === '(Blanks)') {
+            return -1;
+          }
+
+          return firstValue.localeCompare(secondValue);
+        }),
       i => i.label
     )
   );
