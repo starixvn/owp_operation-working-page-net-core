@@ -254,6 +254,14 @@ const EventPickingTableSlice = createSlice({
         state.filterState,
         columnKey
       );
+      if (columnKey in state.multipleFilter) {
+        state.multipleFilter[columnKey] = {
+          ...state.multipleFilter[columnKey],
+          isFilter: false,
+          selected: state.multipleFilter[columnKey].options
+        };
+      }
+
       state.entities = executeFilterTable(
         state,
         filterByKeyword,
@@ -261,12 +269,9 @@ const EventPickingTableSlice = createSlice({
       );
       console.log('state.entities.length', state.entities.length);
       state.entities = filterTableExceptColumn(state.entities, columnKey, state.multipleFilter, hasReadPermission);
+
       state.entities = executeOrderTable(state.entities, state.order);
-      state.multipleFilter[columnKey] = {
-        ...state.multipleFilter[columnKey],
-        isFilter: false,
-        selected: singleColumnFilterOptionsFactory(columnKey, state.entities, state.rAndDInfoFilterOriginal.options)
-      };
+
       const options = buildTableMultipleFilterOptions(
         state.entities,
         state.rAndDInfoFilterOriginal.options
