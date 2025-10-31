@@ -155,6 +155,14 @@ const buildLstNoteOptions = (entities: TDataTable[]) =>
     i => i.label
   );
 
+  const buildDefaultRAndDInfoOptions = (updateTypeOption: Option[]) =>
+    updateTypeOption
+      .map(type => ({
+        value: type.value || null,
+        label: type.label
+      }))
+      .concat(NONE_OPTION);
+
 const buildRAndDInfoOptions = (
   entities: TDataTable[],
   rAndDInfoOriginalOption: Option[]
@@ -838,6 +846,7 @@ export {
   buildMultipleFilterDefault,
   executeFilterTable,
   buildTableMultipleFilterOptions,
+  buildDefaultRAndDInfoOptions,
   preserveAndRestoreMultipleFilter,
   singleColumnFilterOptionsFactory,
   filterTableExceptColumn
