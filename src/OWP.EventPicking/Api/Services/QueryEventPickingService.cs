@@ -23,17 +23,26 @@ public class QueryEventPickingServiceImp(
         var startTime = DateTimeOffset.Now;
         var matches = await buildMainAndChildMatches.GetMainEvent(request.Date);
         var endTime = DateTimeOffset.Now;
-        await logger.InfoAsync($"Query Event Picking New - exec time: {(endTime - startTime).TotalSeconds}s");
         var eventPickingPolicy = permissionService.GetPermissions(FunctionKeys.EventPickingNew);
         var turnoverMarginPolicy = eventPickingPolicy.GetPermissionModel(FunctionKeys.EventPickingNew_EventAndPerformance);
         var validMatch = FilterAllMatchesByRequest(matches, request);
+        var endTime1 = DateTimeOffset.Now;
 
         var generatedMatches = await buildMainAndChildMatches.GetChildEventEventPicking(request.Date);
         var allMatches = SpecialProductHelper.CombineMainAndChildMatchAndAddMatchNo(validMatch, generatedMatches);
+        var endTime2 = DateTimeOffset.Now;
+
+        await logger.InfoAsync($"Query Event Picking New - get main matches: {(endTime - startTime).TotalSeconds}s, " +
+                               $"filter matches: {(endTime1 - endTime).TotalSeconds}s, " +
+                               $"get child matches: {(endTime2 - endTime1).TotalSeconds}s");
 
         if (turnoverMarginPolicy.IsRead)
         {
+            startTime = DateTimeOffset.Now;
             await CalculateTurnOver_Margin(request, allMatches);
+            endTime = DateTimeOffset.Now;
+
+            await logger.InfoAsync($"Query Event Picking New - get margin/turn over: {(endTime - startTime).TotalSeconds}s");
         }
 
         HideNoNeedIncludeMiscMatch(ref allMatches, InfoToHideMatch);
