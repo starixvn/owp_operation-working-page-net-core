@@ -196,7 +196,6 @@ const EventPickingTableSlice = createSlice({
         state.entities,
         state.rAndDInfoFilterOriginal.options
       );
-      const currentColumnOptions = [...state.multipleFilter[filterState.columnKey as TColumnKey].options];
       state.multipleFilter.leagueName.options = options.leagueName;
       state.multipleFilter.time.options = options.time;
       state.multipleFilter.maxbetHdp.options = options.maxbetHdp;
@@ -207,7 +206,6 @@ const EventPickingTableSlice = createSlice({
       state.multipleFilter.rAndDInfo.options = options.rAndDInfo;
       state.multipleFilter.lstNote.options = options.lstNote;
       state.multipleFilter.tv.options = options.tv;
-      state.multipleFilter[filterState.columnKey as TColumnKey].options = currentColumnOptions;
 
       state.isConfirmAll = state.entities?.every(x => x.isCheck);
       state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
@@ -260,7 +258,7 @@ const EventPickingTableSlice = createSlice({
         state.entities,
         state.rAndDInfoFilterOriginal.options
       );
-      const currentColumnOptions = [...state.multipleFilter[columnKey].options];
+
       state.multipleFilter.time.options = options.time;
       state.multipleFilter.leagueName.options = options.leagueName;
       state.multipleFilter.maxbetHdp.options = options.maxbetHdp;
@@ -271,7 +269,6 @@ const EventPickingTableSlice = createSlice({
       state.multipleFilter.lstNote.options = options.lstNote;
       state.multipleFilter.rAndDInfo.options = options.rAndDInfo;
       state.multipleFilter.tv.options = options.tv;
-      state.multipleFilter[columnKey].options = currentColumnOptions;
 
       state.isConfirmAll = state.entities?.every(x => x.isCheck);
       state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
