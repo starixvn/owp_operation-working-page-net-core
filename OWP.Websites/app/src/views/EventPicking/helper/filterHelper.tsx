@@ -239,9 +239,8 @@ const buildMarginPeriodOptions = (entities: TDataTable[]) => {
   const buildRoundOptions = (entities: TDataTable[]) => {
     const allRoundValues = entities.flatMap(entity => {
       const { round } = entity;
-      const roundValues = round?.split('/').filter(Boolean) || [];
 
-      return [...roundValues];
+      return [round];
     });
 
     const options = uniqBy(
@@ -250,12 +249,18 @@ const buildMarginPeriodOptions = (entities: TDataTable[]) => {
           value: round.trim(),
           label: round.trim() || '(Blanks)'
         }))
-        .sort((a, b) => a.label.localeCompare(b.label)),
+        .sort((a, b) => {
+          if (a.label === '(Blanks)') {
+            return 1;
+          }
+          if (b.label === '(Blanks)') {
+            return -1;
+          }
+          return a.label.localeCompare(b.label);
+        }),
       i => i.value
     );
     
-    options.push({ value: null, label: '(Blanks)' });
-
     return options;
   };
 

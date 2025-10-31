@@ -19,7 +19,6 @@ const MultipleFilterHeader = ({ columnKey }: FilterHeaderProps) => {
 
   const getFilterInfo = () => store.getState().eventPickingTable.multipleFilter;
 
-
   return (
     <MultipleFilterHeaderCommon
       columnKey={columnKey}

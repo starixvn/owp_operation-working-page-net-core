@@ -13,8 +13,8 @@
     "TURNOVER_PERIOD": "turnoverPeriod",
     "MARGIN_PERIOD": "marginPeriod",
     "TV": "tv",
-    "PROVIDER": "Provider",
-    "ROUND": "Round"
+    "PROVIDER": "provider",
+    "ROUND": "round"
   },
   "TABLE_HEADER": [
     {
@@ -90,13 +90,13 @@
       "headerName": "Provider",
       "size": 8,
       "isFilterMultiple": true,
-      "columnKey": "Provider"
+      "columnKey": "provider"
     },
     {
       "headerName": "Round",
       "size": 10,
       "isFilterMultiple": true,
-      "columnKey": "Round"
+      "columnKey": "round"
     },
     {
       "headerName": "Remark",
@@ -195,14 +195,14 @@
     {
       "headerName": "Provider",
       "size": 6,
-      "isFilter": true,
-      "columnKey": "Provider"
+      "isFilterMultiple": true,
+      "columnKey": "provider"
     },
     {
       "headerName": "Round",
       "size": 7,
-      "isFilter": true,
-      "columnKey": "Round"
+      "isFilterMultiple": true,
+      "columnKey": "round"
     },
     {
       "headerName": "Remark",
