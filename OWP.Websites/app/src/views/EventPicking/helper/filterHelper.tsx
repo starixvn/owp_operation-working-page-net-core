@@ -324,6 +324,7 @@ const buildTableMultipleFilterOptions = (
   );
   const turnoverPeriodOptions = buildTurnoverPeriodOptions(entities);
   const marginPeriodOptions = buildMarginPeriodOptions(entities);
+  const tvOptions = buildTvOptions(entities);
 
   return {
     time: koTimeOptions,
@@ -336,7 +337,8 @@ const buildTableMultipleFilterOptions = (
     lstNote: lstNoteOptions,
     rAndDInfo: rAndDInfoOptions,
     turnoverPeriod: turnoverPeriodOptions,
-    marginPeriod: marginPeriodOptions
+    marginPeriod: marginPeriodOptions,
+    tv: tvOptions
   };
 };
 
@@ -351,6 +353,7 @@ const buildMultipleFilterDefault = (entities: TDataTable[]) => {
   const lstNoteOptions = buildLstNoteOptions(entities);
   const turnoverPeriodOptions = buildTurnoverPeriodOptions(entities);
   const marginPeriodOptions = buildMarginPeriodOptions(entities);
+  const tvOptions = buildTvOptions(entities);
   return {
     [KO_TIME]: {
       isFilter: false,
@@ -401,6 +404,11 @@ const buildMultipleFilterDefault = (entities: TDataTable[]) => {
       isFilter: false,
       selected: marginPeriodOptions,
       options: marginPeriodOptions
+    },
+    [COLUMN_KEY.TV]: {
+      isFilter: false,
+      selected: tvOptions,
+      options: tvOptions
     }
   } as TMultipleFilter;
 };
@@ -497,7 +505,6 @@ const filterByMarginPeriod = (
       entities
     };
   }
-
   return {
     filterInfo,
     entities: entities.filter(
@@ -507,6 +514,35 @@ const filterByMarginPeriod = (
         ) || false
     )
   };
+};
+
+const filterByTv = (entities: TDataTable[], filterInfo: TMultipleFilter) => {
+  const selected = filterInfo.tv?.selected?.map(s => s.value) ?? [];
+  
+  if(selected.length === 0) {
+    return {
+      filterInfo,
+      entities
+    };
+  }
+  const selectedSet = new Set(selected.filter(Boolean));
+
+  const filtered = entities.filter(e => {
+    const all = [e.tv, e.iptv]
+      .filter(Boolean)
+      .flatMap(v => v.split('/').map(s => s.trim()).filter(Boolean));
+
+    const isBlankSelected = selected.includes(null);
+    const isEmpty = all.length === 0;
+
+    if (isBlankSelected && isEmpty) {
+      return true;
+    }
+
+    return all.some(tv => selectedSet.has(tv));
+  });
+
+  return { filterInfo, entities: filtered };
 };
 
 /**
@@ -629,12 +665,19 @@ const executeFilterTable = (
         props.filterInfo,
         COLUMN_KEY['NO.OF_HDP'] as TColumnKey
       ),
+      (props: TMultipleFilterPipe) => {
+        return filterByTv(
+          props.entities,
+          props.filterInfo
+        );
+      },
     (props: TMultipleFilterPipe) => {
       return filterByRAndD(
         props.entities,
         props.filterInfo.rAndDInfo.selected.map(s => s.value)
       );
-    }
+    },
+   
   )({
     entities: state.entities,
     filterInfo: state.multipleFilter

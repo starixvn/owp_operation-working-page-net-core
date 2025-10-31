@@ -34,8 +34,8 @@ type TMultipleFilterPipe = {
 
 type TDataTable = TMatchOfferInfo & {
   minorBettypeId: number;
-  tV: string;
-  ipTv: string;
+  tv: string;
+  iptv: string;
   channel: string;
   wb: string;
   time: string;
@@ -97,6 +97,7 @@ type TColumnKey =
   | 'rAndDInfo'
   | 'lstNote'
   | 'turnoverPeriod'
+  | 'tv'
   | 'marginPeriod';
 type TOrderKey = '1m' | '3m' | '6m' | '12m';
 type TOrderDirection = 'asc' | 'desc';
