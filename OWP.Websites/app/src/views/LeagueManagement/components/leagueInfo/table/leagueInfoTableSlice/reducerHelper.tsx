@@ -51,15 +51,23 @@ const buildDefaultTableFilter = (
   Object.entries(filterConfigs).forEach(([key, helperFn]) => {
     const newFilter = createFilterConfig(key, dataSource, helperFn);
     const currentFilter = tableFilter[key as TColumnHasMultipleFilterKey];
-    const hasMatchingSelectedOptions = currentFilter?.isFilter && isSaveAction && 
-      newFilter.options.some((option: any) => 
-        currentFilter.selected.some((selected: any) => selected.label === option.label)
+    const hasMatchingSelectedOptions =
+      currentFilter?.isFilter &&
+      isSaveAction &&
+      newFilter.options.some((option: any) =>
+        currentFilter.selected.some(
+          (selected: any) => selected.label === option.label
+        )
       );
 
     tableFilter[key as TColumnHasMultipleFilterKey] = {
       ...newFilter,
-      selected: hasMatchingSelectedOptions ? currentFilter.selected : newFilter.selected,
-      isFilter: hasMatchingSelectedOptions ? currentFilter.isFilter : newFilter.isFilter
+      selected: hasMatchingSelectedOptions
+        ? currentFilter.selected
+        : newFilter.selected,
+      isFilter: hasMatchingSelectedOptions
+        ? currentFilter.isFilter
+        : newFilter.isFilter
     };
   });
 };
@@ -167,35 +175,93 @@ const preserveAndRestoreMultipleFilter = (
 ): TMultipleFilter => {
   // Step 1: Save current filter state (isFilter and selected)
   const savedMultipleFilter: TSavedMultipleFilter = {} as TSavedMultipleFilter;
-  (Object.keys(currentMultipleFilter) as TColumnHasMultipleFilterKey[]).forEach(key => {
-    savedMultipleFilter[key] = {
-      isFilter: currentMultipleFilter[key].isFilter,
-      selected: currentMultipleFilter[key].selected
-    };
-  });
+  (Object.keys(currentMultipleFilter) as TColumnHasMultipleFilterKey[]).forEach(
+    key => {
+      savedMultipleFilter[key] = {
+        isFilter: currentMultipleFilter[key].isFilter,
+        selected: currentMultipleFilter[key].selected
+      };
+    }
+  );
 
   // Step 2: Build new filter options from new data using existing buildDefaultTableFilter logic
   const newMultipleFilter = { ...currentMultipleFilter };
   buildDefaultTableFilter(newFilteredMatches, newMultipleFilter, true);
 
   // Step 3: Restore filter state
-  (Object.keys(savedMultipleFilter) as TColumnHasMultipleFilterKey[]).forEach(key => {
-    if (newMultipleFilter[key] && savedMultipleFilter[key]) {
-      // Only restore if the filter was active and has matching selected options in new data
-      const hasMatchingSelectedOptions = savedMultipleFilter[key].isFilter &&
-        newMultipleFilter[key].options.some((option: Option) =>
-          savedMultipleFilter[key].selected.some((selected: Option) => selected.label === option.label)
-        );
+  (Object.keys(savedMultipleFilter) as TColumnHasMultipleFilterKey[]).forEach(
+    key => {
+      if (newMultipleFilter[key] && savedMultipleFilter[key]) {
+        // Only restore if the filter was active and has matching selected options in new data
+        const hasMatchingSelectedOptions =
+          savedMultipleFilter[key].isFilter &&
+          newMultipleFilter[key].options.some((option: Option) =>
+            savedMultipleFilter[key].selected.some(
+              (selected: Option) => selected.label === option.label
+            )
+          );
 
-      newMultipleFilter[key] = {
-        ...newMultipleFilter[key],
-        isFilter: hasMatchingSelectedOptions ? savedMultipleFilter[key].isFilter : false,
-        selected: hasMatchingSelectedOptions ? savedMultipleFilter[key].selected : newMultipleFilter[key].selected
-      };
+        newMultipleFilter[key] = {
+          ...newMultipleFilter[key],
+          isFilter: hasMatchingSelectedOptions
+            ? savedMultipleFilter[key].isFilter
+            : false,
+          selected: hasMatchingSelectedOptions
+            ? savedMultipleFilter[key].selected
+            : newMultipleFilter[key].selected
+        };
+      }
     }
-  });
+  );
 
   return newMultipleFilter;
 };
 
-export { buildDefaultTableFilter, executeFilterTable, preserveAndRestoreMultipleFilter };
+const updateFilterOptionsAfterFilter = (
+  state: TTableSlice,
+  filteredData: TDataSource[],
+  excludeColumnKey?: TColumnHasMultipleFilterKey
+) => {
+  const filterConfigs = {
+    League_Group: () => helper.League_Group(filteredData),
+    Tv: () => helper.Tv(filteredData),
+    Round: () => helper.Round(filteredData),
+    League_Division: () => helper.League_Division(filteredData),
+    Remark: () => helper.Remark(filteredData),
+    Spread_HDP_OU: () => helper.Spread_HDP_OU(filteredData),
+    MB_WD_HDP: () => helper.MB_WD_HDP(filteredData),
+    MB_WD_NO_HDP: () => helper.MB_WD_NO_HDP(filteredData),
+    MB_WK_HDP: () => helper.MB_WK_HDP(filteredData),
+    MB_WK_NO_HDP: () => helper.MB_WK_NO_HDP(filteredData),
+    LST_Note: () => helper.LST_Note(filteredData),
+    Remark2: () => helper.Remark2(filteredData),
+    Comment: () => helper.Comment(filteredData)
+  };
+
+  Object.entries(filterConfigs).forEach(([key, helperFn]) => {
+    // Skip updating options for the column that was just filtered
+    if (key === excludeColumnKey) {
+      return;
+    }
+
+    const columnKey = key as TColumnHasMultipleFilterKey;
+    const currentFilter = state.multipleFilter[columnKey];
+
+    if (currentFilter) {
+      const newOptions = helperFn();
+
+      // Only update options, preserve isFilter and selected states
+      state.multipleFilter[columnKey] = {
+        ...currentFilter,
+        options: newOptions
+      };
+    }
+  });
+};
+
+export {
+  buildDefaultTableFilter,
+  executeFilterTable,
+  preserveAndRestoreMultipleFilter,
+  updateFilterOptionsAfterFilter
+};

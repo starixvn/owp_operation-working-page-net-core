@@ -13,7 +13,8 @@ import { Option } from '../../../../../Shared/MultipleSelection/type';
 import {
   executeFilterTable,
   buildDefaultTableFilter,
-  preserveAndRestoreMultipleFilter
+  preserveAndRestoreMultipleFilter,
+  updateFilterOptionsAfterFilter
 } from './reducerHelper';
 import {
   IS_BLACKLIST_OPTIONS,
@@ -147,6 +148,13 @@ const LeagueInfoTableSlice = createSlice({
         isFilter
       };
       state.entities = applyFiltersToData(state);
+
+      // Update filter options for other columns based on filtered data
+      updateFilterOptionsAfterFilter(
+        state,
+        state.entities,
+        columnKey as TColumnHasMultipleFilterKey
+      );
     },
     removeBySettingId: (
       state,
