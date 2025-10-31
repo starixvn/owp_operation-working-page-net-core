@@ -236,6 +236,30 @@ const buildMarginPeriodOptions = (entities: TDataTable[]) => {
   });
 };
 
+  const buildTvOptions = (entities: TDataTable[]) => {
+    const allTvValues = entities.flatMap(entity => {
+      const { tv, iptv } = entity;
+      const tvValues = tv?.split('/').filter(Boolean) || [];
+      const iptvValues = iptv?.split('/').filter(Boolean) || [];
+
+      return [...tvValues, ...iptvValues];
+    });
+
+    const options = uniqBy(
+      allTvValues
+        .map(tv => ({
+          value: tv.trim(),
+          label: tv.trim() || '(Blanks)'
+        }))
+        .sort((a, b) => a.label.localeCompare(b.label)),
+      i => i.value
+    );
+    
+    options.push({ value: null, label: '(Blanks)' });
+
+    return options;
+  };
+
 const filterTableExceptColumn = (
   entities: TDataTable[],
   exceptColumnKey: TColumnKey,
