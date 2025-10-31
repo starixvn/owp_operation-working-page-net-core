@@ -132,6 +132,9 @@ const LeagueInfoTableSlice = createSlice({
       const { filterState } = state;
       state.filterState = addOrReplaceFilterState(filterState, action.payload);
       state.entities = applyFiltersToData(state);
+
+      // Update filter options for other columns based on filtered data
+      updateFilterOptionsAfterFilter(state, state.entities);
     },
     setMultipleFilter: (
       state,

@@ -45,9 +45,11 @@ const MultipleFilterHeaderPopupCommon = ({
 
   const renderSingleColumnFilter = () => {
     if (isClearSingleColumnFilter) {
-      return <span className='clear-all' onClick={onClearSingleColumnFilter}>
-        Clear Filters
-      </span>;
+      return (
+        <span className='clear-all' onClick={onClearSingleColumnFilter}>
+          Clear Column Filter
+        </span>
+      );
     }
   };
 
@@ -59,6 +61,12 @@ const MultipleFilterHeaderPopupCommon = ({
       <span className='close-popup' onClick={onClosedPopup}>
         <CloseIcon size={14} />
       </span>
+      <div style={{ display: 'flex', flexDirection: 'column', marginTop: '-6px'}}>
+        {renderSingleColumnFilter()}
+        <span onClick={onClear} className='clear-all'>
+          Clear All Filters
+        </span>
+      </div>
       <MultiSelect
         onChange={setValue}
         value={value || []}
@@ -77,10 +85,10 @@ const MultipleFilterHeaderPopupCommon = ({
         isOpen
       />
       <div className='command'>
-        {renderSingleColumnFilter()}
+        {/* {renderSingleColumnFilter()}
         <span className='clear-all' onClick={onClear}>
           Clear All Filters
-        </span>
+        </span> */}
         <button
           className='btn-cancel btn btn btn-secondary'
           onClick={onClosedPopup}>
