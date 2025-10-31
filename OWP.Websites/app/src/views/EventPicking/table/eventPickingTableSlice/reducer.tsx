@@ -13,7 +13,8 @@ import {
   buildTableMultipleFilterOptions,
   executeFilterTable,
   preserveAndRestoreMultipleFilter,
-  singleColumnFilterOptionsFactory
+  singleColumnFilterOptionsFactory,
+  filterTableExceptColumn
 } from '../../helper/filterHelper';
 import TDataTable, {
   TTableSlice,
@@ -224,25 +225,28 @@ const EventPickingTableSlice = createSlice({
       }>
     ) => {
       debugger
-      const { columnKey, hasReadPermission } = action.payload;
+      const { columnKey, hasReadPermission = false } = action.payload;
+
+      state.entities = filterTableExceptColumn(state.entitiesOriginal, columnKey, state.multipleFilter, hasReadPermission);
+      state.entities = executeOrderTable(state.entities, state.order);
       state.multipleFilter[columnKey] = {
         ...state.multipleFilter[columnKey],
         isFilter: false,
-        selected: singleColumnFilterOptionsFactory(columnKey, state.entitiesOriginal, state.rAndDInfoFilterOriginal.options)
+        selected: singleColumnFilterOptionsFactory(columnKey, state.entities, state.rAndDInfoFilterOriginal.options)
       };
-      state.entities = executeFilterTable(
-        state,
-        filterByKeyword,
-        hasReadPermission
-      );
-      state.entities = executeOrderTable(state.entities, state.order);
       const options = buildTableMultipleFilterOptions(
-        state.entitiesOriginal,
+        state.entities,
         state.rAndDInfoFilterOriginal.options
       );
 
-      state.multipleFilter[columnKey].options = options[columnKey];
-
+      state.multipleFilter.time.options = options.time;
+      state.multipleFilter.maxbetHdp.options = options.maxbetHdp;
+      state.multipleFilter.maxbetOu.options = options.maxbetOu;
+      state.multipleFilter.spreadHdp.options = options.spreadHdp;
+      state.multipleFilter.spreadOu.options = options.spreadOu;
+      state.multipleFilter.noOfHDP.options = options.noOfHDP;
+      state.multipleFilter.lstNote.options = options.lstNote;
+      state.multipleFilter.rAndDInfo.options = options.rAndDInfo;
       state.isConfirmAll = state.entities?.every(x => x.isCheck);
       state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
     },
@@ -279,7 +283,6 @@ const EventPickingTableSlice = createSlice({
       state.multipleFilter.noOfHDP.options = options.noOfHDP;
       state.multipleFilter.lstNote.options = options.lstNote;
       state.multipleFilter.rAndDInfo.options = options.rAndDInfo;
-
       state.isConfirmAll = state.entities?.every(x => x.isCheck);
       state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
     },

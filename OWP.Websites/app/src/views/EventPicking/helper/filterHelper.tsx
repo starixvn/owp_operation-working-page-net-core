@@ -140,9 +140,13 @@ const buildLstNoteOptions = (entities: TDataTable[]) =>
     [...entities]
       .map(o => ({
         value: o.lstNote || null,
-        label: o.lstNote?.trim() || '(Blanks)'
+        label: o.lstNote || '(Blanks)'
       }))
       .sort((a, b) => {
+        const aIsAlpha = /^[a-zA-Z]/.test(a.label);
+        const bIsAlpha = /^[a-zA-Z]/.test(b.label);
+
+        if (aIsAlpha === bIsAlpha) {
           if (a.label === '(Blanks)') {
             return 1;
           }
@@ -150,6 +154,9 @@ const buildLstNoteOptions = (entities: TDataTable[]) =>
             return -1;
           }
           return a.label.localeCompare(b.label);
+        }
+
+        return aIsAlpha ? -1 : 1;
       }),
     i => i.label
   );
@@ -227,6 +234,44 @@ const buildMarginPeriodOptions = (entities: TDataTable[]) => {
     }
     return a.value - b.value;
   });
+};
+
+const filterTableExceptColumn = (
+  entities: TDataTable[],
+  exceptColumnKey: TColumnKey,
+  multipleFilter: TMultipleFilter,
+  hasReadPermission: boolean
+) => {
+  let filteredEntities = entities;
+  const columnsKeyArray = [COLUMN_KEY.KO_TIME,
+  COLUMN_KEY.LEAGUE,
+  COLUMN_KEY.MB,
+  COLUMN_KEY.MB_OU,
+  COLUMN_KEY.SPREAD_HDP,
+  COLUMN_KEY.SPREAD_OU,
+  COLUMN_KEY['NO.OF_HDP'],
+  COLUMN_KEY.LST_NOTE,
+  COLUMN_KEY.TURNOVER_PERIOD,
+  COLUMN_KEY.MARGIN_PERIOD,
+  COLUMN_KEY.RAndD];
+
+  for (const columnKey of columnsKeyArray.filter(key => key !== exceptColumnKey)) {
+    switch (columnKey) {
+      case COLUMN_KEY.TURNOVER_PERIOD:
+        filteredEntities = filterByTurnoverPeriod(filteredEntities, multipleFilter, hasReadPermission).entities;
+        break;
+      case COLUMN_KEY.MARGIN_PERIOD:
+        filteredEntities = filterByMarginPeriod(filteredEntities, multipleFilter, hasReadPermission).entities;
+        break;
+      case COLUMN_KEY.RAndD:
+        filteredEntities = filterByRAndD(filteredEntities, multipleFilter.rAndDInfo.selected.map(s => s.value) || []);
+        break;
+      default:
+        filteredEntities = multipleFilterCommon(filteredEntities, multipleFilter, columnKey as TColumnKey).entities;
+        break;
+    }
+  }
+  return filteredEntities;
 };
 
 const singleColumnFilterOptionsFactory = (
@@ -606,5 +651,6 @@ export {
   buildDefaultRAndDInfoOptions,
   buildTableMultipleFilterOptions,
   preserveAndRestoreMultipleFilter,
-  singleColumnFilterOptionsFactory
+  singleColumnFilterOptionsFactory,
+  filterTableExceptColumn
 };
