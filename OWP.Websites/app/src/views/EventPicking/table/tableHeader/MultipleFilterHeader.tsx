@@ -1,6 +1,7 @@
 import {
   clearFilter,
-  setMultipleFilter
+  setMultipleFilter,
+  clearSingleColumnFilter
 } from '../eventPickingTableSlice/reducer';
 import { useAppDispatch } from '../../app/hooks';
 import MultipleFilterHeaderCommon from '../../../Shared/tableCommon/MultipleFilterHeader';
@@ -22,11 +23,11 @@ const MultipleFilterHeader = ({ columnKey }: FilterHeaderProps) => {
   return (
     <MultipleFilterHeaderCommon
       columnKey={columnKey}
-      isSelfClearFilter
+      isClearSingleColumnFilter
       setOptions={() => getFilterInfo()[columnKey].options}
       setSelected={() => getFilterInfo()[columnKey].selected}
       setIsFilter={() => getFilterInfo()[columnKey].isFilter}
-      onSelfClearFilter={() => { }}
+      onClearSingleColumnFilter={() => dispatch(clearSingleColumnFilter({ columnKey, hasReadPermission }))}
       onFilter={selected =>
         dispatch(
           setMultipleFilter({

@@ -143,8 +143,12 @@ const buildLstNoteOptions = (entities: TDataTable[]) =>
         label: o.lstNote?.trim() || '(Blanks)'
       }))
       .sort((a, b) => {
-          if (a.label === '(Blanks)') return 1;
-          if (b.label === '(Blanks)') return -1;
+          if (a.label === '(Blanks)') {
+            return 1;
+          }
+          if (b.label === '(Blanks)') {
+            return -1;
+          }
           return a.label.localeCompare(b.label);
       }),
     i => i.label
@@ -179,17 +183,23 @@ const buildTurnoverPeriodOptions = (entities: TDataTable[]) => {
   const allPeriods = entities.flatMap(entity =>
     Array.isArray(entity.turnoverPeriod)
       ? entity.turnoverPeriod.map(period => ({
-          value: period.value,
-          label: String(period.valueDisplay || '(Blanks)')
-        }))
+        value: period.value,
+        label: String(period.valueDisplay || '(Blanks)')
+      }))
       : []
   );
   const periods = uniqBy(allPeriods, i => i.value);
 
   return periods.sort((a, b) => {
-    if (a.value === null && b.value === null) return 0;
-    if (a.value === null) return 1;
-    if (b.value === null) return -1;
+    if (a.value === null && b.value === null) {
+      return 0;
+    }
+    if (a.value === null) {
+      return 1;
+    }
+    if (b.value === null) {
+      return -1;
+    }
     return a.value - b.value;
   });
 };
@@ -198,20 +208,59 @@ const buildMarginPeriodOptions = (entities: TDataTable[]) => {
   const allPeriods = entities.flatMap(entity =>
     Array.isArray(entity.marginPeriod)
       ? entity.marginPeriod.map(period => ({
-          value: period.value,
-          label: String(period.value || '(Blanks)')
-        }))
+        value: period.value,
+        label: String(period.value || '(Blanks)')
+      }))
       : []
   );
   const periods = uniqBy(allPeriods, i => i.value);
 
   return periods.sort((a, b) => {
-    if (a.value === null && b.value === null) return 0;
-    if (a.value === null) return 1;
-    if (b.value === null) return -1;
+    if (a.value === null && b.value === null) {
+      return 0;
+    }
+    if (a.value === null) {
+      return 1;
+    }
+    if (b.value === null) {
+      return -1;
+    }
     return a.value - b.value;
   });
 };
+
+const singleColumnFilterOptionsFactory = (
+  columnKey: TColumnKey,
+  entities: TDataTable[],
+  rAndDInfoOriginalOption?: Option[]) => {
+  switch (columnKey) {
+    case KO_TIME:
+      return buildKoOptions(entities);
+    case MB:
+      return buildMbOptions(entities);
+    case COLUMN_KEY.MB_OU:
+      return buildMbOuOptions(entities);
+    case COLUMN_KEY.LEAGUE:
+      return buildLeagueOptions(entities);
+    case COLUMN_KEY.SPREAD_HDP:
+      return buildSpreadOptions(entities, 'spreadHdp');
+    case COLUMN_KEY.SPREAD_OU:
+      return buildSpreadOptions(entities, 'spreadOu');
+    case COLUMN_KEY['NO.OF_HDP']:
+      return buildNoOfHdpOptions(entities);
+    case COLUMN_KEY.LST_NOTE:
+      return buildLstNoteOptions(entities);
+    case COLUMN_KEY.TURNOVER_PERIOD:
+      return buildTurnoverPeriodOptions(entities);
+    case COLUMN_KEY.MARGIN_PERIOD:
+      return buildMarginPeriodOptions(entities);
+    case COLUMN_KEY.RAndD:
+      return buildRAndDInfoOptions(entities, rAndDInfoOriginalOption || []);
+    default:
+      return [];
+  }
+};
+
 const buildTableMultipleFilterOptions = (
   entities: TDataTable[],
   rAndDInfoOriginalOption: Option[]
@@ -556,5 +605,6 @@ export {
   executeFilterTable,
   buildDefaultRAndDInfoOptions,
   buildTableMultipleFilterOptions,
-  preserveAndRestoreMultipleFilter
+  preserveAndRestoreMultipleFilter,
+  singleColumnFilterOptionsFactory
 };

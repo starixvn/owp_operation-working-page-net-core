@@ -12,7 +12,8 @@ import {
   buildMultipleFilterDefault,
   buildTableMultipleFilterOptions,
   executeFilterTable,
-  preserveAndRestoreMultipleFilter
+  preserveAndRestoreMultipleFilter,
+  singleColumnFilterOptionsFactory
 } from '../../helper/filterHelper';
 import TDataTable, {
   TTableSlice,
@@ -25,7 +26,6 @@ import TDataTable, {
 } from '../../types/dataTableType';
 import {
   addOrReplaceFilterState,
-  filterDataTable,
   pushOrUpdateObject
 } from '../../../Shared/Utils';
 import filterByKeyword from '../filterByKeyword';
@@ -216,6 +216,36 @@ const EventPickingTableSlice = createSlice({
         rAndDInfo: state.rAndDInfoFilterOriginal
       };
     },
+    clearSingleColumnFilter: (
+      state,
+      action: PayloadAction<{
+        columnKey: Required<TColumnKey>;
+        hasReadPermission?: boolean;
+      }>
+    ) => {
+      debugger
+      const { columnKey, hasReadPermission } = action.payload;
+      state.multipleFilter[columnKey] = {
+        ...state.multipleFilter[columnKey],
+        isFilter: false,
+        selected: singleColumnFilterOptionsFactory(columnKey, state.entitiesOriginal, state.rAndDInfoFilterOriginal.options)
+      };
+      state.entities = executeFilterTable(
+        state,
+        filterByKeyword,
+        hasReadPermission
+      );
+      state.entities = executeOrderTable(state.entities, state.order);
+      const options = buildTableMultipleFilterOptions(
+        state.entitiesOriginal,
+        state.rAndDInfoFilterOriginal.options
+      );
+
+      state.multipleFilter[columnKey].options = options[columnKey];
+
+      state.isConfirmAll = state.entities?.every(x => x.isCheck);
+      state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
+    },
     setMultipleFilter: (
       state,
       action: PayloadAction<{
@@ -311,8 +341,8 @@ const EventPickingTableSlice = createSlice({
       state.matchSelected = isAdded
         ? [...state.matchSelected, match]
         : state.matchSelected.filter(
-            s => s.infoSiteMatchId !== match.infoSiteMatchId
-          );
+          s => s.infoSiteMatchId !== match.infoSiteMatchId
+        );
     },
 
     setListMatchSelected: (
@@ -326,8 +356,8 @@ const EventPickingTableSlice = createSlice({
       state.matchSelected = isAdded
         ? [...state.matchSelected, ...matches]
         : state.matchSelected.filter(
-            s => !matches.some(i => s.infoSiteMatchId === i.infoSiteMatchId)
-          );
+          s => !matches.some(i => s.infoSiteMatchId === i.infoSiteMatchId)
+        );
       state.isSelectedAll =
         state.matchSelected.length ===
         state.entities.filter(x => !x.isChildMatch).length;
@@ -420,6 +450,7 @@ const {
   filterBySearchKey,
   clearFilter,
   setMultipleFilter,
+  clearSingleColumnFilter,
   setColumnKeyValue,
   setValueFilter,
   setPreviousNoOfferRow,
@@ -445,6 +476,7 @@ export {
   setListMatchSelected,
   setAllMatchSelected,
   setOrder,
-  setUpdateTypeFilter
+  setUpdateTypeFilter,
+  clearSingleColumnFilter
 };
 export default reducer;
