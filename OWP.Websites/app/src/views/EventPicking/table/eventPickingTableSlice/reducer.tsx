@@ -259,7 +259,8 @@ const EventPickingTableSlice = createSlice({
         filterByKeyword,
         hasReadPermission
       );
-      state.entities = filterTableExceptColumn(state.entitiesOriginal, columnKey, state.multipleFilter, hasReadPermission);
+      console.log('state.entities.length', state.entities.length);
+      state.entities = filterTableExceptColumn(state.entities, columnKey, state.multipleFilter, hasReadPermission);
       state.entities = executeOrderTable(state.entities, state.order);
       state.multipleFilter[columnKey] = {
         ...state.multipleFilter[columnKey],

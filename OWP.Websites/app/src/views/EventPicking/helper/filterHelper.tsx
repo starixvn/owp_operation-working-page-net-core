@@ -285,29 +285,29 @@ const buildMarginPeriodOptions = (entities: TDataTable[]) => {
 
 
 
-  const buildTvOptions = (entities: TDataTable[]) => {
-    const allTvValues = entities.flatMap(entity => {
-      const { tv, iptv } = entity;
-      const tvValues = tv?.split('/').filter(Boolean) || [];
-      const iptvValues = iptv?.split('/').filter(Boolean) || [];
+const buildTvOptions = (entities: TDataTable[]) => {
+  const allTvValues = entities.flatMap(entity => {
+    const { tv, iptv } = entity;
+    const tvValues = tv?.split('/').filter(Boolean) || [];
+    const iptvValues = iptv?.split('/').filter(Boolean) || [];
 
-      return [...tvValues, ...iptvValues];
-    });
+    return [...tvValues, ...iptvValues];
+  });
 
-    const options = uniqBy(
-      allTvValues
-        .map(tv => ({
-          value: tv.trim(),
-          label: tv.trim() || '(Blanks)'
-        }))
-        .sort((a, b) => a.label.localeCompare(b.label)),
-      i => i.value
-    );
-    
-    options.push({ value: null, label: '(Blanks)' });
+  const options = uniqBy(
+    allTvValues
+      .map(tv => ({
+        value: tv.trim(),
+        label: tv.trim() || '(Blanks)'
+      }))
+      .sort((a, b) => a.label.localeCompare(b.label)),
+    i => i.value
+  );
 
-    return options;
-  };
+  options.push({ value: null, label: '(Blanks)' });
+
+  return options;
+};
 
 const filterTableExceptColumn = (
   entities: TDataTable[],
@@ -616,8 +616,8 @@ const filterByMarginPeriod = (
 
 const filterByTv = (entities: TDataTable[], filterInfo: TMultipleFilter) => {
   const selected = filterInfo.tv?.selected?.map(s => s.value) ?? [];
-  
-  if(selected.length === 0) {
+
+  if (selected.length === 0) {
     return {
       filterInfo,
       entities
@@ -742,6 +742,9 @@ const executeFilterTable = (
   ) => any, //NOSONAR
   hasReadPermission: boolean = true
 ) => {
+
+  console.log('state.filterState', state.filterState);
+
   state.entities = filterDataTable(
     state.entitiesOriginal,
     state.filterState,
@@ -805,12 +808,12 @@ const executeFilterTable = (
         props.filterInfo,
         COLUMN_KEY['NO.OF_HDP'] as TColumnKey
       ),
-      (props: TMultipleFilterPipe) => {
-        return filterByTv(
-          props.entities,
-          props.filterInfo
-        );
-      },
+    (props: TMultipleFilterPipe) => {
+      return filterByTv(
+        props.entities,
+        props.filterInfo
+      );
+    },
       (props: TMultipleFilterPipe) => {
         return filterByRound(
           props.entities,
@@ -829,7 +832,7 @@ const executeFilterTable = (
         props.filterInfo.rAndDInfo.selected.map(s => s.value)
       );
     },
-   
+
   )({
     entities: state.entities,
     filterInfo: state.multipleFilter
