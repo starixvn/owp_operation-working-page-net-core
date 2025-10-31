@@ -191,7 +191,7 @@ const EventPickingTableSlice = createSlice({
         state.entities,
         state.rAndDInfoFilterOriginal.options
       );
-
+      state.multipleFilter.leagueName.options = options.leagueName;
       state.multipleFilter.time.options = options.time;
       state.multipleFilter.maxbetHdp.options = options.maxbetHdp;
       state.multipleFilter.maxbetOu.options = options.maxbetOu;
@@ -254,6 +254,7 @@ const EventPickingTableSlice = createSlice({
       );
 
       state.multipleFilter.time.options = options.time;
+      state.multipleFilter.leagueName.options = options.leagueName;
       state.multipleFilter.maxbetHdp.options = options.maxbetHdp;
       state.multipleFilter.maxbetOu.options = options.maxbetOu;
       state.multipleFilter.spreadHdp.options = options.spreadHdp;
@@ -288,7 +289,7 @@ const EventPickingTableSlice = createSlice({
         state.entities,
         state.rAndDInfoFilterOriginal.options
       );
-
+      state.multipleFilter.leagueName.options = options.leagueName;
       state.multipleFilter.time.options = options.time;
       state.multipleFilter.maxbetHdp.options = options.maxbetHdp;
       state.multipleFilter.maxbetOu.options = options.maxbetOu;
