@@ -522,6 +522,12 @@ const multipleFilterCommon = (
     };
   }
   const selectedValue = multipleFilter[filterProps].selected.map(x => x.value);
+  if(selectedValue.length === 0) {
+    return {
+      multipleFilter,
+      entities
+    };
+  }
 
   return {
     filterInfo: multipleFilter,
