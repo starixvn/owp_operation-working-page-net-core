@@ -27,7 +27,8 @@ import TDataTable, {
 } from '../../types/dataTableType';
 import {
   addOrReplaceFilterState,
-  pushOrUpdateObject
+  pushOrUpdateObject,
+  removeFilterStateByColumnKey
 } from '../../../Shared/Utils';
 import filterByKeyword from '../filterByKeyword';
 import type { PayloadAction } from '@reduxjs/toolkit';
@@ -224,9 +225,22 @@ const EventPickingTableSlice = createSlice({
         hasReadPermission?: boolean;
       }>
     ) => {
-      debugger
       const { columnKey, hasReadPermission = false } = action.payload;
 
+      const { valueFilterAllColumn } = state;
+      state.valueFilterAllColumn = pushOrUpdateObject(
+        valueFilterAllColumn,
+        { columnKey, keyword: '' }
+      );
+      state.filterState = removeFilterStateByColumnKey(
+        state.filterState,
+        columnKey
+      );
+      state.entities = executeFilterTable(
+        state,
+        filterByKeyword,
+        hasReadPermission
+      );
       state.entities = filterTableExceptColumn(state.entitiesOriginal, columnKey, state.multipleFilter, hasReadPermission);
       state.entities = executeOrderTable(state.entities, state.order);
       state.multipleFilter[columnKey] = {

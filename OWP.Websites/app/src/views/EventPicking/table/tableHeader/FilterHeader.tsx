@@ -2,13 +2,15 @@ import {
   clearFilter,
   filterBySearchKey,
   setColumnKeyValue,
-  setValueFilter
+  setValueFilter,
+  clearSingleColumnFilter
 } from '../eventPickingTableSlice/reducer';
 import { useAppDispatch } from '../../app/hooks';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
 import FilterHeaderCommon from '../../../Shared/tableCommon/FilterHeaderCommon';
 import { TFilterState } from '../../../Shared/tableCommon/typeCommon';
+import { TColumnKey } from '../../types/dataTableType';
 
 type FilterHeaderProps = {
   columnKey: string;
@@ -18,7 +20,7 @@ const FilterHeader = ({ columnKey }: FilterHeaderProps) => {
   const dispatch = useAppDispatch();
   const model = useSelector((state: RootState) => state.eventPickingTable);
   const hasReadPermission = useSelector((state: RootState) => state.turnOverMarginPolicy.permission.HasRead);
-  
+
   const handleClickFilterCallback = (value: string) => {
     dispatch(setColumnKeyValue(value));
   };
@@ -29,6 +31,8 @@ const FilterHeader = ({ columnKey }: FilterHeaderProps) => {
     dispatch(setValueFilter(columnHaveBeenFiltered));
   return (
     <FilterHeaderCommon
+      isClearSingleColumnFilter
+      onClearSingleColumnFilter={() => dispatch(clearSingleColumnFilter({ columnKey: columnKey as TColumnKey, hasReadPermission }))}
       columnKey={columnKey}
       model={model}
       handleClickFilterCallback={handleClickFilterCallback}
