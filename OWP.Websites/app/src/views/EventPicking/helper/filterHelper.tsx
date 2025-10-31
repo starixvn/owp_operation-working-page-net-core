@@ -140,19 +140,12 @@ const buildLstNoteOptions = (entities: TDataTable[]) =>
     [...entities]
       .map(o => ({
         value: o.lstNote || null,
-        label: o.lstNote || '(Blanks)'
+        label: o.lstNote?.trim() || '(Blanks)'
       }))
       .sort((a, b) => {
-        const aIsAlpha = /^[a-zA-Z]/.test(a.label);
-        const bIsAlpha = /^[a-zA-Z]/.test(b.label);
-
-        if (aIsAlpha === bIsAlpha) {
           if (a.label === '(Blanks)') return 1;
           if (b.label === '(Blanks)') return -1;
           return a.label.localeCompare(b.label);
-        }
-
-        return aIsAlpha ? -1 : 1;
       }),
     i => i.label
   );
