@@ -270,6 +270,7 @@ const EventPickingTableSlice = createSlice({
       state.multipleFilter.noOfHDP.options = options.noOfHDP;
       state.multipleFilter.lstNote.options = options.lstNote;
       state.multipleFilter.rAndDInfo.options = options.rAndDInfo;
+      state.multipleFilter.tv.options = options.tv;
       state.multipleFilter[columnKey].options = currentColumnOptions;
 
       state.isConfirmAll = state.entities?.every(x => x.isCheck);
@@ -310,6 +311,7 @@ const EventPickingTableSlice = createSlice({
       state.multipleFilter.noOfHDP.options = options.noOfHDP;
       state.multipleFilter.lstNote.options = options.lstNote;
       state.multipleFilter.rAndDInfo.options = options.rAndDInfo;
+      state.multipleFilter.tv.options = options.tv;
       state.multipleFilter[columnKey].options = currentColumnOptions;
 
       state.isConfirmAll = state.entities?.every(x => x.isCheck);
