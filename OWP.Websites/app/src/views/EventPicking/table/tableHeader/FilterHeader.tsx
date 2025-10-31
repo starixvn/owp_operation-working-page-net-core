@@ -19,7 +19,9 @@ type FilterHeaderProps = {
 const FilterHeader = ({ columnKey }: FilterHeaderProps) => {
   const dispatch = useAppDispatch();
   const model = useSelector((state: RootState) => state.eventPickingTable);
-  const hasReadPermission = useSelector((state: RootState) => state.turnOverMarginPolicy.permission.HasRead);
+  const hasReadPermission = useSelector(
+    (state: RootState) => state.turnOverMarginPolicy.permission.HasRead
+  );
 
   const handleClickFilterCallback = (value: string) => {
     dispatch(setColumnKeyValue(value));
@@ -29,10 +31,50 @@ const FilterHeader = ({ columnKey }: FilterHeaderProps) => {
     dispatch(filterBySearchKey({ filterState, hasReadPermission }));
   const handleValueFilterCallback = (columnHaveBeenFiltered: TFilterState) =>
     dispatch(setValueFilter(columnHaveBeenFiltered));
+
+  const handleClearSingleColumnFilter = () => {
+    // Check if this column has isFilter = true and if it's the only one
+    const { multipleFilter, filterState } = model;
+    const columnKeyTyped = columnKey as TColumnKey;
+    const columnIsFiltered =
+      columnKeyTyped in multipleFilter &&
+      multipleFilter[columnKeyTyped].isFilter;
+    const hasTextFilter = filterState.some(
+      (filter: TFilterState) => filter.columnKey === columnKey
+    );
+
+    if (columnIsFiltered || hasTextFilter) {
+      // Count total active filters
+      const activeMultipleFilters = Object.values(multipleFilter).filter(
+        (filter: any) => filter.isFilter
+      ).length;
+      const activeTextFilters = filterState.length;
+
+      // If this is the only active filter, clear all filters instead
+      if (activeMultipleFilters + activeTextFilters === 1) {
+        dispatch(clearFilter());
+      } else {
+        dispatch(
+          clearSingleColumnFilter({
+            columnKey: columnKeyTyped,
+            hasReadPermission
+          })
+        );
+      }
+    } else {
+      dispatch(
+        clearSingleColumnFilter({
+          columnKey: columnKeyTyped,
+          hasReadPermission
+        })
+      );
+    }
+  };
+
   return (
     <FilterHeaderCommon
       isClearSingleColumnFilter
-      onClearSingleColumnFilter={() => dispatch(clearSingleColumnFilter({ columnKey: columnKey as TColumnKey, hasReadPermission }))}
+      onClearSingleColumnFilter={handleClearSingleColumnFilter}
       columnKey={columnKey}
       model={model}
       handleClickFilterCallback={handleClickFilterCallback}
