@@ -246,6 +246,27 @@ const EventPickingTableSlice = createSlice({
       const { columnKey, hasReadPermission = false } = action.payload;
 
       const { valueFilterAllColumn } = state;
+
+      const options = buildTableMultipleFilterOptions(
+        state.entitiesOriginal,
+        state.rAndDInfoFilterOriginal.options
+      );
+
+      state.multipleFilter.time.options = options.time;
+      state.multipleFilter.leagueName.options = options.leagueName;
+      state.multipleFilter.maxbetHdp.options = options.maxbetHdp;
+      state.multipleFilter.maxbetOu.options = options.maxbetOu;
+      state.multipleFilter.spreadHdp.options = options.spreadHdp;
+      state.multipleFilter.spreadOu.options = options.spreadOu;
+      state.multipleFilter.noOfHDP.options = options.noOfHDP;
+      state.multipleFilter.lstNote.options = options.lstNote;
+      state.multipleFilter.rAndDInfo.options = options.rAndDInfo;
+      state.multipleFilter.tv.options = options.tv;
+      state.multipleFilter.provider.options = options.provider;
+      state.multipleFilter.round.options = options.round;
+      state.isConfirmAll = state.entities?.every(x => x.isCheck);
+      state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
+
       state.valueFilterAllColumn = pushOrUpdateObject(
         valueFilterAllColumn,
         { columnKey, keyword: '' }
@@ -271,26 +292,6 @@ const EventPickingTableSlice = createSlice({
       state.entities = filterTableExceptColumn(state.entities, columnKey, state.multipleFilter, hasReadPermission);
 
       state.entities = executeOrderTable(state.entities, state.order);
-
-      const options = buildTableMultipleFilterOptions(
-        state.entities,
-        state.rAndDInfoFilterOriginal.options
-      );
-
-      state.multipleFilter.time.options = options.time;
-      state.multipleFilter.leagueName.options = options.leagueName;
-      state.multipleFilter.maxbetHdp.options = options.maxbetHdp;
-      state.multipleFilter.maxbetOu.options = options.maxbetOu;
-      state.multipleFilter.spreadHdp.options = options.spreadHdp;
-      state.multipleFilter.spreadOu.options = options.spreadOu;
-      state.multipleFilter.noOfHDP.options = options.noOfHDP;
-      state.multipleFilter.lstNote.options = options.lstNote;
-      state.multipleFilter.rAndDInfo.options = options.rAndDInfo;
-      state.multipleFilter.tv.options = options.tv;
-      state.multipleFilter.provider.options = options.provider;
-      state.multipleFilter.round.options = options.round;
-      state.isConfirmAll = state.entities?.every(x => x.isCheck);
-      state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
 
     },
     setMultipleFilter: (
