@@ -7,7 +7,15 @@ import {
   TTableSlice,
   TColumnHasMultipleFilterKey
 } from '../TableType';
+import { Option } from '../../../../../Shared/MultipleSelection/type';
 import helper from './calculateFilterOptions';
+
+type TSavedMultipleFilter = {
+  [key in TColumnHasMultipleFilterKey]: {
+    isFilter: boolean;
+    selected: Option[];
+  };
+};
 
 const createFilterConfig = (
   key: string,
@@ -152,4 +160,42 @@ const buildLabelItemForCondition = (
 
 const buildValue = (value: string, type: string) =>
   value.length > 0 ? (type === 'Contains' ? `*${value}*` : value) : null;
-export { buildDefaultTableFilter, executeFilterTable };
+
+const preserveAndRestoreMultipleFilter = (
+  currentMultipleFilter: TMultipleFilter,
+  newFilteredMatches: TDataSource[]
+): TMultipleFilter => {
+  // Step 1: Save current filter state (isFilter and selected)
+  const savedMultipleFilter: TSavedMultipleFilter = {} as TSavedMultipleFilter;
+  (Object.keys(currentMultipleFilter) as TColumnHasMultipleFilterKey[]).forEach(key => {
+    savedMultipleFilter[key] = {
+      isFilter: currentMultipleFilter[key].isFilter,
+      selected: currentMultipleFilter[key].selected
+    };
+  });
+
+  // Step 2: Build new filter options from new data using existing buildDefaultTableFilter logic
+  const newMultipleFilter = { ...currentMultipleFilter };
+  buildDefaultTableFilter(newFilteredMatches, newMultipleFilter, true);
+
+  // Step 3: Restore filter state
+  (Object.keys(savedMultipleFilter) as TColumnHasMultipleFilterKey[]).forEach(key => {
+    if (newMultipleFilter[key] && savedMultipleFilter[key]) {
+      // Only restore if the filter was active and has matching selected options in new data
+      const hasMatchingSelectedOptions = savedMultipleFilter[key].isFilter &&
+        newMultipleFilter[key].options.some((option: Option) =>
+          savedMultipleFilter[key].selected.some((selected: Option) => selected.label === option.label)
+        );
+
+      newMultipleFilter[key] = {
+        ...newMultipleFilter[key],
+        isFilter: hasMatchingSelectedOptions ? savedMultipleFilter[key].isFilter : false,
+        selected: hasMatchingSelectedOptions ? savedMultipleFilter[key].selected : newMultipleFilter[key].selected
+      };
+    }
+  });
+
+  return newMultipleFilter;
+};
+
+export { buildDefaultTableFilter, executeFilterTable, preserveAndRestoreMultipleFilter };

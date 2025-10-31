@@ -10,7 +10,11 @@ import {
 import { getLeagueInfoThunk } from './leagueInfoThunk';
 import { REQUEST_STATUS } from '../../../../../Shared/Constants';
 import { Option } from '../../../../../Shared/MultipleSelection/type';
-import { executeFilterTable, buildDefaultTableFilter } from './reducerHelper';
+import {
+  executeFilterTable,
+  buildDefaultTableFilter,
+  preserveAndRestoreMultipleFilter
+} from './reducerHelper';
 import {
   IS_BLACKLIST_OPTIONS,
   IS_OFFERLIVE_OPTIONS
@@ -25,34 +29,44 @@ const applyFiltersToData = (state: TTableSlice) => {
   return executeFilterTable(state, filterByKeyword);
 };
 
-const resetFiltersForChangedFields = (state: TTableSlice, filterData: any[]) => {
+const resetFiltersForChangedFields = (
+  state: TTableSlice,
+  filterData: any[]
+) => {
   if (filterData.length === 0 && state.valueFilterChange.length > 0) {
     state.valueFilterChange.forEach((filterChange: TFilterState) => {
-      if (state.multipleFilter[filterChange.columnKey as TColumnHasMultipleFilterKey]?.isFilter) {
-        state.multipleFilter[filterChange.columnKey as TColumnHasMultipleFilterKey] = {
-          ...state.multipleFilter[filterChange.columnKey as TColumnHasMultipleFilterKey],
+      if (
+        state.multipleFilter[
+          filterChange.columnKey as TColumnHasMultipleFilterKey
+        ]?.isFilter
+      ) {
+        state.multipleFilter[
+          filterChange.columnKey as TColumnHasMultipleFilterKey
+        ] = {
+          ...state.multipleFilter[
+            filterChange.columnKey as TColumnHasMultipleFilterKey
+          ],
           isFilter: false,
           selected: []
         };
       }
-      
-      state.filterState = state.filterState.filter(filter => 
-        filter.columnKey !== filterChange.columnKey
+
+      state.filterState = state.filterState.filter(
+        filter => filter.columnKey !== filterChange.columnKey
       );
-      
+
       state.valueFilterAllColumn = Object.fromEntries(
-        Object.entries(state.valueFilterAllColumn).filter(([key]) => 
-          key !== filterChange.columnKey
+        Object.entries(state.valueFilterAllColumn).filter(
+          ([key]) => key !== filterChange.columnKey
         )
       );
     });
     state.valueFilterChange = [];
     return executeFilterTable(state, filterByKeyword);
   }
-  
+
   return filterData;
 };
-
 
 const buildMultipleFilterDefault = () => ({
   isFilter: false,
@@ -101,7 +115,11 @@ const LeagueInfoTableSlice = createSlice({
       state.filterState = [];
       state.valueFilterAllColumn = {};
       state.entities = entitiesOriginal;
-      buildDefaultTableFilter(state.entitiesOriginal, state.multipleFilter, state.isSaveAction);
+      buildDefaultTableFilter(
+        state.entitiesOriginal,
+        state.multipleFilter,
+        state.isSaveAction
+      );
     },
     setLeagueHeaderFiler: (state, actions) => {
       state.leagueFilterHeader = actions.payload;
@@ -166,14 +184,16 @@ const LeagueInfoTableSlice = createSlice({
       .addCase(getLeagueInfoThunk.fulfilled, (state, { payload }) => {
         state.entitiesOriginal = payload;
         state.loading = REQUEST_STATUS.idle;
-        
-        if(!state.isSaveAction) {
-          state.filterState = [];
-          state.valueFilterAllColumn = {};
-        }
-        buildDefaultTableFilter(state.entitiesOriginal, state.multipleFilter, state.isSaveAction);
+
+        // Preserve and restore multipleFilter state
+        state.multipleFilter = preserveAndRestoreMultipleFilter(
+          state.multipleFilter,
+          payload
+        );
+
+        // Apply both filterState and multipleFilter
         let filterData = executeFilterTable(state, filterByKeyword);
-        
+
         filterData = resetFiltersForChangedFields(state, filterData);
 
         state.entities = filterData;
