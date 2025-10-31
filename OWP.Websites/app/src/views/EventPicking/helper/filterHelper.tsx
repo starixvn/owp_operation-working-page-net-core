@@ -143,31 +143,17 @@ const buildLstNoteOptions = (entities: TDataTable[]) =>
         label: o.lstNote || '(Blanks)'
       }))
       .sort((a, b) => {
-        const aIsAlpha = /^[a-zA-Z]/.test(a.label);
-        const bIsAlpha = /^[a-zA-Z]/.test(b.label);
-
-        if (aIsAlpha === bIsAlpha) {
-          if (a.label === '(Blanks)') {
-            return 1;
-          }
-          if (b.label === '(Blanks)') {
-            return -1;
-          }
-          return a.label.localeCompare(b.label);
+        if (a.label === '(Blanks)') {
+          return 1;
+        }
+        if (b.label === '(Blanks)') {
+          return -1;
         }
 
-        return aIsAlpha ? -1 : 1;
-      }),
+      return a.label.localeCompare(b.label);
+    }),
     i => i.label
   );
-
-const buildDefaultRAndDInfoOptions = (updateTypeOption: Option[]) =>
-  updateTypeOption
-    .map(type => ({
-      value: type.value || null,
-      label: type.label
-    }))
-    .concat(NONE_OPTION);
 
 const buildRAndDInfoOptions = (
   entities: TDataTable[],
@@ -851,7 +837,6 @@ export {
   handleCheckButton,
   buildMultipleFilterDefault,
   executeFilterTable,
-  buildDefaultRAndDInfoOptions,
   buildTableMultipleFilterOptions,
   preserveAndRestoreMultipleFilter,
   singleColumnFilterOptionsFactory,
