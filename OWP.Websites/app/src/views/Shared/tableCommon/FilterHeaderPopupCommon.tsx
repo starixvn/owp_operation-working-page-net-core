@@ -15,18 +15,16 @@ type FilterPopupProps = {
   handleValueFilterCallback: (filterState: TFilterState) => void;
 };
 
-const FilterHeaderPopupCommon = (
-  {
-    model,
-    columnKey,
-    isClearSingleColumnFilter,
-    onClearSingleColumnFilter,
-    handleClosedPopup,
-    handleClearFilterCallback,
-    handleFilterBySearchKeyCallback,
-    handleValueFilterCallback
-  }: FilterPopupProps
-) => {
+const FilterHeaderPopupCommon = ({
+  model,
+  columnKey,
+  isClearSingleColumnFilter,
+  onClearSingleColumnFilter,
+  handleClosedPopup,
+  handleClearFilterCallback,
+  handleFilterBySearchKeyCallback,
+  handleValueFilterCallback
+}: FilterPopupProps) => {
   const { columnKeyFilterCurrent, valueFilterAllColumn } = model;
   const filterValue = valueFilterAllColumn[columnKey] ?? '';
   const handleClearAllFilter = () => {
@@ -51,9 +49,7 @@ const FilterHeaderPopupCommon = (
     handleClosedPopup();
   };
 
-  const handelOnKeyDown = (
-    e: KeyboardEvent<HTMLInputElement>
-  ): void => {
+  const handelOnKeyDown = (e: KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === 'Enter' && e.currentTarget.value) {
       handleOnSearchFilter();
     }
@@ -66,21 +62,30 @@ const FilterHeaderPopupCommon = (
 
   const renderSingleColumnFilter = () => {
     if (isClearSingleColumnFilter) {
-      return <span className='clear-all' onClick={handleClearSingleColumnFilter}>
-        Clear Filters
-      </span>;
+      return (
+        <span className='clear-all' onClick={handleClearSingleColumnFilter}>
+          Clear Column Filter
+        </span>
+      );
     }
   };
 
   return (
     <div
-      className={`filter-popup is-show ${isEqual(columnKey, columnKeyFilterCurrent)
-        ? ''
-        : 'is-hide-another-popup'
-        }`}>
+      className={`filter-popup is-show ${
+        isEqual(columnKey, columnKeyFilterCurrent)
+          ? ''
+          : 'is-hide-another-popup'
+      }`}>
       <span className='close-popup' onClick={() => onClickClosedIcon()}>
         <CloseIcon size={14} />
       </span>
+      <div className='clear-filter-container'>
+        {renderSingleColumnFilter()}
+        <span className='clear-all' onClick={handleClearAllFilter}>
+          Clear All Filters
+        </span>
+      </div>
       <input
         className='input-field'
         placeholder='Search'
@@ -89,10 +94,6 @@ const FilterHeaderPopupCommon = (
         onKeyDown={e => handelOnKeyDown(e)}
         onChange={e => handleOnchangeValue(e.target.value)}
       />
-      {renderSingleColumnFilter()}
-      <span className='clear-all' onClick={handleClearAllFilter}>
-        Clear All Filters
-      </span>
       <Button
         className='btn-search'
         disabled={!filterValue}

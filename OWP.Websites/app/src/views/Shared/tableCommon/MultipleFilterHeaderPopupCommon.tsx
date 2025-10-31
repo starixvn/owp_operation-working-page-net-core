@@ -61,7 +61,7 @@ const MultipleFilterHeaderPopupCommon = ({
       <span className='close-popup' onClick={onClosedPopup}>
         <CloseIcon size={14} />
       </span>
-      <div style={{ display: 'flex', flexDirection: 'column', marginTop: '-6px'}}>
+      <div className='clear-filter-container'>
         {renderSingleColumnFilter()}
         <span onClick={onClear} className='clear-all'>
           Clear All Filters
