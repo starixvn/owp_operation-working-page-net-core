@@ -207,7 +207,7 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
 
     [Cell("AX2")]
     [JsonIgnore]
-    public string InfoSiteIdExport => IsChildMatch ? string.Empty : InfoSiteMatchId.ToString();
+    public string InfoSiteIdExport =>  InfoSiteMatchId.ToString();
 
     [Cell("AY2")]
     [JsonIgnore]
