@@ -7,12 +7,14 @@ import { Option } from '../MultipleSelection/type';
 import { SpecialFilterColumn } from '../Constants';
 
 const MultipleFilterHeaderPopupCommon = ({
+  isSelfClearFilter,
   columnKey,
   options,
   selected,
   onClosedPopup,
   onFilter,
-  onClear
+  onClear,
+  onSelfClearFilter
 }: MultipleFilterPopupProps) => {
   const [value, setValue] = useState(selected || []);
   const [oldValue, setOldValue] = useState(selected || []);
@@ -38,6 +40,14 @@ const MultipleFilterHeaderPopupCommon = ({
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
       handleSearch();
+    }
+  };
+
+  const renderIsSelfClearFilter = () => {
+    if (isSelfClearFilter) {
+      return <span className='clear-all' onClick={onSelfClearFilter}>
+        Clear Filters
+      </span>;
     }
   };
 
@@ -67,6 +77,7 @@ const MultipleFilterHeaderPopupCommon = ({
         isOpen
       />
       <div className='command'>
+        {renderIsSelfClearFilter()}
         <span className='clear-all' onClick={onClear}>
           Clear All Filters
         </span>

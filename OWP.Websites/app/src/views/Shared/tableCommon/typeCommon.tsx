@@ -20,11 +20,13 @@ type MultipleFilterHeaderProps = {
   options?: Option[];
   selected?: Option[];
   isFilter?: boolean;
+  isSelfClearFilter?: boolean;
   setOptions?: () => Option[];
   setSelected?: () => Option[];
   setIsFilter?: () => boolean;
   onFilter: (selected: Option[]) => void;
   onClear: () => void;
+  onSelfClearFilter?: () => void;
 };
 
 type MultipleFilterPopupProps = Omit<

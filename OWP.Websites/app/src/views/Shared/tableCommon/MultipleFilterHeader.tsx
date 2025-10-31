@@ -10,11 +10,13 @@ const MultipleFilterHeader = ({
   options,
   selected,
   isFilter,
+  isSelfClearFilter,
   onFilter,
   setOptions,
   setSelected,
   setIsFilter,
-  onClear
+  onClear,
+  onSelfClearFilter
 }: MultipleFilterHeaderProps) => {
   const [isOpenFilter, setIsOpenFilter] = useState(false);
   const filterRef = useClickOutside<HTMLDivElement>(() =>
@@ -30,6 +32,11 @@ const MultipleFilterHeader = ({
     setIsOpenFilter(false);
     onClear();
   };
+
+  const handleSelfClearFilter = () => {
+    setIsOpenFilter(false);
+    onSelfClearFilter && onSelfClearFilter();
+  };
   return (
     <div className='filter-header'>
       <span
@@ -41,12 +48,14 @@ const MultipleFilterHeader = ({
       {isOpenFilter && (
         <div ref={filterRef}>
           <MultipleFilterHeaderPopupCommon
+            isSelfClearFilter={isSelfClearFilter}
             columnKey={columnKey}
             options={setOptions ? setOptions() : options}
             selected={setSelected ? setSelected() : selected}
             onClosedPopup={() => setIsOpenFilter(false)}
             onFilter={handleFilter}
             onClear={handleClearFilter}
+            onSelfClearFilter={handleSelfClearFilter}
           />
         </div>
       )}
