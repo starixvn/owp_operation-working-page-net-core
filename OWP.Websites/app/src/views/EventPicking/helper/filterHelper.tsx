@@ -290,6 +290,9 @@ const filterTableExceptColumn = (
       case COLUMN_KEY.RAndD:
         filteredEntities = filterByRAndD(filteredEntities, multipleFilter.rAndDInfo.selected.map(s => s.value) || []);
         break;
+      case COLUMN_KEY.TV:
+        filteredEntities = filterByTv(filteredEntities, multipleFilter).entities;
+        break;
       default:
         filteredEntities = multipleFilterCommon(filteredEntities, multipleFilter, columnKey as TColumnKey).entities;
         break;
