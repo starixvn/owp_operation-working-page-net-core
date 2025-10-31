@@ -236,6 +236,55 @@ const buildMarginPeriodOptions = (entities: TDataTable[]) => {
   });
 };
 
+  const buildRoundOptions = (entities: TDataTable[]) => {
+    const allRoundValues = entities.flatMap(entity => {
+      const { round } = entity;
+      const roundValues = round?.split('/').filter(Boolean) || [];
+
+      return [...roundValues];
+    });
+
+    const options = uniqBy(
+      allRoundValues
+        .map(round => ({
+          value: round.trim(),
+          label: round.trim() || '(Blanks)'
+        }))
+        .sort((a, b) => a.label.localeCompare(b.label)),
+      i => i.value
+    );
+    
+    options.push({ value: null, label: '(Blanks)' });
+
+    return options;
+  };
+
+
+  const buildProviderOptions = (entities: TDataTable[]) => {
+    const allProviderValues = entities.flatMap(entity => {
+      const { provider } = entity;
+      const providerValues = provider?.split('/').filter(Boolean) || [];
+
+      return [...providerValues];
+    });
+
+    const options = uniqBy(
+      allProviderValues
+        .map(provider => ({
+          value: provider.trim(),
+          label: provider.trim() || '(Blanks)'
+        }))
+        .sort((a, b) => a.label.localeCompare(b.label)),
+      i => i.value
+    );
+    
+    options.push({ value: null, label: '(Blanks)' });
+
+    return options;
+  };
+
+
+
   const buildTvOptions = (entities: TDataTable[]) => {
     const allTvValues = entities.flatMap(entity => {
       const { tv, iptv } = entity;
@@ -292,6 +341,12 @@ const filterTableExceptColumn = (
         break;
       case COLUMN_KEY.TV:
         filteredEntities = filterByTv(filteredEntities, multipleFilter).entities;
+        break;
+      case COLUMN_KEY.ROUND:
+        filteredEntities = filterByRound(filteredEntities, multipleFilter).entities;
+        break;
+      case COLUMN_KEY.PROVIDER:
+        filteredEntities = filterByProvider(filteredEntities, multipleFilter).entities;
         break;
       default:
         filteredEntities = multipleFilterCommon(filteredEntities, multipleFilter, columnKey as TColumnKey).entities;
@@ -352,6 +407,8 @@ const buildTableMultipleFilterOptions = (
   const turnoverPeriodOptions = buildTurnoverPeriodOptions(entities);
   const marginPeriodOptions = buildMarginPeriodOptions(entities);
   const tvOptions = buildTvOptions(entities);
+  const roundOptions = buildRoundOptions(entities);
+  const providerOptions = buildProviderOptions(entities);
 
   return {
     time: koTimeOptions,
@@ -365,7 +422,9 @@ const buildTableMultipleFilterOptions = (
     rAndDInfo: rAndDInfoOptions,
     turnoverPeriod: turnoverPeriodOptions,
     marginPeriod: marginPeriodOptions,
-    tv: tvOptions
+    tv: tvOptions,
+    round: roundOptions,
+    provider: providerOptions
   };
 };
 
@@ -381,6 +440,8 @@ const buildMultipleFilterDefault = (entities: TDataTable[]) => {
   const turnoverPeriodOptions = buildTurnoverPeriodOptions(entities);
   const marginPeriodOptions = buildMarginPeriodOptions(entities);
   const tvOptions = buildTvOptions(entities);
+  const roundOptions = buildRoundOptions(entities);
+  const providerOptions = buildProviderOptions(entities);
   return {
     [KO_TIME]: {
       isFilter: false,
@@ -436,6 +497,16 @@ const buildMultipleFilterDefault = (entities: TDataTable[]) => {
       isFilter: false,
       selected: tvOptions,
       options: tvOptions
+    },
+    [COLUMN_KEY.ROUND]: {
+      isFilter: false,
+      selected: roundOptions,
+      options: roundOptions
+    },
+    [COLUMN_KEY.PROVIDER]: {
+      isFilter: false,
+      selected: providerOptions,
+      options: providerOptions
     }
   } as TMultipleFilter;
 };
@@ -572,6 +643,48 @@ const filterByTv = (entities: TDataTable[], filterInfo: TMultipleFilter) => {
   return { filterInfo, entities: filtered };
 };
 
+const filterByRound = (entities: TDataTable[], filterInfo: TMultipleFilter) => {
+  const selected = filterInfo.round?.selected?.map(s => s.value) ?? [];
+  
+  if(selected.length === 0) {
+    return {
+      filterInfo,
+      entities
+    };
+  }
+  return {
+    filterInfo,
+    entities: entities.filter(e => selected.some(s => s === e.round))
+  };
+};
+
+const filterByProvider = (entities: TDataTable[], filterInfo: TMultipleFilter) => {
+  const selected = filterInfo.provider?.selected?.map(s => s.value) ?? [];
+
+  if(selected.length === 0) {
+    return {
+      filterInfo,
+      entities
+    };
+  }
+  const selectedSet = new Set(selected.filter(Boolean));
+  const filtered = entities.filter(e => {
+    const all = [e.provider]
+      .filter(Boolean)
+      .flatMap(v => v.split('/').map(s => s.trim()).filter(Boolean));
+
+    const isBlankSelected = selected.includes(null);
+    const isEmpty = all.length === 0;
+
+    if (isBlankSelected && isEmpty) {
+      return true;
+    }
+
+    return all.some(provider => selectedSet.has(provider));
+  });
+  return { filterInfo, entities: filtered };
+};
+
 /**
  * Preserves and restores multipleFilter state when loading new data from server
  * This ensures user's filter selections are maintained across data refreshes
@@ -698,6 +811,18 @@ const executeFilterTable = (
           props.filterInfo
         );
       },
+      (props: TMultipleFilterPipe) => {
+        return filterByRound(
+          props.entities,
+          props.filterInfo
+        );
+      },
+    (props: TMultipleFilterPipe) => {
+      return filterByProvider(
+        props.entities,
+        props.filterInfo
+      );
+    },
     (props: TMultipleFilterPipe) => {
       return filterByRAndD(
         props.entities,

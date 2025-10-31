@@ -118,6 +118,16 @@ const EventPickingTableSlice = createSlice({
         isFilter: false,
         selected: [],
         options: []
+      },
+      provider: {
+        isFilter: false,
+        selected: [],
+        options: []
+      },
+      round: {
+        isFilter: false,
+        selected: [],
+        options: []
       }
     },
     order: {
@@ -206,6 +216,8 @@ const EventPickingTableSlice = createSlice({
       state.multipleFilter.rAndDInfo.options = options.rAndDInfo;
       state.multipleFilter.lstNote.options = options.lstNote;
       state.multipleFilter.tv.options = options.tv;
+      state.multipleFilter.provider.options = options.provider;
+      state.multipleFilter.round.options = options.round;
 
       state.isConfirmAll = state.entities?.every(x => x.isCheck);
       state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
@@ -269,7 +281,8 @@ const EventPickingTableSlice = createSlice({
       state.multipleFilter.lstNote.options = options.lstNote;
       state.multipleFilter.rAndDInfo.options = options.rAndDInfo;
       state.multipleFilter.tv.options = options.tv;
-
+      state.multipleFilter.provider.options = options.provider;
+      state.multipleFilter.round.options = options.round;
       state.isConfirmAll = state.entities?.every(x => x.isCheck);
       state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
 
@@ -309,6 +322,8 @@ const EventPickingTableSlice = createSlice({
       state.multipleFilter.lstNote.options = options.lstNote;
       state.multipleFilter.rAndDInfo.options = options.rAndDInfo;
       state.multipleFilter.tv.options = options.tv;
+      state.multipleFilter.provider.options = options.provider;
+      state.multipleFilter.round.options = options.round;
       state.multipleFilter[columnKey].options = currentColumnOptions;
 
       state.isConfirmAll = state.entities?.every(x => x.isCheck);

@@ -98,6 +98,8 @@ type TColumnKey =
   | 'lstNote'
   | 'turnoverPeriod'
   | 'tv'
+  | 'round'
+  | 'provider'
   | 'marginPeriod';
 type TOrderKey = '1m' | '3m' | '6m' | '12m';
 type TOrderDirection = 'asc' | 'desc';

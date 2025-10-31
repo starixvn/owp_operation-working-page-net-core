@@ -89,13 +89,13 @@
     {
       "headerName": "Provider",
       "size": 8,
-      "isFilter": true,
+      "isFilterMultiple": true,
       "columnKey": "Provider"
     },
     {
       "headerName": "Round",
       "size": 10,
-      "isFilter": true,
+      "isFilterMultiple": true,
       "columnKey": "Round"
     },
     {
