@@ -33,42 +33,13 @@ const FilterHeader = ({ columnKey }: FilterHeaderProps) => {
     dispatch(setValueFilter(columnHaveBeenFiltered));
 
   const handleClearSingleColumnFilter = () => {
-    // Check if this column has isFilter = true and if it's the only one
-    const { multipleFilter, filterState } = model;
     const columnKeyTyped = columnKey as TColumnKey;
-    const columnIsFiltered =
-      columnKeyTyped in multipleFilter &&
-      multipleFilter[columnKeyTyped].isFilter;
-    const hasTextFilter = filterState.some(
-      (filter: TFilterState) => filter.columnKey === columnKey
+    dispatch(
+      clearSingleColumnFilter({
+        columnKey: columnKeyTyped,
+        hasReadPermission
+      })
     );
-
-    if (columnIsFiltered || hasTextFilter) {
-      // Count total active filters
-      const activeMultipleFilters = Object.values(multipleFilter).filter(
-        (filter: any) => filter.isFilter
-      ).length;
-      const activeTextFilters = filterState.length;
-
-      // If this is the only active filter, clear all filters instead
-      if (activeMultipleFilters + activeTextFilters === 1) {
-        dispatch(clearFilter());
-      } else {
-        dispatch(
-          clearSingleColumnFilter({
-            columnKey: columnKeyTyped,
-            hasReadPermission
-          })
-        );
-      }
-    } else {
-      dispatch(
-        clearSingleColumnFilter({
-          columnKey: columnKeyTyped,
-          hasReadPermission
-        })
-      );
-    }
   };
 
   return (

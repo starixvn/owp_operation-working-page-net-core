@@ -247,8 +247,33 @@ const EventPickingTableSlice = createSlice({
 
       const { valueFilterAllColumn } = state;
 
+      // Step 1: Clear the filter for the column (both text and multiple filters)
+      state.valueFilterAllColumn = pushOrUpdateObject(valueFilterAllColumn, {
+        columnKey,
+        keyword: ''
+      });
+      state.filterState = removeFilterStateByColumnKey(
+        state.filterState,
+        columnKey
+      );
+      if (columnKey in state.multipleFilter) {
+        state.multipleFilter[columnKey] = {
+          ...state.multipleFilter[columnKey],
+          isFilter: false,
+          selected: [] // Temporarily empty, will be updated after options recalculation
+        };
+      }
+
+      // Step 2: Apply ALL remaining filters to original data
+      state.entities = executeFilterTable(
+        state,
+        filterByKeyword,
+        hasReadPermission
+      );
+
+      // Step 3: Calculate options based on the new filtered result
       const options = buildTableMultipleFilterOptions(
-        state.entitiesOriginal,
+        state.entities,
         state.rAndDInfoFilterOriginal.options
       );
 
@@ -264,35 +289,16 @@ const EventPickingTableSlice = createSlice({
       state.multipleFilter.tv.options = options.tv;
       state.multipleFilter.provider.options = options.provider;
       state.multipleFilter.round.options = options.round;
-      state.isConfirmAll = state.entities?.every(x => x.isCheck);
-      state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
 
-      state.valueFilterAllColumn = pushOrUpdateObject(
-        valueFilterAllColumn,
-        { columnKey, keyword: '' }
-      );
-      state.filterState = removeFilterStateByColumnKey(
-        state.filterState,
-        columnKey
-      );
+      // Update selected for the cleared column to include all new options
       if (columnKey in state.multipleFilter) {
-        state.multipleFilter[columnKey] = {
-          ...state.multipleFilter[columnKey],
-          isFilter: false,
-          selected: state.multipleFilter[columnKey].options
-        };
+        state.multipleFilter[columnKey].selected = options[columnKey] || [];
       }
-
-      state.entities = executeFilterTable(
-        state,
-        filterByKeyword,
-        hasReadPermission
-      );
-      console.log('state.entities.length', state.entities.length);
-      state.entities = filterTableExceptColumn(state.entities, columnKey, state.multipleFilter, hasReadPermission);
 
       state.entities = executeOrderTable(state.entities, state.order);
 
+      state.isConfirmAll = state.entities?.every(x => x.isCheck);
+      state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
     },
     setMultipleFilter: (
       state,
@@ -394,8 +400,8 @@ const EventPickingTableSlice = createSlice({
       state.matchSelected = isAdded
         ? [...state.matchSelected, match]
         : state.matchSelected.filter(
-          s => s.infoSiteMatchId !== match.infoSiteMatchId
-        );
+            s => s.infoSiteMatchId !== match.infoSiteMatchId
+          );
     },
 
     setListMatchSelected: (
@@ -409,8 +415,8 @@ const EventPickingTableSlice = createSlice({
       state.matchSelected = isAdded
         ? [...state.matchSelected, ...matches]
         : state.matchSelected.filter(
-          s => !matches.some(i => s.infoSiteMatchId === i.infoSiteMatchId)
-        );
+            s => !matches.some(i => s.infoSiteMatchId === i.infoSiteMatchId)
+          );
       state.isSelectedAll =
         state.matchSelected.length ===
         state.entities.filter(x => !x.isChildMatch).length;

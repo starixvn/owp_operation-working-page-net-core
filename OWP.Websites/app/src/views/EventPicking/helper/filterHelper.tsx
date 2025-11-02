@@ -150,18 +150,18 @@ const buildLstNoteOptions = (entities: TDataTable[]) =>
           return -1;
         }
 
-      return a.label.localeCompare(b.label);
-    }),
+        return a.label.localeCompare(b.label);
+      }),
     i => i.label
   );
 
-  const buildDefaultRAndDInfoOptions = (updateTypeOption: Option[]) =>
-    updateTypeOption
-      .map(type => ({
-        value: type.value || null,
-        label: type.label
-      }))
-      .concat(NONE_OPTION);
+const buildDefaultRAndDInfoOptions = (updateTypeOption: Option[]) =>
+  updateTypeOption
+    .map(type => ({
+      value: type.value || null,
+      label: type.label
+    }))
+    .concat(NONE_OPTION);
 
 const buildRAndDInfoOptions = (
   entities: TDataTable[],
@@ -184,9 +184,9 @@ const buildTurnoverPeriodOptions = (entities: TDataTable[]) => {
   const allPeriods = entities.flatMap(entity =>
     Array.isArray(entity.turnoverPeriod)
       ? entity.turnoverPeriod.map(period => ({
-        value: period.value,
-        label: String(period.valueDisplay || '(Blanks)')
-      }))
+          value: period.value,
+          label: String(period.valueDisplay || '(Blanks)')
+        }))
       : []
   );
   const periods = uniqBy(allPeriods, i => i.value);
@@ -209,9 +209,9 @@ const buildMarginPeriodOptions = (entities: TDataTable[]) => {
   const allPeriods = entities.flatMap(entity =>
     Array.isArray(entity.marginPeriod)
       ? entity.marginPeriod.map(period => ({
-        value: period.value,
-        label: String(period.value || '(Blanks)')
-      }))
+          value: period.value,
+          label: String(period.value || '(Blanks)')
+        }))
       : []
   );
   const periods = uniqBy(allPeriods, i => i.value);
@@ -230,59 +230,56 @@ const buildMarginPeriodOptions = (entities: TDataTable[]) => {
   });
 };
 
-  const buildRoundOptions = (entities: TDataTable[]) => {
-    const allRoundValues = entities.flatMap(entity => {
-      const { round } = entity;
+const buildRoundOptions = (entities: TDataTable[]) => {
+  const allRoundValues = entities.flatMap(entity => {
+    const { round } = entity;
 
-      return [round];
-    });
+    return [round];
+  });
 
-    const options = uniqBy(
-      allRoundValues
-        .map(round => ({
-          value: round.trim(),
-          label: round.trim() || '(Blanks)'
-        }))
-        .sort((a, b) => {
-          if (a.label === '(Blanks)') {
-            return 1;
-          }
-          if (b.label === '(Blanks)') {
-            return -1;
-          }
-          return a.label.localeCompare(b.label);
-        }),
-      i => i.value
-    );
-    
-    return options;
-  };
+  const options = uniqBy(
+    allRoundValues
+      .map(round => ({
+        value: round.trim(),
+        label: round.trim() || '(Blanks)'
+      }))
+      .sort((a, b) => {
+        if (a.label === '(Blanks)') {
+          return 1;
+        }
+        if (b.label === '(Blanks)') {
+          return -1;
+        }
+        return a.label.localeCompare(b.label);
+      }),
+    i => i.value
+  );
 
+  return options;
+};
 
-  const buildProviderOptions = (entities: TDataTable[]) => {
-    const allProviderValues = entities.flatMap(entity => {
-      const { provider } = entity;
-      const providerValues = provider?.split('/').filter(Boolean) || [];
+const buildProviderOptions = (entities: TDataTable[]) => {
+  const allProviderValues = entities.flatMap(entity => {
+    const { provider } = entity;
+    const providerValues = provider?.split('/').filter(Boolean) || [];
 
-      return [...providerValues];
-    });
+    return [...providerValues];
+  });
 
-    const options = uniqBy(
-      allProviderValues
-        .map(provider => ({
-          value: provider.trim(),
-          label: provider.trim() || '(Blanks)'
-        }))
-        .sort((a, b) => a.label.localeCompare(b.label)),
-      i => i.value
-    );
-    
-    options.push({ value: null, label: '(Blanks)' });
+  const options = uniqBy(
+    allProviderValues
+      .map(provider => ({
+        value: provider.trim(),
+        label: provider.trim() || '(Blanks)'
+      }))
+      .sort((a, b) => a.label.localeCompare(b.label)),
+    i => i.value
+  );
 
-    return options;
-  };
+  options.push({ value: null as unknown as string, label: '(Blanks)' });
 
-
+  return options;
+};
 
 const buildTvOptions = (entities: TDataTable[]) => {
   const allTvValues = entities.flatMap(entity => {
@@ -303,7 +300,7 @@ const buildTvOptions = (entities: TDataTable[]) => {
     i => i.value
   );
 
-  options.push({ value: null, label: '(Blanks)' });
+  options.push({ value: null as unknown as string, label: '(Blanks)' });
 
   return options;
 };
@@ -315,40 +312,68 @@ const filterTableExceptColumn = (
   hasReadPermission: boolean
 ) => {
   let filteredEntities = entities;
-  const columnsKeyArray = [COLUMN_KEY.KO_TIME,
-  COLUMN_KEY.LEAGUE,
-  COLUMN_KEY.MB,
-  COLUMN_KEY.MB_OU,
-  COLUMN_KEY.SPREAD_HDP,
-  COLUMN_KEY.SPREAD_OU,
-  COLUMN_KEY['NO.OF_HDP'],
-  COLUMN_KEY.LST_NOTE,
-  COLUMN_KEY.TURNOVER_PERIOD,
-  COLUMN_KEY.MARGIN_PERIOD,
-  COLUMN_KEY.RAndD];
+  const columnsKeyArray = [
+    COLUMN_KEY.KO_TIME,
+    COLUMN_KEY.LEAGUE,
+    COLUMN_KEY.MB,
+    COLUMN_KEY.MB_OU,
+    COLUMN_KEY.SPREAD_HDP,
+    COLUMN_KEY.SPREAD_OU,
+    COLUMN_KEY['NO.OF_HDP'],
+    COLUMN_KEY.LST_NOTE,
+    COLUMN_KEY.TURNOVER_PERIOD,
+    COLUMN_KEY.MARGIN_PERIOD,
+    COLUMN_KEY.RAndD
+  ];
 
-  for (const columnKey of columnsKeyArray.filter(key => key !== exceptColumnKey)) {
+  for (const columnKey of columnsKeyArray.filter(
+    key => key !== exceptColumnKey
+  )) {
     switch (columnKey) {
       case COLUMN_KEY.TURNOVER_PERIOD:
-        filteredEntities = filterByTurnoverPeriod(filteredEntities, multipleFilter, hasReadPermission).entities;
+        filteredEntities = filterByTurnoverPeriod(
+          filteredEntities,
+          multipleFilter,
+          hasReadPermission
+        ).entities;
         break;
       case COLUMN_KEY.MARGIN_PERIOD:
-        filteredEntities = filterByMarginPeriod(filteredEntities, multipleFilter, hasReadPermission).entities;
+        filteredEntities = filterByMarginPeriod(
+          filteredEntities,
+          multipleFilter,
+          hasReadPermission
+        ).entities;
         break;
       case COLUMN_KEY.RAndD:
-        filteredEntities = filterByRAndD(filteredEntities, multipleFilter.rAndDInfo.selected.map(s => s.value) || []);
+        filteredEntities = filterByRAndD(
+          filteredEntities,
+          multipleFilter.rAndDInfo.selected.map(s => s.value) || []
+        );
         break;
       case COLUMN_KEY.TV:
-        filteredEntities = filterByTv(filteredEntities, multipleFilter).entities;
+        filteredEntities = filterByTv(
+          filteredEntities,
+          multipleFilter
+        ).entities;
         break;
       case COLUMN_KEY.ROUND:
-        filteredEntities = filterByRound(filteredEntities, multipleFilter).entities;
+        filteredEntities = filterByRound(
+          filteredEntities,
+          multipleFilter
+        ).entities;
         break;
       case COLUMN_KEY.PROVIDER:
-        filteredEntities = filterByProvider(filteredEntities, multipleFilter).entities;
+        filteredEntities = filterByProvider(
+          filteredEntities,
+          multipleFilter
+        ).entities;
         break;
       default:
-        filteredEntities = multipleFilterCommon(filteredEntities, multipleFilter, columnKey as TColumnKey).entities;
+        filteredEntities = multipleFilterCommon(
+          filteredEntities,
+          multipleFilter,
+          columnKey as TColumnKey
+        ).entities;
         break;
     }
   }
@@ -358,7 +383,8 @@ const filterTableExceptColumn = (
 const singleColumnFilterOptionsFactory = (
   columnKey: TColumnKey,
   entities: TDataTable[],
-  rAndDInfoOriginalOption?: Option[]) => {
+  rAndDInfoOriginalOption?: Option[]
+) => {
   switch (columnKey) {
     case KO_TIME:
       return buildKoOptions(entities);
@@ -522,7 +548,7 @@ const multipleFilterCommon = (
     };
   }
   const selectedValue = multipleFilter[filterProps].selected.map(x => x.value);
-  if(selectedValue.length === 0) {
+  if (selectedValue.length === 0) {
     return {
       multipleFilter,
       entities
@@ -559,7 +585,11 @@ const filterByTurnoverPeriod = (
       entities
     };
   }
-  if (!filterInfo.turnoverPeriod || !filterInfo.turnoverPeriod.selected) {
+  if (
+    !filterInfo ||
+    !filterInfo.turnoverPeriod ||
+    !filterInfo.turnoverPeriod.selected
+  ) {
     return {
       filterInfo,
       entities
@@ -594,7 +624,11 @@ const filterByMarginPeriod = (
       entities
     };
   }
-  if (!filterInfo.marginPeriod || !filterInfo.marginPeriod.selected) {
+  if (
+    !filterInfo ||
+    !filterInfo.marginPeriod ||
+    !filterInfo.marginPeriod.selected
+  ) {
     return {
       filterInfo,
       entities
@@ -620,7 +654,14 @@ const filterByMarginPeriod = (
 };
 
 const filterByTv = (entities: TDataTable[], filterInfo: TMultipleFilter) => {
-  const selected = filterInfo.tv?.selected?.map(s => s.value) ?? [];
+  if (!filterInfo || !filterInfo.tv || !filterInfo.tv.selected) {
+    return {
+      filterInfo,
+      entities
+    };
+  }
+
+  const selected = filterInfo.tv.selected.map(s => s.value);
 
   if (selected.length === 0) {
     return {
@@ -631,9 +672,12 @@ const filterByTv = (entities: TDataTable[], filterInfo: TMultipleFilter) => {
   const selectedSet = new Set(selected.filter(Boolean));
 
   const filtered = entities.filter(e => {
-    const all = [e.tv, e.iptv]
-      .filter(Boolean)
-      .flatMap(v => v.split('/').map(s => s.trim()).filter(Boolean));
+    const all = [e.tv, e.iptv].filter(Boolean).flatMap(v =>
+      v
+        .split('/')
+        .map(s => s.trim())
+        .filter(Boolean)
+    );
 
     const isBlankSelected = selected.includes(null);
     const isEmpty = all.length === 0;
@@ -649,9 +693,16 @@ const filterByTv = (entities: TDataTable[], filterInfo: TMultipleFilter) => {
 };
 
 const filterByRound = (entities: TDataTable[], filterInfo: TMultipleFilter) => {
-  const selected = filterInfo.round?.selected?.map(s => s.value) ?? [];
-  
-  if(selected.length === 0) {
+  if (!filterInfo || !filterInfo.round || !filterInfo.round.selected) {
+    return {
+      filterInfo,
+      entities
+    };
+  }
+
+  const selected = filterInfo.round.selected.map(s => s.value);
+
+  if (selected.length === 0) {
     return {
       filterInfo,
       entities
@@ -663,10 +714,20 @@ const filterByRound = (entities: TDataTable[], filterInfo: TMultipleFilter) => {
   };
 };
 
-const filterByProvider = (entities: TDataTable[], filterInfo: TMultipleFilter) => {
-  const selected = filterInfo.provider?.selected?.map(s => s.value) ?? [];
+const filterByProvider = (
+  entities: TDataTable[],
+  filterInfo: TMultipleFilter
+) => {
+  if (!filterInfo || !filterInfo.provider || !filterInfo.provider.selected) {
+    return {
+      filterInfo,
+      entities
+    };
+  }
 
-  if(selected.length === 0) {
+  const selected = filterInfo.provider.selected.map(s => s.value);
+
+  if (selected.length === 0) {
     return {
       filterInfo,
       entities
@@ -674,9 +735,12 @@ const filterByProvider = (entities: TDataTable[], filterInfo: TMultipleFilter) =
   }
   const selectedSet = new Set(selected.filter(Boolean));
   const filtered = entities.filter(e => {
-    const all = [e.provider]
-      .filter(Boolean)
-      .flatMap(v => v.split('/').map(s => s.trim()).filter(Boolean));
+    const all = [e.provider].filter(Boolean).flatMap(v =>
+      v
+        .split('/')
+        .map(s => s.trim())
+        .filter(Boolean)
+    );
 
     const isBlankSelected = selected.includes(null);
     const isEmpty = all.length === 0;
@@ -747,7 +811,6 @@ const executeFilterTable = (
   ) => any, //NOSONAR
   hasReadPermission: boolean = true
 ) => {
-
   console.log('state.filterState', state.filterState);
 
   state.entities = filterDataTable(
@@ -814,30 +877,27 @@ const executeFilterTable = (
         COLUMN_KEY['NO.OF_HDP'] as TColumnKey
       ),
     (props: TMultipleFilterPipe) => {
-      return filterByTv(
-        props.entities,
-        props.filterInfo
-      );
-    },
-      (props: TMultipleFilterPipe) => {
-        return filterByRound(
-          props.entities,
-          props.filterInfo
-        );
-      },
-    (props: TMultipleFilterPipe) => {
-      return filterByProvider(
-        props.entities,
-        props.filterInfo
-      );
+      return filterByTv(props.entities, props.filterInfo);
     },
     (props: TMultipleFilterPipe) => {
+      return filterByRound(props.entities, props.filterInfo);
+    },
+    (props: TMultipleFilterPipe) => {
+      return filterByProvider(props.entities, props.filterInfo);
+    },
+    (props: TMultipleFilterPipe) => {
+      if (
+        !props.filterInfo ||
+        !props.filterInfo.rAndDInfo ||
+        !props.filterInfo.rAndDInfo.selected
+      ) {
+        return props.entities;
+      }
       return filterByRAndD(
         props.entities,
         props.filterInfo.rAndDInfo.selected.map(s => s.value)
       );
-    },
-
+    }
   )({
     entities: state.entities,
     filterInfo: state.multipleFilter

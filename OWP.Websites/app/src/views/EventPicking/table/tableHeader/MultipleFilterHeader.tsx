@@ -23,26 +23,7 @@ const MultipleFilterHeader = ({ columnKey }: FilterHeaderProps) => {
   const getFilterInfo = () => store.getState().eventPickingTable.multipleFilter;
 
   const handleClearSingleColumnFilter = () => {
-    // Check if this column has isFilter = true and if it's the only one
-    const { multipleFilter, filterState } = model;
-    const columnIsFiltered = multipleFilter[columnKey].isFilter;
-
-    if (columnIsFiltered) {
-      // Count total active filters
-      const activeMultipleFilters = Object.values(multipleFilter).filter(
-        (filter: any) => filter.isFilter
-      ).length;
-      const activeTextFilters = filterState.length;
-
-      // If this is the only active filter, clear all filters instead
-      if (activeMultipleFilters + activeTextFilters === 1) {
-        dispatch(clearFilter());
-      } else {
-        dispatch(clearSingleColumnFilter({ columnKey, hasReadPermission }));
-      }
-    } else {
-      dispatch(clearSingleColumnFilter({ columnKey, hasReadPermission }));
-    }
+    dispatch(clearSingleColumnFilter({ columnKey, hasReadPermission }));
   };
 
   return (
