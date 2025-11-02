@@ -323,7 +323,10 @@ const filterTableExceptColumn = (
     COLUMN_KEY.LST_NOTE,
     COLUMN_KEY.TURNOVER_PERIOD,
     COLUMN_KEY.MARGIN_PERIOD,
-    COLUMN_KEY.RAndD
+    COLUMN_KEY.RAndD,
+    COLUMN_KEY.TV,
+    COLUMN_KEY.ROUND,
+    COLUMN_KEY.PROVIDER
   ];
 
   for (const columnKey of columnsKeyArray.filter(

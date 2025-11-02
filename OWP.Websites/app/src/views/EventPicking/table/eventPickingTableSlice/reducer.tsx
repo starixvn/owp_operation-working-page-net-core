@@ -236,6 +236,17 @@ const EventPickingTableSlice = createSlice({
         rAndDInfo: state.rAndDInfoFilterOriginal
       };
     },
+    /**
+     * Clear a single column filter and recalculate all filter options following Excel behavior
+     * Xóa filter của một cột duy nhất và tính lại tất cả options filter theo behavior của Excel
+     *
+     * This function implements Excel-like filter clearing where:
+     * - When clearing a filter on column X, options for other columns should include
+     *   all possible values (selected + unselected) based on data filtered by all other active filters
+     * - Hàm này implement behavior giống Excel:
+     *   - Khi clear filter cột X, options của các cột khác nên bao gồm
+     *     tất cả giá trị possible (đã chọn + chưa chọn) dựa trên data filtered bởi tất cả filters khác
+     */
     clearSingleColumnFilter: (
       state,
       action: PayloadAction<{
@@ -244,39 +255,71 @@ const EventPickingTableSlice = createSlice({
       }>
     ) => {
       const { columnKey, hasReadPermission = false } = action.payload;
-
       const { valueFilterAllColumn } = state;
 
-      // Step 1: Clear the filter for the column (both text and multiple filters)
+      // Xóa text filter: reset keyword về chuỗi rỗng
       state.valueFilterAllColumn = pushOrUpdateObject(valueFilterAllColumn, {
         columnKey,
         keyword: ''
       });
+
+      // Xóa khỏi mảng filterState (cho text/keyword filters)
       state.filterState = removeFilterStateByColumnKey(
         state.filterState,
         columnKey
       );
+
+      // Xóa multiple filter: set isFilter thành false và tạm thời empty selected
       if (columnKey in state.multipleFilter) {
         state.multipleFilter[columnKey] = {
           ...state.multipleFilter[columnKey],
           isFilter: false,
-          selected: [] // Temporarily empty, will be updated after options recalculation
+          selected: []
         };
       }
 
-      // Step 2: Apply ALL remaining filters to original data
+      // Thực thi tất cả filters còn lại (text + multiple) trên entities gốc
       state.entities = executeFilterTable(
         state,
         filterByKeyword,
         hasReadPermission
       );
 
-      // Step 3: Calculate options based on the new filtered result
-      const options = buildTableMultipleFilterOptions(
+      // =>> Calculate options for each column following Excel behavior
+      const clearedColumnOptions = buildTableMultipleFilterOptions(
         state.entities,
         state.rAndDInfoFilterOriginal.options
       );
 
+      // For other columns, calculate options excluding their own filter (Excel behavior)
+      const allColumnKeys = Object.keys(
+        state.multipleFilter
+      ) as (keyof typeof state.multipleFilter)[];
+      const options: any = {};
+
+      for (const colKey of allColumnKeys) {
+        if (colKey === columnKey) {
+          // For cleared column: use options from already filtered data
+          options[colKey] = clearedColumnOptions[colKey];
+        } else {
+          // For other columns: calculate options excluding their own filter
+          const dataExcludingThisColumn = filterTableExceptColumn(
+            state.entitiesOriginal, // Start with original data
+            colKey as TColumnKey, // Exclude this column's filter
+            state.multipleFilter, // Apply all other filters
+            hasReadPermission
+          );
+
+          const columnOptions = buildTableMultipleFilterOptions(
+            dataExcludingThisColumn,
+            state.rAndDInfoFilterOriginal.options
+          );
+          options[colKey] = columnOptions[colKey];
+        }
+      }
+
+      // Update all filter options in state
+      // Cập nhật tất cả filter options trong state
       state.multipleFilter.time.options = options.time;
       state.multipleFilter.leagueName.options = options.leagueName;
       state.multipleFilter.maxbetHdp.options = options.maxbetHdp;
@@ -290,13 +333,11 @@ const EventPickingTableSlice = createSlice({
       state.multipleFilter.provider.options = options.provider;
       state.multipleFilter.round.options = options.round;
 
-      // Update selected for the cleared column to include all new options
       if (columnKey in state.multipleFilter) {
         state.multipleFilter[columnKey].selected = options[columnKey] || [];
       }
 
       state.entities = executeOrderTable(state.entities, state.order);
-
       state.isConfirmAll = state.entities?.every(x => x.isCheck);
       state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
     },
