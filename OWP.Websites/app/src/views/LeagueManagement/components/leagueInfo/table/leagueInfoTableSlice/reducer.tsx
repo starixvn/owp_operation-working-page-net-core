@@ -12,10 +12,12 @@ import { REQUEST_STATUS } from '../../../../../Shared/Constants';
 import { Option } from '../../../../../Shared/MultipleSelection/type';
 import {
   executeFilterTable,
+  executeFilterTableExcludingColumn,
   buildDefaultTableFilter,
   preserveAndRestoreMultipleFilter,
   updateFilterOptionsAfterFilter
 } from './reducerHelper';
+import helper from './calculateFilterOptions';
 import {
   IS_BLACKLIST_OPTIONS,
   IS_OFFERLIVE_OPTIONS
@@ -185,6 +187,59 @@ const LeagueInfoTableSlice = createSlice({
     },
     setFilterChange: (state, action: PayloadAction<TFilterState[]>) => {
       state.valueFilterChange = action.payload;
+    },
+    clearSingleColumnFilter: (
+      state,
+      action: PayloadAction<{
+        columnKey: Required<TColumnKey>;
+      }>
+    ) => {
+      const { columnKey } = action.payload;
+
+      const { [columnKey]: _, ...rest } = state.valueFilterAllColumn;
+      state.valueFilterAllColumn = rest;
+
+      state.filterState = (state.filterState || []).filter(
+        filter => filter.columnKey !== columnKey
+      );
+
+      if (columnKey in state.multipleFilter) {
+        state.multipleFilter[columnKey as TColumnHasMultipleFilterKey] = {
+          ...state.multipleFilter[columnKey as TColumnHasMultipleFilterKey],
+          isFilter: false,
+          selected: []
+        };
+      }
+
+      state.entities = applyFiltersToData(state) || [];
+
+      const allColumnKeys = Object.keys(
+        state.multipleFilter
+      ) as TColumnHasMultipleFilterKey[];
+      const options: any = {};
+
+      for (const colKey of allColumnKeys) {
+        if (colKey === columnKey) {
+          options[colKey] = helper[colKey](state.entities);
+        } else {
+          const dataExcludingThisColumn = executeFilterTableExcludingColumn(
+            state,
+            colKey
+          );
+          options[colKey] = helper[colKey](dataExcludingThisColumn);
+        }
+      }
+
+      Object.keys(options).forEach(colKey => {
+        const columnKey = colKey as TColumnHasMultipleFilterKey;
+        const currentFilter = state.multipleFilter[columnKey];
+        if (currentFilter) {
+          state.multipleFilter[columnKey] = {
+            ...currentFilter,
+            options: options[colKey]
+          };
+        }
+      });
     }
   },
   extraReducers: builder => {
@@ -216,6 +271,7 @@ const { reducer, actions } = LeagueInfoTableSlice;
 
 const {
   clearFilter,
+  clearSingleColumnFilter,
   setMultipleFilter,
   setLeagueHeaderFiler,
   setFocusSettingId,
@@ -230,6 +286,7 @@ const {
 
 export {
   clearFilter,
+  clearSingleColumnFilter,
   setMultipleFilter,
   setLeagueHeaderFiler,
   setFocusSettingId,

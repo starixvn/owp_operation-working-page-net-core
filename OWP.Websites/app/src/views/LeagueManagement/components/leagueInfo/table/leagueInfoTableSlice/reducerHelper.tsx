@@ -79,22 +79,26 @@ const executeFilterTable = (
     { keyword, columnKey }: { keyword: undefined; columnKey: undefined }
   ) => any //NOSONAR
 ) => {
-  const { entitiesOriginal, multipleFilter, filterState } = state;
+  const { entitiesOriginal = [], multipleFilter, filterState } = state;
 
   const {
-    League_Group,
-    Tv,
-    Round,
-    League_Division,
-    Spread_HDP_OU,
-    MB_WK_HDP,
-    MB_WK_NO_HDP,
-    MB_WD_HDP,
-    MB_WD_NO_HDP,
-    Comment
-  } = multipleFilter;
+    League_Group = { isFilter: false, selected: [] },
+    Tv = { isFilter: false, selected: [] },
+    Round = { isFilter: false, selected: [] },
+    League_Division = { isFilter: false, selected: [] },
+    Spread_HDP_OU = { isFilter: false, selected: [] },
+    MB_WK_HDP = { isFilter: false, selected: [] },
+    MB_WK_NO_HDP = { isFilter: false, selected: [] },
+    MB_WD_HDP = { isFilter: false, selected: [] },
+    MB_WD_NO_HDP = { isFilter: false, selected: [] },
+    Comment = { isFilter: false, selected: [] }
+  } = multipleFilter || {};
 
-  let result = filterDataTable(entitiesOriginal, filterState, filterByKeyword);
+  let result = filterDataTable(
+    entitiesOriginal,
+    filterState || [],
+    filterByKeyword
+  );
   result = result.filter(
     (
       e: TDataSource //NOSONAR
@@ -217,6 +221,102 @@ const preserveAndRestoreMultipleFilter = (
   return newMultipleFilter;
 };
 
+const executeFilterTableExcludingColumn = (
+  state: TTableSlice,
+  excludeColumnKey: TColumnHasMultipleFilterKey
+) => {
+  const { entitiesOriginal = [], multipleFilter, filterState } = state;
+
+  const {
+    League_Group = { isFilter: false, selected: [] },
+    Tv = { isFilter: false, selected: [] },
+    Round = { isFilter: false, selected: [] },
+    League_Division = { isFilter: false, selected: [] },
+    Spread_HDP_OU = { isFilter: false, selected: [] },
+    MB_WK_HDP = { isFilter: false, selected: [] },
+    MB_WK_NO_HDP = { isFilter: false, selected: [] },
+    MB_WD_HDP = { isFilter: false, selected: [] },
+    MB_WD_NO_HDP = { isFilter: false, selected: [] },
+    Comment = { isFilter: false, selected: [] }
+  } = multipleFilter || {};
+
+  // Apply text filters first
+  let result = filterDataTable(
+    entitiesOriginal,
+    filterState || [],
+    (matches: any) => matches
+  );
+
+  // Apply multiple filters, excluding the specified column
+  result = result.filter(
+    (e: TDataSource) =>
+      // League_Group filter
+      (excludeColumnKey === 'League_Group' ||
+        !League_Group.isFilter ||
+        League_Group.selected.some(
+          (m: any) => m.label === buildLabelItemOption(e.leagueGroup)
+        )) &&
+      // Tv filter
+      (excludeColumnKey === 'Tv' ||
+        !Tv.isFilter ||
+        Tv.selected.some(
+          (m: any) =>
+            m.label ===
+            buildLabelTvOption(e.condition.hasTv, e.condition.hasIpTv)
+        )) &&
+      // Round filter
+      (excludeColumnKey === 'Round' ||
+        !Round.isFilter ||
+        Round.selected.some((m: any) =>
+          buildLabelItemForCondition(e.condition.round, m.label)
+        )) &&
+      // League_Division filter
+      (excludeColumnKey === 'League_Division' ||
+        !League_Division.isFilter ||
+        League_Division.selected.some((m: any) =>
+          buildLabelItemForCondition(e.condition.division, m.label)
+        )) &&
+      // Spread_HDP_OU filter
+      (excludeColumnKey === 'Spread_HDP_OU' ||
+        !Spread_HDP_OU.isFilter ||
+        Spread_HDP_OU.selected.some(
+          (m: any) => m.label === buildLabelItemOption(e.spreadShow)
+        )) &&
+      // MB_WD_HDP filter
+      (excludeColumnKey === 'MB_WD_HDP' ||
+        !MB_WD_HDP.isFilter ||
+        MB_WD_HDP.selected.some(
+          (m: any) => m.label === buildLabelItemOption(e.maxbetWD_HDP_Show)
+        )) &&
+      // MB_WD_NO_HDP filter
+      (excludeColumnKey === 'MB_WD_NO_HDP' ||
+        !MB_WD_NO_HDP.isFilter ||
+        MB_WD_NO_HDP.selected.some(
+          (m: any) => m.label === buildLabelItemOption(e.wD_NoOfHDP_Show)
+        )) &&
+      // MB_WK_HDP filter
+      (excludeColumnKey === 'MB_WK_HDP' ||
+        !MB_WK_HDP.isFilter ||
+        MB_WK_HDP.selected.some(
+          (m: any) => m.label === buildLabelItemOption(e.maxbetWK_HDP_Show)
+        )) &&
+      // MB_WK_NO_HDP filter
+      (excludeColumnKey === 'MB_WK_NO_HDP' ||
+        !MB_WK_NO_HDP.isFilter ||
+        MB_WK_NO_HDP.selected.some(
+          (m: any) => m.label === buildLabelItemOption(e.wK_NoOfHDP_Show)
+        )) &&
+      // Comment filter
+      (excludeColumnKey === 'Comment' ||
+        !Comment.isFilter ||
+        Comment.selected.some(
+          (m: any) => m.label === buildLabelItemOption(e.comment)
+        ))
+  );
+
+  return result;
+};
+
 const updateFilterOptionsAfterFilter = (
   state: TTableSlice,
   filteredData: TDataSource[],
@@ -262,6 +362,7 @@ const updateFilterOptionsAfterFilter = (
 export {
   buildDefaultTableFilter,
   executeFilterTable,
+  executeFilterTableExcludingColumn,
   preserveAndRestoreMultipleFilter,
   updateFilterOptionsAfterFilter
 };
