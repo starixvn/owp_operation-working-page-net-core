@@ -86,13 +86,22 @@ describe('Filter component', () => {
     await user.click(fromDateInput);
 
     const targetDate = dayjs().subtract(5, 'day');
-    const dayToSelect = targetDate.date().toString();
-
-    const dayButton = screen.getByText(dayToSelect);
-    await user.click(dayButton);
+    const dayNumber = targetDate.date();
+    const daySuffix = dayNumber === 1 || dayNumber === 21 || dayNumber === 31 ? 'st'
+      : dayNumber === 2 || dayNumber === 22 ? 'nd'
+        : dayNumber === 3 || dayNumber === 23 ? 'rd'
+          : 'th';
     const expectedFormatted = dayjs(targetDate)
       .subtract(1, 'month')
       .format('MMM DD, YYYY');
+    const targetMonthName = dayjs(targetDate).subtract(1, 'month').format('MMMM');
+
+    // Find the button by aria-label matching the expected date
+    const dayButton = screen.getByRole('button', {
+      name: new RegExp(`Choose .* ${targetMonthName} ${dayNumber}${daySuffix}, ${targetDate.year()}`, 'i')
+    });
+
+    await user.click(dayButton);
 
     expect(fromDateInput.value).toBe(expectedFormatted);
   });
@@ -107,11 +116,20 @@ describe('Filter component', () => {
     await user.click(toDateInput);
 
     const targetDate = dayjs().subtract(5, 'day');
-    const dayToSelect = targetDate.date().toString();
-
-    const dayButton = screen.getByText(dayToSelect);
-    await user.click(dayButton);
+    const dayNumber = targetDate.date();
+    const daySuffix = dayNumber === 1 || dayNumber === 21 || dayNumber === 31 ? 'st'
+      : dayNumber === 2 || dayNumber === 22 ? 'nd'
+        : dayNumber === 3 || dayNumber === 23 ? 'rd'
+          : 'th';
+    const targetMonthName = targetDate.format('MMMM');
     const expectedFormatted = dayjs(targetDate).format('MMM DD, YYYY');
+
+    // Find the button by aria-label matching the target date
+    const dayButton = screen.getByRole('button', {
+      name: new RegExp(`Choose .* ${targetMonthName} ${dayNumber}${daySuffix}, ${targetDate.year()}`, 'i')
+    });
+
+    await user.click(dayButton);
 
     expect(toDateInput.value).toBe(expectedFormatted);
   });
