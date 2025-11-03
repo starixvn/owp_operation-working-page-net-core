@@ -528,23 +528,13 @@
             width: 40px !important;
         }
 
-        &:nth-child(12),
         &:nth-child(13),
         &:nth-child(14),
-        &:nth-child(15) {
-            .filter-popup {
-                right: 1px !important;
-                left: auto !important;
-
-                &:before {
-                    right: 1px !important;
-                    left: auto !important;
-                }
-            }
-        }
+        &:nth-child(15),
         &:nth-child(16),
         &:nth-child(17),
-        &:nth-child(18) {
+        &:nth-child(18),
+        &:nth-child(19) {
             .filter-popup {
                 right: 1px !important;
                 left: auto !important;
