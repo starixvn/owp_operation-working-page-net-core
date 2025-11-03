@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { PlusCircleIcon } from 'mdi-react';
+import { PlusCircleIcon, PlusIcon } from 'mdi-react';
 import { useSelector } from 'react-redux';
 import {
   openTicketPopup,
@@ -14,6 +14,7 @@ import {
 } from '../../../../Shared/createTicketNew/createTicketBoardSliceNew';
 import useStableDispatch from '../../../../Shared/customHook/useStableDispatch';
 import { backupGetIssueModel } from '../../signalR/signalRSlice';
+import { IconRocket, IconRocketChat } from '../../../../Shared/common/icons/common-icons';
 
 const propTypes = {
   dataSource: PropTypes.array.isRequired,
@@ -40,6 +41,28 @@ const IconCreateMessage = props => {
     dispatch(setSubTypeSelected([...[{ value: 0, label: '' }]]));
     dispatch(setSelectedRecipients(defaultRecipients));
   };
+
+  const renderQuickAddTicketHandler = () => (
+    <>
+      <span style={{ margin: '10px' }}>
+        <PlusCircleIcon className='icon-plus' />
+      </span>
+      <div className='popup-add-ticket'>
+        <div
+          className='button-add-ticket btn-quick'
+          onClick={handleCreateDiscussionRC}>
+          <IconRocketChat className={'mdi-icon icon-plus icon-rocket'} />
+          <span className='btn-name'>Match Group Discussion</span>
+        </div>
+        <div
+          className='button-add-ticket btn-add'
+          onClick={handleOpenCreateTicket}>
+          <PlusIcon className='icon-plus' />
+          <span className='btn-name'>New Ticket</span>
+        </div>
+      </div>
+    </>
+  );
 
   if (!hasWrite) {
     return null;
