@@ -21,6 +21,7 @@ const propTypes = {
   rowIndex: PropTypes.number.isRequired
 };
 
+
 const IconCreateMessage = props => {
   const { dataSource, rowIndex } = props;
 
@@ -50,7 +51,7 @@ const IconCreateMessage = props => {
       <div className='popup-add-ticket'>
         <div
           className='button-add-ticket btn-quick'
-          onClick={handleCreateDiscussionRC}>
+          onClick={() => console.log('Add Match Group Ticket')}>
           <IconRocketChat className={'mdi-icon icon-plus icon-rocket'} />
           <span className='btn-name'>Match Group Discussion</span>
         </div>
@@ -68,13 +69,18 @@ const IconCreateMessage = props => {
     return null;
   }
 
+
   return (
-    <PlusCircleIcon
-      onClick={() => {
-        handleOpenCreateTicket();
-      }}
-      className='icon-plus'
-    />
+    <div className='ticket-cell'>
+      <PlusCircleIcon
+        onClick={() => {
+          handleOpenCreateTicket();
+        }}
+        className='icon-plus'
+      />
+      {dataSource[rowIndex].InfoSiteMatchId && <div className=''>{renderQuickAddTicketHandler()}</div>}
+    </div>
+    
   );
 };
 

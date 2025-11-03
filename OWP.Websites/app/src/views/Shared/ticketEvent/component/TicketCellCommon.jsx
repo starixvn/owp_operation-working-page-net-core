@@ -240,7 +240,7 @@ const TicketCellCommon = props => {
     return renderCreateTicketHandler();
   };
 
-  return <div className='ticket-cell'>{renderTicketContent()}</div>;
+  return <div >{renderTicketContent()}</div>;
 };
 
 TicketCellCommon.propTypes = propTypes;

@@ -527,11 +527,12 @@ input::-ms-input-placeholder {
         &:nth-child(2),
         &:nth-child(3) {
           &:hover {
-            .mdi-icon {
-              &.icon-plus {
-                visibility: visible;
-                opacity: 1;
-              }
+            .mdi-icon.icon-plus {
+              visibility: visible;
+              opacity: 1;
+            }
+            .popup-add-ticket {
+              display: block;
             }
           }
         }
@@ -554,6 +555,54 @@ input::-ms-input-placeholder {
             box-shadow: 0 1px 0 0 #43a0f0;
           }
         }
+      }
+    }
+
+    .popup-add-ticket {
+      position: absolute;
+      display: none;
+      width: 200px;
+      top: -25px;
+      left: 40px;
+      background: white;
+      border: 1px solid #ccc;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+      border-radius: 5px;
+      z-index: 1000;
+      padding: 3px 0;
+      .mdi-icon.icon-plus:first-child {
+        margin: 0 10px 0 0;
+      }
+
+      .button-add-ticket {
+        display: flex;
+        align-items: center;
+        border-radius: 5px;
+        padding-left: 10px;
+
+        &:hover {
+          background-color: #d8ebfa;
+        }
+      }
+
+      // Reposition popup below when near bottom to prevent being hidden
+      // This works within the transformed containing block
+      &.popup-bottom {
+        transform: translateY(0);
+        top: auto;
+        margin-top: 0;
+      }
+
+
+      .icon-rocket {
+        width: 18px;
+        height: 18px;
+      }
+
+      .btn-name {
+        font-size: 13px;
+        line-height: 24px;
+        color: #1e88e5;
       }
     }
 
