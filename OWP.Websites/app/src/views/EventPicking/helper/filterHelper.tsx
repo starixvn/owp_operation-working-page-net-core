@@ -774,36 +774,31 @@ const preserveAndRestoreMultipleFilter = (
     options: Option[];
   }
 ): TMultipleFilter => {
-  // Step 1: Save current filter state (isFilter and selected)
-  const savedMultipleFilter: TSavedMultipleFilter = {};
-  (Object.keys(currentMultipleFilter) as TMultipleFilterKey[]).forEach(key => {
-    savedMultipleFilter[key] = {
-      isFilter: currentMultipleFilter[key].isFilter,
-      selected: currentMultipleFilter[key].selected
-    };
-  });
+  const newFilterOptions = buildTableMultipleFilterOptions(
+    newFilteredMatches,
+    rAndDInfoFilterOriginal.options
+  );
+  const newMultipleFilter = { ...currentMultipleFilter };
 
-  // Step 2: Build new filter options from new data
-  const newFilterOptions = buildMultipleFilterDefault(newFilteredMatches);
+  // Iterate through each key in newMultipleFilter
+  Object.keys(newMultipleFilter).forEach(key => {
+    const currentFilter = newMultipleFilter[key as keyof TMultipleFilter];
 
-  // Step 3: Restore filter state
-  (Object.keys(savedMultipleFilter) as TMultipleFilterKey[]).forEach(key => {
-    if (newFilterOptions[key] && savedMultipleFilter[key]) {
-      newFilterOptions[key] = {
-        ...newFilterOptions[key],
-        isFilter: savedMultipleFilter[key]!.isFilter,
-        selected: savedMultipleFilter[key]!.isFilter
-          ? savedMultipleFilter[key]!.selected
-          : newFilterOptions[key].selected
+    if (!currentFilter.isFilter) {
+      // If isFilter is false, update the filter object
+      const updatedOptions =
+        newFilterOptions[key as keyof typeof newFilterOptions] || [];
+
+      newMultipleFilter[key as keyof TMultipleFilter] = {
+        isFilter: false,
+        options: updatedOptions,
+        selected: updatedOptions // Select all options
       };
     }
+    // If isFilter is true, keep the current object unchanged
   });
 
-  return {
-    ...currentMultipleFilter,
-    ...newFilterOptions,
-    rAndDInfo: rAndDInfoFilterOriginal
-  };
+  return newMultipleFilter;
 };
 
 const executeFilterTable = (

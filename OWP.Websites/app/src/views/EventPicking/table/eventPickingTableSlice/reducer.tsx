@@ -27,6 +27,7 @@ import TDataTable, {
 } from '../../types/dataTableType';
 import {
   addOrReplaceFilterState,
+  filterDataTable,
   pushOrUpdateObject,
   removeFilterStateByColumnKey
 } from '../../../Shared/Utils';
@@ -355,6 +356,7 @@ const EventPickingTableSlice = createSlice({
         isFilter: true,
         selected
       };
+
       state.entities = executeFilterTable(
         state,
         filterByKeyword,
@@ -378,6 +380,8 @@ const EventPickingTableSlice = createSlice({
       state.multipleFilter.tv.options = options.tv;
       state.multipleFilter.provider.options = options.provider;
       state.multipleFilter.round.options = options.round;
+      state.multipleFilter.turnoverPeriod.options = options.turnoverPeriod;
+      state.multipleFilter.marginPeriod.options = options.marginPeriod;
       state.multipleFilter[columnKey].options = currentColumnOptions;
 
       state.isConfirmAll = state.entities?.every(x => x.isCheck);
@@ -496,24 +500,14 @@ const EventPickingTableSlice = createSlice({
         state.loading = REQUEST_STATUS.idle;
         state.entitiesByDate = matchesByDate;
         state.entitiesOriginal = filteredMatches;
-
-        // Preserve and restore multipleFilter state
-        state.multipleFilter = preserveAndRestoreMultipleFilter(
-          state.multipleFilter,
-          filteredMatches,
-          state.rAndDInfoFilterOriginal
-        );
-
-        // Apply both filterState and multipleFilter
-        state.entities = executeFilterTable(state, filterByKeyword);
-        state.order = {
-          columnKey: '',
-          turnoverPeriod: {},
-          marginPeriod: {}
-        } as TOrder;
-
+        state.entities = filteredMatches;
         state.isConfirmAll = state.entities?.every(x => x.isCheck);
         state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
+        state.multipleFilter = {
+          ...state.multipleFilter,
+          ...buildMultipleFilterDefault(state.entities),
+          rAndDInfo: state.rAndDInfoFilterOriginal
+        };
       })
       .addCase(getEventPickings.rejected, state => {
         state.loading = REQUEST_STATUS.idle;
@@ -536,7 +530,6 @@ const EventPickingTableSlice = createSlice({
 
         // Apply both filterState and multipleFilter
         state.entities = executeFilterTable(state, filterByKeyword);
-
         state.isConfirmAll = state.entities?.every(x => x.isCheck);
         state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
       })

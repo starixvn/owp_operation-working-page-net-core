@@ -129,6 +129,7 @@ type TSavedMultipleFilter = {
   [key in TMultipleFilterKey]?: {
     isFilter: boolean;
     selected: Option[];
+    options: Option[];
   };
 };
 
