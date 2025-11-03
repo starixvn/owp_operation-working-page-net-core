@@ -10,7 +10,8 @@ import {
   changeErrorRecipient,
   closeCreatePopup,
   setSubTypeSelected,
-  setSelectedRecipients
+  setSelectedRecipients,
+  openPopupCreateDiscussion
 } from '../../../../Shared/createTicketNew/createTicketBoardSliceNew';
 import useStableDispatch from '../../../../Shared/customHook/useStableDispatch';
 import { backupGetIssueModel } from '../../signalR/signalRSlice';
@@ -43,6 +44,10 @@ const IconCreateMessage = props => {
     dispatch(setSelectedRecipients(defaultRecipients));
   };
 
+  const handleOpenCreateDiscussion = () => {
+    dispatch(openPopupCreateDiscussion());
+  };
+
   const renderQuickAddTicketHandler = () => (
     <>
       <span style={{ margin: '10px' }}>
@@ -51,7 +56,7 @@ const IconCreateMessage = props => {
       <div className='popup-add-ticket'>
         <div
           className='button-add-ticket btn-quick'
-          onClick={() => console.log('Add Match Group Ticket')}>
+          onClick={handleOpenCreateDiscussion}>
           <IconRocketChat className={'mdi-icon icon-plus icon-rocket'} />
           <span className='btn-name'>Match Group Discussion</span>
         </div>
