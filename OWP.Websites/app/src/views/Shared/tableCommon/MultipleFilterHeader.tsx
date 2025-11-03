@@ -52,6 +52,7 @@ const MultipleFilterHeader = ({
             columnKey={columnKey}
             options={setOptions ? setOptions() : options}
             selected={setSelected ? setSelected() : selected}
+            isFilter={setIsFilter ? setIsFilter() : isFilter}
             onClosedPopup={() => setIsOpenFilter(false)}
             onFilter={handleFilter}
             onClear={handleClearFilter}

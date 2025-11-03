@@ -31,9 +31,10 @@ type MultipleFilterHeaderProps = {
 
 type MultipleFilterPopupProps = Omit<
   MultipleFilterHeaderProps,
-  'isFilter' | 'getOptions'
+  'getOptions'
 > & {
   onClosedPopup: () => void;
+  isFilter?: boolean;
 };
 
 export {

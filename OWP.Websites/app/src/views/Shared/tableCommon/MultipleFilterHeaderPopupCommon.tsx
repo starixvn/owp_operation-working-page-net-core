@@ -14,7 +14,8 @@ const MultipleFilterHeaderPopupCommon = ({
   onClosedPopup,
   onFilter,
   onClear,
-  onClearSingleColumnFilter
+  onClearSingleColumnFilter,
+  isFilter
 }: MultipleFilterPopupProps) => {
   const [value, setValue] = useState(selected || []);
   const [oldValue, setOldValue] = useState(selected || []);
@@ -46,7 +47,10 @@ const MultipleFilterHeaderPopupCommon = ({
   const renderSingleColumnFilter = () => {
     if (isClearSingleColumnFilter) {
       return (
-        <span className='clear-all' onClick={onClearSingleColumnFilter}>
+        <span
+          className={`clear-all ${!isFilter ? 'disabled' : ''}`}
+          onClick={isFilter ? onClearSingleColumnFilter : undefined}
+          style={!isFilter ? { opacity: 0.5, cursor: 'not-allowed' } : {}}>
           Clear Column Filter
         </span>
       );

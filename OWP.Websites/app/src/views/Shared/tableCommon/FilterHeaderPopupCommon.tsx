@@ -62,8 +62,16 @@ const FilterHeaderPopupCommon = ({
 
   const renderSingleColumnFilter = () => {
     if (isClearSingleColumnFilter) {
+      const isColumnFiltered = model.filterState?.some(
+        (filter: { columnKey: string }) => filter.columnKey === columnKey
+      );
       return (
-        <span className='clear-all' onClick={handleClearSingleColumnFilter}>
+        <span
+          className={`clear-all ${!isColumnFiltered ? 'disabled' : ''}`}
+          onClick={isColumnFiltered ? handleClearSingleColumnFilter : undefined}
+          style={
+            !isColumnFiltered ? { opacity: 0.5, cursor: 'not-allowed' } : {}
+          }>
           Clear Column Filter
         </span>
       );
