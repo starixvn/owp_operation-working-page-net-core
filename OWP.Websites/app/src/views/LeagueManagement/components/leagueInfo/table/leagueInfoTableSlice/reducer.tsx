@@ -251,13 +251,15 @@ const LeagueInfoTableSlice = createSlice({
         state.entitiesOriginal = payload;
         state.loading = REQUEST_STATUS.idle;
 
-        // Preserve and restore multipleFilter state
-        state.multipleFilter = preserveAndRestoreMultipleFilter(
+        if (!state.isSaveAction) {
+          state.filterState = [];
+          state.valueFilterAllColumn = {};
+        }
+        buildDefaultTableFilter(
+          state.entitiesOriginal,
           state.multipleFilter,
-          payload
+          state.isSaveAction
         );
-
-        // Apply both filterState and multipleFilter
         let filterData = executeFilterTable(state, filterByKeyword);
 
         filterData = resetFiltersForChangedFields(state, filterData);
