@@ -575,6 +575,7 @@ input::-ms-input-placeholder {
       }
 
       .button-add-ticket {
+        cursor: pointer;
         display: flex;
         align-items: center;
         border-radius: 5px;

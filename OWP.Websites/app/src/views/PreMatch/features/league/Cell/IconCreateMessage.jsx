@@ -15,7 +15,8 @@ import {
 } from '../../../../Shared/createTicketNew/createTicketBoardSliceNew';
 import useStableDispatch from '../../../../Shared/customHook/useStableDispatch';
 import { backupGetIssueModel } from '../../signalR/signalRSlice';
-import { IconRocket, IconRocketChat } from '../../../../Shared/common/icons/common-icons';
+import { IconRocketChat } from '../../../../Shared/common/icons/common-icons';
+import ToastrWrapper from '../../../../components/ToastrWrapper';
 
 const propTypes = {
   dataSource: PropTypes.array.isRequired,
@@ -45,14 +46,16 @@ const IconCreateMessage = props => {
   };
 
   const handleOpenCreateDiscussion = () => {
-    dispatch(openPopupCreateDiscussion());
+    const adminSiteMatchId = dataSource[rowIndex].adminSiteMatchId;
+    if(adminSiteMatchId && adminSiteMatchId !== 0) {
+      dispatch(openPopupCreateDiscussion());
+    } else {
+      ToastrWrapper.showError('The system could not find the  AdminSiteId to get the reader for  this match to send to  direction ticket. Please check the match again.');
+    }
   };
 
   const renderQuickAddTicketHandler = () => (
     <>
-      <span style={{ margin: '10px' }}>
-        <PlusCircleIcon className='icon-plus' />
-      </span>
       <div className='popup-add-ticket'>
         <div
           className='button-add-ticket btn-quick'
@@ -76,7 +79,7 @@ const IconCreateMessage = props => {
 
 
   return (
-    <div className='ticket-cell'>
+    <div>
       <PlusCircleIcon
         onClick={() => {
           handleOpenCreateTicket();
