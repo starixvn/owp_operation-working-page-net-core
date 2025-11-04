@@ -1,4 +1,5 @@
 ﻿using Fanex.Logging;
+using Newtonsoft.Json;
 using OWP.Constants;
 using OWP.EventPicking.Api.Helper;
 using OWP.EventPicking.Api.Middleware.Models;
@@ -32,8 +33,10 @@ public class QueryEventPickingServiceImp(
         var allMatches = SpecialProductHelper.CombineMainAndChildMatchAndAddMatchNo(validMatch, generatedMatches);
         var endTime2 = DateTimeOffset.Now;
 
-        await logger.InfoAsync($"Query Event Picking New - get main matches: {(endTime - startTime).TotalSeconds}s, " +
-                               $"filter matches: {(endTime1 - endTime).TotalSeconds}s, " +
+        await logger.InfoAsync($"Query Event Picking New{Environment.NewLine}" +
+                               $"params: {JsonConvert.SerializeObject(request)}{Environment.NewLine}" +
+                               $"get main matches: {matches.Count} matches - {(endTime - startTime).TotalSeconds}s{Environment.NewLine}" +
+                               $"filter matches: {(endTime1 - endTime).TotalSeconds}s{Environment.NewLine}" +
                                $"get child matches: {(endTime2 - endTime1).TotalSeconds}s");
 
         if (turnoverMarginPolicy.IsRead)
