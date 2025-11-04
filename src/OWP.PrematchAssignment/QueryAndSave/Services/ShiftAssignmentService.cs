@@ -181,7 +181,7 @@ public class ShiftAssignmentServiceImp(Repository repository, IMapper mapper) : 
         }
         var leagues = filteredLeagues.Where(x => x.MatchCount != 0).ToList();
 
-        return (leagues, matches);
+        return (leagues.DistinctBy(x=>x.LeagueId).ToList(), matches.DistinctBy(x => x.LeagueId).ToList());
     }
 
     private static int ConvertBoolToInt(bool value) => value ? 1 : 0;

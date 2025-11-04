@@ -79,16 +79,43 @@ const localStoreKeyTime = {
   night: 'NightShift-PreMatchTimeCondition'
 };
 
-const BETTYPE={
+const BETTYPE = {
   HDP: 1,
   OU: 3
 };
 
-const ASSIGNMENT_TYPE={
+const ASSIGNMENT_TYPE = {
   MAIN: 1,
   OTHER: 2
 };
 
+const GHOST_OPTIONS = [
+  { value: 0, label: 'Order' },
+  { value: 1, label: 'Ghost 1' },
+  { value: 2, label: 'Ghost 2' },
+  { value: 3, label: 'Ghost 3' },
+  { value: 4, label: 'Outside' },
+  { value: 5, label: 'Danger' },
+  { value: 6, label: 'Other' }
+];
+
+const BETTYPE_OPTIONS = [
+  { value: 1, label: 'FT HDP' },
+  { value: 3, label: 'FT OU' },
+  { value: 7, label: 'HT HDP' },
+  { value: 8, label: ' HT OU' }
+];
+
+const BETON_OPTIONS = [
+  [
+    { value: 1, label: 'Home' },
+    { value: 2, label: 'Away' }
+  ],
+  [
+    { value: 3, label: 'Over' },
+    { value: 4, label: 'Under' }
+  ]
+];
 export {
   EARLY_OFFERED,
   ticketType,
@@ -116,5 +143,8 @@ export {
   URL_QUERY_TICKET_LIST,
   localStoreKeyTime,
   BETTYPE,
-  ASSIGNMENT_TYPE
+  ASSIGNMENT_TYPE,
+  GHOST_OPTIONS,
+  BETTYPE_OPTIONS,
+  BETON_OPTIONS
 };
