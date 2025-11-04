@@ -227,6 +227,8 @@
         <Setting Key="OWP_PreMatchAssignment_QueryAssignedLeagueNames" SpName="OWP_PreMatchAssignment_QueryAssignedLeagueNames" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key=" OWP_PreMatchAssignment_QueryByPreMatchLeagueId" SpName=" OWP_PreMatchAssignment_QueryByPreMatchLeagueId" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_PreMatchAssignment_AutoAssign" SpName="OWP_PreMatchAssignment_AutoAssign" DbName="DBOWP.bodb_OWP.wsv_owp" />
+        <Setting Key="OWP_LiveGameAssignment_GetAssignments_ByMatch" SpName="OWP_LiveGameAssignment_GetAssignments_ByMatch" DbName="DBOWP.bodb_OWP.wsv_owp" />
+
         <!--SimpleAPI-->
         <Setting Key="OWP_PreMatchAssignment_CheckLeagueContainsAnyAssignment" SpName="OWP_PreMatchAssignment_CheckLeagueContainsAnyAssignment" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_PreMatchAssignment_DeleteNoteMessage" SpName="OWP_PreMatchAssignment_DeleteNoteMessage" DbName="DBOWP.bodb_OWP.wsv_owp" />

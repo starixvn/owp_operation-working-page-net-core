@@ -29,6 +29,8 @@ public interface PreMatchAssignmentService
     Task<QueryPreMatchLeagueViewModel> QueryById(QueryPreMatchLeagueByIdRequest request);
 
     Task<int> AutoAssign(IEnumerable<PreMatchLeagueAssignment> assignments);
+
+    Task<IEnumerable<Assignment>> GetMatchAssignments(int infoSiteMatchId);
 }
 
 public class PreMatchAssignmentServiceImp(
@@ -149,5 +151,16 @@ public class PreMatchAssignmentServiceImp(
             Assignments = JsonConvert.SerializeObject(assignments)
         };
         return await dynamicRepository.ExecuteAsync(command);
+    }
+
+
+    public async Task<IEnumerable<Assignment>> GetMatchAssignments(int infoSiteMatchId)
+    {
+        var criteria = new GetAssignmenstByMatchCriteria
+        {
+            InfoSiteMatchId = infoSiteMatchId
+        };
+
+        return await dynamicRepository.FetchAsync<Assignment>(criteria);
     }
 }

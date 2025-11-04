@@ -154,4 +154,14 @@ public class PreMatchAssignmentController(
         await accessCounter.UpdateCounter(AccessCounterConst.DayShiftAssignment_Automatically_Assign_Trader);
         return Ok();
     }
+
+    [Route("create-rc-discussion")]
+    [HttpPost]
+    public async Task<IActionResult> SubmitAutoAssign(SubmitAutoAssignRequest request)
+    {
+        await mediator.Send(request);
+        await mediator.Send(new CacheLeagueNameRequest(request.LeaguesName, request.Date, true));
+        await accessCounter.UpdateCounter(AccessCounterConst.DayShiftAssignment_Automatically_Assign_Trader);
+        return Ok();
+    }
 }
