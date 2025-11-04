@@ -286,57 +286,39 @@ const EventPickingTableSlice = createSlice({
         hasReadPermission
       );
 
-      // =>> Calculate options for each column following Excel behavior
-      const clearedColumnOptions = buildTableMultipleFilterOptions(
+      const options = buildTableMultipleFilterOptions(
         state.entities,
         state.rAndDInfoFilterOriginal.options
       );
 
-      // For other columns, calculate options excluding their own filter (Excel behavior)
-      const allColumnKeys = Object.keys(
-        state.multipleFilter
-      ) as (keyof typeof state.multipleFilter)[];
-      const options: any = {};
-
-      for (const colKey of allColumnKeys) {
-        if (colKey === columnKey) {
-          // For cleared column: use options from already filtered data
-          options[colKey] = clearedColumnOptions[colKey];
-        } else {
-          // For other columns: calculate options excluding their own filter
-          const dataExcludingThisColumn = filterTableExceptColumn(
-            state.entitiesOriginal, // Start with original data
-            colKey as TColumnKey, // Exclude this column's filter
-            state.multipleFilter, // Apply all other filters
-            hasReadPermission
-          );
-
-          const columnOptions = buildTableMultipleFilterOptions(
-            dataExcludingThisColumn,
-            state.rAndDInfoFilterOriginal.options
-          );
-          options[colKey] = columnOptions[colKey];
-        }
-      }
-
-      // Update all filter options in state
-      // Cập nhật tất cả filter options trong state
-      state.multipleFilter.time.options = options.time;
       state.multipleFilter.leagueName.options = options.leagueName;
+      state.multipleFilter.leagueName.selected = options.leagueName;
+      state.multipleFilter.time.options = options.time;
+      state.multipleFilter.time.selected = options.time;
       state.multipleFilter.maxbetHdp.options = options.maxbetHdp;
+      state.multipleFilter.maxbetHdp.selected = options.maxbetHdp;
       state.multipleFilter.maxbetOu.options = options.maxbetOu;
+      state.multipleFilter.maxbetOu.selected = options.maxbetOu;
       state.multipleFilter.spreadHdp.options = options.spreadHdp;
+      state.multipleFilter.spreadHdp.selected = options.spreadHdp;
       state.multipleFilter.spreadOu.options = options.spreadOu;
+      state.multipleFilter.spreadOu.selected = options.spreadOu;
       state.multipleFilter.noOfHDP.options = options.noOfHDP;
+      state.multipleFilter.noOfHDP.selected = options.noOfHDP;
       state.multipleFilter.lstNote.options = options.lstNote;
+      state.multipleFilter.lstNote.selected = options.lstNote;
       state.multipleFilter.rAndDInfo.options = options.rAndDInfo;
+      state.multipleFilter.rAndDInfo.selected = options.rAndDInfo;
       state.multipleFilter.tv.options = options.tv;
+      state.multipleFilter.tv.selected = options.tv;
       state.multipleFilter.provider.options = options.provider;
+      state.multipleFilter.provider.selected = options.provider;
       state.multipleFilter.round.options = options.round;
-
-      if (columnKey in state.multipleFilter) {
-        state.multipleFilter[columnKey].selected = options[columnKey] || [];
-      }
+      state.multipleFilter.round.selected = options.round;
+      state.multipleFilter.turnoverPeriod.options = options.turnoverPeriod;
+      state.multipleFilter.turnoverPeriod.selected = options.turnoverPeriod;
+      state.multipleFilter.marginPeriod.options = options.marginPeriod;
+      state.multipleFilter.marginPeriod.selected = options.marginPeriod;
 
       state.entities = executeOrderTable(state.entities, state.order);
       state.isConfirmAll = state.entities?.every(x => x.isCheck);
@@ -362,27 +344,41 @@ const EventPickingTableSlice = createSlice({
         filterByKeyword,
         hasReadPermission
       );
+
       state.entities = executeOrderTable(state.entities, state.order);
       const options = buildTableMultipleFilterOptions(
         state.entities,
         state.rAndDInfoFilterOriginal.options
       );
-      const currentColumnOptions = [...state.multipleFilter[columnKey].options];
+
       state.multipleFilter.leagueName.options = options.leagueName;
+      state.multipleFilter.leagueName.selected = options.leagueName;
       state.multipleFilter.time.options = options.time;
+      state.multipleFilter.time.selected = options.time;
       state.multipleFilter.maxbetHdp.options = options.maxbetHdp;
+      state.multipleFilter.maxbetHdp.selected = options.maxbetHdp;
       state.multipleFilter.maxbetOu.options = options.maxbetOu;
+      state.multipleFilter.maxbetOu.selected = options.maxbetOu;
       state.multipleFilter.spreadHdp.options = options.spreadHdp;
+      state.multipleFilter.spreadHdp.selected = options.spreadHdp;
       state.multipleFilter.spreadOu.options = options.spreadOu;
+      state.multipleFilter.spreadOu.selected = options.spreadOu;
       state.multipleFilter.noOfHDP.options = options.noOfHDP;
+      state.multipleFilter.noOfHDP.selected = options.noOfHDP;
       state.multipleFilter.lstNote.options = options.lstNote;
+      state.multipleFilter.lstNote.selected = options.lstNote;
       state.multipleFilter.rAndDInfo.options = options.rAndDInfo;
+      state.multipleFilter.rAndDInfo.selected = options.rAndDInfo;
       state.multipleFilter.tv.options = options.tv;
+      state.multipleFilter.tv.selected = options.tv;
       state.multipleFilter.provider.options = options.provider;
+      state.multipleFilter.provider.selected = options.provider;
       state.multipleFilter.round.options = options.round;
+      state.multipleFilter.round.selected = options.round;
       state.multipleFilter.turnoverPeriod.options = options.turnoverPeriod;
+      state.multipleFilter.turnoverPeriod.selected = options.turnoverPeriod;
       state.multipleFilter.marginPeriod.options = options.marginPeriod;
-      state.multipleFilter[columnKey].options = currentColumnOptions;
+      state.multipleFilter.marginPeriod.selected = options.marginPeriod;
 
       state.isConfirmAll = state.entities?.every(x => x.isCheck);
       state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);

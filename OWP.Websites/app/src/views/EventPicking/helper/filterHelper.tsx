@@ -809,8 +809,6 @@ const executeFilterTable = (
   ) => any, //NOSONAR
   hasReadPermission: boolean = true
 ) => {
-  console.log('state.filterState', state.filterState);
-
   state.entities = filterDataTable(
     state.entitiesOriginal,
     state.filterState,
@@ -819,74 +817,102 @@ const executeFilterTable = (
 
   return pipe(
     (props: TMultipleFilterPipe) =>
-      multipleFilterCommon(
-        props.entities,
-        props.filterInfo,
-        COLUMN_KEY.KO_TIME as TColumnKey
-      ),
+      props.filterInfo.time?.isFilter
+        ? multipleFilterCommon(
+            props.entities,
+            props.filterInfo,
+            COLUMN_KEY.KO_TIME as TColumnKey
+          )
+        : props,
     (props: TMultipleFilterPipe) =>
-      multipleFilterCommon(
-        props.entities,
-        props.filterInfo,
-        COLUMN_KEY.LEAGUE as TColumnKey
-      ),
+      props.filterInfo.leagueName?.isFilter
+        ? multipleFilterCommon(
+            props.entities,
+            props.filterInfo,
+            COLUMN_KEY.LEAGUE as TColumnKey
+          )
+        : props,
     (props: TMultipleFilterPipe) =>
-      multipleFilterCommon(
-        props.entities,
-        props.filterInfo,
-        COLUMN_KEY.MB as TColumnKey
-      ),
+      props.filterInfo.maxbetHdp?.isFilter
+        ? multipleFilterCommon(
+            props.entities,
+            props.filterInfo,
+            COLUMN_KEY.MB as TColumnKey
+          )
+        : props,
     (props: TMultipleFilterPipe) =>
-      multipleFilterCommon(
-        props.entities,
-        props.filterInfo,
-        COLUMN_KEY.MB_OU as TColumnKey
-      ),
+      props.filterInfo.maxbetOu?.isFilter
+        ? multipleFilterCommon(
+            props.entities,
+            props.filterInfo,
+            COLUMN_KEY.MB_OU as TColumnKey
+          )
+        : props,
     (props: TMultipleFilterPipe) =>
-      multipleFilterCommon(
-        props.entities,
-        props.filterInfo,
-        COLUMN_KEY.SPREAD_HDP as TColumnKey
-      ),
+      props.filterInfo.spreadHdp?.isFilter
+        ? multipleFilterCommon(
+            props.entities,
+            props.filterInfo,
+            COLUMN_KEY.SPREAD_HDP as TColumnKey
+          )
+        : props,
     (props: TMultipleFilterPipe) =>
-      multipleFilterCommon(
-        props.entities,
-        props.filterInfo,
-        COLUMN_KEY.SPREAD_OU as TColumnKey
-      ),
+      props.filterInfo.spreadOu?.isFilter
+        ? multipleFilterCommon(
+            props.entities,
+            props.filterInfo,
+            COLUMN_KEY.SPREAD_OU as TColumnKey
+          )
+        : props,
     (props: TMultipleFilterPipe) =>
-      multipleFilterCommon(
-        props.entities,
-        props.filterInfo,
-        COLUMN_KEY.LST_NOTE as TColumnKey
-      ),
+      props.filterInfo.lstNote?.isFilter
+        ? multipleFilterCommon(
+            props.entities,
+            props.filterInfo,
+            COLUMN_KEY.LST_NOTE as TColumnKey
+          )
+        : props,
     (props: TMultipleFilterPipe) =>
-      filterByTurnoverPeriod(
-        props.entities,
-        props.filterInfo,
-        hasReadPermission
-      ),
+      props.filterInfo.turnoverPeriod?.isFilter
+        ? filterByTurnoverPeriod(
+            props.entities,
+            props.filterInfo,
+            hasReadPermission
+          )
+        : props,
     (props: TMultipleFilterPipe) =>
-      filterByMarginPeriod(props.entities, props.filterInfo, hasReadPermission),
+      props.filterInfo.marginPeriod?.isFilter
+        ? filterByMarginPeriod(
+            props.entities,
+            props.filterInfo,
+            hasReadPermission
+          )
+        : props,
     (props: TMultipleFilterPipe) =>
-      multipleFilterCommon(
-        props.entities,
-        props.filterInfo,
-        COLUMN_KEY['NO.OF_HDP'] as TColumnKey
-      ),
-    (props: TMultipleFilterPipe) => {
-      return filterByTv(props.entities, props.filterInfo);
-    },
-    (props: TMultipleFilterPipe) => {
-      return filterByRound(props.entities, props.filterInfo);
-    },
-    (props: TMultipleFilterPipe) => {
-      return filterByProvider(props.entities, props.filterInfo);
-    },
+      props.filterInfo.noOfHDP?.isFilter
+        ? multipleFilterCommon(
+            props.entities,
+            props.filterInfo,
+            COLUMN_KEY['NO.OF_HDP'] as TColumnKey
+          )
+        : props,
+    (props: TMultipleFilterPipe) =>
+      props.filterInfo.tv?.isFilter
+        ? filterByTv(props.entities, props.filterInfo)
+        : props,
+    (props: TMultipleFilterPipe) =>
+      props.filterInfo.round?.isFilter
+        ? filterByRound(props.entities, props.filterInfo)
+        : props,
+    (props: TMultipleFilterPipe) =>
+      props.filterInfo.provider?.isFilter
+        ? filterByProvider(props.entities, props.filterInfo)
+        : props,
     (props: TMultipleFilterPipe) => {
       if (
         !props.filterInfo ||
         !props.filterInfo.rAndDInfo ||
+        !props.filterInfo.rAndDInfo.isFilter ||
         !props.filterInfo.rAndDInfo.selected
       ) {
         return props.entities;
