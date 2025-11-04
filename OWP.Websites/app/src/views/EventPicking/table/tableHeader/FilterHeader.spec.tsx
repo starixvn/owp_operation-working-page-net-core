@@ -8,7 +8,8 @@ import {
   clearFilter,
   filterBySearchKey,
   setColumnKeyValue,
-  setValueFilter
+  setValueFilter,
+  clearSingleColumnFilter
 } from '../eventPickingTableSlice/reducer';
 
 const mockStore = configureStore([]);
@@ -215,17 +216,7 @@ describe('FilterHeader', () => {
     );
   });
 
-  it('should close popup when clicking close icon', async () => {
-    const stateWithValue = {
-      ...defaultState,
-      eventPickingTable: {
-        ...defaultState.eventPickingTable,
-        columnKeyFilterCurrent: 'League'
-      }
-    };
-    store = mockStore(stateWithValue);
-    store.dispatch = jest.fn();
-
+  it('should show popup with correct structure', () => {
     const { container } = render(
       <Provider store={store}>
         <FilterHeader columnKey='League' />
@@ -235,16 +226,17 @@ describe('FilterHeader', () => {
     const filterIcon = container.querySelector('.icon-filter');
     fireEvent.click(filterIcon!);
 
-    let popup = container.querySelector('.filter-popup');
+    const popup = container.querySelector('.filter-popup');
     expect(popup).toBeInTheDocument();
 
-    const closeIcon = container.querySelector('.close-popup');
-    fireEvent.click(closeIcon!);
+    const inputField = container.querySelector('.input-field');
+    expect(inputField).toBeInTheDocument();
 
-    await waitFor(() => {
-      popup = container.querySelector('.filter-popup');
-      expect(popup).not.toBeInTheDocument();
-    });
+    const searchButton = container.querySelector('.btn-search');
+    expect(searchButton).toBeInTheDocument();
+
+    const clearAllButton = container.querySelector('.clear-all');
+    expect(clearAllButton).toBeInTheDocument();
   });
 
   it('should disable Search button when no filter value', () => {
@@ -342,5 +334,63 @@ describe('FilterHeader', () => {
         hasReadPermission: false
       })
     );
+  });
+
+  it('should call clearSingleColumnFilter when clicking Clear Column Filter', () => {
+    const stateWithFilter = {
+      ...defaultState,
+      eventPickingTable: {
+        ...defaultState.eventPickingTable,
+        filterState: [{ columnKey: 'League', keyword: 'Premier' }],
+        valueFilterAllColumn: { League: 'Premier' },
+        columnKeyFilterCurrent: 'League'
+      }
+    };
+    store = mockStore(stateWithFilter);
+    store.dispatch = jest.fn();
+
+    const { container, getByText } = render(
+      <Provider store={store}>
+        <FilterHeader columnKey='League' />
+      </Provider>
+    );
+
+    const filterIcon = container.querySelector('.icon-filter');
+    fireEvent.click(filterIcon!);
+
+    const clearColumnButton = getByText('Clear Column Filter');
+    fireEvent.click(clearColumnButton);
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      clearSingleColumnFilter({
+        columnKey: 'League',
+        hasReadPermission: true
+      })
+    );
+  });
+
+  it('should disable Clear Column Filter when column is not filtered', () => {
+    const stateWithoutFilter = {
+      ...defaultState,
+      eventPickingTable: {
+        ...defaultState.eventPickingTable,
+        filterState: [],
+        columnKeyFilterCurrent: 'League'
+      }
+    };
+    store = mockStore(stateWithoutFilter);
+    store.dispatch = jest.fn();
+
+    const { container } = render(
+      <Provider store={store}>
+        <FilterHeader columnKey='League' />
+      </Provider>
+    );
+
+    const filterIcon = container.querySelector('.icon-filter');
+    fireEvent.click(filterIcon!);
+
+    const clearColumnButton = container.querySelector('.clear-all');
+    expect(clearColumnButton).toHaveClass('disabled');
   });
 });

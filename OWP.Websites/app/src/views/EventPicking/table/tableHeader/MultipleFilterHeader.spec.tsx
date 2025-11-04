@@ -6,7 +6,8 @@ import '@testing-library/jest-dom';
 import MultipleFilterHeader from './MultipleFilterHeader';
 import {
   clearFilter,
-  setMultipleFilter
+  setMultipleFilter,
+  clearSingleColumnFilter
 } from '../eventPickingTableSlice/reducer';
 import store from '../../app/store';
 
@@ -147,7 +148,7 @@ describe('MultipleFilterHeader', () => {
     expect(popup).toBeInTheDocument();
   });
 
-  it('should close popup when clicking close icon', () => {
+  it('should show popup with correct structure', () => {
     const { container } = render(
       <Provider store={mockReduxStore}>
         <MultipleFilterHeader columnKey='maxbetHdp' />
@@ -157,14 +158,17 @@ describe('MultipleFilterHeader', () => {
     const filterIcon = container.querySelector('.icon-filter');
     fireEvent.click(filterIcon!);
 
-    let popup = container.querySelector('.filter-popup');
+    const popup = container.querySelector('.filter-popup');
     expect(popup).toBeInTheDocument();
 
-    const closeIcon = container.querySelector('.close-popup');
-    fireEvent.click(closeIcon!);
+    const multiSelect = container.querySelector('.multi-select');
+    expect(multiSelect).toBeInTheDocument();
 
-    popup = container.querySelector('.filter-popup');
-    expect(popup).not.toBeInTheDocument();
+    const searchButton = container.querySelector('.btn-search');
+    expect(searchButton).toBeInTheDocument();
+
+    const cancelButton = container.querySelector('.btn-cancel');
+    expect(cancelButton).toBeInTheDocument();
   });
 
   it('should close popup when clicking Cancel button', () => {
@@ -378,6 +382,64 @@ describe('MultipleFilterHeader', () => {
     fireEvent.click(filterIcon!);
 
     // Verify that MultiSelect component receives correct props
+    const multiSelect = container.querySelector('.multi-select');
+    expect(multiSelect).toBeInTheDocument();
+  });
+
+  it('should call clearSingleColumnFilter when clicking Clear Column Filter', () => {
+    const { container, getByText } = render(
+      <Provider store={mockReduxStore}>
+        <MultipleFilterHeader columnKey='leagueName' />
+      </Provider>
+    );
+
+    const filterIcon = container.querySelector('.icon-filter');
+    fireEvent.click(filterIcon!);
+
+    const clearColumnButton = getByText('Clear Column Filter');
+    fireEvent.click(clearColumnButton);
+
+    expect(mockReduxStore.dispatch).toHaveBeenCalledWith(
+      clearSingleColumnFilter({ columnKey: 'leagueName', hasReadPermission: true })
+    );
+  });
+
+  it('should disable Clear Column Filter when column is not filtered', () => {
+    const { container } = render(
+      <Provider store={mockReduxStore}>
+        <MultipleFilterHeader columnKey='maxbetHdp' />
+      </Provider>
+    );
+
+    const filterIcon = container.querySelector('.icon-filter');
+    fireEvent.click(filterIcon!);
+
+    const clearColumnButton = container.querySelector('.clear-all');
+    expect(clearColumnButton).toHaveClass('disabled');
+  });
+
+  it('should handle empty options gracefully', () => {
+    (store.getState as jest.Mock).mockReturnValue({
+      eventPickingTable: {
+        multipleFilter: {
+          emptyColumn: {
+            options: [],
+            selected: [],
+            isFilter: false
+          }
+        }
+      }
+    });
+
+    const { container } = render(
+      <Provider store={mockReduxStore}>
+        <MultipleFilterHeader columnKey='emptyColumn' />
+      </Provider>
+    );
+
+    const filterIcon = container.querySelector('.icon-filter');
+    fireEvent.click(filterIcon!);
+
     const multiSelect = container.querySelector('.multi-select');
     expect(multiSelect).toBeInTheDocument();
   });
