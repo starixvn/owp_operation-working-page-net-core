@@ -81,11 +81,11 @@ const TicketInfo = (props: TTicketInfo) => {
 
   const renderHdpOu = () => (
     <div className='content'>
-      <div className='left hdp-ou'>
+      <div className='left hdp-ou--label'>
         HDP/OU
       </div>
-      <div className='input-item'>
-        <input type="number" value={hdp_ou} step={0.25} />
+      <div className='input-item hdp-ou-input'>
+        <input className='input' type="number" value={hdp_ou} step={0.25} />
       </div>
     </div>
   );

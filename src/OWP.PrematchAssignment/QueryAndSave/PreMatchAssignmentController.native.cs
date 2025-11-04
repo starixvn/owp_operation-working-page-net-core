@@ -157,7 +157,7 @@ public class PreMatchAssignmentController(
 
     [Route("create-rc-discussion")]
     [HttpPost]
-    public async Task<IActionResult> SubmitAutoAssign(SubmitAutoAssignRequest request)
+    public async Task<IActionResult> SubmitAutoAssifgn(SubmitAutoAssignRequest request)
     {
         await mediator.Send(request);
         await mediator.Send(new CacheLeagueNameRequest(request.LeaguesName, request.Date, true));
