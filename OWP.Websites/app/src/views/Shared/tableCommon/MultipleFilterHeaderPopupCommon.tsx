@@ -62,9 +62,6 @@ const MultipleFilterHeaderPopupCommon = ({
       className='filter-popup multiple is-show'
       onKeyDown={handleKeyDown}
       tabIndex={0}>
-      <span className='close-popup' onClick={onClosedPopup}>
-        <CloseIcon size={14} />
-      </span>
       <div className='clear-filter-container'>
         {renderSingleColumnFilter()}
         <span onClick={onClear} className='clear-all'>

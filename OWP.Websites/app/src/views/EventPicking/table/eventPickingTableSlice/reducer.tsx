@@ -367,8 +367,8 @@ const EventPickingTableSlice = createSlice({
       state.multipleFilter.noOfHDP.selected = options.noOfHDP;
       state.multipleFilter.lstNote.options = options.lstNote;
       state.multipleFilter.lstNote.selected = options.lstNote;
-      state.multipleFilter.rAndDInfo.options = options.rAndDInfo;
-      state.multipleFilter.rAndDInfo.selected = options.rAndDInfo;
+      //state.multipleFilter.rAndDInfo.options = options.rAndDInfo;
+      //state.multipleFilter.rAndDInfo.selected = options.rAndDInfo;
       state.multipleFilter.tv.options = options.tv;
       state.multipleFilter.tv.selected = options.tv;
       state.multipleFilter.provider.options = options.provider;
@@ -504,6 +504,8 @@ const EventPickingTableSlice = createSlice({
           ...buildMultipleFilterDefault(state.entities),
           rAndDInfo: state.rAndDInfoFilterOriginal
         };
+        state.filterState = [];
+        state.valueFilterAllColumn = {};
       })
       .addCase(getEventPickings.rejected, state => {
         state.loading = REQUEST_STATUS.idle;
@@ -523,7 +525,7 @@ const EventPickingTableSlice = createSlice({
           filteredMatches,
           state.rAndDInfoFilterOriginal
         );
-
+        console.log(JSON.stringify(state.multipleFilter['rAndDInfo'], null, 2));
         // Apply both filterState and multipleFilter
         state.entities = executeFilterTable(state, filterByKeyword);
         state.isConfirmAll = state.entities?.every(x => x.isCheck);

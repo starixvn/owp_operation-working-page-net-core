@@ -784,7 +784,7 @@ const preserveAndRestoreMultipleFilter = (
   Object.keys(newMultipleFilter).forEach(key => {
     const currentFilter = newMultipleFilter[key as keyof TMultipleFilter];
 
-    if (!currentFilter.isFilter) {
+    if (!currentFilter.isFilter && key !== 'rAndDInfo') {
       // If isFilter is false, update the filter object
       const updatedOptions =
         newFilterOptions[key as keyof typeof newFilterOptions] || [];
@@ -797,7 +797,7 @@ const preserveAndRestoreMultipleFilter = (
     }
     // If isFilter is true, keep the current object unchanged
   });
-
+  
   return newMultipleFilter;
 };
 

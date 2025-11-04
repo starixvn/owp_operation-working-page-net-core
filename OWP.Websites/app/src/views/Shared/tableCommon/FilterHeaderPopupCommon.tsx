@@ -85,9 +85,6 @@ const FilterHeaderPopupCommon = ({
           ? ''
           : 'is-hide-another-popup'
       }`}>
-      <span className='close-popup' onClick={() => onClickClosedIcon()}>
-        <CloseIcon size={14} />
-      </span>
       <div className='clear-filter-container'>
         {renderSingleColumnFilter()}
         <span className='clear-all' onClick={handleClearAllFilter}>
