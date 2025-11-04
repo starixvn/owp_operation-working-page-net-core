@@ -28,7 +28,7 @@ const TicketInfo = (props: TTicketInfo) => {
         className='basic-multi-select'
         classNamePrefix='select'
         onChange={handleChangeGhostName}
-        placeholder="Select League Group..."
+        placeholder="Ghost Name..."
         value={GHOST_OPTIONS[ghostNameId]} />
     </div>
   );
@@ -54,7 +54,7 @@ const TicketInfo = (props: TTicketInfo) => {
         className='basic-multi-select'
         classNamePrefix='select'
         onChange={handleChangeGhostName}
-        placeholder="Select League Group..."
+        placeholder="Bettype..."
         value={BETTYPE_OPTIONS.find(option => option.value === bettypeId)} />
     </div>
   );
@@ -67,21 +67,21 @@ const TicketInfo = (props: TTicketInfo) => {
 
     return <div className='content'>
       <div className='left'>
-        Bet type
+        Bet on
       </div>
       <Select
         options={betOnOptions}
         className='basic-multi-select'
         classNamePrefix='select'
         onChange={handleChangeGhostName}
-        placeholder="Select League Group..."
+        placeholder="Bet on..."
         value={betOnOptions.find(option => option.value === betOnId)} />
     </div>;
   };
 
   const renderHdpOu = () => (
     <div className='content'>
-      <div className='left'>
+      <div className='left hdp-ou'>
         HDP/OU
       </div>
       <div className='input-item'>
@@ -92,7 +92,7 @@ const TicketInfo = (props: TTicketInfo) => {
 
   const renderOdds = () => (
     <div className='content'>
-      <div className='left'>
+      <div className='left odds'>
         Odds
       </div>
       <div className='input-item'>
@@ -135,12 +135,16 @@ const TicketInfo = (props: TTicketInfo) => {
     <div className='list'>
       <fieldset>
         <legend>Info 1:</legend>
-        {renderGhostName()}
-        {renderGhostDetail()}
-        {renderBettype()}
-        {renderBetOn()}
-        {renderHdpOu()}
-        {renderOdds()}
+        <div className='ghost-name__ghost-detail'>
+          {renderGhostName()}
+          {renderGhostDetail()}
+        </div>
+        <div className='bettype__beton__hdp-ou'>
+          {renderBettype()}
+          {renderBetOn()}
+          {renderHdpOu()}
+          {renderOdds()}
+        </div>
         {renderNote()}
         {renderRemark()}
       </fieldset>

@@ -18,6 +18,7 @@ const DirectionTicketPopup = () => {
       scrollable
       className='direction-ticket-popup'
       modalClassName='direction-ticket-modal'
+      size='lg'
       centered>
       <ModalBody>
         <LeagueInfo

@@ -2050,6 +2050,12 @@ input::-ms-input-placeholder {
     padding: 0px;
 
     .list {
+      .ghost-name__ghost-detail, .bettype__beton__hdp-ou {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+      }
+
       .title {
         padding: 5px 10px;
         background: #f1f1f1;
@@ -2062,6 +2068,13 @@ input::-ms-input-placeholder {
               padding: 5px 10px;
               display: flex;
       
+                .hdp-ou {
+                    width: 60px !important;
+                  }
+                
+                  .odds {
+                    width: 40px !important;
+                  }
               .left {
                 display: flex;
                 line-height: 100%;
@@ -2077,7 +2090,8 @@ input::-ms-input-placeholder {
                   border-bottom: 0;
                 }
       
-                // > * {
+          
+              // > * {
                 //   display: inline-block;
                 //   vertical-align: bottom;
                 // }
