@@ -353,7 +353,8 @@ const updateFilterOptionsAfterFilter = (
       // Only update options, preserve isFilter and selected states
       state.multipleFilter[columnKey] = {
         ...currentFilter,
-        options: newOptions
+        options: newOptions,
+        selected: newOptions
       };
     }
   });
