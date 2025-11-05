@@ -3,19 +3,11 @@ import {
   TCondition,
   TDataSource,
   TMultipleFilter,
-  TColumnKey,
   TTableSlice,
   TColumnHasMultipleFilterKey
 } from '../TableType';
 import { Option } from '../../../../../Shared/MultipleSelection/type';
 import helper from './calculateFilterOptions';
-
-type TSavedMultipleFilter = {
-  [key in TColumnHasMultipleFilterKey]: {
-    isFilter: boolean;
-    selected: Option[];
-  };
-};
 
 const createFilterConfig = (
   key: string,
@@ -173,60 +165,12 @@ const buildLabelItemForCondition = (
 const buildValue = (value: string, type: string) =>
   value.length > 0 ? (type === 'Contains' ? `*${value}*` : value) : null;
 
-const preserveAndRestoreMultipleFilter = (
-  currentMultipleFilter: TMultipleFilter,
-  newFilteredMatches: TDataSource[]
-): TMultipleFilter => {
-  // Step 1: Save current filter state (isFilter and selected)
-  const savedMultipleFilter: TSavedMultipleFilter = {} as TSavedMultipleFilter;
-  (Object.keys(currentMultipleFilter) as TColumnHasMultipleFilterKey[]).forEach(
-    key => {
-      savedMultipleFilter[key] = {
-        isFilter: currentMultipleFilter[key].isFilter,
-        selected: currentMultipleFilter[key].selected
-      };
-    }
-  );
-
-  // Step 2: Build new filter options from new data using existing buildDefaultTableFilter logic
-  const newMultipleFilter = { ...currentMultipleFilter };
-  buildDefaultTableFilter(newFilteredMatches, newMultipleFilter, true);
-
-  // Step 3: Restore filter state
-  (Object.keys(savedMultipleFilter) as TColumnHasMultipleFilterKey[]).forEach(
-    key => {
-      if (newMultipleFilter[key] && savedMultipleFilter[key]) {
-        // Only restore if the filter was active and has matching selected options in new data
-        const hasMatchingSelectedOptions =
-          savedMultipleFilter[key].isFilter &&
-          newMultipleFilter[key].options.some((option: Option) =>
-            savedMultipleFilter[key].selected.some(
-              (selected: Option) => selected.label === option.label
-            )
-          );
-
-        newMultipleFilter[key] = {
-          ...newMultipleFilter[key],
-          isFilter: hasMatchingSelectedOptions
-            ? savedMultipleFilter[key].isFilter
-            : false,
-          selected: hasMatchingSelectedOptions
-            ? savedMultipleFilter[key].selected
-            : newMultipleFilter[key].selected
-        };
-      }
-    }
-  );
-
-  return newMultipleFilter;
-};
-
 const executeFilterTableExcludingColumn = (
   state: TTableSlice,
-  excludeColumnKey: TColumnHasMultipleFilterKey
+  excludeColumnKey: TColumnHasMultipleFilterKey,
+  filterByKeyword: any
 ) => {
   const { entitiesOriginal = [], multipleFilter, filterState } = state;
-
   const {
     League_Group = { isFilter: false, selected: [] },
     Tv = { isFilter: false, selected: [] },
@@ -240,11 +184,10 @@ const executeFilterTableExcludingColumn = (
     Comment = { isFilter: false, selected: [] }
   } = multipleFilter || {};
 
-  // Apply text filters first
   let result = filterDataTable(
     entitiesOriginal,
     filterState || [],
-    (matches: any) => matches
+    filterByKeyword
   );
 
   // Apply multiple filters, excluding the specified column
@@ -317,53 +260,134 @@ const executeFilterTableExcludingColumn = (
   return result;
 };
 
-const updateFilterOptionsAfterFilter = (
+const buildTableMultipleFilterOptionsExceptColumn = (
   state: TTableSlice,
-  filteredData: TDataSource[],
-  excludeColumnKey?: TColumnHasMultipleFilterKey
+  filterByKeyword: any
 ) => {
-  const filterConfigs = {
-    League_Group: () => helper.League_Group(filteredData),
-    Tv: () => helper.Tv(filteredData),
-    Round: () => helper.Round(filteredData),
-    League_Division: () => helper.League_Division(filteredData),
-    Remark: () => helper.Remark(filteredData),
-    Spread_HDP_OU: () => helper.Spread_HDP_OU(filteredData),
-    MB_WD_HDP: () => helper.MB_WD_HDP(filteredData),
-    MB_WD_NO_HDP: () => helper.MB_WD_NO_HDP(filteredData),
-    MB_WK_HDP: () => helper.MB_WK_HDP(filteredData),
-    MB_WK_NO_HDP: () => helper.MB_WK_NO_HDP(filteredData),
-    LST_Note: () => helper.LST_Note(filteredData),
-    Remark2: () => helper.Remark2(filteredData),
-    Comment: () => helper.Comment(filteredData)
+  const columnsKeyArray: TColumnHasMultipleFilterKey[] = [
+    'League_Group',
+    'Tv',
+    'Round',
+    'League_Division',
+    'Spread_HDP_OU',
+    'MB_WK_HDP',
+    'MB_WK_NO_HDP',
+    'MB_WD_HDP',
+    'MB_WD_NO_HDP',
+    'Comment'
+  ];
+
+  const result: { [key in TColumnHasMultipleFilterKey]: Option[] } = {
+    League_Group: [],
+    Tv: [],
+    Round: [],
+    League_Division: [],
+    Spread_HDP_OU: [],
+    MB_WK_HDP: [],
+    MB_WK_NO_HDP: [],
+    MB_WD_HDP: [],
+    MB_WD_NO_HDP: [],
+    Comment: []
   };
 
-  Object.entries(filterConfigs).forEach(([key, helperFn]) => {
-    // Skip updating options for the column that was just filtered
-    if (key === excludeColumnKey) {
-      return;
-    }
+  // Build options for each column by filtering data excluding that column
+  for (const columnKey of columnsKeyArray) {
+    const filteredData = executeFilterTableExcludingColumn(
+      state,
+      columnKey,
+      filterByKeyword
+    );
+    const options = buildTableMultipleFilterOptions(filteredData);
+    result[columnKey] = options[columnKey];
+  }
 
-    const columnKey = key as TColumnHasMultipleFilterKey;
-    const currentFilter = state.multipleFilter[columnKey];
+  return result;
+};
 
-    if (currentFilter) {
-      const newOptions = helperFn();
+const buildTableMultipleFilterOptions = (entities: TDataSource[]) => {
+  return {
+    League_Group: helper.League_Group(entities),
+    Tv: helper.Tv(entities),
+    Round: helper.Round(entities),
+    League_Division: helper.League_Division(entities),
+    Spread_HDP_OU: helper.Spread_HDP_OU(entities),
+    MB_WK_HDP: helper.MB_WK_HDP(entities),
+    MB_WK_NO_HDP: helper.MB_WK_NO_HDP(entities),
+    MB_WD_HDP: helper.MB_WD_HDP(entities),
+    MB_WD_NO_HDP: helper.MB_WD_NO_HDP(entities),
+    Comment: helper.Comment(entities)
+  };
+};
 
-      // Only update options, preserve isFilter and selected states
-      state.multipleFilter[columnKey] = {
-        ...currentFilter,
-        options: newOptions,
-        selected: newOptions
-      };
-    }
-  });
+const updateMultipleFilterOptionsAndSelected = (
+  state: TTableSlice,
+  filterByKeyword: any
+) => {
+  // Build options cho tất cả cột bằng cách filter data trừ từng cột ra
+  const options = buildTableMultipleFilterOptionsExceptColumn(
+    state,
+    filterByKeyword
+  );
+
+  // Update options cho tất cả cột
+  state.multipleFilter.League_Group.options = options.League_Group;
+  state.multipleFilter.Tv.options = options.Tv;
+  state.multipleFilter.Round.options = options.Round;
+  state.multipleFilter.League_Division.options = options.League_Division;
+  state.multipleFilter.Spread_HDP_OU.options = options.Spread_HDP_OU;
+  state.multipleFilter.MB_WK_HDP.options = options.MB_WK_HDP;
+  state.multipleFilter.MB_WK_NO_HDP.options = options.MB_WK_NO_HDP;
+  state.multipleFilter.MB_WD_HDP.options = options.MB_WD_HDP;
+  state.multipleFilter.MB_WD_NO_HDP.options = options.MB_WD_NO_HDP;
+  state.multipleFilter.Comment.options = options.Comment;
+
+  // Update selected values theo Excel behavior:
+  // - Cột được clear: set selected = all options (để user có thể filter lại)
+  // - Các cột khác: giữ nguyên selected nếu đang active filter, hoặc set = all options nếu không active
+  state.multipleFilter.League_Group.selected = state.multipleFilter.League_Group
+    .isFilter
+    ? state.multipleFilter.League_Group.selected
+    : options.League_Group;
+  state.multipleFilter.Tv.selected = state.multipleFilter.Tv.isFilter
+    ? state.multipleFilter.Tv.selected
+    : options.Tv;
+  state.multipleFilter.Round.selected = state.multipleFilter.Round.isFilter
+    ? state.multipleFilter.Round.selected
+    : options.Round;
+  state.multipleFilter.League_Division.selected = state.multipleFilter
+    .League_Division.isFilter
+    ? state.multipleFilter.League_Division.selected
+    : options.League_Division;
+  state.multipleFilter.Spread_HDP_OU.selected = state.multipleFilter
+    .Spread_HDP_OU.isFilter
+    ? state.multipleFilter.Spread_HDP_OU.selected
+    : options.Spread_HDP_OU;
+  state.multipleFilter.MB_WK_HDP.selected = state.multipleFilter.MB_WK_HDP
+    .isFilter
+    ? state.multipleFilter.MB_WK_HDP.selected
+    : options.MB_WK_HDP;
+  state.multipleFilter.MB_WK_NO_HDP.selected = state.multipleFilter.MB_WK_NO_HDP
+    .isFilter
+    ? state.multipleFilter.MB_WK_NO_HDP.selected
+    : options.MB_WK_NO_HDP;
+  state.multipleFilter.MB_WD_HDP.selected = state.multipleFilter.MB_WD_HDP
+    .isFilter
+    ? state.multipleFilter.MB_WD_HDP.selected
+    : options.MB_WD_HDP;
+  state.multipleFilter.MB_WD_NO_HDP.selected = state.multipleFilter.MB_WD_NO_HDP
+    .isFilter
+    ? state.multipleFilter.MB_WD_NO_HDP.selected
+    : options.MB_WD_NO_HDP;
+  state.multipleFilter.Comment.selected = state.multipleFilter.Comment.isFilter
+    ? state.multipleFilter.Comment.selected
+    : options.Comment;
 };
 
 export {
   buildDefaultTableFilter,
   executeFilterTable,
   executeFilterTableExcludingColumn,
-  preserveAndRestoreMultipleFilter,
-  updateFilterOptionsAfterFilter
+  buildTableMultipleFilterOptionsExceptColumn,
+  buildTableMultipleFilterOptions,
+  updateMultipleFilterOptionsAndSelected
 };

@@ -12,12 +12,9 @@ import { REQUEST_STATUS } from '../../../../../Shared/Constants';
 import { Option } from '../../../../../Shared/MultipleSelection/type';
 import {
   executeFilterTable,
-  executeFilterTableExcludingColumn,
   buildDefaultTableFilter,
-  preserveAndRestoreMultipleFilter,
-  updateFilterOptionsAfterFilter
+  updateMultipleFilterOptionsAndSelected
 } from './reducerHelper';
-import helper from './calculateFilterOptions';
 import {
   IS_BLACKLIST_OPTIONS,
   IS_OFFERLIVE_OPTIONS
@@ -30,45 +27,6 @@ import filterByKeyword from '../filterByKeyword';
 
 const applyFiltersToData = (state: TTableSlice) => {
   return executeFilterTable(state, filterByKeyword);
-};
-
-const resetFiltersForChangedFields = (
-  state: TTableSlice,
-  filterData: any[]
-) => {
-  if (filterData.length === 0 && state.valueFilterChange.length > 0) {
-    state.valueFilterChange.forEach((filterChange: TFilterState) => {
-      if (
-        state.multipleFilter[
-          filterChange.columnKey as TColumnHasMultipleFilterKey
-        ]?.isFilter
-      ) {
-        state.multipleFilter[
-          filterChange.columnKey as TColumnHasMultipleFilterKey
-        ] = {
-          ...state.multipleFilter[
-            filterChange.columnKey as TColumnHasMultipleFilterKey
-          ],
-          isFilter: false,
-          selected: []
-        };
-      }
-
-      state.filterState = state.filterState.filter(
-        filter => filter.columnKey !== filterChange.columnKey
-      );
-
-      state.valueFilterAllColumn = Object.fromEntries(
-        Object.entries(state.valueFilterAllColumn).filter(
-          ([key]) => key !== filterChange.columnKey
-        )
-      );
-    });
-    state.valueFilterChange = [];
-    return executeFilterTable(state, filterByKeyword);
-  }
-
-  return filterData;
 };
 
 const buildMultipleFilterDefault = () => ({
@@ -135,8 +93,8 @@ const LeagueInfoTableSlice = createSlice({
       state.filterState = addOrReplaceFilterState(filterState, action.payload);
       state.entities = applyFiltersToData(state);
 
-      // Update filter options for other columns based on filtered data
-      updateFilterOptionsAfterFilter(state, state.entities);
+      // Update multiple filter options and selected values
+      updateMultipleFilterOptionsAndSelected(state, filterByKeyword);
     },
     setMultipleFilter: (
       state,
@@ -154,12 +112,8 @@ const LeagueInfoTableSlice = createSlice({
       };
       state.entities = applyFiltersToData(state);
 
-      // Update filter options for other columns based on filtered data
-      updateFilterOptionsAfterFilter(
-        state,
-        state.entities,
-        columnKey as TColumnHasMultipleFilterKey
-      );
+      // Update multiple filter options and selected values
+      updateMultipleFilterOptionsAndSelected(state, filterByKeyword);
     },
     removeBySettingId: (
       state,
@@ -213,33 +167,8 @@ const LeagueInfoTableSlice = createSlice({
 
       state.entities = applyFiltersToData(state) || [];
 
-      const allColumnKeys = Object.keys(
-        state.multipleFilter
-      ) as TColumnHasMultipleFilterKey[];
-      const options: any = {};
-
-      for (const colKey of allColumnKeys) {
-        if (colKey === columnKey) {
-          options[colKey] = helper[colKey](state.entities);
-        } else {
-          const dataExcludingThisColumn = executeFilterTableExcludingColumn(
-            state,
-            colKey
-          );
-          options[colKey] = helper[colKey](dataExcludingThisColumn);
-        }
-      }
-
-      Object.keys(options).forEach(colKey => {
-        const columnKey = colKey as TColumnHasMultipleFilterKey;
-        const currentFilter = state.multipleFilter[columnKey];
-        if (currentFilter) {
-          state.multipleFilter[columnKey] = {
-            ...currentFilter,
-            options: options[colKey]
-          };
-        }
-      });
+      // Update multiple filter options and selected values
+      updateMultipleFilterOptionsAndSelected(state, filterByKeyword);
     }
   },
   extraReducers: builder => {
@@ -250,22 +179,10 @@ const LeagueInfoTableSlice = createSlice({
       .addCase(getLeagueInfoThunk.fulfilled, (state, { payload }) => {
         state.entitiesOriginal = payload;
         state.loading = REQUEST_STATUS.idle;
+        state.entities = applyFiltersToData(state) || [];
 
-        if (!state.isSaveAction) {
-          state.filterState = [];
-          state.valueFilterAllColumn = {};
-        }
-        buildDefaultTableFilter(
-          state.entitiesOriginal,
-          state.multipleFilter,
-          state.isSaveAction
-        );
-        let filterData = executeFilterTable(state, filterByKeyword);
-
-        filterData = resetFiltersForChangedFields(state, filterData);
-
-        state.entities = filterData;
-        state.isSaveAction = false;
+        // Update multiple filter options and selected values
+        updateMultipleFilterOptionsAndSelected(state, filterByKeyword);
       });
   }
 });
