@@ -157,11 +157,9 @@ public class PreMatchAssignmentController(
 
     [Route("create-rc-discussion")]
     [HttpPost]
-    public async Task<IActionResult> SubmitAutoAssifgn(SubmitAutoAssignRequest request)
+    public async Task<IActionResult> CreateRCDiscusstion(CreateRCDiscussionHandler request)
     {
         await mediator.Send(request);
-        await mediator.Send(new CacheLeagueNameRequest(request.LeaguesName, request.Date, true));
-        await accessCounter.UpdateCounter(AccessCounterConst.DayShiftAssignment_Automatically_Assign_Trader);
         return Ok();
     }
 }

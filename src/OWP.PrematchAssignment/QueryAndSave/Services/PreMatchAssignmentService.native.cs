@@ -30,7 +30,9 @@ public interface PreMatchAssignmentService
 
     Task<int> AutoAssign(IEnumerable<PreMatchLeagueAssignment> assignments);
 
-    Task<IEnumerable<Assignment>> GetMatchAssignments(int infoSiteMatchId);
+    Task<IEnumerable<Assignment>> GetMatchAssignments(int adminSiteId);
+
+    Task<IEnumerable<DiscussionInfo>> GetMatchDiscussionInfo(int adminSiteId);
 }
 
 public class PreMatchAssignmentServiceImp(
@@ -154,13 +156,25 @@ public class PreMatchAssignmentServiceImp(
     }
 
 
-    public async Task<IEnumerable<Assignment>> GetMatchAssignments(int infoSiteMatchId)
+    public async Task<IEnumerable<Assignment>> GetMatchAssignments(int adminSiteId)
     {
         var criteria = new GetAssignmenstByMatchCriteria
         {
-            InfoSiteMatchId = infoSiteMatchId
+            AdminSiteId = adminSiteId
         };
 
         return await dynamicRepository.FetchAsync<Assignment>(criteria);
     }
+
+
+    public async Task<IEnumerable<DiscussionInfo>> GetMatchDiscussionInfo(int adminSiteId)
+    {
+        var criteria = new GetAssignmenstByMatchCriteria
+        {
+            AdminSiteId = adminSiteId
+        };
+
+        return await dynamicRepository.FetchAsync<DiscussionInfo>(criteria);
+    }
+
 }

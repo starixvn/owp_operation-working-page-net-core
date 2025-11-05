@@ -2,11 +2,11 @@
 
 namespace OWP.PrematchAssignment.Criteria;
 
-public class GetAssignmenstByMatchCriteria : CriteriaBase
+public class GetMatchDiscussionInfoCriteria : CriteriaBase
 {
-    public int InfoSiteMatchId { get; set; }
+    public int AdminSiteId { get; set; }
 
-    public override string GetSettingKey() => "OWP_LiveGameAssignment_GetAssignments_ByMatch";
+    public override string GetSettingKey() => "OWP_PreMatchDiscussion_GetInfo";
 
-    public override bool IsValid() => true;
+    public override bool IsValid() => AdminSiteId > 0;
 }

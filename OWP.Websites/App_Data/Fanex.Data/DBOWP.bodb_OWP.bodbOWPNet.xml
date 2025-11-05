@@ -227,7 +227,6 @@
         <Setting Key="OWP_PreMatchAssignment_QueryAssignedLeagueNames" SpName="OWP_PreMatchAssignment_QueryAssignedLeagueNames" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key=" OWP_PreMatchAssignment_QueryByPreMatchLeagueId" SpName=" OWP_PreMatchAssignment_QueryByPreMatchLeagueId" DbName="DBOWP.bodb_OWP.wsv_owp" />
         <Setting Key="OWP_PreMatchAssignment_AutoAssign" SpName="OWP_PreMatchAssignment_AutoAssign" DbName="DBOWP.bodb_OWP.wsv_owp" />
-        <Setting Key="OWP_LiveGameAssignment_GetAssignments_ByMatch" SpName="OWP_LiveGameAssignment_GetAssignments_ByMatch" DbName="DBOWP.bodb_OWP.wsv_owp" />
 
         <!--SimpleAPI-->
         <Setting Key="OWP_PreMatchAssignment_CheckLeagueContainsAnyAssignment" SpName="OWP_PreMatchAssignment_CheckLeagueContainsAnyAssignment" DbName="DBOWP.bodb_OWP.wsv_owp" />
@@ -510,5 +509,9 @@
   <Function Name="ProviderStatistics">
     <Setting Key="OWP_ProviderStatistic_SumByDay" SpName ="OWP_ProviderStatistic_SumByDay" DbName="DBOWP.bodb_OWP.wsv_owp" />
     <Setting Key="OWP_ProviderStatistic_SumByLeague" SpName ="OWP_ProviderStatistic_SumByLeague" DbName="DBOWP.bodb_OWP.wsv_owp" />
+  </Function>
+  <Function Name="PrematchDiscussion">
+    <Setting Key="OWP_PreMatchDiscussion_GetInfo" SpName ="OWP_PreMatchDiscussion_GetInfo" DbName="DBOWP.bodb_OWP.wsv_owp" />
+    <Setting Key="OWP_LiveGameAssignment_GetAssignments_ByMatch" SpName="OWP_LiveGameAssignment_GetAssignments_ByMatch" DbName="DBOWP.bodb_OWP.wsv_owp" />
   </Function>
 </Functions>
