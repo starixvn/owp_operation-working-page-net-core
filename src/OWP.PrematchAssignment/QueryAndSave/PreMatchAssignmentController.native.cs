@@ -157,7 +157,7 @@ public class PreMatchAssignmentController(
 
     [Route("create-rc-discussion")]
     [HttpPost]
-    public async Task<IActionResult> CreateRCDiscusstion(CreateRCDiscussionHandler request)
+    public async Task<IActionResult> CreateRCDiscusstion(CreateRCDiscussionRequest request)
     {
         await mediator.Send(request);
         return Ok();

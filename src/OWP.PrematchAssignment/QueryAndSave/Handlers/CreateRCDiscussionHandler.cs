@@ -11,31 +11,21 @@ namespace OWP.PrematchAssignment.QueryAndSave.Handlers;
 
 public class CreateRCDiscussionRequest : IRequest<Unit>
 {
-    public int AdminSiteId { get; set; }
+    public int AdminSiteId { get; set; } = 115773747;
 
     public List<DiscussionInfo> DiscussionInfos { get; set; }
 }
 
-public class CreateRCDiscussionHandler : IRequestHandler<CreateRCDiscussionRequest, Unit>
+public class CreateRCDiscussionHandler(
+    PreMatchAssignmentService preMatchAssignmentService,
+    HttpClient httpClient,
+    IConfiguration configuration) : IRequestHandler<CreateRCDiscussionRequest, Unit>
 {
-    private readonly PreMatchAssignmentService _preMatchAssignmentService;
-    private readonly HttpClient _httpClient;
-    private readonly IConfiguration _configuration;
-
-    public CreateRCDiscussionHandler(
-        PreMatchAssignmentService preMatchAssignmentService,
-        HttpClient httpClient,
-        IConfiguration configuration)
-    {
-        _preMatchAssignmentService = preMatchAssignmentService;
-        _httpClient = httpClient;
-        _configuration = configuration;
-    }
 
     public async Task<Unit> Handle(CreateRCDiscussionRequest request, CancellationToken cancellationToken)
     {
-        var assignments = await _preMatchAssignmentService.GetMatchAssignments(request.AdminSiteId);
-        var (currentDiscussionInfos, matchInfo) = await _preMatchAssignmentService.GetMatchDiscussionInfo(request.AdminSiteId);
+        var assignments = await preMatchAssignmentService.GetMatchAssignments(request.AdminSiteId);
+        var (currentDiscussionInfos, matchInfo) = await preMatchAssignmentService.GetMatchDiscussionInfo(request.AdminSiteId);
 
         if (matchInfo != null)
         {
@@ -49,7 +39,7 @@ public class CreateRCDiscussionHandler : IRequestHandler<CreateRCDiscussionReque
 
         if (request.DiscussionInfos != null && request.DiscussionInfos.Any())
         {
-            await _preMatchAssignmentService.InsertDiscussion(new InsertDiscussionCriteria
+            await preMatchAssignmentService.InsertDiscussion(new InsertDiscussionCriteria
             {
                 DiscussionInfoXML = request.DiscussionInfos.ToXmlString(),
                 AdminSiteMatchId = request.AdminSiteId
@@ -112,10 +102,10 @@ public class CreateRCDiscussionHandler : IRequestHandler<CreateRCDiscussionReque
         IEnumerable<Assignment> assignments,
         CancellationToken cancellationToken)
     {
-        var serverUrl = _configuration["ChatServer:Url"];
-        var token = _configuration["ChatServer:BotToken"];
-        var userId = _configuration["ChatServer:BotUserId"];
-        var parentChannelId = _configuration["ChatServer:LATodayMatchChannelId"];
+        var serverUrl = configuration["ChatServer:Url"];
+        var token = configuration["ChatServer:BotToken"];
+        var userId = configuration["ChatServer:BotUserId"];
+        var parentChannelId = configuration["ChatServer:LATodayMatchChannelId"];
 
         foreach (var group in newDiscussionGroups)
         {
@@ -142,9 +132,9 @@ public class CreateRCDiscussionHandler : IRequestHandler<CreateRCDiscussionReque
         IEnumerable<Assignment> assignments,
         CancellationToken cancellationToken)
     {
-        var serverUrl = _configuration["ChatServer:Url"];
-        var token = _configuration["ChatServer:BotToken"];
-        var userId = _configuration["ChatServer:BotUserId"];
+        var serverUrl = configuration["ChatServer:Url"];
+        var token = configuration["ChatServer:BotToken"];
+        var userId = configuration["ChatServer:BotUserId"];
 
         foreach (var group in existingDiscussionGroups)
         {
@@ -196,7 +186,7 @@ public class CreateRCDiscussionHandler : IRequestHandler<CreateRCDiscussionReque
         httpRequest.Headers.Add("X-User-Id", userId);
         httpRequest.Content = content;
 
-        var response = await _httpClient.SendAsync(httpRequest, cancellationToken);
+        var response = await httpClient.SendAsync(httpRequest, cancellationToken);
 
         if (!response.IsSuccessStatusCode)
         {
@@ -235,7 +225,7 @@ public class CreateRCDiscussionHandler : IRequestHandler<CreateRCDiscussionReque
         httpRequest.Headers.Add("X-User-Id", userId);
         httpRequest.Content = content;
 
-        await _httpClient.SendAsync(httpRequest, cancellationToken);
+        await httpClient.SendAsync(httpRequest, cancellationToken);
     }
 
     private string BuildDiscussionName(DiscussionInfo discussionInfo)

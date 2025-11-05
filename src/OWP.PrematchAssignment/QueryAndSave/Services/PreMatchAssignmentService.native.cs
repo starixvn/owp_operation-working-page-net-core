@@ -162,7 +162,7 @@ public class PreMatchAssignmentServiceImp(
     {
         var criteria = new GetAssignmenstByMatchCriteria
         {
-            AdminSiteId = adminSiteId
+            AdminSiteMatchId = adminSiteId
         };
 
         return await dynamicRepository.FetchAsync<Assignment>(criteria);
@@ -173,7 +173,7 @@ public class PreMatchAssignmentServiceImp(
     {
         var criteria = new GetAssignmenstByMatchCriteria
         {
-            AdminSiteId = adminSiteId
+            AdminSiteMatchId = adminSiteId
         };
 
         var (discussionInfos, discussionMatchInfos) = await dynamicRepository.FetchMultipleAsync<DiscussionInfo, DiscussionMatchInfo>(criteria);
