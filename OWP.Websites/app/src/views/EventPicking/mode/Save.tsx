@@ -49,7 +49,7 @@ const Save = ({ onSetMode }: { onSetMode: () => void }) => {
     ]);
     Spinner.hide();
 
-    // await dispatch(getEventPickings(param));
+    await dispatch(getEventPickings(param));
     onSetMode();
   };
 

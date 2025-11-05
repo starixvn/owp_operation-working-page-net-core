@@ -311,7 +311,222 @@ const filterTableExceptColumn = (
   multipleFilter: TMultipleFilter,
   hasReadPermission: boolean
 ) => {
-  let filteredEntities = entities;
+  return pipe(
+    (props: TMultipleFilterPipe) =>
+      props.filterInfo.time?.isFilter && exceptColumnKey !== COLUMN_KEY.KO_TIME
+        ? multipleFilterCommon(
+            props.entities,
+            props.filterInfo,
+            COLUMN_KEY.KO_TIME as TColumnKey
+          )
+        : props,
+    (props: TMultipleFilterPipe) =>
+      props.filterInfo.leagueName?.isFilter &&
+      exceptColumnKey !== COLUMN_KEY.LEAGUE
+        ? multipleFilterCommon(
+            props.entities,
+            props.filterInfo,
+            COLUMN_KEY.LEAGUE as TColumnKey
+          )
+        : props,
+    (props: TMultipleFilterPipe) =>
+      props.filterInfo.maxbetHdp?.isFilter && exceptColumnKey !== COLUMN_KEY.MB
+        ? multipleFilterCommon(
+            props.entities,
+            props.filterInfo,
+            COLUMN_KEY.MB as TColumnKey
+          )
+        : props,
+    (props: TMultipleFilterPipe) =>
+      props.filterInfo.maxbetOu?.isFilter &&
+      exceptColumnKey !== COLUMN_KEY.MB_OU
+        ? multipleFilterCommon(
+            props.entities,
+            props.filterInfo,
+            COLUMN_KEY.MB_OU as TColumnKey
+          )
+        : props,
+    (props: TMultipleFilterPipe) =>
+      props.filterInfo.spreadHdp?.isFilter &&
+      exceptColumnKey !== COLUMN_KEY.SPREAD_HDP
+        ? multipleFilterCommon(
+            props.entities,
+            props.filterInfo,
+            COLUMN_KEY.SPREAD_HDP as TColumnKey
+          )
+        : props,
+    (props: TMultipleFilterPipe) =>
+      props.filterInfo.spreadOu?.isFilter &&
+      exceptColumnKey !== COLUMN_KEY.SPREAD_OU
+        ? multipleFilterCommon(
+            props.entities,
+            props.filterInfo,
+            COLUMN_KEY.SPREAD_OU as TColumnKey
+          )
+        : props,
+    (props: TMultipleFilterPipe) =>
+      props.filterInfo.lstNote?.isFilter &&
+      exceptColumnKey !== COLUMN_KEY.LST_NOTE
+        ? multipleFilterCommon(
+            props.entities,
+            props.filterInfo,
+            COLUMN_KEY.LST_NOTE as TColumnKey
+          )
+        : props,
+    (props: TMultipleFilterPipe) =>
+      props.filterInfo.turnoverPeriod?.isFilter &&
+      exceptColumnKey !== COLUMN_KEY.TURNOVER_PERIOD
+        ? filterByTurnoverPeriod(
+            props.entities,
+            props.filterInfo,
+            hasReadPermission
+          )
+        : props,
+    (props: TMultipleFilterPipe) =>
+      props.filterInfo.marginPeriod?.isFilter &&
+      exceptColumnKey !== COLUMN_KEY.MARGIN_PERIOD
+        ? filterByMarginPeriod(
+            props.entities,
+            props.filterInfo,
+            hasReadPermission
+          )
+        : props,
+    (props: TMultipleFilterPipe) =>
+      props.filterInfo.noOfHDP?.isFilter &&
+      exceptColumnKey !== COLUMN_KEY['NO.OF_HDP']
+        ? multipleFilterCommon(
+            props.entities,
+            props.filterInfo,
+            COLUMN_KEY['NO.OF_HDP'] as TColumnKey
+          )
+        : props,
+    (props: TMultipleFilterPipe) =>
+      props.filterInfo.tv?.isFilter && exceptColumnKey !== COLUMN_KEY.TV
+        ? filterByTv(props.entities, props.filterInfo)
+        : props,
+    (props: TMultipleFilterPipe) =>
+      props.filterInfo.round?.isFilter && exceptColumnKey !== COLUMN_KEY.ROUND
+        ? filterByRound(props.entities, props.filterInfo)
+        : props,
+    (props: TMultipleFilterPipe) =>
+      props.filterInfo.provider?.isFilter &&
+      exceptColumnKey !== COLUMN_KEY.PROVIDER
+        ? filterByProvider(props.entities, props.filterInfo)
+        : props,
+    (props: TMultipleFilterPipe) => {
+      if (
+        props.filterInfo.rAndDInfo?.isFilter &&
+        exceptColumnKey !== COLUMN_KEY.RAndD &&
+        props.filterInfo.rAndDInfo.selected
+      ) {
+        return filterByRAndD(
+          props.entities,
+          props.filterInfo.rAndDInfo.selected.map(s => s.value)
+        );
+      }
+      return props.entities;
+    }
+  )({
+    entities,
+    filterInfo: multipleFilter
+  });
+};
+
+const updateMultipleFilterOptionsAndSelected = (
+  state: TTableSlice,
+  hasReadPermission: boolean = false,
+  filterByKeyword: any
+) => {
+  // Build options cho tất cả cột bằng cách filter data trừ từng cột ra
+  const options = buildTableMultipleFilterOptionsExceptColumn(
+    state.entitiesOriginal,
+    state.multipleFilter,
+    state.rAndDInfoFilterOriginal.options,
+    hasReadPermission,
+    state.filterState,
+    filterByKeyword
+  );
+
+  // Update options cho tất cả cột
+  state.multipleFilter.leagueName.options = options.leagueName;
+  state.multipleFilter.time.options = options.time;
+  state.multipleFilter.maxbetHdp.options = options.maxbetHdp;
+  state.multipleFilter.maxbetOu.options = options.maxbetOu;
+  state.multipleFilter.spreadHdp.options = options.spreadHdp;
+  state.multipleFilter.spreadOu.options = options.spreadOu;
+  state.multipleFilter.noOfHDP.options = options.noOfHDP;
+  state.multipleFilter.lstNote.options = options.lstNote;
+  state.multipleFilter.rAndDInfo.options = options.rAndDInfo;
+  state.multipleFilter.tv.options = options.tv;
+  state.multipleFilter.provider.options = options.provider;
+  state.multipleFilter.round.options = options.round;
+  state.multipleFilter.turnoverPeriod.options = options.turnoverPeriod;
+  state.multipleFilter.marginPeriod.options = options.marginPeriod;
+
+  // Update selected values theo Excel behavior:
+  // - Cột được clear: set selected = all options (để user có thể filter lại)
+  // - Các cột khác: giữ nguyên selected nếu đang active filter, hoặc set = all options nếu không active
+  state.multipleFilter.leagueName.selected = state.multipleFilter.leagueName
+    .isFilter
+    ? state.multipleFilter.leagueName.selected
+    : options.leagueName;
+  state.multipleFilter.time.selected = state.multipleFilter.time.isFilter
+    ? state.multipleFilter.time.selected
+    : options.time;
+  state.multipleFilter.maxbetHdp.selected = state.multipleFilter.maxbetHdp
+    .isFilter
+    ? state.multipleFilter.maxbetHdp.selected
+    : options.maxbetHdp;
+  state.multipleFilter.maxbetOu.selected = state.multipleFilter.maxbetOu
+    .isFilter
+    ? state.multipleFilter.maxbetOu.selected
+    : options.maxbetOu;
+  state.multipleFilter.spreadHdp.selected = state.multipleFilter.spreadHdp
+    .isFilter
+    ? state.multipleFilter.spreadHdp.selected
+    : options.spreadHdp;
+  state.multipleFilter.spreadOu.selected = state.multipleFilter.spreadOu
+    .isFilter
+    ? state.multipleFilter.spreadOu.selected
+    : options.spreadOu;
+  state.multipleFilter.noOfHDP.selected = state.multipleFilter.noOfHDP.isFilter
+    ? state.multipleFilter.noOfHDP.selected
+    : options.noOfHDP;
+  state.multipleFilter.lstNote.selected = state.multipleFilter.lstNote.isFilter
+    ? state.multipleFilter.lstNote.selected
+    : options.lstNote;
+  state.multipleFilter.rAndDInfo.selected = state.multipleFilter.rAndDInfo
+    .isFilter
+    ? state.multipleFilter.rAndDInfo.selected
+    : options.rAndDInfo;
+  state.multipleFilter.tv.selected = state.multipleFilter.tv.isFilter
+    ? state.multipleFilter.tv.selected
+    : options.tv;
+  state.multipleFilter.provider.selected = state.multipleFilter.provider
+    .isFilter
+    ? state.multipleFilter.provider.selected
+    : options.provider;
+  state.multipleFilter.round.selected = state.multipleFilter.round.isFilter
+    ? state.multipleFilter.round.selected
+    : options.round;
+  state.multipleFilter.turnoverPeriod.selected = state.multipleFilter
+    .turnoverPeriod.isFilter
+    ? state.multipleFilter.turnoverPeriod.selected
+    : options.turnoverPeriod;
+  state.multipleFilter.marginPeriod.selected = state.multipleFilter.marginPeriod
+    .isFilter
+    ? state.multipleFilter.marginPeriod.selected
+    : options.marginPeriod;
+};
+
+const buildTableMultipleFilterOptionsExceptColumn = (
+  entitiesOriginal: TDataTable[],
+  multipleFilter: TMultipleFilter,
+  rAndDInfoOriginalOption: Option[],
+  hasReadPermission: boolean = false,
+  filterState: any,
+  filterByKeyword: any
+) => {
   const columnsKeyArray = [
     COLUMN_KEY.KO_TIME,
     COLUMN_KEY.LEAGUE,
@@ -329,58 +544,92 @@ const filterTableExceptColumn = (
     COLUMN_KEY.PROVIDER
   ];
 
-  for (const columnKey of columnsKeyArray.filter(
-    key => key !== exceptColumnKey
-  )) {
+  const result = {
+    time: [] as Option[],
+    maxbetHdp: [] as Option[],
+    maxbetOu: [] as Option[],
+    leagueName: [] as Option[],
+    spreadHdp: [] as Option[],
+    spreadOu: [] as Option[],
+    noOfHDP: [] as Option[],
+    lstNote: [] as Option[],
+    rAndDInfo: [] as Option[],
+    turnoverPeriod: [] as Option[],
+    marginPeriod: [] as Option[],
+    tv: [] as Option[],
+    round: [] as Option[],
+    provider: [] as Option[]
+  };
+
+  // Filter data by keyword filter first
+  const entitiesFilteredByKeyword = filterDataTable(
+    entitiesOriginal,
+    filterState,
+    filterByKeyword
+  );
+
+  // Build options for each column by filtering data excluding that column
+  for (const columnKey of columnsKeyArray) {
+    const filteredData = filterTableExceptColumn(
+      entitiesFilteredByKeyword,
+      columnKey as TColumnKey,
+      multipleFilter,
+      hasReadPermission
+    );
+
+    const options = buildTableMultipleFilterOptions(
+      filteredData,
+      rAndDInfoOriginalOption
+    );
+
+    // Map column key to result property
     switch (columnKey) {
+      case COLUMN_KEY.KO_TIME:
+        result.time = options.time;
+        break;
+      case COLUMN_KEY.LEAGUE:
+        result.leagueName = options.leagueName;
+        break;
+      case COLUMN_KEY.MB:
+        result.maxbetHdp = options.maxbetHdp;
+        break;
+      case COLUMN_KEY.MB_OU:
+        result.maxbetOu = options.maxbetOu;
+        break;
+      case COLUMN_KEY.SPREAD_HDP:
+        result.spreadHdp = options.spreadHdp;
+        break;
+      case COLUMN_KEY.SPREAD_OU:
+        result.spreadOu = options.spreadOu;
+        break;
+      case COLUMN_KEY['NO.OF_HDP']:
+        result.noOfHDP = options.noOfHDP;
+        break;
+      case COLUMN_KEY.LST_NOTE:
+        result.lstNote = options.lstNote;
+        break;
       case COLUMN_KEY.TURNOVER_PERIOD:
-        filteredEntities = filterByTurnoverPeriod(
-          filteredEntities,
-          multipleFilter,
-          hasReadPermission
-        ).entities;
+        result.turnoverPeriod = options.turnoverPeriod;
         break;
       case COLUMN_KEY.MARGIN_PERIOD:
-        filteredEntities = filterByMarginPeriod(
-          filteredEntities,
-          multipleFilter,
-          hasReadPermission
-        ).entities;
+        result.marginPeriod = options.marginPeriod;
         break;
       case COLUMN_KEY.RAndD:
-        filteredEntities = filterByRAndD(
-          filteredEntities,
-          multipleFilter.rAndDInfo.selected.map(s => s.value) || []
-        );
+        result.rAndDInfo = options.rAndDInfo;
         break;
       case COLUMN_KEY.TV:
-        filteredEntities = filterByTv(
-          filteredEntities,
-          multipleFilter
-        ).entities;
+        result.tv = options.tv;
         break;
       case COLUMN_KEY.ROUND:
-        filteredEntities = filterByRound(
-          filteredEntities,
-          multipleFilter
-        ).entities;
+        result.round = options.round;
         break;
       case COLUMN_KEY.PROVIDER:
-        filteredEntities = filterByProvider(
-          filteredEntities,
-          multipleFilter
-        ).entities;
-        break;
-      default:
-        filteredEntities = multipleFilterCommon(
-          filteredEntities,
-          multipleFilter,
-          columnKey as TColumnKey
-        ).entities;
+        result.provider = options.provider;
         break;
     }
   }
-  return filteredEntities;
+
+  return result;
 };
 
 const singleColumnFilterOptionsFactory = (
@@ -797,7 +1046,7 @@ const preserveAndRestoreMultipleFilter = (
     }
     // If isFilter is true, keep the current object unchanged
   });
-  
+
   return newMultipleFilter;
 };
 
@@ -936,6 +1185,8 @@ export {
   buildMultipleFilterDefault,
   executeFilterTable,
   buildTableMultipleFilterOptions,
+  buildTableMultipleFilterOptionsExceptColumn,
+  updateMultipleFilterOptionsAndSelected,
   buildDefaultRAndDInfoOptions,
   preserveAndRestoreMultipleFilter,
   singleColumnFilterOptionsFactory,
