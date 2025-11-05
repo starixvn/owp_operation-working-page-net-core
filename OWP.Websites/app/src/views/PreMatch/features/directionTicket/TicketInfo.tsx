@@ -1,9 +1,9 @@
 import Select, { SingleValue } from 'react-select-ts';
 import { useDispatch } from 'react-redux';
 import { BETON_OPTIONS, BETTYPE_OPTIONS, GHOST_OPTIONS } from '../../const/const';
-import { Option } from '../../../Shared/MultipleSelection/type';
 import { TRenderTicketInfo, TTicketInfo } from '../../type';
 import { addTicketInfo, removeTicketInfo, updateTicketInfo } from './directionTicketSlice';
+import { useRef } from 'react';
 
 const TicketInfo = (props: TRenderTicketInfo) => {
   const {
@@ -15,19 +15,14 @@ const TicketInfo = (props: TRenderTicketInfo) => {
     odds,
     note,
     remark } = props.ticketInfo;
-  console.log(bettypeId);
+  const ghostDetailInputRef = useRef<HTMLInputElement>(null);
+  const hdpOuInputRef = useRef<HTMLInputElement>(null);
+  const oddsInputRef = useRef<HTMLInputElement>(null);
+  const noteInputRef = useRef<HTMLInputElement>(null);
+  const remarkInputRef = useRef<HTMLInputElement>(null);
   const { index, isRenderRemoveCommand, isRenderAddCommand } = props;
 
   const dispatch = useDispatch();
-
-
-  const handleSelectChange = (selected: SingleValue<{ value: number | string }>, field: keyof TTicketInfo) => {
-    const { value } = selected.value;
-    if (!value) {
-      return;
-    }
-    dispatch(updateTicketInfo({ index, field, value }));
-  };
 
   const handleAddTicketInfo = () => {
     dispatch(addTicketInfo());
@@ -63,7 +58,14 @@ const TicketInfo = (props: TRenderTicketInfo) => {
         <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>*</p>
       </div>
       <div className='input-item'>
-        <input value={ghostDetail} className='input' />
+        <input
+          defaultValue={ghostDetail}
+          className='input'
+          ref={ghostDetailInputRef}
+          onBlur={() => {
+            ghostDetailInputRef.current?.value && dispatch(updateTicketInfo({ index, field: 'ghostDetail', value: ghostDetailInputRef.current?.value }));
+          }}
+        />
       </div>
     </div>
   );
@@ -118,7 +120,18 @@ const TicketInfo = (props: TRenderTicketInfo) => {
         <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>*</p>
       </div>
       <div className='input-item hdp-ou-input'>
-        <input className='input' type="number" value={hdp_ou} step={0.25} />
+        <input
+          className='input'
+          type="number"
+          defaultValue={hdp_ou}
+          step={0.25}
+          ref={hdpOuInputRef}
+          onBlur={() => {
+            setTimeout(() => {
+              hdpOuInputRef.current?.value
+                && dispatch(updateTicketInfo({ index, field: 'hdp_ou', value: hdpOuInputRef.current?.value }));
+            }, 0);
+          }} />
       </div>
     </div>
   );

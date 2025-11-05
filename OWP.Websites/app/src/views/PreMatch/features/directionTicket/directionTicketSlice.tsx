@@ -35,6 +35,7 @@ const directionTicketSlice = createSlice({
     },
     updateTicketInfo: (state, action: PayloadAction<TUpdateTicketInfo>) => {
       const { index, field, value } = action.payload;
+      ;
       const ticket = state.data.ticketInfo[index];
       ticket[field] = value as never;
     },

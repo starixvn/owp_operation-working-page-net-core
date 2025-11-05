@@ -90,13 +90,13 @@ const ASSIGNMENT_TYPE = {
 };
 
 const GHOST_OPTIONS = [
-  { value: 0, label: 'Order' },
-  { value: 1, label: 'Ghost 1' },
-  { value: 2, label: 'Ghost 2' },
-  { value: 3, label: 'Ghost 3' },
-  { value: 4, label: 'Outside' },
-  { value: 5, label: 'Danger' },
-  { value: 6, label: 'Other' }
+  { value: 1, label: 'Order' },
+  { value: 2, label: 'Ghost 1' },
+  { value: 3, label: 'Ghost 2' },
+  { value: 4, label: 'Ghost 3' },
+  { value: 5, label: 'Outside' },
+  { value: 6, label: 'Danger' },
+  { value: 7, label: 'Other' }
 ];
 
 const BETTYPE_OPTIONS = [
