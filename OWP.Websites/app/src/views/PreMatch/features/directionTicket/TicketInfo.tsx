@@ -1,7 +1,9 @@
 import Select from 'react-select-ts';
+import { useDispatch } from 'react-redux';
 import { BETON_OPTIONS, BETTYPE_OPTIONS, GHOST_OPTIONS } from '../../const/const';
 import { Option } from '../../../Shared/MultipleSelection/type';
 import { TTicketInfo } from '../../type';
+import { addTicketInfo } from './directionTicketSlice';
 
 const TicketInfo = (props: TTicketInfo) => {
   const {
@@ -13,9 +15,17 @@ const TicketInfo = (props: TTicketInfo) => {
     odds,
     note,
     remark } = props;
+
+  const dispatch = useDispatch();
+
+
   const handleChangeGhostName = (selectedOption: Option | null) => {
     const value = selectedOption?.value;
 
+  };
+
+  const handleAddTicketInfo = () => {
+    dispatch(addTicketInfo());
   };
 
   const renderGhostName = () => (
@@ -131,6 +141,17 @@ const TicketInfo = (props: TTicketInfo) => {
     </div>
   );
 
+  const renderAddCommand = () => {
+    return (
+      <div className='content add-command'>
+        <button
+          className='btn-add-command'
+          onClick={handleAddTicketInfo}
+        >Add</button>
+      </div>
+    );
+  };
+
   return (
     <div className='list'>
       <fieldset>
@@ -147,6 +168,7 @@ const TicketInfo = (props: TTicketInfo) => {
         </div>
         {renderNote()}
         {renderRemark()}
+        {renderAddCommand()}
       </fieldset>
     </div>
   );

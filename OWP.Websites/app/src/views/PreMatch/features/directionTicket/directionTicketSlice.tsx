@@ -23,7 +23,7 @@ const directionTicketSlice = createSlice({
     } as TDirectionTicket,
   },
   reducers: {
-    addTicketInfo: (state, _) => {
+    addTicketInfo: state => {
       state.directionTicket.ticketInfo.push({
         no: nanoid(),
         ghostNameId: 0,

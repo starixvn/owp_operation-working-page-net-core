@@ -2062,12 +2062,22 @@ input::-ms-input-placeholder {
         border-bottom: 1px solid #c8ced3;
         font-weight: bold;
       }
-
+.add-command {
+  flex-direction: row-reverse;
+}
             .content {
               margin-left: 10px;
               padding: 5px 10px;
               display: flex;
       
+              .btn-add-command {
+        border-radius: 2px;
+          font-size: 13px;
+          color: #fff;
+          background: #ff9f09;
+          padding: 0 1rem;
+          box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 2px -2px rgb(0 0 0 / 20%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+      }
                 .hdp-ou--label {
                     width: 60px !important;
                   }
