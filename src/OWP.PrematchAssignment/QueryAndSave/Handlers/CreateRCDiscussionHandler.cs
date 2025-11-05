@@ -33,7 +33,12 @@ public class CreateRCDiscussionHandler : IRequestHandler<CreateRCDiscussionReque
     public async Task<Unit> Handle(CreateRCDiscussionRequest request, CancellationToken cancellationToken)
     {
         var assignments = await _preMatchAssignmentService.GetMatchAssignments(request.AdminSiteId);
-        var currentDiscussionInfos = await _preMatchAssignmentService.GetMatchDiscussionInfo(request.AdminSiteId);
+        var (currentDiscussionInfos, matchInfo) = await _preMatchAssignmentService.GetMatchDiscussionInfo(request.AdminSiteId);
+
+        if (matchInfo != null)
+        {
+            UpdateDiscussionInfosWithMatchInfo(request.DiscussionInfos, matchInfo);
+        }
 
         var (newDiscussionGroups, existingDiscussionGroups) = GroupAndSeparateDiscussions(request.DiscussionInfos, currentDiscussionInfos);
 
@@ -41,6 +46,18 @@ public class CreateRCDiscussionHandler : IRequestHandler<CreateRCDiscussionReque
         await ProcessExistingDiscussions(existingDiscussionGroups, assignments, cancellationToken);
 
         return Unit.Value;
+    }
+
+    private void UpdateDiscussionInfosWithMatchInfo(List<DiscussionInfo> discussionInfos, DiscussionMatchInfo matchInfo)
+    {
+        foreach (var discussionInfo in discussionInfos)
+        {
+            discussionInfo.LeagueName = matchInfo.LeagueName;
+            discussionInfo.HomeId = matchInfo.HomeId;
+            discussionInfo.HomeName = matchInfo.HomeName;
+            discussionInfo.AwayId = matchInfo.AwayId;
+            discussionInfo.AwayName = matchInfo.AwayName;
+        }
     }
 
     private (List<IGrouping<object, DiscussionInfo>> NewGroups, List<IGrouping<object, DiscussionInfo>> ExistingGroups) 
@@ -64,7 +81,6 @@ public class CreateRCDiscussionHandler : IRequestHandler<CreateRCDiscussionReque
 
             if (existingDiscussion != null)
             {
-                // Set RCDiscussionGroupId for all items in this group
                 foreach (var item in group)
                 {
                     item.RCDiscussionGroupId = existingDiscussion.RCDiscussionGroupId;
@@ -102,7 +118,6 @@ public class CreateRCDiscussionHandler : IRequestHandler<CreateRCDiscussionReque
 
             if (!string.IsNullOrEmpty(rcDiscussionGroupId))
             {
-                // Set RCDiscussionGroupId for all items in this group
                 foreach (var item in group)
                 {
                     item.RCDiscussionGroupId = rcDiscussionGroupId;

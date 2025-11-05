@@ -32,7 +32,7 @@ public interface PreMatchAssignmentService
 
     Task<IEnumerable<Assignment>> GetMatchAssignments(int adminSiteId);
 
-    Task<IEnumerable<DiscussionInfo>> GetMatchDiscussionInfo(int adminSiteId);
+    Task<(IEnumerable<DiscussionInfo>, DiscussionMatchInfo)> GetMatchDiscussionInfo(int adminSiteId)
 }
 
 public class PreMatchAssignmentServiceImp(
@@ -167,14 +167,15 @@ public class PreMatchAssignmentServiceImp(
     }
 
 
-    public async Task<IEnumerable<DiscussionInfo>> GetMatchDiscussionInfo(int adminSiteId)
+    public async Task<(IEnumerable<DiscussionInfo>, DiscussionMatchInfo)> GetMatchDiscussionInfo(int adminSiteId)
     {
         var criteria = new GetAssignmenstByMatchCriteria
         {
             AdminSiteId = adminSiteId
         };
 
-        return await dynamicRepository.FetchAsync<DiscussionInfo>(criteria);
+        var (discussionInfos, discussionMatchInfos) = await dynamicRepository.FetchMultipleAsync<DiscussionInfo, DiscussionMatchInfo>(criteria);
+        return (discussionInfos.ToList(), discussionMatchInfos.FirstOrDefault());
     }
 
 }
