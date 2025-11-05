@@ -1,9 +1,9 @@
-import Select from 'react-select-ts';
+import Select, { SingleValue } from 'react-select-ts';
 import { useDispatch } from 'react-redux';
 import { BETON_OPTIONS, BETTYPE_OPTIONS, GHOST_OPTIONS } from '../../const/const';
 import { Option } from '../../../Shared/MultipleSelection/type';
-import { TRenderTicketInfo } from '../../type';
-import { addTicketInfo, removeTicketInfo } from './directionTicketSlice';
+import { TRenderTicketInfo, TTicketInfo } from '../../type';
+import { addTicketInfo, removeTicketInfo, updateTicketInfo } from './directionTicketSlice';
 
 const TicketInfo = (props: TRenderTicketInfo) => {
   const {
@@ -15,15 +15,18 @@ const TicketInfo = (props: TRenderTicketInfo) => {
     odds,
     note,
     remark } = props.ticketInfo;
-
+  console.log(bettypeId);
   const { index, isRenderRemoveCommand, isRenderAddCommand } = props;
 
   const dispatch = useDispatch();
 
 
-  const handleChangeGhostName = (selectedOption: Option | null) => {
-    const value = selectedOption?.value;
-
+  const handleSelectChange = (selected: SingleValue<{ value: number | string }>, field: keyof TTicketInfo) => {
+    const { value } = selected.value;
+    if (!value) {
+      return;
+    }
+    dispatch(updateTicketInfo({ index, field, value }));
   };
 
   const handleAddTicketInfo = () => {
@@ -38,14 +41,18 @@ const TicketInfo = (props: TRenderTicketInfo) => {
     <div className='content'>
       <div className='left'>
         Ghost name
+        <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>*</p>
       </div>
       <Select
         options={GHOST_OPTIONS}
         className='basic-multi-select'
         classNamePrefix='select'
-        onChange={handleChangeGhostName}
+        onChange={selected => {
+          selected?.value &&
+            dispatch(updateTicketInfo({ index, field: 'ghostNameId', value: selected.value }));
+        }}
         placeholder="Ghost Name..."
-        value={GHOST_OPTIONS[ghostNameId]} />
+        value={GHOST_OPTIONS.find(option => option.value === ghostNameId)} />
     </div>
   );
 
@@ -53,6 +60,7 @@ const TicketInfo = (props: TRenderTicketInfo) => {
     <div className='content'>
       <div className='left'>
         Ghost detail
+        <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>*</p>
       </div>
       <div className='input-item'>
         <input value={ghostDetail} className='input' />
@@ -64,12 +72,16 @@ const TicketInfo = (props: TRenderTicketInfo) => {
     <div className='content'>
       <div className='left'>
         Bet type
+        <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>*</p>
       </div>
       <Select
-        options={GHOST_OPTIONS}
+        options={BETTYPE_OPTIONS}
         className='basic-multi-select'
         classNamePrefix='select'
-        onChange={handleChangeGhostName}
+        onChange={selected => {
+          selected?.value &&
+            dispatch(updateTicketInfo({ index, field: 'bettypeId', value: selected.value }));
+        }}
         placeholder="Bettype..."
         value={BETTYPE_OPTIONS.find(option => option.value === bettypeId)} />
     </div>
@@ -84,12 +96,16 @@ const TicketInfo = (props: TRenderTicketInfo) => {
     return <div className='content'>
       <div className='left'>
         Bet on
+        <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>*</p>
       </div>
       <Select
         options={betOnOptions}
         className='basic-multi-select'
         classNamePrefix='select'
-        onChange={handleChangeGhostName}
+        onChange={selected => {
+          selected?.value &&
+            dispatch(updateTicketInfo({ index, field: 'betOnId', value: selected.value }));
+        }}
         placeholder="Bet on..."
         value={betOnOptions.find(option => option.value === betOnId)} />
     </div>;
@@ -99,6 +115,7 @@ const TicketInfo = (props: TRenderTicketInfo) => {
     <div className='content'>
       <div className='left hdp-ou--label'>
         HDP/OU
+        <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>*</p>
       </div>
       <div className='input-item hdp-ou-input'>
         <input className='input' type="number" value={hdp_ou} step={0.25} />
@@ -110,6 +127,7 @@ const TicketInfo = (props: TRenderTicketInfo) => {
     <div className='content'>
       <div className='left odds'>
         Odds
+        <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>*</p>
       </div>
       <div className='input-item'>
         <input value={odds} className='input' />
@@ -121,6 +139,7 @@ const TicketInfo = (props: TRenderTicketInfo) => {
     <div className='content'>
       <div className='left'>
         Note
+        <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>*</p>
       </div>
       <div className='input-item'>
         <textarea

@@ -1,9 +1,9 @@
 type TTicketInfo = {
-  ghostNameId: number;
+  ghostNameId: number | null;
   ghostDetail: string;
-  bettypeId: number;
-  betOnId: string;
-  hdp_ou: number;
+  bettypeId: number | null;
+  betOnId: string | null;
+  hdp_ou: number | string;
   odds: string;
   note: string;
   remark: string;
@@ -21,7 +21,7 @@ type TRemoveTicketInfo = {
 
 type TUpdateTicketInfo = {
   index: Required<number>;
-  key: keyof TTicketInfo;
+  field: keyof TTicketInfo;
   value: number | string;
 };
 

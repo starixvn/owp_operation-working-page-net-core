@@ -32,7 +32,7 @@ public interface PreMatchAssignmentService
 
     Task<IEnumerable<Assignment>> GetMatchAssignments(int adminSiteId);
 
-    Task<(IEnumerable<DiscussionInfo>, DiscussionMatchInfo)> GetMatchDiscussionInfo(int adminSiteId)
+    Task<(IEnumerable<DiscussionInfo>, DiscussionMatchInfo)> GetMatchDiscussionInfo(int adminSiteId);
 
     Task InsertDiscussion(InsertDiscussionCriteria criteria);
 }

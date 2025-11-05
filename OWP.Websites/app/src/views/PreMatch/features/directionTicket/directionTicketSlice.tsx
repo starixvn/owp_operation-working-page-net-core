@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TDirectionTicket, TRemoveTicketInfo, TUpdateTicketInfo } from '../../type';
-import { GHOST_OPTIONS, BETTYPE_OPTIONS } from '../../const/const';
 
 const directionTicketSlice = createSlice({
   name: 'directionTicket',
@@ -12,9 +11,9 @@ const directionTicketSlice = createSlice({
       leagueGroupId: 0,
       includeTrader: false,
       ticketInfo: [{
-        ghostNameId: GHOST_OPTIONS[0].value,
+        ghostNameId: null,
         ghostDetail: '',
-        bettypeId: BETTYPE_OPTIONS[0].value,
+        bettypeId: null,
         betOnId: '',
         hdp_ou: 0,
         odds: '',
@@ -24,20 +23,20 @@ const directionTicketSlice = createSlice({
   reducers: {
     addTicketInfo: state => {
       state.data.ticketInfo.push({
-        ghostNameId: 0,
+        ghostNameId: null,
         ghostDetail: '',
-        bettypeId: 0,
-        betOnId: '',
-        hdp_ou: 0,
+        bettypeId: null,
+        betOnId: null,
+        hdp_ou: '',
         odds: '',
         note: '',
         remark: '',
       });
     },
     updateTicketInfo: (state, action: PayloadAction<TUpdateTicketInfo>) => {
-      const { index, key, value } = action.payload;
+      const { index, field, value } = action.payload;
       const ticket = state.data.ticketInfo[index];
-      ticket[key] = value as never;
+      ticket[field] = value as never;
     },
 
     removeTicketInfo: (state, action: PayloadAction<TRemoveTicketInfo>) => {
