@@ -33,6 +33,8 @@ public interface PreMatchAssignmentService
     Task<IEnumerable<Assignment>> GetMatchAssignments(int adminSiteId);
 
     Task<(IEnumerable<DiscussionInfo>, DiscussionMatchInfo)> GetMatchDiscussionInfo(int adminSiteId)
+
+    Task InsertDiscussion(InsertDiscussionCriteria criteria);
 }
 
 public class PreMatchAssignmentServiceImp(
@@ -177,5 +179,14 @@ public class PreMatchAssignmentServiceImp(
         var (discussionInfos, discussionMatchInfos) = await dynamicRepository.FetchMultipleAsync<DiscussionInfo, DiscussionMatchInfo>(criteria);
         return (discussionInfos.ToList(), discussionMatchInfos.FirstOrDefault());
     }
+
+    public async Task InsertDiscussion(InsertDiscussionCriteria criteria)
+    {
+        criteria.ActorId = currentSession.UserId;
+        criteria.ThrowExceptionIfInvalid();
+        await dynamicRepository.ExecuteAsync(criteria);
+    }
+
+    
 
 }

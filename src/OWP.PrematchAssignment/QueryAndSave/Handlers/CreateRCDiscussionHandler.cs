@@ -2,6 +2,8 @@ using System.Text;
 using System.Text.Json;
 using MediatR;
 using Microsoft.Extensions.Configuration;
+using OWP.Extensions;
+using OWP.PrematchAssignment.Criteria;
 using OWP.PrematchAssignment.QueryAndSave.Models;
 using OWP.PrematchAssignment.QueryAndSave.Services;
 
@@ -44,6 +46,15 @@ public class CreateRCDiscussionHandler : IRequestHandler<CreateRCDiscussionReque
 
         await ProcessNewDiscussions(newDiscussionGroups, assignments, cancellationToken);
         await ProcessExistingDiscussions(existingDiscussionGroups, assignments, cancellationToken);
+
+        if (request.DiscussionInfos != null && request.DiscussionInfos.Any())
+        {
+            await _preMatchAssignmentService.InsertDiscussion(new InsertDiscussionCriteria
+            {
+                DiscussionInfoXML = request.DiscussionInfos.ToXmlString(),
+                AdminSiteMatchId = request.AdminSiteId
+            });
+        }
 
         return Unit.Value;
     }
