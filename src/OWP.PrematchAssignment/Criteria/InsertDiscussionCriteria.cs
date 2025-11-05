@@ -10,7 +10,7 @@ public class InsertDiscussionCriteria : NonQueryCommand
 
     public int AdminSiteMatchId { get; set; }
 
-    public override string GetSettingKey() => "OWP_PreMatchAssignment_InsertDiscussion";
+    public override string GetSettingKey() => "OWP_PreMatchDiscussion_InsertDiscussion";
 
     public override bool IsValid() => ActorId > 0 && AdminSiteMatchId > 0 && !string.IsNullOrWhiteSpace(DiscussionInfoXML);
 }

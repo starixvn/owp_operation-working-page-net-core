@@ -171,7 +171,7 @@ public class PreMatchAssignmentServiceImp(
 
     public async Task<(IEnumerable<DiscussionInfo>, DiscussionMatchInfo)> GetMatchDiscussionInfo(int adminSiteId)
     {
-        var criteria = new GetAssignmenstByMatchCriteria
+        var criteria = new GetMatchDiscussionInfoCriteria
         {
             AdminSiteMatchId = adminSiteId
         };

@@ -2,10 +2,12 @@ using System.Text;
 using System.Text.Json;
 using MediatR;
 using Microsoft.Extensions.Configuration;
+using OWP.Enums;
 using OWP.Extensions;
 using OWP.PrematchAssignment.Criteria;
 using OWP.PrematchAssignment.QueryAndSave.Models;
 using OWP.PrematchAssignment.QueryAndSave.Services;
+using OWP.Utils;
 
 namespace OWP.PrematchAssignment.QueryAndSave.Handlers;
 
@@ -13,7 +15,48 @@ public class CreateRCDiscussionRequest : IRequest<Unit>
 {
     public int AdminSiteId { get; set; } = 115773747;
 
-    public List<DiscussionInfo> DiscussionInfos { get; set; }
+    public List<DiscussionInfo> DiscussionInfos { get; set; } = new List<DiscussionInfo>()
+    {
+        new DiscussionInfo
+        {
+            AdminSiteMatchId = 115773747,
+            BetType = 1,
+            HomeName = "Home",
+            AwayName = "Away",
+            GhostName = "Ghost 1",
+            GhostDetail = "Ghost Detail 1",
+            HdpOu = 1.0m,
+            Odds = "1.00",
+            Note = "Note",
+            Remark = "Remark1",
+        },
+        new DiscussionInfo
+        {
+            AdminSiteMatchId = 115773747,
+            BetType = 1,
+            HomeName = "Home",
+            AwayName = "Away",
+            GhostName = "Ghost 2",
+            GhostDetail = "Ghost Detail 2",
+            HdpOu = 1.0m,
+            Odds = "1.00",
+            Note = "Note",
+            Remark = "Remark2",
+        },
+        new DiscussionInfo
+        {
+            AdminSiteMatchId = 115773747,
+            BetType = 3,
+            HomeName = "Home",
+            AwayName = "Away",
+            GhostName = "Ghost 3",
+            GhostDetail = "Ghost Detail 3",
+            HdpOu = 1.0m,
+            Odds = "1.00",
+            Note = "Note",
+            Remark = "Remark",
+        }
+    };
 }
 
 public class CreateRCDiscussionHandler(
@@ -24,13 +67,15 @@ public class CreateRCDiscussionHandler(
 
     public async Task<Unit> Handle(CreateRCDiscussionRequest request, CancellationToken cancellationToken)
     {
-        var assignments = await preMatchAssignmentService.GetMatchAssignments(request.AdminSiteId);
         var (currentDiscussionInfos, matchInfo) = await preMatchAssignmentService.GetMatchDiscussionInfo(request.AdminSiteId);
 
-        if (matchInfo != null)
+        if (matchInfo == null)
         {
-            UpdateDiscussionInfosWithMatchInfo(request.DiscussionInfos, matchInfo);
+            throw new Exception("Match info is not found");
         }
+
+        UpdateDiscussionInfosWithMatchInfo(request.DiscussionInfos, matchInfo);
+        var assignments = await preMatchAssignmentService.GetMatchAssignments(request.AdminSiteId);
 
         var (newDiscussionGroups, existingDiscussionGroups) = GroupAndSeparateDiscussions(request.DiscussionInfos, currentDiscussionInfos);
 
@@ -230,9 +275,11 @@ public class CreateRCDiscussionHandler(
 
     private string BuildDiscussionName(DiscussionInfo discussionInfo)
     {
-        // Build discussion name similar to CreateDiscussionHandler
-        return $"{discussionInfo.LeagueName} - {discussionInfo.HomeName} vs {discussionInfo.AwayName}";
+        var betType = (MajorBetType)discussionInfo.BetType;
+        var betTypeName = EnumUtils<MajorBetType>.GetDescription(betType, string.Empty);
+        return $"Direction Ticket - {discussionInfo.HomeName} -vs- {discussionInfo.AwayName} - {betTypeName}";
     }
+
 
     private string BuildGroupedReplyMessage(List<DiscussionInfo> discussions)
     {
@@ -243,10 +290,10 @@ public class CreateRCDiscussionHandler(
         var message = new StringBuilder();
         
         // [League name]
-        message.AppendLine($"[{firstDiscussion.LeagueName}]");
+        message.AppendLine($"{firstDiscussion.LeagueName}");
         
         // [Home name] - [Away name]
-        message.AppendLine($"[{firstDiscussion.HomeName}] - [{firstDiscussion.AwayName}]");
+        message.AppendLine($"{firstDiscussion.HomeName} - {firstDiscussion.AwayName}");
         
         var infoCounter = 1;
         
@@ -254,16 +301,14 @@ public class CreateRCDiscussionHandler(
         foreach (var discussionInfo in discussions)
         {
             // #info1 [Ghost name] - [Ghost detail]
-            message.AppendLine($"#info{infoCounter} [{discussionInfo.GhostName}] - [{discussionInfo.GhostDetail}]");
-            infoCounter++;
+            message.AppendLine($"**#info{infoCounter}** {discussionInfo.GhostName} - {discussionInfo.GhostDetail}");
             
             // Bet on: [Bet on] [HDP/OU]@[Odds]
-            var betLine = $"Bet on: [{discussionInfo.BetOn}] [{discussionInfo.HdpOu}]@[{discussionInfo.Odds}]";
+            var betLine = $"Bet on: {discussionInfo.BetOn} {discussionInfo.HdpOu}@{discussionInfo.Odds}";
             message.AppendLine(betLine);
             
-            message.AppendLine($"#note: [{discussionInfo.Note}]");
+            message.AppendLine($"#note: {discussionInfo.Note}");
             
-            message.AppendLine($"#info{infoCounter} [{discussionInfo.Remark}]");
             infoCounter++;
         }
 
