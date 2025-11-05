@@ -108,12 +108,12 @@ const BETTYPE_OPTIONS = [
 
 const BETON_OPTIONS = [
   [
-    { value: 1, label: 'Home' },
-    { value: 2, label: 'Away' }
+    { value: 'Home', label: 'Home' },
+    { value: 'Away', label: 'Away' }
   ],
   [
-    { value: 3, label: 'Over' },
-    { value: 4, label: 'Under' }
+    { value: 'Over', label: 'Over' },
+    { value: 'Under', label: 'Under' }
   ]
 ];
 export {

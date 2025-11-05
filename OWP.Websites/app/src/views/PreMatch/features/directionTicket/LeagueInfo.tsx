@@ -63,7 +63,6 @@ const LeagueInfo = (props: {
 
   return (
     <div className='list'>
-      <div className='title'>League Information</div>
       {renderLeagueName()}
       {renderEvent()}
       {renderAdminSiteMatchId()}

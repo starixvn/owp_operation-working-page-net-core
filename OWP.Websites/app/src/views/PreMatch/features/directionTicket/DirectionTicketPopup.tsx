@@ -1,4 +1,4 @@
-import { Modal, ModalBody, ModalFooter } from 'reactstrap';
+import { Modal, ModalBody, ModalFooter, ModalHeader, Button } from 'reactstrap';
 import LeagueInfo from './LeagueInfo';
 import TicketInfoWrapper from './TicketInfoWrapper';
 
@@ -11,6 +11,9 @@ const DirectionTicketPopup = () => {
       modalClassName='direction-ticket-modal'
       size='lg'
       centered>
+      <ModalHeader>
+        <div className='title'>League Information</div>
+      </ModalHeader>
       <ModalBody>
         <LeagueInfo
           league='V-League'
@@ -20,7 +23,20 @@ const DirectionTicketPopup = () => {
         <TicketInfoWrapper />
       </ModalBody>
       <ModalFooter>
-
+        <ModalFooter>
+          <Button
+            color='primary'
+            className='btn-add'
+            onClick={() => { }}>
+            Submit
+          </Button>
+          <Button
+            color='secondary'
+            className='btn-cancel'
+            onClick={() => { }}>
+            Cancel
+          </Button>
+        </ModalFooter>
       </ModalFooter>
     </Modal>
   );

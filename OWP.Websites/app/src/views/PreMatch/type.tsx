@@ -1,21 +1,28 @@
 type TTicketInfo = {
-  no: string;
   ghostNameId: number;
   ghostDetail: string;
   bettypeId: number;
-  betOnId: number;
+  betOnId: string;
   hdp_ou: number;
-  odds: number;
+  odds: string;
   note: string;
   remark: string;
 };
+
+type TRenderTicketInfo = {
+  index: number;
+  isRenderRemoveCommand: boolean;
+  isRenderAddCommand: boolean;
+  ticketInfo: TTicketInfo;
+}
 type TRemoveTicketInfo = {
-  no: Required<string>;
+  index: Required<number>;
 };
 
 type TUpdateTicketInfo = {
   index: Required<number>;
-  ticketInfo: TTicketInfo;
+  key: keyof TTicketInfo;
+  value: number | string;
 };
 
 type TDirectionTicket = {
@@ -31,5 +38,6 @@ export type {
   TDirectionTicket,
   TTicketInfo,
   TRemoveTicketInfo,
-  TUpdateTicketInfo
+  TUpdateTicketInfo,
+  TRenderTicketInfo
 };

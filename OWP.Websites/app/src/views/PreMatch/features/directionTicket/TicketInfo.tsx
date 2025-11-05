@@ -2,10 +2,10 @@ import Select from 'react-select-ts';
 import { useDispatch } from 'react-redux';
 import { BETON_OPTIONS, BETTYPE_OPTIONS, GHOST_OPTIONS } from '../../const/const';
 import { Option } from '../../../Shared/MultipleSelection/type';
-import { TTicketInfo } from '../../type';
-import { addTicketInfo } from './directionTicketSlice';
+import { TRenderTicketInfo } from '../../type';
+import { addTicketInfo, removeTicketInfo } from './directionTicketSlice';
 
-const TicketInfo = (props: TTicketInfo) => {
+const TicketInfo = (props: TRenderTicketInfo) => {
   const {
     ghostNameId,
     ghostDetail,
@@ -14,7 +14,9 @@ const TicketInfo = (props: TTicketInfo) => {
     hdp_ou,
     odds,
     note,
-    remark } = props;
+    remark } = props.ticketInfo;
+
+  const { index, isRenderRemoveCommand, isRenderAddCommand } = props;
 
   const dispatch = useDispatch();
 
@@ -26,6 +28,10 @@ const TicketInfo = (props: TTicketInfo) => {
 
   const handleAddTicketInfo = () => {
     dispatch(addTicketInfo());
+  };
+
+  const handleRemoveTicketInfo = () => {
+    dispatch(removeTicketInfo({ index }));
   };
 
   const renderGhostName = () => (
@@ -141,21 +147,60 @@ const TicketInfo = (props: TTicketInfo) => {
     </div>
   );
 
-  const renderAddCommand = () => {
+  const renderRemoveCommand = () => {
     return (
-      <div className='content add-command'>
-        <button
-          className='btn-add-command'
-          onClick={handleAddTicketInfo}
-        >Add</button>
+      <div className='content add-remove-command'>
+        {renderButton('Delete', 'btn-remove-command', handleRemoveTicketInfo)}
       </div>
     );
   };
 
+  const renderAddCommand = () => {
+    return (
+      <div className='content add-remove-command'>
+        {renderButton('Add', 'btn-add-command', handleAddTicketInfo)}
+      </div>
+    );
+  };
+
+  const renderAddAndRemoveCommand = () => {
+    return (
+      <div className='content add-remove-command'>
+        {renderButton('Delete', 'btn-remove-command', handleRemoveTicketInfo)}
+        {renderButton('Add', 'btn-add-command', handleAddTicketInfo)}
+      </div>
+    );
+  };
+
+  const renderButton = (
+    label: string,
+    className: string,
+    onClick: () => void) => {
+    return (
+      <button
+        className={className}
+        onClick={onClick}
+      >{label}</button>
+    );
+  };
+
+  const renderCommand = () => {
+    if (isRenderRemoveCommand && isRenderAddCommand) {
+      return renderAddAndRemoveCommand();
+    }
+    if (isRenderRemoveCommand) {
+      return renderRemoveCommand();
+    }
+    if (isRenderAddCommand) {
+      return renderAddCommand();
+    }
+  };
+
+
   return (
     <div className='list'>
       <fieldset>
-        <legend>Info 1:</legend>
+        <legend>Info {index + 1}:</legend>
         <div className='ghost-name__ghost-detail'>
           {renderGhostName()}
           {renderGhostDetail()}
@@ -168,7 +213,7 @@ const TicketInfo = (props: TTicketInfo) => {
         </div>
         {renderNote()}
         {renderRemark()}
-        {renderAddCommand()}
+        {renderCommand()}
       </fieldset>
     </div>
   );
