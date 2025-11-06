@@ -253,7 +253,7 @@ public class CreateRCDiscussionHandler(
             .ToList();
     }
 
-    private async Task<(bool Success string ErrorMessage, string DiscussionGroupId)> CreateNewRCDiscussion(
+    private async Task<(bool Success, string ErrorMessage, string DiscussionGroupId)> CreateNewRCDiscussion(
         string serverUrl,
         string token,
         string userId,
