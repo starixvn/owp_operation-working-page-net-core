@@ -4,13 +4,32 @@ import TicketInfoWrapper from './TicketInfoWrapper';
 import { useSelector, useDispatch } from 'react-redux';
 import { closePopupCreateDiscussion } from '../../../Shared/createTicketNew/createTicketBoardSliceNew';
 import { clearPopupData } from './directionTicketSlice';
+import { validateTicketInfo } from './validationThunk';
+import store from '../../app/store';
 
 const DirectionTicketPopup = () => {
-  const dispatch = useDispatch();
   const { isOpenCreateDiscussion } = useSelector(state => state.createTicketBoard);
+
+  const dispatch = useDispatch();
+  const handleSubmit = async () => {
+    const ticketInfo = store.getState().directionTicket.data.ticketInfo;
+    const resultAction = await dispatch(validateTicketInfo(ticketInfo)).unwrap();
+
+    if (!resultAction?.valid) {
+      // TODO
+      return;
+    }
+    console.log('success');
+  };
+
+  const handleCancel = () => {
+    dispatch(closePopupCreateDiscussion({}));
+    dispatch(clearPopupData());
+  };
+
   return (
     <Modal
-      isOpen={isOpenCreateDiscussion}
+      isOpen
       scrollable
       className='direction-ticket-popup'
       modalClassName='direction-ticket-modal'
@@ -32,16 +51,13 @@ const DirectionTicketPopup = () => {
           <Button
             color='primary'
             className='btn-add'
-            onClick={() => { }}>
+            onClick={handleSubmit}>
             Submit
           </Button>
           <Button
             color='secondary'
             className='btn-cancel'
-            onClick={() => {
-              dispatch(closePopupCreateDiscussion({}));
-              dispatch(clearPopupData());
-            }}>
+            onClick={handleCancel}>
             Cancel
           </Button>
         </ModalFooter>

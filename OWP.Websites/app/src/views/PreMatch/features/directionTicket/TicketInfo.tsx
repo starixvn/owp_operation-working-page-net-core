@@ -63,7 +63,7 @@ const TicketInfo = (props: TRenderTicketInfo) => {
           className='input'
           ref={ghostDetailInputRef}
           onBlur={() => {
-            ghostDetailInputRef.current?.value && dispatch(updateTicketInfo({ index, field: 'ghostDetail', value: ghostDetailInputRef.current?.value }));
+            ghostDetailInputRef.current?.value !== undefined && dispatch(updateTicketInfo({ index, field: 'ghostDetail', value: ghostDetailInputRef.current?.value }));
           }}
         />
       </div>
@@ -145,7 +145,7 @@ const TicketInfo = (props: TRenderTicketInfo) => {
         <input defaultValue={odds}
           ref={oddsInputRef}
           className='input' onBlur={() => {
-            oddsInputRef.current?.value && dispatch(updateTicketInfo({ index, field: 'odds', value: oddsInputRef.current?.value }));
+            oddsInputRef.current?.value !== undefined && dispatch(updateTicketInfo({ index, field: 'odds', value: oddsInputRef.current?.value }));
           }} />
       </div>
     </div>
@@ -164,7 +164,7 @@ const TicketInfo = (props: TRenderTicketInfo) => {
           className='common-textarea'
           rows={3}
           onBlur={() => {
-            noteInputRef.current?.value && dispatch(updateTicketInfo({ index, field: 'note', value: noteInputRef.current?.value }));
+            noteInputRef.current?.value !== undefined && dispatch(updateTicketInfo({ index, field: 'note', value: noteInputRef.current?.value }));
           }}
         />
       </div>

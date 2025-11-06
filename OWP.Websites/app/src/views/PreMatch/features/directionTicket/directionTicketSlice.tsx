@@ -1,5 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit';
 import { TDirectionTicket, TRemoveTicketInfo, TUpdateTicketInfo } from '../../type';
+import { validateTicketInfo } from './validationThunk';
 
 const directionTicketSlice = createSlice({
   name: 'directionTicket',
@@ -11,6 +12,7 @@ const directionTicketSlice = createSlice({
       leagueGroupId: undefined,
       includeTrader: false,
       ticketInfo: [{
+        no: nanoid(),
         ghostNameId: undefined,
         ghostDetail: undefined,
         bettypeId: undefined,
@@ -19,12 +21,21 @@ const directionTicketSlice = createSlice({
         odds: '',
         note: '',
         remark: '',
+        errorMessage: undefined,
       }],
     } as TDirectionTicket,
+  },
+  extraReducers: builder => {
+    builder.addCase(validateTicketInfo.fulfilled, (state, action) => {
+      for (const ticket of state.data.ticketInfo) {
+        ticket.errorMessage = action.payload.message.find(x => x.no === ticket.no);
+      }
+    });
   },
   reducers: {
     addTicketInfo: state => {
       state.data.ticketInfo.push({
+        no: nanoid(),
         ghostNameId: undefined,
         ghostDetail: '',
         bettypeId: undefined,
@@ -50,6 +61,7 @@ const directionTicketSlice = createSlice({
     },
     clearPopupData: state => {
       state.data.ticketInfo = [{
+        no: nanoid(),
         ghostNameId: undefined,
         ghostDetail: undefined,
         bettypeId: undefined,
@@ -58,6 +70,7 @@ const directionTicketSlice = createSlice({
         odds: '',
         note: '',
         remark: '',
+        errorMessage: undefined,
       }];
     }
   }

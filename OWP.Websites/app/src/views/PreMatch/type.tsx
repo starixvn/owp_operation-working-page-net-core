@@ -1,4 +1,5 @@
 type TTicketInfo = {
+  no: string;
   ghostNameId: number | undefined;
   ghostDetail: string | undefined;
   bettypeId: number | undefined;
@@ -7,6 +8,7 @@ type TTicketInfo = {
   odds: string | undefined;
   note: string | undefined;
   remark: string | undefined;
+  errorMessage?: TErrorMessage;
 };
 
 type TRenderTicketInfo = {
@@ -34,10 +36,33 @@ type TDirectionTicket = {
   ticketInfo: Array<TTicketInfo>;
 };
 
+type TErrorMessage = {
+  no: string;
+  ghostName?: string;
+  ghostDetail?: string;
+  bettype?: string;
+  betOn?: string;
+  hdp_ou?: string;
+  odds?: string;
+  note?: string;
+};
+
+type TValidationResult = {
+  valid: boolean;
+  message: TErrorMessage[];
+}
+
+type TValidateSingleTicketResult = {
+  valid: boolean;
+  message: TErrorMessage;
+}
 export type {
   TDirectionTicket,
   TTicketInfo,
   TRemoveTicketInfo,
   TUpdateTicketInfo,
-  TRenderTicketInfo
+  TRenderTicketInfo,
+  TErrorMessage,
+  TValidationResult,
+  TValidateSingleTicketResult
 };
