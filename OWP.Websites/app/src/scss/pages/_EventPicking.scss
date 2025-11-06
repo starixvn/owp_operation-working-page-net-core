@@ -491,7 +491,7 @@
     thead {
         background: #e3e3e3 !important;
 
-        // Freeze columns from No # to Match horizontally only
+        // Freeze columns from No # to MB HDP horizontally only
         th:nth-child(1) {
             position: sticky;
             left: 0;
@@ -532,15 +532,26 @@
             max-width: 200px !important;
             width: 200px !important;
         }
+
+        th:nth-child(5) {
+            position: sticky;
+            left: 577px;
+            background: #e3e3e3 !important;
+            z-index: 20;
+            min-width: 75px !important;
+            max-width: 75px !important;
+            width: 75px !important;
+        }
     }
 
     tbody {
 
-        // Freeze columns from No # to Match
+        // Freeze columns from No # to MB HDP
         tr>td:nth-child(1),
         tr>td:nth-child(2),
         tr>td:nth-child(3),
-        tr>td:nth-child(4) {
+        tr>td:nth-child(4),
+        tr>td:nth-child(5) {
             position: sticky;
             background: white;
             z-index: 10;
@@ -573,6 +584,13 @@
             min-width: 200px !important;
             max-width: 200px !important;
             width: 200px !important;
+        }
+
+        tr>td:nth-child(5) {
+            left: 577px;
+            min-width: 75px !important;
+            max-width: 75px !important;
+            width: 75px !important;
         }
     }
 
