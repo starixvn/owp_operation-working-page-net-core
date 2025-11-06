@@ -1,6 +1,6 @@
 type TTicketInfo = {
   no: string;
-  ghostName: number | undefined;
+  ghostName: string | undefined;
   ghostDetail: string | undefined;
   betType: number | undefined;
   betOn: string | undefined;
@@ -27,12 +27,17 @@ type TUpdateTicketInfo = {
   value: number | string;
 };
 
+type TUpdateBetType = {
+  index: Required<number>;
+  value: number;
+};
+
 type TDirectionTicket = {
   league: string;
   event: string;
   matchId: number;
   leagueGroup: string;
-  includeTrader: boolean;
+  isIncludeTrader: boolean;
   ticketInfo: Array<TTicketInfo>;
 };
 
@@ -73,5 +78,6 @@ export type {
   TErrorMessage,
   TValidationResult,
   TValidateSingleTicketResult,
-  TDirectionTicketLeagueInfo
+  TDirectionTicketLeagueInfo,
+  TUpdateBetType
 };

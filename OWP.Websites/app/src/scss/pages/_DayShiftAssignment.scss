@@ -2051,7 +2051,11 @@ input::-ms-input-placeholder {
 
   .modal-body {
     padding: 0px;
-
+    .league--type__content{
+      .form-check-input:checked{
+        background-color: #3899dc;
+      }
+    }
     .list {
       .ghost-name__ghost-detail, .bettype__beton__hdp-ou {
         display: flex;

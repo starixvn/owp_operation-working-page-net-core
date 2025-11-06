@@ -2,7 +2,7 @@ import Select from 'react-select-ts';
 import { useDispatch } from 'react-redux';
 import { BETON_OPTIONS, BETTYPE_OPTIONS, GHOST_OPTIONS } from '../../const/const';
 import { TRenderTicketInfo } from '../../type';
-import { addTicketInfo, removeTicketInfo, updateTicketInfo } from './directionTicketSlice';
+import { addTicketInfo, removeTicketInfo, updateBetType, updateTicketInfo } from './directionTicketSlice';
 import { useRef } from 'react';
 
 const TicketInfo = (props: TRenderTicketInfo) => {
@@ -96,7 +96,7 @@ const TicketInfo = (props: TRenderTicketInfo) => {
           classNamePrefix='select'
           onChange={selected => {
             selected?.value &&
-              dispatch(updateTicketInfo({ index, field: 'betType', value: selected.value }));
+              dispatch(updateBetType({ index, value: selected.value }));
           }}
           placeholder="Bettype..."
           value={BETTYPE_OPTIONS.find(option => option.value === betType)} />
@@ -149,7 +149,7 @@ const TicketInfo = (props: TRenderTicketInfo) => {
             step={0.25}
             ref={hdpOuInputRef}
             onBlur={() => {
-              hdpOuInputRef.current?.value
+              hdpOuInputRef.current?.value !== undefined
                 && dispatch(updateTicketInfo({ index, field: 'hdpOu', value: hdpOuInputRef.current?.value }));
 
             }} />

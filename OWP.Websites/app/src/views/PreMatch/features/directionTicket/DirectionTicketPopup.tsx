@@ -9,10 +9,11 @@ import store from '../../app/store';
 import { post } from '../../ImportPrematchHelperNative';
 import Spinner from '../../../components/Spinner';
 import { URL_CREATE_DIRECTION_TICKET } from '../../const/const';
+import ToastrWrapper from '../../../components/ToastrWrapper';
 
 const DirectionTicketPopup = () => {
   const { isOpenCreateDiscussion } = useSelector(state => state.createTicketBoard);
-  const { league, event, matchId, leagueGroup } = store.getState().directionTicket.data;
+  const { league, event, matchId, leagueGroup, isIncludeTrader } = store.getState().directionTicket.data;
 
   const dispatch = useDispatch();
   const handleSubmit = async () => {
@@ -20,18 +21,17 @@ const DirectionTicketPopup = () => {
     const resultAction = await dispatch(validateTicketInfo(ticketInfo)).unwrap();
 
     if (resultAction?.valid) {
-      const { ticketInfo, matchId } = store.getState().directionTicket.data;
-      debugger;
+      const { ticketInfo, matchId, isIncludeTrader } = store.getState().directionTicket.data;
+      Spinner.show();
       await post({
         url: URL_CREATE_DIRECTION_TICKET,
         adminSiteId: matchId,
+        isIncludeTrader,
         discussionInfos: ticketInfo
       });
-      Spinner.show();
-
       Spinner.hide();
+      await ToastrWrapper.showNotifySuccess('Direction ticket has been created successfully!');
     }
-    console.log('success');
   };
 
   const handleCancel = () => {
@@ -55,7 +55,8 @@ const DirectionTicketPopup = () => {
           league={league}
           event={event}
           matchId={matchId}
-          leagueGroup={leagueGroup} />
+          leagueGroup={leagueGroup}
+          isIncludeTrader={isIncludeTrader} />
         <TicketInfoWrapper />
       </ModalBody>
       <ModalFooter>

@@ -1,6 +1,8 @@
 import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit';
-import { TDirectionTicket, TRemoveTicketInfo, TUpdateTicketInfo, TDirectionTicketLeagueInfo } from '../../type';
+import { TDirectionTicket, TRemoveTicketInfo, TUpdateTicketInfo, TDirectionTicketLeagueInfo, TUpdateBetType } from '../../type';
 import { validateTicketInfo } from './validationThunk';
+import { BETON_OPTIONS } from '../../const/const';
+import { BETTYPE_OPTIONS } from '../../const/const';
 
 const directionTicketSlice = createSlice({
   name: 'directionTicket',
@@ -10,7 +12,7 @@ const directionTicketSlice = createSlice({
       event: '',
       matchId: 0,
       leagueGroup: '',
-      includeTrader: false,
+      isIncludeTrader: false,
       ticketInfo: [{
         no: nanoid(),
         ghostName: undefined,
@@ -42,6 +44,7 @@ const directionTicketSlice = createSlice({
       state.data.leagueGroup = leagueGroup;
     },
     addTicketInfo: state => {
+      state.data.isIncludeTrader = false;
       state.data.ticketInfo.push({
         no: nanoid(),
         ghostName: undefined,
@@ -54,9 +57,25 @@ const directionTicketSlice = createSlice({
         remark: '',
       });
     },
+    updateIncludeTrader: (state, action: PayloadAction<boolean>) => {
+      state.data.isIncludeTrader = action.payload;
+    },
+    updateBetType: (state, action: PayloadAction<TUpdateBetType>) => {
+      const { index, value } = action.payload;
+      const ticket = state.data.ticketInfo[index];
+      ticket.betType = value;
+
+      const betOnOptions = (ticket.betType === BETTYPE_OPTIONS[0].value
+        || ticket.betType === BETTYPE_OPTIONS[1].value)
+        ? BETON_OPTIONS[0]
+        : BETON_OPTIONS[1];
+
+      if (!betOnOptions.some(option => option.value === ticket.betOn)) {
+        ticket.betOn = undefined;
+      }
+    },
     updateTicketInfo: (state, action: PayloadAction<TUpdateTicketInfo>) => {
       const { index, field, value } = action.payload;
-      ;
       const ticket = state.data.ticketInfo[index];
       ticket[field] = value as never;
     },
@@ -68,6 +87,7 @@ const directionTicketSlice = createSlice({
       ];
     },
     clearPopupData: state => {
+      state.data.isIncludeTrader = false;
       state.data.ticketInfo = [{
         no: nanoid(),
         ghostName: undefined,
@@ -85,7 +105,7 @@ const directionTicketSlice = createSlice({
 });
 
 const { actions, reducer } = directionTicketSlice;
-const { updateTicketInfo, removeTicketInfo, addTicketInfo, clearPopupData, setLeagueInfo } = actions;
-export { actions, updateTicketInfo, removeTicketInfo, addTicketInfo, clearPopupData, setLeagueInfo };
+const { updateTicketInfo, removeTicketInfo, addTicketInfo, clearPopupData, setLeagueInfo, updateIncludeTrader, updateBetType } = actions;
+export { actions, updateTicketInfo, removeTicketInfo, addTicketInfo, clearPopupData, setLeagueInfo, updateIncludeTrader, updateBetType };
 
 export default reducer;

@@ -1,10 +1,15 @@
+import { useDispatch } from "react-redux";
+import { updateIncludeTrader } from "./directionTicketSlice";
+
 const LeagueInfo = (props: {
   league: string;
   event: string;
   matchId: Required<number>;
   leagueGroup: string;
+  isIncludeTrader: boolean;
 }) => {
-  const { league, event, matchId, leagueGroup } = props;
+  const { league, event, matchId, leagueGroup, isIncludeTrader } = props;
+  const dispatch = useDispatch();
 
   const renderLeagueName = () => (
     <div className='content'>
@@ -51,8 +56,10 @@ const LeagueInfo = (props: {
           type='checkbox'
           name='include-trader'
           className='form-check-input'
-          disabled
+          defaultChecked={isIncludeTrader}
+          onChange={event => dispatch(updateIncludeTrader(event.currentTarget.checked))}
         />
+
       </div>
     </div>
   );
