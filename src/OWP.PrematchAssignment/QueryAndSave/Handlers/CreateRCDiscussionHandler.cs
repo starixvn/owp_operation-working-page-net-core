@@ -9,10 +9,11 @@ using OWP.PrematchAssignment.QueryAndSave.Models;
 using OWP.PrematchAssignment.QueryAndSave.Services;
 using OWP.Utils;
 using OWP.Models;
+using Fanex.Logging;
 
 namespace OWP.PrematchAssignment.QueryAndSave.Handlers;
 
-public class CreateRCDiscussionRequest : IRequest<Unit>
+public class CreateRCDiscussionRequest : IRequest<ResultDataObject>
 {
     public int AdminSiteId { get; set; } = 116493050;
 
@@ -81,7 +82,7 @@ public class CreateRCDiscussionHandler(
     PreMatchAssignmentService preMatchAssignmentService,
     HttpClient httpClient,
     IConfiguration configuration,
-    ILogger logger) : IRequestHandler<CreateRCDiscussionRequest, Unit>
+    ILogger logger) : IRequestHandler<CreateRCDiscussionRequest, ResultDataObject>
 {
 
     public async Task<ResultDataObject> Handle(CreateRCDiscussionRequest request, CancellationToken cancellationToken)
