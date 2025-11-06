@@ -99,12 +99,13 @@ public class CreateRCDiscussionHandler(
         var errorGroups = new Dictionary<(int AdminSiteMatchId, int BetType), string>();
         
         var newErrors = await ProcessNewDiscussions(newDiscussionGroups, assignments, cancellationToken);
+        
+        var existingErrors = await ProcessExistingDiscussions(existingDiscussionGroups, assignments, cancellationToken);
+
         foreach (var error in newErrors)
         {
             errorGroups[error.Key] = error.Value;
         }
-        
-        var existingErrors = await ProcessExistingDiscussions(existingDiscussionGroups, assignments, cancellationToken);
         foreach (var error in existingErrors)
         {
             errorGroups[error.Key] = error.Value;
@@ -181,23 +182,17 @@ public class CreateRCDiscussionHandler(
         CancellationToken cancellationToken)
     {
         var errorGroups = new Dictionary<(int AdminSiteMatchId, int BetType), string>();
-        var serverUrl = configuration["ChatServer:Url"];
-        var token = configuration["ChatServer:BotToken"];
-        var userId = configuration["ChatServer:BotUserId"];
-        var parentChannelId = configuration["ChatServer:LATodayMatchChannelId"];
 
         foreach (var group in newDiscussionGroups)
         {
             var firstDiscussion = group.First();
             var groupIdentifier = (firstDiscussion.AdminSiteMatchId, firstDiscussion.BetType);
 
-           
             var tName = BuildDiscussionName(firstDiscussion);
             var users = GetUsersFromAssignments(assignments, firstDiscussion.BetType);
             var reply = BuildGroupedReplyMessage(group.ToList());
 
-            var (success, errorMessage, rcDiscussionGroupId) = await CreateNewRCDiscussion(
-                serverUrl, token, userId, parentChannelId, tName, users, reply, cancellationToken);
+            var (success, errorMessage, rcDiscussionGroupId) = await CreateNewRCDiscussion(tName, users, reply, cancellationToken);
 
             if (success && !string.IsNullOrEmpty(rcDiscussionGroupId))
             {
@@ -220,9 +215,6 @@ public class CreateRCDiscussionHandler(
         CancellationToken cancellationToken)
     {
         var errorGroups = new Dictionary<(int AdminSiteMatchId, int BetType), string>();
-        var serverUrl = configuration["ChatServer:Url"];
-        var token = configuration["ChatServer:BotToken"];
-        var userId = configuration["ChatServer:BotUserId"];
 
         foreach (var group in existingDiscussionGroups)
         {
@@ -231,8 +223,7 @@ public class CreateRCDiscussionHandler(
             
             var discussionList = group.ToList();
             var message = BuildGroupedReplyMessage(discussionList);
-            var (success, errorMessage) = await SendMessageToDiscussion(
-                serverUrl, token, userId, firstDiscussion.RCDiscussionGroupId, message, cancellationToken);
+            var (success, errorMessage) = await SendMessageToDiscussion(firstDiscussion.RCDiscussionGroupId, message, cancellationToken);
             
             if (!success)
             {
@@ -254,10 +245,6 @@ public class CreateRCDiscussionHandler(
     }
 
     private async Task<(bool Success, string ErrorMessage, string DiscussionGroupId)> CreateNewRCDiscussion(
-        string serverUrl,
-        string token,
-        string userId,
-        string parentChannelId,
         string discussionName,
         List<string> users,
         string reply,
@@ -265,6 +252,10 @@ public class CreateRCDiscussionHandler(
     {
         try
         {
+             var serverUrl = configuration["ChatServer:Url"];
+            var token = configuration["ChatServer:BotToken"];
+            var userId = configuration["ChatServer:BotUserId"];
+            var parentChannelId = configuration["ChatServer:LATodayMatchChannelId"];
             var payload = new
             {
                 prid = parentChannelId,
@@ -314,15 +305,16 @@ public class CreateRCDiscussionHandler(
 
 
     private async Task<(bool Success, string ErrorMessage)> SendMessageToDiscussion(
-        string serverUrl,
-        string token,
-        string userId,
         string roomId,
         string message,
         CancellationToken cancellationToken)
     {
         try
         {
+            var serverUrl = configuration["ChatServer:Url"];
+            var token = configuration["ChatServer:BotToken"];
+            var userId = configuration["ChatServer:BotUserId"];
+
             var payload = new
             {
                 roomId = roomId,
