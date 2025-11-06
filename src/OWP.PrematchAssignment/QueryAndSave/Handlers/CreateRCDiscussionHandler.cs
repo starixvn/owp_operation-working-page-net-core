@@ -18,7 +18,7 @@ public class CreateRCDiscussionRequest : IRequest<ResultDataObject>
     public int AdminSiteId { get; set; } = 116493050;
     public bool IsIncludeTrader { get; set; } = true;
 
-    public List<DiscussionInfo> DiscussionInfos { get; set; } = new List<DiscussionInfo>()
+    public List<DiscussionInfo> DiscussionInfos { get; set; } = new List<DiscussionInfo>
     {
         new DiscussionInfo
         {
@@ -92,7 +92,7 @@ public class CreateRCDiscussionHandler(
 
         if (matchInfo == null)
         {
-            throw new Exception("Match info is not found");
+            throw new ArgumentNullException("Match info is not found");
         }
 
         UpdateDiscussionInfosWithMatchInfo(request.DiscussionInfos, matchInfo);
@@ -107,7 +107,7 @@ public class CreateRCDiscussionHandler(
             
             var newErrors = await ProcessNewDiscussions(newDiscussionGroups, assignments, cancellationToken);
             
-            var existingErrors = await ProcessExistingDiscussions(existingDiscussionGroups, assignments, cancellationToken);
+            var existingErrors = await ProcessExistingDiscussions(existingDiscussionGroups, cancellationToken);
 
             foreach (var error in newErrors)
             {
@@ -233,7 +233,6 @@ public class CreateRCDiscussionHandler(
 
     private async Task<Dictionary<(int AdminSiteMatchId, int BetType), string>> ProcessExistingDiscussions(
         List<IGrouping<object, DiscussionInfo>> existingDiscussionGroups,
-        IEnumerable<Assignment> assignments,
         CancellationToken cancellationToken)
     {
         var errorGroups = new Dictionary<(int AdminSiteMatchId, int BetType), string>();
@@ -282,9 +281,9 @@ public class CreateRCDiscussionHandler(
             {
                 prid = parentChannelId,
                 t_name = discussionName,
-                users = users,
+                users,
                 topic = "Live Soccer",
-                reply = reply
+                reply
             };
 
             var content = new StringContent(
@@ -339,7 +338,7 @@ public class CreateRCDiscussionHandler(
 
             var payload = new
             {
-                roomId = roomId,
+                roomId,
                 text = message
             };
 
@@ -382,9 +381,12 @@ public class CreateRCDiscussionHandler(
     private string BuildGroupedReplyMessage(List<DiscussionInfo> discussions)
     {
         if (discussions == null || !discussions.Any())
+        {
             return string.Empty;
+        }
+            
 
-        var firstDiscussion = discussions.First();
+        var firstDiscussion = discussions[0];
         var message = new StringBuilder();
 
         // [League name]
@@ -414,7 +416,7 @@ public class CreateRCDiscussionHandler(
     
     public string buildBetOnMessage(DiscussionInfo discussionInfo)
     {
-        var betOnMessage = discussionInfo.BetOn;
+        var betOnMessage = string.Empty;
         if (discussionInfo.BetOn == "Home")
         {
             betOnMessage = discussionInfo.HomeName;
@@ -422,6 +424,10 @@ public class CreateRCDiscussionHandler(
         else if (discussionInfo.BetOn == "Away")
         {
             betOnMessage = discussionInfo.AwayName;
+        }
+        else
+        {
+            discussionInfo.BetOn;
         }
         return betOnMessage;
     }

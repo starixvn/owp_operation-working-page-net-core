@@ -10,7 +10,7 @@ public class InsertDiscussionCriteria : NonQueryCommand
 
     public int AdminSiteMatchId { get; set; }
 
-    public bool IsIncludeTrader { get; set; };
+    public bool IsIncludeTrader { get; set; }
 
     public override string GetSettingKey() => "OWP_PreMatchDiscussion_InsertDiscussion";
 
