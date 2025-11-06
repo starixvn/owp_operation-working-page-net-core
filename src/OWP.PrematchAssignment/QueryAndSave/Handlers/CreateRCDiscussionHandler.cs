@@ -187,11 +187,15 @@ public class CreateRCDiscussionHandler(
         foreach (var group in existingDiscussionGroups)
         {
             var firstDiscussion = group.First();
-            var users = GetUsersFromAssignments(assignments, firstDiscussion.BetType);
-            var reply = BuildGroupedReplyMessage(group.ToList());
-
-            await InviteUsersToExistingDiscussion(
-                serverUrl, token, userId, firstDiscussion.RCDiscussionGroupId, users, reply, cancellationToken);
+            // Send individual messages for each discussion info
+            var discussionList = group.ToList();
+            for (int i = 0; i < discussionList.Count; i++)
+            {
+                var discussionInfo = discussionList[i];
+                var message = BuildGroupedReplyMessage(group.ToList());
+                await SendMessageToDiscussion(
+                    serverUrl, token, userId, firstDiscussion.RCDiscussionGroupId, message, cancellationToken);
+            }
         }
     }
 
@@ -246,19 +250,18 @@ public class CreateRCDiscussionHandler(
         return resultObj?.Discussion?.Name ?? string.Empty;
     }
 
-    private async Task InviteUsersToExistingDiscussion(
+
+    private async Task SendMessageToDiscussion(
         string serverUrl,
         string token,
         string userId,
         string roomId,
-        List<string> users,
         string message,
         CancellationToken cancellationToken)
     {
         var payload = new
         {
             roomId = roomId,
-            users = users,
             msg = message
         };
 
@@ -268,7 +271,7 @@ public class CreateRCDiscussionHandler(
             "application/json"
         );
 
-        var httpRequest = new HttpRequestMessage(HttpMethod.Post, $"{serverUrl}rooms.invite");
+        var httpRequest = new HttpRequestMessage(HttpMethod.Post, $"{serverUrl}chat.postMessage");
         httpRequest.Headers.Add("X-Auth-Token", token);
         httpRequest.Headers.Add("X-User-Id", userId);
         httpRequest.Content = content;
