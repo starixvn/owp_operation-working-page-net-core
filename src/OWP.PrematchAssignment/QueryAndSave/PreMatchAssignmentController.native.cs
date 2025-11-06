@@ -159,7 +159,7 @@ public class PreMatchAssignmentController(
     [HttpPost]
     public async Task<IActionResult> CreateRCDiscusstion(CreateRCDiscussionRequest request)
     {
-        await mediator.Send(request);
-        return Ok();
+        var result = await mediator.Send(request);
+        return Ok(JsonConvert.SerializeObject(result));
     }
 }

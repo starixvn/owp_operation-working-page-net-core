@@ -8,6 +8,7 @@ using OWP.PrematchAssignment.Criteria;
 using OWP.PrematchAssignment.QueryAndSave.Models;
 using OWP.PrematchAssignment.QueryAndSave.Services;
 using OWP.Utils;
+using OWP.Models;
 
 namespace OWP.PrematchAssignment.QueryAndSave.Handlers;
 
@@ -79,10 +80,11 @@ public class CreateRCDiscussionRequest : IRequest<Unit>
 public class CreateRCDiscussionHandler(
     PreMatchAssignmentService preMatchAssignmentService,
     HttpClient httpClient,
-    IConfiguration configuration) : IRequestHandler<CreateRCDiscussionRequest, Unit>
+    IConfiguration configuration,
+    ILogger logger) : IRequestHandler<CreateRCDiscussionRequest, Unit>
 {
 
-    public async Task<Unit> Handle(CreateRCDiscussionRequest request, CancellationToken cancellationToken)
+    public async Task<ResultDataObject> Handle(CreateRCDiscussionRequest request, CancellationToken cancellationToken)
     {
         var (currentDiscussionInfos, matchInfo) = await preMatchAssignmentService.GetMatchDiscussionInfo(request.AdminSiteId);
 
@@ -125,7 +127,23 @@ public class CreateRCDiscussionHandler(
             });
         }
 
-        return Unit.Value;
+        if (errorGroups.Any())
+        {
+            await logger.ErrorAsync($"Error in CreateRCDiscussion: {string.Join(", ", errorGroups.Keys.ToList())} ---- {string.Join(", ", errorGroups.Values.ToList())}", "CreateRCDiscussion_Error");
+            return new ResultDataObject
+            {
+                Code = (int)ErrorCode.Error,
+                Message = "Some RCDiscussion creations failed",
+                Data = errorGroups
+            };
+        }
+
+        return new ResultDataObject
+        {
+            Code = (int)ErrorCode.Ok,
+            Message = "RCDiscussion created successfully"
+        };
+
     }
 
     private void UpdateDiscussionInfosWithMatchInfo(List<DiscussionInfo> discussionInfos, DiscussionMatchInfo matchInfo)
