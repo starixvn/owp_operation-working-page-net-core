@@ -8,6 +8,12 @@ const validateGhostName = (ticket: TTicketInfo, errorMessage: TValidateSingleTic
   }
 };
 
+const validateGhostDetail = (ticket: TTicketInfo, errorMessage: TValidateSingleTicketResult) => {
+  if (!ticket.ghostDetail) {
+    errorMessage.valid = false;
+    errorMessage.message.ghostDetail = 'Ghost Detail is required';
+  }
+};
 const validateBettype = (ticket: TTicketInfo, errorMessage: TValidateSingleTicketResult) => {
   if (!ticket.bettypeId) {
     errorMessage.valid = false;
@@ -61,6 +67,7 @@ export const validateTicketInfo = createAsyncThunk<
           }
         };
         validateGhostName(ticket, errorMessage);
+        validateGhostDetail(ticket, errorMessage);
         validateBettype(ticket, errorMessage);
         validateBetOn(ticket, errorMessage);
         validateHdpOu(ticket, errorMessage);

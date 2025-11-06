@@ -14,7 +14,9 @@ const TicketInfo = (props: TRenderTicketInfo) => {
     hdp_ou,
     odds,
     note,
-    remark } = props.ticketInfo;
+    remark,
+    errorMessage } = props.ticketInfo;
+
   const ghostDetailInputRef = useRef<HTMLInputElement>(null);
   const hdpOuInputRef = useRef<HTMLInputElement>(null);
   const oddsInputRef = useRef<HTMLInputElement>(null);
@@ -48,6 +50,8 @@ const TicketInfo = (props: TRenderTicketInfo) => {
         }}
         placeholder="Ghost Name..."
         value={GHOST_OPTIONS.find(option => option.value === ghostNameId)} />
+      <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>
+        {errorMessage?.ghostName}</p>
     </div>
   );
 
@@ -67,6 +71,8 @@ const TicketInfo = (props: TRenderTicketInfo) => {
           }}
         />
       </div>
+      <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>
+        {errorMessage?.ghostDetail}</p>
     </div>
   );
 
@@ -86,6 +92,8 @@ const TicketInfo = (props: TRenderTicketInfo) => {
         }}
         placeholder="Bettype..."
         value={BETTYPE_OPTIONS.find(option => option.value === bettypeId)} />
+      <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>
+        {errorMessage?.bettype}</p>
     </div>
   );
 
@@ -110,6 +118,8 @@ const TicketInfo = (props: TRenderTicketInfo) => {
         }}
         placeholder="Bet on..."
         value={betOnOptions.find(option => option.value === betOnId)} />
+      <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>
+        {errorMessage?.betOn}</p>
     </div>;
   };
 
@@ -132,6 +142,8 @@ const TicketInfo = (props: TRenderTicketInfo) => {
 
           }} />
       </div>
+      <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>
+        {errorMessage?.hdp_ou}</p>
     </div>
   );
 
@@ -148,6 +160,8 @@ const TicketInfo = (props: TRenderTicketInfo) => {
             oddsInputRef.current?.value !== undefined && dispatch(updateTicketInfo({ index, field: 'odds', value: oddsInputRef.current?.value }));
           }} />
       </div>
+      <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>
+        {errorMessage?.odds}</p>
     </div>
   );
 
@@ -168,6 +182,8 @@ const TicketInfo = (props: TRenderTicketInfo) => {
           }}
         />
       </div>
+      <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>
+        {errorMessage?.note}</p>
     </div>
   );
 
