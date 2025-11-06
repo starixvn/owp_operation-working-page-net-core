@@ -1,5 +1,5 @@
 import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit';
-import { TDirectionTicket, TRemoveTicketInfo, TUpdateTicketInfo } from '../../type';
+import { TDirectionTicket, TRemoveTicketInfo, TUpdateTicketInfo, TDirectionTicketLeagueInfo } from '../../type';
 import { validateTicketInfo } from './validationThunk';
 
 const directionTicketSlice = createSlice({
@@ -8,8 +8,8 @@ const directionTicketSlice = createSlice({
     data: {
       league: '',
       event: '',
-      matchId: undefined,
-      leagueGroupId: undefined,
+      matchId: 0,
+      leagueGroup: '',
       includeTrader: false,
       ticketInfo: [{
         no: nanoid(),
@@ -33,6 +33,14 @@ const directionTicketSlice = createSlice({
     });
   },
   reducers: {
+    setLeagueInfo: (state, action: PayloadAction<TDirectionTicketLeagueInfo>) => {
+      const { league, event, matchId, leagueGroup } = action.payload;
+      debugger
+      state.data.league = league;
+      state.data.event = event;
+      state.data.matchId = matchId;
+      state.data.leagueGroup = leagueGroup;
+    },
     addTicketInfo: state => {
       state.data.ticketInfo.push({
         no: nanoid(),
@@ -77,7 +85,7 @@ const directionTicketSlice = createSlice({
 });
 
 const { actions, reducer } = directionTicketSlice;
-const { updateTicketInfo, removeTicketInfo, addTicketInfo, clearPopupData } = actions;
-export { actions, updateTicketInfo, removeTicketInfo, addTicketInfo, clearPopupData };
+const { updateTicketInfo, removeTicketInfo, addTicketInfo, clearPopupData, setLeagueInfo } = actions;
+export { actions, updateTicketInfo, removeTicketInfo, addTicketInfo, clearPopupData, setLeagueInfo };
 
 export default reducer;

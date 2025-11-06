@@ -17,6 +17,7 @@ import useStableDispatch from '../../../../Shared/customHook/useStableDispatch';
 import { backupGetIssueModel } from '../../signalR/signalRSlice';
 import { IconRocketChat } from '../../../../Shared/common/icons/common-icons';
 import ToastrWrapper from '../../../../components/ToastrWrapper';
+import { setLeagueInfo } from '../../directionTicket/directionTicketSlice';
 
 const propTypes = {
   dataSource: PropTypes.array.isRequired,
@@ -45,6 +46,18 @@ const IconCreateMessage = props => {
   };
 
   const handleOpenCreateDiscussion = () => {
+    const { LeagueName, HomeName, AwayName, AdminSiteMatchId, LeagueId } =
+      dataSource[rowIndex];
+    const { LeagueGroup } = dataSource.find(x => x.LeagueId === LeagueId);
+    debugger;
+    dispatch(
+      setLeagueInfo({
+        league: LeagueName,
+        event: `${HomeName} -vs- ${AwayName}`,
+        matchId: AdminSiteMatchId,
+        leagueGroup: LeagueGroup
+      })
+    );
     dispatch(openPopupCreateDiscussion());
 
     // TODO: remove this after testing

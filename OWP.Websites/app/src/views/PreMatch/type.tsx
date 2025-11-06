@@ -30,8 +30,8 @@ type TUpdateTicketInfo = {
 type TDirectionTicket = {
   league: string;
   event: string;
-  matchId: number | undefined;
-  leagueGroupId: number | undefined;
+  matchId: number;
+  leagueGroup: string;
   includeTrader: boolean;
   ticketInfo: Array<TTicketInfo>;
 };
@@ -56,6 +56,14 @@ type TValidateSingleTicketResult = {
   valid: boolean;
   message: TErrorMessage;
 }
+
+type TDirectionTicketLeagueInfo = {
+  league: string;
+  event: string;
+  matchId: number;
+  leagueGroup: string;
+};
+
 export type {
   TDirectionTicket,
   TTicketInfo,
@@ -64,5 +72,6 @@ export type {
   TRenderTicketInfo,
   TErrorMessage,
   TValidationResult,
-  TValidateSingleTicketResult
+  TValidateSingleTicketResult,
+  TDirectionTicketLeagueInfo
 };

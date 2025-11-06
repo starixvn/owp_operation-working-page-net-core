@@ -9,7 +9,8 @@ import store from '../../app/store';
 
 const DirectionTicketPopup = () => {
   const { isOpenCreateDiscussion } = useSelector(state => state.createTicketBoard);
-
+  const { league, event, matchId, leagueGroup } = store.getState().directionTicket.data;
+  debugger
   const dispatch = useDispatch();
   const handleSubmit = async () => {
     const ticketInfo = store.getState().directionTicket.data.ticketInfo;
@@ -29,7 +30,7 @@ const DirectionTicketPopup = () => {
 
   return (
     <Modal
-      isOpen
+      isOpen={isOpenCreateDiscussion}
       scrollable
       className='direction-ticket-popup'
       modalClassName='direction-ticket-modal'
@@ -40,10 +41,10 @@ const DirectionTicketPopup = () => {
       </ModalHeader>
       <ModalBody>
         <LeagueInfo
-          league='V-League'
-          event={'Viet name -vs- Thai Land'}
-          matchId={1234567890}
-          leagueGroup='League Group 1' />
+          league={league}
+          event={event}
+          matchId={matchId}
+          leagueGroup={leagueGroup} />
         <TicketInfoWrapper />
       </ModalBody>
       <ModalFooter>
