@@ -10,7 +10,7 @@ import {
 } from '../../helper/reducerHelper';
 import {
   buildMultipleFilterDefault,
-  buildTableMultipleFilterOptions,
+  updateMultipleFilterOptionsAndSelected,
   executeFilterTable
 } from '../../helper/filterHelper';
 import TDataTable, {
@@ -24,8 +24,8 @@ import TDataTable, {
 } from '../../types/dataTableType';
 import {
   addOrReplaceFilterState,
-  filterDataTable,
-  pushOrUpdateObject
+  pushOrUpdateObject,
+  removeFilterStateByColumnKey
 } from '../../../Shared/Utils';
 import filterByKeyword from '../filterByKeyword';
 import type { PayloadAction } from '@reduxjs/toolkit';
@@ -110,6 +110,21 @@ const EventPickingTableSlice = createSlice({
         isFilter: false,
         selected: [],
         options: []
+      },
+      tv: {
+        isFilter: false,
+        selected: [],
+        options: []
+      },
+      provider: {
+        isFilter: false,
+        selected: [],
+        options: []
+      },
+      round: {
+        isFilter: false,
+        selected: [],
+        options: []
       }
     },
     order: {
@@ -184,19 +199,13 @@ const EventPickingTableSlice = createSlice({
         hasReadPermission
       );
       state.entities = executeOrderTable(state.entities, state.order);
-      const options = buildTableMultipleFilterOptions(
-        state.entities,
-        state.rAndDInfoFilterOriginal.options
-      );
 
-      state.multipleFilter.time.options = options.time;
-      state.multipleFilter.maxbetHdp.options = options.maxbetHdp;
-      state.multipleFilter.maxbetOu.options = options.maxbetOu;
-      state.multipleFilter.spreadHdp.options = options.spreadHdp;
-      state.multipleFilter.spreadOu.options = options.spreadOu;
-      state.multipleFilter.noOfHDP.options = options.noOfHDP;
-      state.multipleFilter.rAndDInfo.options = options.rAndDInfo;
-      state.multipleFilter.lstNote.options = options.lstNote;
+      // Update multiple filter options and selected values
+      updateMultipleFilterOptionsAndSelected(
+        state,
+        hasReadPermission,
+        filterByKeyword
+      );
 
       state.isConfirmAll = state.entities?.every(x => x.isCheck);
       state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
@@ -215,6 +224,55 @@ const EventPickingTableSlice = createSlice({
         rAndDInfo: state.rAndDInfoFilterOriginal
       };
     },
+    clearSingleColumnFilter: (
+      state,
+      action: PayloadAction<{
+        columnKey: Required<TColumnKey>;
+        hasReadPermission?: boolean;
+      }>
+    ) => {
+      const { columnKey, hasReadPermission = false } = action.payload;
+      const { valueFilterAllColumn } = state;
+
+      // Xóa text filter: reset keyword về chuỗi rỗng
+      state.valueFilterAllColumn = pushOrUpdateObject(valueFilterAllColumn, {
+        columnKey,
+        keyword: ''
+      });
+
+      // Xóa khỏi mảng filterState (cho text/keyword filters)
+      state.filterState = removeFilterStateByColumnKey(
+        state.filterState,
+        columnKey
+      );
+
+      // Xóa multiple filter: set isFilter thành false và tạm thời empty selected
+      if (columnKey in state.multipleFilter) {
+        state.multipleFilter[columnKey] = {
+          ...state.multipleFilter[columnKey],
+          isFilter: false,
+          selected: []
+        };
+      }
+
+      // Thực thi tất cả filters còn lại (text + multiple) trên entities gốc
+      state.entities = executeFilterTable(
+        state,
+        filterByKeyword,
+        hasReadPermission
+      );
+
+      // Update multiple filter options and selected values
+      updateMultipleFilterOptionsAndSelected(
+        state,
+        hasReadPermission,
+        filterByKeyword
+      );
+
+      state.entities = executeOrderTable(state.entities, state.order);
+      state.isConfirmAll = state.entities?.every(x => x.isCheck);
+      state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
+    },
     setMultipleFilter: (
       state,
       action: PayloadAction<{
@@ -229,25 +287,21 @@ const EventPickingTableSlice = createSlice({
         isFilter: true,
         selected
       };
+
       state.entities = executeFilterTable(
         state,
         filterByKeyword,
         hasReadPermission
       );
-      state.entities = executeOrderTable(state.entities, state.order);
-      const options = buildTableMultipleFilterOptions(
-        state.entities,
-        state.rAndDInfoFilterOriginal.options
-      );
 
-      state.multipleFilter.time.options = options.time;
-      state.multipleFilter.maxbetHdp.options = options.maxbetHdp;
-      state.multipleFilter.maxbetOu.options = options.maxbetOu;
-      state.multipleFilter.spreadHdp.options = options.spreadHdp;
-      state.multipleFilter.spreadOu.options = options.spreadOu;
-      state.multipleFilter.noOfHDP.options = options.noOfHDP;
-      state.multipleFilter.lstNote.options = options.lstNote;
-      state.multipleFilter.rAndDInfo.options = options.rAndDInfo;
+      state.entities = executeOrderTable(state.entities, state.order);
+
+      // Update multiple filter options and selected values
+      updateMultipleFilterOptionsAndSelected(
+        state,
+        hasReadPermission || false,
+        filterByKeyword
+      );
 
       state.isConfirmAll = state.entities?.every(x => x.isCheck);
       state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
@@ -265,15 +319,17 @@ const EventPickingTableSlice = createSlice({
       }>
     ) => {
       const { key, value, infoSiteMatchId, minorBettypeId } = action.payload;
-      const target = state.entities.find(
-        s =>
-          s.infoSiteMatchId === infoSiteMatchId &&
-          s.minorBettypeId === minorBettypeId
-      );
-      if (target) {
-        target.isModified = true;
-        target[key] = value;
-      }
+      [state.entitiesOriginal, state.entities].filter(Boolean).forEach(list => {
+        const target = list.find(
+          s =>
+            s.infoSiteMatchId === infoSiteMatchId &&
+            s.minorBettypeId === minorBettypeId
+        );
+        if (target) {
+          target.isModified = true;
+          target[key] = value;
+        }
+      });
     },
     setValueNoOfHdp: (
       state,
@@ -284,15 +340,17 @@ const EventPickingTableSlice = createSlice({
       }>
     ) => {
       const { value, infoSiteMatchId, minorBettypeId } = action.payload;
-      const target = state.entities.find(
-        s =>
-          s.infoSiteMatchId === infoSiteMatchId &&
-          s.minorBettypeId === minorBettypeId
-      );
-      if (target) {
-        target.noOfHDP = value;
-        target.isModified = true;
-      }
+      [state.entitiesOriginal, state.entities].filter(Boolean).forEach(list => {
+        const target = list.find(
+          s =>
+            s.infoSiteMatchId === infoSiteMatchId &&
+            s.minorBettypeId === minorBettypeId
+        );
+        if (target) {
+          target.isModified = true;
+          target.noOfHDP = value;
+        }
+      });
     },
     setMatchSelected: (
       state,
@@ -361,20 +419,12 @@ const EventPickingTableSlice = createSlice({
         state.loading = REQUEST_STATUS.idle;
         state.entitiesByDate = matchesByDate;
         state.entitiesOriginal = filteredMatches;
-        state.entities = filterDataTable(
-          state.entitiesOriginal,
-          state.filterState,
-          filterByKeyword
-        );
-        state.order = {};
-
+        state.entities = executeFilterTable(state, filterByKeyword, true);
         state.isConfirmAll = state.entities?.every(x => x.isCheck);
         state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
-        state.multipleFilter = {
-          ...state.multipleFilter,
-          ...buildMultipleFilterDefault(state.entities),
-          rAndDInfo: state.rAndDInfoFilterOriginal
-        };
+
+        // Update multiple filter options and selected values
+        updateMultipleFilterOptionsAndSelected(state, true, filterByKeyword);
       })
       .addCase(getEventPickings.rejected, state => {
         state.loading = REQUEST_STATUS.idle;
@@ -387,19 +437,13 @@ const EventPickingTableSlice = createSlice({
         state.loading = REQUEST_STATUS.idle;
         state.entitiesByDate = matchesByDate;
         state.entitiesOriginal = filteredMatches;
-        state.entities = filterDataTable(
-          state.entitiesOriginal,
-          state.filterState,
-          filterByKeyword
-        );
 
-        state.multipleFilter = {
-          ...state.multipleFilter,
-          ...buildMultipleFilterDefault(state.entities),
-          rAndDInfo: state.rAndDInfoFilterOriginal
-        };
+        state.entities = executeFilterTable(state, filterByKeyword, true);
         state.isConfirmAll = state.entities?.every(x => x.isCheck);
         state.isNoOfferAll = state.entities?.every(x => x.isNoOffer);
+
+        // Update multiple filter options and selected values
+        updateMultipleFilterOptionsAndSelected(state, true, filterByKeyword);
       })
       .addCase(editEventPickings.rejected, state => {
         state.loading = REQUEST_STATUS.idle;
@@ -411,6 +455,7 @@ const {
   filterBySearchKey,
   clearFilter,
   setMultipleFilter,
+  clearSingleColumnFilter,
   setColumnKeyValue,
   setValueFilter,
   setPreviousNoOfferRow,
@@ -436,6 +481,7 @@ export {
   setListMatchSelected,
   setAllMatchSelected,
   setOrder,
-  setUpdateTypeFilter
+  setUpdateTypeFilter,
+  clearSingleColumnFilter
 };
 export default reducer;

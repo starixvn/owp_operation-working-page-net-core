@@ -7,12 +7,15 @@ import { Option } from '../MultipleSelection/type';
 import { SpecialFilterColumn } from '../Constants';
 
 const MultipleFilterHeaderPopupCommon = ({
+  isClearSingleColumnFilter,
   columnKey,
   options,
   selected,
   onClosedPopup,
   onFilter,
-  onClear
+  onClear,
+  onClearSingleColumnFilter,
+  isFilter
 }: MultipleFilterPopupProps) => {
   const [value, setValue] = useState(selected || []);
   const [oldValue, setOldValue] = useState(selected || []);
@@ -41,14 +44,30 @@ const MultipleFilterHeaderPopupCommon = ({
     }
   };
 
+  const renderSingleColumnFilter = () => {
+    if (isClearSingleColumnFilter) {
+      return (
+        <span
+          className={`clear-all ${!isFilter ? 'disabled' : ''}`}
+          onClick={isFilter ? onClearSingleColumnFilter : undefined}
+          style={!isFilter ? { opacity: 0.5, cursor: 'not-allowed' } : {}}>
+          Clear Column Filter
+        </span>
+      );
+    }
+  };
+
   return (
     <div
       className='filter-popup multiple is-show'
       onKeyDown={handleKeyDown}
       tabIndex={0}>
-      <span className='close-popup' onClick={onClosedPopup}>
-        <CloseIcon size={14} />
-      </span>
+      <div className='clear-filter-container'>
+        {renderSingleColumnFilter()}
+        <span onClick={onClear} className='clear-all'>
+          Clear All Filters
+        </span>
+      </div>
       <MultiSelect
         onChange={setValue}
         value={value || []}
@@ -67,9 +86,10 @@ const MultipleFilterHeaderPopupCommon = ({
         isOpen
       />
       <div className='command'>
+        {/* {renderSingleColumnFilter()}
         <span className='clear-all' onClick={onClear}>
           Clear All Filters
-        </span>
+        </span> */}
         <button
           className='btn-cancel btn btn btn-secondary'
           onClick={onClosedPopup}>

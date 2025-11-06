@@ -6,6 +6,8 @@ import useClickOutside from '../customHook/useClickOutside';
 type FilterHeaderProps = {
   columnKey: string;
   model: any; //NOSONAR
+  isClearSingleColumnFilter?: boolean;
+  onClearSingleColumnFilter?: () => void;
   handleClickFilterCallback: (value: string) => void;
   handleClearFilterCallback: () => void;
   handleFilterBySearchKeyCallback: (filterState: TFilterState) => void;
@@ -15,6 +17,8 @@ type FilterHeaderProps = {
 const FilterHeaderCommon = ({
   columnKey,
   model,
+  isClearSingleColumnFilter,
+  onClearSingleColumnFilter,
   handleClickFilterCallback,
   handleClearFilterCallback,
   handleFilterBySearchKeyCallback,
@@ -40,6 +44,8 @@ const FilterHeaderCommon = ({
 
   const filterRef = useClickOutside<HTMLDivElement>(() => setIsOpenFilter(false));
 
+
+
   return (
     <div className='filter-header'>
       <span
@@ -51,6 +57,8 @@ const FilterHeaderCommon = ({
         <div ref={filterRef}>
           <FilterHeaderPopupCommon
             model={model}
+            isClearSingleColumnFilter={isClearSingleColumnFilter}
+            onClearSingleColumnFilter={onClearSingleColumnFilter}
             handleClosedPopup={handleClosedPopup}
             columnKey={columnKey}
             handleClearFilterCallback={handleClearFilterCallback}

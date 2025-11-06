@@ -11,7 +11,10 @@
     "RAndD": "rAndDInfo",
     "LST_NOTE": "lstNote",
     "TURNOVER_PERIOD": "turnoverPeriod",
-    "MARGIN_PERIOD": "marginPeriod"
+    "MARGIN_PERIOD": "marginPeriod",
+    "TV": "tv",
+    "PROVIDER": "provider",
+    "ROUND": "round"
   },
   "TABLE_HEADER": [
     {
@@ -80,20 +83,20 @@
     {
       "headerName": "TV/IPTV",
       "size": 10,
-      "isFilter": true,
-      "columnKey": "TV/IPTV"
+      "isFilterMultiple": true,
+      "columnKey": "tv"
     },
     {
       "headerName": "Provider",
       "size": 8,
-      "isFilter": true,
-      "columnKey": "Provider"
+      "isFilterMultiple": true,
+      "columnKey": "provider"
     },
     {
       "headerName": "Round",
       "size": 10,
-      "isFilter": true,
-      "columnKey": "Round"
+      "isFilterMultiple": true,
+      "columnKey": "round"
     },
     {
       "headerName": "Remark",
@@ -186,20 +189,20 @@
     {
       "headerName": "TV/IPTV",
       "size": 8,
-      "isFilter": true,
-      "columnKey": "TV/IPTV"
+      "isFilterMultiple": true,
+      "columnKey": "tv"
     },
     {
       "headerName": "Provider",
       "size": 6,
-      "isFilter": true,
-      "columnKey": "Provider"
+      "isFilterMultiple": true,
+      "columnKey": "provider"
     },
     {
       "headerName": "Round",
       "size": 7,
-      "isFilter": true,
-      "columnKey": "Round"
+      "isFilterMultiple": true,
+      "columnKey": "round"
     },
     {
       "headerName": "Remark",

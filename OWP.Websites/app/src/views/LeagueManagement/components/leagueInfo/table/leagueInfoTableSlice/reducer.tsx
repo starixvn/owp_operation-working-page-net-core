@@ -10,7 +10,11 @@ import {
 import { getLeagueInfoThunk } from './leagueInfoThunk';
 import { REQUEST_STATUS } from '../../../../../Shared/Constants';
 import { Option } from '../../../../../Shared/MultipleSelection/type';
-import { executeFilterTable, buildDefaultTableFilter } from './reducerHelper';
+import {
+  executeFilterTable,
+  buildDefaultTableFilter,
+  updateMultipleFilterOptionsAndSelected
+} from './reducerHelper';
 import {
   IS_BLACKLIST_OPTIONS,
   IS_OFFERLIVE_OPTIONS
@@ -24,35 +28,6 @@ import filterByKeyword from '../filterByKeyword';
 const applyFiltersToData = (state: TTableSlice) => {
   return executeFilterTable(state, filterByKeyword);
 };
-
-const resetFiltersForChangedFields = (state: TTableSlice, filterData: any[]) => {
-  if (filterData.length === 0 && state.valueFilterChange.length > 0) {
-    state.valueFilterChange.forEach((filterChange: TFilterState) => {
-      if (state.multipleFilter[filterChange.columnKey as TColumnHasMultipleFilterKey]?.isFilter) {
-        state.multipleFilter[filterChange.columnKey as TColumnHasMultipleFilterKey] = {
-          ...state.multipleFilter[filterChange.columnKey as TColumnHasMultipleFilterKey],
-          isFilter: false,
-          selected: []
-        };
-      }
-      
-      state.filterState = state.filterState.filter(filter => 
-        filter.columnKey !== filterChange.columnKey
-      );
-      
-      state.valueFilterAllColumn = Object.fromEntries(
-        Object.entries(state.valueFilterAllColumn).filter(([key]) => 
-          key !== filterChange.columnKey
-        )
-      );
-    });
-    state.valueFilterChange = [];
-    return executeFilterTable(state, filterByKeyword);
-  }
-  
-  return filterData;
-};
-
 
 const buildMultipleFilterDefault = () => ({
   isFilter: false,
@@ -101,7 +76,11 @@ const LeagueInfoTableSlice = createSlice({
       state.filterState = [];
       state.valueFilterAllColumn = {};
       state.entities = entitiesOriginal;
-      buildDefaultTableFilter(state.entitiesOriginal, state.multipleFilter, state.isSaveAction);
+      buildDefaultTableFilter(
+        state.entitiesOriginal,
+        state.multipleFilter,
+        state.isSaveAction
+      );
     },
     setLeagueHeaderFiler: (state, actions) => {
       state.leagueFilterHeader = actions.payload;
@@ -113,6 +92,9 @@ const LeagueInfoTableSlice = createSlice({
       const { filterState } = state;
       state.filterState = addOrReplaceFilterState(filterState, action.payload);
       state.entities = applyFiltersToData(state);
+
+      // Update multiple filter options and selected values
+      updateMultipleFilterOptionsAndSelected(state, filterByKeyword);
     },
     setMultipleFilter: (
       state,
@@ -129,6 +111,9 @@ const LeagueInfoTableSlice = createSlice({
         isFilter
       };
       state.entities = applyFiltersToData(state);
+
+      // Update multiple filter options and selected values
+      updateMultipleFilterOptionsAndSelected(state, filterByKeyword);
     },
     removeBySettingId: (
       state,
@@ -156,6 +141,34 @@ const LeagueInfoTableSlice = createSlice({
     },
     setFilterChange: (state, action: PayloadAction<TFilterState[]>) => {
       state.valueFilterChange = action.payload;
+    },
+    clearSingleColumnFilter: (
+      state,
+      action: PayloadAction<{
+        columnKey: Required<TColumnKey>;
+      }>
+    ) => {
+      const { columnKey } = action.payload;
+
+      const { [columnKey]: _, ...rest } = state.valueFilterAllColumn;
+      state.valueFilterAllColumn = rest;
+
+      state.filterState = (state.filterState || []).filter(
+        filter => filter.columnKey !== columnKey
+      );
+
+      if (columnKey in state.multipleFilter) {
+        state.multipleFilter[columnKey as TColumnHasMultipleFilterKey] = {
+          ...state.multipleFilter[columnKey as TColumnHasMultipleFilterKey],
+          isFilter: false,
+          selected: []
+        };
+      }
+
+      state.entities = applyFiltersToData(state) || [];
+
+      // Update multiple filter options and selected values
+      updateMultipleFilterOptionsAndSelected(state, filterByKeyword);
     }
   },
   extraReducers: builder => {
@@ -166,18 +179,10 @@ const LeagueInfoTableSlice = createSlice({
       .addCase(getLeagueInfoThunk.fulfilled, (state, { payload }) => {
         state.entitiesOriginal = payload;
         state.loading = REQUEST_STATUS.idle;
-        
-        if(!state.isSaveAction) {
-          state.filterState = [];
-          state.valueFilterAllColumn = {};
-        }
-        buildDefaultTableFilter(state.entitiesOriginal, state.multipleFilter, state.isSaveAction);
-        let filterData = executeFilterTable(state, filterByKeyword);
-        
-        filterData = resetFiltersForChangedFields(state, filterData);
+        state.entities = applyFiltersToData(state) || [];
 
-        state.entities = filterData;
-        state.isSaveAction = false;
+        // Update multiple filter options and selected values
+        updateMultipleFilterOptionsAndSelected(state, filterByKeyword);
       });
   }
 });
@@ -185,6 +190,7 @@ const { reducer, actions } = LeagueInfoTableSlice;
 
 const {
   clearFilter,
+  clearSingleColumnFilter,
   setMultipleFilter,
   setLeagueHeaderFiler,
   setFocusSettingId,
@@ -199,6 +205,7 @@ const {
 
 export {
   clearFilter,
+  clearSingleColumnFilter,
   setMultipleFilter,
   setLeagueHeaderFiler,
   setFocusSettingId,

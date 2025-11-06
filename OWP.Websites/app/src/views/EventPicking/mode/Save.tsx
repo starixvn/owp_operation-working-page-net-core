@@ -10,8 +10,19 @@ const Save = ({ onSetMode }: { onSetMode: () => void }) => {
   const handleSave = async () => {
     Spinner.show();
     const { param } = store.getState().filter;
-    const { entities } = store.getState().eventPickingTable;
-    const eventModified = entities.filter(
+    const { entities, entitiesOriginal } = store.getState().eventPickingTable;
+    // Get all modified events from both filtered entities and original entities
+    const allEntities = [...entities, ...entitiesOriginal];
+    const seen = new Set<string>();
+    const uniqueEntities = allEntities.filter(event => {
+      const key = `${event.infoSiteMatchId}-${event.minorBettypeId}`;
+      if (seen.has(key)) {
+        return false;
+      }
+      seen.add(key);
+      return true;
+    });
+    const eventModified = uniqueEntities.filter(
       e => e.isModified || e.isReferenceLeagueManagement
     );
 

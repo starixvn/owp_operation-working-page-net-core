@@ -34,8 +34,8 @@ type TMultipleFilterPipe = {
 
 type TDataTable = TMatchOfferInfo & {
   minorBettypeId: number;
-  tV: string;
-  ipTv: string;
+  tv: string;
+  iptv: string;
   channel: string;
   wb: string;
   time: string;
@@ -97,6 +97,9 @@ type TColumnKey =
   | 'rAndDInfo'
   | 'lstNote'
   | 'turnoverPeriod'
+  | 'tv'
+  | 'round'
+  | 'provider'
   | 'marginPeriod';
 type TOrderKey = '1m' | '3m' | '6m' | '12m';
 type TOrderDirection = 'asc' | 'desc';
@@ -114,6 +117,16 @@ type TMultipleColumnFilterOption = {
 
 type TMultipleFilter = {
   [key in TColumnKey]: {
+    isFilter: boolean;
+    selected: Option[];
+    options: Option[];
+  };
+};
+
+type TMultipleFilterKey = keyof TMultipleFilter;
+
+type TSavedMultipleFilter = {
+  [key in TMultipleFilterKey]?: {
     isFilter: boolean;
     selected: Option[];
     options: Option[];
@@ -190,6 +203,8 @@ export {
   FilterAllColumn,
   TPermission,
   TMultipleFilter,
+  TMultipleFilterKey,
+  TSavedMultipleFilter,
   TOrder,
   TColumnKey,
   TResult,

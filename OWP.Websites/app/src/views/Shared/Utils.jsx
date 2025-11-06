@@ -203,6 +203,9 @@ const addOrReplaceFilterState = (currentState, newFilter) => {
     : [...currentState, newFilter];
 };
 
+const removeFilterStateByColumnKey = (currentState, columnKey) =>
+  currentState.filter(x => x.columnKey !== columnKey);
+
 const filterDataTable = (data, filterState, callback) => {
   return filterState.reduce(
     (matches, filter) => callback(matches, filter),
@@ -282,6 +285,7 @@ export {
   openNewChattingTab,
   openNewSmallTicket,
   backToSmallTicket,
-  openCurrentChattingTab
+  openCurrentChattingTab,
+  removeFilterStateByColumnKey
 };
 export default Utils;

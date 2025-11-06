@@ -20,18 +20,21 @@ type MultipleFilterHeaderProps = {
   options?: Option[];
   selected?: Option[];
   isFilter?: boolean;
+  isClearSingleColumnFilter?: boolean;
   setOptions?: () => Option[];
   setSelected?: () => Option[];
   setIsFilter?: () => boolean;
   onFilter: (selected: Option[]) => void;
   onClear: () => void;
+  onClearSingleColumnFilter?: () => void;
 };
 
 type MultipleFilterPopupProps = Omit<
   MultipleFilterHeaderProps,
-  'isFilter' | 'getOptions'
+  'getOptions'
 > & {
   onClosedPopup: () => void;
+  isFilter?: boolean;
 };
 
 export {

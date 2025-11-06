@@ -1,20 +1,23 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import '@testing-library/jest-dom';
 import Filter from './Filter';
 import * as exportHelper from '../../../Shared/common/ExportExcel/Helper';
 import { VIEW_BY_OPTION } from '../../Const.json';
 import dayjs from 'dayjs';
 
 jest.mock('../../../Shared/common/ExportExcel/Helper', () => ({
-  exportExcel: jest.fn(),
+  exportExcel: jest.fn()
 }));
 
 jest.mock('../../../Shared/DateTime/dateTimeHelper', () => ({
   buildTimeRangeForFromDate: jest.fn(() => ({
-    minFromDate: new Date('2023-01-01'),
+    minFromDate: new Date('2023-01-01')
   })),
-  buildDefaultFilterDateProviderVerification: jest.fn(() => new Date('2025-12-31')),
+  buildDefaultFilterDateProviderVerification: jest.fn(
+    () => new Date('2025-12-31')
+  )
 }));
 
 describe('Filter component', () => {
@@ -29,7 +32,9 @@ describe('Filter component', () => {
   });
 
   it('should export with "by-day" URL and file name when viewBy is "By Day"', () => {
-    const exportSpy = jest.spyOn(exportHelper, 'exportExcel').mockResolvedValue();
+    const exportSpy = jest
+      .spyOn(exportHelper, 'exportExcel')
+      .mockResolvedValue();
 
     render(<Filter />);
     fireEvent.click(screen.getByText('Export'));
@@ -43,7 +48,9 @@ describe('Filter component', () => {
   });
 
   it('should export with "by-league" URL and file name when viewBy is "By League"', async () => {
-    const exportSpy = jest.spyOn(exportHelper, 'exportExcel').mockResolvedValue();
+    const exportSpy = jest
+      .spyOn(exportHelper, 'exportExcel')
+      .mockResolvedValue();
 
     render(<Filter />);
 
@@ -80,47 +87,51 @@ describe('Filter component', () => {
     const { container } = render(<Filter />);
     const user = userEvent.setup();
 
-    const fromDateInput = container.querySelector('input.from-date-picker') as HTMLInputElement;
+    const fromDateInput = container.querySelector(
+      'input.from-date-picker'
+    ) as HTMLInputElement;
     if (!fromDateInput) throw new Error('Input not found');
 
     await user.click(fromDateInput);
 
-    const targetDate = dayjs().subtract(5, 'day');
-    const dayToSelect = targetDate.date().toString();
+    // Click on October 10th, 2025 (a date that exists in the calendar)
+    const dayButton = screen.getByRole('button', {
+      name: /Choose .* October 10th, 2025/i
+    });
 
-    const dayButton = screen.getByText(dayToSelect);
     await user.click(dayButton);
-    const expectedFormatted = dayjs(targetDate)
-      .subtract(1, 'month')
-      .format('MMM DD, YYYY');
 
-    expect(fromDateInput.value).toBe(expectedFormatted);
+    expect(fromDateInput.value).toBe('Oct 10, 2025');
   });
 
   it('should update toDate when a new date is selected', async () => {
     const { container } = render(<Filter />);
     const user = userEvent.setup();
 
-    const toDateInput = container.querySelector('input.to-date-picker') as HTMLInputElement;
+    const toDateInput = container.querySelector(
+      'input.to-date-picker'
+    ) as HTMLInputElement;
     if (!toDateInput) throw new Error('Input not found');
 
     await user.click(toDateInput);
 
-    const targetDate = dayjs().subtract(5, 'day');
-    const dayToSelect = targetDate.date().toString();
+    // Click on November 10th, 2025 (a date that exists in the calendar)
+    const dayButton = screen.getByRole('button', {
+      name: /Choose .* November 10th, 2025/i
+    });
 
-    const dayButton = screen.getByText(dayToSelect);
     await user.click(dayButton);
-    const expectedFormatted = dayjs(targetDate).format('MMM DD, YYYY');
 
-    expect(toDateInput.value).toBe(expectedFormatted);
+    expect(toDateInput.value).toBe('Nov 10, 2025');
   });
 
   it('should open datepicker from date when calendar icon is clicked', async () => {
     const { container } = render(<Filter />);
     const user = userEvent.setup();
 
-    const calendarIcon = container.querySelector('#icon-calendar-from-date') as HTMLElement;
+    const calendarIcon = container.querySelector(
+      '#icon-calendar-from-date'
+    ) as HTMLElement;
     expect(calendarIcon).toBeInTheDocument();
 
     await user.click(calendarIcon);
@@ -132,12 +143,13 @@ describe('Filter component', () => {
     const { container } = render(<Filter />);
     const user = userEvent.setup();
 
-    const calendarIcon = container.querySelector('#icon-calendar-to-date') as HTMLElement;
+    const calendarIcon = container.querySelector(
+      '#icon-calendar-to-date'
+    ) as HTMLElement;
     expect(calendarIcon).toBeInTheDocument();
 
     await user.click(calendarIcon);
 
     expect(container.querySelector('.react-datepicker')).toBeInTheDocument();
   });
-
 });
