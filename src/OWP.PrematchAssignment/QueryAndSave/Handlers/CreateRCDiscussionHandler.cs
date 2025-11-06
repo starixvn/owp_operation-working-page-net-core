@@ -1,9 +1,9 @@
 using System.Text;
 using System.Text.Json;
+using Olympus.Xml;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using OWP.Enums;
-using OWP.Extensions;
 using OWP.PrematchAssignment.Criteria;
 using OWP.PrematchAssignment.QueryAndSave.Models;
 using OWP.PrematchAssignment.QueryAndSave.Services;
@@ -25,7 +25,7 @@ public class CreateRCDiscussionRequest : IRequest<Unit>
             AwayName = "Away",
             GhostName = "Ghost 1",
             GhostDetail = "Ghost Detail 1",
-            HdpOu = 1.0m,
+            HdpOu = 2.0m,
             Odds = "1.00",
             Note = "Note",
             Remark = "Remark1",
@@ -38,7 +38,7 @@ public class CreateRCDiscussionRequest : IRequest<Unit>
             AwayName = "Away",
             GhostName = "Ghost 2",
             GhostDetail = "Ghost Detail 2",
-            HdpOu = 1.0m,
+            HdpOu = 3.0m,
             Odds = "1.00",
             Note = "Note",
             Remark = "Remark2",
@@ -51,7 +51,7 @@ public class CreateRCDiscussionRequest : IRequest<Unit>
             AwayName = "Away",
             GhostName = "Ghost 3",
             GhostDetail = "Ghost Detail 3",
-            HdpOu = 1.0m,
+            HdpOu = 4.0m,
             Odds = "1.00",
             Note = "Note",
             Remark = "Remark",
@@ -86,7 +86,7 @@ public class CreateRCDiscussionHandler(
         {
             await preMatchAssignmentService.InsertDiscussion(new InsertDiscussionCriteria
             {
-                DiscussionInfoXML = request.DiscussionInfos.ToXmlString(),
+                DiscussionInfoXML = XmlConverter.Serialize(request.DiscussionInfos),
                 AdminSiteMatchId = request.AdminSiteId
             });
         }
