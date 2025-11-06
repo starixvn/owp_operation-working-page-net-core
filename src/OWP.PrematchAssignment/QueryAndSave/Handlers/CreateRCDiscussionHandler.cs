@@ -16,6 +16,7 @@ namespace OWP.PrematchAssignment.QueryAndSave.Handlers;
 public class CreateRCDiscussionRequest : IRequest<ResultDataObject>
 {
     public int AdminSiteId { get; set; } = 116493050;
+    public bool IsIncludeTrader { get; set; } = true;
 
     public List<DiscussionInfo> DiscussionInfos { get; set; } = new List<DiscussionInfo>()
     {
@@ -95,38 +96,40 @@ public class CreateRCDiscussionHandler(
         }
 
         UpdateDiscussionInfosWithMatchInfo(request.DiscussionInfos, matchInfo);
-        var assignments = await preMatchAssignmentService.GetMatchAssignments(request.AdminSiteId);
-
-        var (newDiscussionGroups, existingDiscussionGroups) = GroupAndSeparateDiscussions(request.DiscussionInfos, currentDiscussionInfos);
 
         var errorGroups = new Dictionary<(int AdminSiteMatchId, int BetType), string>();
-        
-        var newErrors = await ProcessNewDiscussions(newDiscussionGroups, assignments, cancellationToken);
-        
-        var existingErrors = await ProcessExistingDiscussions(existingDiscussionGroups, assignments, cancellationToken);
 
-        foreach (var error in newErrors)
+        if (request.IsIncludeTrader)
         {
-            errorGroups[error.Key] = error.Value;
-        }
-        foreach (var error in existingErrors)
-        {
-            errorGroups[error.Key] = error.Value;
-        }
+             var assignments = await preMatchAssignmentService.GetMatchAssignments(request.AdminSiteId);
 
-        // Filter out DiscussionInfo items that belong to error groups
-        var discussionInfosToSave = request.DiscussionInfos?
-            .Where(d => !errorGroups.ContainsKey((d.AdminSiteMatchId, d.BetType)))
-            .ToList() ?? new List<DiscussionInfo>();
+            var (newDiscussionGroups, existingDiscussionGroups) = GroupAndSeparateDiscussions(request.DiscussionInfos, currentDiscussionInfos);
+            
+            var newErrors = await ProcessNewDiscussions(newDiscussionGroups, assignments, cancellationToken);
+            
+            var existingErrors = await ProcessExistingDiscussions(existingDiscussionGroups, assignments, cancellationToken);
 
-        if (discussionInfosToSave.Any())
-        {
-            await preMatchAssignmentService.InsertDiscussion(new InsertDiscussionCriteria
+            foreach (var error in newErrors)
             {
-                DiscussionInfoXML = XmlConverter.Serialize(discussionInfosToSave),
-                AdminSiteMatchId = request.AdminSiteId
-            });
+                errorGroups[error.Key] = error.Value;
+            }
+            foreach (var error in existingErrors)
+            {
+                errorGroups[error.Key] = error.Value;
+            }
         }
+
+        var discussionInfosToSave = request.DiscussionInfos?
+                .Where(d => !errorGroups.ContainsKey((d.AdminSiteMatchId, d.BetType)))
+                .ToList() ?? new List<DiscussionInfo>();
+
+
+        await preMatchAssignmentService.InsertDiscussion(new InsertDiscussionCriteria
+        {
+            DiscussionInfoXML = XmlConverter.Serialize(discussionInfosToSave),
+            AdminSiteMatchId = request.AdminSiteId,
+            IsIncludeTrader = request.IsIncludeTrader
+        });
 
         if (errorGroups.Any())
         {
