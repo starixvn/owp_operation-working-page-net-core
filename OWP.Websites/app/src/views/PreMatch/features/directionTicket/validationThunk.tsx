@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { TErrorMessage, TTicketInfo, TValidationResult, TValidateSingleTicketResult } from '../../type';
 
 const validateGhostName = (ticket: TTicketInfo, errorMessage: TValidateSingleTicketResult) => {
-  if (!ticket.ghostNameId) {
+  if (!ticket.ghostName) {
     errorMessage.valid = false;
     errorMessage.message.ghostName = 'Ghost Name is required';
   }
@@ -15,21 +15,21 @@ const validateGhostDetail = (ticket: TTicketInfo, errorMessage: TValidateSingleT
   }
 };
 const validateBettype = (ticket: TTicketInfo, errorMessage: TValidateSingleTicketResult) => {
-  if (!ticket.bettypeId) {
+  if (!ticket.betType) {
     errorMessage.valid = false;
     errorMessage.message.bettype = 'Bet Type is required';
   }
 };
 
 const validateBetOn = (ticket: TTicketInfo, errorMessage: TValidateSingleTicketResult) => {
-  if (!ticket.betOnId) {
+  if (!ticket.betOn) {
     errorMessage.valid = false;
     errorMessage.message.betOn = 'Bet On is required';
   }
 };
 
 const validateHdpOu = (ticket: TTicketInfo, errorMessage: TValidateSingleTicketResult) => {
-  if (!ticket.hdp_ou) {
+  if (!ticket.hdpOu) {
     errorMessage.valid = false;
     errorMessage.message.hdp_ou = 'HDP/OU is required';
   }

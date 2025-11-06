@@ -6,18 +6,30 @@ import { closePopupCreateDiscussion } from '../../../Shared/createTicketNew/crea
 import { clearPopupData } from './directionTicketSlice';
 import { validateTicketInfo } from './validationThunk';
 import store from '../../app/store';
+import { post } from '../../ImportPrematchHelperNative';
+import Spinner from '../../../components/Spinner';
+import { URL_CREATE_DIRECTION_TICKET } from '../../const/const';
 
 const DirectionTicketPopup = () => {
   const { isOpenCreateDiscussion } = useSelector(state => state.createTicketBoard);
   const { league, event, matchId, leagueGroup } = store.getState().directionTicket.data;
-  debugger
+
   const dispatch = useDispatch();
   const handleSubmit = async () => {
     const ticketInfo = store.getState().directionTicket.data.ticketInfo;
     const resultAction = await dispatch(validateTicketInfo(ticketInfo)).unwrap();
 
     if (resultAction?.valid) {
+      const { ticketInfo, matchId } = store.getState().directionTicket.data;
+      debugger;
+      await post({
+        url: URL_CREATE_DIRECTION_TICKET,
+        adminSiteId: matchId,
+        discussionInfos: ticketInfo
+      });
+      Spinner.show();
 
+      Spinner.hide();
     }
     console.log('success');
   };

@@ -13,11 +13,11 @@ const directionTicketSlice = createSlice({
       includeTrader: false,
       ticketInfo: [{
         no: nanoid(),
-        ghostNameId: undefined,
+        ghostName: undefined,
         ghostDetail: undefined,
-        bettypeId: undefined,
-        betOnId: undefined,
-        hdp_ou: undefined,
+        betType: undefined,
+        betOn: undefined,
+        hdpOu: undefined,
         odds: '',
         note: '',
         remark: '',
@@ -35,7 +35,7 @@ const directionTicketSlice = createSlice({
   reducers: {
     setLeagueInfo: (state, action: PayloadAction<TDirectionTicketLeagueInfo>) => {
       const { league, event, matchId, leagueGroup } = action.payload;
-      debugger
+
       state.data.league = league;
       state.data.event = event;
       state.data.matchId = matchId;
@@ -44,11 +44,11 @@ const directionTicketSlice = createSlice({
     addTicketInfo: state => {
       state.data.ticketInfo.push({
         no: nanoid(),
-        ghostNameId: undefined,
+        ghostName: undefined,
         ghostDetail: '',
-        bettypeId: undefined,
-        betOnId: undefined,
-        hdp_ou: undefined,
+        betType: undefined,
+        betOn: undefined,
+        hdpOu: undefined,
         odds: '',
         note: '',
         remark: '',
@@ -70,11 +70,11 @@ const directionTicketSlice = createSlice({
     clearPopupData: state => {
       state.data.ticketInfo = [{
         no: nanoid(),
-        ghostNameId: undefined,
+        ghostName: undefined,
         ghostDetail: undefined,
-        bettypeId: undefined,
-        betOnId: undefined,
-        hdp_ou: undefined,
+        betType: undefined,
+        betOn: undefined,
+        hdpOu: undefined,
         odds: '',
         note: '',
         remark: '',

@@ -17,6 +17,7 @@ const URL_QUERY_INFO_MATCH = `${url}/get-info-match`;
 const URL_QUERY_ASSIGNEE = `${url}/get-assignee-pre-match`;
 const URL_NIGHT_SHIFT = `${url}/get-night-shift`;
 const URL_DAY_SHIFT = `${url}/get-day-shift`;
+const URL_CREATE_DIRECTION_TICKET = `${url}/create-rc-discussion`;
 const URL_QUERY_LEAGUE_BY_ID = `${url}/query-league-by-id`;
 const URL_QUERY_ASSIGNED_LEAGUE_ID = `${url}/get-assigned-league-id`;
 const URL_QUERY_TICKET_LIST = `${url}/get-ticket-list`;
@@ -90,13 +91,13 @@ const ASSIGNMENT_TYPE = {
 };
 
 const GHOST_OPTIONS = [
-  { value: 1, label: 'Order' },
-  { value: 2, label: 'Ghost 1' },
-  { value: 3, label: 'Ghost 2' },
-  { value: 4, label: 'Ghost 3' },
-  { value: 5, label: 'Outside' },
-  { value: 6, label: 'Danger' },
-  { value: 7, label: 'Other' }
+  { value: 'Order', label: 'Order' },
+  { value: 'Ghost 1', label: 'Ghost 1' },
+  { value: 'Ghost 2', label: 'Ghost 2' },
+  { value: 'Ghost 3', label: 'Ghost 3' },
+  { value: 'Outside', label: 'Outside' },
+  { value: 'Danger', label: 'Danger' },
+  { value: 'Other', label: 'Other' }
 ];
 
 const BETTYPE_OPTIONS = [
@@ -123,6 +124,7 @@ export {
   URL_QUERY_WORKING_SHIFT,
   URL_QUERY_INFO_MATCH,
   URL_QUERY_ASSIGNEE,
+  URL_CREATE_DIRECTION_TICKET,
   QUERY_DELETE_LEAGUE_API_KEY,
   QUERY_DELETE_LEAGUE_RECOVER_API_KEY,
   QUERY_CHECK_LEAGUE_CONTAINS_ASSIGNMENT,

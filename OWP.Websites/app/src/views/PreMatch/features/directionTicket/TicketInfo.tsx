@@ -7,11 +7,11 @@ import { useRef } from 'react';
 
 const TicketInfo = (props: TRenderTicketInfo) => {
   const {
-    ghostNameId,
+    ghostName,
     ghostDetail,
-    bettypeId,
-    betOnId,
-    hdp_ou,
+    betType,
+    betOn,
+    hdpOu,
     odds,
     note,
     remark,
@@ -48,10 +48,10 @@ const TicketInfo = (props: TRenderTicketInfo) => {
             classNamePrefix='select'
             onChange={selected => {
               selected?.value &&
-                dispatch(updateTicketInfo({ index, field: 'ghostNameId', value: selected.value }));
+                dispatch(updateTicketInfo({ index, field: 'ghostName', value: selected.value }));
             }}
             placeholder="Ghost Name..."
-            value={GHOST_OPTIONS.find(option => option.value === ghostNameId)} />
+            value={GHOST_OPTIONS.find(option => option.value === ghostName)} />
         </div >
 
         <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>
@@ -96,10 +96,10 @@ const TicketInfo = (props: TRenderTicketInfo) => {
           classNamePrefix='select'
           onChange={selected => {
             selected?.value &&
-              dispatch(updateTicketInfo({ index, field: 'bettypeId', value: selected.value }));
+              dispatch(updateTicketInfo({ index, field: 'betType', value: selected.value }));
           }}
           placeholder="Bettype..."
-          value={BETTYPE_OPTIONS.find(option => option.value === bettypeId)} />
+          value={BETTYPE_OPTIONS.find(option => option.value === betType)} />
       </div>
       <p style={{ 'color': 'red', 'paddingLeft': '5px', 'width': '100%' }}>
         {errorMessage?.bettype}</p>
@@ -107,8 +107,8 @@ const TicketInfo = (props: TRenderTicketInfo) => {
   );
 
   const renderBetOn = () => {
-    const betOnOptions = (bettypeId === BETTYPE_OPTIONS[0].value
-      || bettypeId === BETTYPE_OPTIONS[1].value)
+    const betOnOptions = (betType === BETTYPE_OPTIONS[0].value
+      || betType === BETTYPE_OPTIONS[1].value)
       ? BETON_OPTIONS[0]
       : BETON_OPTIONS[1];
 
@@ -124,10 +124,10 @@ const TicketInfo = (props: TRenderTicketInfo) => {
           classNamePrefix='select'
           onChange={selected => {
             selected?.value &&
-              dispatch(updateTicketInfo({ index, field: 'betOnId', value: selected.value }));
+              dispatch(updateTicketInfo({ index, field: 'betOn', value: selected.value }));
           }}
           placeholder="Bet on..."
-          value={betOnOptions.find(option => option.value === betOnId)} />
+          value={betOnOptions.find(option => option.value === betOn)} />
       </div>
       <p style={{ 'color': 'red', 'paddingLeft': '5px', 'width': '100%' }}>
         {errorMessage?.betOn}</p>
@@ -145,12 +145,12 @@ const TicketInfo = (props: TRenderTicketInfo) => {
           <input
             className='input'
             type="number"
-            defaultValue={hdp_ou}
+            defaultValue={hdpOu}
             step={0.25}
             ref={hdpOuInputRef}
             onBlur={() => {
               hdpOuInputRef.current?.value
-                && dispatch(updateTicketInfo({ index, field: 'hdp_ou', value: hdpOuInputRef.current?.value }));
+                && dispatch(updateTicketInfo({ index, field: 'hdpOu', value: hdpOuInputRef.current?.value }));
 
             }} />
         </div>

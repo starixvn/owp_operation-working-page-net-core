@@ -1,10 +1,10 @@
 type TTicketInfo = {
   no: string;
-  ghostNameId: number | undefined;
+  ghostName: number | undefined;
   ghostDetail: string | undefined;
-  bettypeId: number | undefined;
-  betOnId: string | undefined;
-  hdp_ou: number | undefined;
+  betType: number | undefined;
+  betOn: string | undefined;
+  hdpOu: number | undefined;
   odds: string | undefined;
   note: string | undefined;
   remark: string | undefined;
