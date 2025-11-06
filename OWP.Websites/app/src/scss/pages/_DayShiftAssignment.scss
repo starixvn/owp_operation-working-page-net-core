@@ -2056,7 +2056,9 @@ input::-ms-input-placeholder {
       .ghost-name__ghost-detail, .bettype__beton__hdp-ou {
         display: flex;
         flex-direction: row;
-       
+        .hdp-ou{
+          width: 150px !important;
+        }
       }
 
       .title {
@@ -2068,6 +2070,7 @@ input::-ms-input-placeholder {
         .add-remove-command {
         flex-direction: row-reverse;
         margin-right: 10px;
+        display: flex!important;
         }
             .content {
               margin-left: 10px;
@@ -2250,4 +2253,45 @@ input::-ms-input-placeholder {
               }
             }
   }
+}   
+
+.list{
+      padding: 0 10px;
+      .fieldset{
+        min-width: auto;
+        padding: inherit;
+        border: 1px solid #999;
+      }
+      .fieldset{
+        .content {
+            display: block !important;
+            .left{
+              align-items: center;
+              width: auto!important;
+              margin-top: 0!important;
+              margin-right: 5px;
+              > p{
+                margin: 0;
+              }
+            }
+            &.ghost-detail {
+              flex: 1;
+        
+              .input {
+                width: 100%;
+              }
+            }
+            .flex{
+              display: flex;
+              flex-wrap: nowrap;
+              align-items: center;
+            }
+          }
+      }
+  .fieldset-legend {
+    float: none;
+      width: auto;
+      padding: 0 10px;
+      
+   }
 }

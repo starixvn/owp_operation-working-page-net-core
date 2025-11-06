@@ -16,9 +16,8 @@ const DirectionTicketPopup = () => {
     const ticketInfo = store.getState().directionTicket.data.ticketInfo;
     const resultAction = await dispatch(validateTicketInfo(ticketInfo)).unwrap();
 
-    if (!resultAction?.valid) {
-      // TODO
-      return;
+    if (resultAction?.valid) {
+
     }
     console.log('success');
   };

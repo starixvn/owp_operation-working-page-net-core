@@ -35,64 +35,73 @@ const TicketInfo = (props: TRenderTicketInfo) => {
   };
 
   const renderGhostName = () => (
-    <div className='content'>
-      <div className='left'>
-        Ghost name
-        <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>*</p>
-      </div>
-      <Select
-        options={GHOST_OPTIONS}
-        className='basic-multi-select'
-        classNamePrefix='select'
-        onChange={selected => {
-          selected?.value &&
-            dispatch(updateTicketInfo({ index, field: 'ghostNameId', value: selected.value }));
-        }}
-        placeholder="Ghost Name..."
-        value={GHOST_OPTIONS.find(option => option.value === ghostNameId)} />
-      <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>
-        {errorMessage?.ghostName}</p>
-    </div>
+    <>
+      <div className='content'>
+        <div className='flex'>
+          <div className='left'>
+            Ghost name
+            <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>*</p>
+          </div>
+          <Select
+            options={GHOST_OPTIONS}
+            className='basic-multi-select'
+            classNamePrefix='select'
+            onChange={selected => {
+              selected?.value &&
+                dispatch(updateTicketInfo({ index, field: 'ghostNameId', value: selected.value }));
+            }}
+            placeholder="Ghost Name..."
+            value={GHOST_OPTIONS.find(option => option.value === ghostNameId)} />
+        </div >
+
+        <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>
+          {errorMessage?.ghostName}</p>
+      </div >
+    </>
   );
 
   const renderGhostDetail = () => (
-    <div className='content'>
-      <div className='left'>
-        Ghost detail
-        <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>*</p>
+    <div className='content ghost-detail'>
+      <div className='flex'>
+        <div className='left'>
+          Ghost detail
+          <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>*</p>
+        </div>
+        <div className='input-item'>
+          <input
+            defaultValue={ghostDetail}
+            className='input'
+            ref={ghostDetailInputRef}
+            onBlur={() => {
+              ghostDetailInputRef.current?.value !== undefined && dispatch(updateTicketInfo({ index, field: 'ghostDetail', value: ghostDetailInputRef.current?.value }));
+            }}
+          />
+        </div>
       </div>
-      <div className='input-item'>
-        <input
-          defaultValue={ghostDetail}
-          className='input'
-          ref={ghostDetailInputRef}
-          onBlur={() => {
-            ghostDetailInputRef.current?.value !== undefined && dispatch(updateTicketInfo({ index, field: 'ghostDetail', value: ghostDetailInputRef.current?.value }));
-          }}
-        />
-      </div>
-      <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>
+      <p style={{ 'color': 'red', 'paddingLeft': '5px', 'width': '100%' }}>
         {errorMessage?.ghostDetail}</p>
     </div>
   );
 
   const renderBettype = () => (
     <div className='content'>
-      <div className='left'>
-        Bet type
-        <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>*</p>
+      <div className='flex'>
+        <div className='left'>
+          Bet type
+          <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>*</p>
+        </div>
+        <Select
+          options={BETTYPE_OPTIONS}
+          className='basic-multi-select'
+          classNamePrefix='select'
+          onChange={selected => {
+            selected?.value &&
+              dispatch(updateTicketInfo({ index, field: 'bettypeId', value: selected.value }));
+          }}
+          placeholder="Bettype..."
+          value={BETTYPE_OPTIONS.find(option => option.value === bettypeId)} />
       </div>
-      <Select
-        options={BETTYPE_OPTIONS}
-        className='basic-multi-select'
-        classNamePrefix='select'
-        onChange={selected => {
-          selected?.value &&
-            dispatch(updateTicketInfo({ index, field: 'bettypeId', value: selected.value }));
-        }}
-        placeholder="Bettype..."
-        value={BETTYPE_OPTIONS.find(option => option.value === bettypeId)} />
-      <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>
+      <p style={{ 'color': 'red', 'paddingLeft': '5px', 'width': '100%' }}>
         {errorMessage?.bettype}</p>
     </div>
   );
@@ -104,63 +113,69 @@ const TicketInfo = (props: TRenderTicketInfo) => {
       : BETON_OPTIONS[1];
 
     return <div className='content'>
-      <div className='left'>
-        Bet on
-        <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>*</p>
+      <div className='flex'>
+        <div className='left'>
+          Bet on
+          <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>*</p>
+        </div>
+        <Select
+          options={betOnOptions}
+          className='basic-multi-select'
+          classNamePrefix='select'
+          onChange={selected => {
+            selected?.value &&
+              dispatch(updateTicketInfo({ index, field: 'betOnId', value: selected.value }));
+          }}
+          placeholder="Bet on..."
+          value={betOnOptions.find(option => option.value === betOnId)} />
       </div>
-      <Select
-        options={betOnOptions}
-        className='basic-multi-select'
-        classNamePrefix='select'
-        onChange={selected => {
-          selected?.value &&
-            dispatch(updateTicketInfo({ index, field: 'betOnId', value: selected.value }));
-        }}
-        placeholder="Bet on..."
-        value={betOnOptions.find(option => option.value === betOnId)} />
-      <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>
+      <p style={{ 'color': 'red', 'paddingLeft': '5px', 'width': '100%' }}>
         {errorMessage?.betOn}</p>
     </div>;
   };
 
   const renderHdpOu = () => (
-    <div className='content'>
-      <div className='left hdp-ou--label'>
-        HDP/OU
-        <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>*</p>
-      </div>
-      <div className='input-item hdp-ou-input'>
-        <input
-          className='input'
-          type="number"
-          defaultValue={hdp_ou}
-          step={0.25}
-          ref={hdpOuInputRef}
-          onBlur={() => {
-            hdpOuInputRef.current?.value
-              && dispatch(updateTicketInfo({ index, field: 'hdp_ou', value: hdpOuInputRef.current?.value }));
+    <div className='content hdp-ou'>
+      <div className='flex'>
+        <div className='left hdp-ou--label'>
+          HDP/OU
+          <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>*</p>
+        </div>
+        <div className='input-item hdp-ou-input'>
+          <input
+            className='input'
+            type="number"
+            defaultValue={hdp_ou}
+            step={0.25}
+            ref={hdpOuInputRef}
+            onBlur={() => {
+              hdpOuInputRef.current?.value
+                && dispatch(updateTicketInfo({ index, field: 'hdp_ou', value: hdpOuInputRef.current?.value }));
 
-          }} />
+            }} />
+        </div>
       </div>
-      <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>
+      <p style={{ 'color': 'red', 'paddingLeft': '5px', 'width': '100%' }}>
         {errorMessage?.hdp_ou}</p>
     </div>
   );
 
   const renderOdds = () => (
     <div className='content'>
-      <div className='left odds'>
-        Odds
-        <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>*</p>
+      <div className='flex'>
+        <div className='left odds'>
+          Odds
+          <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>*</p>
+        </div>
+        <div className='input-item'>
+          <input defaultValue={odds}
+            ref={oddsInputRef}
+            className='input' onBlur={() => {
+              oddsInputRef.current?.value !== undefined && dispatch(updateTicketInfo({ index, field: 'odds', value: oddsInputRef.current?.value }));
+            }} />
+        </div>
       </div>
-      <div className='input-item'>
-        <input defaultValue={odds}
-          ref={oddsInputRef}
-          className='input' onBlur={() => {
-            oddsInputRef.current?.value !== undefined && dispatch(updateTicketInfo({ index, field: 'odds', value: oddsInputRef.current?.value }));
-          }} />
-      </div>
-      <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>
+      <p style={{ 'color': 'red', 'paddingLeft': '5px', 'width': '100%' }}>
         {errorMessage?.odds}</p>
     </div>
   );
@@ -182,7 +197,7 @@ const TicketInfo = (props: TRenderTicketInfo) => {
           }}
         />
       </div>
-      <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>
+      <p style={{ 'color': 'red', 'paddingLeft': '5px', 'width': '100%' }}>
         {errorMessage?.note}</p>
     </div>
   );
@@ -258,8 +273,8 @@ const TicketInfo = (props: TRenderTicketInfo) => {
 
   return (
     <div className='list'>
-      <fieldset>
-        <legend>Info {index + 1}:</legend>
+      <fieldset className='fieldset'>
+        <legend className='fieldset-legend'>Info {index + 1}:</legend>
         <div className='ghost-name__ghost-detail'>
           {renderGhostName()}
           {renderGhostDetail()}
