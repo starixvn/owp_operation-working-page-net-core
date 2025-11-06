@@ -2,16 +2,51 @@ import { uniqBy } from 'lodash';
 import { TCondition, TDataSource } from '../TableType';
 import { Option } from '../../../../../Shared/MultipleSelection/type';
 
-const buildLeagueGroupOptions = (entities: TDataSource[]) =>
-  swapBlanks(
+const buildLeagueGroupOptions = (entities: TDataSource[]) => {
+  // Define custom order mapping for league groups
+  const leagueGroupOrder: { [key: string]: number } = {
+    'MJ': 1,
+    'M1': 2,
+    'M2': 3,
+    'M3': 4,
+    'M4': 5,
+    'Others': 6,
+    'Others 1': 7,
+    'Others 2': 8,
+    'Others 3': 9,
+    'Others 4': 10,
+    'Others 5': 11,
+    'MJ.T1': 12,
+    'MJ.T2': 13,
+    'MJ.T3': 14,
+    'CL.MJ.Q': 15,
+    'CL.MN.Q': 16,
+    'INT.MJ': 17,
+    'INT.MN': 18,
+    'World Cup': 19,
+    'EURO': 20,
+    'Cop.A': 21
+  };
+
+  return swapBlanks(
     uniqBy(
       [...entities].map(o => ({
         value: o.leagueGroup ?? null,
         label: o.leagueGroup ?? '(Blanks)'
       })),
       i => i.label
-    )
+    ).sort((a, b) => {
+      // Handle (Blanks) - always at the end
+      if (a.label === '(Blanks)') return 1;
+      if (b.label === '(Blanks)') return -1;
+
+      const aOrder = leagueGroupOrder[a.label] ?? 999;
+      const bOrder = leagueGroupOrder[b.label] ?? 999;
+
+      return aOrder - bOrder;
+    })
   );
+};
 const buildLeagueOptions = (entities: TDataSource[]) =>
   swapBlanks(
     uniqBy(
