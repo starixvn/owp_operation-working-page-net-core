@@ -310,7 +310,7 @@
     thead {
         position: sticky;
         top: 0;
-        z-index: 1;
+        z-index: 15;
         box-shadow: inset 1px -1px #c8ced3, inset 1px 1px #c8ced3;
 
         tr {
@@ -346,7 +346,9 @@
                             list-style: none;
                             text-align: left;
                             background: #fff;
-                            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 2px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+                            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+                                0 3px 2px -2px rgba(0, 0, 0, 0.2),
+                                0 1px 5px 0 rgba(0, 0, 0, 0.12);
                             z-index: 99;
                             opacity: 0;
                             visibility: hidden;
@@ -400,7 +402,8 @@
                     list-style: none;
                     text-align: left;
                     background: #fff;
-                    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 2px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+                    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+                        0 3px 2px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
 
                     li {
                         height: 25%;
@@ -432,7 +435,7 @@
 
                             &:before {
                                 content: '';
-                                content: "";
+                                content: '';
                                 width: 0px;
                                 height: 3px;
                                 border-style: solid;
@@ -487,6 +490,90 @@
 
     thead {
         background: #e3e3e3 !important;
+
+        // Freeze columns from No # to Match horizontally only
+        th:nth-child(1) {
+            position: sticky;
+            left: 0;
+            background: #e3e3e3 !important;
+            z-index: 20;
+            min-width: 55px !important;
+            max-width: 55px !important;
+            width: 55px !important;
+            text-align: center !important;
+        }
+
+        th:nth-child(2) {
+            position: sticky;
+            left: 55px;
+            background: #e3e3e3 !important;
+            z-index: 20;
+            min-width: 72px !important;
+            max-width: 72px !important;
+            width: 72px !important;
+        }
+
+        th:nth-child(3) {
+            position: sticky;
+            left: 127px;
+            background: #e3e3e3 !important;
+            z-index: 20;
+            min-width: 250px !important;
+            max-width: 250px !important;
+            width: 250px !important;
+        }
+
+        th:nth-child(4) {
+            position: sticky;
+            left: 377px;
+            background: #e3e3e3 !important;
+            z-index: 20;
+            min-width: 200px !important;
+            max-width: 200px !important;
+            width: 200px !important;
+        }
+    }
+
+    tbody {
+
+        // Freeze columns from No # to Match
+        tr>td:nth-child(1),
+        tr>td:nth-child(2),
+        tr>td:nth-child(3),
+        tr>td:nth-child(4) {
+            position: sticky;
+            background: white;
+            z-index: 10;
+        }
+
+        tr>td:nth-child(1) {
+            left: 0;
+            min-width: 55px !important;
+            max-width: 55px !important;
+            width: 55px !important;
+            text-align: center !important;
+        }
+
+        tr>td:nth-child(2) {
+            left: 55px;
+            min-width: 72px !important;
+            max-width: 72px !important;
+            width: 72px !important;
+        }
+
+        tr>td:nth-child(3) {
+            left: 127px;
+            min-width: 250px !important;
+            max-width: 250px !important;
+            width: 250px !important;
+        }
+
+        tr>td:nth-child(4) {
+            left: 377px;
+            min-width: 200px !important;
+            max-width: 200px !important;
+            width: 200px !important;
+        }
     }
 
     th,
@@ -519,13 +606,14 @@
             .filter-header {
                 margin-left: 15px;
             }
+
             .filter-popup {
                 left: 3px;
             }
         }
 
         &:nth-child(1) {
-            width: 40px !important;
+            width: 55px !important;
         }
 
         &:nth-child(13),
@@ -548,7 +636,8 @@
     }
 
     .no-cell {
-        width: 50px;
+        width: 55px;
+        text-align: center;
     }
 
     .ko-time-cell {
