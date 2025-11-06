@@ -427,7 +427,7 @@ public class CreateRCDiscussionHandler(
         }
         else
         {
-            discussionInfo.BetOn;
+            betOnMessage = discussionInfo.BetOn;
         }
         return betOnMessage;
     }
