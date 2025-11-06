@@ -1,13 +1,9 @@
-//import { useAppDispatch } from '../../app/hooks';
-//import { updateObject } from '../slice/editSettingSlice';
-
 const LeagueInfo = (props: {
   league: string;
   event: string;
   matchId: Required<number>;
   leagueGroup: string;
 }) => {
-  //const dispatch = useAppDispatch();
   const { league, event, matchId, leagueGroup } = props;
 
   const renderLeagueName = () => (

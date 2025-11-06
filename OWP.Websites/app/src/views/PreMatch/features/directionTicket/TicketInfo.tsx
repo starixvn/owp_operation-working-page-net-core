@@ -1,7 +1,7 @@
-import Select, { SingleValue } from 'react-select-ts';
+import Select from 'react-select-ts';
 import { useDispatch } from 'react-redux';
 import { BETON_OPTIONS, BETTYPE_OPTIONS, GHOST_OPTIONS } from '../../const/const';
-import { TRenderTicketInfo, TTicketInfo } from '../../type';
+import { TRenderTicketInfo } from '../../type';
 import { addTicketInfo, removeTicketInfo, updateTicketInfo } from './directionTicketSlice';
 import { useRef } from 'react';
 
@@ -18,8 +18,8 @@ const TicketInfo = (props: TRenderTicketInfo) => {
   const ghostDetailInputRef = useRef<HTMLInputElement>(null);
   const hdpOuInputRef = useRef<HTMLInputElement>(null);
   const oddsInputRef = useRef<HTMLInputElement>(null);
-  const noteInputRef = useRef<HTMLInputElement>(null);
-  const remarkInputRef = useRef<HTMLInputElement>(null);
+  const noteInputRef = useRef<HTMLTextAreaElement>(null);
+  const remarkInputRef = useRef<HTMLTextAreaElement>(null);
   const { index, isRenderRemoveCommand, isRenderAddCommand } = props;
 
   const dispatch = useDispatch();
@@ -127,10 +127,9 @@ const TicketInfo = (props: TRenderTicketInfo) => {
           step={0.25}
           ref={hdpOuInputRef}
           onBlur={() => {
-            setTimeout(() => {
-              hdpOuInputRef.current?.value
-                && dispatch(updateTicketInfo({ index, field: 'hdp_ou', value: hdpOuInputRef.current?.value }));
-            }, 0);
+            hdpOuInputRef.current?.value
+              && dispatch(updateTicketInfo({ index, field: 'hdp_ou', value: hdpOuInputRef.current?.value }));
+
           }} />
       </div>
     </div>
@@ -143,7 +142,11 @@ const TicketInfo = (props: TRenderTicketInfo) => {
         <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>*</p>
       </div>
       <div className='input-item'>
-        <input value={odds} className='input' />
+        <input defaultValue={odds}
+          ref={oddsInputRef}
+          className='input' onBlur={() => {
+            oddsInputRef.current?.value && dispatch(updateTicketInfo({ index, field: 'odds', value: oddsInputRef.current?.value }));
+          }} />
       </div>
     </div>
   );
@@ -156,9 +159,13 @@ const TicketInfo = (props: TRenderTicketInfo) => {
       </div>
       <div className='input-item'>
         <textarea
+          defaultValue={note}
+          ref={noteInputRef}
           className='common-textarea'
-          value={note}
           rows={3}
+          onBlur={() => {
+            noteInputRef.current?.value && dispatch(updateTicketInfo({ index, field: 'note', value: noteInputRef.current?.value }));
+          }}
         />
       </div>
     </div>
@@ -172,7 +179,11 @@ const TicketInfo = (props: TRenderTicketInfo) => {
       <div className='input-item'>
         <textarea
           className='common-textarea'
-          value={remark}
+          defaultValue={remark}
+          ref={remarkInputRef}
+          onBlur={() => {
+            remarkInputRef.current?.value && dispatch(updateTicketInfo({ index, field: 'remark', value: remarkInputRef.current?.value }));
+          }}
           rows={3}
         />
       </div>

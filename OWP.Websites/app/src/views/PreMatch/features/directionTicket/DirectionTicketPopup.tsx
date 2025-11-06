@@ -1,11 +1,16 @@
 import { Modal, ModalBody, ModalFooter, ModalHeader, Button } from 'reactstrap';
 import LeagueInfo from './LeagueInfo';
 import TicketInfoWrapper from './TicketInfoWrapper';
+import { useSelector, useDispatch } from 'react-redux';
+import { closePopupCreateDiscussion } from '../../../Shared/createTicketNew/createTicketBoardSliceNew';
+import { clearPopupData } from './directionTicketSlice';
 
 const DirectionTicketPopup = () => {
+  const dispatch = useDispatch();
+  const { isOpenCreateDiscussion } = useSelector(state => state.createTicketBoard);
   return (
     <Modal
-      isOpen
+      isOpen={isOpenCreateDiscussion}
       scrollable
       className='direction-ticket-popup'
       modalClassName='direction-ticket-modal'
@@ -33,7 +38,10 @@ const DirectionTicketPopup = () => {
           <Button
             color='secondary'
             className='btn-cancel'
-            onClick={() => { }}>
+            onClick={() => {
+              dispatch(closePopupCreateDiscussion({}));
+              dispatch(clearPopupData());
+            }}>
             Cancel
           </Button>
         </ModalFooter>

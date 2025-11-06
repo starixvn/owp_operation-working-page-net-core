@@ -7,27 +7,29 @@ const directionTicketSlice = createSlice({
     data: {
       league: '',
       event: '',
-      matchId: 0,
-      leagueGroupId: 0,
+      matchId: undefined,
+      leagueGroupId: undefined,
       includeTrader: false,
       ticketInfo: [{
-        ghostNameId: null,
-        ghostDetail: '',
-        bettypeId: null,
-        betOnId: '',
-        hdp_ou: 0,
+        ghostNameId: undefined,
+        ghostDetail: undefined,
+        bettypeId: undefined,
+        betOnId: undefined,
+        hdp_ou: undefined,
         odds: '',
+        note: '',
+        remark: '',
       }],
     } as TDirectionTicket,
   },
   reducers: {
     addTicketInfo: state => {
       state.data.ticketInfo.push({
-        ghostNameId: null,
+        ghostNameId: undefined,
         ghostDetail: '',
-        bettypeId: null,
-        betOnId: null,
-        hdp_ou: '',
+        bettypeId: undefined,
+        betOnId: undefined,
+        hdp_ou: undefined,
         odds: '',
         note: '',
         remark: '',
@@ -45,12 +47,24 @@ const directionTicketSlice = createSlice({
         ...state.data.ticketInfo.slice(0, action.payload.index),
         ...state.data.ticketInfo.slice(action.payload.index + 1)
       ];
+    },
+    clearPopupData: state => {
+      state.data.ticketInfo = [{
+        ghostNameId: undefined,
+        ghostDetail: undefined,
+        bettypeId: undefined,
+        betOnId: undefined,
+        hdp_ou: undefined,
+        odds: '',
+        note: '',
+        remark: '',
+      }];
     }
   }
 });
 
 const { actions, reducer } = directionTicketSlice;
-const { updateTicketInfo, removeTicketInfo, addTicketInfo } = actions;
-export { actions, updateTicketInfo, removeTicketInfo, addTicketInfo };
+const { updateTicketInfo, removeTicketInfo, addTicketInfo, clearPopupData } = actions;
+export { actions, updateTicketInfo, removeTicketInfo, addTicketInfo, clearPopupData };
 
 export default reducer;

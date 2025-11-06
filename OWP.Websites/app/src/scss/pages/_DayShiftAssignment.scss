@@ -2040,11 +2040,14 @@ input::-ms-input-placeholder {
 
 .direction-ticket-popup {
   .modal-header {
-    background-color: #44546b;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-  }
+    background-color: #f1f1f1;
+    color: black;
+    .modal-title{
+      .title{
+        font-weight: bold;
+      }
+    }
+     }
 
   .modal-body {
     padding: 0px;

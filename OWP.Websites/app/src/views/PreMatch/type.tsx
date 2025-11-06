@@ -1,12 +1,12 @@
 type TTicketInfo = {
-  ghostNameId: number | null;
-  ghostDetail: string;
-  bettypeId: number | null;
-  betOnId: string | null;
-  hdp_ou: number | string;
-  odds: string;
-  note: string;
-  remark: string;
+  ghostNameId: number | undefined;
+  ghostDetail: string | undefined;
+  bettypeId: number | undefined;
+  betOnId: string | undefined;
+  hdp_ou: number | undefined;
+  odds: string | undefined;
+  note: string | undefined;
+  remark: string | undefined;
 };
 
 type TRenderTicketInfo = {
@@ -28,8 +28,8 @@ type TUpdateTicketInfo = {
 type TDirectionTicket = {
   league: string;
   event: string;
-  matchId: number;
-  leagueGroupId: number;
+  matchId: number | undefined;
+  leagueGroupId: number | undefined;
   includeTrader: boolean;
   ticketInfo: Array<TTicketInfo>;
 };
