@@ -28,6 +28,7 @@ public class CreateRCDiscussionRequest : IRequest<Unit>
             HdpOu = 2.0m,
             Odds = "1.00",
             Note = "Note",
+            BetOn = "Home",
             Remark = "Remark1",
         },
         new DiscussionInfo
@@ -41,6 +42,7 @@ public class CreateRCDiscussionRequest : IRequest<Unit>
             HdpOu = 3.0m,
             Odds = "1.00",
             Note = "Note",
+            BetOn = "Away",
             Remark = "Remark2",
         },
         new DiscussionInfo
@@ -55,6 +57,7 @@ public class CreateRCDiscussionRequest : IRequest<Unit>
             Odds = "1.00",
             Note = "Note",
             Remark = "Remark",
+            BetOn = "HDP/OU",
         }
     };
 }
@@ -106,7 +109,7 @@ public class CreateRCDiscussionHandler(
         }
     }
 
-    private (List<IGrouping<object, DiscussionInfo>> NewGroups, List<IGrouping<object, DiscussionInfo>> ExistingGroups) 
+    private (List<IGrouping<object, DiscussionInfo>> NewGroups, List<IGrouping<object, DiscussionInfo>> ExistingGroups)
         GroupAndSeparateDiscussions(List<DiscussionInfo> discussionInfos, IEnumerable<DiscussionInfo> currentDiscussionInfos)
     {
         var groupedDiscussions = discussionInfos
@@ -288,31 +291,44 @@ public class CreateRCDiscussionHandler(
 
         var firstDiscussion = discussions.First();
         var message = new StringBuilder();
-        
+
         // [League name]
         message.AppendLine($"{firstDiscussion.LeagueName}");
-        
+
         // [Home name] - [Away name]
         message.AppendLine($"{firstDiscussion.HomeName} - {firstDiscussion.AwayName}");
-        
+
         var infoCounter = 1;
-        
+
         // Process each discussion in the group
         foreach (var discussionInfo in discussions)
         {
-            // #info1 [Ghost name] - [Ghost detail]
             message.AppendLine($"**#info{infoCounter}** {discussionInfo.GhostName} - {discussionInfo.GhostDetail}");
-            
+
             // Bet on: [Bet on] [HDP/OU]@[Odds]
-            var betLine = $"Bet on: {discussionInfo.BetOn} {discussionInfo.HdpOu}@{discussionInfo.Odds}";
+            var betLine = $"Bet on: {buildBetOnMessage(discussionInfo)} {discussionInfo.HdpOu}@{discussionInfo.Odds}";
             message.AppendLine(betLine);
-            
+
             message.AppendLine($"#note: {discussionInfo.Note}");
-            
+
             infoCounter++;
         }
 
         return message.ToString().Trim();
+    }
+    
+    public string buildBetOnMessage(DiscussionInfo discussionInfo)
+    {
+        var betOnMessage = discussionInfo.BetOn;
+        if (discussionInfo.BetOn == "Home")
+        {
+            betOnMessage = discussionInfo.HomeName;
+        }
+        else if (discussionInfo.BetOn == "Away")
+        {
+            betOnMessage = discussionInfo.AwayName;
+        }
+        return betOnMessage;
     }
 }
 
