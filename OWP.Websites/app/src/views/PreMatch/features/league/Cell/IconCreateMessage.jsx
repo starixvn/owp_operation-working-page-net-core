@@ -60,7 +60,7 @@ const IconCreateMessage = props => {
     );
     dispatch(openPopupCreateDiscussion());
 
-    const adminSiteMatchId = dataSource[rowIndex].adminSiteMatchId;
+    const adminSiteMatchId = dataSource[rowIndex].AdminSiteMatchId;
     if(adminSiteMatchId && adminSiteMatchId !== 0) {
       dispatch(openPopupCreateDiscussion());
     } else {
