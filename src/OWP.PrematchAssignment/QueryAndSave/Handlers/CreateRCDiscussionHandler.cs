@@ -15,68 +15,9 @@ namespace OWP.PrematchAssignment.QueryAndSave.Handlers;
 
 public class CreateRCDiscussionRequest : IRequest<ResultDataObject>
 {
-    public int AdminSiteId { get; set; } = 116493050;
-    public bool IsIncludeTrader { get; set; } = true;
-
-    public List<DiscussionInfo> DiscussionInfos { get; set; } = new List<DiscussionInfo>
-    {
-        new DiscussionInfo
-        {
-            AdminSiteMatchId = 116493050,
-            BetType = 1,
-            HomeName = "Home",
-            AwayName = "Away",
-            GhostName = "Ghost 1",
-            GhostDetail = "Ghost Detail 1",
-            HdpOu = 2.0m,
-            Odds = "1.00",
-            Note = "Note",
-            BetOn = "Home",
-            Remark = "Remark1",
-        },
-        new DiscussionInfo
-        {
-            AdminSiteMatchId = 116493050,
-            BetType = 7,
-            HomeName = "Home",
-            AwayName = "Away",
-            GhostName = "Ghost 2",
-            GhostDetail = "Ghost Detail 2",
-            HdpOu = 3.0m,
-            Odds = "1.00",
-            Note = "Note",
-            BetOn = "Away",
-            Remark = "Remark2",
-        },
-        new DiscussionInfo
-        {
-            AdminSiteMatchId = 116493050,
-            BetType = 7,
-            HomeName = "Home",
-            AwayName = "Away",
-            GhostName = "Ghost 3",
-            GhostDetail = "Ghost Detail 3",
-            HdpOu = 4.0m,
-            Odds = "1.00",
-            Note = "Note",
-            Remark = "Remark",
-            BetOn = "HDP/OU",
-        },
-        new DiscussionInfo
-        {
-            AdminSiteMatchId = 116493050,
-            BetType = 3,
-            HomeName = "Home",
-            AwayName = "Away",
-            GhostName = "Ghost 4",
-            GhostDetail = "Ghost Detail 4",
-            HdpOu = 5.0m,
-            Odds = "1.00",
-            Note = "Note",
-            Remark = "Remark",
-            BetOn = "HDP/OU",
-        },
-    };
+    public int AdminSiteId { get; set; }
+    public bool IsIncludeTrader { get; set; }
+    public List<DiscussionInfo> DiscussionInfos { get; set; }
 }
 
 public class CreateRCDiscussionHandler(
@@ -92,7 +33,11 @@ public class CreateRCDiscussionHandler(
 
         if (matchInfo == null)
         {
-            throw new ArgumentNullException("Match info is not found");
+            return new ResultDataObject
+            {
+                Code = (int)ErrorCode.Error,
+                Message = "Match info is not found"
+            };
         }
 
         UpdateDiscussionInfosWithMatchInfo(request.DiscussionInfos, matchInfo);
@@ -276,7 +221,7 @@ public class CreateRCDiscussionHandler(
              var serverUrl = configuration["ChatServer:Url"];
             var token = configuration["ChatServer:BotToken"];
             var userId = configuration["ChatServer:BotUserId"];
-            var parentChannelId = configuration["ChatServer:LATodayMatchChannelId"];
+            var parentChannelId = configuration["ChatServer:PrematchDirectionChannelId"];
             var payload = new
             {
                 prid = parentChannelId,
