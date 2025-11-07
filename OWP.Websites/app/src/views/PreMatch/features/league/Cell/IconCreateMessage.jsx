@@ -60,13 +60,12 @@ const IconCreateMessage = props => {
     );
     dispatch(openPopupCreateDiscussion());
 
-    // TODO: remove this after testing
-    /*const adminSiteMatchId = dataSource[rowIndex].adminSiteMatchId;
+    const adminSiteMatchId = dataSource[rowIndex].adminSiteMatchId;
     if(adminSiteMatchId && adminSiteMatchId !== 0) {
       dispatch(openPopupCreateDiscussion());
     } else {
       ToastrWrapper.showError('The system could not find the  AdminSiteId to get the reader for  this match to send to  direction ticket. Please check the match again.');
-    }*/
+    }
   };
 
   const renderQuickAddTicketHandler = () => (
