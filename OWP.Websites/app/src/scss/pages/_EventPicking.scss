@@ -555,13 +555,13 @@
       z-index: 10;
     }
 
-    // Ensure normal sticky cells have white background (not colored rows)
+    // Ensure sticky cells inherit row background color
     tr > td:nth-child(1):not(.color-unselected):not(.color-child-matches),
     tr > td:nth-child(2):not(.color-unselected):not(.color-child-matches),
     tr > td:nth-child(3):not(.color-unselected):not(.color-child-matches),
     tr > td:nth-child(4):not(.color-unselected):not(.color-child-matches),
     tr > td:nth-child(5):not(.color-unselected):not(.color-child-matches) {
-      background: white;
+      background: inherit;
     }
 
     // Ensure colored sticky cells inherit background color
