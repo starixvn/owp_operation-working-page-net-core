@@ -259,18 +259,18 @@ const buildRoundOptions = (entities: TDataTable[]) => {
 };
 
 const buildProviderOptions = (entities: TDataTable[]) => {
-  const allProviderValues = entities.flatMap(entity => {
-    const { provider } = entity;
-    const providerValues = provider?.split('/').filter(Boolean) || [];
+  const allOtherProviderValues = entities.flatMap(entity => {
+    const { otherProvider } = entity;
+    const otherProviderValues = otherProvider?.split('/').filter(Boolean) || [];
 
-    return [...providerValues];
+    return [...otherProviderValues];
   });
 
   const options = uniqBy(
-    allProviderValues
-      .map(provider => ({
-        value: provider.trim(),
-        label: provider.trim() || '(Blanks)'
+    allOtherProviderValues
+      .map(otherProvider => ({
+        value: otherProvider.trim(),
+        label: otherProvider.trim() || '(Blanks)'
       }))
       .sort((a, b) => a.label.localeCompare(b.label)),
     i => i.value
@@ -970,6 +970,7 @@ const filterByProvider = (
   entities: TDataTable[],
   filterInfo: TMultipleFilter
 ) => {
+  //user change requirement to filter by other provider
   if (!filterInfo || !filterInfo.provider || !filterInfo.provider.selected) {
     return {
       filterInfo,
@@ -987,7 +988,8 @@ const filterByProvider = (
   }
   const selectedSet = new Set(selected.filter(Boolean));
   const filtered = entities.filter(e => {
-    const all = [e.provider].filter(Boolean).flatMap(v =>
+    //change here to apply filter by other provider
+    const all = [e.otherProvider].filter(Boolean).flatMap(v =>
       v
         .split('/')
         .map(s => s.trim())
@@ -1001,7 +1003,7 @@ const filterByProvider = (
       return true;
     }
 
-    return all.some(provider => selectedSet.has(provider));
+    return all.some(otherProvider => selectedSet.has(otherProvider));
   });
   return { filterInfo, entities: filtered };
 };
