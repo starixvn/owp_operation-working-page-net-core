@@ -49,7 +49,6 @@ const IconCreateMessage = props => {
     const { LeagueName, HomeName, AwayName, AdminSiteMatchId, LeagueId } =
       dataSource[rowIndex];
     const { LeagueGroup } = dataSource.find(x => x.LeagueId === LeagueId);
-    debugger;
     dispatch(
       setLeagueInfo({
         league: LeagueName,
@@ -61,10 +60,12 @@ const IconCreateMessage = props => {
     dispatch(openPopupCreateDiscussion());
 
     const adminSiteMatchId = dataSource[rowIndex].AdminSiteMatchId;
-    if(adminSiteMatchId && adminSiteMatchId !== 0) {
+    if (adminSiteMatchId && adminSiteMatchId !== 0) {
       dispatch(openPopupCreateDiscussion());
     } else {
-      ToastrWrapper.showError('The system could not find the  AdminSiteId to get the reader for  this match to send to  direction ticket. Please check the match again.');
+      ToastrWrapper.showError(
+        'The system could not find the  AdminSiteId to get the reader for  this match to send to  direction ticket. Please check the match again.'
+      );
     }
   };
 

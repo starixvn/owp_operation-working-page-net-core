@@ -50,11 +50,11 @@ const TicketInfo = (props: TRenderTicketInfo) => {
               selected?.value &&
                 dispatch(updateTicketInfo({ index, field: 'ghostName', value: selected.value }));
             }}
-            placeholder="Ghost Name..."
+            placeholder="Ghost..."
             value={GHOST_OPTIONS.find(option => option.value === ghostName)} />
         </div >
 
-        <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>
+        <p className='error-message'>
           {errorMessage?.ghostName}</p>
       </div >
     </>
@@ -78,14 +78,14 @@ const TicketInfo = (props: TRenderTicketInfo) => {
           />
         </div>
       </div>
-      <p style={{ 'color': 'red', 'paddingLeft': '5px', 'width': '100%' }}>
+      <p className='error-message'>
         {errorMessage?.ghostDetail}</p>
     </div>
   );
 
   const renderBettype = () => (
-    <div className='content'>
-      <div className='flex'>
+    <div className='content bettype'>
+      <div className='flex bettype'>
         <div className='left'>
           Bet type
           <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>*</p>
@@ -101,7 +101,7 @@ const TicketInfo = (props: TRenderTicketInfo) => {
           placeholder="Bettype..."
           value={BETTYPE_OPTIONS.find(option => option.value === betType)} />
       </div>
-      <p style={{ 'color': 'red', 'paddingLeft': '5px', 'width': '100%' }}>
+      <p className='error-message'>
         {errorMessage?.bettype}</p>
     </div>
   );
@@ -129,7 +129,7 @@ const TicketInfo = (props: TRenderTicketInfo) => {
           placeholder="Bet on..."
           value={betOnOptions.find(option => option.value === betOn)} />
       </div>
-      <p style={{ 'color': 'red', 'paddingLeft': '5px', 'width': '100%' }}>
+      <p className='error-message'>
         {errorMessage?.betOn}</p>
     </div>;
   };
@@ -155,13 +155,13 @@ const TicketInfo = (props: TRenderTicketInfo) => {
             }} />
         </div>
       </div>
-      <p style={{ 'color': 'red', 'paddingLeft': '5px', 'width': '100%' }}>
+      <p className='error-message'>
         {errorMessage?.hdp_ou}</p>
     </div>
   );
 
   const renderOdds = () => (
-    <div className='content'>
+    <div className='content odds__wrapper'>
       <div className='flex'>
         <div className='left odds'>
           Odds
@@ -175,14 +175,14 @@ const TicketInfo = (props: TRenderTicketInfo) => {
             }} />
         </div>
       </div>
-      <p style={{ 'color': 'red', 'paddingLeft': '5px', 'width': '100%' }}>
+      <p className='error-message'>
         {errorMessage?.odds}</p>
     </div>
   );
 
   const renderNote = () => (
     <div className='content'>
-      <div className='left'>
+      <div className='left note__label'>
         Note
         <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>*</p>
       </div>
@@ -197,14 +197,14 @@ const TicketInfo = (props: TRenderTicketInfo) => {
           }}
         />
       </div>
-      <p style={{ 'color': 'red', 'paddingLeft': '5px', 'width': '100%' }}>
+      <p className='error-message'>
         {errorMessage?.note}</p>
     </div>
   );
 
   const renderRemark = () => (
     <div className='content'>
-      <div className='left'>
+      <div className='left remark__label'>
         Remark
       </div>
       <div className='input-item'>
@@ -274,16 +274,20 @@ const TicketInfo = (props: TRenderTicketInfo) => {
   return (
     <div className='list'>
       <fieldset className='fieldset'>
-        <legend className='fieldset-legend'>Info {index + 1}:</legend>
+        <legend className='fieldset-legend'>Info {index + 1}</legend>
         <div className='ghost-name__ghost-detail'>
           {renderGhostName()}
           {renderGhostDetail()}
         </div>
-        <div className='bettype__beton__hdp-ou'>
-          {renderBettype()}
-          {renderBetOn()}
-          {renderHdpOu()}
-          {renderOdds()}
+        <div className='bettype__beton__hdp-ou__odds'>
+          <div className='bettype__wrapper'>
+            {renderBettype()}
+          </div>
+          <div className='beton__hdp-ou_odds__wrapper'>
+            {renderBetOn()}
+            {renderHdpOu()}
+            {renderOdds()}
+          </div>
         </div>
         {renderNote()}
         {renderRemark()}

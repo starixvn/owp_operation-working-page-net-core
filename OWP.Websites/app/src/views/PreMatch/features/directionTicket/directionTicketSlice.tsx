@@ -1,8 +1,7 @@
 import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit';
 import { TDirectionTicket, TRemoveTicketInfo, TUpdateTicketInfo, TDirectionTicketLeagueInfo, TUpdateBetType } from '../../type';
 import { validateTicketInfo } from './validationThunk';
-import { BETON_OPTIONS } from '../../const/const';
-import { BETTYPE_OPTIONS } from '../../const/const';
+import { BETON_OPTIONS, BETTYPE_OPTIONS } from '../../const/const';
 
 const directionTicketSlice = createSlice({
   name: 'directionTicket',
@@ -12,7 +11,7 @@ const directionTicketSlice = createSlice({
       event: '',
       matchId: 0,
       leagueGroup: '',
-      isIncludeTrader: false,
+      isIncludeTrader: true,
       ticketInfo: [{
         no: nanoid(),
         ghostName: undefined,
@@ -87,7 +86,7 @@ const directionTicketSlice = createSlice({
       ];
     },
     clearPopupData: state => {
-      state.data.isIncludeTrader = false;
+      state.data.isIncludeTrader = true;
       state.data.ticketInfo = [{
         no: nanoid(),
         ghostName: undefined,

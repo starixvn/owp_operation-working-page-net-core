@@ -2057,9 +2057,40 @@ input::-ms-input-placeholder {
       }
     }
     .list {
-      .ghost-name__ghost-detail, .bettype__beton__hdp-ou {
+      .ghost-name__ghost-detail{
+        .content{
+          flex: 1;
+
+          
+        }
+      }
+      .ghost-name__ghost-detail, .bettype__beton__hdp-ou__odds {
         display: flex;
         flex-direction: row;
+        .bettype__wrapper{
+          flex: 1;
+        .bettype {
+            justify-content: space-between !important;
+            padding-right: 0px;
+          }
+        }
+        .beton__hdp-ou_odds__wrapper{
+          display: flex;
+          flex: 4 !important;
+          .content{
+            padding-left: 20px;
+          }
+          .basic-multi-select{
+            width: 60px;
+          }
+
+          .odds__wrapper{
+            flex: 1;
+            input{
+              width: 100%;
+            }
+          }
+        }
         .hdp-ou{
           width: 150px !important;
         }
@@ -2077,7 +2108,6 @@ input::-ms-input-placeholder {
         display: flex!important;
         }
             .content {
-              margin-left: 10px;
               padding: 5px 10px;
               display: flex;
       
@@ -2106,6 +2136,9 @@ input::-ms-input-placeholder {
                 }
                   .odds {
                     width: 40px !important;
+                    .input{
+                      width: 100%;
+                    }
                   }
               .left {
                 display: flex;
@@ -2261,14 +2294,23 @@ input::-ms-input-placeholder {
 
 .list{
       padding: 0 10px;
+      margin-top: 10px;
       .fieldset{
         min-width: auto;
         padding: inherit;
         border: 1px solid #999;
+        .error-message {
+            margin-left: 0px;
+            color: red;
+          }
       }
       .fieldset{
         .content {
             display: block !important;
+            .note__label, .remark__label {
+              margin-bottom: 5px;
+              
+            }
             .left{
               align-items: center;
               width: auto!important;
@@ -2279,7 +2321,8 @@ input::-ms-input-placeholder {
               }
             }
             &.ghost-detail {
-              flex: 1;
+              flex: 4 !important;
+              
         
               .input {
                 width: 100%;
@@ -2289,6 +2332,7 @@ input::-ms-input-placeholder {
               display: flex;
               flex-wrap: nowrap;
               align-items: center;
+              justify-content: space-between;
             }
           }
       }
@@ -2296,6 +2340,6 @@ input::-ms-input-placeholder {
     float: none;
       width: auto;
       padding: 0 10px;
-      
+      font-weight: bold;
    }
 }

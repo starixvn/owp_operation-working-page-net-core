@@ -29,6 +29,7 @@ const DirectionTicketPopup = () => {
         isIncludeTrader,
         discussionInfos: ticketInfo
       });
+      handleCancel();
       Spinner.hide();
       await ToastrWrapper.showNotifySuccess('Direction ticket has been created successfully!');
     }
