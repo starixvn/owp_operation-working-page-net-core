@@ -16,7 +16,6 @@ import {
 } from '../../../../Shared/createTicketNew/createTicketBoardSliceNew';
 import store from '../../../app/store';
 import { useStableDispatch } from '../../../ImportPrematchHelperNative';
-import ToastsWrapper from '../../../../components/ToastrWrapper';
 import { getDetailSegmentUrlByEventType } from '../../../../Shared/TicketCenterPrematch/helper/helper';
 import { isEqual } from 'lodash';
 import {
@@ -32,6 +31,7 @@ import { useSelector } from 'react-redux';
 import TicketListPopupCommon from './TicketListPopupCommon';
 import { openNewChattingTab } from '../../../../Shared/Utils';
 import { setLeagueInfo } from '../../directionTicket/directionTicketSlice';
+import ToastrWrapper from '../../../../components/ToastrWrapper';
 const propTypes = {
   rowIndex: PropTypes.number.isRequired,
   ticketList: PropTypes.array.isRequired,
@@ -118,11 +118,12 @@ const TicketListPopup = props => {
     const adminSiteMatchId = dataSource[rowIndex].AdminSiteMatchId;
     if (adminSiteMatchId && adminSiteMatchId !== 0) {
       stableDispatch(openPopupCreateDiscussion());
-    } else {
-      ToastrWrapper.showError(
-        'The system could not find the  AdminSiteId to get the reader for  this match to send to  direction ticket. Please check the match again.'
-      );
+      return;
     }
+
+    ToastrWrapper.showError(
+      'The system could not find the  AdminSiteId to get the reader for  this match to send to  direction ticket. Please check the match again.'
+    );
   };
 
   return (
