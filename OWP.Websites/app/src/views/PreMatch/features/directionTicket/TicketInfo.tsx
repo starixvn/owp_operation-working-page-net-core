@@ -148,6 +148,7 @@ const TicketInfo = (props: TRenderTicketInfo) => {
             defaultValue={hdpOu}
             step={0.25}
             ref={hdpOuInputRef}
+            style={{ textAlign: 'right' }}
             onBlur={() => {
               hdpOuInputRef.current?.value !== undefined
                 && dispatch(updateTicketInfo({ index, field: 'hdpOu', value: hdpOuInputRef.current?.value }));
