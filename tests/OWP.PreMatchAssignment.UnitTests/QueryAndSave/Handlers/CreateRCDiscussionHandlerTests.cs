@@ -52,6 +52,7 @@ namespace OWP.PreMatchAssignment.UnitTests.QueryAndSave.Handlers
             _configuration["ChatServer:BotToken"].Returns("test-token");
             _configuration["ChatServer:BotUserId"].Returns("test-user-id");
             _configuration["ChatServer:PrematchDirectionChannelId"].Returns("test-channel-id");
+            _napSession.UserName.Returns("test-current-user");
         }
 
         [Fact]
@@ -187,14 +188,87 @@ namespace OWP.PreMatchAssignment.UnitTests.QueryAndSave.Handlers
                 .GetEventRecipients()
                 .Returns(new List<EventRecipient>());
 
+            // Use a failing HTTP client
+            var failingHttpClient = new HttpClient(new FailingHttpMessageHandler());
+            var failingHandler = new CreateRCDiscussionHandler(
+                _service,
+                failingHttpClient,
+                _configuration,
+                _napSession,
+                _logger
+            );
+
             // Act
-            var result = await _handler.Handle(request, CancellationToken.None);
+            var result = await failingHandler.Handle(request, CancellationToken.None);
 
             // Assert
             Assert.Equal((int)ErrorCode.Error, result.Code);
             Assert.Equal("Some RCDiscussion creations failed", result.Message);
             Assert.NotNull(result.Data);
             Assert.IsType<Dictionary<(int AdminSiteMatchId, int BetType), string>>(result.Data);
+            
+            var errorData = result.Data as Dictionary<(int AdminSiteMatchId, int BetType), string>;
+            Assert.NotNull(errorData);
+            Assert.True(errorData.ContainsKey((1, 1)));
+        }
+
+        [Fact]
+        public async Task Handle_WhenIsIncludeTraderIsFalse_ShouldNotCallRocketChat()
+        {
+            // Arrange
+            var request = new CreateRCDiscussionRequest
+            {
+                AdminSiteId = 1,
+                IsIncludeTrader = false,
+                DiscussionInfos = new List<DiscussionInfo>
+                {
+                    new()
+                    {
+                        AdminSiteMatchId = 1,
+                        BetType = 1,
+                        GhostName = "Test Ghost",
+                        GhostDetail = "Test Detail",
+                        BetOn = "Home",
+                        HdpOu = 1.5m,
+                        Odds = "1.95",
+                        Note = "Test Note"
+                    }
+                }
+            };
+
+            var matchInfo = new DiscussionMatchInfo
+            {
+                LeagueName = "Test League",
+                HomeId = 1,
+                HomeName = "Home Team",
+                AwayId = 2,
+                AwayName = "Away Team"
+            };
+
+            _service
+                .GetMatchDiscussionInfo(request.AdminSiteId)
+                .Returns((new List<DiscussionInfo>(), matchInfo));
+
+            // Act
+            var result = await _handler.Handle(request, CancellationToken.None);
+
+            // Assert
+            Assert.Equal((int)ErrorCode.Ok, result.Code);
+            Assert.Equal("RCDiscussion created successfully", result.Message);
+            
+            await _service
+                .DidNotReceive()
+                .GetMatchAssignments(Arg.Any<int>());
+            
+            await _service
+                .DidNotReceive()
+                .GetEventRecipients();
+            
+            await _service
+                .Received(1)
+                .InsertDiscussion(Arg.Is<InsertDiscussionCriteria>(c => 
+                    c.AdminSiteMatchId == request.AdminSiteId &&
+                    c.IsIncludeTrader == request.IsIncludeTrader));
         }
     }
 
@@ -211,6 +285,18 @@ namespace OWP.PreMatchAssignment.UnitTests.QueryAndSave.Handlers
             {
                 StatusCode = HttpStatusCode.OK,
                 Content = new StringContent(JsonSerializer.Serialize(response))
+            });
+        }
+    }
+
+    internal class FailingHttpMessageHandler : HttpMessageHandler
+    {
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.BadRequest,
+                Content = new StringContent(JsonSerializer.Serialize(new { error = "Bad Request", errorType = "invalid-params" }))
             });
         }
     }
