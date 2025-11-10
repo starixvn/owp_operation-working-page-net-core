@@ -9,6 +9,7 @@
   "UPDATE_CONFIRMED": "update-confirmed",
   "REMOVE_SPECIAL_PRODUCT": "remove-special-product",
   "ADD_SPECIAL_PRODUCT": "add-special-product",
+  "getTurnoverMargin": "get-turnover-margin",
   "MESSAGE": {
     "CHECK_ALL": "Are you sure you want to select all of these matches?",
     "UN_CHECK_ALL": "Are you sure you want to unselect all of these matches?",
