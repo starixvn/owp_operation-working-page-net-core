@@ -17,6 +17,14 @@ public class EventPickingApiController(IMediator mediator, Repository repository
         return new JsonResult(result);
     }
 
+    [HttpPost("get-turnover-margin")]
+    public async Task<IActionResult> QueryTurnOverMargin(QueryTurnOverMarginRequest request)
+    {
+        var result = await mediator.Send(request);
+
+        return new JsonResult(result);
+    }
+
     [HttpPost("query-event-picking-edit-mode")]
 
     public async Task<IActionResult> QueryEventPickingEditMode(EditEventPickingRequest request)
