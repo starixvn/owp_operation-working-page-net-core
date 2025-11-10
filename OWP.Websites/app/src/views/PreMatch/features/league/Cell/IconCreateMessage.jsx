@@ -57,14 +57,13 @@ const IconCreateMessage = props => {
         leagueGroup: LeagueGroup
       })
     );
-    dispatch(openPopupCreateDiscussion());
 
     const adminSiteMatchId = dataSource[rowIndex].AdminSiteMatchId;
     if (adminSiteMatchId && adminSiteMatchId !== 0) {
       dispatch(openPopupCreateDiscussion());
     } else {
       ToastrWrapper.showError(
-        'The system could not find the  AdminSiteId to get the reader for  this match to send to  direction ticket. Please check the match again.'
+        'The system could not find the  AdminSiteId to get the trader for this match to send to  direction ticket. Please check the match again.'
       );
     }
   };

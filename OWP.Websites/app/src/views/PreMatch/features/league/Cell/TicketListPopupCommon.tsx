@@ -51,6 +51,13 @@ const TicketListPopupCommon = (props: TPopup) => {
               Match Group Discussion
             </button>
           )}
+           <button
+            className='button-submit'
+            onClick={() => {
+              handleOpenCreateTicket();
+            }}>
+            New ticket
+          </button>
           {allowQuickAdd && (
             <button
               className='button-submit'
