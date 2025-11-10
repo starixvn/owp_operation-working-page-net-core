@@ -93,12 +93,7 @@ const IconCreateMessage = props => {
 
   return (
     <div>
-      <PlusCircleIcon
-        onClick={() => {
-          handleOpenCreateTicket();
-        }}
-        className='icon-plus'
-      />
+      <PlusCircleIcon  className='icon-plus' />
       {dataSource[rowIndex].InfoSiteMatchId && (
         <div className=''>{renderQuickAddTicketHandler()}</div>
       )}
