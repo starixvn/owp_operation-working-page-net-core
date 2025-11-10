@@ -49,7 +49,7 @@ const DirectionTicketPopup = () => {
       size='lg'
       centered>
       <ModalHeader>
-        <div className='title'>League Information</div>
+        <div className='title'>Direction Ticket</div>
       </ModalHeader>
       <ModalBody>
         <LeagueInfo
@@ -61,20 +61,18 @@ const DirectionTicketPopup = () => {
         <TicketInfoWrapper />
       </ModalBody>
       <ModalFooter>
-        <ModalFooter>
-          <Button
-            color='primary'
-            className='btn-add'
-            onClick={handleSubmit}>
-            Submit
-          </Button>
-          <Button
-            color='secondary'
-            className='btn-cancel'
-            onClick={handleCancel}>
-            Cancel
-          </Button>
-        </ModalFooter>
+        <Button
+          color='primary'
+          className='btn-add'
+          onClick={handleSubmit}>
+          Submit
+        </Button>
+        <Button
+          color='secondary'
+          className='btn-cancel'
+          onClick={handleCancel}>
+          Cancel
+        </Button>
       </ModalFooter>
     </Modal>
   );

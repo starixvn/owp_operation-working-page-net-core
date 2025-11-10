@@ -108,7 +108,7 @@ const TicketInfo = (props: TRenderTicketInfo) => {
 
   const renderBetOn = () => {
     const betOnOptions = (betType === BETTYPE_OPTIONS[0].value
-      || betType === BETTYPE_OPTIONS[1].value)
+      || betType === BETTYPE_OPTIONS[2].value)
       ? BETON_OPTIONS[0]
       : BETON_OPTIONS[1];
 
