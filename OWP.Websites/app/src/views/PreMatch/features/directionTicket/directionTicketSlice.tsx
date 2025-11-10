@@ -43,7 +43,6 @@ const directionTicketSlice = createSlice({
       state.data.leagueGroup = leagueGroup;
     },
     addTicketInfo: state => {
-      state.data.isIncludeTrader = false;
       state.data.ticketInfo.push({
         no: nanoid(),
         ghostName: undefined,
