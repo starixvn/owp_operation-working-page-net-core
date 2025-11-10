@@ -17,6 +17,7 @@ import CreateTicketOther from '../Shared/createTicketNew/CreateTicketBoardOther'
 import CreateTicketEventChecking from '../Shared/createTicketNew/CreateTicketEventChecking';
 import CreateTicketPlusCircle from './features/traderChatBoard/CreateTicketPlusCircle';
 import { BUTTON_TYPE } from '../Shared/createTicketNew/const/const';
+import DirectionTicketPopup from './features/directionTicket/DirectionTicketPopup';
 
 const { PRE_MATCH } = BUTTON_TYPE;
 const { INDIVIDUAL } = RECIPIENT_TYPE;
@@ -69,6 +70,7 @@ const NightShiftManagement = () => {
   return (
     <>
       <HeaderNightShift isEdit={modelEditor.isEdit} isNightShift />
+      <DirectionTicketPopup />
       <div className='block-filter'>{renderFilterArea()}</div>
       <div className='table-PreMatch'>
         <PreMatchTable {...props} />
