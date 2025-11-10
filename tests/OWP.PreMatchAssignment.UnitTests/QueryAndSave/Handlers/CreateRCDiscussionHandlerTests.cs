@@ -12,6 +12,7 @@ namespace OWP.PreMatchAssignment.UnitTests.QueryAndSave.Handlers
     using OWP.PrematchAssignment.QueryAndSave.Models;
     using OWP.PrematchAssignment.QueryAndSave.Services;
     using OWP.PrematchAssignment.Criteria;
+    using Fanex.NAP.Client;
     using Xunit;
 
     public class CreateRCDiscussionHandlerTests
@@ -21,6 +22,7 @@ namespace OWP.PreMatchAssignment.UnitTests.QueryAndSave.Handlers
         private readonly ILogger _logger;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly HttpClient _httpClient;
+        private readonly INapSession _napSession;
         private readonly CreateRCDiscussionHandler _handler;
 
         public CreateRCDiscussionHandlerTests()
@@ -30,6 +32,7 @@ namespace OWP.PreMatchAssignment.UnitTests.QueryAndSave.Handlers
             _logger = Substitute.For<ILogger>();
             _httpClientFactory = Substitute.For<IHttpClientFactory>();
             _httpClient = new HttpClient(new TestHttpMessageHandler());
+            _napSession = Substitute.For<INapSession>();
 
             SetupConfiguration();
             _httpClientFactory.CreateClient().Returns(_httpClient);
@@ -38,6 +41,7 @@ namespace OWP.PreMatchAssignment.UnitTests.QueryAndSave.Handlers
                 _service,
                 _httpClient,
                 _configuration,
+                _napSession,
                 _logger
             );
         }
@@ -114,6 +118,10 @@ namespace OWP.PreMatchAssignment.UnitTests.QueryAndSave.Handlers
                 .GetMatchAssignments(request.AdminSiteId)
                 .Returns(new List<Assignment> { new() { Bettype = 1, Username = "testuser" } });
 
+            _service
+                .GetEventRecipients()
+                .Returns(new List<EventRecipient>());
+
             // Act
             var result = await _handler.Handle(request, CancellationToken.None);
 
@@ -123,7 +131,9 @@ namespace OWP.PreMatchAssignment.UnitTests.QueryAndSave.Handlers
 
             await _service
                 .Received(1)
-                .InsertDiscussion(Arg.Any<InsertDiscussionCriteria>());
+                .InsertDiscussion(Arg.Is<InsertDiscussionCriteria>(c => 
+                    c.AdminSiteMatchId == request.AdminSiteId &&
+                    c.IsIncludeTrader == request.IsIncludeTrader));
         }
     }
 

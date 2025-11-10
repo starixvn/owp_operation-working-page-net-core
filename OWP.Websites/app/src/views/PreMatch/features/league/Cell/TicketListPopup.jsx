@@ -11,7 +11,8 @@ import {
   changeErrorRecipient,
   closeCreatePopup,
   setSelectedRecipients,
-  setSubTypeSelected
+  setSubTypeSelected,
+  openPopupCreateDiscussion
 } from '../../../../Shared/createTicketNew/createTicketBoardSliceNew';
 import store from '../../../app/store';
 import { useStableDispatch } from '../../../ImportPrematchHelperNative';
@@ -30,7 +31,7 @@ import {
 import { useSelector } from 'react-redux';
 import TicketListPopupCommon from './TicketListPopupCommon';
 import { openNewChattingTab } from '../../../../Shared/Utils';
-
+import { setLeagueInfo } from '../../directionTicket/directionTicketSlice';
 const propTypes = {
   rowIndex: PropTypes.number.isRequired,
   ticketList: PropTypes.array.isRequired,
@@ -100,13 +101,39 @@ const TicketListPopup = props => {
     stableDispatch(changeErrorRecipient(false));
   };
 
+  const handleOpenCreateDiscussion = () => {
+    const { LeagueName, HomeName, AwayName, AdminSiteMatchId, LeagueId } =
+      dataSource[rowIndex];
+    const { LeagueGroup } = dataSource.find(x => x.LeagueId === LeagueId);
+    stableDispatch(
+      setLeagueInfo({
+        league: LeagueName,
+        event: `${HomeName} -vs- ${AwayName}`,
+        matchId: AdminSiteMatchId,
+        leagueGroup: LeagueGroup
+      })
+    );
+    stableDispatch(openPopupCreateDiscussion());
+
+    const adminSiteMatchId = dataSource[rowIndex].AdminSiteMatchId;
+    if (adminSiteMatchId && adminSiteMatchId !== 0) {
+      stableDispatch(openPopupCreateDiscussion());
+    } else {
+      ToastrWrapper.showError(
+        'The system could not find the  AdminSiteId to get the reader for  this match to send to  direction ticket. Please check the match again.'
+      );
+    }
+  };
+
   return (
     <TicketListPopupCommon
       ticketList={ticketList}
       HasWrite={HasWrite}
+      isMatch={dataSource[rowIndex].InfoSiteMatchId}
       handleOpenCreateTicket={handleOpenCreateTicket}
       handleOpenMessage={handleOpenMessage}
       onCloseTicketList={onCloseTicketList}
+      handleOpenCreateDiscussion={handleOpenCreateDiscussion}
     />
   );
 };

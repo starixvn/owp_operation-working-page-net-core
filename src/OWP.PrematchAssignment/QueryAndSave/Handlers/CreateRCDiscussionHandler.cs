@@ -353,7 +353,7 @@ public class CreateRCDiscussionHandler(
         // Process each discussion in the group
         foreach (var discussionInfo in discussions)
         {
-            message.AppendLine($"**#info{infoCounter}** {discussionInfo.GhostName} - {discussionInfo.GhostDetail}");
+            message.AppendLine($"#info{infoCounter} {discussionInfo.GhostName} - {discussionInfo.GhostDetail}");
 
             // Bet on: [Bet on] [HDP/OU]@[Odds]
             var betLine = $"Bet on: {buildBetOnMessage(discussionInfo)} {discussionInfo.HdpOu}@{discussionInfo.Odds}";
