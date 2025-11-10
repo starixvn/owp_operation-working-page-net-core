@@ -63,7 +63,7 @@ const IconCreateMessage = props => {
       dispatch(openPopupCreateDiscussion());
     } else {
       ToastrWrapper.showError(
-        'The system could not find the  AdminSiteId to get the trader for this match to send to  direction ticket. Please check the match again.'
+        'The system could not find the AdminSiteId to get the trader for this match to send to  direction ticket. Please check the match again.'
       );
     }
   };
@@ -75,7 +75,7 @@ const IconCreateMessage = props => {
           className='button-add-ticket btn-quick'
           onClick={handleOpenCreateDiscussion}>
           <IconRocketChat className={'mdi-icon icon-plus icon-rocket'} />
-          <span className='btn-name'>Match Group Discussion</span>
+          <span className='btn-name'>Direction Group</span>
         </div>
         <div
           className='button-add-ticket btn-add'

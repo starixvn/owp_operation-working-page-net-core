@@ -48,7 +48,7 @@ const TicketListPopupCommon = (props: TPopup) => {
               onClick={() => {
                 handleOpenCreateDiscussion();
               }}>
-              Match Group Discussion
+              Direction Group (RC)
             </button>
           )}
            <button
