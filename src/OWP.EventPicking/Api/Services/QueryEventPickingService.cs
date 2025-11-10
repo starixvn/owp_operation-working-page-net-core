@@ -48,6 +48,8 @@ public class QueryEventPickingServiceImp(
         };
     }
 
+
+
     public async Task CalculateTurnOver_Margin(EventPickingRequest request, List<EventPickingModel> matches)
     {
         var twOneMonth = GetTurnover_WinLoss_TGRS(request.Period.OneMonth, matches);

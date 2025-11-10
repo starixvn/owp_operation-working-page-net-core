@@ -75,6 +75,7 @@ namespace OWP.PreMatchAssignment.UnitTests.QueryAndSave.Handlers
             // Assert
             Assert.Equal((int)ErrorCode.Error, result.Code);
             Assert.Equal("Match info is not found", result.Message);
+            await _service.DidNotReceive().InsertDiscussion(Arg.Any<InsertDiscussionCriteria>());
         }
 
         [Fact]
@@ -128,12 +129,72 @@ namespace OWP.PreMatchAssignment.UnitTests.QueryAndSave.Handlers
             // Assert
             Assert.Equal((int)ErrorCode.Ok, result.Code);
             Assert.Equal("RCDiscussion created successfully", result.Message);
+            Assert.Null(result.Data);
 
             await _service
                 .Received(1)
                 .InsertDiscussion(Arg.Is<InsertDiscussionCriteria>(c => 
                     c.AdminSiteMatchId == request.AdminSiteId &&
                     c.IsIncludeTrader == request.IsIncludeTrader));
+            
+            await _service
+                .Received(1)
+                .GetEventRecipients();
+            
+            await _service
+                .Received(1)
+                .GetMatchAssignments(request.AdminSiteId);
+        }
+
+        [Fact]
+        public async Task Handle_WhenDiscussionCreationFails_ShouldReturnError()
+        {
+            // Arrange
+            var request = new CreateRCDiscussionRequest
+            {
+                AdminSiteId = 1,
+                IsIncludeTrader = true,
+                DiscussionInfos = new List<DiscussionInfo>
+                {
+                    new()
+                    {
+                        AdminSiteMatchId = 1,
+                        BetType = 1,
+                        GhostName = "Test Ghost",
+                        BetOn = "Home"
+                    }
+                }
+            };
+
+            var matchInfo = new DiscussionMatchInfo
+            {
+                LeagueName = "Test League",
+                HomeId = 1,
+                HomeName = "Home Team",
+                AwayId = 2,
+                AwayName = "Away Team"
+            };
+
+            _service
+                .GetMatchDiscussionInfo(request.AdminSiteId)
+                .Returns((new List<DiscussionInfo>(), matchInfo));
+
+            _service
+                .GetMatchAssignments(request.AdminSiteId)
+                .Returns(new List<Assignment>());
+
+            _service
+                .GetEventRecipients()
+                .Returns(new List<EventRecipient>());
+
+            // Act
+            var result = await _handler.Handle(request, CancellationToken.None);
+
+            // Assert
+            Assert.Equal((int)ErrorCode.Error, result.Code);
+            Assert.Equal("Some RCDiscussion creations failed", result.Message);
+            Assert.NotNull(result.Data);
+            Assert.IsType<Dictionary<(int AdminSiteMatchId, int BetType), string>>(result.Data);
         }
     }
 

@@ -1,4 +1,4 @@
-using System.Text;
+﻿using System.Text;
 using System.Text.Json;
 using Olympus.Xml;
 using MediatR;
@@ -42,7 +42,7 @@ public class CreateRCDiscussionHandler(
             };
         }
 
-        UpdateDiscussionInfosWithMatchInfo(request.DiscussionInfos, matchInfo);
+        UpdateDiscussionInfosWithMatchInfo(request.DiscussionInfos, matchInfo, request);
 
         var errorGroups = new Dictionary<(int AdminSiteMatchId, int BetType), string>();
 
@@ -98,10 +98,11 @@ public class CreateRCDiscussionHandler(
 
     }
 
-    private void UpdateDiscussionInfosWithMatchInfo(List<DiscussionInfo> discussionInfos, DiscussionMatchInfo matchInfo)
+    private void UpdateDiscussionInfosWithMatchInfo(List<DiscussionInfo> discussionInfos, DiscussionMatchInfo matchInfo, CreateRCDiscussionRequest request)
     {
         foreach (var discussionInfo in discussionInfos)
         {
+            discussionInfo.AdminSiteMatchId = request.AdminSiteId;
             discussionInfo.LeagueName = matchInfo.LeagueName;
             discussionInfo.HomeId = matchInfo.HomeId;
             discussionInfo.HomeName = matchInfo.HomeName;
@@ -353,7 +354,7 @@ public class CreateRCDiscussionHandler(
         // Process each discussion in the group
         foreach (var discussionInfo in discussions)
         {
-            message.AppendLine($"#info{infoCounter} {discussionInfo.GhostName} - {discussionInfo.GhostDetail}");
+            message.AppendLine($"**# info{infoCounter}** {discussionInfo.GhostName} - {discussionInfo.GhostDetail}");
 
             // Bet on: [Bet on] [HDP/OU]@[Odds]
             var betLine = $"Bet on: {buildBetOnMessage(discussionInfo)} {discussionInfo.HdpOu}@{discussionInfo.Odds}";
