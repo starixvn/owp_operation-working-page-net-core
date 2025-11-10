@@ -46,7 +46,7 @@ describe('ActionCell under test', () => {
       getLogSettingQuery: mockGetLogSettingQuery
     });
     mockGetLogSettingQuery.mockClear();
-    
+
     // Suppress known reactstrap prop-types warnings
     console.error = jest.fn((message) => {
       if (message?.includes?.('transition.timeout')) {
@@ -60,6 +60,7 @@ describe('ActionCell under test', () => {
     console.error = originalError;
   });
 
+  //TODO: Fix this test
   it('should open Popup', async () => {
     const { container } = render(<ActionCell {...props} />);
     const element = container.querySelector(`[class="action-cell"]`);
