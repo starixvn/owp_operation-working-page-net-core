@@ -10,6 +10,7 @@ using OWP.PrematchAssignment.QueryAndSave.Services;
 using OWP.Utils;
 using OWP.Models;
 using Fanex.Logging;
+using Fanex.NAP.Client;
 
 namespace OWP.PrematchAssignment.QueryAndSave.Handlers;
 
@@ -24,6 +25,7 @@ public class CreateRCDiscussionHandler(
     PreMatchAssignmentService preMatchAssignmentService,
     HttpClient httpClient,
     IConfiguration configuration,
+    INapSession currentSession,
     ILogger logger) : IRequestHandler<CreateRCDiscussionRequest, ResultDataObject>
 {
 
@@ -47,10 +49,11 @@ public class CreateRCDiscussionHandler(
         if (request.IsIncludeTrader)
         {
              var assignments = await preMatchAssignmentService.GetMatchAssignments(request.AdminSiteId);
+             var eventRecipients = await preMatchAssignmentService.GetEventRecipients();
 
             var (newDiscussionGroups, existingDiscussionGroups) = GroupAndSeparateDiscussions(request.DiscussionInfos, currentDiscussionInfos);
             
-            var newErrors = await ProcessNewDiscussions(newDiscussionGroups, assignments, cancellationToken);
+            var newErrors = await ProcessNewDiscussions(newDiscussionGroups, assignments, eventRecipients, cancellationToken);
             
             var existingErrors = await ProcessExistingDiscussions(existingDiscussionGroups, cancellationToken);
 
@@ -146,6 +149,7 @@ public class CreateRCDiscussionHandler(
     private async Task<Dictionary<(int AdminSiteMatchId, int BetType), string>> ProcessNewDiscussions(
         List<IGrouping<object, DiscussionInfo>> newDiscussionGroups,
         IEnumerable<Assignment> assignments,
+        IEnumerable<EventRecipient> eventRecipients,
         CancellationToken cancellationToken)
     {
         var errorGroups = new Dictionary<(int AdminSiteMatchId, int BetType), string>();
@@ -156,7 +160,7 @@ public class CreateRCDiscussionHandler(
             var groupIdentifier = (firstDiscussion.AdminSiteMatchId, firstDiscussion.BetType);
 
             var tName = BuildDiscussionName(firstDiscussion);
-            var users = GetUsersFromAssignments(assignments, firstDiscussion.BetType);
+            var users = GetUsersFromAssignments(assignments, eventRecipients, firstDiscussion.BetType);
             var reply = BuildGroupedReplyMessage(group.ToList());
 
             var (success, errorMessage, rcDiscussionGroupId) = await CreateNewRCDiscussion(tName, users, reply, cancellationToken);
@@ -201,13 +205,17 @@ public class CreateRCDiscussionHandler(
         return errorGroups;
     }
 
-    private List<string> GetUsersFromAssignments(IEnumerable<Assignment> assignments, int betType)
+    private List<string> GetUsersFromAssignments(IEnumerable<Assignment> assignments, IEnumerable<EventRecipient> eventRecipients, int betType)
     {
-        return assignments
+        var currentUsername = currentSession.UserName;
+        var users = assignments
             .Where(a => a.Bettype == betType)
             .Select(a => a.Username)
             .Distinct()
             .ToList();
+        users.Add(currentUsername);
+        users.AddRange(eventRecipients.Select(e => e.UserName));
+        return users;
     }
 
     private async Task<(bool Success, string ErrorMessage, string DiscussionGroupId)> CreateNewRCDiscussion(

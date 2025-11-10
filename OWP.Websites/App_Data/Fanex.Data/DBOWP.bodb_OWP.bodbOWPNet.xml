@@ -514,5 +514,6 @@
     <Setting Key="OWP_PreMatchDiscussion_GetInfo" SpName ="OWP_PreMatchDiscussion_GetInfo" DbName="DBOWP.bodb_OWP.wsv_owp" />
     <Setting Key="OWP_LiveGameAssignment_GetAssignments_ByMatch" SpName="OWP_LiveGameAssignment_GetAssignments_ByMatch" DbName="DBOWP.bodb_OWP.wsv_owp" />
     <Setting Key="OWP_PreMatchDiscussion_InsertDiscussion" SpName="OWP_PreMatchDiscussion_InsertDiscussion" DbName="DBOWP.bodb_OWP.wsv_owp" />
+    <Setting Key="OWP_TicketCenter_GetDefaultRecipientBySubTypeIdAndName" SpName="OWP_TicketCenter_GetDefaultRecipientBySubTypeIdAndName" DbName="DBOWP.bodb_OWP.wsv_owp" />
   </Function>
 </Functions>

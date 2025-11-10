@@ -32,6 +32,8 @@ public interface PreMatchAssignmentService
 
     Task<IEnumerable<Assignment>> GetMatchAssignments(int adminSiteId);
 
+    Task<IEnumerable<EventRecipient>> GetEventRecipients();
+
     Task<(IEnumerable<DiscussionInfo>, DiscussionMatchInfo)> GetMatchDiscussionInfo(int adminSiteId);
 
     Task InsertDiscussion(InsertDiscussionCriteria criteria);
@@ -166,6 +168,16 @@ public class PreMatchAssignmentServiceImp(
         };
 
         return await dynamicRepository.FetchAsync<Assignment>(criteria);
+    }
+    
+    public async Task<IEnumerable<EventRecipient>> GetEventRecipients()
+    {
+        var criteria = new GetTicketRecipientsCriteria
+        {
+            TicketTypeId = 1,
+            SubTypeName = "Direction"
+        };
+        return await dynamicRepository.FetchAsync<EventRecipient>(criteria);
     }
 
 
