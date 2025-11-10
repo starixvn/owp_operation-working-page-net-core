@@ -86,7 +86,7 @@ const TicketListPopup = props => {
       })
     );
     if (getTicketDetail.rejected.match(actionResult)) {
-      ToastsWrapper.showError(actionResult.payload);
+      ToastrWrapper.showError(actionResult.payload);
     }
   };
   const handleOpenCreateTicket = () => {
