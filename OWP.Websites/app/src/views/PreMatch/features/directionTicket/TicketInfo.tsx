@@ -4,6 +4,7 @@ import { BETON_OPTIONS, BETTYPE_OPTIONS, GHOST_OPTIONS } from '../../const/const
 import { TRenderTicketInfo } from '../../type';
 import { addTicketInfo, removeTicketInfo, updateBetType, updateTicketInfo } from './directionTicketSlice';
 import { useRef } from 'react';
+import { nanoid } from '@reduxjs/toolkit';
 
 const TicketInfo = (props: TRenderTicketInfo) => {
   const {
@@ -119,6 +120,7 @@ const TicketInfo = (props: TRenderTicketInfo) => {
           <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>*</p>
         </div>
         <Select
+          key={nanoid()}
           options={betOnOptions}
           className='basic-multi-select'
           classNamePrefix='select'

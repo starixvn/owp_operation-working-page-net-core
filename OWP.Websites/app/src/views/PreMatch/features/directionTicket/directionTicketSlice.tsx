@@ -64,9 +64,10 @@ const directionTicketSlice = createSlice({
       ticket.betType = value;
 
       const betOnOptions = (ticket.betType === BETTYPE_OPTIONS[0].value
-        || ticket.betType === BETTYPE_OPTIONS[1].value)
+        || ticket.betType === BETTYPE_OPTIONS[2].value)
         ? BETON_OPTIONS[0]
         : BETON_OPTIONS[1];
+
 
       if (!betOnOptions.some(option => option.value === ticket.betOn)) {
         ticket.betOn = undefined;
