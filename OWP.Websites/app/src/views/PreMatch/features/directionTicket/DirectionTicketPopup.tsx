@@ -31,7 +31,7 @@ const DirectionTicketPopup = () => {
       });
       handleCancel();
       Spinner.hide();
-      await ToastrWrapper.showNotifySuccess('Direction ticket has been created successfully!');
+      await ToastrWrapper.showInfo('Direction ticket has been created successfully!');
     }
   };
 
