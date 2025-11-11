@@ -23,7 +23,8 @@ const createTicketBoardSliceNew = createSlice({
     recipientAssigned: [],
     typeTicketText: '',
     subTypeOption: [],
-    subTypeSelected: []
+    subTypeSelected: [],
+    isOpenCreateDiscussion: false
   },
   reducers: {
     setDefaultRecipients: {
@@ -169,6 +170,16 @@ const createTicketBoardSliceNew = createSlice({
       reducer: state => {
         state.isOpenLogWork = false;
       }
+    },
+    openPopupCreateDiscussion: {
+      reducer: state => {
+        state.isOpenCreateDiscussion = true;
+      }
+    },
+    closePopupCreateDiscussion: {
+      reducer: state => {
+        state.isOpenCreateDiscussion = false;
+      }
     }
   }
 });
@@ -196,7 +207,9 @@ const {
   closePopupCreateTicketInLGA,
   openPopupCreateTicketInLGA,
   openPopupLogWork,
-  closePopupLogWork
+  closePopupLogWork,
+  openPopupCreateDiscussion,
+  closePopupCreateDiscussion
 } = actions;
 
 export {
@@ -221,7 +234,9 @@ export {
   closePopupCreateTicketInLGA,
   openPopupCreateTicketInLGA,
   openPopupLogWork,
-  closePopupLogWork
+  closePopupLogWork,
+  openPopupCreateDiscussion,
+  closePopupCreateDiscussion
 };
 
 export default reducer;

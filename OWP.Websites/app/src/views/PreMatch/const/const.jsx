@@ -17,6 +17,7 @@ const URL_QUERY_INFO_MATCH = `${url}/get-info-match`;
 const URL_QUERY_ASSIGNEE = `${url}/get-assignee-pre-match`;
 const URL_NIGHT_SHIFT = `${url}/get-night-shift`;
 const URL_DAY_SHIFT = `${url}/get-day-shift`;
+const URL_CREATE_DIRECTION_TICKET = `${url}/create-rc-discussion`;
 const URL_QUERY_LEAGUE_BY_ID = `${url}/query-league-by-id`;
 const URL_QUERY_ASSIGNED_LEAGUE_ID = `${url}/get-assigned-league-id`;
 const URL_QUERY_TICKET_LIST = `${url}/get-ticket-list`;
@@ -79,16 +80,43 @@ const localStoreKeyTime = {
   night: 'NightShift-PreMatchTimeCondition'
 };
 
-const BETTYPE={
+const BETTYPE = {
   HDP: 1,
   OU: 3
 };
 
-const ASSIGNMENT_TYPE={
+const ASSIGNMENT_TYPE = {
   MAIN: 1,
   OTHER: 2
 };
 
+const GHOST_OPTIONS = [
+  { value: 'Order', label: 'Order' },
+  { value: 'Ghost 1', label: 'Ghost 1' },
+  { value: 'Ghost 2', label: 'Ghost 2' },
+  { value: 'Ghost 3', label: 'Ghost 3' },
+  { value: 'Outside', label: 'Outside' },
+  { value: 'Danger', label: 'Danger' },
+  { value: 'Other', label: 'Other' }
+];
+
+const BETTYPE_OPTIONS = [
+  { value: 1, label: 'FT HDP' },
+  { value: 3, label: 'FT OU' },
+  { value: 7, label: 'HT HDP' },
+  { value: 8, label: ' HT OU' }
+];
+
+const BETON_OPTIONS = [
+  [
+    { value: 'Home', label: 'Home' },
+    { value: 'Away', label: 'Away' }
+  ],
+  [
+    { value: 'Over', label: 'Over' },
+    { value: 'Under', label: 'Under' }
+  ]
+];
 export {
   EARLY_OFFERED,
   ticketType,
@@ -96,6 +124,7 @@ export {
   URL_QUERY_WORKING_SHIFT,
   URL_QUERY_INFO_MATCH,
   URL_QUERY_ASSIGNEE,
+  URL_CREATE_DIRECTION_TICKET,
   QUERY_DELETE_LEAGUE_API_KEY,
   QUERY_DELETE_LEAGUE_RECOVER_API_KEY,
   QUERY_CHECK_LEAGUE_CONTAINS_ASSIGNMENT,
@@ -116,5 +145,8 @@ export {
   URL_QUERY_TICKET_LIST,
   localStoreKeyTime,
   BETTYPE,
-  ASSIGNMENT_TYPE
+  ASSIGNMENT_TYPE,
+  GHOST_OPTIONS,
+  BETTYPE_OPTIONS,
+  BETON_OPTIONS
 };

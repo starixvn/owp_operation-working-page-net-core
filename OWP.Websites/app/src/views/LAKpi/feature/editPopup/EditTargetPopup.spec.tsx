@@ -11,22 +11,28 @@ describe('EditTargetPopup Component', () => {
           {
             userId: 1,
             userName: 'sa',
+            sectionName: 'Section A',
             progress: 'New',
             target: '',
             targetId: 2,
             gapWithTarget: {} as TTotalGameInfo,
             achievedGames: {} as TTotalGameInfo,
-            reward: 5
+            reward: 5,
+            applyCondition: '',
+            isAlmostWinTarget: false
           },
           {
             userId: 2,
             userName: 'mira',
+            sectionName: 'Section B',
             progress: 'Fail',
             target: '',
             targetId: 2,
             gapWithTarget: {} as TTotalGameInfo,
             achievedGames: {} as TTotalGameInfo,
-            reward: 5
+            reward: 5,
+            applyCondition: '',
+            isAlmostWinTarget: false
           }
         ],
         dataSourcesFiltered: [],

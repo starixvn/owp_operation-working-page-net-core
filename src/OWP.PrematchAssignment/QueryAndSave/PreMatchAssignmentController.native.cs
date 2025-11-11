@@ -154,4 +154,12 @@ public class PreMatchAssignmentController(
         await accessCounter.UpdateCounter(AccessCounterConst.DayShiftAssignment_Automatically_Assign_Trader);
         return Ok();
     }
+
+    [Route("create-rc-discussion")]
+    [HttpPost]
+    public async Task<IActionResult> CreateRcDiscussion(CreateRCDiscussionRequest request)
+    {
+        var result = await mediator.Send(request);
+        return Ok(JsonConvert.SerializeObject(result));
+    }
 }

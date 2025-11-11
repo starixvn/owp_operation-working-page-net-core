@@ -29,6 +29,14 @@ public interface PreMatchAssignmentService
     Task<QueryPreMatchLeagueViewModel> QueryById(QueryPreMatchLeagueByIdRequest request);
 
     Task<int> AutoAssign(IEnumerable<PreMatchLeagueAssignment> assignments);
+
+    Task<IEnumerable<Assignment>> GetMatchAssignments(int adminSiteId);
+
+    Task<IEnumerable<EventRecipient>> GetEventRecipients();
+
+    Task<(IEnumerable<DiscussionInfo>, DiscussionMatchInfo)> GetMatchDiscussionInfo(int adminSiteId);
+
+    Task InsertDiscussion(InsertDiscussionCriteria criteria);
 }
 
 public class PreMatchAssignmentServiceImp(
@@ -150,4 +158,47 @@ public class PreMatchAssignmentServiceImp(
         };
         return await dynamicRepository.ExecuteAsync(command);
     }
+
+
+    public async Task<IEnumerable<Assignment>> GetMatchAssignments(int adminSiteId)
+    {
+        var criteria = new GetAssignmenstByMatchCriteria
+        {
+            AdminSiteMatchId = adminSiteId
+        };
+
+        return await dynamicRepository.FetchAsync<Assignment>(criteria);
+    }
+    
+    public async Task<IEnumerable<EventRecipient>> GetEventRecipients()
+    {
+        var criteria = new GetTicketRecipientsCriteria
+        {
+            TicketTypeId = 1,
+            SubTypeName = "Direction"
+        };
+        return await dynamicRepository.FetchAsync<EventRecipient>(criteria);
+    }
+
+
+    public async Task<(IEnumerable<DiscussionInfo>, DiscussionMatchInfo)> GetMatchDiscussionInfo(int adminSiteId)
+    {
+        var criteria = new GetMatchDiscussionInfoCriteria
+        {
+            AdminSiteMatchId = adminSiteId
+        };
+
+        var (discussionInfos, discussionMatchInfos) = await dynamicRepository.FetchMultipleAsync<DiscussionInfo, DiscussionMatchInfo>(criteria);
+        return (discussionInfos.ToList(), discussionMatchInfos.FirstOrDefault());
+    }
+
+    public async Task InsertDiscussion(InsertDiscussionCriteria criteria)
+    {
+        criteria.ActorId = currentSession.UserId;
+        criteria.ThrowExceptionIfInvalid();
+        await dynamicRepository.ExecuteAsync(criteria);
+    }
+
+    
+
 }

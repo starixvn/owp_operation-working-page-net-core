@@ -10,7 +10,9 @@ const TicketListPopupCommon = (props: TPopup) => {
   const {
     HasWrite,
     ticketList,
+    isMatch,
     handleOpenCreateTicket,
+    handleOpenCreateDiscussion,
     handleOpenMessage,
     onCloseTicketList,
     allowQuickAdd,
@@ -40,7 +42,16 @@ const TicketListPopupCommon = (props: TPopup) => {
     <div className='ticket-list-popup is-show' ref={wrapperDivRef}>
       {HasWrite && (
         <div className='button'>
-          <button
+          {isMatch && ( 
+            <button
+              className='button-submit'
+              onClick={() => {
+                handleOpenCreateDiscussion();
+              }}>
+              Direction Group (RC)
+            </button>
+          )}
+           <button
             className='button-submit'
             onClick={() => {
               handleOpenCreateTicket();

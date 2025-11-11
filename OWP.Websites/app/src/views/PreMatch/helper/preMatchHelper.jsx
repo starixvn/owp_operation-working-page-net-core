@@ -3,10 +3,13 @@ import {
   TAKE_OVER_API_KEY,
   TradingPageUrl,
   simpleApiQueryUrl,
-  localStoreKeyTime
+  localStoreKeyTime,
+  BETTYPE_OPTIONS,
+  BETON_OPTIONS
 } from '../const/const';
 import { formatTime } from '../../Shared/DateTime/dateTimeHelper';
 import dayjs from 'dayjs';
+
 const filterPrematchUpdated = (allPrematch, prematchIdUpdated) =>
   allPrematch.filter(
     p =>
@@ -84,6 +87,13 @@ const saveTimeConditionToLocalStorage = (isNightShift, startTimeSelected) => {
 const getLeaguesName = leagueInfo =>
   leagueInfo.map(league => league.LeagueName);
 
+const getBetOnOptions = betType => {
+  return betType === BETTYPE_OPTIONS[0].value ||
+    betType === BETTYPE_OPTIONS[2].value
+    ? BETON_OPTIONS[0]
+    : BETON_OPTIONS[1];
+};
+
 export {
   filterPrematchUpdated,
   buildClassNameAssignmentCell,
@@ -94,5 +104,6 @@ export {
   buildGoToTradingPageLink,
   getDefaultTimeCondition,
   saveTimeConditionToLocalStorage,
-  getLeaguesName
+  getLeaguesName,
+  getBetOnOptions
 };

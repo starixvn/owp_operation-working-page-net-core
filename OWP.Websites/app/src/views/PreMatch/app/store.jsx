@@ -13,6 +13,7 @@ import chatBoardNewReducer from '../../Shared/chatBoardNew/chatBoardSlice';
 import signalRReducer from '../features/signalR/signalRSlice';
 import noteSlice from '../features/note/NoteSlice';
 import createTicketBoardReducerNew from '../../Shared/createTicketNew/createTicketBoardSliceNew';
+import directionTicketReducer from '../features/directionTicket/directionTicketSlice';
 
 const store = configureStore({
   reducer: {
@@ -30,7 +31,8 @@ const store = configureStore({
     signalR: signalRReducer,
     note: noteSlice,
     auto: autoReducer,
-    createTicketBoard: createTicketBoardReducerNew
+    createTicketBoard: createTicketBoardReducerNew,
+    directionTicket: directionTicketReducer
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
