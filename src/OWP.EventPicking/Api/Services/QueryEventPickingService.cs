@@ -34,10 +34,10 @@ public class QueryEventPickingServiceImp(
         var generatedMatches = await buildMainAndChildMatches.GetChildEventEventPicking(request.Date);
         var allMatches = SpecialProductHelper.CombineMainAndChildMatchAndAddMatchNo(validMatch, generatedMatches);
 
-        //if (turnoverMarginPolicy.IsRead)
-        //{
-        //    await CalculateTurnOver_Margin(request, allMatches);
-        //}
+        if (turnoverMarginPolicy.IsRead && request.IsLoadTurnOver)
+        {
+            await CalculateTurnOver_Margin(request, allMatches);
+        }
 
         HideNoNeedIncludeMiscMatch(ref allMatches, InfoToHideMatch);
 

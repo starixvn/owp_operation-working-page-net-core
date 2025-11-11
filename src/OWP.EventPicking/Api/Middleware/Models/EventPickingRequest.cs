@@ -17,6 +17,8 @@ public class EventPickingRequest
     public List<string> UpdateType { get; set; }
 
     public Period Period { get; set; }
+
+    public bool IsLoadTurnOver { get; set; } = false;
 }
 
 public class Period
