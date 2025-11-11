@@ -9,6 +9,7 @@ public class CoverageBuilder
     private readonly Dictionary<int, string> WebsitePair = new()
     {
         {17,"RB2"},
+        {10,"RB2"},
         {18,"RTS"},
         {19,"BG"},
         {20,"BET"}
