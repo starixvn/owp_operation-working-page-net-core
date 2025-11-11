@@ -1,7 +1,7 @@
 import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit';
 import { TDirectionTicket, TRemoveTicketInfo, TUpdateTicketInfo, TDirectionTicketLeagueInfo, TUpdateBetType } from '../../type';
 import { validateTicketInfo } from './validationThunk';
-import { BETON_OPTIONS, BETTYPE_OPTIONS } from '../../const/const';
+import { getBetOnOptions } from '../../helper/preMatchHelper';
 
 const directionTicketSlice = createSlice({
   name: 'directionTicket',
@@ -63,10 +63,7 @@ const directionTicketSlice = createSlice({
       const ticket = state.data.ticketInfo[index];
       ticket.betType = value;
 
-      const betOnOptions = (ticket.betType === BETTYPE_OPTIONS[0].value
-        || ticket.betType === BETTYPE_OPTIONS[2].value)
-        ? BETON_OPTIONS[0]
-        : BETON_OPTIONS[1];
+      const betOnOptions = getBetOnOptions(ticket.betType);
 
 
       if (!betOnOptions.some(option => option.value === ticket.betOn)) {

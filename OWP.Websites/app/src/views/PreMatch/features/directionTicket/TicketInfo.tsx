@@ -5,6 +5,7 @@ import { TRenderTicketInfo } from '../../type';
 import { addTicketInfo, removeTicketInfo, updateBetType, updateTicketInfo } from './directionTicketSlice';
 import { useRef } from 'react';
 import { nanoid } from '@reduxjs/toolkit';
+import { getBetOnOptions } from '../../helper/preMatchHelper';
 
 const TicketInfo = (props: TRenderTicketInfo) => {
   const {
@@ -108,10 +109,7 @@ const TicketInfo = (props: TRenderTicketInfo) => {
   );
 
   const renderBetOn = () => {
-    const betOnOptions = (betType === BETTYPE_OPTIONS[0].value
-      || betType === BETTYPE_OPTIONS[2].value)
-      ? BETON_OPTIONS[0]
-      : BETON_OPTIONS[1];
+    const betOnOptions = getBetOnOptions(betType);
 
     return <div className='content'>
       <div className='flex'>
