@@ -60,6 +60,7 @@ public class QueryEventPickingServiceImp(
         {
             await CalculateTurnOver_Margin(matches, period);
         }
+        await Task.Delay(10000);
         return matches;
     }
 

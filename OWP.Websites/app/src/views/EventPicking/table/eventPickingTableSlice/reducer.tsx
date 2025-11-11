@@ -450,7 +450,6 @@ const EventPickingTableSlice = createSlice({
       })
       .addCase(getTurnoverMargins.fulfilled, (state, { payload }) => {
         const turnOverMargins = payload;
-        console.log(turnOverMargins);
         // Update turnover data for matches
         state.entitiesOriginal.forEach(match => {
           const turnoverMatch = turnOverMargins.find(
@@ -472,7 +471,6 @@ const EventPickingTableSlice = createSlice({
           }
         });
 
-        // Update multiple filter options and selected values
         updateMultipleFilterOptionsAndSelected(state, false, filterByKeyword);
       });
   }
