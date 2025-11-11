@@ -4,27 +4,27 @@ import { TErrorMessage, TTicketInfo, TValidationResult, TValidateSingleTicketRes
 const validateGhostName = (ticket: TTicketInfo, errorMessage: TValidateSingleTicketResult) => {
   if (!ticket.ghostName) {
     errorMessage.valid = false;
-    errorMessage.message.ghostName = 'Ghost Name is required';
+    errorMessage.message.ghostName = 'Ghost name is required';
   }
 };
 
 const validateGhostDetail = (ticket: TTicketInfo, errorMessage: TValidateSingleTicketResult) => {
   if (!ticket.ghostDetail) {
     errorMessage.valid = false;
-    errorMessage.message.ghostDetail = 'Ghost Detail is required';
+    errorMessage.message.ghostDetail = 'Ghost detail is required';
   }
 };
 const validateBettype = (ticket: TTicketInfo, errorMessage: TValidateSingleTicketResult) => {
   if (!ticket.betType) {
     errorMessage.valid = false;
-    errorMessage.message.bettype = 'Bet Type is required';
+    errorMessage.message.bettype = 'Bet type is required';
   }
 };
 
 const validateBetOn = (ticket: TTicketInfo, errorMessage: TValidateSingleTicketResult) => {
   if (!ticket.betOn) {
     errorMessage.valid = false;
-    errorMessage.message.betOn = 'Bet On is required';
+    errorMessage.message.betOn = 'Bet on is required';
   }
 };
 
