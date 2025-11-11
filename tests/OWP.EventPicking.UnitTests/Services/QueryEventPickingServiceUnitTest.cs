@@ -88,6 +88,195 @@ public class QueryEventPickingServiceImpTests
     }
 
     [Fact]
+    public async Task Execute_ShouldNotLoadTurnover_WhenIsLoadTurnOverIsFalse()
+    {
+        // Arrange
+        var request = new EventPickingRequest
+        {
+            Date = DateTime.Now,
+            SelectGame = [1],
+            FilterMatch = ["Red"],
+            HasProvider = ["yes"],
+            HasOtherProvider = ["yes"],
+            FilterMatchCategory = [1],
+            UpdateType = ["1"],
+            IsLoadTurnOver = false, // Explicitly set to false
+            Period = new Period
+            {
+                OneMonth = new TimeRange { FromDate = DateTime.Now.AddMonths(-1), ToDate = DateTime.Now }
+            }
+        };
+
+        var matches = new List<EventPickingModel>
+        {
+            new()
+            {
+                LeagueName = "TestLeague SABA ",
+                OWPLeagueId = 1,
+                IsNoOffer = true,
+                RowColor = "Red",
+                Provider = "yes",
+                OtherProvider = "yes",
+                RAndDInfo = [new() { UpdateTypeId = 1, Group = "1"}]
+            }
+        };
+
+        _mockBuildMainAndChildMatches.GetMainEvent(request.Date).Returns(matches);
+        _mockBuildMainAndChildMatches.GetChildEventEventPicking(request.Date).Returns(new List<EventPickingModel>());
+
+        var permissions = new PermissionModel(true, false);
+        var functionPolicy = new List<FunctionPolicy>();
+        _mockPermissionService.GetPermissions(FunctionKeys.EventPickingNew).Returns(functionPolicy);
+        _mockPermissionService.GetPermissionModel(Arg.Any<string>()).Returns(permissions);
+
+        // Act
+        var result = await _service.Execute(request, new List<short>());
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(matches, result.FilteredMatches);
+
+        // Verify that turnover calculation was NOT called
+        await _mockTGRSService.DidNotReceive().GetTurnOverWinLoss(Arg.Any<GetTurnOverWinLossCriteria>());
+    }
+
+    [Fact]
+    public async Task GetMatchTurnOver_ShouldReturnMatchesWithTurnover_WhenUserHasPermission()
+    {
+        // Arrange
+        var matches = new List<EventPickingModel>
+        {
+            new EventPickingModel
+            {
+                InfoSiteMatchId = 1,
+                LeagueName = "Test League",
+                HomeName = "Home Team",
+                AwayName = "Away Team"
+            }
+        };
+
+        var period = new Period
+        {
+            OneMonth = new TimeRange { FromDate = DateTime.Now.AddMonths(-1), ToDate = DateTime.Now },
+            ThreeMonths = new TimeRange { FromDate = DateTime.Now.AddMonths(-3), ToDate = DateTime.Now },
+            SixMonths = new TimeRange { FromDate = DateTime.Now.AddMonths(-6), ToDate = DateTime.Now },
+            TwelveMonths = new TimeRange { FromDate = DateTime.Now.AddMonths(-12), ToDate = DateTime.Now }
+        };
+
+        var permissions = new PermissionModel(true, false);
+        var functionPolicy = new List<FunctionPolicy>();
+        _mockPermissionService.GetPermissions(FunctionKeys.EventPickingNew).Returns(functionPolicy);
+        _mockPermissionService.GetPermissionModel(Arg.Any<string>()).Returns(permissions);
+
+        _mockTGRSService.GetTurnOverWinLoss(Arg.Any<GetTurnOverWinLossCriteria>())
+            .Returns(Task.FromResult<(IList<TurnOverWinLossModel>, bool)>(
+                (new List<TurnOverWinLossModel>
+                {
+                    new() { LeagueName = "Test League", Turnover = 1000, WinLoss = 500 }
+                }, true)));
+
+        // Act
+        var result = await _service.GetMatchTurnOver(matches, period);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(matches, result);
+        Assert.Single(result);
+
+        // Verify that CalculateTurnOver_Margin was called with correct parameters
+        await _mockTGRSService.Received(4).GetTurnOverWinLoss(Arg.Any<GetTurnOverWinLossCriteria>());
+    }
+
+    [Fact]
+    public async Task GetMatchTurnOver_ShouldReturnMatchesWithoutTurnover_WhenUserHasNoPermission()
+    {
+        // Arrange
+        var matches = new List<EventPickingModel>
+        {
+            new EventPickingModel
+            {
+                InfoSiteMatchId = 1,
+                LeagueName = "Test League",
+                HomeName = "Home Team",
+                AwayName = "Away Team"
+            }
+        };
+
+        var period = new Period
+        {
+            OneMonth = new TimeRange { FromDate = DateTime.Now.AddMonths(-1), ToDate = DateTime.Now }
+        };
+
+        var permissions = new PermissionModel(false, false); // No read permission
+        var functionPolicy = new List<FunctionPolicy>();
+        _mockPermissionService.GetPermissions(FunctionKeys.EventPickingNew).Returns(functionPolicy);
+        _mockPermissionService.GetPermissionModel(Arg.Any<string>()).Returns(permissions);
+
+        // Act
+        var result = await _service.GetMatchTurnOver(matches, period);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(matches, result);
+        Assert.Single(result);
+
+        // Verify that TGRS service was NOT called
+        await _mockTGRSService.DidNotReceive().GetTurnOverWinLoss(Arg.Any<GetTurnOverWinLossCriteria>());
+    }
+
+    [Fact]
+    public async Task CalculateTurnOver_Margin_WithMatchesAndPeriod_ShouldCalculateAndInitializeMarginInfo()
+    {
+        // Arrange
+        var matches = new List<EventPickingModel>
+        {
+            new EventPickingModel
+            {
+                InfoSiteMatchId = 1,
+                LeagueName = "Test League",
+                HomeName = "Home Team",
+                AwayName = "Away Team"
+            }
+        };
+
+        var period = new Period
+        {
+            OneMonth = new TimeRange { FromDate = DateTime.Now.AddMonths(-1), ToDate = DateTime.Now },
+            ThreeMonths = new TimeRange { FromDate = DateTime.Now.AddMonths(-3), ToDate = DateTime.Now },
+            SixMonths = new TimeRange { FromDate = DateTime.Now.AddMonths(-6), ToDate = DateTime.Now },
+            TwelveMonths = new TimeRange { FromDate = DateTime.Now.AddMonths(-12), ToDate = DateTime.Now }
+        };
+
+        _mockTGRSService.GetTurnOverWinLoss(Arg.Any<GetTurnOverWinLossCriteria>())
+            .Returns(Task.FromResult<(IList<TurnOverWinLossModel>, bool)>(
+                (new List<TurnOverWinLossModel>
+                {
+                    new() { LeagueName = "Test League", Turnover = 1000, WinLoss = 500 }
+                }, true)));
+
+        // Act
+        await _service.CalculateTurnOver_Margin(matches, period);
+
+        // Assert
+        await _mockTGRSService.Received().GetTurnOverWinLoss(Arg.Is<GetTurnOverWinLossCriteria>(x =>
+            x.FromDate == period.OneMonth.FromDate &&
+            x.ToDate == period.OneMonth.ToDate
+        ));
+        await _mockTGRSService.Received().GetTurnOverWinLoss(Arg.Is<GetTurnOverWinLossCriteria>(x =>
+            x.FromDate == period.ThreeMonths.FromDate &&
+            x.ToDate == period.ThreeMonths.ToDate
+        ));
+        await _mockTGRSService.Received().GetTurnOverWinLoss(Arg.Is<GetTurnOverWinLossCriteria>(x =>
+            x.FromDate == period.SixMonths.FromDate &&
+            x.ToDate == period.SixMonths.ToDate
+        ));
+        await _mockTGRSService.Received().GetTurnOverWinLoss(Arg.Is<GetTurnOverWinLossCriteria>(x =>
+            x.FromDate == period.TwelveMonths.FromDate &&
+            x.ToDate == period.TwelveMonths.ToDate
+        ));
+    }
+
+    [Fact]
     public async Task CalculateTurnOver_Margin_ShouldCalculateAndInitializeMarginInfo()
     {
         // Arrange
