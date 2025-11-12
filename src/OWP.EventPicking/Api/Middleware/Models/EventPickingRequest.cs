@@ -18,7 +18,7 @@ public class EventPickingRequest
 
     public Period Period { get; set; }
 
-    public bool IsLoadTurnOver { get; set; };
+    public bool IsLoadTurnOver { get; set; }
 }
 
 public class Period
