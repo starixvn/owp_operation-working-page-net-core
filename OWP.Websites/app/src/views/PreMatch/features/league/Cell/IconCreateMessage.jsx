@@ -30,7 +30,7 @@ const IconCreateMessage = props => {
   const hasWrite = useSelector(state => state.policy).permission.HasWrite;
   const { defaultRecipients } = useSelector(state => state.createTicketBoard);
   const dispatch = useStableDispatch();
-  
+
   const handleOpenCreateTicket = () => {
     const model = {
       ...dataSource[rowIndex]
@@ -44,7 +44,6 @@ const IconCreateMessage = props => {
     dispatch(setSubTypeSelected([...[{ value: 0, label: '' }]]));
     dispatch(setSelectedRecipients(defaultRecipients));
   };
-  
 
   const handleOpenCreateDiscussion = () => {
     const { LeagueName, HomeName, AwayName, AdminSiteMatchId, LeagueId } =
@@ -94,7 +93,8 @@ const IconCreateMessage = props => {
 
   return (
     <div>
-      <PlusCircleIcon  className='icon-plus'  
+      <PlusCircleIcon
+        className='icon-plus'
         onClick={() => {
           if (!dataSource[rowIndex].InfoSiteMatchId) {
             handleOpenCreateTicket();

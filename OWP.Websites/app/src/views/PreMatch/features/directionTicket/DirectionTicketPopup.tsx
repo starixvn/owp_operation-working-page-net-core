@@ -12,16 +12,22 @@ import { URL_CREATE_DIRECTION_TICKET } from '../../const/const';
 import ToastrWrapper from '../../../components/ToastrWrapper';
 
 const DirectionTicketPopup = () => {
-  const { isOpenCreateDiscussion } = useSelector(state => state.createTicketBoard);
-  const { league, event, matchId, leagueGroup, isIncludeTrader } = store.getState().directionTicket.data;
+  const { isOpenCreateDiscussion } = useSelector(
+    state => state.createTicketBoard
+  );
+  const { league, event, matchId, leagueGroup, isIncludeTrader } =
+    store.getState().directionTicket.data;
 
   const dispatch = useDispatch();
   const handleSubmit = async () => {
     const ticketInfo = store.getState().directionTicket.data.ticketInfo;
-    const resultAction = await dispatch(validateTicketInfo(ticketInfo)).unwrap();
+    const resultAction = await dispatch(
+      validateTicketInfo(ticketInfo)
+    ).unwrap();
 
     if (resultAction?.valid) {
-      const { ticketInfo, matchId, isIncludeTrader } = store.getState().directionTicket.data;
+      const { ticketInfo, matchId, isIncludeTrader } =
+        store.getState().directionTicket.data;
       Spinner.show();
       await post({
         url: URL_CREATE_DIRECTION_TICKET,
@@ -31,7 +37,9 @@ const DirectionTicketPopup = () => {
       });
       handleCancel();
       Spinner.hide();
-      await ToastrWrapper.showInfo('Direction ticket has been created successfully!');
+      await ToastrWrapper.showInfo(
+        'Direction ticket has been created successfully!'
+      );
     }
   };
 
@@ -57,20 +65,15 @@ const DirectionTicketPopup = () => {
           event={event}
           matchId={matchId}
           leagueGroup={leagueGroup}
-          isIncludeTrader={isIncludeTrader} />
+          isIncludeTrader={isIncludeTrader}
+        />
         <TicketInfoWrapper />
       </ModalBody>
       <ModalFooter>
-        <Button
-          color='primary'
-          className='btn-add'
-          onClick={handleSubmit}>
+        <Button color='primary' className='btn-add' onClick={handleSubmit}>
           Submit
         </Button>
-        <Button
-          color='secondary'
-          className='btn-cancel'
-          onClick={handleCancel}>
+        <Button color='secondary' className='btn-cancel' onClick={handleCancel}>
           Cancel
         </Button>
       </ModalFooter>
@@ -79,4 +82,3 @@ const DirectionTicketPopup = () => {
 };
 
 export default DirectionTicketPopup;
-
