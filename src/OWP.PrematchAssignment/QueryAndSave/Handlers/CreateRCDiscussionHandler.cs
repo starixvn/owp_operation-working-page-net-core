@@ -217,21 +217,11 @@ public class CreateRCDiscussionHandler(
                 return errorGroups;
             }
             var users = GetUsersFromAssignments(assignments, new List<EventRecipient>(), firstDiscussion.BetType);
-            var (inviteSuccess, inviteError) = await InviteUsersToRoomAsync(firstDiscussion.RCDiscussionGroupId, users, cancellationToken);
-            if (!inviteSuccess)
-            {
-                errorGroups[groupIdentifier] = inviteError;
-                return errorGroups;
-            }
+            await InviteUsersToRoomAsync(firstDiscussion.RCDiscussionGroupId, users, cancellationToken);
 
             if (!isUserCreator)
             {
-                var (setOwnerSuccess, setOwnerError) = await SetOwnerForDiscussionAsync(firstDiscussion.RCDiscussionGroupId, currentUsername, cancellationToken);
-                if (!setOwnerSuccess)
-                {
-                    errorGroups[groupIdentifier] = setOwnerError;
-                    return errorGroups;
-                }
+                await SetOwnerForDiscussionAsync(firstDiscussion.RCDiscussionGroupId, currentUsername, cancellationToken);
             }
         }
 
@@ -302,12 +292,7 @@ public class CreateRCDiscussionHandler(
             }
 
             var currentUsername = currentSession.UserName;
-            var (setOwnerSuccess, setOwnerError) = await SetOwnerForDiscussionAsync(discussionGroupId, currentUsername, cancellationToken);
-
-            if (!setOwnerSuccess)
-            {
-                return (false, $"Failed to set owner for discussion {discussionGroupId}: {setOwnerError}", string.Empty);
-            }
+            await SetOwnerForDiscussionAsync(discussionGroupId, currentUsername, cancellationToken);
 
             return (true, null, discussionGroupId);
         }
@@ -318,7 +303,7 @@ public class CreateRCDiscussionHandler(
         }
     }
 
-    private async Task<(bool Success, string ErrorMessage)> SetOwnerForDiscussionAsync(
+    private async Task SetOwnerForDiscussionAsync(
         string discussionRoomId,
         string username,
         CancellationToken cancellationToken)
@@ -346,18 +331,16 @@ public class CreateRCDiscussionHandler(
 
             if (!response.IsSuccessStatusCode)
             {
-                return (false, $"Failed to set owner. Status: {response.StatusCode}, Body: {body}");
+                await logger.ErrorAsync($"Failed to set owner. Status: {response.StatusCode}, Body: {body}, payload: {payload}", "SetOwnerForDiscussion_Error");
             }
-
-            return (true, null);
         }
         catch (Exception ex)
         {
-            return (false, ex.Message);
+            await logger.ErrorAsync($"Exception while setting owner for discussion {discussionRoomId}: {ex.Message}", "SetOwnerForDiscussion_Error");
         }
     }
 
-    private async Task<(bool Success, string ErrorMessage)> InviteUsersToRoomAsync(
+    private async Task InviteUsersToRoomAsync(
         string roomId,
         List<string> usernames,
         CancellationToken cancellationToken)
@@ -383,14 +366,12 @@ public class CreateRCDiscussionHandler(
 
             if (!response.IsSuccessStatusCode)
             {
-                return (false, $"Failed to invite user. Status: {response.StatusCode}, Body: {body}");
+                await logger.ErrorAsync($"Failed to invite user. Status: {response.StatusCode}, Body: {body}, payload: {payload}", "InviteUsersToRoom_Error");
             }
-
-            return (true, null);
         }
         catch (Exception ex)
         {
-            return (false, ex.Message);
+            await logger.ErrorAsync($"Exception while inviting users to room {roomId}: {ex.Message}", "InviteUsersToRoom_Error");
         }
     }
 
