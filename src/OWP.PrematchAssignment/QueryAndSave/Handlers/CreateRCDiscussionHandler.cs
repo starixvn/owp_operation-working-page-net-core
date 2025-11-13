@@ -33,6 +33,9 @@ public class CreateRCDiscussionHandler(
     private readonly string _botToken = configuration["ChatServer:BotToken"];
     private readonly string _botUserId = configuration["ChatServer:BotUserId"];
     private readonly string _parentChannelId = configuration["ChatServer:PrematchDirectionChannelId"];
+    
+    private readonly string _authToken = "X-Auth-Token";
+    private readonly string _userId = "X-User-Id";
 
     public async Task<ResultDataObject> Handle(CreateRCDiscussionRequest request, CancellationToken cancellationToken)
     {
@@ -53,13 +56,13 @@ public class CreateRCDiscussionHandler(
 
         if (request.IsIncludeTrader)
         {
-             var assignments = await preMatchAssignmentService.GetMatchAssignments(request.AdminSiteId);
-             var eventRecipients = await preMatchAssignmentService.GetEventRecipients();
+            var assignments = await preMatchAssignmentService.GetMatchAssignments(request.AdminSiteId);
+            var eventRecipients = await preMatchAssignmentService.GetEventRecipients();
 
             var (newDiscussionGroups, existingDiscussionGroups) = GroupAndSeparateDiscussions(request.DiscussionInfos, currentDiscussionInfos);
-            
+
             var newErrors = await ProcessNewDiscussions(newDiscussionGroups, assignments, eventRecipients, cancellationToken);
-            
+
             var existingErrors = await ProcessExistingDiscussions(existingDiscussionGroups, currentDiscussionInfos.ToList(), cancellationToken);
 
             foreach (var error in newErrors)
@@ -194,7 +197,7 @@ public class CreateRCDiscussionHandler(
         var errorGroups = new Dictionary<(int AdminSiteMatchId, int BetType), string>();
         
         var currentUsername = currentSession.UserName;
-        var isUserCreator = currentDiscussionInfos.Any(d => d.CreatedBy.ToString() == currentUsername);
+        var isUserCreator = currentDiscussionInfos.Exists(d => d.CreatedBy.ToString() == currentUsername);
 
         foreach (var group in existingDiscussionGroups)
         {
@@ -265,8 +268,8 @@ public class CreateRCDiscussionHandler(
             );
 
             var httpRequest = new HttpRequestMessage(HttpMethod.Post, $"{_serverUrl}rooms.createDiscussion");
-            httpRequest.Headers.Add("X-Auth-Token", _botToken);
-            httpRequest.Headers.Add("X-User-Id", _botUserId);
+            httpRequest.Headers.Add(_authToken, _botToken);
+            httpRequest.Headers.Add(_userId, _botUserId);
             httpRequest.Content = content;
 
             var response = await httpClient.SendAsync(httpRequest, cancellationToken);
@@ -326,8 +329,8 @@ public class CreateRCDiscussionHandler(
             var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
 
             var request = new HttpRequestMessage(HttpMethod.Post, $"{_serverUrl}roles.addUserToRole");
-            request.Headers.Add("X-Auth-Token", _botToken);
-            request.Headers.Add("X-User-Id", _botUserId);
+            request.Headers.Add(_authToken, _botToken);
+            request.Headers.Add(_userId, _botUserId);
             request.Content = content;
 
             var response = await httpClient.SendAsync(request, cancellationToken);
@@ -363,8 +366,8 @@ public class CreateRCDiscussionHandler(
             var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
 
             var request = new HttpRequestMessage(HttpMethod.Post, $"{_serverUrl}groups.invite");
-            request.Headers.Add("X-Auth-Token", _botToken);
-            request.Headers.Add("X-User-Id", _botUserId);
+            request.Headers.Add(_authToken, _botToken);
+            request.Headers.Add(_userId, _botUserId);
             request.Content = content;
 
             var response = await httpClient.SendAsync(request, cancellationToken);
@@ -402,8 +405,8 @@ public class CreateRCDiscussionHandler(
             );
 
             var httpRequest = new HttpRequestMessage(HttpMethod.Post, $"{_serverUrl}chat.postMessage");
-            httpRequest.Headers.Add("X-Auth-Token", _botToken);
-            httpRequest.Headers.Add("X-User-Id", _botUserId);
+            httpRequest.Headers.Add(_authToken, _botToken);
+            httpRequest.Headers.Add(_userId, _botUserId);
             httpRequest.Content = content;
 
             var response = await httpClient.SendAsync(httpRequest, cancellationToken);
