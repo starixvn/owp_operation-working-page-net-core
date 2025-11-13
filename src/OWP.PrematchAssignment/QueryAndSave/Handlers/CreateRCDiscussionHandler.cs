@@ -64,7 +64,7 @@ public class CreateRCDiscussionHandler(
 
             var newErrors = await ProcessNewDiscussions(newDiscussionGroups, assignments, eventRecipients, cancellationToken);
 
-            var existingErrors = await ProcessExistingDiscussions(existingDiscussionGroups, currentDiscussionInfos.ToList(), cancellationToken);
+            var existingErrors = await ProcessExistingDiscussions(existingDiscussionGroups, currentDiscussionInfos.ToList(), assignments, cancellationToken);
 
             foreach (var error in newErrors)
             {
@@ -193,6 +193,7 @@ public class CreateRCDiscussionHandler(
     private async Task<Dictionary<(int AdminSiteMatchId, int BetType), string>> ProcessExistingDiscussions(
         List<IGrouping<object, DiscussionInfo>> existingDiscussionGroups,
         List<DiscussionInfo> currentDiscussionInfos,
+        IEnumerable<Assignment> assignments,
         CancellationToken cancellationToken)
     {
         var errorGroups = new Dictionary<(int AdminSiteMatchId, int BetType), string>();
@@ -213,19 +214,23 @@ public class CreateRCDiscussionHandler(
             if (!success)
             {
                 errorGroups[groupIdentifier] = errorMessage ?? "Failed to send message to RocketChat discussion";
+                return errorGroups;
+            }
+            var users = GetUsersFromAssignments(assignments, new List<EventRecipient>(), firstDiscussion.BetType);
+            var (inviteSuccess, inviteError) = await InviteUsersToRoomAsync(firstDiscussion.RCDiscussionGroupId, users, cancellationToken);
+            if (!inviteSuccess)
+            {
+                errorGroups[groupIdentifier] = inviteError;
+                return errorGroups;
             }
 
-            if(!isUserCreator)
+            if (!isUserCreator)
             {
-                var (inviteSuccess, inviteError) = await InviteUserToRoomAsync(firstDiscussion.RCDiscussionGroupId, currentUsername, cancellationToken);
-                if (!inviteSuccess)
-                {
-                    errorGroups[groupIdentifier] = inviteError;
-                }
                 var (setOwnerSuccess, setOwnerError) = await SetOwnerForDiscussionAsync(firstDiscussion.RCDiscussionGroupId, currentUsername, cancellationToken);
                 if (!setOwnerSuccess)
                 {
                     errorGroups[groupIdentifier] = setOwnerError;
+                    return errorGroups;
                 }
             }
         }
@@ -318,6 +323,7 @@ public class CreateRCDiscussionHandler(
         string username,
         CancellationToken cancellationToken)
     {
+
         try
         {
             var payload = new
@@ -351,9 +357,9 @@ public class CreateRCDiscussionHandler(
         }
     }
 
-    private async Task<(bool Success, string ErrorMessage)> InviteUserToRoomAsync(
+    private async Task<(bool Success, string ErrorMessage)> InviteUsersToRoomAsync(
         string roomId,
-        string username,
+        List<string> usernames,
         CancellationToken cancellationToken)
     {
         try
@@ -361,7 +367,7 @@ public class CreateRCDiscussionHandler(
             var payload = new
             {
                 roomId,
-                username
+                usernames
             };
 
             var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, _contentType);
@@ -469,6 +475,8 @@ public class CreateRCDiscussionHandler(
 
             infoCounter++;
         }
+
+        message.AppendLine($"**Sender:** {currentSession.UserName}");
 
         return message.ToString().Trim();
     }

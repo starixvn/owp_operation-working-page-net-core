@@ -255,18 +255,168 @@ namespace OWP.PreMatchAssignment.UnitTests.QueryAndSave.Handlers
             // Assert
             Assert.Equal((int)ErrorCode.Ok, result.Code);
             Assert.Equal("RCDiscussion created successfully", result.Message);
-            
+
             await _service
                 .DidNotReceive()
                 .GetMatchAssignments(Arg.Any<int>());
-            
+
             await _service
                 .DidNotReceive()
                 .GetEventRecipients();
-            
+
             await _service
                 .Received(1)
-                .InsertDiscussion(Arg.Is<InsertDiscussionCriteria>(c => 
+                .InsertDiscussion(Arg.Is<InsertDiscussionCriteria>(c =>
+                    c.AdminSiteMatchId == request.AdminSiteId &&
+                    c.IsIncludeTrader == request.IsIncludeTrader));
+        }
+
+        [Fact]
+        public async Task Handle_WhenProcessingExistingDiscussions_ShouldInviteUsersAndSetOwner()
+        {
+            // Arrange
+            var request = new CreateRCDiscussionRequest
+            {
+                AdminSiteId = 1,
+                IsIncludeTrader = true,
+                DiscussionInfos = new List<DiscussionInfo>
+                {
+                    new()
+                    {
+                        AdminSiteMatchId = 1,
+                        BetType = 1,
+                        GhostName = "Test Ghost",
+                        GhostDetail = "Test Detail",
+                        BetOn = "Home",
+                        HdpOu = 1.5m,
+                        Odds = "1.95",
+                        Note = "Test Note"
+                    }
+                }
+            };
+
+            var matchInfo = new DiscussionMatchInfo
+            {
+                LeagueName = "Test League",
+                HomeId = 1,
+                HomeName = "Home Team",
+                AwayId = 2,
+                AwayName = "Away Team"
+            };
+
+            var existingDiscussion = new DiscussionInfo
+            {
+                AdminSiteMatchId = 1,
+                BetType = 1,
+                RCDiscussionGroupId = "existing-discussion-id",
+                CreatedBy = 123 // Different user, so current user should be invited and set as owner
+            };
+
+            _service
+                .GetMatchDiscussionInfo(request.AdminSiteId)
+                .Returns((new List<DiscussionInfo> { existingDiscussion }, matchInfo));
+
+            _service
+                .GetMatchAssignments(request.AdminSiteId)
+                .Returns(new List<Assignment> { new() { Bettype = 1, Username = "testuser" } });
+
+            _service
+                .GetEventRecipients()
+                .Returns(new List<EventRecipient> { new() { UserName = "eventuser" } });
+
+            // Act
+            var result = await _handler.Handle(request, CancellationToken.None);
+
+            // Assert
+            Assert.Equal((int)ErrorCode.Ok, result.Code);
+            Assert.Equal("RCDiscussion created successfully", result.Message);
+
+            await _service
+                .Received(1)
+                .GetMatchAssignments(request.AdminSiteId);
+
+            await _service
+                .Received(1)
+                .GetEventRecipients();
+
+            await _service
+                .Received(1)
+                .InsertDiscussion(Arg.Is<InsertDiscussionCriteria>(c =>
+                    c.AdminSiteMatchId == request.AdminSiteId &&
+                    c.IsIncludeTrader == request.IsIncludeTrader));
+        }
+
+        [Fact]
+        public async Task Handle_WhenCurrentUserIsCreator_ShouldNotSetOwnerForExistingDiscussions()
+        {
+            // Arrange
+            var request = new CreateRCDiscussionRequest
+            {
+                AdminSiteId = 1,
+                IsIncludeTrader = true,
+                DiscussionInfos = new List<DiscussionInfo>
+                {
+                    new()
+                    {
+                        AdminSiteMatchId = 1,
+                        BetType = 1,
+                        GhostName = "Test Ghost",
+                        GhostDetail = "Test Detail",
+                        BetOn = "Home",
+                        HdpOu = 1.5m,
+                        Odds = "1.95",
+                        Note = "Test Note"
+                    }
+                }
+            };
+
+            var matchInfo = new DiscussionMatchInfo
+            {
+                LeagueName = "Test League",
+                HomeId = 1,
+                HomeName = "Home Team",
+                AwayId = 2,
+                AwayName = "Away Team"
+            };
+
+            var existingDiscussion = new DiscussionInfo
+            {
+                AdminSiteMatchId = 1,
+                BetType = 1,
+                RCDiscussionGroupId = "existing-discussion-id",
+                CreatedBy = 456 // Same as current user, so owner should not be set
+            };
+
+            _service
+                .GetMatchDiscussionInfo(request.AdminSiteId)
+                .Returns((new List<DiscussionInfo> { existingDiscussion }, matchInfo));
+
+            _service
+                .GetMatchAssignments(request.AdminSiteId)
+                .Returns(new List<Assignment> { new() { Bettype = 1, Username = "testuser" } });
+
+            _service
+                .GetEventRecipients()
+                .Returns(new List<EventRecipient> { new() { UserName = "eventuser" } });
+
+            // Act
+            var result = await _handler.Handle(request, CancellationToken.None);
+
+            // Assert
+            Assert.Equal((int)ErrorCode.Ok, result.Code);
+            Assert.Equal("RCDiscussion created successfully", result.Message);
+
+            await _service
+                .Received(1)
+                .GetMatchAssignments(request.AdminSiteId);
+
+            await _service
+                .Received(1)
+                .GetEventRecipients();
+
+            await _service
+                .Received(1)
+                .InsertDiscussion(Arg.Is<InsertDiscussionCriteria>(c =>
                     c.AdminSiteMatchId == request.AdminSiteId &&
                     c.IsIncludeTrader == request.IsIncludeTrader));
         }
