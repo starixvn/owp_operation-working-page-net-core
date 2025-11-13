@@ -278,7 +278,12 @@ namespace OWP.PreMatchAssignment.UnitTests.QueryAndSave.Handlers
         {
             var response = new CreateDiscussionResponse
             {
-                Discussion = new DiscussionInfoResponse { Name = "test-discussion" }
+                Discussion = new DiscussionInfoResponse
+                {
+                    Id = "test-discussion-id",
+                    Rid = "test-discussion-rid",
+                    Name = "test-discussion"
+                }
             };
 
             return Task.FromResult(new HttpResponseMessage
