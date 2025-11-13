@@ -319,12 +319,13 @@ public class CreateRCDiscussionHandler(
             var payload = new
             {
                 roomId = discussionRoomId,
-                username
+                username,
+                roleName = "owner"
             };
 
             var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
 
-            var request = new HttpRequestMessage(HttpMethod.Post, $"{_serverUrl}api/v1/rooms.setOwner");
+            var request = new HttpRequestMessage(HttpMethod.Post, $"{_serverUrl}roles.addUserToRole");
             request.Headers.Add("X-Auth-Token", _botToken);
             request.Headers.Add("X-User-Id", _botUserId);
             request.Content = content;
@@ -361,7 +362,7 @@ public class CreateRCDiscussionHandler(
 
             var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
 
-            var request = new HttpRequestMessage(HttpMethod.Post, $"{_serverUrl}api/v1/rooms.invite");
+            var request = new HttpRequestMessage(HttpMethod.Post, $"{_serverUrl}groups.invite");
             request.Headers.Add("X-Auth-Token", _botToken);
             request.Headers.Add("X-User-Id", _botUserId);
             request.Content = content;
