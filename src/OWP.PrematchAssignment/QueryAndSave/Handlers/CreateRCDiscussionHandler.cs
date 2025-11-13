@@ -36,6 +36,7 @@ public class CreateRCDiscussionHandler(
     
     private readonly string _authToken = "X-Auth-Token";
     private readonly string _userId = "X-User-Id";
+    private readonly string _contentType = "application/json";
 
     public async Task<ResultDataObject> Handle(CreateRCDiscussionRequest request, CancellationToken cancellationToken)
     {
@@ -264,7 +265,7 @@ public class CreateRCDiscussionHandler(
             var content = new StringContent(
                 JsonSerializer.Serialize(payload),
                 Encoding.UTF8,
-                "application/json"
+                _contentType
             );
 
             var httpRequest = new HttpRequestMessage(HttpMethod.Post, $"{_serverUrl}rooms.createDiscussion");
@@ -326,7 +327,7 @@ public class CreateRCDiscussionHandler(
                 roleName = "owner"
             };
 
-            var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
+            var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, _contentType);
 
             var request = new HttpRequestMessage(HttpMethod.Post, $"{_serverUrl}roles.addUserToRole");
             request.Headers.Add(_authToken, _botToken);
@@ -363,7 +364,7 @@ public class CreateRCDiscussionHandler(
                 username
             };
 
-            var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
+            var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, _contentType);
 
             var request = new HttpRequestMessage(HttpMethod.Post, $"{_serverUrl}groups.invite");
             request.Headers.Add(_authToken, _botToken);
@@ -375,7 +376,9 @@ public class CreateRCDiscussionHandler(
             var body = await response.Content.ReadAsStringAsync(cancellationToken);
 
             if (!response.IsSuccessStatusCode)
+            {
                 return (false, $"Failed to invite user. Status: {response.StatusCode}, Body: {body}");
+            }
 
             return (true, null);
         }
@@ -401,7 +404,7 @@ public class CreateRCDiscussionHandler(
             var content = new StringContent(
                 JsonSerializer.Serialize(payload),
                 Encoding.UTF8,
-                "application/json"
+                _contentType
             );
 
             var httpRequest = new HttpRequestMessage(HttpMethod.Post, $"{_serverUrl}chat.postMessage");
