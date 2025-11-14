@@ -198,11 +198,13 @@ public class CreateRCDiscussionHandler(
     {
         var errorGroups = new Dictionary<(int AdminSiteMatchId, int BetType), string>();
         
-        var isUserCreator = currentDiscussionInfos.Exists(d => d.CreatedBy == currentSession.UserId);
 
         foreach (var group in existingDiscussionGroups)
         {
             var firstDiscussion = group.First();
+
+            var isUserCreator = currentDiscussionInfos.Exists(d => d.CreatedBy == currentSession.UserId && d.BetType == firstDiscussion.BetType);
+
             var groupIdentifier = (firstDiscussion.AdminSiteMatchId, firstDiscussion.BetType);
 
             var discussionList = group.ToList();
