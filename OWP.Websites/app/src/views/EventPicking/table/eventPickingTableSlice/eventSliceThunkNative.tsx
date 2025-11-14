@@ -20,21 +20,6 @@ const getEventPickings = createAsyncThunk<TResult, TFilter>(
     const response = await post({ url, ...modelFilter });
     const result = response.data as TResult;
 
-    // Auto dispatch turnover request after event picking
-    if (result.filteredMatches && result.filteredMatches.length > 0) {
-      const matchesForTurnover = result.filteredMatches.map(match => ({
-        InfoSiteMatchId: match.infoSiteMatchId,
-        LeagueName: match.leagueName
-      }));
-
-      const turnoverParams: TTurnoverFilter = {
-        Matches: matchesForTurnover,
-        Period: modelFilter.period as TPeriodFilter
-      };
-
-      thunkAPI.dispatch(getTurnoverMargins(turnoverParams));
-    }
-
     return result;
   }
 );
@@ -45,21 +30,6 @@ const editEventPickings = createAsyncThunk<TResult, TFilter>(
     const url = buildUrl(editEventPicking);
     const response = await post({ url, ...modelFilter });
     const result = response.data as TResult;
-
-    // Auto dispatch turnover request after event picking
-    if (result.filteredMatches && result.filteredMatches.length > 0) {
-      const matchesForTurnover = result.filteredMatches.map(match => ({
-        InfoSiteMatchId: match.infoSiteMatchId,
-        LeagueName: match.leagueName
-      }));
-
-      const turnoverParams: TTurnoverFilter = {
-        Matches: matchesForTurnover,
-        Period: modelFilter.period as TPeriodFilter
-      };
-
-      thunkAPI.dispatch(getTurnoverMargins(turnoverParams));
-    }
 
     return result;
   }
