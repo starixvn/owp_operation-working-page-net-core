@@ -164,9 +164,11 @@ public class QueryEventPickingServiceImpTests
         };
 
         var permissions = new PermissionModel(true, false);
-        var functionPolicy = new List<FunctionPolicy>();
+        var functionPolicy = new List<FunctionPolicy>
+        {
+            new FunctionPolicy { Key = FunctionKeys.EventPickingNew_EventAndPerformance, Policy = 1 } // 1 = Read permission
+        };
         _mockPermissionService.GetPermissions(FunctionKeys.EventPickingNew).Returns(functionPolicy);
-        _mockPermissionService.GetPermissionModel(Arg.Any<string>()).Returns(permissions);
 
         _mockTGRSService.GetTurnOverWinLoss(Arg.Any<GetTurnOverWinLossCriteria>())
             .Returns(Task.FromResult<(IList<TurnOverWinLossModel>, bool)>(
