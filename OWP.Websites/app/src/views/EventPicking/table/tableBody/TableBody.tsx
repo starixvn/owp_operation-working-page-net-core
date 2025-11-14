@@ -50,10 +50,10 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
         const row = data[i] as TDataTable;
 
         if (row) {
-            const rowSpan = HasRead ? row.turnoverPeriod.length : 1;
+            const rowSpan = HasRead && row.turnoverPeriod.length > 0 ? row.turnoverPeriod.length : 1;
             const buildTurnoverMarginRow = () => {
-                return row.turnoverPeriod.map(
-                    (_item, index) =>
+                    return row.turnoverPeriod.map(
+                        (_item, index) =>
                         row.turnoverPeriod[index + 1] && (
                             <tr key={index} className={`${row.rowColor}-row`}>
                                 <TurnOverCell
@@ -145,13 +145,13 @@ const TableBody = ({ data = [], displayStart = 0, displayEnd = 0 }) => {
                         {HasRead && (
                             <>
                                 <TurnOverCell
-                                    value={row.turnoverPeriod[0]?.valueDisplay}
-                                    color={row.turnoverPeriod[0]?.color}
-                                    name={row.turnoverPeriod[0]?.title}
+                                    value={row.turnoverPeriod.length > 0 ? row.turnoverPeriod[0]?.valueDisplay : ''}
+                                    color={row.turnoverPeriod.length > 0 ? row.turnoverPeriod[0]?.color : ''}
+                                    name={row.turnoverPeriod.length > 0 ? row.turnoverPeriod[0]?.title : ''}
                                 />
                                 <MarginCell
-                                    value={row.marginPeriod[0]?.valueDisplay}
-                                    color={row.marginPeriod[0]?.color}
+                                    value={row.marginPeriod.length > 0 ? row.marginPeriod[0]?.valueDisplay : ''}
+                                    color={row.marginPeriod.length > 0 ? row.marginPeriod[0]?.color : ''}
                                 />
                             </>
                         )}

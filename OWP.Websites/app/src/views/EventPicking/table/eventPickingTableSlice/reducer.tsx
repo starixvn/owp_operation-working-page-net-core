@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { REQUEST_STATUS } from '../../../Shared/Constants';
-import { editEventPickings, getEventPickings } from './eventSliceThunkNative';
+import { editEventPickings, getEventPickings, getTurnoverMargins } from './eventSliceThunkNative';
 import updateNoOfferMatchThunk from '../updateNoOfferMatchThunkNative';
 import updateConfirmedThunk from '../updateConfirmedThunkNative';
 import { Option } from '../../../Shared/MultipleSelection/type';
@@ -447,6 +447,31 @@ const EventPickingTableSlice = createSlice({
       })
       .addCase(editEventPickings.rejected, state => {
         state.loading = REQUEST_STATUS.idle;
+      })
+      .addCase(getTurnoverMargins.fulfilled, (state, { payload }) => {
+        const turnOverMargins = payload;
+        // Update turnover data for matches
+        state.entitiesOriginal.forEach(match => {
+          const turnoverMatch = turnOverMargins.find(
+            tm => tm.infoSiteMatchId === match.infoSiteMatchId
+          );
+          if (turnoverMatch) {
+            match.turnoverPeriod = turnoverMatch.turnoverPeriod;
+            match.marginPeriod = turnoverMatch.marginPeriod;
+          }
+        });
+
+        state.entities.forEach(match => {
+          const turnoverMatch = turnOverMargins.find(
+            tm => tm.infoSiteMatchId === match.infoSiteMatchId
+          );
+          if (turnoverMatch) {
+            match.turnoverPeriod = turnoverMatch.turnoverPeriod;
+            match.marginPeriod = turnoverMatch.marginPeriod;
+          }
+        });
+
+        updateMultipleFilterOptionsAndSelected(state, false, filterByKeyword);
       });
   }
 });

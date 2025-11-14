@@ -18,6 +18,7 @@
   "TURNOVER_MARGIN": "turnoverMarginDate",
   "FROM_DATE": "fromDate",
   "TO_DATE": "toDate",
+  "IS_LOAD_TURNOVER": "isLoadTurnOver",
   "SELECT_GAME_OPTIONS": [
     {
       "value": 1,

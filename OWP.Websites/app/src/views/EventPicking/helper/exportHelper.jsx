@@ -1,4 +1,5 @@
 import { MESSAGE } from '../const/const.json';
+import { IS_LOAD_TURNOVER } from '../filterArea/filterConst.json';
 import store from '../app/store';
 import ToastrWrapper from '../../components/ToastrWrapper';
 import Spinner from '../../components/Spinner';
@@ -6,6 +7,7 @@ import updateConfirmedThunk from '../table/updateConfirmedThunkNative';
 
 const exportAndConfirmAllEvent = async exportCallback => {
     const { param } = store.getState().filter;
+    const paramIncludeTurnover = { ...param, [IS_LOAD_TURNOVER]: true }; //load turnover margin when export
     const confirmResult = await ToastrWrapper.confirm(
         MESSAGE.EXPORT_AND_CONFIRM_ALL
     );
@@ -14,7 +16,7 @@ const exportAndConfirmAllEvent = async exportCallback => {
     if (confirmResult.value) {
         Spinner.show();
         const { entities } = store.getState().eventPickingTable;
-        await store.dispatch(exportCallback(param));
+        await store.dispatch(exportCallback(paramIncludeTurnover));
         if (entities.length) {
             const infoSiteMatchIds = entities
                 .filter(element => !element.isMovedEventDate && !element.isCheck)
@@ -34,8 +36,10 @@ const exportAndConfirmAllEvent = async exportCallback => {
 const exportOnly = exportCallback => {
     (async () => {
         const { param } = store.getState().filter;
+        const paramIncludeTurnover = { ...param, [IS_LOAD_TURNOVER]: true }; //load turnover margin when export
+
         Spinner.show();
-        await store.dispatch(exportCallback(param));
+        await store.dispatch(exportCallback(paramIncludeTurnover));
         Spinner.hide();
     })();
 };
