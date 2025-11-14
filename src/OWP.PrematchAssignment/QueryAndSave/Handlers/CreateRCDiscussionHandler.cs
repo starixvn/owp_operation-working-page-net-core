@@ -198,8 +198,7 @@ public class CreateRCDiscussionHandler(
     {
         var errorGroups = new Dictionary<(int AdminSiteMatchId, int BetType), string>();
         
-        var currentUsername = currentSession.UserName;
-        var isUserCreator = currentDiscussionInfos.Exists(d => d.CreatedBy.ToString() == currentUsername);
+        var isUserCreator = currentDiscussionInfos.Exists(d => d.CreatedBy == currentSession.UserId);
 
         foreach (var group in existingDiscussionGroups)
         {
@@ -221,7 +220,7 @@ public class CreateRCDiscussionHandler(
 
             if (!isUserCreator)
             {
-                await SetOwnerForDiscussionAsync(firstDiscussion.RCDiscussionGroupId, currentUsername, cancellationToken);
+                await SetOwnerForDiscussionAsync(firstDiscussion.RCDiscussionGroupId, currentSession.UserName, cancellationToken);
             }
         }
 
