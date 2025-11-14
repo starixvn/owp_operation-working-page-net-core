@@ -1,8 +1,18 @@
 import Select from 'react-select-ts';
 import { useDispatch } from 'react-redux';
-import { BETON_OPTIONS, BETTYPE_OPTIONS, GHOST_OPTIONS } from '../../const/const';
+import {
+  BETON_OPTIONS,
+  BETTYPE_OPTIONS,
+  GHOST_OPTIONS
+} from '../../const/const';
 import { TRenderTicketInfo } from '../../type';
-import { addTicketInfo, removeTicketInfo, updateBetType, updateTicketInfo } from './directionTicketSlice';
+import {
+  addTicketInfo,
+  removeTicketInfo,
+  updateBetType,
+  updateTicketInfo,
+  cloneTicketInfo
+} from './directionTicketSlice';
 import { useRef } from 'react';
 import { nanoid } from '@reduxjs/toolkit';
 import { getBetOnOptions } from '../../helper/preMatchHelper';
@@ -17,7 +27,8 @@ const TicketInfo = (props: TRenderTicketInfo) => {
     odds,
     note,
     remark,
-    errorMessage } = props.ticketInfo;
+    errorMessage
+  } = props.ticketInfo;
 
   const ghostDetailInputRef = useRef<HTMLInputElement>(null);
   const hdpOuInputRef = useRef<HTMLInputElement>(null);
@@ -36,6 +47,10 @@ const TicketInfo = (props: TRenderTicketInfo) => {
     dispatch(removeTicketInfo({ index }));
   };
 
+  const handleCloneTicketInfo = () => {
+    dispatch(cloneTicketInfo({ index }));
+  };
+
   const renderGhostName = () => (
     <>
       <div className='content'>
@@ -50,15 +65,21 @@ const TicketInfo = (props: TRenderTicketInfo) => {
             classNamePrefix='select'
             onChange={selected => {
               selected?.value &&
-                dispatch(updateTicketInfo({ index, field: 'ghostName', value: selected.value }));
+                dispatch(
+                  updateTicketInfo({
+                    index,
+                    field: 'ghostName',
+                    value: selected.value
+                  })
+                );
             }}
-            placeholder="Ghost..."
-            value={GHOST_OPTIONS.find(option => option.value === ghostName)} />
-        </div >
+            placeholder='Ghost...'
+            value={GHOST_OPTIONS.find(option => option.value === ghostName)}
+          />
+        </div>
 
-        <p className='error-message'>
-          {errorMessage?.ghostName}</p>
-      </div >
+        <p className='error-message'>{errorMessage?.ghostName}</p>
+      </div>
     </>
   );
 
@@ -75,13 +96,19 @@ const TicketInfo = (props: TRenderTicketInfo) => {
             className='input'
             ref={ghostDetailInputRef}
             onBlur={() => {
-              ghostDetailInputRef.current?.value !== undefined && dispatch(updateTicketInfo({ index, field: 'ghostDetail', value: ghostDetailInputRef.current?.value }));
+              ghostDetailInputRef.current?.value !== undefined &&
+                dispatch(
+                  updateTicketInfo({
+                    index,
+                    field: 'ghostDetail',
+                    value: ghostDetailInputRef.current?.value
+                  })
+                );
             }}
           />
         </div>
       </div>
-      <p className='error-message'>
-        {errorMessage?.ghostDetail}</p>
+      <p className='error-message'>{errorMessage?.ghostDetail}</p>
     </div>
   );
 
@@ -100,38 +127,46 @@ const TicketInfo = (props: TRenderTicketInfo) => {
             selected?.value &&
               dispatch(updateBetType({ index, value: selected.value }));
           }}
-          placeholder="Bettype..."
-          value={BETTYPE_OPTIONS.find(option => option.value === betType)} />
+          placeholder='Bettype...'
+          value={BETTYPE_OPTIONS.find(option => option.value === betType)}
+        />
       </div>
-      <p className='error-message'>
-        {errorMessage?.bettype}</p>
+      <p className='error-message'>{errorMessage?.bettype}</p>
     </div>
   );
 
   const renderBetOn = () => {
     const betOnOptions = getBetOnOptions(betType);
 
-    return <div className='content'>
-      <div className='flex'>
-        <div className='left'>
-          Bet on
-          <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>*</p>
+    return (
+      <div className='content'>
+        <div className='flex'>
+          <div className='left'>
+            Bet on
+            <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>*</p>
+          </div>
+          <Select
+            key={nanoid()}
+            options={betOnOptions}
+            className='basic-multi-select'
+            classNamePrefix='select'
+            onChange={selected => {
+              selected?.value &&
+                dispatch(
+                  updateTicketInfo({
+                    index,
+                    field: 'betOn',
+                    value: selected.value
+                  })
+                );
+            }}
+            placeholder='Bet on...'
+            value={betOnOptions.find(option => option.value === betOn)}
+          />
         </div>
-        <Select
-          key={nanoid()}
-          options={betOnOptions}
-          className='basic-multi-select'
-          classNamePrefix='select'
-          onChange={selected => {
-            selected?.value &&
-              dispatch(updateTicketInfo({ index, field: 'betOn', value: selected.value }));
-          }}
-          placeholder="Bet on..."
-          value={betOnOptions.find(option => option.value === betOn)} />
+        <p className='error-message'>{errorMessage?.betOn}</p>
       </div>
-      <p className='error-message'>
-        {errorMessage?.betOn}</p>
-    </div>;
+    );
   };
 
   const renderHdpOu = () => (
@@ -144,20 +179,25 @@ const TicketInfo = (props: TRenderTicketInfo) => {
         <div className='input-item hdp-ou-input'>
           <input
             className='input'
-            type="number"
+            type='number'
             defaultValue={hdpOu}
             step={0.25}
             ref={hdpOuInputRef}
             style={{ textAlign: 'right' }}
             onBlur={() => {
-              hdpOuInputRef.current?.value !== undefined
-                && dispatch(updateTicketInfo({ index, field: 'hdpOu', value: hdpOuInputRef.current?.value }));
-
-            }} />
+              hdpOuInputRef.current?.value !== undefined &&
+                dispatch(
+                  updateTicketInfo({
+                    index,
+                    field: 'hdpOu',
+                    value: hdpOuInputRef.current?.value
+                  })
+                );
+            }}
+          />
         </div>
       </div>
-      <p className='error-message'>
-        {errorMessage?.hdp_ou}</p>
+      <p className='error-message'>{errorMessage?.hdp_ou}</p>
     </div>
   );
 
@@ -169,15 +209,24 @@ const TicketInfo = (props: TRenderTicketInfo) => {
           <p style={{ 'color': 'red', 'paddingLeft': '5px' }}>*</p>
         </div>
         <div className='input-item'>
-          <input defaultValue={odds}
+          <input
+            defaultValue={odds}
             ref={oddsInputRef}
-            className='input' onBlur={() => {
-              oddsInputRef.current?.value !== undefined && dispatch(updateTicketInfo({ index, field: 'odds', value: oddsInputRef.current?.value }));
-            }} />
+            className='input'
+            onBlur={() => {
+              oddsInputRef.current?.value !== undefined &&
+                dispatch(
+                  updateTicketInfo({
+                    index,
+                    field: 'odds',
+                    value: oddsInputRef.current?.value
+                  })
+                );
+            }}
+          />
         </div>
       </div>
-      <p className='error-message'>
-        {errorMessage?.odds}</p>
+      <p className='error-message'>{errorMessage?.odds}</p>
     </div>
   );
 
@@ -194,27 +243,38 @@ const TicketInfo = (props: TRenderTicketInfo) => {
           className='common-textarea'
           rows={3}
           onBlur={() => {
-            noteInputRef.current?.value !== undefined && dispatch(updateTicketInfo({ index, field: 'note', value: noteInputRef.current?.value }));
+            noteInputRef.current?.value !== undefined &&
+              dispatch(
+                updateTicketInfo({
+                  index,
+                  field: 'note',
+                  value: noteInputRef.current?.value
+                })
+              );
           }}
         />
       </div>
-      <p className='error-message'>
-        {errorMessage?.note}</p>
+      <p className='error-message'>{errorMessage?.note}</p>
     </div>
   );
 
   const renderRemark = () => (
     <div className='content'>
-      <div className='left remark__label'>
-        Remark
-      </div>
+      <div className='left remark__label'>Remark</div>
       <div className='input-item'>
         <textarea
           className='common-textarea'
           defaultValue={remark}
           ref={remarkInputRef}
           onBlur={() => {
-            remarkInputRef.current?.value && dispatch(updateTicketInfo({ index, field: 'remark', value: remarkInputRef.current?.value }));
+            remarkInputRef.current?.value &&
+              dispatch(
+                updateTicketInfo({
+                  index,
+                  field: 'remark',
+                  value: remarkInputRef.current?.value
+                })
+              );
           }}
           rows={3}
         />
@@ -250,27 +310,39 @@ const TicketInfo = (props: TRenderTicketInfo) => {
   const renderButton = (
     label: string,
     className: string,
-    onClick: () => void) => {
+    onClick: () => void
+  ) => {
     return (
-      <button
-        className={className}
-        onClick={onClick}
-      >{label}</button>
+      <button className={className} onClick={onClick}>
+        {label}
+      </button>
     );
   };
 
   const renderCommand = () => {
-    if (isRenderRemoveCommand && isRenderAddCommand) {
-      return renderAddAndRemoveCommand();
-    }
-    if (isRenderRemoveCommand) {
-      return renderRemoveCommand();
-    }
-    if (isRenderAddCommand) {
-      return renderAddCommand();
-    }
-  };
+    return (
+      <div className='content add-remove-command'>
+        {isRenderRemoveCommand && isRenderAddCommand && (
+          <>
+            {renderButton(
+              'Delete',
+              'btn-remove-command',
+              handleRemoveTicketInfo
+            )}
+            {renderButton('Add', 'btn-add-command', handleAddTicketInfo)}
+          </>
+        )}
+        {isRenderRemoveCommand &&
+          !isRenderAddCommand &&
+          renderButton('Delete', 'btn-remove-command', handleRemoveTicketInfo)}
+        {isRenderAddCommand &&
+          !isRenderRemoveCommand &&
+          renderButton('Add', 'btn-add-command', handleAddTicketInfo)}
 
+        {renderButton('Clone Info', 'btn-clone-info', handleCloneTicketInfo)}
+      </div>
+    );
+  };
 
   return (
     <div className='list'>
@@ -281,9 +353,7 @@ const TicketInfo = (props: TRenderTicketInfo) => {
           {renderGhostDetail()}
         </div>
         <div className='bettype__beton__hdp-ou__odds'>
-          <div className='bettype__wrapper'>
-            {renderBettype()}
-          </div>
+          <div className='bettype__wrapper'>{renderBettype()}</div>
           <div className='beton__hdp-ou_odds__wrapper'>
             {renderBetOn()}
             {renderHdpOu()}
@@ -297,6 +367,5 @@ const TicketInfo = (props: TRenderTicketInfo) => {
     </div>
   );
 };
-
 
 export default TicketInfo;

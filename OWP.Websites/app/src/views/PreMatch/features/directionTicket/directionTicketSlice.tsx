@@ -1,5 +1,15 @@
 import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit';
-import { TDirectionTicket, TRemoveTicketInfo, TUpdateTicketInfo, TDirectionTicketLeagueInfo, TUpdateBetType } from '../../type';
+import {
+  TDirectionTicket,
+  TRemoveTicketInfo,
+  TUpdateTicketInfo,
+  TDirectionTicketLeagueInfo,
+  TUpdateBetType
+} from '../../type';
+
+type TCloneTicketInfo = {
+  index: number;
+};
 import { validateTicketInfo } from './validationThunk';
 import { getBetOnOptions } from '../../helper/preMatchHelper';
 
@@ -12,29 +22,36 @@ const directionTicketSlice = createSlice({
       matchId: 0,
       leagueGroup: '',
       isIncludeTrader: true,
-      ticketInfo: [{
-        no: nanoid(),
-        ghostName: undefined,
-        ghostDetail: undefined,
-        betType: undefined,
-        betOn: undefined,
-        hdpOu: undefined,
-        odds: '',
-        note: '',
-        remark: '',
-        errorMessage: undefined,
-      }],
-    } as TDirectionTicket,
+      ticketInfo: [
+        {
+          no: nanoid(),
+          ghostName: undefined,
+          ghostDetail: undefined,
+          betType: undefined,
+          betOn: undefined,
+          hdpOu: undefined,
+          odds: '',
+          note: '',
+          remark: '',
+          errorMessage: undefined
+        }
+      ]
+    } as TDirectionTicket
   },
   extraReducers: builder => {
     builder.addCase(validateTicketInfo.fulfilled, (state, action) => {
       for (const ticket of state.data.ticketInfo) {
-        ticket.errorMessage = action.payload.message.find(x => x.no === ticket.no);
+        ticket.errorMessage = action.payload.message.find(
+          x => x.no === ticket.no
+        );
       }
     });
   },
   reducers: {
-    setLeagueInfo: (state, action: PayloadAction<TDirectionTicketLeagueInfo>) => {
+    setLeagueInfo: (
+      state,
+      action: PayloadAction<TDirectionTicketLeagueInfo>
+    ) => {
       const { league, event, matchId, leagueGroup } = action.payload;
 
       state.data.league = league;
@@ -52,7 +69,7 @@ const directionTicketSlice = createSlice({
         hdpOu: undefined,
         odds: '',
         note: '',
-        remark: '',
+        remark: ''
       });
     },
     updateIncludeTrader: (state, action: PayloadAction<boolean>) => {
@@ -64,7 +81,6 @@ const directionTicketSlice = createSlice({
       ticket.betType = value;
 
       const betOnOptions = getBetOnOptions(ticket.betType);
-
 
       if (!betOnOptions.some(option => option.value === ticket.betOn)) {
         ticket.betOn = undefined;
@@ -82,26 +98,59 @@ const directionTicketSlice = createSlice({
         ...state.data.ticketInfo.slice(action.payload.index + 1)
       ];
     },
+    cloneTicketInfo: (state, action: PayloadAction<TCloneTicketInfo>) => {
+      const { index } = action.payload;
+      const ticketToClone = state.data.ticketInfo[index];
+
+      const clonedTicket = {
+        ...ticketToClone,
+        no: nanoid(),
+        errorMessage: undefined
+      };
+
+      state.data.ticketInfo.splice(index + 1, 0, clonedTicket);
+    },
     clearPopupData: state => {
       state.data.isIncludeTrader = true;
-      state.data.ticketInfo = [{
-        no: nanoid(),
-        ghostName: undefined,
-        ghostDetail: undefined,
-        betType: undefined,
-        betOn: undefined,
-        hdpOu: undefined,
-        odds: '',
-        note: '',
-        remark: '',
-        errorMessage: undefined,
-      }];
+      state.data.ticketInfo = [
+        {
+          no: nanoid(),
+          ghostName: undefined,
+          ghostDetail: undefined,
+          betType: undefined,
+          betOn: undefined,
+          hdpOu: undefined,
+          odds: '',
+          note: '',
+          remark: '',
+          errorMessage: undefined
+        }
+      ];
     }
   }
 });
 
 const { actions, reducer } = directionTicketSlice;
-const { updateTicketInfo, removeTicketInfo, addTicketInfo, clearPopupData, setLeagueInfo, updateIncludeTrader, updateBetType } = actions;
-export { actions, updateTicketInfo, removeTicketInfo, addTicketInfo, clearPopupData, setLeagueInfo, updateIncludeTrader, updateBetType };
+const {
+  updateTicketInfo,
+  removeTicketInfo,
+  addTicketInfo,
+  clearPopupData,
+  setLeagueInfo,
+  updateIncludeTrader,
+  updateBetType,
+  cloneTicketInfo
+} = actions;
+export {
+  actions,
+  updateTicketInfo,
+  removeTicketInfo,
+  addTicketInfo,
+  clearPopupData,
+  setLeagueInfo,
+  updateIncludeTrader,
+  updateBetType,
+  cloneTicketInfo
+};
 
 export default reducer;

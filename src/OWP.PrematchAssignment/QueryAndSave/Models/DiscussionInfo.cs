@@ -33,4 +33,6 @@ public class DiscussionInfo
     public string Note { get; set; }
 
     public string Remark { get; set; }
+
+    public int CreatedBy { get; set; }
 }

@@ -28,6 +28,15 @@ public class CreateRCDiscussionHandler(
     INapSession currentSession,
     ILogger logger) : IRequestHandler<CreateRCDiscussionRequest, ResultDataObject>
 {
+    // Global configuration values for reuse
+    private readonly string _serverUrl = configuration["ChatServer:Url"];
+    private readonly string _botToken = configuration["ChatServer:BotToken"];
+    private readonly string _botUserId = configuration["ChatServer:BotUserId"];
+    private readonly string _parentChannelId = configuration["ChatServer:PrematchDirectionChannelId"];
+    
+    private readonly string _authToken = "X-Auth-Token";
+    private readonly string _userId = "X-User-Id";
+    private readonly string _contentType = "application/json";
 
     public async Task<ResultDataObject> Handle(CreateRCDiscussionRequest request, CancellationToken cancellationToken)
     {
@@ -48,14 +57,14 @@ public class CreateRCDiscussionHandler(
 
         if (request.IsIncludeTrader)
         {
-             var assignments = await preMatchAssignmentService.GetMatchAssignments(request.AdminSiteId);
-             var eventRecipients = await preMatchAssignmentService.GetEventRecipients();
+            var assignments = await preMatchAssignmentService.GetMatchAssignments(request.AdminSiteId);
+            var eventRecipients = await preMatchAssignmentService.GetEventRecipients();
 
             var (newDiscussionGroups, existingDiscussionGroups) = GroupAndSeparateDiscussions(request.DiscussionInfos, currentDiscussionInfos);
-            
+
             var newErrors = await ProcessNewDiscussions(newDiscussionGroups, assignments, eventRecipients, cancellationToken);
-            
-            var existingErrors = await ProcessExistingDiscussions(existingDiscussionGroups, cancellationToken);
+
+            var existingErrors = await ProcessExistingDiscussions(existingDiscussionGroups, currentDiscussionInfos.ToList(), assignments, cancellationToken);
 
             foreach (var error in newErrors)
             {
@@ -183,24 +192,38 @@ public class CreateRCDiscussionHandler(
 
     private async Task<Dictionary<(int AdminSiteMatchId, int BetType), string>> ProcessExistingDiscussions(
         List<IGrouping<object, DiscussionInfo>> existingDiscussionGroups,
+        List<DiscussionInfo> currentDiscussionInfos,
+        IEnumerable<Assignment> assignments,
         CancellationToken cancellationToken)
     {
         var errorGroups = new Dictionary<(int AdminSiteMatchId, int BetType), string>();
+        
 
         foreach (var group in existingDiscussionGroups)
         {
             var firstDiscussion = group.First();
+
+            var isUserCreator = currentDiscussionInfos.Exists(d => d.CreatedBy == currentSession.UserId && d.BetType == firstDiscussion.BetType);
+
             var groupIdentifier = (firstDiscussion.AdminSiteMatchId, firstDiscussion.BetType);
-            
+
             var discussionList = group.ToList();
             var message = BuildGroupedReplyMessage(discussionList);
             var (success, errorMessage) = await SendMessageToDiscussion(firstDiscussion.RCDiscussionGroupId, message, cancellationToken);
-            
+
+
             if (!success)
             {
                 errorGroups[groupIdentifier] = errorMessage ?? "Failed to send message to RocketChat discussion";
+                return errorGroups;
             }
-            
+            var users = GetUsersFromAssignments(assignments, new List<EventRecipient>(), firstDiscussion.BetType);
+            await InviteUsersToRoomAsync(firstDiscussion.RCDiscussionGroupId, users, cancellationToken);
+
+            if (!isUserCreator)
+            {
+                await SetOwnerForDiscussionAsync(firstDiscussion.RCDiscussionGroupId, currentSession.UserName, cancellationToken);
+            }
         }
 
         return errorGroups;
@@ -218,7 +241,6 @@ public class CreateRCDiscussionHandler(
         users.AddRange(eventRecipients.Select(e => e.UserName));
         return users;
     }
-
     private async Task<(bool Success, string ErrorMessage, string DiscussionGroupId)> CreateNewRCDiscussion(
         string discussionName,
         List<string> users,
@@ -227,13 +249,9 @@ public class CreateRCDiscussionHandler(
     {
         try
         {
-             var serverUrl = configuration["ChatServer:Url"];
-            var token = configuration["ChatServer:BotToken"];
-            var userId = configuration["ChatServer:BotUserId"];
-            var parentChannelId = configuration["ChatServer:PrematchDirectionChannelId"];
             var payload = new
             {
-                prid = parentChannelId,
+                prid = _parentChannelId,
                 t_name = discussionName,
                 users,
                 topic = "Live Soccer",
@@ -243,12 +261,12 @@ public class CreateRCDiscussionHandler(
             var content = new StringContent(
                 JsonSerializer.Serialize(payload),
                 Encoding.UTF8,
-                "application/json"
+                _contentType
             );
 
-            var httpRequest = new HttpRequestMessage(HttpMethod.Post, $"{serverUrl}rooms.createDiscussion");
-            httpRequest.Headers.Add("X-Auth-Token", token);
-            httpRequest.Headers.Add("X-User-Id", userId);
+            var httpRequest = new HttpRequestMessage(HttpMethod.Post, $"{_serverUrl}rooms.createDiscussion");
+            httpRequest.Headers.Add(_authToken, _botToken);
+            httpRequest.Headers.Add(_userId, _botUserId);
             httpRequest.Content = content;
 
             var response = await httpClient.SendAsync(httpRequest, cancellationToken);
@@ -262,12 +280,20 @@ public class CreateRCDiscussionHandler(
 
             var responseBody = await response.Content.ReadAsStringAsync(cancellationToken);
             var resultObj = JsonSerializer.Deserialize<CreateDiscussionResponse>(responseBody);
-            var discussionGroupId = resultObj?.Discussion?.Name ?? string.Empty;
-            
+
+            var discussionGroupId = resultObj?.Discussion?.Id
+                ?? resultObj?.Discussion?.Rid
+                ?? string.Empty;
+
+            // Get discussion name for return value (used elsewhere in the code)
+
             if (string.IsNullOrEmpty(discussionGroupId))
             {
-                return (false, "Failed to create RocketChat discussion: Empty discussion group ID returned", string.Empty);
+                return (false, "Failed to create RocketChat discussion: Empty discussion group ID or name returned", string.Empty);
             }
+
+            var currentUsername = currentSession.UserName;
+            await SetOwnerForDiscussionAsync(discussionGroupId, currentUsername, cancellationToken);
 
             return (true, null, discussionGroupId);
         }
@@ -278,6 +304,77 @@ public class CreateRCDiscussionHandler(
         }
     }
 
+    private async Task SetOwnerForDiscussionAsync(
+        string discussionRoomId,
+        string username,
+        CancellationToken cancellationToken)
+    {
+
+        try
+        {
+            var payload = new
+            {
+                roomId = discussionRoomId,
+                username,
+                roleName = "owner"
+            };
+
+            var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, _contentType);
+
+            var request = new HttpRequestMessage(HttpMethod.Post, $"{_serverUrl}roles.addUserToRole");
+            request.Headers.Add(_authToken, _botToken);
+            request.Headers.Add(_userId, _botUserId);
+            request.Content = content;
+
+            var response = await httpClient.SendAsync(request, cancellationToken);
+
+            var body = await response.Content.ReadAsStringAsync(cancellationToken);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                await logger.ErrorAsync($"Failed to set owner. Status: {response.StatusCode}, Body: {body}, payload: {payload}", "SetOwnerForDiscussion_Error");
+            }
+        }
+        catch (Exception ex)
+        {
+            await logger.ErrorAsync($"Exception while setting owner for discussion {discussionRoomId}: {ex.Message}", "SetOwnerForDiscussion_Error");
+        }
+    }
+
+    private async Task InviteUsersToRoomAsync(
+        string roomId,
+        List<string> usernames,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            var payload = new
+            {
+                roomId,
+                usernames
+            };
+
+            var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, _contentType);
+
+            var request = new HttpRequestMessage(HttpMethod.Post, $"{_serverUrl}groups.invite");
+            request.Headers.Add(_authToken, _botToken);
+            request.Headers.Add(_userId, _botUserId);
+            request.Content = content;
+
+            var response = await httpClient.SendAsync(request, cancellationToken);
+
+            var body = await response.Content.ReadAsStringAsync(cancellationToken);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                await logger.ErrorAsync($"Failed to invite user. Status: {response.StatusCode}, Body: {body}, payload: {payload}", "InviteUsersToRoom_Error");
+            }
+        }
+        catch (Exception ex)
+        {
+            await logger.ErrorAsync($"Exception while inviting users to room {roomId}: {ex.Message}", "InviteUsersToRoom_Error");
+        }
+    }
 
     private async Task<(bool Success, string ErrorMessage)> SendMessageToDiscussion(
         string roomId,
@@ -286,10 +383,6 @@ public class CreateRCDiscussionHandler(
     {
         try
         {
-            var serverUrl = configuration["ChatServer:Url"];
-            var token = configuration["ChatServer:BotToken"];
-            var userId = configuration["ChatServer:BotUserId"];
-
             var payload = new
             {
                 roomId,
@@ -299,12 +392,12 @@ public class CreateRCDiscussionHandler(
             var content = new StringContent(
                 JsonSerializer.Serialize(payload),
                 Encoding.UTF8,
-                "application/json"
+                _contentType
             );
 
-            var httpRequest = new HttpRequestMessage(HttpMethod.Post, $"{serverUrl}chat.postMessage");
-            httpRequest.Headers.Add("X-Auth-Token", token);
-            httpRequest.Headers.Add("X-User-Id", userId);
+            var httpRequest = new HttpRequestMessage(HttpMethod.Post, $"{_serverUrl}chat.postMessage");
+            httpRequest.Headers.Add(_authToken, _botToken);
+            httpRequest.Headers.Add(_userId, _botUserId);
             httpRequest.Content = content;
 
             var response = await httpClient.SendAsync(httpRequest, cancellationToken);
@@ -365,6 +458,8 @@ public class CreateRCDiscussionHandler(
             infoCounter++;
         }
 
+        message.AppendLine($"**Sender:** {currentSession.UserName}");
+
         return message.ToString().Trim();
     }
     
@@ -395,6 +490,12 @@ public class CreateDiscussionResponse
 
 public class DiscussionInfoResponse
 {
+    [System.Text.Json.Serialization.JsonPropertyName("_id")]
+    public string Id { get; set; }
+
+    [System.Text.Json.Serialization.JsonPropertyName("rid")]
+    public string Rid { get; set; }
+
     [System.Text.Json.Serialization.JsonPropertyName("name")]
     public string Name { get; set; }
 }
