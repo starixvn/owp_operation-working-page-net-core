@@ -141,19 +141,10 @@ public class QueryEventPickingServiceImpTests
     }
 
     [Fact]
-    public async Task GetMatchTurnOver_ShouldReturnMatchesWithTurnover_WhenUserHasPermission()
+    public async Task GetMatchTurnOver_ShouldReturnTurnoverData_WhenUserHasPermission()
     {
         // Arrange
-        var matches = new List<EventPickingModel>
-        {
-            new EventPickingModel
-            {
-                InfoSiteMatchId = 1,
-                LeagueName = "Test League",
-                HomeName = "Home Team",
-                AwayName = "Away Team"
-            }
-        };
+        var leagues = new List<string> { "Test League" };
 
         var period = new Period
         {
@@ -178,31 +169,26 @@ public class QueryEventPickingServiceImpTests
                 }, true)));
 
         // Act
-        var result = await _service.GetMatchTurnOver(matches, period);
+        var result = await _service.GetMatchTurnOver(leagues, period);
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(matches, result);
-        Assert.Single(result);
+        Assert.Single(result); // One LeagueTurnOver object per league
+        Assert.Equal("Test League", result.First().LeagueName);
+        Assert.Equal(4, result.First().TurnoverPeriod.Count()); // One for each period: 1m, 3m, 6m, 12m
+        Assert.Equal(4, result.First().MarginPeriod.Count()); // One for each period: 1m, 3m, 6m, 12m
+        Assert.All(result.First().TurnoverPeriod, item => Assert.Equal(1000, item.Value));
+        Assert.All(result.First().MarginPeriod, item => Assert.Equal(0.5, item.Value));
 
         // Verify that CalculateTurnOver_Margin was called with correct parameters
         await _mockTGRSService.Received(4).GetTurnOverWinLoss(Arg.Any<GetTurnOverWinLossCriteria>());
     }
 
     [Fact]
-    public async Task GetMatchTurnOver_ShouldReturnMatchesWithoutTurnover_WhenUserHasNoPermission()
+    public async Task GetMatchTurnOver_ShouldReturnEmptyTurnoverData_WhenUserHasNoPermission()
     {
         // Arrange
-        var matches = new List<EventPickingModel>
-        {
-            new EventPickingModel
-            {
-                InfoSiteMatchId = 1,
-                LeagueName = "Test League",
-                HomeName = "Home Team",
-                AwayName = "Away Team"
-            }
-        };
+        var leagues = new List<string> { "Test League" };
 
         var period = new Period
         {
@@ -215,31 +201,21 @@ public class QueryEventPickingServiceImpTests
         _mockPermissionService.GetPermissionModel(Arg.Any<string>()).Returns(permissions);
 
         // Act
-        var result = await _service.GetMatchTurnOver(matches, period);
+        var result = await _service.GetMatchTurnOver(leagues, period);
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(matches, result);
-        Assert.Single(result);
+        Assert.Empty(result);
 
         // Verify that TGRS service was NOT called
         await _mockTGRSService.DidNotReceive().GetTurnOverWinLoss(Arg.Any<GetTurnOverWinLossCriteria>());
     }
 
     [Fact]
-    public async Task CalculateTurnOver_Margin_WithMatchesAndPeriod_ShouldCalculateAndInitializeMarginInfo()
+    public async Task CalculateTurnOver_Margin_WithLeaguesAndPeriod_ShouldFetchTurnoverData()
     {
         // Arrange
-        var matches = new List<EventPickingModel>
-        {
-            new EventPickingModel
-            {
-                InfoSiteMatchId = 1,
-                LeagueName = "Test League",
-                HomeName = "Home Team",
-                AwayName = "Away Team"
-            }
-        };
+        var leagues = new List<string> { "Test League" };
 
         var period = new Period
         {
@@ -257,7 +233,7 @@ public class QueryEventPickingServiceImpTests
                 }, true)));
 
         // Act
-        await _service.CalculateTurnOver_Margin(matches, period);
+        await _service.CalculateTurnOver_Margin(leagues, period);
 
         // Assert
         await _mockTGRSService.Received().GetTurnOverWinLoss(Arg.Is<GetTurnOverWinLossCriteria>(x =>
