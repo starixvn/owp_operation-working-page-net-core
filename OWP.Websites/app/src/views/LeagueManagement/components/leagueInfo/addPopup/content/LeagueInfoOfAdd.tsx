@@ -3,7 +3,7 @@ import { updateObjectAddPopup } from '../slice/addSettingSlice';
 
 const LeagueInfoOfAdd = () => {
   const dispatch = useAppDispatch();
-  const { league, noOfferLive } = useAppSelector(
+  const { league } = useAppSelector(
     state => state.addSettingSlice
   );
 
@@ -26,22 +26,6 @@ const LeagueInfoOfAdd = () => {
           onChange={handleOnChange}
           value={league}
         />
-      </div>
-      <div className='content'>
-        <div className='left'>League Type</div>
-        <div className='checkbox form-check-league-type'>
-          <input
-            checked={noOfferLive}
-            id='chb-no-offer-live-league'
-            type='checkbox'
-            name='oldLeague'
-            className='form-check-input'
-            onChange={event => dispatch(updateObjectAddPopup({ property: 'noOfferLive', value: event.currentTarget.checked }))}
-          />
-          <label className='form-check-label' htmlFor='chb-no-offer-live-league'>
-            No Offer Live
-          </label>
-        </div>
       </div>
     </div>
   );

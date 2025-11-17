@@ -5,7 +5,7 @@ const LeagueInfo = (props: {
   league: string;
   shortLeague: string;
   isBlackList: boolean;
-  noOfferLive: boolean;
+  noOfferLive: number;
 }) => {
   const dispatch = useAppDispatch();
   const { league, shortLeague, isBlackList, noOfferLive } = props;
@@ -48,12 +48,12 @@ const LeagueInfo = (props: {
         </div>
         <div className='checkbox form-check-league-type'>
           <input
-            checked={noOfferLive}
+            checked={noOfferLive !== 0}
             id='chb-no-offer-live-league'
             type='checkbox'
             name='oldLeague'
             className='form-check-input'
-            onChange={event => dispatch(updateObject({ property: 'noOfferLive', value: event.currentTarget.checked }))}
+            onChange={event => dispatch(updateObject({ property: 'noOfferLive', value: event.currentTarget.checked ? 1 : 0 }))}
           />
           <label className='form-check-label' htmlFor='chb-no-offer-live-league'>
             No Offer Live

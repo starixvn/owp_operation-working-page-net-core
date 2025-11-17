@@ -30,7 +30,7 @@ type TEditSetting = {
   hasIpTv: boolean;
   remark: string;
   isBlackList: boolean;
-  noOfferLive: boolean;
+  noOfferLive: number;
   comment: string;
   shortLeague?: string;
 } & TAddExpressionKey;

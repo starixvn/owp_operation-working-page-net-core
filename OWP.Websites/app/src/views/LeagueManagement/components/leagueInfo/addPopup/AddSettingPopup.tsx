@@ -8,6 +8,7 @@ import MiscMatchOfAdd from './content/MiscMatchOfAdd';
 import CommandOfAdd from './content/CommandOfAdd';
 import LeagueInfoOfAdd from './content/LeagueInfoOfAdd';
 import { getLeagueGroupOptionsThunk } from '../component/commonThunk';
+import NoOfferLive from './content/NoOfferLive';
 
 const AddSettingPopup = () => {
   const dispatch = useAppDispatch();
@@ -28,6 +29,7 @@ const AddSettingPopup = () => {
         <LeagueInfoOfAdd />
         <ConditionOfAdd />
         <FtSpreadOfAdd />
+        <NoOfferLive />
         <MBOfAdd />
         <MiscMatchOfAdd />
       </ModalBody>

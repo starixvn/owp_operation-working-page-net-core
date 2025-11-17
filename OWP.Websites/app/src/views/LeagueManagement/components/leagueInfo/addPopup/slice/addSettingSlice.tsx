@@ -34,7 +34,7 @@ const addSetting = {
   division: [{ value: '', type: 'Contains' }] as Array<TCondition>,
   shortLeague: '',
   isBlackList: false,
-  noOfferLive: false
+  noOfferLive: 0
 };
 
 const AddSettingSlice = createSlice({
