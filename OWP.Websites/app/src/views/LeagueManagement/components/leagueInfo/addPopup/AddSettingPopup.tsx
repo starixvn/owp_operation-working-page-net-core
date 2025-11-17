@@ -28,8 +28,8 @@ const AddSettingPopup = () => {
       <ModalBody>
         <LeagueInfoOfAdd />
         <ConditionOfAdd />
-        <FtSpreadOfAdd />
         <NoOfferLive />
+        <FtSpreadOfAdd />
         <MBOfAdd />
         <MiscMatchOfAdd />
       </ModalBody>

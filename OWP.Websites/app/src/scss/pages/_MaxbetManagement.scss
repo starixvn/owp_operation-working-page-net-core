@@ -1198,6 +1198,12 @@
         border-radius: 2px;
       }
 
+      .no-offer-live .basic-multi-select {
+        font-size: 12px;
+        width: 220px;
+        height: 23px;
+      }
+
       input:focus {
         box-shadow: none;
         opacity: 1 !important;
@@ -2153,3 +2159,9 @@ textarea {
     }
   }
 }
+
+
+
+// .no-offer-live {
+//   display: flex;
+// }
