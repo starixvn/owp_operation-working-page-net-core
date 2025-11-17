@@ -42,7 +42,7 @@ public class LeagueSettingRequest : LeagueSettingCore
 
     public bool IsBlackList { get; set; }
 
-    public bool NoOfferLive { get; set; }
+    public int NoOfferLive { get; set; }
 
     public string FullConditionDescription => JsonConvert.SerializeObject(new LeagueSettingCondition
     {
