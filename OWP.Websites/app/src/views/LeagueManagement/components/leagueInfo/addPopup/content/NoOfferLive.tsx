@@ -16,7 +16,7 @@ const NoOfferLive = () => {
   const selectedOption = NoOfferLiveOptions.find(option => option.value === noOfferLive);
 
   return (
-    <div className='list no-offer-live'>
+    <div className='list'>
       <div className='title'>No Offer Live</div>
       <div className='content-column-2'>
         <div className='input-item no-offer-live'>
