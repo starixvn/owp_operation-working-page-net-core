@@ -9,8 +9,8 @@ public interface QueryEventPickingService
 {
     Task<EventPickingResult> Execute(EventPickingRequest request, IList<short> excludedUpdateTypes);
 
-    Task<List<EventPickingModel>> GetMatchTurnOver(List<EventPickingModel> matches, Period period);
-    
+    Task<List<LeagueTurnOver>> GetMatchTurnOver(List<string> leagues, Period period);
+
 }
 
 public class QueryEventPickingServiceImp(
@@ -51,16 +51,43 @@ public class QueryEventPickingServiceImp(
         };
     }
 
-    public async Task<List<EventPickingModel>> GetMatchTurnOver(List<EventPickingModel> matches, Period period)
+    public async Task<List<LeagueTurnOver>> GetMatchTurnOver(List<string> leagues, Period period)
     {
         var eventPickingPolicy = permissionService.GetPermissions(FunctionKeys.EventPickingNew);
         var turnoverMarginPolicy = eventPickingPolicy.GetPermissionModel(FunctionKeys.EventPickingNew_EventAndPerformance);
-        
+
         if (turnoverMarginPolicy.IsRead)
         {
-            await CalculateTurnOver_Margin(matches, period);
+            var twOneMonth = GetTurnover_WinLoss_TGRS(period.OneMonth, leagues);
+            var twThreeMonths = GetTurnover_WinLoss_TGRS(period.ThreeMonths, leagues);
+            var twSixMonths = GetTurnover_WinLoss_TGRS(period.SixMonths, leagues);
+            var twTwelveMonths = GetTurnover_WinLoss_TGRS(period.TwelveMonths, leagues);
+            await Task.WhenAll(twOneMonth, twThreeMonths, twSixMonths, twTwelveMonths);
+
+            var leagueTurnOvers = new List<LeagueTurnOver>();
+
+            foreach (var leagueName in leagues)
+            {
+                var leagueTurnOver = InitLeagueTurnOver(period, leagueName);
+                leagueTurnOvers.Add(leagueTurnOver);
+
+                var oneMonthData = twOneMonth.Result?.FirstOrDefault(x => x.LeagueName == leagueName);
+                PopulatePeriodData(oneMonthData, leagueTurnOver, "1m");
+
+                var threeMonthsData = twThreeMonths.Result?.FirstOrDefault(x => x.LeagueName == leagueName);
+                PopulatePeriodData(threeMonthsData, leagueTurnOver, "3m");
+
+                var sixMonthsData = twSixMonths.Result?.FirstOrDefault(x => x.LeagueName == leagueName);
+                PopulatePeriodData(sixMonthsData, leagueTurnOver, "6m");
+                // Get data for 12 months period
+                var twelveMonthsData = twTwelveMonths.Result?.FirstOrDefault(x => x.LeagueName == leagueName);
+                PopulatePeriodData(twelveMonthsData, leagueTurnOver, "12m");
+               
+            }
+
+            return leagueTurnOvers;
         }
-        return matches;
+        return new List<LeagueTurnOver>();
     }
 
     public async Task CalculateTurnOver_Margin(EventPickingRequest request, List<EventPickingModel> matches)
@@ -80,21 +107,13 @@ public class QueryEventPickingServiceImp(
         }
     }
 
-    public async Task CalculateTurnOver_Margin(List<EventPickingModel> matches, Period period)
+    public async Task CalculateTurnOver_Margin(List<string> leagues, Period period)
     {
-        var twOneMonth = GetTurnover_WinLoss_TGRS(period.OneMonth, matches);
-        var twThreeMonths = GetTurnover_WinLoss_TGRS(period.ThreeMonths, matches);
-        var twSixMonths = GetTurnover_WinLoss_TGRS(period.SixMonths, matches);
-        var twTwelveMonths = GetTurnover_WinLoss_TGRS(period.TwelveMonths, matches);
+        var twOneMonth = GetTurnover_WinLoss_TGRS(period.OneMonth, leagues);
+        var twThreeMonths = GetTurnover_WinLoss_TGRS(period.ThreeMonths, leagues);
+        var twSixMonths = GetTurnover_WinLoss_TGRS(period.SixMonths, leagues);
+        var twTwelveMonths = GetTurnover_WinLoss_TGRS(period.TwelveMonths, leagues);
         await Task.WhenAll(twOneMonth, twThreeMonths, twSixMonths, twTwelveMonths);
-        foreach (var match in matches)
-        {
-            InitTurnover_MarginInfo(period, match);
-            CalculateTurnover_WinLoss_PeriodOneMonth(twOneMonth.Result, match);
-            CalculateTurnover_WinLoss_PeriodThreeMonth(twThreeMonths.Result, match);
-            CalculateTurnover_WinLoss_PeriodSixMonth(twSixMonths.Result, match);
-            CalculateTurnover_WinLoss_PeriodTwelveMonths(twTwelveMonths.Result, match);
-        }
     }
 
     public static void CalculateTurnover_WinLoss_PeriodOneMonth(IList<TurnOverWinLossModel> tw, EventPickingModel match)
@@ -142,6 +161,23 @@ public class QueryEventPickingServiceImp(
         return new List<TurnOverWinLossModel>();
     }
 
+    public async Task<IList<TurnOverWinLossModel>> GetTurnover_WinLoss_TGRS(TimeRange period, List<string> leagues)
+    {
+        if (period is not null)
+        {
+            var result = await tGrsService.GetTurnOverWinLoss(new GetTurnOverWinLossCriteria
+            {
+                SportType = "Soccer",
+                FromDate = period.FromDate,
+                ToDate = period.ToDate,
+                LeagueName = leagues
+            });
+            return result.Item1;
+        }
+        return new List<TurnOverWinLossModel>();
+    }
+
+
     private static void InitTurnover_MarginInfo(Period period, EventPickingModel match)
     {
         if (period.OneMonth is not null)
@@ -165,6 +201,52 @@ public class QueryEventPickingServiceImp(
             match.MarginTwelveMonths = new MarginInfo("12m");
         }
     }
+
+    private static LeagueTurnOver InitLeagueTurnOver(Period period, string leagueName)
+    {
+        var leagueTurnOver = new LeagueTurnOver
+        {
+            LeagueName = leagueName,
+            TurnoverPeriod = new List<TurnOverInfo>(),
+            MarginPeriod = new List<MarginInfo>()
+        };
+
+        if (period.OneMonth is not null)
+        {
+            leagueTurnOver.TurnoverPeriod.Add(new TurnOverInfo("1m"));
+            leagueTurnOver.MarginPeriod.Add(new MarginInfo("1m"));
+        }
+        if (period.ThreeMonths is not null)
+        {
+            leagueTurnOver.TurnoverPeriod.Add(new TurnOverInfo("3m"));
+            leagueTurnOver.MarginPeriod.Add(new MarginInfo("3m"));
+        }
+        if (period.SixMonths is not null)
+        {
+            leagueTurnOver.TurnoverPeriod.Add(new TurnOverInfo("6m"));
+            leagueTurnOver.MarginPeriod.Add(new MarginInfo("6m"));
+        }
+        if (period.TwelveMonths is not null)
+        {
+            leagueTurnOver.TurnoverPeriod.Add(new TurnOverInfo("12m"));
+            leagueTurnOver.MarginPeriod.Add(new MarginInfo("12m"));
+        }
+
+        return leagueTurnOver;
+    }
+
+    private static void PopulatePeriodData(TurnOverWinLossModel periodData, LeagueTurnOver leagueTurnOver, string periodTitle)
+    {
+        if (periodData != null)
+        {
+            var turnoverInfo = leagueTurnOver.TurnoverPeriod.First(x => x.Title == periodTitle);
+            var marginInfo = leagueTurnOver.MarginPeriod.First(x => x.Title == periodTitle);
+            Utils.CalculateValueTurnover(periodData, turnoverInfo);
+            Utils.CalculateValueWinLoss(periodData, marginInfo);
+        }
+    }
+
+
 
     private static IList<string> GetLeagueName(List<EventPickingModel> matches)
     => matches.Select(x => x.LeagueName).Distinct().ToList();

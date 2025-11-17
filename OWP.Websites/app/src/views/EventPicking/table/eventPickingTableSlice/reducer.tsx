@@ -449,25 +449,25 @@ const EventPickingTableSlice = createSlice({
         state.loading = REQUEST_STATUS.idle;
       })
       .addCase(getTurnoverMargins.fulfilled, (state, { payload }) => {
-        const turnOverMargins = payload;
-        // Update turnover data for matches
+        const leagueTurnOvers = payload;
+        // Update turnover data for matches by league name
         state.entitiesOriginal.forEach(match => {
-          const turnoverMatch = turnOverMargins.find(
-            tm => tm.infoSiteMatchId === match.infoSiteMatchId
+          const leagueTurnOver = leagueTurnOvers.find(
+            lto => lto.leagueName === match.leagueName
           );
-          if (turnoverMatch) {
-            match.turnoverPeriod = turnoverMatch.turnoverPeriod;
-            match.marginPeriod = turnoverMatch.marginPeriod;
+          if (leagueTurnOver) {
+            match.turnoverPeriod = leagueTurnOver.turnoverPeriod;
+            match.marginPeriod = leagueTurnOver.marginPeriod;
           }
         });
 
         state.entities.forEach(match => {
-          const turnoverMatch = turnOverMargins.find(
-            tm => tm.infoSiteMatchId === match.infoSiteMatchId
+          const leagueTurnOver = leagueTurnOvers.find(
+            lto => lto.leagueName === match.leagueName
           );
-          if (turnoverMatch) {
-            match.turnoverPeriod = turnoverMatch.turnoverPeriod;
-            match.marginPeriod = turnoverMatch.marginPeriod;
+          if (leagueTurnOver) {
+            match.turnoverPeriod = leagueTurnOver.turnoverPeriod;
+            match.marginPeriod = leagueTurnOver.marginPeriod;
           }
         });
 

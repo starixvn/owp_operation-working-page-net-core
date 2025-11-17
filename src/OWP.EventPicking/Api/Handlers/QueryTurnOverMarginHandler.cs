@@ -3,28 +3,21 @@ using OWP.EventPicking.Api.Services;
 
 namespace OWP.EventPicking.Api.Handlers;
 
-public class QueryTurnOverMarginRequest : IRequest<List<MatchTurnOver>>
+public class QueryTurnOverMarginRequest : IRequest<List<LeagueTurnOver>>
 {
-    public List<EventPickingModel> Matches { get; set; }
+    public List<string> Leagues { get; set; }
 
     public Period Period { get; set; }
 
 }
 
 public class QueryTurnOverMarginHandler(QueryEventPickingService queryEventPickingService)
-    : IRequestHandler<QueryTurnOverMarginRequest, List<MatchTurnOver>>
+    : IRequestHandler<QueryTurnOverMarginRequest, List<LeagueTurnOver>>
 {
 
 
-    public async Task<List<MatchTurnOver>> Handle(QueryTurnOverMarginRequest request, CancellationToken cancellationToken)
+    public async Task<List<LeagueTurnOver>> Handle(QueryTurnOverMarginRequest request, CancellationToken cancellationToken)
     {
-        var matchTurnOvers = await queryEventPickingService.GetMatchTurnOver(request.Matches, request.Period);
-        return matchTurnOvers.Select(x => new MatchTurnOver
-        {
-            InfoSiteMatchId = x.InfoSiteMatchId,
-            LeagueName = x.LeagueName,
-            TurnoverPeriod = x.TurnoverPeriod,
-            MarginPeriod = x.MarginPeriod
-        }).ToList();
+        return await queryEventPickingService.GetMatchTurnOver(request.Leagues, request.Period);
     }
 }

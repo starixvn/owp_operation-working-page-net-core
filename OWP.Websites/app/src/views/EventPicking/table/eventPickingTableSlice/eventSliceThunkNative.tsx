@@ -6,10 +6,7 @@ import { TFilter, TPeriodFilter } from '../../types/filterType';
 import { buildUrl } from '../../UtilsNative';
 
 type TTurnoverFilter = {
-  Matches: Array<{
-    InfoSiteMatchId: number;
-    LeagueName: string;
-  }>
+  Leagues: Array<string>
   Period: TPeriodFilter;
 };
 
@@ -22,13 +19,10 @@ const getEventPickings = createAsyncThunk<TResult, TFilter>(
 
     // Auto dispatch turnover request after event picking
     if (result.filteredMatches && result.filteredMatches.length > 0) {
-      const matchesForTurnover = result.filteredMatches.map(match => ({
-        InfoSiteMatchId: match.infoSiteMatchId,
-        LeagueName: match.leagueName
-      }));
+      const leaguesForTurnover = Array.from(new Set(result.filteredMatches.map(match => match.leagueName)));
 
       const turnoverParams: TTurnoverFilter = {
-        Matches: matchesForTurnover,
+        Leagues: leaguesForTurnover,
         Period: modelFilter.period as TPeriodFilter
       };
 
@@ -48,13 +42,10 @@ const editEventPickings = createAsyncThunk<TResult, TFilter>(
 
     // Auto dispatch turnover request after event picking
     if (result.filteredMatches && result.filteredMatches.length > 0) {
-      const matchesForTurnover = result.filteredMatches.map(match => ({
-        InfoSiteMatchId: match.infoSiteMatchId,
-        LeagueName: match.leagueName
-      }));
+      const leaguesForTurnover = Array.from(new Set(result.filteredMatches.map(match => match.leagueName)));
 
       const turnoverParams: TTurnoverFilter = {
-        Matches: matchesForTurnover,
+        Leagues: leaguesForTurnover,
         Period: modelFilter.period as TPeriodFilter
       };
 
