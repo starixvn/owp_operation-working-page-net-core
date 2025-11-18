@@ -4,7 +4,7 @@ import MultipleSelectionTemplate from './MultipleSelectionTemplate';
 const OfferLiveFilter = () => {
   return (
     <MultipleSelectionTemplate
-      label='Offer Live'
+      label='No Offer Live'
       options={NoOfferLive}
       value={NoOfferLive}
       filterKey='OfferLive'
