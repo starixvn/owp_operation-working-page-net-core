@@ -29,6 +29,13 @@ public class LeagueSettingChangeService : ILeagueSettingChangeService
         { "LstNote", "LST Note" },
         { "Remark2", "Remark 2" }
     };
+    private static readonly Dictionary<string, string> NoOfferLiveDisplayNames = new()
+    {
+        { "0", "None" },
+        { "1", "All Matches" },
+        { "2", "Weekend" },
+        { "3", "Weekend PH" }
+    };
 
     public List<LogDetail> LogProcessingChanges(LeagueSettingChangeModel before, LeagueSettingChangeModel after)
     {
@@ -55,12 +62,22 @@ public class LeagueSettingChangeService : ILeagueSettingChangeService
             var displayName = PropertyDisplayNames.TryGetValue(property.Name, out var name)
                 ? name
                 : property.Name;
+                
+            var oldValue = FormatValue(beforeValue);
+            var newValue = FormatValue(afterValue);
+
+            if (property.Name == "NoOfferLive")
+            {
+                oldValue = NoOfferLiveDisplayNames.TryGetValue(oldValue, out var value1) ? value1 : oldValue;
+
+                newValue = NoOfferLiveDisplayNames.TryGetValue(newValue, out var value2) ? value2 : newValue;
+            }
 
             changes.Add(new LogDetail
             {
                 Field = displayName,
-                OldValue = FormatValue(beforeValue),
-                NewValue = FormatValue(afterValue)
+                OldValue = oldValue,
+                NewValue = newValue
             });
         }
         
@@ -70,7 +87,7 @@ public class LeagueSettingChangeService : ILeagueSettingChangeService
    
     
     public static bool AreValuesEqual(object value1, object value2)
-    {
+    {   
         if (value1 == null && value2 == null)
         {
             return true;
