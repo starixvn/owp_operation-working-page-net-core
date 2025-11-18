@@ -29,6 +29,20 @@ const NoOfferLive = ({ noOfferLive }: { noOfferLive: number }) => {
             name='no-offer-live'
             onChange={handleOnChange}
           />
+          {noOfferLive === 3 && (
+            <div className='hint-message' style={{
+              marginTop: '8px',
+              padding: '8px 12px',
+              backgroundColor: '#f0f8ff',
+              border: '1px solid #b3d9ff',
+              borderRadius: '4px',
+              fontSize: '12px',
+              color: '#0066cc',
+              fontStyle: 'italic'
+            }}>
+              Hint: Peak hours range from 8:00 PM to 2:59 AM (GMT+8).
+            </div>
+          )}
         </div>
       </div>
     </div>
