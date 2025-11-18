@@ -1,22 +1,12 @@
 {
-    "IS_BLACKLIST_OPTIONS": [
-        {
-            "value": 1,
-            "label": "Yes"
-        },
-        {
-            "value": 0,
-            "label": "No"
-        }
-    ],
-    "IS_OFFERLIVE_OPTIONS": [
-        {
-            "value": 0,
-            "label": "Yes"
-        },
-        {
-            "value": 1,
-            "label": "No"
-        }
-    ]
+  "IS_BLACKLIST_OPTIONS": [
+    {
+      "value": 1,
+      "label": "Yes"
+    },
+    {
+      "value": 0,
+      "label": "No"
+    }
+  ]
 }

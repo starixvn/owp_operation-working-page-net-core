@@ -15,15 +15,13 @@ import {
   buildDefaultTableFilter,
   updateMultipleFilterOptionsAndSelected
 } from './reducerHelper';
-import {
-  IS_BLACKLIST_OPTIONS,
-  IS_OFFERLIVE_OPTIONS
-} from '../../filter/filterConst.json';
+import { IS_BLACKLIST_OPTIONS } from '../../filter/filterConst.json';
 import {
   addOrReplaceFilterState,
   pushOrUpdateObject
 } from '../../../../../Shared/Utils';
 import filterByKeyword from '../filterByKeyword';
+import { NoOfferLive } from '../../../../constants/MaxbetConst';
 
 const applyFiltersToData = (state: TTableSlice) => {
   return executeFilterTable(state, filterByKeyword);
@@ -45,7 +43,7 @@ const LeagueInfoTableSlice = createSlice({
       leagueName: '',
       leagueGroupId: null,
       BlackList: IS_BLACKLIST_OPTIONS.map(m => m.value),
-      OfferLive: IS_OFFERLIVE_OPTIONS.map(m => m.value)
+      OfferLive: NoOfferLive.map(m => m.value)
     },
     focusSettingId: 0,
     multipleFilter: {
