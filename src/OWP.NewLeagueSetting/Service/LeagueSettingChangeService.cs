@@ -32,7 +32,7 @@ public class LeagueSettingChangeService : ILeagueSettingChangeService
     private static readonly Dictionary<string, string> NoOfferLiveDisplayNames = new()
     {
         { "0", "None" },
-        { "1", "All Matches" },
+        { "1", "Weekday and Weekend" },
         { "2", "Weekend" },
         { "3", "Weekend PH" }
     };
