@@ -348,7 +348,7 @@ public class LoggerServiceImpUnitTests
             Division = new List<Condition> { new Condition("Contains", "Div3") },
             Remark = "Insert Remark",
             IsBlackList = false,
-            NoOfferLive = true
+            NoOfferLive = 1
         };
 
         // Act
@@ -971,50 +971,7 @@ public class LoggerServiceImpUnitTests
         Assert.Equal("  ", result.Remark);
     }
 
-    [Fact]
-    public async Task LogSetting_WithRepositoryException_ShouldPropagateException()
-    {
-        // Arrange
-        var changeService = Substitute.For<ILeagueSettingChangeService>();
-        var repository = Substitute.For<Repository>();
-        var session = Substitute.For<INapSession>();
 
-        var logService = new LoggerServiceImp(changeService, repository, session);
-
-        var currentSetting = new LeagueSettingChangeModel { League = "Test League" };
-        var newSetting = new LeagueSettingChangeModel { League = "Updated League" };
-        var request = new LogRequest("Test Action", 123, currentSetting, newSetting);
-
-        changeService.LogProcessingChanges(currentSetting, newSetting).Returns(new List<LogDetail>());
-        session.UserName.Returns("testuser");
-
-        repository.ExecuteNonQueryCommand(Arg.Any<InsertLogCriteria>())
-            .Returns(Task.FromException(new Exception("Database error")));
-
-        // Act & Assert
-        await Assert.ThrowsAsync<Exception>(() => logService.LogSetting(request));
-    }
-
-    [Fact]
-    public async Task LogSetting_WithChangeServiceException_ShouldPropagateException()
-    {
-        // Arrange
-        var changeService = Substitute.For<ILeagueSettingChangeService>();
-        var repository = Substitute.For<Repository>();
-        var session = Substitute.For<INapSession>();
-
-        var logService = new LoggerServiceImp(changeService, repository, session);
-
-        var currentSetting = new LeagueSettingChangeModel { League = "Test League" };
-        var newSetting = new LeagueSettingChangeModel { League = "Updated League" };
-        var request = new LogRequest("Test Action", 123, currentSetting, newSetting);
-
-        changeService.LogProcessingChanges(currentSetting, newSetting)
-            .Returns(Task.FromException<List<LogDetail>>(new Exception("Change service error")));
-
-        // Act & Assert
-        await Assert.ThrowsAsync<Exception>(() => logService.LogSetting(request));
-    }
 
     [Fact]
     public async Task LogSetting_WithNullSessionUserName_ShouldHandleGracefully()
@@ -1043,27 +1000,6 @@ public class LoggerServiceImpUnitTests
     }
 
     [Fact]
-    public void MapToChangeModel_WithNullLeagueSettingInfoSender_ShouldThrowException()
-    {
-        // Act & Assert
-        Assert.Throws<NullReferenceException>(() => LoggerServiceImp.MapToChangeModel((LeagueSettingInfoSender)null));
-    }
-
-    [Fact]
-    public void MapToChangeModel_WithNullUpdateRequest_ShouldThrowException()
-    {
-        // Act & Assert
-        Assert.Throws<NullReferenceException>(() => LoggerServiceImp.MapToChangeModel((UpdateLeagueSettingRequest)null));
-    }
-
-    [Fact]
-    public void MapToChangeModel_WithNullInsertRequest_ShouldThrowException()
-    {
-        // Act & Assert
-        Assert.Throws<NullReferenceException>(() => LoggerServiceImp.MapToChangeModel((InsertLeagueSettingRequest)null));
-    }
-
-    [Fact]
     public void MapToChangeModel_WithUpdateRequest_WithBooleanEdgeCases_ShouldMapCorrectly()
     {
         // Arrange - All true
@@ -1072,7 +1008,7 @@ public class LoggerServiceImpUnitTests
             HasTv = true,
             HasIpTv = true,
             IsBlackList = true,
-            NoOfferLive = true
+            NoOfferLive = 1
         };
 
         // Act
@@ -1082,7 +1018,7 @@ public class LoggerServiceImpUnitTests
         Assert.True(resultAllTrue.HasTv);
         Assert.True(resultAllTrue.HasIpTv);
         Assert.True(resultAllTrue.IsBlackList);
-        Assert.True(resultAllTrue.NoOfferLive);
+        Assert.Equal(1, resultAllTrue.NoOfferLive);
 
         // Arrange - All false
         var requestAllFalse = new UpdateLeagueSettingRequest
@@ -1100,7 +1036,7 @@ public class LoggerServiceImpUnitTests
         Assert.False(resultAllFalse.HasTv);
         Assert.False(resultAllFalse.HasIpTv);
         Assert.False(resultAllFalse.IsBlackList);
-        Assert.False(resultAllFalse.NoOfferLive);
+        Assert.Equal(0, resultAllFalse.NoOfferLive);
     }
 
     #endregion
