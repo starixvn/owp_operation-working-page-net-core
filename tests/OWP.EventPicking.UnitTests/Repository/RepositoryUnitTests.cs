@@ -6,6 +6,7 @@ using Fanex.Data.Repository;
 using Fanex.NAP.Client;
 using MediatR;
 using NSubstitute;
+using Olympus.OWP.Log.Criteria;
 using OWP.EventPicking;
 using OWP.EventPicking.Api.Criteria;
 using OWP.EventPicking.Api.Handlers;
@@ -158,12 +159,16 @@ public class RepositoryUnitTests
     }
 
     [Fact]
-    public async Task InsertOrDeleteNoOfferMatch_ShouldExecuteCriteriaWithSerializedData()
+    public async Task InsertOrUpdateNoOfferMatch_ShouldExecuteCriteriaWithSerializedData()
     {
         // Arrange
         var request = new InsertOrUpdateNoOfferMatchRequest
         {
-            NoOfferMatch = new List<NoOfferMatchInfo> { new NoOfferMatchInfo { InfoSiteMatchId = 123, IsNoOffer = true } }
+            NoOfferMatch = new List<NoOfferMatchInfo>
+            {
+                new NoOfferMatchInfo { InfoSiteMatchId = 123, IsNoOffer = true, ChildMatchId = null },
+                new NoOfferMatchInfo { InfoSiteMatchId = 456, IsNoOffer = false, ChildMatchId = 789 }
+            }
         };
         _session.UserId.Returns(456);
 
@@ -171,9 +176,18 @@ public class RepositoryUnitTests
         await _repository.InsertOrUpdateNoOfferMatch(request);
 
         // Assert
-        // Simplified assertion - just verify that ExecuteAsync was called with the correct type
+        // Verify that ExecuteAsync was called twice - once for the criteria and once for logging
         await _dynamicRepository.Received(1).ExecuteAsync(
-            Arg.Any<InsertOrUpdateNoOfferMatchCriteria>(), "");
+            Arg.Is<InsertOrUpdateNoOfferMatchCriteria>(c =>
+                c.MatchInfoJson.Contains("123") && // Only the match with ChildMatchId == null should be included
+                !c.MatchInfoJson.Contains("456") && // The match with ChildMatchId != null should be excluded
+                c.ActorId == 456));
+
+        await _dynamicRepository.Received(1).ExecuteAsync(
+            Arg.Is<OwpLogCriteria>(c =>
+                c.Action == "EventPicking-UpdateNoOfferMatch" &&
+                c.Payload.Contains("123") &&
+                !c.Payload.Contains("456")));
     }
 
     [Fact]
