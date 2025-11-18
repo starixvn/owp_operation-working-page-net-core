@@ -225,7 +225,7 @@ public class RemoveLeagueSettingHandlerUnitTest
                 Remark = "Test Remark"
             }),
             IsBlackList = false,
-            NoOfferLive = false
+            NoOfferLive = 1
         };
 
         repository.QueryLeagueSettingDetail(456).Returns(leagueSetting);
