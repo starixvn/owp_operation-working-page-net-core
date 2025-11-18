@@ -143,8 +143,11 @@ public class InsertLeagueSettingCriteriaUnitTest
         criteria.FullConditionDescription = "Test Full Condition Description";
         Assert.Equal("Test Full Condition Description", criteria.FullConditionDescription);
 
-        criteria.NoOfferLive = true;
-        Assert.True(criteria.NoOfferLive);
+        criteria.NoOfferLive = 1;
+        Assert.Equal(1, criteria.NoOfferLive);
+
+        criteria.League = "Test League";
+        Assert.Equal("Test League", criteria.League);
     }
 
     [Fact]
@@ -182,6 +185,7 @@ public class InsertLeagueSettingCriteriaUnitTest
         Assert.Null(criteria.Remark2);
         Assert.Null(criteria.Comment);
         Assert.Null(criteria.FullConditionDescription);
-        Assert.False(criteria.NoOfferLive);
+        Assert.Equal(0, criteria.NoOfferLive);
+        Assert.Null(criteria.League);
     }
 }

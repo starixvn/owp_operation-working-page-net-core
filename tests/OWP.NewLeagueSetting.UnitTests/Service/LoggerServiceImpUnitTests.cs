@@ -123,7 +123,7 @@ public class LoggerServiceImpUnitTests
             LstNote = "Test Note",
             Remark2 = "Test Remark 2",
             IsBlackList = false,
-            NoOfferLive = true,
+            NoOfferLive = 1,
             FullConditionDescription = System.Text.Json.JsonSerializer.Serialize(new LeagueSettingCondition
             {
                 HasTv = true,
@@ -153,7 +153,7 @@ public class LoggerServiceImpUnitTests
         Assert.Equal("Div1", result.Division[0].Value);
         Assert.Equal("Condition Remark", result.Remark);
         Assert.False(result.IsBlackList);
-        Assert.True(result.NoOfferLive);
+        Assert.Equal(1, result.NoOfferLive);
     }
 
     [Fact]
@@ -214,7 +214,7 @@ public class LoggerServiceImpUnitTests
             Division = new List<Condition> { new Condition("Equals", "Div2") },
             Remark = "Request Remark",
             IsBlackList = true,
-            NoOfferLive = false
+            NoOfferLive = 0
         };
 
         // Act
@@ -240,7 +240,7 @@ public class LoggerServiceImpUnitTests
         Assert.Equal("Div2", result.Division[0].Value);
         Assert.Equal("Request Remark", result.Remark);
         Assert.True(result.IsBlackList);
-        Assert.False(result.NoOfferLive);
+        Assert.Equal(0, result.NoOfferLive);
     }
 
     [Fact]
@@ -374,7 +374,7 @@ public class LoggerServiceImpUnitTests
         Assert.Equal("Div3", result.Division[0].Value);
         Assert.Equal("Insert Remark", result.Remark);
         Assert.False(result.IsBlackList);
-        Assert.True(result.NoOfferLive);
+        Assert.Equal(1, result.NoOfferLive);
     }
 
     [Fact]
@@ -753,7 +753,7 @@ public class LoggerServiceImpUnitTests
             LstNote = "Important Note",
             Remark2 = "Additional Remark",
             IsBlackList = true,
-            NoOfferLive = false,
+            NoOfferLive = 0,
             Spread_HDP_Value = 1.5m,
             Spread_OU_Value = 3.5m,
             MaxbetWD_HDP_Value = 15000,
@@ -795,7 +795,7 @@ public class LoggerServiceImpUnitTests
         Assert.Equal("Premier", result.Division[0].Value);
         Assert.Equal("Top League", result.Remark);
         Assert.True(result.IsBlackList);
-        Assert.False(result.NoOfferLive);
+        Assert.Equal(0, result.NoOfferLive);
     }
 
     #endregion
@@ -972,6 +972,98 @@ public class LoggerServiceImpUnitTests
     }
 
     [Fact]
+    public async Task LogSetting_WithRepositoryException_ShouldPropagateException()
+    {
+        // Arrange
+        var changeService = Substitute.For<ILeagueSettingChangeService>();
+        var repository = Substitute.For<Repository>();
+        var session = Substitute.For<INapSession>();
+
+        var logService = new LoggerServiceImp(changeService, repository, session);
+
+        var currentSetting = new LeagueSettingChangeModel { League = "Test League" };
+        var newSetting = new LeagueSettingChangeModel { League = "Updated League" };
+        var request = new LogRequest("Test Action", 123, currentSetting, newSetting);
+
+        changeService.LogProcessingChanges(currentSetting, newSetting).Returns(new List<LogDetail>());
+        session.UserName.Returns("testuser");
+
+        repository.ExecuteNonQueryCommand(Arg.Any<InsertLogCriteria>())
+            .Returns(Task.FromException(new Exception("Database error")));
+
+        // Act & Assert
+        await Assert.ThrowsAsync<Exception>(() => logService.LogSetting(request));
+    }
+
+    [Fact]
+    public async Task LogSetting_WithChangeServiceException_ShouldPropagateException()
+    {
+        // Arrange
+        var changeService = Substitute.For<ILeagueSettingChangeService>();
+        var repository = Substitute.For<Repository>();
+        var session = Substitute.For<INapSession>();
+
+        var logService = new LoggerServiceImp(changeService, repository, session);
+
+        var currentSetting = new LeagueSettingChangeModel { League = "Test League" };
+        var newSetting = new LeagueSettingChangeModel { League = "Updated League" };
+        var request = new LogRequest("Test Action", 123, currentSetting, newSetting);
+
+        changeService.LogProcessingChanges(currentSetting, newSetting)
+            .Returns(Task.FromException<List<LogDetail>>(new Exception("Change service error")));
+
+        // Act & Assert
+        await Assert.ThrowsAsync<Exception>(() => logService.LogSetting(request));
+    }
+
+    [Fact]
+    public async Task LogSetting_WithNullSessionUserName_ShouldHandleGracefully()
+    {
+        // Arrange
+        var changeService = Substitute.For<ILeagueSettingChangeService>();
+        var repository = Substitute.For<Repository>();
+        var session = Substitute.For<INapSession>();
+
+        var logService = new LoggerServiceImp(changeService, repository, session);
+
+        var currentSetting = new LeagueSettingChangeModel { League = "Test League" };
+        var newSetting = new LeagueSettingChangeModel { League = "Updated League" };
+        var request = new LogRequest("Test Action", 123, currentSetting, newSetting);
+
+        changeService.LogProcessingChanges(currentSetting, newSetting).Returns(new List<LogDetail>());
+        session.UserName.Returns((string)null);
+
+        // Act
+        await logService.LogSetting(request);
+
+        // Assert
+        await repository.Received(1).ExecuteNonQueryCommand(Arg.Is<InsertLogCriteria>(criteria =>
+            criteria.ModifiedBy == null
+        ));
+    }
+
+    [Fact]
+    public void MapToChangeModel_WithNullLeagueSettingInfoSender_ShouldThrowException()
+    {
+        // Act & Assert
+        Assert.Throws<NullReferenceException>(() => LoggerServiceImp.MapToChangeModel((LeagueSettingInfoSender)null));
+    }
+
+    [Fact]
+    public void MapToChangeModel_WithNullUpdateRequest_ShouldThrowException()
+    {
+        // Act & Assert
+        Assert.Throws<NullReferenceException>(() => LoggerServiceImp.MapToChangeModel((UpdateLeagueSettingRequest)null));
+    }
+
+    [Fact]
+    public void MapToChangeModel_WithNullInsertRequest_ShouldThrowException()
+    {
+        // Act & Assert
+        Assert.Throws<NullReferenceException>(() => LoggerServiceImp.MapToChangeModel((InsertLeagueSettingRequest)null));
+    }
+
+    [Fact]
     public void MapToChangeModel_WithUpdateRequest_WithBooleanEdgeCases_ShouldMapCorrectly()
     {
         // Arrange - All true
@@ -998,7 +1090,7 @@ public class LoggerServiceImpUnitTests
             HasTv = false,
             HasIpTv = false,
             IsBlackList = false,
-            NoOfferLive = false
+            NoOfferLive = 0
         };
 
         // Act
