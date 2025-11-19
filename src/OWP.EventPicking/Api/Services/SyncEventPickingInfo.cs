@@ -5,7 +5,7 @@ namespace OWP.EventPicking.Api.Services;
 
 public interface SyncEventPickingInfo
 {
-    Task Execute(List<EventPickingModel> matchFiltered);
+    Task Execute(List<EventPickingModel> matchFiltered, List<LeagueSettingInfoSender> leagueSetting, List<Condition> tvList);
 }
 
 public class SyncEventPickingInfoImp : SyncEventPickingInfo
