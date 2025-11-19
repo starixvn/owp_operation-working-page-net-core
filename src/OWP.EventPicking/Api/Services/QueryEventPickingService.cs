@@ -325,10 +325,10 @@ public class QueryEventPickingServiceImp(
         return eventPicking;
     }
 
-    private static int ConvertBoolToInt(bool value) => value ? 1 : 0;
+    private static int ConvertBoolToInt(bool? value) => value == true ? 1 : 0;
 
     private static List<MatchOfferInfo> SelectMatchOfferInfos(List<EventPickingModel> matches)
-        => matches.Select(e => new MatchOfferInfo(e.InfoSiteMatchId, e.IsNoOffer, e.EventDateTime)).ToList();
+        => matches.Select(e => new MatchOfferInfo(e.InfoSiteMatchId, e.IsNoOffer ?? false, e.EventDateTime)).ToList();
 
     private static void HideNoNeedIncludeMiscMatch(ref List<EventPickingModel> allMatches, string infoToHideMatch)
     {

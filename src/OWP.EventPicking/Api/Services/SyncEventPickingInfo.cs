@@ -5,12 +5,12 @@ namespace OWP.EventPicking.Api.Services;
 
 public interface SyncEventPickingInfo
 {
-    Task Execute(List<EventPickingModel> matchFiltered, List<LeagueSettingInfoSender> leagueSetting, List<Condition> tvList);
+    void Execute(List<EventPickingModel> matchFiltered, List<LeagueSettingInfoSender> leagueSetting, List<Condition> tvList);
 }
 
 public class SyncEventPickingInfoImp : SyncEventPickingInfo
 {
-    public async Task Execute(List<EventPickingModel> matchFiltered, List<LeagueSettingInfoSender> leagueSetting, List<Condition> tvList)
+    public void Execute(List<EventPickingModel> matchFiltered, List<LeagueSettingInfoSender> leagueSetting, List<Condition> tvList)
     {
         foreach (var match in matchFiltered)
         {

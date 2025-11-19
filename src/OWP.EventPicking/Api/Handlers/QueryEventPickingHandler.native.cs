@@ -34,7 +34,7 @@ public class QueryEventPickingHandler(
         var tvList = (await repository.GetTVList()).ToList();
         var matchFiltered = mainMatches.FilteredMatches;
 
-        await syncEventPickingInfo.Execute(matchFiltered, leagueSetting, tvList);
+        syncEventPickingInfo.Execute(matchFiltered, leagueSetting, tvList);
 
         return mainMatches;
     }
