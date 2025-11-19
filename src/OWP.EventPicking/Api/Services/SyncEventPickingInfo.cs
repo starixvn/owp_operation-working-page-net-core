@@ -25,21 +25,13 @@ public class SyncEventPickingInfoImp : SyncEventPickingInfo
 
     private void ProcessLeagueSettingsForMatch(List<LeagueSettingInfoSender> leagueSettingByLeagueId, EventPickingModel match, List<Condition> tvList)
     {
-        switch (leagueSettingByLeagueId.Count)
+        if (leagueSettingByLeagueId.Count > 0)
         {
-            case 0:
-                break;
-            case 1:
-                var singleSetting = leagueSettingByLeagueId[0];
-                SuggestionValue(match, singleSetting);
-                break;
-            default:
-                var selectedSetting = HandleMappingForMultipleSettings(match, leagueSettingByLeagueId, tvList);
-                if (selectedSetting != null)
-                {
-                    SuggestionValue(match, selectedSetting);
-                }
-                break;
+            var selectedSetting = HandleMappingForMultipleSettings(match, leagueSettingByLeagueId, tvList);
+            if (selectedSetting != null)
+            {
+                SuggestionValue(match, selectedSetting);
+            }
         }
     }
 
