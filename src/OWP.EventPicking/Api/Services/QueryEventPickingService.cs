@@ -46,10 +46,7 @@ public class QueryEventPickingServiceImp(
         var matchesByDate = SelectMatchOfferInfos(ExcludeUpdateType(matches, excludedUpdateTypes));
         var filteredMatches = ExcludeUpdateType(allMatches, excludedUpdateTypes);
 
-        var leagueSetting = (await repository.QueryLeagueSetting()).ToList();
-        var tvList = (await repository.GetTVList()).ToList();
-
-        syncEventPickingInfo.Execute(filteredMatches, leagueSetting, tvList);
+        filteredMatches = await SyncInfoFromLeagueSetting(filteredMatches, request);
 
         return new EventPickingResult
         {
@@ -258,22 +255,36 @@ public class QueryEventPickingServiceImp(
     private static IList<string> GetLeagueName(List<EventPickingModel> matches)
     => matches.Select(x => x.LeagueName).Distinct().ToList();
 
+    private async Task<List<EventPickingModel>> SyncInfoFromLeagueSetting(
+        List<EventPickingModel> filteredMatches,
+        EventPickingRequest request)
+    {
+        var leagueSetting = (await repository.QueryLeagueSetting()).ToList();
+        var tvList = (await repository.GetTVList()).ToList();
+
+        syncEventPickingInfo.Execute(filteredMatches, leagueSetting, tvList);
+
+        return filteredMatches
+            .Where(x => CheckCondition1(x, request))
+            .ToList();
+    }
+
     private static List<EventPickingModel> FilterAllMatchesByRequest(List<EventPickingModel> matches, EventPickingRequest request)
     => matches
         .Where(x => ValidMatch(x, request))
         .ToList();
 
     public static bool ValidMatch(EventPickingModel match, EventPickingRequest condition)
-        => CheckCondition1(match, condition) && CheckCondition2(match, condition) && CheckCondition3(match, condition);
+        =>  CheckCondition2(match, condition) && CheckCondition3(match, condition);
 
     private static bool CheckCondition1(EventPickingModel match, EventPickingRequest condition)
-        => condition.SelectGame.Contains(ConvertBoolToInt(match.IsNoOffer))
-           && condition.FilterMatchCategory.Contains(ConvertBoolToInt(match.IsSaba));
+        => condition.SelectGame.Contains(ConvertBoolToInt(match.IsNoOffer));
 
     private static bool CheckCondition2(EventPickingModel match, EventPickingRequest condition)
         => condition.FilterMatch.Contains(match.RowColor, StringComparer.OrdinalIgnoreCase)
            && condition.HasProvider.Contains(match.HasProvider, StringComparer.OrdinalIgnoreCase)
-           && condition.HasOtherProvider.Contains(match.HasOtherProvider, StringComparer.OrdinalIgnoreCase);
+           && condition.HasOtherProvider.Contains(match.HasOtherProvider, StringComparer.OrdinalIgnoreCase)
+           && condition.FilterMatchCategory.Contains(ConvertBoolToInt(match.IsSaba));
 
     private static bool CheckCondition3(EventPickingModel match, EventPickingRequest condition)
         => CheckUpdateType(match, condition);
