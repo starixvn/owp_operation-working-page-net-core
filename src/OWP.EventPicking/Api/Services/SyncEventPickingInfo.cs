@@ -43,7 +43,7 @@ public class SyncEventPickingInfoImp : SyncEventPickingInfo
                 League = league,
                 RoundDistance = league.FullConditionDescription is null
                     ? 0
-                    : CheckMatchValidMappingWithLeagueManagementAndGetDistance(match, league, tvList)
+                    : CheckMatchValidMappingWithLeagueManagement(match, league, tvList)
             })
             .Where(x => x.RoundDistance.HasValue)
             .ToList();
@@ -96,7 +96,7 @@ public class SyncEventPickingInfoImp : SyncEventPickingInfo
         return 12;
     }
 
-    private int? CheckMatchValidMappingWithLeagueManagementAndGetDistance(EventPickingModel match, LeagueSettingInfoSender leagueSetting, List<Condition> tvList)
+    private int? CheckMatchValidMappingWithLeagueManagement(EventPickingModel match, LeagueSettingInfoSender leagueSetting, List<Condition> tvList)
     {
         var roundDistance = CheckRoundConditions(match.Round, leagueSetting.Condition.Round);
         var divisionConditions = CheckDivisionConditions(match.Division, leagueSetting.Condition.Division);
@@ -294,7 +294,7 @@ public class SyncEventPickingInfoImp : SyncEventPickingInfo
     private void buildNoOfferLive(EventPickingModel match, LeagueSettingInfoSender league)
     {
         match.NoOfferLive = league.NoOfferLive;
-        match.IsNoOffer = true;
+        //match.IsNoOffer = true;
 
         //Logic set IsNoOffer for match
     }
