@@ -17,6 +17,8 @@ public class QueryEventPickingServiceImp(
     TGRSService tGrsService,
     BuildMainAndChildMatches buildMainAndChildMatches,
     PermissionService permissionService,
+    Repository repository,
+    SyncEventPickingInfo syncEventPickingInfo,
     ILogger logger) : QueryEventPickingService
 {
     private const string InfoToHideMatch = "no need include miscmatch";
@@ -43,6 +45,11 @@ public class QueryEventPickingServiceImp(
 
         var matchesByDate = SelectMatchOfferInfos(ExcludeUpdateType(matches, excludedUpdateTypes));
         var filteredMatches = ExcludeUpdateType(allMatches, excludedUpdateTypes);
+
+        var leagueSetting = (await repository.QueryLeagueSetting()).ToList();
+        var tvList = (await repository.GetTVList()).ToList();
+
+        syncEventPickingInfo.Execute(filteredMatches, leagueSetting, tvList);
 
         return new EventPickingResult
         {
