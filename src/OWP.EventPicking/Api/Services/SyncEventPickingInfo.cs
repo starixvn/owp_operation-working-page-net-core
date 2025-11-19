@@ -35,7 +35,10 @@ public class SyncEventPickingInfoImp : SyncEventPickingInfo
                 break;
             default:
                 var selectedSetting = HandleMappingForMultipleSettings(match, leagueSettingByLeagueId, tvList);
-                SuggestionValue(match, selectedSetting);
+                if (selectedSetting != null)
+                {
+                    SuggestionValue(match, selectedSetting);
+                }
                 break;
         }
     }
