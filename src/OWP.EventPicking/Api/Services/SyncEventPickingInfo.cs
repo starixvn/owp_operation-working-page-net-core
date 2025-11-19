@@ -293,13 +293,13 @@ public class SyncEventPickingInfoImp : SyncEventPickingInfo
 
     private void SuggestionValue(EventPickingModel match, LeagueSettingInfoSender league)
     {
-        if (match.IsSync || match.ChildMatchId is not null) return;
         buildNoOfferLive(match, league);
     }
 
     private void buildNoOfferLive(EventPickingModel match, LeagueSettingInfoSender league)
     {
         match.NoOfferLive = league.NoOfferLive;
+        match.IsNoOffer = true;
 
         //Logic set IsNoOffer for match
     }
