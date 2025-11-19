@@ -288,14 +288,48 @@ public class SyncEventPickingInfoImp : SyncEventPickingInfo
 
     private void SuggestionValue(EventPickingModel match, LeagueSettingInfoSender league)
     {
-        buildNoOfferLive(match, league);
+        BuildNoOfferLive(match, league);
     }
 
-    private void buildNoOfferLive(EventPickingModel match, LeagueSettingInfoSender league)
+    private void BuildNoOfferLive(EventPickingModel match, LeagueSettingInfoSender league)
     {
         match.NoOfferLive = league.NoOfferLive;
-        //match.IsNoOffer = true;
+        match.IsNoOffer = ShouldSetNoOffer(league.NoOfferLive, match.EventDateTime);
+    }
 
-        //Logic set IsNoOffer for match
+    private bool ShouldSetNoOffer(int noOfferLive, DateTime eventDateTime)
+    {
+        return noOfferLive switch
+        {
+            NoOfferConstant.WeekdayAndWeekend => true,
+            NoOfferConstant.Weekend => IsWeekendMatch(eventDateTime),
+            NoOfferConstant.WeekendPH => IsWeekendPeakHourMatch(eventDateTime),
+            _ => false
+        };
+    }
+
+    private bool IsWeekendMatch(DateTime matchTime)
+    {
+        var systemDate = matchTime.Hour < 12
+            ? matchTime.Date.AddDays(-1)
+            : matchTime.Date;
+
+        return systemDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday;
+    }
+
+    private bool IsWeekendPeakHourMatch(DateTime matchTime)
+    {
+        if (!IsWeekendMatch(matchTime))
+        {
+            return false;
+        }
+
+        var time = matchTime.TimeOfDay;
+
+        var isPeakHour =
+            (time >= new TimeSpan(20, 0, 0))
+            || (time <= new TimeSpan(2, 59, 0));
+
+        return isPeakHour;
     }
 }
