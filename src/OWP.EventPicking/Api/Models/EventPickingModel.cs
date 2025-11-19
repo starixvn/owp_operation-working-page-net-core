@@ -279,7 +279,9 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
     [Cell("BV2")]
     public string SpreadFM { get; set; }
 
-    public bool IsNoOffer { get; set; }
+    public bool? IsNoOffer { get; set; }
+
+    public int NoOfferLive { get; set; }
 
     public string RowColorHex => Misc.Constant.ColorPair.GetValueOrDefault(RowColor);
 

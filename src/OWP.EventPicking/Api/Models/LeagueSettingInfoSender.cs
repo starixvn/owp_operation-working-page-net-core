@@ -39,6 +39,8 @@ public class LeagueSettingInfo
 
     public string Remark2 { get; set; } = default!;
 
+    public int NoOfferLive { get; set; } = default!;
+
 }
 
 public class LeagueSettingInfoSender : LeagueSettingInfo

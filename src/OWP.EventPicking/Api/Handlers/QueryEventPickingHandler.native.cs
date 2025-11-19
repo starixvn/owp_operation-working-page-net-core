@@ -7,8 +7,10 @@ namespace OWP.EventPicking.Api.Handlers;
 
 public class QueryEventPickingRequest : EventPickingRequest, IRequest<EventPickingResult>;
 
-public class QueryEventPickingHandler(QueryEventPickingService queryEventPickingService)
-    : IRequestHandler<QueryEventPickingRequest, EventPickingResult>
+public class QueryEventPickingHandler(
+    QueryEventPickingService queryEventPickingService,
+    Repository repository,
+    SyncEventPickingInfo syncEventPickingInfo) : IRequestHandler<QueryEventPickingRequest, EventPickingResult>
 {
     private static readonly short[] _excludedUpdateTypes = [
         UpdateTypeConstant.UPDATE_REMARK2,
@@ -26,5 +28,14 @@ public class QueryEventPickingHandler(QueryEventPickingService queryEventPicking
     ];
 
     public async Task<EventPickingResult> Handle(QueryEventPickingRequest request, CancellationToken cancellationToken)
-    => await queryEventPickingService.Execute(request, _excludedUpdateTypes);
+    {
+        var mainMatches = await queryEventPickingService.Execute(request, _excludedUpdateTypes);
+        var leagueSetting = (await repository.QueryLeagueSetting()).ToList();
+        var tvList = (await repository.GetTVList()).ToList();
+        var matchFiltered = mainMatches.FilteredMatches;
+
+        await syncEventPickingInfo.Execute(matchFiltered, leagueSetting, tvList);
+
+        return mainMatches;
+    }
 }
