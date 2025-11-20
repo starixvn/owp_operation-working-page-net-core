@@ -178,6 +178,174 @@ public class SyncEventPickingInfoImpTests
         Assert.Equal(0, matches[3].NoOfferLive); // Unchanged (no matching league settings)
     }
 
+    [Fact]
+    public async Task Execute_WithEmptyMatchList_ShouldHandleGracefully()
+    {
+        // Arrange
+        var emptyMatches = new List<EventPickingModel>();
+
+        _mockRepository.QueryLeagueSetting().Returns(new List<LeagueSettingInfoSender>());
+        _mockRepository.GetTVList().Returns(new List<Condition>());
+
+        // Act
+        await _service.Execute(emptyMatches);
+
+        // Assert
+        await _mockRepository.Received(1).QueryLeagueSetting();
+        await _mockRepository.Received(1).GetTVList();
+        Assert.Empty(emptyMatches);
+    }
+
+    [Fact]
+    public async Task Execute_WithComplexConditions_ShouldApplySettingsCorrectly()
+    {
+        // Arrange
+        var matches = new List<EventPickingModel>
+        {
+            CreateTestMatch(isNoOffer: null, leagueId: 1, division: "Premier League-Championship")
+        };
+
+        var leagueSettings = new List<LeagueSettingInfoSender>
+        {
+            CreateTestLeagueSetting(1, NoOfferConstant.WeekendPH)
+        };
+
+        var tvList = new List<Condition>
+        {
+            new Condition { Type = "Contains", Value = "TV" }
+        };
+
+        _mockRepository.QueryLeagueSetting().Returns(leagueSettings);
+        _mockRepository.GetTVList().Returns(tvList);
+
+        // Act
+        await _service.Execute(matches);
+
+        // Assert
+        await _mockRepository.Received(1).QueryLeagueSetting();
+        await _mockRepository.Received(1).GetTVList();
+        Assert.Equal(NoOfferConstant.WeekendPH, matches[0].NoOfferLive);
+    }
+
+
+    [Fact]
+    public async Task Execute_WithAllMatchesAlreadyProcessed_ShouldNotModifyMatches()
+    {
+        // Arrange
+        var matches = new List<EventPickingModel>
+        {
+            CreateTestMatch(isNoOffer: true, leagueId: 1),
+            CreateTestMatch(isNoOffer: false, leagueId: 2)
+        };
+
+        _mockRepository.QueryLeagueSetting().Returns(new List<LeagueSettingInfoSender>());
+        _mockRepository.GetTVList().Returns(new List<Condition>());
+
+        // Act
+        await _service.Execute(matches);
+
+        // Assert
+        // Repository methods are always called to fetch data
+        await _mockRepository.Received(1).QueryLeagueSetting();
+        await _mockRepository.Received(1).GetTVList();
+
+        // Values should remain unchanged since matches already have IsNoOffer set
+        Assert.Equal(0, matches[0].NoOfferLive);
+        Assert.Equal(0, matches[1].NoOfferLive);
+        Assert.True(matches[0].IsNoOffer);
+        Assert.False(matches[1].IsNoOffer);
+    }
+
+    [Fact]
+    public async Task Execute_WithWeekendMatch_ShouldSetIsNoOfferCorrectly()
+    {
+        // Arrange
+        var weekendMatch = new EventPickingModel
+        {
+            InfoSiteMatchId = 1,
+            OWPLeagueId = 1,
+            IsNoOffer = null,
+            EventDateTime = new DateTime(2024, 1, 20, 15, 0, 0), // Saturday
+            NoOfferLive = 0,
+            Division = "Premier League-Other League"
+        };
+
+        var leagueSettings = new List<LeagueSettingInfoSender>
+        {
+            CreateTestLeagueSetting(1, NoOfferConstant.Weekend)
+        };
+
+        _mockRepository.QueryLeagueSetting().Returns(leagueSettings);
+        _mockRepository.GetTVList().Returns(new List<Condition>());
+
+        // Act
+        await _service.Execute(new List<EventPickingModel> { weekendMatch });
+
+        // Assert
+        Assert.Equal(NoOfferConstant.Weekend, weekendMatch.NoOfferLive);
+        Assert.True(weekendMatch.IsNoOffer); // Should be true for weekend match
+    }
+
+    [Fact]
+    public async Task Execute_WithWeekdayMatch_ShouldSetIsNoOfferCorrectly()
+    {
+        // Arrange
+        var weekdayMatch = new EventPickingModel
+        {
+            InfoSiteMatchId = 1,
+            OWPLeagueId = 1,
+            IsNoOffer = null,
+            EventDateTime = new DateTime(2024, 1, 15, 15, 0, 0), // Monday
+            NoOfferLive = 0,
+            Division = "Premier League-Other League"
+        };
+
+        var leagueSettings = new List<LeagueSettingInfoSender>
+        {
+            CreateTestLeagueSetting(1, NoOfferConstant.Weekend)
+        };
+
+        _mockRepository.QueryLeagueSetting().Returns(leagueSettings);
+        _mockRepository.GetTVList().Returns(new List<Condition>());
+
+        // Act
+        await _service.Execute(new List<EventPickingModel> { weekdayMatch });
+
+        // Assert
+        Assert.Equal(NoOfferConstant.Weekend, weekdayMatch.NoOfferLive);
+        Assert.False(weekdayMatch.IsNoOffer); // Should be false for weekday match
+    }
+
+    [Fact]
+    public async Task Execute_WithWeekendPeakHours_ShouldSetIsNoOfferCorrectly()
+    {
+        // Arrange
+        var peakHourMatch = new EventPickingModel
+        {
+            InfoSiteMatchId = 1,
+            OWPLeagueId = 1,
+            IsNoOffer = null,
+            EventDateTime = new DateTime(2024, 1, 20, 22, 0, 0), // Saturday 10 PM (peak hours)
+            NoOfferLive = 0,
+            Division = "Premier League-Other League"
+        };
+
+        var leagueSettings = new List<LeagueSettingInfoSender>
+        {
+            CreateTestLeagueSetting(1, NoOfferConstant.WeekendPH)
+        };
+
+        _mockRepository.QueryLeagueSetting().Returns(leagueSettings);
+        _mockRepository.GetTVList().Returns(new List<Condition>());
+
+        // Act
+        await _service.Execute(new List<EventPickingModel> { peakHourMatch });
+
+        // Assert
+        Assert.Equal(NoOfferConstant.WeekendPH, peakHourMatch.NoOfferLive);
+        Assert.True(peakHourMatch.IsNoOffer); // Should be true for weekend peak hours
+    }
+
     #region Helper Methods
 
     private static EventPickingModel CreateTestMatch(bool? isNoOffer, int leagueId, string? division = null)

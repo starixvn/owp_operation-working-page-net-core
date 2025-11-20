@@ -229,7 +229,10 @@ public class SyncEventPickingInfoImp(Repository repository) : SyncEventPickingIn
         {
             return hasIpTv;
         }
-        return true;
+        else
+        {
+            return true;
+        }
     }
 
     private static IList<string> GetValuePairWiseContains(IList<Condition> conditions)
@@ -253,22 +256,7 @@ public class SyncEventPickingInfoImp(Repository repository) : SyncEventPickingIn
 
         var hasValidChannel = !string.IsNullOrWhiteSpace(match.Channel) &&
                             !match.Channel.Contains("Cancel", StringComparison.OrdinalIgnoreCase);
-        if (hasValidTv && (hasValidIptv || hasValidChannel))
-        {
-            return (true, true);
-        }
-        else if (hasValidTv)
-        {
-            return (true, false);
-        }
-        else if (hasValidIptv || hasValidChannel)
-        {
-            return (false, true);
-        }
-        else
-        {
-            return (false, false);
-        }
+         return (hasValidTv, hasValidIptv || hasValidChannel);
     }
 
     private static bool IsTvConditionMatch(string tvField, Condition tvCondition)
