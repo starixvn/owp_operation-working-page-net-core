@@ -123,7 +123,7 @@ public class LoggerServiceImpUnitTests
             LstNote = "Test Note",
             Remark2 = "Test Remark 2",
             IsBlackList = false,
-            NoOfferLive = true,
+            NoOfferLive = 1,
             FullConditionDescription = System.Text.Json.JsonSerializer.Serialize(new LeagueSettingCondition
             {
                 HasTv = true,
@@ -153,7 +153,7 @@ public class LoggerServiceImpUnitTests
         Assert.Equal("Div1", result.Division[0].Value);
         Assert.Equal("Condition Remark", result.Remark);
         Assert.False(result.IsBlackList);
-        Assert.True(result.NoOfferLive);
+        Assert.Equal(1, result.NoOfferLive);
     }
 
     [Fact]
@@ -214,7 +214,7 @@ public class LoggerServiceImpUnitTests
             Division = new List<Condition> { new Condition("Equals", "Div2") },
             Remark = "Request Remark",
             IsBlackList = true,
-            NoOfferLive = false
+            NoOfferLive = 0
         };
 
         // Act
@@ -240,7 +240,7 @@ public class LoggerServiceImpUnitTests
         Assert.Equal("Div2", result.Division[0].Value);
         Assert.Equal("Request Remark", result.Remark);
         Assert.True(result.IsBlackList);
-        Assert.False(result.NoOfferLive);
+        Assert.Equal(0, result.NoOfferLive);
     }
 
     [Fact]
@@ -348,7 +348,7 @@ public class LoggerServiceImpUnitTests
             Division = new List<Condition> { new Condition("Contains", "Div3") },
             Remark = "Insert Remark",
             IsBlackList = false,
-            NoOfferLive = true
+            NoOfferLive = 1
         };
 
         // Act
@@ -374,7 +374,7 @@ public class LoggerServiceImpUnitTests
         Assert.Equal("Div3", result.Division[0].Value);
         Assert.Equal("Insert Remark", result.Remark);
         Assert.False(result.IsBlackList);
-        Assert.True(result.NoOfferLive);
+        Assert.Equal(1, result.NoOfferLive);
     }
 
     [Fact]
@@ -753,7 +753,7 @@ public class LoggerServiceImpUnitTests
             LstNote = "Important Note",
             Remark2 = "Additional Remark",
             IsBlackList = true,
-            NoOfferLive = false,
+            NoOfferLive = 0,
             Spread_HDP_Value = 1.5m,
             Spread_OU_Value = 3.5m,
             MaxbetWD_HDP_Value = 15000,
@@ -795,7 +795,7 @@ public class LoggerServiceImpUnitTests
         Assert.Equal("Premier", result.Division[0].Value);
         Assert.Equal("Top League", result.Remark);
         Assert.True(result.IsBlackList);
-        Assert.False(result.NoOfferLive);
+        Assert.Equal(0, result.NoOfferLive);
     }
 
     #endregion
@@ -971,6 +971,34 @@ public class LoggerServiceImpUnitTests
         Assert.Equal("  ", result.Remark);
     }
 
+
+
+    [Fact]
+    public async Task LogSetting_WithNullSessionUserName_ShouldHandleGracefully()
+    {
+        // Arrange
+        var changeService = Substitute.For<ILeagueSettingChangeService>();
+        var repository = Substitute.For<Repository>();
+        var session = Substitute.For<INapSession>();
+
+        var logService = new LoggerServiceImp(changeService, repository, session);
+
+        var currentSetting = new LeagueSettingChangeModel { League = "Test League" };
+        var newSetting = new LeagueSettingChangeModel { League = "Updated League" };
+        var request = new LogRequest("Test Action", 123, currentSetting, newSetting);
+
+        changeService.LogProcessingChanges(currentSetting, newSetting).Returns(new List<LogDetail>());
+        session.UserName.Returns((string)null);
+
+        // Act
+        await logService.LogSetting(request);
+
+        // Assert
+        await repository.Received(1).ExecuteNonQueryCommand(Arg.Is<InsertLogCriteria>(criteria =>
+            criteria.ModifiedBy == null
+        ));
+    }
+
     [Fact]
     public void MapToChangeModel_WithUpdateRequest_WithBooleanEdgeCases_ShouldMapCorrectly()
     {
@@ -980,7 +1008,7 @@ public class LoggerServiceImpUnitTests
             HasTv = true,
             HasIpTv = true,
             IsBlackList = true,
-            NoOfferLive = true
+            NoOfferLive = 1
         };
 
         // Act
@@ -990,7 +1018,7 @@ public class LoggerServiceImpUnitTests
         Assert.True(resultAllTrue.HasTv);
         Assert.True(resultAllTrue.HasIpTv);
         Assert.True(resultAllTrue.IsBlackList);
-        Assert.True(resultAllTrue.NoOfferLive);
+        Assert.Equal(1, resultAllTrue.NoOfferLive);
 
         // Arrange - All false
         var requestAllFalse = new UpdateLeagueSettingRequest
@@ -998,7 +1026,7 @@ public class LoggerServiceImpUnitTests
             HasTv = false,
             HasIpTv = false,
             IsBlackList = false,
-            NoOfferLive = false
+            NoOfferLive = 0
         };
 
         // Act
@@ -1008,7 +1036,7 @@ public class LoggerServiceImpUnitTests
         Assert.False(resultAllFalse.HasTv);
         Assert.False(resultAllFalse.HasIpTv);
         Assert.False(resultAllFalse.IsBlackList);
-        Assert.False(resultAllFalse.NoOfferLive);
+        Assert.Equal(0, resultAllFalse.NoOfferLive);
     }
 
     #endregion

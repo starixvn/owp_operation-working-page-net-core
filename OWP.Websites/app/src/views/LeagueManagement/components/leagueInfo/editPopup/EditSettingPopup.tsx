@@ -8,6 +8,7 @@ import Maxbet from './content/Maxbet';
 import MicsMatch from './content/MicsMatch';
 import { getLeagueGroupOptionsThunk } from '../component/commonThunk';
 import LeagueInfo from './content/LeagueInfo';
+import NoOfferLive from './content/NoOfferLive';
 
 const EditSettingPopup = (props: { closePopup: () => void }) => {
   const { closePopup } = props;
@@ -48,7 +49,6 @@ const EditSettingPopup = (props: { closePopup: () => void }) => {
           league={league}
           shortLeague={shortLeague}
           isBlackList={isBlackList}
-          noOfferLive={noOfferLive}
         />
         <Condition
           condition={{
@@ -59,6 +59,7 @@ const EditSettingPopup = (props: { closePopup: () => void }) => {
             remark
           }}
         />
+        <NoOfferLive noOfferLive={noOfferLive} />
         <FtSpread spread={spread} />
         <Maxbet
           maxbetWD_HDP={maxbetWD_HDP}

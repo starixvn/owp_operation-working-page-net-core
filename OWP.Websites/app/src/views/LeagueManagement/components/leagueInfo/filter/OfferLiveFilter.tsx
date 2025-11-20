@@ -1,15 +1,15 @@
-import { IS_OFFERLIVE_OPTIONS } from './filterConst.json';
+import { NoOfferLive } from '../../../constants/MaxbetConst';
 import MultipleSelectionTemplate from './MultipleSelectionTemplate';
-
 
 const OfferLiveFilter = () => {
   return (
-      <MultipleSelectionTemplate
-        label='Offer Live'
-        options={IS_OFFERLIVE_OPTIONS}
-        value={IS_OFFERLIVE_OPTIONS}
-        filterKey='OfferLive'
-        disabled={false} />
+    <MultipleSelectionTemplate
+      label='No Offer Live'
+      options={NoOfferLive}
+      value={NoOfferLive}
+      filterKey='OfferLive'
+      disabled={false}
+    />
   );
 };
 

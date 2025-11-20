@@ -124,6 +124,13 @@ const messageUpdateTVListSuccess = 'The TV List has been successfully updated';
 const messageUpdateConditionSuccess =
   'The condition has been successfully updated';
 
+export const NoOfferLive = [
+  {value: 1, label: 'Weekday and Weekend'},
+  {value: 2, label: 'Weekend'},
+  {value: 3, label: 'Weekend PH'},
+  {value: 0, label: 'None'}
+];
+
 const MaxbetConst = {
   leagueInfo,
   viewlogUrl,

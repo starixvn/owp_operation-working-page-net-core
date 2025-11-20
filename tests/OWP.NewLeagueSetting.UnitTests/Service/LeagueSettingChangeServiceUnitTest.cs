@@ -109,7 +109,7 @@ public class LeagueSettingChangeServiceUnitTest
         after.League = "Different League";
         after.Spread = "2.0";
         after.HasTv = true;
-        after.NoOfferLive = true;
+        after.NoOfferLive = 1;
 
         // Act
         var result = _service.LogProcessingChanges(before, after);
@@ -739,7 +739,7 @@ public class LeagueSettingChangeServiceUnitTest
             Division = new List<Condition> { new Condition("Division", "Premier") },
             Remark = "Different Remark",
             IsBlackList = true,
-            NoOfferLive = true
+            NoOfferLive = 1
         };
 
         // Act
@@ -972,7 +972,7 @@ public class LeagueSettingChangeServiceUnitTest
             Division = new List<Condition>(),
             Remark = "Test Remark",
             IsBlackList = false,
-            NoOfferLive = false
+            NoOfferLive = 0
         };
     }
 }

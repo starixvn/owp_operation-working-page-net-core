@@ -24,7 +24,7 @@ const EditSettingSlice = createSlice({
     leagueGroup: '',
     shortLeague: '',
     isBlackList: false,
-    noOfferLive: false,
+    noOfferLive: 0,
     spread: '',
     maxbetWD_HDP: '',
     wD_NoOfHDP: '',

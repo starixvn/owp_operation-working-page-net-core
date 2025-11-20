@@ -18,7 +18,6 @@ const ConditionOfAdd = () => {
   const dispatch = useAppDispatch();
   const rounds = convertResponseToCondition(round);
   const divisions = convertDivisionResponseToCondition(division);
-
   const handleUpdateValueExpression = (
     property: 'round' | 'division',
     key: 'value' | 'type',

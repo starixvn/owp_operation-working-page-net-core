@@ -24,7 +24,7 @@ type TDataSource = {
   condition: TConditionSource;
   shortLeague: string;
   isBlackList: boolean;
-  noOfferLive: boolean;
+  noOfferLive: number;
 };
 type TConditionSource = {
   hasTv: boolean;

@@ -204,7 +204,7 @@ public class InsertLeagueSettingHandlerUnitTest
             Division = new List<Condition>(),
             Remark = "Test Remark",
             IsBlackList = false,
-            NoOfferLive = false,
+            NoOfferLive = 1,
             LeagueSettingId = 456
         };
 
@@ -230,7 +230,7 @@ public class InsertLeagueSettingHandlerUnitTest
             Comment = "Test Comment",
             FullConditionDescription = "{\"HasTv\":false,\"HasIpTv\":false,\"IpTv\":[],\"Round\":[],\"Division\":[],\"Remark\":\"Test Remark\"}",
             IsBlackList = false,
-            NoOfferLive = false
+            NoOfferLive = 1
         };
 
         mapper.Map<InsertLeagueSettingCriteria>(request).Returns(criteria);
@@ -247,5 +247,111 @@ public class InsertLeagueSettingHandlerUnitTest
                 lr.leagueSettingId == 456 &&
                 lr.CurrentSetting != null &&
                 lr.NewSetting != null));
+    }
+
+    [Fact]
+    public async Task Handle_WithNullSessionUserId_ShouldStillExecuteCommand()
+    {
+        // Arrange
+        var repository = Substitute.For<Repository>();
+        var session = Substitute.For<INapSession>();
+        var mapper = Substitute.For<IMapper>();
+        var logService = Substitute.For<LogService>();
+
+        session.UserId.Returns(0);
+
+        var handler = new InsertLeagueSettingHandler(repository, session, mapper, logService);
+
+        var request = new InsertLeagueSettingRequest
+        {
+            MaxbetWD_HDP = "1000",
+            LeagueSettingId = 456
+        };
+
+        var criteria = new InsertLeagueSettingCriteria
+        {
+            LeagueSettingId = 456
+        };
+
+        var leagueSettingDetail = new OWP.NewLeagueSetting.Models.LeagueSettingInfoSender
+        {
+            League = "Test League"
+        };
+
+        mapper.Map<InsertLeagueSettingCriteria>(request).Returns(criteria);
+        repository.QueryLeagueSettingDetail(Arg.Any<int>()).Returns(leagueSettingDetail);
+
+        // Act
+        var result = await handler.Handle(request, CancellationToken.None);
+
+        // Assert
+        await repository.Received(1).ExecuteNonQueryCommand(
+            Arg.Is<InsertLeagueSettingCriteria>(c =>
+                c.ActorId == 0 && // Should default to 0 when session.UserId is null
+                c.LeagueSettingId == 456));
+
+        Assert.Equal(456, result);
+    }
+
+    [Fact]
+    public async Task Handle_WithRepositoryException_ShouldPropagateException()
+    {
+        // Arrange
+        var repository = Substitute.For<Repository>();
+        var session = Substitute.For<INapSession>();
+        var mapper = Substitute.For<IMapper>();
+        var logService = Substitute.For<LogService>();
+
+        session.UserId.Returns(123);
+
+        var handler = new InsertLeagueSettingHandler(repository, session, mapper, logService);
+
+        var request = new InsertLeagueSettingRequest
+        {
+            LeagueSettingId = 456
+        };
+
+        var criteria = new InsertLeagueSettingCriteria
+        {
+            LeagueSettingId = 456
+        };
+
+        mapper.Map<InsertLeagueSettingCriteria>(request).Returns(criteria);
+        repository.ExecuteNonQueryCommand(Arg.Any<InsertLeagueSettingCriteria>())
+            .Returns(Task.FromException(new Exception("Database error")));
+
+        // Act & Assert
+        await Assert.ThrowsAsync<Exception>(() => handler.Handle(request, CancellationToken.None));
+    }
+
+    [Fact]
+    public async Task Handle_WithQueryException_ShouldPropagateException()
+    {
+        // Arrange
+        var repository = Substitute.For<Repository>();
+        var session = Substitute.For<INapSession>();
+        var mapper = Substitute.For<IMapper>();
+        var logService = Substitute.For<LogService>();
+
+        session.UserId.Returns(123);
+
+        var handler = new InsertLeagueSettingHandler(repository, session, mapper, logService);
+
+        var request = new InsertLeagueSettingRequest
+        {
+            LeagueSettingId = 456
+        };
+
+        var criteria = new InsertLeagueSettingCriteria
+        {
+            LeagueSettingId = 456
+        };
+
+        mapper.Map<InsertLeagueSettingCriteria>(request).Returns(criteria);
+        repository.QueryLeagueSettingDetail(Arg.Any<int>())
+            .Returns(Task.FromException<OWP.NewLeagueSetting.Models.LeagueSettingInfoSender>(new Exception("Query error")));
+
+        // Act & Assert
+        await Assert.ThrowsAsync<Exception>(() => handler.Handle(request, CancellationToken.None));
     }
 }

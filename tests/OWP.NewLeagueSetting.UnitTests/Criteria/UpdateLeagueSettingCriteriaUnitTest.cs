@@ -146,8 +146,11 @@ public class UpdateLeagueSettingCriteriaUnitTest
         criteria.FullConditionDescription = "Test Full Condition Description";
         Assert.Equal("Test Full Condition Description", criteria.FullConditionDescription);
 
-        criteria.NoOfferLive = true;
-        Assert.True(criteria.NoOfferLive);
+        criteria.NoOfferLive = 1;
+        Assert.Equal(1, criteria.NoOfferLive);
+
+        criteria.OWPLeagueId = 999;
+        Assert.Equal(999, criteria.OWPLeagueId);
     }
 
     [Fact]
@@ -186,6 +189,7 @@ public class UpdateLeagueSettingCriteriaUnitTest
         Assert.Null(criteria.Remark2);
         Assert.Null(criteria.Comment);
         Assert.Null(criteria.FullConditionDescription);
-        Assert.False(criteria.NoOfferLive);
+        Assert.Equal(0, criteria.NoOfferLive);
+        Assert.Equal(0, criteria.OWPLeagueId);
     }
 }

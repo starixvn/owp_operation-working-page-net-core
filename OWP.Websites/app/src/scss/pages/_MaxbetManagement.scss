@@ -1198,6 +1198,12 @@
         border-radius: 2px;
       }
 
+      .no-offer-live .basic-multi-select {
+        font-size: 12px;
+        width: 220px;
+        height: 23px;
+      }
+
       input:focus {
         box-shadow: none;
         opacity: 1 !important;
@@ -1729,7 +1735,7 @@
   }
 
   .multi-select-dropdown {
-    width: 150px;
+    width: 175px;
     margin-right: 10px;
   }
 

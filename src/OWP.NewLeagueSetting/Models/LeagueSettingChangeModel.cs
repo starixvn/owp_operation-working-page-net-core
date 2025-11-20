@@ -4,7 +4,7 @@ public class LeagueSettingChangeModel
 {
     public string League { get; set; }
     public string LeagueGroup { get; set; }
-    public bool NoOfferLive { get; set; }
+    public int NoOfferLive { get; set; }
     public bool IsBlackList { get; set; }
     public bool HasTv { get; set; }
     public bool HasIpTv { get; set; }

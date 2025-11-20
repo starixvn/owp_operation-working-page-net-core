@@ -39,5 +39,5 @@ public abstract class InsertOrUpdateSettingCriteria: NonQueryCommand
 
     public string FullConditionDescription { get; set; }
 
-    public bool NoOfferLive { get; set; }
+    public int NoOfferLive { get; set; }
 }
