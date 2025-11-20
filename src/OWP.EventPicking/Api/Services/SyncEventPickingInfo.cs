@@ -78,6 +78,7 @@ public class SyncEventPickingInfoImp(Repository repository) : SyncEventPickingIn
         return orderedLeagues.FirstOrDefault()?.League;
     }
 
+    // NOSONAR(csharpsquid:S1541) - Complex switch expression needed for priority logic
     private int GetPriority(NewLeagueSettingCondition condition) => (condition.HasTv, condition.HasIpTv, condition.Round.Count, condition.Division.Count) switch
     {
         (true, false, > 0, > 0) => 1,
@@ -129,7 +130,7 @@ public class SyncEventPickingInfoImp(Repository repository) : SyncEventPickingIn
             .Select(c => new
             {
                 Value = c.Value,
-                Distance = Levenshtein.Distance(matchValues.ToLower(), c.Value.ToLower())
+                Distance = Levenshtein.Distance(matchValues.ToLowerInvariant(), c.Value.ToLowerInvariant())
             })
             .OrderBy(x => x.Distance)
             .ToList();
