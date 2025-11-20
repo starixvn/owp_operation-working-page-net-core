@@ -56,17 +56,12 @@ public class SyncEventPickingInfoImp(Repository repository) : SyncEventPickingIn
             return null;
         }
 
-        if (leagueWithMatches.Count > 1)
-        {
-            return GetLeagueSettingByPriority(leagueWithMatches, match);
-        }
-        else
-        {
-            return leagueWithMatches.First().League;
-        }
+        return leagueWithMatches.Count > 1
+            ? GetLeagueSettingByPriority(leagueWithMatches)
+            : leagueWithMatches[0].League;
     }
 
-    private LeagueSettingInfoSender GetLeagueSettingByPriority<T>(List<T> leagueSettings, EventPickingModel match) where T : class
+    private LeagueSettingInfoSender GetLeagueSettingByPriority<T>(List<T> leagueSettings) where T : class
     {
         // Order by priority, round distance (lowest first), then by ID (descending)
         var orderedLeagues = leagueSettings
@@ -83,21 +78,21 @@ public class SyncEventPickingInfoImp(Repository repository) : SyncEventPickingIn
         return orderedLeagues.FirstOrDefault()?.League;
     }
 
-    private int GetPriority(NewLeagueSettingCondition condition)
+    private int GetPriority(NewLeagueSettingCondition condition) => (condition.HasTv, condition.HasIpTv, condition.Round.Count, condition.Division.Count) switch
     {
-        if (condition.HasTv && condition.Round.Count > 0 && condition.Division.Count > 0) return 1;
-        if (condition.HasTv && condition.Round.Count > 0) return 2;
-        if (condition.HasTv && condition.Division.Count > 0) return 3;
-        if (condition.HasIpTv && condition.Round.Count > 0 && condition.Division.Count > 0) return 4;
-        if (condition.HasIpTv && condition.Round.Count > 0) return 5;
-        if (condition.HasIpTv && condition.Division.Count > 0) return 6;
-        if (condition.HasTv) return 7;
-        if (condition.HasIpTv) return 8;
-        if (condition.Round.Count > 0 && condition.Division.Count > 0) return 9;
-        if (condition.Round.Count > 0) return 10;
-        if (condition.Division.Count > 0) return 11;
-        return 12;
-    }
+        (true, false, > 0, > 0) => 1,
+        (true, false, > 0, _) => 2,
+        (true, false, _, > 0) => 3,
+        (false, true, > 0, > 0) => 4,
+        (false, true, > 0, _) => 5,
+        (false, true, _, > 0) => 6,
+        (true, false, _, _) => 7,
+        (false, true, _, _) => 8,
+        (_, _, > 0, > 0) => 9,
+        (_, _, > 0, _) => 10,
+        (_, _, _, > 0) => 11,
+        _ => 12
+    };
 
     private int? CheckMatchValidMappingWithLeagueManagement(EventPickingModel match, LeagueSettingInfoSender leagueSetting, List<Condition> tvList)
     {
@@ -140,7 +135,7 @@ public class SyncEventPickingInfoImp(Repository repository) : SyncEventPickingIn
             .ToList();
 
         // Get the best match (lowest distance)
-        var bestMatch = allConditionValues.First();
+        var bestMatch = allConditionValues[0];
 
         return bestMatch.Distance;
     }
@@ -250,7 +245,7 @@ public class SyncEventPickingInfoImp(Repository repository) : SyncEventPickingIn
     {
         var hasValidTv = !string.IsNullOrWhiteSpace(match.TV) &&
                         !match.TV.Contains("Cancel", StringComparison.OrdinalIgnoreCase) &&
-                        tvList.Any(tvCondition => IsTvConditionMatch(match.TV, tvCondition));
+                        tvList.Exists(tvCondition => IsTvConditionMatch(match.TV, tvCondition));
 
         var hasValidIptv = !string.IsNullOrWhiteSpace(match.Iptv) &&
                         !match.Iptv.Contains("Cancel", StringComparison.OrdinalIgnoreCase) &&
@@ -279,7 +274,9 @@ public class SyncEventPickingInfoImp(Repository repository) : SyncEventPickingIn
     private static bool IsTvConditionMatch(string tvField, Condition tvCondition)
     {
         if (string.IsNullOrWhiteSpace(tvField) || string.IsNullOrWhiteSpace(tvCondition.Value))
+        {
             return false;
+        }
 
         return tvCondition.Type switch
         {
