@@ -78,7 +78,7 @@ public class SyncEventPickingInfoImp(Repository repository) : SyncEventPickingIn
         return orderedLeagues.FirstOrDefault()?.League;
     }
 
-    // NOSONAR(csharpsquid:S1541) - Complex switch expression needed for priority logic
+    #pragma warning disable S1541
     private int GetPriority(NewLeagueSettingCondition condition) => (condition.HasTv, condition.HasIpTv, condition.Round.Count, condition.Division.Count) switch
     {
         (true, false, > 0, > 0) => 1,
@@ -94,6 +94,7 @@ public class SyncEventPickingInfoImp(Repository repository) : SyncEventPickingIn
         (_, _, _, > 0) => 11,
         _ => 12
     };
+    #pragma warning restore S1541
 
     private int? CheckMatchValidMappingWithLeagueManagement(EventPickingModel match, LeagueSettingInfoSender leagueSetting, List<Condition> tvList)
     {
