@@ -17,7 +17,6 @@ public class QueryEventPickingServiceImp(
     TGRSService tGrsService,
     BuildMainAndChildMatches buildMainAndChildMatches,
     PermissionService permissionService,
-    Repository repository,
     SyncEventPickingInfo syncEventPickingInfo,
     ILogger logger) : QueryEventPickingService
 {
@@ -259,10 +258,7 @@ public class QueryEventPickingServiceImp(
         List<EventPickingModel> filteredMatches,
         EventPickingRequest request)
     {
-        var leagueSetting = (await repository.QueryLeagueSetting()).ToList();
-        var tvList = (await repository.GetTVList()).ToList();
-
-        syncEventPickingInfo.Execute(filteredMatches, leagueSetting, tvList);
+        await syncEventPickingInfo.Execute(filteredMatches);
 
         return filteredMatches
             .Where(x => CheckCondition1(x, request))

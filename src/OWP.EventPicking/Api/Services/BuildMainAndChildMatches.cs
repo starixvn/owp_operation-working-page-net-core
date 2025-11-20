@@ -37,7 +37,7 @@ public class BuildMainAndChildMatchesImp(
         buildRowColor.BuildRowColor(allMatches);
         await buildProvider.Build(allMatches);
 
-        await SyncInfoFromLeagueSetting(allMatches);
+        await syncEventPickingInfo.Execute(allMatches);
 
         return allMatches;
     }
@@ -81,12 +81,4 @@ public class BuildMainAndChildMatchesImp(
         return generatedChildMatch;
     }
 
-    private async Task SyncInfoFromLeagueSetting(
-       List<EventPickingModel> filteredMatches)
-    {
-        var leagueSetting = (await repository.QueryLeagueSetting()).ToList();
-        var tvList = (await repository.GetTVList()).ToList();
-
-        syncEventPickingInfo.Execute(filteredMatches, leagueSetting, tvList);
-    }
 }
