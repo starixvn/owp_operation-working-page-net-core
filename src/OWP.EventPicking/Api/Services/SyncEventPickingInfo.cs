@@ -79,21 +79,21 @@ public class SyncEventPickingInfoImp(Repository repository) : SyncEventPickingIn
     }
 
     #pragma warning disable S1541
-    private int GetPriority(NewLeagueSettingCondition condition) => (condition.HasTv, condition.HasIpTv, condition.Round.Count, condition.Division.Count) switch
+     private int GetPriority(NewLeagueSettingCondition condition)
     {
-        (true, false, > 0, > 0) => 1,
-        (true, false, > 0, _) => 2,
-        (true, false, _, > 0) => 3,
-        (false, true, > 0, > 0) => 4,
-        (false, true, > 0, _) => 5,
-        (false, true, _, > 0) => 6,
-        (true, false, _, _) => 7,
-        (false, true, _, _) => 8,
-        (_, _, > 0, > 0) => 9,
-        (_, _, > 0, _) => 10,
-        (_, _, _, > 0) => 11,
-        _ => 12
-    };
+        if (condition.HasTv && condition.Round.Count > 0 && condition.Division.Count > 0) return 1;
+        if (condition.HasTv && condition.Round.Count > 0) return 2;
+        if (condition.HasTv && condition.Division.Count > 0) return 3;
+        if (condition.HasIpTv && condition.Round.Count > 0 && condition.Division.Count > 0) return 4;
+        if (condition.HasIpTv && condition.Round.Count > 0) return 5;
+        if (condition.HasIpTv && condition.Division.Count > 0) return 6;
+        if (condition.HasTv) return 7;
+        if (condition.HasIpTv) return 8;
+        if (condition.Round.Count > 0 && condition.Division.Count > 0) return 9;
+        if (condition.Round.Count > 0) return 10;
+        if (condition.Division.Count > 0) return 11;
+        return 12;
+    }
     #pragma warning restore S1541
 
     private int? CheckMatchValidMappingWithLeagueManagement(EventPickingModel match, LeagueSettingInfoSender leagueSetting, List<Condition> tvList)
