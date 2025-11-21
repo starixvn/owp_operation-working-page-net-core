@@ -78,7 +78,8 @@ public class SyncEventPickingInfoImp(Repository repository) : SyncEventPickingIn
         return orderedLeagues.FirstOrDefault()?.League;
     }
 
-    #pragma warning disable S1541
+    #pragma warning disable S1541, S3776, S121, S122
+
      private int GetPriority(NewLeagueSettingCondition condition)
     {
         if (condition.HasTv && condition.Round.Count > 0 && condition.Division.Count > 0) return 1;
@@ -94,7 +95,7 @@ public class SyncEventPickingInfoImp(Repository repository) : SyncEventPickingIn
         if (condition.Division.Count > 0) return 11;
         return 12;
     }
-    #pragma warning restore S1541
+    #pragma warning restore S1541, S3776, S121, S122
 
     private int? CheckMatchValidMappingWithLeagueManagement(EventPickingModel match, LeagueSettingInfoSender leagueSetting, List<Condition> tvList)
     {
