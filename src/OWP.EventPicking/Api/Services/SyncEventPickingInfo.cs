@@ -15,19 +15,30 @@ public class SyncEventPickingInfoImp(Repository repository) : SyncEventPickingIn
         var leagueSetting = (await repository.QueryLeagueSetting()).ToList();
         var tvList = (await repository.GetTVList()).ToList();
 
+
+        // Todo: get main league for club friendly match
+
+
         foreach (var match in matchFiltered)
         {
-            if (match.IsNoOffer == null)
+            if (match.IsClubFriendlyLeague)
             {
-                var leagueSettingByLeagueId = leagueSetting.Where(x => x.OWPLeagueId == match.OWPLeagueId).ToList();
-                ProcessLeagueSettingsForMatch(leagueSettingByLeagueId, match, tvList);
+                ProcessLeagueSettingsForClubFriendlyMatch(leagueSetting, match, tvList);
             }
-
+            else
+            {
+                ProcessLeagueSettingsForMatch(leagueSetting, match, tvList);
+            }
         }
     }
 
-    private void ProcessLeagueSettingsForMatch(List<LeagueSettingInfoSender> leagueSettingByLeagueId, EventPickingModel match, List<Condition> tvList)
+    private void ProcessLeagueSettingsForMatch(List<LeagueSettingInfoSender> leagueSetting, EventPickingModel match, List<Condition> tvList)
     {
+        if(match.IsNoOffer != null)
+        {
+            return;
+        }
+        var leagueSettingByLeagueId = leagueSetting.Where(x => x.OWPLeagueId == match.OWPLeagueId).ToList();
         if (leagueSettingByLeagueId.Count > 0)
         {
             var selectedSetting = HandleMappingForMultipleSettings(match, leagueSettingByLeagueId, tvList);
@@ -36,6 +47,16 @@ public class SyncEventPickingInfoImp(Repository repository) : SyncEventPickingIn
                 SuggestionValue(match, selectedSetting);
             }
         }
+    }
+
+
+    private void ProcessLeagueSettingsForClubFriendlyMatch(List<LeagueSettingInfoSender> leagueSetting, EventPickingModel match, List<Condition> tvList)
+    {
+        if (match.IsNoOffer != null)
+        {
+            return;
+        }
+        //get setting from club friendly main league
     }
 
     private LeagueSettingInfoSender HandleMappingForMultipleSettings(EventPickingModel match, List<LeagueSettingInfoSender> leagueSettings, List<Condition> tvList)
