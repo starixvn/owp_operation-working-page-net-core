@@ -23,6 +23,7 @@ public static class EventPickingInjector
         services.AddScoped<BuildMBForClubFriendlyMajorLeagueBuilder, BuildMBForClubFriendlyMajorLeagueBuilderImp>();
         services.AddScoped<MapMainLeagueForEventService, MapMainLeagueForEventServiceImp>();
         services.AddScoped<MappingRuleSyncMBLeagueFriendlyService, MappingRuleSyncMBLeagueFriendlyServiceImp>();
+        services.AddScoped<SyncEventPickingInfo, SyncEventPickingInfoImp>();
         services.AddScoped<CacheManipulator, CacheManipulatorImp>();
     }
 }

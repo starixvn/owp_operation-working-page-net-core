@@ -23,7 +23,6 @@ public interface EventProductCommon
 
     public string MatchNo { get; set; }
 
-    public bool IsNoOffer { get; set; }
 
     public bool IsTestMatch { get; set; }
 

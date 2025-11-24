@@ -73,7 +73,7 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
     public string MatchNo { get; set; }
 
     [Cell("B2")]
-    public string MatchStatus => IsNoOffer ? "No Offer" : string.Empty;
+    public string MatchStatus => IsNoOffer == true ? "No Offer" : string.Empty;
 
     [Cell("C2")]
     public string EventDate => EventDateTime.Date.ToString(CultureInfo.InvariantCulture);
@@ -279,7 +279,9 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
     [Cell("BV2")]
     public string SpreadFM { get; set; }
 
-    public bool IsNoOffer { get; set; }
+    public bool? IsNoOffer { get; set; }
+
+    public int NoOfferLive { get; set; }
 
     public string RowColorHex => Misc.Constant.ColorPair.GetValueOrDefault(RowColor);
 

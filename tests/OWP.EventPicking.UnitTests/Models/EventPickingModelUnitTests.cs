@@ -53,7 +53,7 @@ public class EventPickingModelUnitTests
         Assert.Null(model.LeagueName);
         Assert.Null(model.Provider);
         Assert.Null(model.MaxbetHdp);
-        Assert.False(model.IsNoOffer);
+        Assert.Null(model.IsNoOffer);
     }
 
     [Fact]

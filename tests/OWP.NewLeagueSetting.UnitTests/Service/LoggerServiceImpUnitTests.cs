@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Fanex.NAP.Client;
 using NSubstitute;
+using Newtonsoft.Json;
 using OWP.NewLeagueSetting.Command;
 using OWP.NewLeagueSetting.Criteria;
 using OWP.NewLeagueSetting.Data;
@@ -124,7 +125,7 @@ public class LoggerServiceImpUnitTests
             Remark2 = "Test Remark 2",
             IsBlackList = false,
             NoOfferLive = 1,
-            FullConditionDescription = System.Text.Json.JsonSerializer.Serialize(new LeagueSettingCondition
+            FullConditionDescription = JsonConvert.SerializeObject(new LeagueSettingCondition
             {
                 HasTv = true,
                 HasIpTv = false,
@@ -520,7 +521,7 @@ public class LoggerServiceImpUnitTests
             LeagueGroup = "Test Group",
             Spread_HDP_Value = 0.75m,
             Spread_OU_Value = 2.5m,
-            FullConditionDescription = System.Text.Json.JsonSerializer.Serialize(new LeagueSettingCondition())
+            FullConditionDescription = JsonConvert.SerializeObject(new LeagueSettingCondition())
         };
 
         // Act
@@ -540,7 +541,7 @@ public class LoggerServiceImpUnitTests
             LeagueGroup = "Test Group",
             Spread_HDP_Value = null,
             Spread_OU_Value = null,
-            FullConditionDescription = System.Text.Json.JsonSerializer.Serialize(new LeagueSettingCondition())
+            FullConditionDescription = JsonConvert.SerializeObject(new LeagueSettingCondition())
         };
 
         // Act
@@ -560,7 +561,7 @@ public class LoggerServiceImpUnitTests
             LeagueGroup = "Test Group",
             Spread_HDP_Value = 1.0m,
             Spread_OU_Value = 2.0m,
-            FullConditionDescription = System.Text.Json.JsonSerializer.Serialize(new LeagueSettingCondition())
+            FullConditionDescription = JsonConvert.SerializeObject(new LeagueSettingCondition())
         };
 
         // Act
@@ -581,7 +582,7 @@ public class LoggerServiceImpUnitTests
             MaxbetWD_HDP_Value = 5000,
             MaxbetWK_HDP_Value = 10000,
             MaxbetWD_HDP_Note = "",
-            FullConditionDescription = System.Text.Json.JsonSerializer.Serialize(new LeagueSettingCondition())
+            FullConditionDescription = JsonConvert.SerializeObject(new LeagueSettingCondition())
         };
 
         // Act
@@ -596,15 +597,14 @@ public class LoggerServiceImpUnitTests
     public void MapToChangeModel_WithLeagueSettingInfoSender_WithNullMaxbetValues_ShouldUseNote()
     {
         // Arrange
-        var leagueSetting = new LeagueSettingInfoSender
-        {
-            League = "Test League",
-            LeagueGroup = "Test Group",
-            MaxbetWD_HDP_Value = null,
-            MaxbetWK_HDP_Value = null,
-            MaxbetWD_HDP_Note = "Standard",
-            FullConditionDescription = System.Text.Json.JsonSerializer.Serialize(new LeagueSettingCondition())
-        };
+        var leagueSetting = new LeagueSettingInfoSender();
+        leagueSetting.League = "Test League";
+        leagueSetting.LeagueGroup = "Test Group";
+        leagueSetting.MaxbetWD_HDP_Value = null;
+        leagueSetting.MaxbetWK_HDP_Value = null;
+        leagueSetting.MaxbetWD_HDP_Note = "Standard";
+        leagueSetting.MaxbetWK_HDP_Note = "Standard";
+        leagueSetting.FullConditionDescription = JsonConvert.SerializeObject(new LeagueSettingCondition());
 
         // Act
         var result = LoggerServiceImp.MapToChangeModel(leagueSetting);
@@ -624,7 +624,7 @@ public class LoggerServiceImpUnitTests
             LeagueGroup = "Test Group",
             WD_NoOfHDP_Value = "5",
             WK_NoOfHDP_Value = "10",
-            FullConditionDescription = System.Text.Json.JsonSerializer.Serialize(new LeagueSettingCondition())
+            FullConditionDescription = JsonConvert.SerializeObject(new LeagueSettingCondition())
         };
 
         // Act
@@ -645,7 +645,7 @@ public class LoggerServiceImpUnitTests
             LeagueGroup = "Test Group",
             WD_NoOfHDP_Value = "",
             WK_NoOfHDP_Value = null,
-            FullConditionDescription = System.Text.Json.JsonSerializer.Serialize(new LeagueSettingCondition())
+            FullConditionDescription = JsonConvert.SerializeObject(new LeagueSettingCondition())
         };
 
         // Act
@@ -710,7 +710,7 @@ public class LoggerServiceImpUnitTests
             LeagueGroup = "Test Group",
             Spread_HDP_Value = 0.25m,
             Spread_OU_Value = 1.75m,
-            FullConditionDescription = System.Text.Json.JsonSerializer.Serialize(new LeagueSettingCondition())
+            FullConditionDescription = JsonConvert.SerializeObject(new LeagueSettingCondition())
         };
 
         // Act
@@ -731,7 +731,7 @@ public class LoggerServiceImpUnitTests
             MaxbetWD_HDP_Value = 7500,
             MaxbetWK_HDP_Value = 12500,
             MaxbetWD_HDP_Note = "",
-            FullConditionDescription = System.Text.Json.JsonSerializer.Serialize(new LeagueSettingCondition())
+            FullConditionDescription = JsonConvert.SerializeObject(new LeagueSettingCondition())
         };
 
         // Act
@@ -761,7 +761,7 @@ public class LoggerServiceImpUnitTests
             MaxbetWD_HDP_Note = "",
             WD_NoOfHDP_Value = "8",
             WK_NoOfHDP_Value = "12",
-            FullConditionDescription = System.Text.Json.JsonSerializer.Serialize(new LeagueSettingCondition
+            FullConditionDescription = JsonConvert.SerializeObject(new LeagueSettingCondition
             {
                 HasTv = true,
                 HasIpTv = true,
@@ -1037,6 +1037,79 @@ public class LoggerServiceImpUnitTests
         Assert.False(resultAllFalse.HasIpTv);
         Assert.False(resultAllFalse.IsBlackList);
         Assert.Equal(0, resultAllFalse.NoOfferLive);
+    }
+
+    #endregion
+
+    #region Exception Handling Tests
+
+    [Fact]
+    public async Task LogSetting_WithRepositoryException_ShouldPropagateException()
+    {
+        // Arrange
+        var changeService = Substitute.For<ILeagueSettingChangeService>();
+        var repository = Substitute.For<Repository>();
+        var session = Substitute.For<INapSession>();
+
+        var logService = new LoggerServiceImp(changeService, repository, session);
+
+        var currentSetting = new LeagueSettingChangeModel { League = "Test League" };
+        var newSetting = new LeagueSettingChangeModel { League = "Updated League" };
+        var request = new LogRequest("Test Action", 123, currentSetting, newSetting);
+
+        var expectedException = new Exception("Repository error");
+        changeService.LogProcessingChanges(currentSetting, newSetting).Returns(new List<LogDetail>());
+        repository.ExecuteNonQueryCommand(Arg.Any<InsertLogCriteria>()).Returns(Task.FromException(expectedException));
+        session.UserName.Returns("testuser");
+
+        // Act & Assert
+        var exception = await Assert.ThrowsAsync<Exception>(() => logService.LogSetting(request));
+        Assert.Equal(expectedException, exception);
+    }
+
+    [Fact]
+    public async Task LogSetting_WithChangeServiceException_ShouldPropagateException()
+    {
+        // Arrange
+        var changeService = Substitute.For<ILeagueSettingChangeService>();
+        var repository = Substitute.For<Repository>();
+        var session = Substitute.For<INapSession>();
+
+        var logService = new LoggerServiceImp(changeService, repository, session);
+
+        var currentSetting = new LeagueSettingChangeModel { League = "Test League" };
+        var newSetting = new LeagueSettingChangeModel { League = "Updated League" };
+        var request = new LogRequest("Test Action", 123, currentSetting, newSetting);
+
+        var expectedException = new Exception("Change service error");
+        changeService.LogProcessingChanges(Arg.Any<LeagueSettingChangeModel>(), Arg.Any<LeagueSettingChangeModel>()).Returns(_ => throw expectedException);
+
+        // Act & Assert
+        var exception = await Assert.ThrowsAsync<Exception>(() => logService.LogSetting(request));
+        Assert.Equal(expectedException, exception);
+    }
+
+    [Fact]
+    public async Task LogSetting_WithSessionException_ShouldPropagateException()
+    {
+        // Arrange
+        var changeService = Substitute.For<ILeagueSettingChangeService>();
+        var repository = Substitute.For<Repository>();
+        var session = Substitute.For<INapSession>();
+
+        var logService = new LoggerServiceImp(changeService, repository, session);
+
+        var currentSetting = new LeagueSettingChangeModel { League = "Test League" };
+        var newSetting = new LeagueSettingChangeModel { League = "Updated League" };
+        var request = new LogRequest("Test Action", 123, currentSetting, newSetting);
+
+        var expectedException = new Exception("Session error");
+        changeService.LogProcessingChanges(currentSetting, newSetting).Returns(new List<LogDetail>());
+        session.UserName.Returns(_ => throw expectedException);
+
+        // Act & Assert
+        var exception = await Assert.ThrowsAsync<Exception>(() => logService.LogSetting(request));
+        Assert.Equal(expectedException, exception);
     }
 
     #endregion

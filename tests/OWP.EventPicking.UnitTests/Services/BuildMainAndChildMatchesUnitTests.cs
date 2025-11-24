@@ -14,18 +14,25 @@ using Xunit.Asserts.Compare;
 public class BuildMainAndChildMatchesUnitTests
 {
     private readonly OWP.EventPicking.Repository repository;
-    private readonly MaxbetSettingService maxbetSettingService;
+    private readonly BuildChildMatchMaxBet buildChildMatchMaxBet;
+    private readonly BuildRowColor buildRowColor;
+    private readonly BuildMatchOfferByLiveSetting buildMatchOffer;
+    private readonly BuildProvider buildProvider;
     private readonly IOptions<AppSettings> appSettingOptions;
+    private readonly MaxbetSettingService maxbetSettingService;
+    private readonly SyncEventPickingInfo syncEventPickingInfo;
     private readonly BuildMainAndChildMatchesImp services;
 
     public BuildMainAndChildMatchesUnitTests()
     {
         repository = Substitute.For<OWP.EventPicking.Repository>();
-        var buildChildMatchMaxBet = Substitute.For<BuildChildMatchMaxBet>();
-        var buildRowColor = Substitute.For<BuildRowColor>();
+        buildChildMatchMaxBet = Substitute.For<BuildChildMatchMaxBet>();
+        buildRowColor = Substitute.For<BuildRowColor>();
+        buildMatchOffer = Substitute.For<BuildMatchOfferByLiveSetting>();
+        buildProvider = Substitute.For<BuildProvider>();
         maxbetSettingService = Substitute.For<MaxbetSettingService>();
-        var buildMatchOffer = Substitute.For<BuildMatchOfferByLiveSetting>();
-        var providerBuilder = Substitute.For<BuildProvider>();
+        syncEventPickingInfo = Substitute.For<SyncEventPickingInfo>();
+
         var appSettings = new AppSettings
         {
             ShowTestMatchEventPicking = false
@@ -39,9 +46,9 @@ public class BuildMainAndChildMatchesUnitTests
             buildChildMatchMaxBet,
             buildRowColor,
             buildMatchOffer,
-            providerBuilder,
+            buildProvider,
             appSettingOptions,
-            maxbetSettingService);
+            syncEventPickingInfo);
     }
 
     [Fact]
@@ -49,23 +56,39 @@ public class BuildMainAndChildMatchesUnitTests
     {
         repository.QueryMainMatch(new DateTime(2022, 11, 06)).Returns(MockMainMatches());
         repository.QueryChildMatch(new DateTime(2022, 11, 06)).Returns(MockChildMatches());
-        var maxbetSettings = new List<MaxBetSettingModel>
+        var maxbetSettings = new Dictionary<decimal, MaxBetSettingModel>
         {
-            new() {
+            [5000] = new() {
                 FT_HDP = 5000,
                 NoOfCorner_FT_HDP = 2000,
                 NoOfCorner_FT_OU = 100,
                 NextCorner_FT_HDP = 12000,
                 SecondAccept_Corner = "5s Accept"
             },
-            new() {FT_HDP = 4000, NextCorner_FT_HDP = 400, NextBooking_FT_HDP = 100, SecondAccept_Fantasy = "20s Accept"},
-            new() {FT_HDP = 3000, TotalBooking_FT_HDP = 300, TotalBooking_FT_OU = 100, SecondAccept_TotalBooking = "12s Accept"},
-            new() {FT_HDP = -1000, NextCorner_FT_HDP = 200, NextBooking_FT_HDP = 333}
+            [4000] = new() {FT_HDP = 4000, NextCorner_FT_HDP = 400, NextBooking_FT_HDP = 100, SecondAccept_Fantasy = "20s Accept"},
+            [3000] = new() {FT_HDP = 3000, TotalBooking_FT_HDP = 300, TotalBooking_FT_OU = 100, SecondAccept_TotalBooking = "12s Accept"},
+            [-1000] = new() {FT_HDP = -1000, NextCorner_FT_HDP = 200, NextBooking_FT_HDP = 333}
         };
-        maxbetSettingService.QueryMaxbetSetting().Returns(maxbetSettings);
+        buildChildMatchMaxBet.GetMaxBetDefaultSetting().Returns(maxbetSettings);
 
         var actual = await services.GetMainAndChildMatchEvent(new DateTime(2022, 11, 06));
         DeepAssert.Equal(ExpectedMatches(), actual);
+    }
+
+    [Fact]
+    public async Task GetChildEventEventPicking_ShouldHandleEmptyResults()
+    {
+        // Arrange
+        var testDate = new DateTime(2022, 11, 6);
+        var emptyChildMatches = new List<EventPickingModel>();
+
+        repository.QueryEventPickingChildMatch(testDate).Returns(emptyChildMatches);
+
+        // Act
+        var result = await services.GetChildEventEventPicking(testDate);
+
+        // Assert
+        Assert.Empty(result);
     }
 
     public List<EventPickingModel> MockMainMatches()

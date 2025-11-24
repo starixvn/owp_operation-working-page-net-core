@@ -17,6 +17,7 @@ public class QueryEventPickingServiceImpTests
     private readonly TGRSService _mockTGRSService;
     private readonly BuildMainAndChildMatches _mockBuildMainAndChildMatches;
     private readonly PermissionService _mockPermissionService;
+    private readonly SyncEventPickingInfo _mockSyncEventPickingInfo;
     private readonly QueryEventPickingServiceImp _service;
 
     public QueryEventPickingServiceImpTests()
@@ -24,8 +25,9 @@ public class QueryEventPickingServiceImpTests
         _mockTGRSService = Substitute.For<TGRSService>();
         _mockBuildMainAndChildMatches = Substitute.For<BuildMainAndChildMatches>();
         _mockPermissionService = Substitute.For<PermissionService>();
+        _mockSyncEventPickingInfo = Substitute.For<SyncEventPickingInfo>();
         var logger = Substitute.For<ILogger>();
-        _service = new QueryEventPickingServiceImp(_mockTGRSService, _mockBuildMainAndChildMatches, _mockPermissionService, logger);
+        _service = new QueryEventPickingServiceImp(_mockTGRSService, _mockBuildMainAndChildMatches, _mockPermissionService, _mockSyncEventPickingInfo, logger);
     }
 
     [Fact]

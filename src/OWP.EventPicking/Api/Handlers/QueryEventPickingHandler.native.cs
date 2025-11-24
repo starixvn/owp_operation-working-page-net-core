@@ -7,8 +7,8 @@ namespace OWP.EventPicking.Api.Handlers;
 
 public class QueryEventPickingRequest : EventPickingRequest, IRequest<EventPickingResult>;
 
-public class QueryEventPickingHandler(QueryEventPickingService queryEventPickingService)
-    : IRequestHandler<QueryEventPickingRequest, EventPickingResult>
+public class QueryEventPickingHandler(
+    QueryEventPickingService queryEventPickingService) : IRequestHandler<QueryEventPickingRequest, EventPickingResult>
 {
     private static readonly short[] _excludedUpdateTypes = [
         UpdateTypeConstant.UPDATE_REMARK2,
@@ -26,5 +26,9 @@ public class QueryEventPickingHandler(QueryEventPickingService queryEventPicking
     ];
 
     public async Task<EventPickingResult> Handle(QueryEventPickingRequest request, CancellationToken cancellationToken)
-    => await queryEventPickingService.Execute(request, _excludedUpdateTypes);
+    {
+        var mainMatches = await queryEventPickingService.Execute(request, _excludedUpdateTypes);
+
+        return mainMatches;
+    }
 }

@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Options;
 using OWP.EventPicking.Api.Helper;
-using OWP.EventPicking.Api.Models;
 using OWP.Models;
 
 namespace OWP.EventPicking.Api.Services;
@@ -14,31 +13,16 @@ public interface BuildMainAndChildMatches
     Task<List<EventPickingModel>> GetChildEventEventPicking(DateTime date);
 }
 
-public class BuildMainAndChildMatchesImp: BuildMainAndChildMatches
+public class BuildMainAndChildMatchesImp(
+    Repository repository,
+    BuildChildMatchMaxBet buildChildMatchMaxBet,
+    BuildRowColor buildRowColor,
+    BuildMatchOfferByLiveSetting buildMatchOffer,
+    BuildProvider buildProvider,
+    IOptions<AppSettings> appSettingOptions,
+    SyncEventPickingInfo syncEventPickingInfo) : BuildMainAndChildMatches
 {
-    private readonly AppSettings appSettings;
-    private readonly Repository repository;
-    private readonly BuildChildMatchMaxBet buildChildMatchMaxBet;
-    private readonly BuildRowColor buildRowColor;
-    private readonly BuildMatchOfferByLiveSetting buildMatchOffer;
-    private readonly BuildProvider buildProvider;
-
-    public BuildMainAndChildMatchesImp(
-        Repository repository,
-        BuildChildMatchMaxBet buildChildMatchMaxBet,
-        BuildRowColor buildRowColor,
-        BuildMatchOfferByLiveSetting buildMatchOffer,
-        BuildProvider buildProvider,
-        IOptions<AppSettings> appSettingOptions,
-        MaxbetSettingService maxbetSettingService)
-    {
-        appSettings = appSettingOptions.Value;
-        this.repository = repository;
-        this.buildChildMatchMaxBet = buildChildMatchMaxBet;
-        this.buildRowColor = buildRowColor;
-        this.buildMatchOffer = buildMatchOffer;
-        this.buildProvider = buildProvider;
-    }
+    private readonly AppSettings appSettings = appSettingOptions.Value;
 
     public async Task<List<EventPickingModel>> GetMainAndChildMatchEvent(DateTime date)
     {
@@ -52,6 +36,8 @@ public class BuildMainAndChildMatchesImp: BuildMainAndChildMatches
         var allMatches = SpecialProductHelper.CombineMainAndChildMatchAndAddMatchNo(filteredMainMatches, childMatches);
         buildRowColor.BuildRowColor(allMatches);
         await buildProvider.Build(allMatches);
+
+        await syncEventPickingInfo.Execute(allMatches);
 
         return allMatches;
     }
@@ -94,4 +80,5 @@ public class BuildMainAndChildMatchesImp: BuildMainAndChildMatches
 
         return generatedChildMatch;
     }
+
 }
