@@ -77,6 +77,16 @@ type TDataTable = TMatchOfferInfo & {
   marginPeriod: TWinLoss[];
   rowSpan: number;
   isMovedEventDate: boolean;
+  isClubFriendlyLeague: boolean;
+  homeMainLeague: string;
+  awayMainLeague: string;
+  homeMainLeagueSetting: TMainLeagueSetting;
+  awayMainLeagueSetting: TMainLeagueSetting;
+};
+
+type TMainLeagueSetting = {
+  isNoOfferLive: boolean;
+  isBlackList: boolean;
 };
 
 type TWinLoss = {

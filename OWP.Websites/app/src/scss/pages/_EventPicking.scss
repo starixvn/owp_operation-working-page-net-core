@@ -17,7 +17,7 @@
     }
 
     .dropdown-heading-value {
-      > span {
+      >span {
         display: block;
         max-width: 130px;
         overflow: hidden;
@@ -62,7 +62,7 @@
     }
 
     .item-renderer {
-      input[type='checkbox'] + span {
+      input[type='checkbox']+span {
         &:after {
           left: 6px;
           top: 2px;
@@ -81,7 +81,7 @@
   padding: 0 1rem;
 }
 
-.multi-select .select-panel > div {
+.multi-select .select-panel>div {
   display: block !important;
 }
 
@@ -545,43 +545,44 @@
   }
 
   tbody {
+
     // Freeze columns from No # to MB HDP
-    tr > td:nth-child(1),
-    tr > td:nth-child(2),
-    tr > td:nth-child(3),
-    tr > td:nth-child(4),
-    tr > td:nth-child(5) {
+    tr>td:nth-child(1),
+    tr>td:nth-child(2),
+    tr>td:nth-child(3),
+    tr>td:nth-child(4),
+    tr>td:nth-child(5) {
       position: sticky;
       z-index: 10;
     }
 
     // Ensure sticky cells inherit row background color
-    tr > td:nth-child(1):not(.color-unselected):not(.color-child-matches),
-    tr > td:nth-child(2):not(.color-unselected):not(.color-child-matches),
-    tr > td:nth-child(3):not(.color-unselected):not(.color-child-matches),
-    tr > td:nth-child(4):not(.color-unselected):not(.color-child-matches),
-    tr > td:nth-child(5):not(.color-unselected):not(.color-child-matches) {
+    tr>td:nth-child(1):not(.color-unselected):not(.color-child-matches),
+    tr>td:nth-child(2):not(.color-unselected):not(.color-child-matches),
+    tr>td:nth-child(3):not(.color-unselected):not(.color-child-matches),
+    tr>td:nth-child(4):not(.color-unselected):not(.color-child-matches),
+    tr>td:nth-child(5):not(.color-unselected):not(.color-child-matches) {
       background: inherit;
     }
 
     // Ensure colored sticky cells inherit background color
-    tr > td:nth-child(1).color-unselected,
-    tr > td:nth-child(2).color-unselected,
-    tr > td:nth-child(3).color-unselected,
-    tr > td:nth-child(4).color-unselected,
-    tr > td:nth-child(5).color-unselected {
+    tr>td:nth-child(1).color-unselected,
+    tr>td:nth-child(2).color-unselected,
+    tr>td:nth-child(3).color-unselected,
+    tr>td:nth-child(4).color-unselected,
+    tr>td:nth-child(5).color-unselected {
       background-color: #ffd8d8 !important;
     }
 
-    tr > td:nth-child(1).color-child-matches,
-    tr > td:nth-child(2).color-child-matches,
-    tr > td:nth-child(3).color-child-matches,
-    tr > td:nth-child(4).color-child-matches,
-    tr > td:nth-child(5).color-child-matches {
+    tr>td:nth-child(1).color-child-matches,
+    tr>td:nth-child(2).color-child-matches,
+    tr>td:nth-child(3).color-child-matches,
+    tr>td:nth-child(4).color-child-matches,
+    tr>td:nth-child(5).color-child-matches {
       background-color: #ffc000 !important;
     }
 
-    tr > td:nth-child(1) {
+    tr>td:nth-child(1) {
       left: 0;
       min-width: 55px !important;
       max-width: 55px !important;
@@ -589,28 +590,28 @@
       text-align: center !important;
     }
 
-    tr > td:nth-child(2) {
+    tr>td:nth-child(2) {
       left: 55px;
       min-width: 72px !important;
       max-width: 72px !important;
       width: 72px !important;
     }
 
-    tr > td:nth-child(3) {
+    tr>td:nth-child(3) {
       left: 127px;
       min-width: 250px !important;
       max-width: 250px !important;
       width: 250px !important;
     }
 
-    tr > td:nth-child(4) {
+    tr>td:nth-child(4) {
       left: 377px;
       min-width: 200px !important;
       max-width: 200px !important;
       width: 200px !important;
     }
 
-    tr > td:nth-child(5) {
+    tr>td:nth-child(5) {
       left: 577px;
       min-width: 75px !important;
       max-width: 75px !important;
@@ -835,6 +836,7 @@
   }
 
   .remark-cell {
+
     .black-list,
     .team-bad-ranking,
     .team-downgrade {
@@ -903,6 +905,11 @@
 
     .home {
       color: #e21b1b;
+    }
+
+    .warning-icon {
+      margin-left: 4px;
+      cursor: pointer;
     }
   }
 }
@@ -999,11 +1006,7 @@
 }
 
 .event-picking-page-page {
-  .multi-select
-    .select-item
-    .item-renderer
-    input[type='checkbox']
-    + span::before {
+  .multi-select .select-item .item-renderer input[type='checkbox']+span::before {
     margin-right: 7px;
   }
 
@@ -1017,16 +1020,11 @@
     }
   }
 
-  .multi-select .select-item .item-renderer input[type='checkbox'] + span {
+  .multi-select .select-item .item-renderer input[type='checkbox']+span {
     height: auto;
   }
 
-  .filter-control
-    .league
-    .rmsc.multi-select
-    .dropdown-heading
-    .dropdown-heading-value
-    > span {
+  .filter-control .league .rmsc.multi-select .dropdown-heading .dropdown-heading-value>span {
     max-width: 290px;
   }
 }
@@ -1076,6 +1074,7 @@
   width: 100%;
 
   thead {
+
     th,
     td {
       background: #dedede;
@@ -1084,6 +1083,7 @@
   }
 
   tr {
+
     th,
     td {
       border-collapse: collapse;
@@ -1145,6 +1145,7 @@
 
 .sum-provider-table,
 .right-table {
+
   th,
   td {
     border: 0.5px solid #968585;
@@ -1168,6 +1169,7 @@
 }
 
 .right-table {
+
   th,
   td {
     border-left: none;

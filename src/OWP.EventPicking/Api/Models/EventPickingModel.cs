@@ -37,14 +37,11 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
 
     public bool IsMovedEventDate { get; set; }
 
-    [JsonIgnore]
     public string HomeMainLeague { get; set; }
 
-    [JsonIgnore]
     public string AwayMainLeague { get; set; }
 
-
-    [JsonIgnore] public bool IsClubFriendlyLeague => LeagueName.ToLower(CultureInfo.InvariantCulture) == "club friendly";
+    public bool IsClubFriendlyLeague => LeagueName.ToLower(CultureInfo.InvariantCulture) == "club friendly";
 
     public List<string> InfoSiteBlackList
     {
@@ -207,7 +204,7 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
 
     [Cell("AX2")]
     [JsonIgnore]
-    public string InfoSiteIdExport =>  InfoSiteMatchId.ToString();
+    public string InfoSiteIdExport => InfoSiteMatchId.ToString();
 
     [Cell("AY2")]
     [JsonIgnore]
@@ -283,6 +280,10 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
 
     public int NoOfferLive { get; set; }
 
+    public MainLeagueSetting HomeMainLeagueSetting { get; set; }
+
+    public MainLeagueSetting AwayMainLeagueSetting { get; set; }
+
     public string RowColorHex => Misc.Constant.ColorPair.GetValueOrDefault(RowColor);
 
     public string RowColor { get; set; }
@@ -345,7 +346,7 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
     public bool IsAwayBadRanking { get; set; }
     public bool IsHomeDowngrade { get; set; }
     public bool IsAwayDowngrade { get; set; }
-    public bool IsPostponed{ get; set; }
+    public bool IsPostponed { get; set; }
     public byte? InfoSiteMatchStatus { get; set; }
 
     public IEnumerable<TurnOverInfo> TurnoverPeriod => new List<TurnOverInfo>{
