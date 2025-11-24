@@ -57,6 +57,8 @@ public class SyncEventPickingInfoImp(Repository repository) : SyncEventPickingIn
             return;
         }
         //get setting from club friendly main league
+        var homeLeagueSettingByLeagueId = leagueSetting.Where(x => x.League.Trim() == match.HomeMainLeague).ToList();
+        var awayLeagueSettingByLeagueId = leagueSetting.Where(x => x.League.Trim() == match.AwayMainLeague).ToList();
     }
 
     private LeagueSettingInfoSender HandleMappingForMultipleSettings(EventPickingModel match, List<LeagueSettingInfoSender> leagueSettings, List<Condition> tvList)
