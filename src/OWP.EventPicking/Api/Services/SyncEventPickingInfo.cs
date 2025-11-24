@@ -59,7 +59,6 @@ public class SyncEventPickingInfoImp(Repository repository, PullMainLeagueServic
         {
             return;
         }
-        //get setting from club friendly main league
         var homeLeagueSettingByLeagueId = leagueSetting.Where(x => x.League.Trim() == match.HomeMainLeague).ToList();
         var awayLeagueSettingByLeagueId = leagueSetting.Where(x => x.League.Trim() == match.AwayMainLeague).ToList();
     }
