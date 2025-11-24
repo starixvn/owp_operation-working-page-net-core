@@ -37,7 +37,7 @@ public class BuildMainAndChildMatchesImp(
         buildRowColor.BuildRowColor(allMatches);
         await buildProvider.Build(allMatches);
 
-        await syncEventPickingInfo.Execute(allMatches);
+        await syncEventPickingInfo.Execute(allMatches, CancellationToken.None);
 
         return allMatches;
     }

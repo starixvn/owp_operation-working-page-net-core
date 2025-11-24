@@ -7,7 +7,7 @@ namespace OWP.EventPicking.Api.Services;
 
 public interface QueryEventPickingService
 {
-    Task<EventPickingResult> Execute(EventPickingRequest request, IList<short> excludedUpdateTypes);
+    Task<EventPickingResult> Execute(EventPickingRequest request, IList<short> excludedUpdateTypes, CancellationToken cancellationToken = default);
 
     Task<List<LeagueTurnOver>> GetMatchTurnOver(List<string> leagues, Period period);
 
@@ -22,7 +22,7 @@ public class QueryEventPickingServiceImp(
 {
     private const string InfoToHideMatch = "no need include miscmatch";
 
-    public async Task<EventPickingResult> Execute(EventPickingRequest request, IList<short> excludedUpdateTypes)
+    public async Task<EventPickingResult> Execute(EventPickingRequest request, IList<short> excludedUpdateTypes, CancellationToken cancellationToken = default)
     {
         var startTime = DateTimeOffset.Now;
         var matches = await buildMainAndChildMatches.GetMainEvent(request.Date);
@@ -45,7 +45,7 @@ public class QueryEventPickingServiceImp(
         var matchesByDate = SelectMatchOfferInfos(ExcludeUpdateType(matches, excludedUpdateTypes));
         var filteredMatches = ExcludeUpdateType(allMatches, excludedUpdateTypes);
 
-        filteredMatches = await SyncInfoFromLeagueSetting(filteredMatches, request);
+        filteredMatches = await SyncInfoFromLeagueSetting(filteredMatches, request, cancellationToken);
 
         return new EventPickingResult
         {
@@ -85,7 +85,7 @@ public class QueryEventPickingServiceImp(
                 // Get data for 12 months period
                 var twelveMonthsData = twTwelveMonths.Result?.FirstOrDefault(x => x.LeagueName == leagueName);
                 PopulatePeriodData(twelveMonthsData, leagueTurnOver, "12m");
-               
+
             }
 
             return leagueTurnOvers;
@@ -256,9 +256,10 @@ public class QueryEventPickingServiceImp(
 
     private async Task<List<EventPickingModel>> SyncInfoFromLeagueSetting(
         List<EventPickingModel> filteredMatches,
-        EventPickingRequest request)
+        EventPickingRequest request,
+        CancellationToken cancellationToken)
     {
-        await syncEventPickingInfo.Execute(filteredMatches);
+        await syncEventPickingInfo.Execute(filteredMatches, cancellationToken);
 
         return filteredMatches
             .Where(x => CheckCondition1(x, request))
@@ -271,7 +272,7 @@ public class QueryEventPickingServiceImp(
         .ToList();
 
     public static bool ValidMatch(EventPickingModel match, EventPickingRequest condition)
-        =>  CheckCondition2(match, condition) && CheckCondition3(match, condition);
+        => CheckCondition2(match, condition) && CheckCondition3(match, condition);
 
     private static bool CheckCondition1(EventPickingModel match, EventPickingRequest condition)
         => condition.SelectGame.Contains(ConvertBoolToInt(match.IsNoOffer));

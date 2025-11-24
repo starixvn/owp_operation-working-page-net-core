@@ -27,7 +27,7 @@ public class QueryEventPickingHandler(
 
     public async Task<EventPickingResult> Handle(QueryEventPickingRequest request, CancellationToken cancellationToken)
     {
-        var mainMatches = await queryEventPickingService.Execute(request, _excludedUpdateTypes);
+        var mainMatches = await queryEventPickingService.Execute(request, _excludedUpdateTypes, cancellationToken);
 
         return mainMatches;
     }

@@ -5,19 +5,22 @@ namespace OWP.EventPicking.Api.Services;
 
 public interface SyncEventPickingInfo
 {
-    Task Execute(List<EventPickingModel> matchFiltered);
+    Task Execute(List<EventPickingModel> matchFiltered, CancellationToken cancellationToken = default);
 }
 
-public class SyncEventPickingInfoImp(Repository repository) : SyncEventPickingInfo
+public class SyncEventPickingInfoImp(Repository repository, PullMainLeagueService pullMainLeagueService) : SyncEventPickingInfo
 {
-    public async Task Execute(List<EventPickingModel> matchFiltered)
+    public async Task Execute(List<EventPickingModel> matchFiltered, CancellationToken cancellationToken = default)
     {
         var leagueSetting = (await repository.QueryLeagueSetting()).ToList();
         var tvList = (await repository.GetTVList()).ToList();
+        var clubFriendlyEvents = matchFiltered.Where(x => x.IsClubFriendlyLeague).ToList();
 
-
-        // Todo: get main league for club friendly match
-
+        if (clubFriendlyEvents.Count > 0)
+        {
+            var clubFriendlyMainLeagues = (await pullMainLeagueService.GetMainLeague(clubFriendlyEvents, cancellationToken)).ToList();
+            // Todo: get league setting for club friendly match
+        }
 
         foreach (var match in matchFiltered)
         {
@@ -34,7 +37,7 @@ public class SyncEventPickingInfoImp(Repository repository) : SyncEventPickingIn
 
     private void ProcessLeagueSettingsForMatch(List<LeagueSettingInfoSender> leagueSetting, EventPickingModel match, List<Condition> tvList)
     {
-        if(match.IsNoOffer != null)
+        if (match.IsNoOffer != null)
         {
             return;
         }
@@ -101,9 +104,9 @@ public class SyncEventPickingInfoImp(Repository repository) : SyncEventPickingIn
         return orderedLeagues.FirstOrDefault()?.League;
     }
 
-    #pragma warning disable S1541, S3776, S121, S122
+#pragma warning disable S1541, S3776, S121, S122
 
-     private int GetPriority(NewLeagueSettingCondition condition)
+    private int GetPriority(NewLeagueSettingCondition condition)
     {
         if (condition.HasTv && condition.Round.Count > 0 && condition.Division.Count > 0) return 1;
         if (condition.HasTv && condition.Round.Count > 0) return 2;
@@ -118,7 +121,7 @@ public class SyncEventPickingInfoImp(Repository repository) : SyncEventPickingIn
         if (condition.Division.Count > 0) return 11;
         return 12;
     }
-    #pragma warning restore S1541, S3776, S121, S122
+#pragma warning restore S1541, S3776, S121, S122
 
     private int? CheckMatchValidMappingWithLeagueManagement(EventPickingModel match, LeagueSettingInfoSender leagueSetting, List<Condition> tvList)
     {
@@ -282,7 +285,7 @@ public class SyncEventPickingInfoImp(Repository repository) : SyncEventPickingIn
 
         var hasValidChannel = !string.IsNullOrWhiteSpace(match.Channel) &&
                             !match.Channel.Contains("Cancel", StringComparison.OrdinalIgnoreCase);
-         return (hasValidTv, hasValidIptv || hasValidChannel);
+        return (hasValidTv, hasValidIptv || hasValidChannel);
     }
 
     private static bool IsTvConditionMatch(string tvField, Condition tvCondition)
