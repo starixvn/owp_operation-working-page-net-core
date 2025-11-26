@@ -27,21 +27,25 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
 
     public int OWPLeagueId { get; set; }
 
+    //for match
     public bool IsBlackList { get; set; }
-
-    public bool IsLeagueBlackList { get; set; }
-
-    public bool IsHomeBlackList { get; set; }
-
-    public bool IsAwayBlackList { get; set; }
-
     public bool IsMovedEventDate { get; set; }
 
-    public string HomeMainLeague { get; set; }
-    public bool IsHomeNoOfferLive { get; set; }
+    //for league
+    public bool IsLeagueBlackList { get; set; }
 
+    //for home 
+    public string HomeMainLeague { get; set; }
+    public bool IsHomeBlackList { get; set; }
+    public bool IsHomeMainLeagueNoOfferLive { get; set; }
+    public bool IsHomeMainLeagueBlackList { get; set; }
+    
+
+    //for away
     public string AwayMainLeague { get; set; }
-    public bool IsAwayNoOfferLive { get; set; }
+    public bool IsAwayBlackList { get; set; }
+    public bool IsAwayMainLeagueNoOfferLive { get; set; }
+    public bool IsAwayMainLeagueBlackList { get; set; }
 
     public bool IsClubFriendlyLeague => LeagueName.ToLower(CultureInfo.InvariantCulture) == "club friendly";
 

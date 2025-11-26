@@ -41,14 +41,18 @@ public class SyncEventPickingInfoImp(Repository repository, PullMainLeagueServic
         {
             return;
         }
+
         var leagueSettingByLeagueId = leagueSetting.Where(x => x.OWPLeagueId == match.OWPLeagueId).ToList();
-        if (leagueSettingByLeagueId.Count > 0)
+
+        if (leagueSettingByLeagueId.Count == 0)
         {
-            var selectedSetting = HandleMappingForMultipleSettings(match, leagueSettingByLeagueId, tvList);
-            if (selectedSetting != null)
-            {
-                SuggestionValue(match, selectedSetting);
-            }
+            return;
+        }
+
+        var selectedSetting = HandleMappingForMultipleSettings(match, leagueSettingByLeagueId, tvList);
+        if (selectedSetting != null)
+        {
+            SuggestionValue(match, selectedSetting);
         }
     }
 
@@ -62,13 +66,25 @@ public class SyncEventPickingInfoImp(Repository repository, PullMainLeagueServic
         var homeLeagueSettingByLeagueId = leagueSetting.Where(x => x.League.Trim() == match.HomeMainLeague).ToList();
         var awayLeagueSettingByLeagueId = leagueSetting.Where(x => x.League.Trim() == match.AwayMainLeague).ToList();
 
-        // TODO: Handle multiple settings for home and away leagues
-        match.IsHomeBlackList = true;
-        match.IsHomeNoOfferLive  = false;
+        if (homeLeagueSettingByLeagueId.Count == 0 && awayLeagueSettingByLeagueId.Count == 0)
+        {
+            return;
+        }
 
-        match.IsAwayBlackList = true;
-        match.IsAwayNoOfferLive = false;
-       
+        var selectedHomeSetting = HandleMappingForMultipleSettings(match, homeLeagueSettingByLeagueId, tvList);
+        var selectedAwaySetting = HandleMappingForMultipleSettings(match, awayLeagueSettingByLeagueId, tvList);
+
+        var isMatchNoOfferBySetting = ShouldSetNoOffer(selectedHomeSetting.NoOfferLive, match.EventDateTime) ||
+                                      ShouldSetNoOffer(selectedAwaySetting.NoOfferLive, match.EventDateTime);
+
+        var isMatchNoOfferByBlackList = selectedHomeSetting.IsBlackList && selectedAwaySetting.IsBlackList;
+
+        // TODO: Handle multiple settings for home and away leagues
+        match.IsHomeMainLeagueBlackList = true;
+        match.IsHomeMainLeagueNoOfferLive = false;
+        match.IsAwayMainLeagueBlackList = true;
+        match.IsAwayMainLeagueNoOfferLive = true;
+
     }
 
     private LeagueSettingInfoSender HandleMappingForMultipleSettings(EventPickingModel match, List<LeagueSettingInfoSender> leagueSettings, List<Condition> tvList)
