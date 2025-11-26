@@ -38,6 +38,8 @@ const MatchCell = ({ rowIndex, dataSource }) => {
     isClubFriendlyLeague,
     homeName,
     awayName,
+    homeMainLeague,
+    awayMainLeague,
     isHomeBlackList,
     isAwayBlackList,
     isHomeNoOfferLive,
@@ -83,7 +85,7 @@ const MatchCell = ({ rowIndex, dataSource }) => {
       <div className='home'>
         {homeName}
         {renderTeamWarnings(
-          homeName,
+          homeMainLeague,
           isHomeNoOfferLive,
           isHomeBlackList,
           refHomeNoOfferLive,
@@ -93,7 +95,7 @@ const MatchCell = ({ rowIndex, dataSource }) => {
       <div className='away'>
         {awayName}
         {renderTeamWarnings(
-          awayName,
+          awayMainLeague,
           isAwayNoOfferLive,
           isAwayBlackList,
           refAwayNoOfferLive,
