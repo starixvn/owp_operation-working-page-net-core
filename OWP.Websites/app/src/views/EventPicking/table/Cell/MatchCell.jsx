@@ -40,10 +40,10 @@ const MatchCell = ({ rowIndex, dataSource }) => {
     awayName,
     homeMainLeague,
     awayMainLeague,
-    isHomeBlackList,
-    isAwayBlackList,
-    isHomeNoOfferLive,
-    isAwayNoOfferLive
+    isHomeMainLeagueNoOfferLive,
+    isAwayMainLeagueNoOfferLive,
+    isHomeMainLeagueBlackList,
+    isAwayMainLeagueBlackList
   } = dataSource[rowIndex];
   const refHomeNoOfferLive = useRef(null);
   const refAwayNoOfferLive = useRef(null);
@@ -86,8 +86,8 @@ const MatchCell = ({ rowIndex, dataSource }) => {
         {homeName}
         {renderTeamWarnings(
           homeMainLeague,
-          isHomeNoOfferLive,
-          isHomeBlackList,
+          isHomeMainLeagueNoOfferLive,
+          isHomeMainLeagueBlackList,
           refHomeNoOfferLive,
           refHomeBlackList
         )}
@@ -96,8 +96,8 @@ const MatchCell = ({ rowIndex, dataSource }) => {
         {awayName}
         {renderTeamWarnings(
           awayMainLeague,
-          isAwayNoOfferLive,
-          isAwayBlackList,
+          isAwayMainLeagueNoOfferLive,
+          isAwayMainLeagueBlackList,
           refAwayNoOfferLive,
           refAwayBlackList
         )}

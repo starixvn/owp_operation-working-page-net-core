@@ -80,10 +80,10 @@ type TDataTable = TMatchOfferInfo & {
   isClubFriendlyLeague: boolean;
   homeMainLeague: string;
   awayMainLeague: string;
-  isHomeNoOfferLive: boolean;
-  isAwayNoOfferLive: boolean;
-  isHomeBlackList: boolean;
-  isAwayBlackList: boolean;
+  isHomeMainLeagueNoOfferLive: boolean;
+  isAwayMainLeagueNoOfferLive: boolean;
+  isHomeMainLeagueBlackList: boolean;
+  isAwayMainLeagueBlackList: boolean;
 };
 
 type TWinLoss = {
