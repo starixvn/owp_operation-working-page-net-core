@@ -75,13 +75,13 @@ public static class ExcelColorHelper
     {
         if (match.IsClubFriendlyLeague)
         {
-            if (match.IsHomeNoOfferLive)
+            if (match.IsHomeMainLeagueNoOfferLive)
             {
                 var homeCell = templateSheet.Cells[row, Misc.Constant.HOME_COL_INDEX];
                 var color = ColorTranslator.FromHtml(Misc.Constant.ColorYellowHex);
                 homeCell.Style.Fill.SetBackground(color);
             }
-            if (match.IsAwayNoOfferLive)
+            if (match.IsAwayMainLeagueNoOfferLive)
             {
                 var awayCell = templateSheet.Cells[row, Misc.Constant.AWAY_COL_INDEX];
                 var color = ColorTranslator.FromHtml(Misc.Constant.ColorYellowHex);
