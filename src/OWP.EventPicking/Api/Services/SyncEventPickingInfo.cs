@@ -63,17 +63,12 @@ public class SyncEventPickingInfoImp(Repository repository, PullMainLeagueServic
         var awayLeagueSettingByLeagueId = leagueSetting.Where(x => x.League.Trim() == match.AwayMainLeague).ToList();
 
         // TODO: Handle multiple settings for home and away leagues
-        match.HomeMainLeagueSetting = new MainLeagueSetting
-        {
-            IsBlackList = true,
-            IsNoOfferLive = false
-        };
+        match.IsHomeBlackList = true;
+        match.IsHomeNoOfferLive  = false;
 
-        match.AwayMainLeagueSetting = new MainLeagueSetting
-        {
-            IsBlackList = false,
-            IsNoOfferLive = true
-        };
+        match.IsAwayBlackList = true;
+        match.IsAwayNoOfferLive = false;
+       
     }
 
     private LeagueSettingInfoSender HandleMappingForMultipleSettings(EventPickingModel match, List<LeagueSettingInfoSender> leagueSettings, List<Condition> tvList)
