@@ -74,17 +74,18 @@ public class SyncEventPickingInfoImp(Repository repository, PullMainLeagueServic
         var selectedHomeSetting = HandleMappingForMultipleSettings(match, homeLeagueSettingByLeagueId, tvList);
         var selectedAwaySetting = HandleMappingForMultipleSettings(match, awayLeagueSettingByLeagueId, tvList);
 
-        var isMatchNoOfferBySetting = ShouldSetNoOffer(selectedHomeSetting.NoOfferLive, match.EventDateTime) ||
-                                      ShouldSetNoOffer(selectedAwaySetting.NoOfferLive, match.EventDateTime);
+        match.IsHomeMainLeagueNoOfferLive = ShouldSetNoOffer(selectedHomeSetting.NoOfferLive, match.EventDateTime);
+        match.IsAwayMainLeagueNoOfferLive = ShouldSetNoOffer(selectedAwaySetting.NoOfferLive, match.EventDateTime);
+        match.IsHomeMainLeagueBlackList = selectedHomeSetting.IsBlackList;
+        match.IsAwayMainLeagueBlackList = selectedAwaySetting.IsBlackList;
 
-        var isMatchNoOfferByBlackList = selectedHomeSetting.IsBlackList && selectedAwaySetting.IsBlackList;
-
-        // TODO: Handle multiple settings for home and away leagues
-        match.IsHomeMainLeagueBlackList = true;
-        match.IsHomeMainLeagueNoOfferLive = false;
-        match.IsAwayMainLeagueBlackList = true;
-        match.IsAwayMainLeagueNoOfferLive = true;
-
+        match.IsNoOffer = match.IsHomeMainLeagueNoOfferLive
+               || match.IsAwayMainLeagueNoOfferLive
+               || (match.IsHomeMainLeagueBlackList && match.IsAwayMainLeagueBlackList)
+               || match.HomeRemark.Contains("Bad ranking strike out", StringComparison.OrdinalIgnoreCase)
+               || match.AwayRemark.Contains("Bad ranking strike out", StringComparison.OrdinalIgnoreCase)
+               || match.IsHomeBadRanking
+               || match.IsAwayBadRanking;
     }
 
     private LeagueSettingInfoSender HandleMappingForMultipleSettings(EventPickingModel match, List<LeagueSettingInfoSender> leagueSettings, List<Condition> tvList)
