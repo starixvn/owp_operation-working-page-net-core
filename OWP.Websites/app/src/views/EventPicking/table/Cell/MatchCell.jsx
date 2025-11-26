@@ -38,10 +38,10 @@ const MatchCell = ({ rowIndex, dataSource }) => {
     isClubFriendlyLeague,
     homeName,
     awayName,
-    homeMainLeague,
-    awayMainLeague,
-    homeMainLeagueSetting,
-    awayMainLeagueSetting
+    isHomeBlackList,
+    isAwayBlackList,
+    isHomeNoOfferLive,
+    isAwayNoOfferLive
   } = dataSource[rowIndex];
   const refHomeNoOfferLive = useRef(null);
   const refAwayNoOfferLive = useRef(null);
@@ -50,23 +50,24 @@ const MatchCell = ({ rowIndex, dataSource }) => {
 
   const renderTeamWarnings = (
     leagueName,
-    mainLeagueSetting,
+    isNoOfferLive,
+    isBlackList,
     refNoOfferLive,
     refBlackList
   ) => {
-    if (!mainLeagueSetting || !isClubFriendlyLeague) {
+    if (!isClubFriendlyLeague) {
       return null;
     }
     return (
       <>
-        {mainLeagueSetting.isNoOfferLive && (
+        {isNoOfferLive && (
           <WarningIcon
             leagueName={leagueName}
             title='No Offer Live'
             iconRef={refNoOfferLive}
           />
         )}
-        {mainLeagueSetting.isBlackList && (
+        {isBlackList && (
           <WarningIcon
             leagueName={leagueName}
             title='Black List'
@@ -82,8 +83,9 @@ const MatchCell = ({ rowIndex, dataSource }) => {
       <div className='home'>
         {homeName}
         {renderTeamWarnings(
-          homeMainLeague,
-          homeMainLeagueSetting,
+          homeName,
+          isHomeNoOfferLive,
+          isHomeBlackList,
           refHomeNoOfferLive,
           refHomeBlackList
         )}
@@ -91,8 +93,9 @@ const MatchCell = ({ rowIndex, dataSource }) => {
       <div className='away'>
         {awayName}
         {renderTeamWarnings(
-          awayMainLeague,
-          awayMainLeagueSetting,
+          awayName,
+          isAwayNoOfferLive,
+          isAwayBlackList,
           refAwayNoOfferLive,
           refAwayBlackList
         )}
