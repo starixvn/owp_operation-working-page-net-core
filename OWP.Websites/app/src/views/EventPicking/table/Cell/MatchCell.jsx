@@ -13,13 +13,13 @@ const handleNavigateToLeagueSetting = leagueName => {
   window.open(url, '_blank');
 };
 
-const WarningIcon = ({ leagueName, title, iconRef }) => (
+const WarningIcon = ({ leagueName, title, iconRef, color = '#ff9800' }) => (
   <>
     <span
       ref={iconRef}
       className='warning-icon'
       onClick={() => handleNavigateToLeagueSetting(leagueName)}>
-      <AlertIcon size={16} color='#ff9800' />
+      <AlertIcon size={16} color={color} />
     </span>
     <UncontrolledTooltip placement='top' target={iconRef}>
       {title}
@@ -30,7 +30,8 @@ const WarningIcon = ({ leagueName, title, iconRef }) => (
 WarningIcon.propTypes = {
   leagueName: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  iconRef: PropTypes.object.isRequired
+  iconRef: PropTypes.object.isRequired,
+  color: PropTypes.string
 };
 
 const MatchCell = ({ rowIndex, dataSource }) => {
@@ -72,8 +73,9 @@ const MatchCell = ({ rowIndex, dataSource }) => {
         {isBlackList && (
           <WarningIcon
             leagueName={leagueName}
-            title='Black List'
+            title='Blacklist'
             iconRef={refBlackList}
+            color='#000000'
           />
         )}
       </>

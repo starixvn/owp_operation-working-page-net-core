@@ -910,6 +910,9 @@
     .warning-icon {
       margin-left: 4px;
       cursor: pointer;
+      vertical-align: top;
+      margin-top: -2px;
+      display: inline-block;
     }
   }
 }
