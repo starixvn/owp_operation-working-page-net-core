@@ -73,13 +73,20 @@ public static class ExcelColorHelper
 
     private static void FillNoOfferTeamCell(EventPickingModel match, int row, ExcelWorksheet templateSheet)
     {
-        if (match.IsNoOffer != null && match.IsClubFriendlyLeague)
+        if (match.IsClubFriendlyLeague)
         {
-            var homeCell = templateSheet.Cells[row, Misc.Constant.HOME_COL_INDEX];
-            var awayCell = templateSheet.Cells[row, Misc.Constant.AWAY_COL_INDEX];
-            var color = ColorTranslator.FromHtml(Misc.Constant.ColorYellowHex);
-            homeCell.Style.Fill.SetBackground(color);
-            awayCell.Style.Fill.SetBackground(color);
+            if (match.IsHomeNoOfferLive)
+            {
+                var homeCell = templateSheet.Cells[row, Misc.Constant.HOME_COL_INDEX];
+                var color = ColorTranslator.FromHtml(Misc.Constant.ColorYellowHex);
+                homeCell.Style.Fill.SetBackground(color);
+            }
+            if (match.IsAwayNoOfferLive)
+            {
+                var awayCell = templateSheet.Cells[row, Misc.Constant.AWAY_COL_INDEX];
+                var color = ColorTranslator.FromHtml(Misc.Constant.ColorYellowHex);
+                awayCell.Style.Fill.SetBackground(color);
+            }
         }
     }
     public static void FillTextColor(IList<EventPickingModel> matches, ExcelWorksheet templateSheet)
