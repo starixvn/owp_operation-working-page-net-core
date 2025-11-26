@@ -40,8 +40,13 @@ public class EditEventPickingHandler(
         var tvList = (await repository.GetTVList()).ToList();
 
         var clubFriendlyMatches = matchFiltered.Where(x => x.IsClubFriendlyLeague).ToList();
-        var mainLeague = await pullMainLeagueService.GetMainLeague(clubFriendlyMatches, cancellationToken);
-        mainLeagueForEventMapper.Execute(matchFiltered, mainLeague);
+
+        if (clubFriendlyMatches.Count > 0)
+        {
+            var mainLeague = await pullMainLeagueService.GetMainLeague(clubFriendlyMatches, cancellationToken);
+            mainLeagueForEventMapper.Execute(clubFriendlyMatches, mainLeague);
+        }
+        
         foreach (var match in matchFiltered)
         {
             if (match.IsClubFriendlyLeague)
