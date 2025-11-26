@@ -2,19 +2,25 @@ using NSubstitute;
 using OWP.EventPicking.Api.Constant;
 using OWP.EventPicking.Api.Models;
 using OWP.EventPicking.Api.Services;
+using System.Threading;
 using Xunit;
+using main_league_info = OWP.EventPicking.Api.Models.main_league_info;
 
 namespace OWP.EventPicking.UnitTests.Services;
 
 public class SyncEventPickingInfoImpTests
 {
     private readonly OWP.EventPicking.Repository _mockRepository;
+    private readonly PullMainLeagueService _mockPullMainLeagueService;
+    private readonly MapMainLeagueForEventService _mockMainLeagueForEventMapper;
     private readonly SyncEventPickingInfoImp _service;
 
     public SyncEventPickingInfoImpTests()
     {
         _mockRepository = Substitute.For<OWP.EventPicking.Repository>();
-        _service = new SyncEventPickingInfoImp(_mockRepository);
+        _mockPullMainLeagueService = Substitute.For<PullMainLeagueService>();
+        _mockMainLeagueForEventMapper = Substitute.For<MapMainLeagueForEventService>();
+        _service = new SyncEventPickingInfoImp(_mockRepository, _mockPullMainLeagueService, _mockMainLeagueForEventMapper);
     }
 
     [Fact]
@@ -37,9 +43,11 @@ public class SyncEventPickingInfoImpTests
 
         _mockRepository.QueryLeagueSetting().Returns(leagueSettings);
         _mockRepository.GetTVList().Returns(tvList);
+        _mockPullMainLeagueService.GetMainLeague(Arg.Any<List<EventPickingModel>>(), Arg.Any<CancellationToken>()).Returns(new List<main_league_info>());
+        _mockMainLeagueForEventMapper.Execute(Arg.Any<List<EventPickingModel>>(), Arg.Any<List<main_league_info>>());
 
         // Act
-        await _service.Execute(matches);
+        await _service.Execute(matches, CancellationToken.None);
 
         // Assert
         await _mockRepository.Received(1).QueryLeagueSetting();
@@ -62,9 +70,11 @@ public class SyncEventPickingInfoImpTests
 
         _mockRepository.QueryLeagueSetting().Returns(new List<LeagueSettingInfoSender>());
         _mockRepository.GetTVList().Returns(new List<Condition>());
+        _mockPullMainLeagueService.GetMainLeague(Arg.Any<List<EventPickingModel>>(), Arg.Any<CancellationToken>()).Returns(new List<main_league_info>());
+        _mockMainLeagueForEventMapper.Execute(Arg.Any<List<EventPickingModel>>(), Arg.Any<List<main_league_info>>());
 
         // Act
-        await _service.Execute(matches);
+        await _service.Execute(matches, CancellationToken.None);
 
         // Assert
         await _mockRepository.Received(1).QueryLeagueSetting();
@@ -86,9 +96,11 @@ public class SyncEventPickingInfoImpTests
 
         _mockRepository.QueryLeagueSetting().Returns(new List<LeagueSettingInfoSender>());
         _mockRepository.GetTVList().Returns(new List<Condition>());
+        _mockPullMainLeagueService.GetMainLeague(Arg.Any<List<EventPickingModel>>(), Arg.Any<CancellationToken>()).Returns(new List<main_league_info>());
+        _mockMainLeagueForEventMapper.Execute(Arg.Any<List<EventPickingModel>>(), Arg.Any<List<main_league_info>>());
 
         // Act
-        await _service.Execute(matches);
+        await _service.Execute(matches, CancellationToken.None);
 
         // Assert - Service leaves values unchanged when no league settings match
         Assert.Equal(0, matches[0].NoOfferLive); // Default value from CreateTestMatch
@@ -113,7 +125,7 @@ public class SyncEventPickingInfoImpTests
         _mockRepository.GetTVList().Returns(new List<Condition>());
 
         // Act
-        await _service.Execute(matches);
+        await _service.Execute(matches, CancellationToken.None);
 
         // Assert
         Assert.Equal(NoOfferConstant.WeekdayAndWeekend, matches[0].NoOfferLive);
@@ -140,7 +152,7 @@ public class SyncEventPickingInfoImpTests
         _mockRepository.GetTVList().Returns(new List<Condition>());
 
         // Act
-        await _service.Execute(matches);
+        await _service.Execute(matches, CancellationToken.None);
 
         // Assert - Service applies one of the league settings
         Assert.True(matches[0].NoOfferLive >= 1 && matches[0].NoOfferLive <= 3); // Should be one of the NoOffer constants
@@ -169,7 +181,7 @@ public class SyncEventPickingInfoImpTests
         _mockRepository.GetTVList().Returns(new List<Condition>());
 
         // Act
-        await _service.Execute(matches);
+        await _service.Execute(matches, CancellationToken.None);
 
         // Assert
         Assert.Equal(NoOfferConstant.Weekend, matches[0].NoOfferLive);
@@ -186,6 +198,8 @@ public class SyncEventPickingInfoImpTests
 
         _mockRepository.QueryLeagueSetting().Returns(new List<LeagueSettingInfoSender>());
         _mockRepository.GetTVList().Returns(new List<Condition>());
+        _mockPullMainLeagueService.GetMainLeague(Arg.Any<List<EventPickingModel>>(), Arg.Any<CancellationToken>()).Returns(new List<main_league_info>());
+        _mockMainLeagueForEventMapper.Execute(Arg.Any<List<EventPickingModel>>(), Arg.Any<List<main_league_info>>());
 
         // Act
         await _service.Execute(emptyMatches);
@@ -219,7 +233,7 @@ public class SyncEventPickingInfoImpTests
         _mockRepository.GetTVList().Returns(tvList);
 
         // Act
-        await _service.Execute(matches);
+        await _service.Execute(matches, CancellationToken.None);
 
         // Assert
         await _mockRepository.Received(1).QueryLeagueSetting();
@@ -240,9 +254,11 @@ public class SyncEventPickingInfoImpTests
 
         _mockRepository.QueryLeagueSetting().Returns(new List<LeagueSettingInfoSender>());
         _mockRepository.GetTVList().Returns(new List<Condition>());
+        _mockPullMainLeagueService.GetMainLeague(Arg.Any<List<EventPickingModel>>(), Arg.Any<CancellationToken>()).Returns(new List<main_league_info>());
+        _mockMainLeagueForEventMapper.Execute(Arg.Any<List<EventPickingModel>>(), Arg.Any<List<main_league_info>>());
 
         // Act
-        await _service.Execute(matches);
+        await _service.Execute(matches, CancellationToken.None);
 
         // Assert
         // Repository methods are always called to fetch data
@@ -264,6 +280,7 @@ public class SyncEventPickingInfoImpTests
         {
             InfoSiteMatchId = 1,
             OWPLeagueId = 1,
+            LeagueName = "Premier League",
             IsNoOffer = null,
             EventDateTime = new DateTime(2024, 1, 20, 15, 0, 0), // Saturday
             NoOfferLive = 0,
@@ -279,7 +296,7 @@ public class SyncEventPickingInfoImpTests
         _mockRepository.GetTVList().Returns(new List<Condition>());
 
         // Act
-        await _service.Execute(new List<EventPickingModel> { weekendMatch });
+        await _service.Execute(new List<EventPickingModel> { weekendMatch }, CancellationToken.None);
 
         // Assert
         Assert.Equal(NoOfferConstant.Weekend, weekendMatch.NoOfferLive);
@@ -294,6 +311,7 @@ public class SyncEventPickingInfoImpTests
         {
             InfoSiteMatchId = 1,
             OWPLeagueId = 1,
+            LeagueName = "Premier League",
             IsNoOffer = null,
             EventDateTime = new DateTime(2024, 1, 15, 15, 0, 0), // Monday
             NoOfferLive = 0,
@@ -309,7 +327,7 @@ public class SyncEventPickingInfoImpTests
         _mockRepository.GetTVList().Returns(new List<Condition>());
 
         // Act
-        await _service.Execute(new List<EventPickingModel> { weekdayMatch });
+        await _service.Execute(new List<EventPickingModel> { weekdayMatch }, CancellationToken.None);
 
         // Assert
         Assert.Equal(NoOfferConstant.Weekend, weekdayMatch.NoOfferLive);
@@ -324,6 +342,7 @@ public class SyncEventPickingInfoImpTests
         {
             InfoSiteMatchId = 1,
             OWPLeagueId = 1,
+            LeagueName = "Premier League",
             IsNoOffer = null,
             EventDateTime = new DateTime(2024, 1, 20, 22, 0, 0), // Saturday 10 PM (peak hours)
             NoOfferLive = 0,
@@ -339,7 +358,7 @@ public class SyncEventPickingInfoImpTests
         _mockRepository.GetTVList().Returns(new List<Condition>());
 
         // Act
-        await _service.Execute(new List<EventPickingModel> { peakHourMatch });
+        await _service.Execute(new List<EventPickingModel> { peakHourMatch }, CancellationToken.None);
 
         // Assert
         Assert.Equal(NoOfferConstant.WeekendPH, peakHourMatch.NoOfferLive);
@@ -354,6 +373,7 @@ public class SyncEventPickingInfoImpTests
         {
             InfoSiteMatchId = 1,
             OWPLeagueId = leagueId,
+            LeagueName = "Premier League", // Set a default league name that's not "club friendly"
             IsNoOffer = isNoOffer,
             EventDateTime = new DateTime(2024, 1, 20, 15, 0, 0), // Saturday 3 PM
             NoOfferLive = 0,
