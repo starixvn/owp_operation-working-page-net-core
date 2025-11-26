@@ -38,8 +38,10 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
     public bool IsMovedEventDate { get; set; }
 
     public string HomeMainLeague { get; set; }
+    public bool IsHomeNoOfferLive { get; set; }
 
     public string AwayMainLeague { get; set; }
+    public bool IsAwayNoOfferLive { get; set; }
 
     public bool IsClubFriendlyLeague => LeagueName.ToLower(CultureInfo.InvariantCulture) == "club friendly";
 
@@ -65,6 +67,7 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
             return blackList;
         }
     }
+
 
     [Cell("A2")]
     public string MatchNo { get; set; }
@@ -279,10 +282,6 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
     public bool? IsNoOffer { get; set; }
 
     public int NoOfferLive { get; set; }
-
-    public MainLeagueSetting HomeMainLeagueSetting { get; set; }
-
-    public MainLeagueSetting AwayMainLeagueSetting { get; set; }
 
     public string RowColorHex => Misc.Constant.ColorPair.GetValueOrDefault(RowColor);
 
