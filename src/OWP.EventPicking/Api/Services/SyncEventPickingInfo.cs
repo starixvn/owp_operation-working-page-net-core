@@ -74,8 +74,8 @@ public class SyncEventPickingInfoImp(Repository repository, PullMainLeagueServic
         var selectedHomeSetting = HandleMappingForMultipleSettings(match, homeLeagueSettingByLeagueId, tvList);
         var selectedAwaySetting = HandleMappingForMultipleSettings(match, awayLeagueSettingByLeagueId, tvList);
 
-        match.IsHomeMainLeagueNoOfferLive = ShouldSetNoOffer(selectedHomeSetting.NoOfferLive, match.EventDateTime);
-        match.IsAwayMainLeagueNoOfferLive = ShouldSetNoOffer(selectedAwaySetting.NoOfferLive, match.EventDateTime);
+        match.IsHomeMainLeagueNoOfferLive = selectedHomeSetting != null && ShouldSetNoOffer(selectedHomeSetting.NoOfferLive, match.EventDateTime);
+        match.IsAwayMainLeagueNoOfferLive = selectedAwaySetting != null && ShouldSetNoOffer(selectedAwaySetting.NoOfferLive, match.EventDateTime);
         match.IsHomeMainLeagueBlackList = selectedHomeSetting.IsBlackList;
         match.IsAwayMainLeagueBlackList = selectedAwaySetting.IsBlackList;
 
