@@ -57,33 +57,50 @@ public class SyncEventPickingInfoImp(Repository repository, PullMainLeagueServic
     }
 
 
+    private const string BadRankingStrikeOutRemark = "Bad ranking strike out";
+
     private void ProcessLeagueSettingsForClubFriendlyMatch(List<LeagueSettingInfoSender> leagueSetting, EventPickingModel match, List<Condition> tvList)
     {
         if (match.IsNoOffer != null)
         {
             return;
         }
-        var homeLeagueSettingByLeagueId = leagueSetting.Where(x => x.League.Trim() == match.HomeMainLeague).ToList();
-        var awayLeagueSettingByLeagueId = leagueSetting.Where(x => x.League.Trim() == match.AwayMainLeague).ToList();
 
-        if (homeLeagueSettingByLeagueId.Count == 0 && awayLeagueSettingByLeagueId.Count == 0)
+        var homeLeagueSettings = GetFilteredLeagueSettings(leagueSetting, match.HomeMainLeague);
+        var awayLeagueSettings = GetFilteredLeagueSettings(leagueSetting, match.AwayMainLeague);
+
+        if (homeLeagueSettings.Count == 0 && awayLeagueSettings.Count == 0)
         {
             return;
         }
 
-        var selectedHomeSetting = HandleMappingForMultipleSettings(match, homeLeagueSettingByLeagueId, tvList);
-        var selectedAwaySetting = HandleMappingForMultipleSettings(match, awayLeagueSettingByLeagueId, tvList);
+        var selectedHomeSetting = HandleMappingForMultipleSettings(match, homeLeagueSettings, tvList);
+        var selectedAwaySetting = HandleMappingForMultipleSettings(match, awayLeagueSettings, tvList);
 
+        SetLeagueFlags(match, selectedHomeSetting, selectedAwaySetting);
+        match.IsNoOffer = DetermineIsNoOffer(match);
+    }
+
+    private static List<LeagueSettingInfoSender> GetFilteredLeagueSettings(List<LeagueSettingInfoSender> leagueSetting, string mainLeague)
+    {
+        return leagueSetting.Where(x => x.League.Trim() == mainLeague).ToList();
+    }
+
+    private void SetLeagueFlags(EventPickingModel match, LeagueSettingInfoSender selectedHomeSetting, LeagueSettingInfoSender selectedAwaySetting)
+    {
         match.IsHomeMainLeagueNoOfferLive = selectedHomeSetting != null && ShouldSetNoOffer(selectedHomeSetting.NoOfferLive, match.EventDateTime);
         match.IsAwayMainLeagueNoOfferLive = selectedAwaySetting != null && ShouldSetNoOffer(selectedAwaySetting.NoOfferLive, match.EventDateTime);
-        match.IsHomeMainLeagueBlackList = selectedHomeSetting.IsBlackList;
-        match.IsAwayMainLeagueBlackList = selectedAwaySetting.IsBlackList;
+        match.IsHomeMainLeagueBlackList = selectedHomeSetting?.IsBlackList ?? false;
+        match.IsAwayMainLeagueBlackList = selectedAwaySetting?.IsBlackList ?? false;
+    }
 
-        match.IsNoOffer = match.IsHomeMainLeagueNoOfferLive
+    private bool DetermineIsNoOffer(EventPickingModel match)
+    {
+        return match.IsHomeMainLeagueNoOfferLive
                || match.IsAwayMainLeagueNoOfferLive
                || (match.IsHomeMainLeagueBlackList && match.IsAwayMainLeagueBlackList)
-               || match.HomeRemark.Contains("Bad ranking strike out", StringComparison.OrdinalIgnoreCase)
-               || match.AwayRemark.Contains("Bad ranking strike out", StringComparison.OrdinalIgnoreCase)
+               || match.HomeRemark.Contains(BadRankingStrikeOutRemark, StringComparison.OrdinalIgnoreCase)
+               || match.AwayRemark.Contains(BadRankingStrikeOutRemark, StringComparison.OrdinalIgnoreCase)
                || match.IsHomeBadRanking
                || match.IsAwayBadRanking;
     }
