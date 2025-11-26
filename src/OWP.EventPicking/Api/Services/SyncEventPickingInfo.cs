@@ -61,11 +61,6 @@ public class SyncEventPickingInfoImp(Repository repository, PullMainLeagueServic
 
     private void ProcessLeagueSettingsForClubFriendlyMatch(List<LeagueSettingInfoSender> leagueSetting, EventPickingModel match, List<Condition> tvList)
     {
-        if (match.IsNoOffer != null)
-        {
-            return;
-        }
-
         var homeLeagueSettings = GetFilteredLeagueSettings(leagueSetting, match.HomeMainLeague);
         var awayLeagueSettings = GetFilteredLeagueSettings(leagueSetting, match.AwayMainLeague);
 
@@ -78,6 +73,10 @@ public class SyncEventPickingInfoImp(Repository repository, PullMainLeagueServic
         var selectedAwaySetting = HandleMappingForMultipleSettings(match, awayLeagueSettings, tvList);
 
         SetLeagueFlags(match, selectedHomeSetting, selectedAwaySetting);
+        if (match.IsNoOffer != null)
+        {
+            return;
+        }
         match.IsNoOffer = DetermineIsNoOffer(match);
     }
 
