@@ -95,13 +95,13 @@ public class SyncEventPickingInfoImp(Repository repository, PullMainLeagueServic
 
     private bool DetermineIsNoOffer(EventPickingModel match)
     {
-        return match.IsHomeMainLeagueNoOfferLive
-               || match.IsAwayMainLeagueNoOfferLive
-               || (match.IsHomeMainLeagueBlackList && match.IsAwayMainLeagueBlackList)
-               || match.HomeRemark.Contains(BadRankingStrikeOutRemark, StringComparison.OrdinalIgnoreCase)
-               || match.AwayRemark.Contains(BadRankingStrikeOutRemark, StringComparison.OrdinalIgnoreCase)
-               || match.IsHomeBadRanking
-               || match.IsAwayBadRanking;
+        bool hasNoOfferLive = match.IsHomeMainLeagueNoOfferLive || match.IsAwayMainLeagueNoOfferLive;
+        bool hasBothBlacklisted = match.IsHomeMainLeagueBlackList && match.IsAwayMainLeagueBlackList;
+        bool hasBadRankingRemark = match.HomeRemark.Contains(BadRankingStrikeOutRemark, StringComparison.OrdinalIgnoreCase)
+                                   || match.AwayRemark.Contains(BadRankingStrikeOutRemark, StringComparison.OrdinalIgnoreCase);
+        bool hasBadRanking = match.IsHomeBadRanking || match.IsAwayBadRanking;
+
+        return hasNoOfferLive || hasBothBlacklisted || hasBadRankingRemark || hasBadRanking;
     }
 
     private LeagueSettingInfoSender HandleMappingForMultipleSettings(EventPickingModel match, List<LeagueSettingInfoSender> leagueSettings, List<Condition> tvList)
