@@ -8,7 +8,7 @@ public interface SyncEventPickingInfo
     Task Execute(List<EventPickingModel> matchFiltered, CancellationToken cancellationToken = default);
 }
 
-public class SyncEventPickingInfoImp(Repository repository, PullMainLeagueService pullMainLeagueService) : SyncEventPickingInfo
+public class SyncEventPickingInfoImp(Repository repository, PullMainLeagueService pullMainLeagueService, MapMainLeagueForEventService mainLeagueForEventMapper) : SyncEventPickingInfo
 {
     public async Task Execute(List<EventPickingModel> matchFiltered, CancellationToken cancellationToken = default)
     {
@@ -18,8 +18,8 @@ public class SyncEventPickingInfoImp(Repository repository, PullMainLeagueServic
 
         if (clubFriendlyEvents.Count > 0)
         {
-            var clubFriendlyMainLeagues = (await pullMainLeagueService.GetMainLeague(clubFriendlyEvents, cancellationToken)).ToList();
-            // Todo: get league setting for club friendly match
+            var mainLeague = (await pullMainLeagueService.GetMainLeague(clubFriendlyEvents, cancellationToken)).ToList();
+            mainLeagueForEventMapper.Execute(clubFriendlyEvents, mainLeague);
         }
 
         foreach (var match in matchFiltered)
