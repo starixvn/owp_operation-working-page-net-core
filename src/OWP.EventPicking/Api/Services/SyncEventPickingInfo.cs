@@ -95,13 +95,16 @@ public class SyncEventPickingInfoImp(Repository repository, PullMainLeagueServic
 
     private bool DetermineIsNoOffer(EventPickingModel match)
     {
-        bool hasNoOfferLive = match.IsHomeMainLeagueNoOfferLive || match.IsAwayMainLeagueNoOfferLive;
-        bool hasBothBlacklisted = match.IsHomeMainLeagueBlackList && match.IsAwayMainLeagueBlackList;
-        bool hasBadRankingRemark = match.HomeRemark.Contains(BadRankingStrikeOutRemark, StringComparison.OrdinalIgnoreCase)
-                                   || match.AwayRemark.Contains(BadRankingStrikeOutRemark, StringComparison.OrdinalIgnoreCase);
-        bool hasBadRanking = match.IsHomeBadRanking || match.IsAwayBadRanking;
+        var hasNoOfferLive = match.IsHomeMainLeagueNoOfferLive || match.IsAwayMainLeagueNoOfferLive;
+        var hasBothBlacklisted = match.IsHomeMainLeagueBlackList || match.IsAwayMainLeagueBlackList;
 
-        return hasNoOfferLive || hasBothBlacklisted || hasBadRankingRemark || hasBadRanking;
+        return hasNoOfferLive || hasBothBlacklisted || HasBadRankingRemark(match);
+    }
+
+    private bool HasBadRankingRemark(EventPickingModel match)
+    {
+        return match.HomeRemark.Contains(BadRankingStrikeOutRemark, StringComparison.OrdinalIgnoreCase)
+               || match.AwayRemark.Contains(BadRankingStrikeOutRemark, StringComparison.OrdinalIgnoreCase);
     }
 
     private LeagueSettingInfoSender HandleMappingForMultipleSettings(EventPickingModel match, List<LeagueSettingInfoSender> leagueSettings, List<Condition> tvList)
@@ -351,7 +354,8 @@ public class SyncEventPickingInfoImp(Repository repository, PullMainLeagueServic
     private void BuildNoOfferLive(EventPickingModel match, LeagueSettingInfoSender league)
     {
         match.NoOfferLive = league.NoOfferLive;
-        match.IsNoOffer = ShouldSetNoOffer(league.NoOfferLive, match.EventDateTime);
+        match.IsNoOffer = ShouldSetNoOffer(league.NoOfferLive, match.EventDateTime)
+                          || HasBadRankingRemark(match);
     }
 
     private bool ShouldSetNoOffer(int noOfferLive, DateTime eventDateTime)
