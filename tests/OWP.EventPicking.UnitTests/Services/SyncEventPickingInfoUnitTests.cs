@@ -1,4 +1,5 @@
 using NSubstitute;
+using Newtonsoft.Json;
 using OWP.EventPicking.Api.Constant;
 using OWP.EventPicking.Api.Models;
 using OWP.EventPicking.Api.Services;
@@ -284,7 +285,9 @@ public class SyncEventPickingInfoImpTests
             IsNoOffer = null,
             EventDateTime = new DateTime(2024, 1, 20, 15, 0, 0), // Saturday
             NoOfferLive = 0,
-            Division = "Premier League-Other League"
+            Division = "Premier League-Other League",
+            HomeRemark = string.Empty,
+            AwayRemark = string.Empty
         };
 
         var leagueSettings = new List<LeagueSettingInfoSender>
@@ -315,7 +318,9 @@ public class SyncEventPickingInfoImpTests
             IsNoOffer = null,
             EventDateTime = new DateTime(2024, 1, 15, 15, 0, 0), // Monday
             NoOfferLive = 0,
-            Division = "Premier League-Other League"
+            Division = "Premier League-Other League",
+            HomeRemark = string.Empty,
+            AwayRemark = string.Empty
         };
 
         var leagueSettings = new List<LeagueSettingInfoSender>
@@ -346,7 +351,9 @@ public class SyncEventPickingInfoImpTests
             IsNoOffer = null,
             EventDateTime = new DateTime(2024, 1, 20, 22, 0, 0), // Saturday 10 PM (peak hours)
             NoOfferLive = 0,
-            Division = "Premier League-Other League"
+            Division = "Premier League-Other League",
+            HomeRemark = string.Empty,
+            AwayRemark = string.Empty
         };
 
         var leagueSettings = new List<LeagueSettingInfoSender>
@@ -377,7 +384,9 @@ public class SyncEventPickingInfoImpTests
             IsNoOffer = isNoOffer,
             EventDateTime = new DateTime(2024, 1, 20, 15, 0, 0), // Saturday 3 PM
             NoOfferLive = 0,
-            Division = division ?? "Premier League-Other League"
+            Division = division ?? "Premier League-Other League",
+            HomeRemark = string.Empty,
+            AwayRemark = string.Empty
         };
     }
 
@@ -390,6 +399,377 @@ public class SyncEventPickingInfoImpTests
             NoOfferLive = noOfferLive,
             FullConditionDescription = "" // Empty string to use default condition
         };
+    }
+
+    private static LeagueSettingInfoSender CreateTestLeagueSettingForClubFriendly(string leagueName, int noOfferLive, bool isBlackList = false, int leagueSettingId = 1)
+    {
+        return new LeagueSettingInfoSender
+        {
+            LeagueSettingId = leagueSettingId,
+            League = leagueName,
+            NoOfferLive = noOfferLive,
+            IsBlackList = isBlackList,
+            FullConditionDescription = "" // Empty string to use default condition
+        };
+    }
+
+    private static EventPickingModel CreateClubFriendlyMatch(bool? isNoOffer, string homeMainLeague, string awayMainLeague, string homeRemark = "", string awayRemark = "")
+    {
+        return new EventPickingModel
+        {
+            InfoSiteMatchId = 1,
+            OWPLeagueId = 1, // Not used for club friendly
+            LeagueName = "club friendly",
+            IsNoOffer = isNoOffer,
+            EventDateTime = new DateTime(2024, 1, 20, 15, 0, 0), // Saturday 3 PM
+            NoOfferLive = 0,
+            Division = "Club Friendly-Division",
+            HomeMainLeague = homeMainLeague,
+            AwayMainLeague = awayMainLeague,
+            HomeRemark = homeRemark,
+            AwayRemark = awayRemark
+        };
+    }
+
+    private static LeagueSettingInfoSender CreateTestLeagueSettingWithConditions(int leagueId, int noOfferLive, int leagueSettingId,
+        bool hasTv, string[] roundConditions, string[] divisionConditions)
+    {
+        var condition = new NewLeagueSettingCondition
+        {
+            HasTv = hasTv,
+            HasIpTv = false,
+            Round = roundConditions.Select(c => new Condition { Type = "Contains", Value = c }).ToList(),
+            Division = divisionConditions.Select(c => new Condition { Type = "Contains", Value = c }).ToList()
+        };
+
+        return new LeagueSettingInfoSender
+        {
+            LeagueSettingId = leagueSettingId,
+            OWPLeagueId = leagueId,
+            NoOfferLive = noOfferLive,
+            FullConditionDescription = JsonConvert.SerializeObject(condition)
+        };
+    }
+
+    [Fact]
+    public async Task Execute_WithClubFriendlyMatch_ShouldProcessHomeAndAwayLeagues()
+    {
+        // Arrange
+        var clubFriendlyMatch = CreateClubFriendlyMatch(null, "Premier League", "Championship");
+
+        var leagueSettings = new List<LeagueSettingInfoSender>
+        {
+            CreateTestLeagueSettingForClubFriendly("Premier League", NoOfferConstant.Weekend),
+            CreateTestLeagueSettingForClubFriendly("Championship", NoOfferConstant.WeekdayAndWeekend)
+        };
+
+        var mainLeagues = new List<main_league_info>
+        {
+            new main_league_info { TeamName = "Team1", MainLeagueName = "Premier League" },
+            new main_league_info { TeamName = "Team2", MainLeagueName = "Championship" }
+        };
+
+        _mockRepository.QueryLeagueSetting().Returns(leagueSettings);
+        _mockRepository.GetTVList().Returns(new List<Condition>());
+        _mockPullMainLeagueService.GetMainLeague(Arg.Any<List<EventPickingModel>>(), Arg.Any<CancellationToken>()).Returns(mainLeagues);
+        _mockMainLeagueForEventMapper.Execute(Arg.Any<List<EventPickingModel>>(), Arg.Any<List<main_league_info>>());
+
+        // Act
+        await _service.Execute(new List<EventPickingModel> { clubFriendlyMatch }, CancellationToken.None);
+
+        // Assert
+        Assert.True(clubFriendlyMatch.IsHomeMainLeagueNoOfferLive);
+        Assert.True(clubFriendlyMatch.IsAwayMainLeagueNoOfferLive);
+        Assert.True(clubFriendlyMatch.IsNoOffer); // Both leagues have no offer, so match should be no offer
+    }
+
+    [Fact]
+    public async Task Execute_WithClubFriendlyMatchAndBlacklist_ShouldSetBlacklistFlags()
+    {
+        // Arrange
+        var clubFriendlyMatch = CreateClubFriendlyMatch(null, "Premier League", "Championship");
+
+        var leagueSettings = new List<LeagueSettingInfoSender>
+        {
+            CreateTestLeagueSettingForClubFriendly("Premier League", NoOfferConstant.Weekend, true), // Blacklisted
+            CreateTestLeagueSettingForClubFriendly("Championship", NoOfferConstant.WeekdayAndWeekend, false)
+        };
+
+        var mainLeagues = new List<main_league_info>
+        {
+            new main_league_info { TeamName = "Team1", MainLeagueName = "Premier League" },
+            new main_league_info { TeamName = "Team2", MainLeagueName = "Championship" }
+        };
+
+        _mockRepository.QueryLeagueSetting().Returns(leagueSettings);
+        _mockRepository.GetTVList().Returns(new List<Condition>());
+        _mockPullMainLeagueService.GetMainLeague(Arg.Any<List<EventPickingModel>>(), Arg.Any<CancellationToken>()).Returns(mainLeagues);
+        _mockMainLeagueForEventMapper.Execute(Arg.Any<List<EventPickingModel>>(), Arg.Any<List<main_league_info>>());
+
+        // Act
+        await _service.Execute(new List<EventPickingModel> { clubFriendlyMatch }, CancellationToken.None);
+
+        // Assert
+        Assert.True(clubFriendlyMatch.IsHomeMainLeagueBlackList);
+        Assert.False(clubFriendlyMatch.IsAwayMainLeagueBlackList);
+        Assert.True(clubFriendlyMatch.IsNoOffer); // Home league is blacklisted, so match should be no offer
+    }
+
+    [Fact]
+    public async Task Execute_WithClubFriendlyMatchAndBadRankingRemark_ShouldSetNoOffer()
+    {
+        // Arrange
+        var clubFriendlyMatch = CreateClubFriendlyMatch(null, "Premier League", "Championship",
+            homeRemark: "Bad ranking strike out", awayRemark: "Some other remark");
+
+        var leagueSettings = new List<LeagueSettingInfoSender>
+        {
+            CreateTestLeagueSettingForClubFriendly("Premier League", NoOfferConstant.Weekend),
+            CreateTestLeagueSettingForClubFriendly("Championship", NoOfferConstant.WeekdayAndWeekend)
+        };
+
+        var mainLeagues = new List<main_league_info>
+        {
+            new main_league_info { TeamName = "Team1", MainLeagueName = "Premier League" },
+            new main_league_info { TeamName = "Team2", MainLeagueName = "Championship" }
+        };
+
+        _mockRepository.QueryLeagueSetting().Returns(leagueSettings);
+        _mockRepository.GetTVList().Returns(new List<Condition>());
+        _mockPullMainLeagueService.GetMainLeague(Arg.Any<List<EventPickingModel>>(), Arg.Any<CancellationToken>()).Returns(mainLeagues);
+        _mockMainLeagueForEventMapper.Execute(Arg.Any<List<EventPickingModel>>(), Arg.Any<List<main_league_info>>());
+
+        // Act
+        await _service.Execute(new List<EventPickingModel> { clubFriendlyMatch }, CancellationToken.None);
+
+        // Assert
+        Assert.True(clubFriendlyMatch.IsNoOffer); // Bad ranking remark should set no offer
+    }
+
+    [Fact]
+    public async Task Execute_WithClubFriendlyMatchAndNoMatchingLeagues_ShouldNotSetFlags()
+    {
+        // Arrange
+        var clubFriendlyMatch = CreateClubFriendlyMatch(null, "Unknown League", "Another Unknown");
+
+        var leagueSettings = new List<LeagueSettingInfoSender>
+        {
+            CreateTestLeagueSettingForClubFriendly("Premier League", NoOfferConstant.Weekend)
+        };
+
+        var mainLeagues = new List<main_league_info>();
+
+        _mockRepository.QueryLeagueSetting().Returns(leagueSettings);
+        _mockRepository.GetTVList().Returns(new List<Condition>());
+        _mockPullMainLeagueService.GetMainLeague(Arg.Any<List<EventPickingModel>>(), Arg.Any<CancellationToken>()).Returns(mainLeagues);
+        _mockMainLeagueForEventMapper.Execute(Arg.Any<List<EventPickingModel>>(), Arg.Any<List<main_league_info>>());
+
+        // Act
+        await _service.Execute(new List<EventPickingModel> { clubFriendlyMatch }, CancellationToken.None);
+
+        // Assert
+        Assert.False(clubFriendlyMatch.IsHomeMainLeagueNoOfferLive);
+        Assert.False(clubFriendlyMatch.IsAwayMainLeagueNoOfferLive);
+        Assert.False(clubFriendlyMatch.IsHomeMainLeagueBlackList);
+        Assert.False(clubFriendlyMatch.IsAwayMainLeagueBlackList);
+        Assert.Null(clubFriendlyMatch.IsNoOffer); // Should remain unchanged
+    }
+
+    [Fact]
+    public async Task Execute_WithRegularMatchAndBadRankingRemark_ShouldSetIsNoOffer()
+    {
+        // Arrange
+        var match = CreateTestMatch(null, 1);
+        match.HomeRemark = "Bad ranking strike out";
+        match.AwayRemark = "Normal remark";
+
+        var leagueSettings = new List<LeagueSettingInfoSender>
+        {
+            CreateTestLeagueSetting(1, NoOfferConstant.Weekend)
+        };
+
+        _mockRepository.QueryLeagueSetting().Returns(leagueSettings);
+        _mockRepository.GetTVList().Returns(new List<Condition>());
+
+        // Act
+        await _service.Execute(new List<EventPickingModel> { match }, CancellationToken.None);
+
+        // Assert
+        Assert.Equal(NoOfferConstant.Weekend, match.NoOfferLive);
+        Assert.True(match.IsNoOffer); // Should be true due to bad ranking remark
+    }
+
+    [Fact]
+    public async Task Execute_WithTVConditions_ShouldApplySettingsBasedOnTVStatus()
+    {
+        // Arrange
+        var match = CreateTestMatch(null, 1);
+        match.TV = "Sky Sports";
+        match.Iptv = null;
+        match.Channel = null;
+
+        var leagueSettings = new List<LeagueSettingInfoSender>
+        {
+            CreateTestLeagueSetting(1, NoOfferConstant.Weekend)
+        };
+
+        var tvList = new List<Condition>
+        {
+            new Condition { Type = "Contains", Value = "Sky Sports" }
+        };
+
+        _mockRepository.QueryLeagueSetting().Returns(leagueSettings);
+        _mockRepository.GetTVList().Returns(tvList);
+
+        // Act
+        await _service.Execute(new List<EventPickingModel> { match }, CancellationToken.None);
+
+        // Assert
+        Assert.Equal(NoOfferConstant.Weekend, match.NoOfferLive);
+        Assert.True(match.IsNoOffer); // Weekend match should be no offer
+    }
+
+    [Fact]
+    public async Task Execute_WithIPTVConditions_ShouldApplySettings()
+    {
+        // Arrange
+        var match = CreateTestMatch(null, 1);
+        match.TV = null;
+        match.Iptv = "IPTV Stream";
+        match.Channel = null;
+
+        var leagueSettings = new List<LeagueSettingInfoSender>
+        {
+            CreateTestLeagueSetting(1, NoOfferConstant.Weekend)
+        };
+
+        _mockRepository.QueryLeagueSetting().Returns(leagueSettings);
+        _mockRepository.GetTVList().Returns(new List<Condition>());
+
+        // Act
+        await _service.Execute(new List<EventPickingModel> { match }, CancellationToken.None);
+
+        // Assert
+        Assert.Equal(NoOfferConstant.Weekend, match.NoOfferLive);
+        Assert.True(match.IsNoOffer); // Weekend match should be no offer
+    }
+
+    [Fact]
+    public async Task Execute_WithChannelConditions_ShouldApplySettings()
+    {
+        // Arrange
+        var match = CreateTestMatch(null, 1);
+        match.TV = null;
+        match.Iptv = null;
+        match.Channel = "Channel 1";
+
+        var leagueSettings = new List<LeagueSettingInfoSender>
+        {
+            CreateTestLeagueSetting(1, NoOfferConstant.Weekend)
+        };
+
+        _mockRepository.QueryLeagueSetting().Returns(leagueSettings);
+        _mockRepository.GetTVList().Returns(new List<Condition>());
+
+        // Act
+        await _service.Execute(new List<EventPickingModel> { match }, CancellationToken.None);
+
+        // Assert
+        Assert.Equal(NoOfferConstant.Weekend, match.NoOfferLive);
+        Assert.True(match.IsNoOffer); // Weekend match should be no offer
+    }
+
+    [Fact]
+    public async Task Execute_WithCancelledTV_ShouldNotApplySettings()
+    {
+        // Arrange
+        var match = CreateTestMatch(null, 1);
+        match.TV = "Sky Sports Cancel";
+        match.Iptv = null;
+        match.Channel = null;
+
+        var leagueSettings = new List<LeagueSettingInfoSender>
+        {
+            CreateTestLeagueSettingWithConditions(1, NoOfferConstant.Weekend, 1,
+                hasTv: true, roundConditions: Array.Empty<string>(), divisionConditions: Array.Empty<string>())
+        };
+
+        var tvList = new List<Condition>
+        {
+            new Condition { Type = "Contains", Value = "Sky Sports" }
+        };
+
+        _mockRepository.QueryLeagueSetting().Returns(leagueSettings);
+        _mockRepository.GetTVList().Returns(tvList);
+
+        // Act
+        await _service.Execute(new List<EventPickingModel> { match }, CancellationToken.None);
+
+        // Assert
+        // TV is cancelled, so even though league setting requires TV, it should not apply
+        Assert.Equal(0, match.NoOfferLive);
+        Assert.Null(match.IsNoOffer);
+    }
+
+    [Fact]
+    public async Task Execute_WithMultipleLeagueSettings_ShouldApplyHighestPriority()
+    {
+        // Arrange
+        var match = CreateTestMatch(null, 1);
+        match.TV = "Sky Sports";
+        match.Round = "Round 1";
+        match.Division = "Premier League-Championship";
+
+        var leagueSettings = new List<LeagueSettingInfoSender>
+        {
+            // Priority 1: Has TV, Round, Division
+            CreateTestLeagueSettingWithConditions(1, NoOfferConstant.Weekend, 1,
+                hasTv: true, roundConditions: new[] { "Round 1" }, divisionConditions: new[] { "Premier League" }),
+
+            // Priority 7: Has TV only
+            CreateTestLeagueSettingWithConditions(1, NoOfferConstant.WeekdayAndWeekend, 2,
+                hasTv: true, roundConditions: Array.Empty<string>(), divisionConditions: Array.Empty<string>()),
+        };
+
+        var tvList = new List<Condition>
+        {
+            new Condition { Type = "Contains", Value = "Sky Sports" }
+        };
+
+        _mockRepository.QueryLeagueSetting().Returns(leagueSettings);
+        _mockRepository.GetTVList().Returns(tvList);
+
+        // Act
+        await _service.Execute(new List<EventPickingModel> { match }, CancellationToken.None);
+
+        // Assert
+        Assert.Equal(NoOfferConstant.Weekend, match.NoOfferLive); // Should apply the highest priority setting (ID 1)
+    }
+
+    [Fact]
+    public async Task Execute_WithRoundDistance_ShouldApplyLowestDistance()
+    {
+        // Arrange
+        var match = CreateTestMatch(null, 1);
+        match.Round = "Round 15";
+
+        var leagueSettings = new List<LeagueSettingInfoSender>
+        {
+            CreateTestLeagueSettingWithConditions(1, NoOfferConstant.Weekend, 1,
+                hasTv: false, roundConditions: new[] { "Round 1", "Round 10", "Round 20" }, divisionConditions: Array.Empty<string>()),
+
+            CreateTestLeagueSettingWithConditions(1, NoOfferConstant.WeekdayAndWeekend, 2,
+                hasTv: false, roundConditions: new[] { "Round 1", "Round 5", "Round 30" }, divisionConditions: Array.Empty<string>()),
+        };
+
+        _mockRepository.QueryLeagueSetting().Returns(leagueSettings);
+        _mockRepository.GetTVList().Returns(new List<Condition>());
+
+        // Act
+        await _service.Execute(new List<EventPickingModel> { match }, CancellationToken.None);
+
+        // Assert
+        Assert.Equal(NoOfferConstant.WeekdayAndWeekend, match.NoOfferLive); // Should apply the setting with lowest distance (Round 15 -> Round 10 = distance 5 vs Round 15 -> Round 30 = distance 15)
     }
 
     #endregion

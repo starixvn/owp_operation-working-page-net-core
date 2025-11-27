@@ -103,9 +103,10 @@ public class SyncEventPickingInfoImp(Repository repository, PullMainLeagueServic
 
     private bool HasBadRankingRemark(EventPickingModel match)
     {
-        return match.HomeRemark.Contains(BadRankingStrikeOutRemark, StringComparison.OrdinalIgnoreCase)
-               || match.AwayRemark.Contains(BadRankingStrikeOutRemark, StringComparison.OrdinalIgnoreCase);
+        return (match.HomeRemark?.Contains(BadRankingStrikeOutRemark, StringComparison.OrdinalIgnoreCase) ?? false)
+               || (match.AwayRemark?.Contains(BadRankingStrikeOutRemark, StringComparison.OrdinalIgnoreCase) ?? false);
     }
+
 
     private LeagueSettingInfoSender HandleMappingForMultipleSettings(EventPickingModel match, List<LeagueSettingInfoSender> leagueSettings, List<Condition> tvList)
     {
