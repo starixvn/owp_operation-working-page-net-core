@@ -41,6 +41,8 @@ public class LeagueSettingInfo
 
     public int NoOfferLive { get; set; } = default!;
 
+    public bool IsBlackList { get; set; }
+
 }
 
 public class LeagueSettingInfoSender : LeagueSettingInfo

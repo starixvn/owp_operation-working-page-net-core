@@ -5,38 +5,91 @@ namespace OWP.EventPicking.Api.Services;
 
 public interface SyncEventPickingInfo
 {
-    Task Execute(List<EventPickingModel> matchFiltered);
+    Task Execute(List<EventPickingModel> matchFiltered, CancellationToken cancellationToken = default);
 }
 
-public class SyncEventPickingInfoImp(Repository repository) : SyncEventPickingInfo
+public class SyncEventPickingInfoImp(Repository repository, PullMainLeagueService pullMainLeagueService, MapMainLeagueForEventService mainLeagueForEventMapper) : SyncEventPickingInfo
 {
-    public async Task Execute(List<EventPickingModel> matchFiltered)
+    public async Task Execute(List<EventPickingModel> matchFiltered, CancellationToken cancellationToken = default)
     {
         var leagueSetting = (await repository.QueryLeagueSetting()).ToList();
         var tvList = (await repository.GetTVList()).ToList();
+        var clubFriendlyEvents = matchFiltered.Where(x => x.IsClubFriendlyLeague).ToList();
+
+        if (clubFriendlyEvents.Count > 0)
+        {
+            var mainLeague = (await pullMainLeagueService.GetMainLeague(clubFriendlyEvents, cancellationToken)).ToList();
+            mainLeagueForEventMapper.Execute(clubFriendlyEvents, mainLeague);
+        }
 
         foreach (var match in matchFiltered)
         {
-            if (match.IsNoOffer == null)
+            if (match.IsClubFriendlyLeague)
             {
-                var leagueSettingByLeagueId = leagueSetting.Where(x => x.OWPLeagueId == match.OWPLeagueId).ToList();
-                ProcessLeagueSettingsForMatch(leagueSettingByLeagueId, match, tvList);
+                ProcessLeagueSettingsForClubFriendlyMatch(leagueSetting, match, tvList);
             }
-
+            else
+            {
+                ProcessLeagueSettingsForMatch(leagueSetting, match, tvList);
+            }
         }
     }
 
-    private void ProcessLeagueSettingsForMatch(List<LeagueSettingInfoSender> leagueSettingByLeagueId, EventPickingModel match, List<Condition> tvList)
+    private void ProcessLeagueSettingsForMatch(List<LeagueSettingInfoSender> leagueSetting, EventPickingModel match, List<Condition> tvList)
     {
-        if (leagueSettingByLeagueId.Count > 0)
-        {
-            var selectedSetting = HandleMappingForMultipleSettings(match, leagueSettingByLeagueId, tvList);
-            if (selectedSetting != null)
-            {
-                SuggestionValue(match, selectedSetting);
-            }
-        }
+        var leagueSettingByLeagueId = leagueSetting.Where(x => x.OWPLeagueId == match.OWPLeagueId).ToList();
+        var selectedSetting = leagueSettingByLeagueId.Count == 0 ? null : HandleMappingForMultipleSettings(match, leagueSettingByLeagueId, tvList);
+
+        BuildNoOfferLive(match, selectedSetting);
     }
+
+
+    private const string BadRankingStrikeOutRemark = "Bad ranking strike out";
+
+    private void ProcessLeagueSettingsForClubFriendlyMatch(List<LeagueSettingInfoSender> leagueSetting, EventPickingModel match, List<Condition> tvList)
+    {
+        var homeLeagueSettings = GetFilteredLeagueSettings(leagueSetting, match.HomeMainLeague);
+        var awayLeagueSettings = GetFilteredLeagueSettings(leagueSetting, match.AwayMainLeague);
+
+        if (homeLeagueSettings.Count == 0 && awayLeagueSettings.Count == 0)
+        {
+            return;
+        }
+
+        var selectedHomeSetting = HandleMappingForMultipleSettings(match, homeLeagueSettings, tvList);
+        var selectedAwaySetting = HandleMappingForMultipleSettings(match, awayLeagueSettings, tvList);
+
+        SetLeagueFlags(match, selectedHomeSetting, selectedAwaySetting);
+        BuildNoOfferLive(match, null);
+    }
+
+    private static List<LeagueSettingInfoSender> GetFilteredLeagueSettings(List<LeagueSettingInfoSender> leagueSetting, string mainLeague)
+    {
+        return leagueSetting.Where(x => x.League.Trim() == mainLeague).ToList();
+    }
+
+    private void SetLeagueFlags(EventPickingModel match, LeagueSettingInfoSender homeSetting, LeagueSettingInfoSender awaySetting)
+    {
+        match.IsHomeMainLeagueNoOfferLive = homeSetting != null && ShouldSetNoOffer(homeSetting.NoOfferLive, match.EventDateTime);
+        match.IsAwayMainLeagueNoOfferLive = awaySetting != null && ShouldSetNoOffer(awaySetting.NoOfferLive, match.EventDateTime);
+        match.IsHomeMainLeagueBlackList = homeSetting?.IsBlackList ?? false;
+        match.IsAwayMainLeagueBlackList = awaySetting?.IsBlackList ?? false;
+    }
+
+    private bool DetermineNoOfferClubFriendlyMatch(EventPickingModel match)
+    {
+        var hasNoOfferLive = match.IsHomeMainLeagueNoOfferLive || match.IsAwayMainLeagueNoOfferLive;
+        var hasBlacklisted = match.IsHomeMainLeagueBlackList || match.IsAwayMainLeagueBlackList;
+
+        return hasNoOfferLive || hasBlacklisted || HasBadRankingRemark(match);
+    }
+
+    private bool HasBadRankingRemark(EventPickingModel match)
+    {
+        return (match.HomeRemark?.Contains(BadRankingStrikeOutRemark, StringComparison.OrdinalIgnoreCase) ?? false)
+               || (match.AwayRemark?.Contains(BadRankingStrikeOutRemark, StringComparison.OrdinalIgnoreCase) ?? false);
+    }
+
 
     private LeagueSettingInfoSender HandleMappingForMultipleSettings(EventPickingModel match, List<LeagueSettingInfoSender> leagueSettings, List<Condition> tvList)
     {
@@ -78,9 +131,9 @@ public class SyncEventPickingInfoImp(Repository repository) : SyncEventPickingIn
         return orderedLeagues.FirstOrDefault()?.League;
     }
 
-    #pragma warning disable S1541, S3776, S121, S122
+#pragma warning disable S1541, S3776, S121, S122
 
-     private int GetPriority(NewLeagueSettingCondition condition)
+    private int GetPriority(NewLeagueSettingCondition condition)
     {
         if (condition.HasTv && condition.Round.Count > 0 && condition.Division.Count > 0) return 1;
         if (condition.HasTv && condition.Round.Count > 0) return 2;
@@ -95,7 +148,7 @@ public class SyncEventPickingInfoImp(Repository repository) : SyncEventPickingIn
         if (condition.Division.Count > 0) return 11;
         return 12;
     }
-    #pragma warning restore S1541, S3776, S121, S122
+#pragma warning restore S1541, S3776, S121, S122
 
     private int? CheckMatchValidMappingWithLeagueManagement(EventPickingModel match, LeagueSettingInfoSender leagueSetting, List<Condition> tvList)
     {
@@ -259,7 +312,7 @@ public class SyncEventPickingInfoImp(Repository repository) : SyncEventPickingIn
 
         var hasValidChannel = !string.IsNullOrWhiteSpace(match.Channel) &&
                             !match.Channel.Contains("Cancel", StringComparison.OrdinalIgnoreCase);
-         return (hasValidTv, hasValidIptv || hasValidChannel);
+        return (hasValidTv, hasValidIptv || hasValidChannel);
     }
 
     private static bool IsTvConditionMatch(string tvField, Condition tvCondition)
@@ -277,15 +330,31 @@ public class SyncEventPickingInfoImp(Repository repository) : SyncEventPickingIn
         };
     }
 
-    private void SuggestionValue(EventPickingModel match, LeagueSettingInfoSender league)
+    private void BuildNoOfferLive(EventPickingModel match, LeagueSettingInfoSender leagueSetting)
     {
-        BuildNoOfferLive(match, league);
-    }
+        if (match.IsNoOffer != null)
+        {
+            return;
+        }
+        
+        if (match.IsClubFriendlyLeague)
+        {
+            match.IsNoOffer = DetermineNoOfferClubFriendlyMatch(match);
+            return;
+        }
 
-    private void BuildNoOfferLive(EventPickingModel match, LeagueSettingInfoSender league)
-    {
-        match.NoOfferLive = league.NoOfferLive;
-        match.IsNoOffer = ShouldSetNoOffer(league.NoOfferLive, match.EventDateTime);
+        var isNoOfferByLeagueSetting = false;
+
+        if (leagueSetting != null)
+        {
+            match.NoOfferLive = leagueSetting.NoOfferLive;
+            isNoOfferByLeagueSetting = ShouldSetNoOffer(
+                leagueSetting.NoOfferLive,
+                match.EventDateTime
+            );
+        }
+
+        match.IsNoOffer = isNoOfferByLeagueSetting || HasBadRankingRemark(match);
     }
 
     private bool ShouldSetNoOffer(int noOfferLive, DateTime eventDateTime)

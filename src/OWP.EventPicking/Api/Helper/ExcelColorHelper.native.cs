@@ -1,4 +1,5 @@
 using System.Text;
+using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using Olympus.OWP.Constants;
 using OWP.EventPicking.Api.Constant;
@@ -65,9 +66,29 @@ public static class ExcelColorHelper
             FillColor(matches[i], row, templateSheet, Misc.Constant.VENUE_COL_INDEX, UpdateTypeConstant.UPDATE_VENUE, UpdateTypeConstant.CANCEL_VENUE);
             FillColor(matches[i], row, templateSheet, Misc.Constant.ETPK_COL_INDEX, UpdateTypeConstant.UPDATE_ETPK, UpdateTypeConstant.CANCEL_ETPK);
             FillColor(matches[i], row, templateSheet, Misc.Constant.HOME_COL_INDEX, UpdateTypeConstant.UPDATE_NEUTRAL, UpdateTypeConstant.CANCEL_NEUTRAL);
+
+            FillNoOfferTeamCell(matches[i], row, templateSheet);
         }
     }
 
+    private static void FillNoOfferTeamCell(EventPickingModel match, int row, ExcelWorksheet templateSheet)
+    {
+        if (match.IsClubFriendlyLeague)
+        {
+            if (match.IsHomeMainLeagueNoOfferLive)
+            {
+                var homeCell = templateSheet.Cells[row, Misc.Constant.HOME_COL_INDEX];
+                var color = ColorTranslator.FromHtml(Misc.Constant.ColorYellowHex);
+                homeCell.Style.Fill.SetBackground(color);
+            }
+            if (match.IsAwayMainLeagueNoOfferLive)
+            {
+                var awayCell = templateSheet.Cells[row, Misc.Constant.AWAY_COL_INDEX];
+                var color = ColorTranslator.FromHtml(Misc.Constant.ColorYellowHex);
+                awayCell.Style.Fill.SetBackground(color);
+            }
+        }
+    }
     public static void FillTextColor(IList<EventPickingModel> matches, ExcelWorksheet templateSheet)
     {
         for (int i = 0, row = Misc.Constant.START_ROW; i < matches.Count; i++, row++)

@@ -1,9 +1,5 @@
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Fastenshtein;
-using NPOI.SS.Formula.Functions;
 using OWP.EventPicking.Api.Middleware.Models;
-using OWP.EventPicking.Api.Models;
 using OWP.EventPicking.Api.Services;
 
 namespace OWP.EventPicking.Api.Handlers;
@@ -40,8 +36,13 @@ public class EditEventPickingHandler(
         var tvList = (await repository.GetTVList()).ToList();
 
         var clubFriendlyMatches = matchFiltered.Where(x => x.IsClubFriendlyLeague).ToList();
-        var mainLeague = await pullMainLeagueService.GetMainLeague(clubFriendlyMatches, cancellationToken);
-        mainLeagueForEventMapper.Execute(matchFiltered, mainLeague);
+
+        if (clubFriendlyMatches.Count > 0)
+        {
+            var mainLeague = await pullMainLeagueService.GetMainLeague(clubFriendlyMatches, cancellationToken);
+            mainLeagueForEventMapper.Execute(clubFriendlyMatches, mainLeague);
+        }
+        
         foreach (var match in matchFiltered)
         {
             if (match.IsClubFriendlyLeague)

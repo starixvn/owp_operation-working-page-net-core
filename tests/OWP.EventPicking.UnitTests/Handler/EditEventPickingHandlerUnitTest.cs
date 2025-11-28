@@ -111,7 +111,7 @@ public class EditEventPickingHandlerUnitTest
         Assert.Equal("4 lines", match.NoOfHDP);
         await service.Received(1).Execute(Arg.Any<EventPickingRequest>(), Arg.Any<IList<short>>());
         await repository.Received(1).QueryLeagueSetting();
-        mapper.Received(1).Execute(Arg.Any<IList<EventPickingModel>>(), Arg.Any<IList<main_league_info>>());
+        mapper.DidNotReceive().Execute(Arg.Any<IList<EventPickingModel>>(), Arg.Any<IList<main_league_info>>());
     }
 
     [Fact]
@@ -386,7 +386,7 @@ public class EditEventPickingHandlerUnitTest
         await service.Received(1).Execute(Arg.Any<EventPickingRequest>(), Arg.Any<IList<short>>());
         await repository.Received(1).QueryLeagueSetting();
         await repository.Received(1).GetTVList();
-        mapper.Received(1).Execute(Arg.Any<IList<EventPickingModel>>(), Arg.Any<IList<main_league_info>>());
+        mapper.DidNotReceive().Execute(Arg.Any<IList<EventPickingModel>>(), Arg.Any<IList<main_league_info>>());
     }
 
     [Fact]
@@ -488,7 +488,7 @@ public class EditEventPickingHandlerUnitTest
         await service.Received(1).Execute(Arg.Any<EventPickingRequest>(), Arg.Any<IList<short>>());
         await repository.Received(1).QueryLeagueSetting();
         await repository.Received(1).GetTVList();
-        mapper.Received(1).Execute(Arg.Any<IList<EventPickingModel>>(), Arg.Any<IList<main_league_info>>());
+        mapper.DidNotReceive().Execute(Arg.Any<IList<EventPickingModel>>(), Arg.Any<IList<main_league_info>>());
     }
 
     [Fact]

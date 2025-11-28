@@ -27,24 +27,27 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
 
     public int OWPLeagueId { get; set; }
 
+    //for match
     public bool IsBlackList { get; set; }
-
-    public bool IsLeagueBlackList { get; set; }
-
-    public bool IsHomeBlackList { get; set; }
-
-    public bool IsAwayBlackList { get; set; }
-
     public bool IsMovedEventDate { get; set; }
 
-    [JsonIgnore]
+    //for league
+    public bool IsLeagueBlackList { get; set; }
+
+    //for home 
     public string HomeMainLeague { get; set; }
+    public bool IsHomeBlackList { get; set; }
+    public bool IsHomeMainLeagueNoOfferLive { get; set; }
+    public bool IsHomeMainLeagueBlackList { get; set; }
+    
 
-    [JsonIgnore]
+    //for away
     public string AwayMainLeague { get; set; }
+    public bool IsAwayBlackList { get; set; }
+    public bool IsAwayMainLeagueNoOfferLive { get; set; }
+    public bool IsAwayMainLeagueBlackList { get; set; }
 
-
-    [JsonIgnore] public bool IsClubFriendlyLeague => LeagueName.ToLower(CultureInfo.InvariantCulture) == "club friendly";
+    public bool IsClubFriendlyLeague => LeagueName.ToLower(CultureInfo.InvariantCulture) == "club friendly";
 
     public List<string> InfoSiteBlackList
     {
@@ -68,6 +71,7 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
             return blackList;
         }
     }
+
 
     [Cell("A2")]
     public string MatchNo { get; set; }
@@ -207,7 +211,7 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
 
     [Cell("AX2")]
     [JsonIgnore]
-    public string InfoSiteIdExport =>  InfoSiteMatchId.ToString();
+    public string InfoSiteIdExport => InfoSiteMatchId.ToString();
 
     [Cell("AY2")]
     [JsonIgnore]
@@ -345,7 +349,7 @@ public class EventPickingModel : MainEventMaxbetSpread, EventProductCommon
     public bool IsAwayBadRanking { get; set; }
     public bool IsHomeDowngrade { get; set; }
     public bool IsAwayDowngrade { get; set; }
-    public bool IsPostponed{ get; set; }
+    public bool IsPostponed { get; set; }
     public byte? InfoSiteMatchStatus { get; set; }
 
     public IEnumerable<TurnOverInfo> TurnoverPeriod => new List<TurnOverInfo>{
