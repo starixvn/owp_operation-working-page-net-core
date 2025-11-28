@@ -37,23 +37,10 @@ public class SyncEventPickingInfoImp(Repository repository, PullMainLeagueServic
 
     private void ProcessLeagueSettingsForMatch(List<LeagueSettingInfoSender> leagueSetting, EventPickingModel match, List<Condition> tvList)
     {
-        if (match.IsNoOffer != null)
-        {
-            return;
-        }
-
         var leagueSettingByLeagueId = leagueSetting.Where(x => x.OWPLeagueId == match.OWPLeagueId).ToList();
+        var selectedSetting = leagueSettingByLeagueId.Count == 0 ? null : HandleMappingForMultipleSettings(match, leagueSettingByLeagueId, tvList);
 
-        if (leagueSettingByLeagueId.Count == 0)
-        {
-            return;
-        }
-
-        var selectedSetting = HandleMappingForMultipleSettings(match, leagueSettingByLeagueId, tvList);
-        if (selectedSetting != null)
-        {
-            SuggestionValue(match, selectedSetting);
-        }
+        BuildNoOfferLive(match, selectedSetting);
     }
 
 
@@ -347,16 +334,21 @@ public class SyncEventPickingInfoImp(Repository repository, PullMainLeagueServic
         };
     }
 
-    private void SuggestionValue(EventPickingModel match, LeagueSettingInfoSender league)
+    private void BuildNoOfferLive(EventPickingModel match, LeagueSettingInfoSender leagueSetting)
     {
-        BuildNoOfferLive(match, league);
-    }
+        if (match.IsNoOffer != null)
+        {
+            return;
+        }
 
-    private void BuildNoOfferLive(EventPickingModel match, LeagueSettingInfoSender league)
-    {
-        match.NoOfferLive = league.NoOfferLive;
-        match.IsNoOffer = ShouldSetNoOffer(league.NoOfferLive, match.EventDateTime)
-                          || HasBadRankingRemark(match);
+        var isNoOfferByLeagueSetting = false;
+        if (leagueSetting != null)
+        {
+            match.NoOfferLive = leagueSetting.NoOfferLive;
+            isNoOfferByLeagueSetting = ShouldSetNoOffer(leagueSetting.NoOfferLive, match.EventDateTime);
+        }
+
+        match.IsNoOffer = isNoOfferByLeagueSetting || HasBadRankingRemark(match);
     }
 
     private bool ShouldSetNoOffer(int noOfferLive, DateTime eventDateTime)
