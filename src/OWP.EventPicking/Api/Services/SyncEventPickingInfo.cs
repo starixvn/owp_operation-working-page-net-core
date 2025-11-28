@@ -60,11 +60,7 @@ public class SyncEventPickingInfoImp(Repository repository, PullMainLeagueServic
         var selectedAwaySetting = HandleMappingForMultipleSettings(match, awayLeagueSettings, tvList);
 
         SetLeagueFlags(match, selectedHomeSetting, selectedAwaySetting);
-        if (match.IsNoOffer != null)
-        {
-            return;
-        }
-        match.IsNoOffer = DetermineIsNoOffer(match);
+        BuildNoOfferLive(match, null);
     }
 
     private static List<LeagueSettingInfoSender> GetFilteredLeagueSettings(List<LeagueSettingInfoSender> leagueSetting, string mainLeague)
@@ -72,20 +68,20 @@ public class SyncEventPickingInfoImp(Repository repository, PullMainLeagueServic
         return leagueSetting.Where(x => x.League.Trim() == mainLeague).ToList();
     }
 
-    private void SetLeagueFlags(EventPickingModel match, LeagueSettingInfoSender selectedHomeSetting, LeagueSettingInfoSender selectedAwaySetting)
+    private void SetLeagueFlags(EventPickingModel match, LeagueSettingInfoSender homeSetting, LeagueSettingInfoSender awaySetting)
     {
-        match.IsHomeMainLeagueNoOfferLive = selectedHomeSetting != null && ShouldSetNoOffer(selectedHomeSetting.NoOfferLive, match.EventDateTime);
-        match.IsAwayMainLeagueNoOfferLive = selectedAwaySetting != null && ShouldSetNoOffer(selectedAwaySetting.NoOfferLive, match.EventDateTime);
-        match.IsHomeMainLeagueBlackList = selectedHomeSetting?.IsBlackList ?? false;
-        match.IsAwayMainLeagueBlackList = selectedAwaySetting?.IsBlackList ?? false;
+        match.IsHomeMainLeagueNoOfferLive = homeSetting != null && ShouldSetNoOffer(homeSetting.NoOfferLive, match.EventDateTime);
+        match.IsAwayMainLeagueNoOfferLive = awaySetting != null && ShouldSetNoOffer(awaySetting.NoOfferLive, match.EventDateTime);
+        match.IsHomeMainLeagueBlackList = homeSetting?.IsBlackList ?? false;
+        match.IsAwayMainLeagueBlackList = awaySetting?.IsBlackList ?? false;
     }
 
-    private bool DetermineIsNoOffer(EventPickingModel match)
+    private bool DetermineNoOfferClubFriendlyMatch(EventPickingModel match)
     {
         var hasNoOfferLive = match.IsHomeMainLeagueNoOfferLive || match.IsAwayMainLeagueNoOfferLive;
-        var hasBothBlacklisted = match.IsHomeMainLeagueBlackList || match.IsAwayMainLeagueBlackList;
+        var hasBlacklisted = match.IsHomeMainLeagueBlackList || match.IsAwayMainLeagueBlackList;
 
-        return hasNoOfferLive || hasBothBlacklisted || HasBadRankingRemark(match);
+        return hasNoOfferLive || hasBlacklisted || HasBadRankingRemark(match);
     }
 
     private bool HasBadRankingRemark(EventPickingModel match)
@@ -340,12 +336,22 @@ public class SyncEventPickingInfoImp(Repository repository, PullMainLeagueServic
         {
             return;
         }
+        
+        if (match.IsClubFriendlyLeague)
+        {
+            match.IsNoOffer = DetermineNoOfferClubFriendlyMatch(match);
+            return;
+        }
 
         var isNoOfferByLeagueSetting = false;
+
         if (leagueSetting != null)
         {
             match.NoOfferLive = leagueSetting.NoOfferLive;
-            isNoOfferByLeagueSetting = ShouldSetNoOffer(leagueSetting.NoOfferLive, match.EventDateTime);
+            isNoOfferByLeagueSetting = ShouldSetNoOffer(
+                leagueSetting.NoOfferLive,
+                match.EventDateTime
+            );
         }
 
         match.IsNoOffer = isNoOfferByLeagueSetting || HasBadRankingRemark(match);
